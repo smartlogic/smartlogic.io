@@ -1,6 +1,6 @@
 /** Hides articles in favor of another **/
 function showArticle(article) {
-	$('article').hide();
+	$('body > article').hide();
 	$('article' + article).show();
 	document.title = $('article' + article + ' h2').html() + ' :: SmartLogic';
 }
