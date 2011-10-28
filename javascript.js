@@ -4,6 +4,7 @@ function showArticle(article) {
 	$('body > div > article').hide();
 	$('article' + article).show();
 	document.title = $('article' + article + ' h2').html() + ' :: SmartLogic';
+	window.scrollTo(0, 0);
 }
 
 /** Loads selected article and portfolio item, if any **/
