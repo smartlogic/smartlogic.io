@@ -7,11 +7,8 @@ body {
 	margin: 0 auto;
 	background-color: #f5f5f5;
 	margin-top: 90px;
-}
-
-div.container {
 	width: 960px;
-	margin: 0 auto;
+	overflow-x: hidden;
 }
 
 p, h2, address {
@@ -37,11 +34,30 @@ a[href="tel:443-451-3001"] {
 header {
 	position: fixed;
 	top: 0px;
-	width: 100%;
+	width: 960px;
 	height: 52px;
 	z-index: 1;
 	border-bottom: solid 1px #C8C8C8;
 	background: url('images/header-bg.png') repeat-x;
+}
+
+header:before, header:after {
+	content: "";
+	height: 52px;
+	position: absolute;
+	border-bottom: solid 1px #C8C8C8;
+	background: url('images/header-bg.png') repeat-x;
+	top: 0;
+	bottom: 0;
+	width: 9999px;
+}
+
+header:before {
+	right: 100%;
+}
+
+header:after {
+	left: 100%;
 }
 
 header img {
@@ -60,11 +76,30 @@ header span {
 body > nav {
 	position: fixed;
 	top: 53px;
-	width: 100%;
+	width: 960px;
 	height: 27px;
 	z-index: 1;
 	border-bottom: solid 1px #B4B4B4;
 	background: url('images/nav-bg.png') repeat-x;
+}
+
+body > nav:before, body > nav:after {
+	content: "";
+	height: 27px;
+	position: absolute;
+	border-bottom: solid 1px #B4B4B4;
+	background: url('images/nav-bg.png') repeat-x;
+	top: 0;
+	bottom: 0;
+	width: 9999px;
+}
+
+body > nav:before {
+	right: 100%;
+}
+
+body > nav:after {
+	left: 100%;
 }
 
 body > nav a {
@@ -83,16 +118,16 @@ body > nav a:hover {
 }
 
 /*** ARTICLES ***/
-body > article, body > div > article {
+body > article {
 	display: none;
 }
 
-body > div > article h2 {
+body > article h2 {
 	color: #5a5a5a;
 	text-shadow: 0 -1px 0 #fff;
 }
 
-body > article#about, body > div > article#about {
+body > article#about {
 	display: block;
 }
 
@@ -300,6 +335,7 @@ article figure {
 
 /*** FOOTER ***/
 body > footer {
+	position: relative;
 	color: #0A7878;
 	background-color: #6AC8C8;
 	border-top: solid 2px #32aaaa;
@@ -307,7 +343,24 @@ body > footer {
 	margin-top: 18px;
 	font-size: 75%;
 	line-height: 150%;
-	clear: both;
+}
+
+body > footer:before, body > footer:after {
+	content: "";
+	position: absolute;
+	background-color: #6AC8C8;
+	border-top: solid 2px #32aaaa;
+	top: -2px;
+	bottom: 0;
+	width: 9999px;
+}
+
+body > footer:before {
+	right: 100%;
+}
+
+body > footer:after {
+	left: 100%;
 }
 
 body > footer p, body > footer address {
