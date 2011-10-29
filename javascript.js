@@ -3,7 +3,7 @@ function showArticle(article) {
 	$('body > article').hide();
 	$('body > div > article').hide();
 	$('article' + article).show();
-	document.title = $('article' + article + ' h2').html() + ' :: SmartLogic';
+	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
 	window.scrollTo(0, 0);
 }
 
