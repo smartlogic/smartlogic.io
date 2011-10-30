@@ -1,3 +1,4 @@
+
 /** Hides articles in favor of another **/
 function showArticle(article) {
 	$('body > article').hide();
@@ -21,6 +22,39 @@ function loadStateFromHash() {
 	}
 }
 
+/** Loads the selected portfolio item's images **/
+function showPortfolioImages(portfolioItem) {
+	portfolioItem = portfolioItem.replace(/\//g, "\\/");
+	$(portfolioItem).show();
+	var whoToShow = $(portfolioItem + " figure:first-child");
+	whoToShow.show();
+	$('body').append('<div class="lightmybox"></div>');
+	$('body').addClass('myboxislit');
+	window.scrollTo(0, 0);
+	$(window).keydown(function(e) {
+		var key = e.which ? e.which : e.keyCode;
+		switch (key) {
+			case 27:
+				$(portfolioItem).hide();
+				$(portfolioItem + " figure").hide();
+				$('.lightmybox').remove();
+				$('body').removeClass('myboxislit');
+				$(window).unbind('keydown');
+				break;
+			case 37:
+				whoToShow.hide();
+				whoToShow = (whoToShow.prev().length != 0) ? whoToShow.prev() : $(portfolioItem + " figure:last-child");
+				whoToShow.show();
+				break;
+			case 39:
+				whoToShow.hide();
+				whoToShow = (whoToShow.next().length != 0) ? whoToShow.next() : $(portfolioItem + " figure:first-child");
+				whoToShow.show();
+				break;
+		}
+	});
+}
+
 $(document).ready(function() {
 	
 	// load initial state
@@ -34,4 +68,10 @@ $(document).ready(function() {
 		showArticle($(this).attr('href'));
 	});
 	
+	// deal with portfolio stuff
+	// TODO: choose a better selector here
+	$('#portfolio aside a:first-child').click(function() {
+		showPortfolioImages($(this).attr('href'));
+	});
+
 });

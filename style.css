@@ -3,7 +3,7 @@
 
 body {
 	font-family: 'Open Sans', sans-serif;
-	padding: 0em;
+	padding: 0;
 	margin: 0 auto;
 	background-color: #f5f5f5;
 	margin-top: 90px;
@@ -13,12 +13,12 @@ body {
 
 p, h2, address {
 	margin: 14px 0;
-	padding: 0px;
+	padding: 0;
 }
 
 h3 {
 	margin-top: 8px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 a {
@@ -33,10 +33,10 @@ a[href="tel:443-451-3001"] {
 /*** HEADER ***/
 header {
 	position: fixed;
-	top: 0px;
+	top: 0;
 	width: 960px;
 	height: 52px;
-	z-index: 1;
+	z-index: 10;
 	border-bottom: solid 1px #C8C8C8;
 	background: url('images/header-bg.png') repeat-x;
 }
@@ -78,7 +78,7 @@ nav {
 	top: 53px;
 	width: 960px;
 	height: 27px;
-	z-index: 1;
+	z-index: 11;
 	border-bottom: solid 1px #B4B4B4;
 	background: url('images/nav-bg.png') repeat-x;
 }
@@ -108,7 +108,7 @@ nav a {
 	text-align: center;
 	text-decoration: none;
 	margin: 0 15px;
-	padding: 3px 30px 0px 30px;
+	padding: 3px 30px 0 30px;
 	color: #636363;
 	text-shadow: 0 -1px 0 #eee;
 }
@@ -206,11 +206,11 @@ article figure {
 
 	#portfolio article:last-child {
 		background-color: inherit;
-		border: 0px;
-		padding: 0px;
-		-moz-box-shadow: 0px 0px 0px #FFF;
-		-webkit-box-shadow: 0px 0px 0px #FFF;
-		box-shadow: 0px 0px 0px #FFF;
+		border: 0;
+		padding: 0;
+		-moz-box-shadow: 0 0 0px #FFF;
+		-webkit-box-shadow: 0 0 0px #FFF;
+		box-shadow: 0 0 0px #FFF;
 	}
 
 	#portfolio article img {
@@ -239,32 +239,32 @@ article figure {
 		height: 60px;
 	}
 
-	#portfolio footer {
+	#portfolio aside {
 		background: url('images/portfolio-item-bg.png') repeat-x;
 		font-size: inherit;
-		padding: 5px 0px 5px 11px;
+		padding: 5px 0 5px 11px;
 		position: absolute;
 		bottom: 18px;
-		right: 0px;
+		right: 0;
 		width: 519px;
-		border: 0px;
+		border: 0;
 		height: 25px;
-		margin-bottom: 0px;
-		box-shadow: 0px 5px 1px #CCC;
+		margin-bottom: 0;
+		box-shadow: 0 5px 1px #CCC;
 	}
 
-	#portfolio footer a {
+	#portfolio aside a {
 		color: white;
-		text-shadow: 0px -1px 0px #0F7C79;
+		text-shadow: 0 -1px 0 #0F7C79;
 		text-decoration: none;
 	}
 
-	#portfolio footer a:last-child {
+	#portfolio aside a:last-child {
 		float: right;
 		margin-right: 12px;
 	}
 
-	#portfolio footer a:last-child:after {
+	#portfolio aside a:last-child:after {
 		content: url('images/portfolio-item-bg-wrap-around.png');
 		position: absolute;
 		display: block;
@@ -372,3 +372,48 @@ body > footer a:hover {
 	color: #fff;
 	text-decoration: underline;
 }
+
+/********* LIGHTBOX WANNABE ********/
+body.myboxislit {
+	overflow-y: hidden;
+}
+
+.lightmybox {
+	content: "";
+	width: 100%;
+	height: 9999px;
+	background-color: green;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 8;
+	background-color: black;
+	z-index: 5;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity=80);
+}
+
+#portfolio section {
+	display: none;
+}
+
+#portfolio section figure {
+	display: none;
+	position: fixed;
+	top: 150px;
+	left: 25%; /** gotta update this with javascript i think **/
+	width: 420px;
+	padding: 12px;
+	border: 12px solid #6AC8C8;
+	border-radius: 12px;
+	background-color: white;
+	z-index: 6;
+	overflow: auto;
+}
+
+figcaption {
+	margin-top: 15px;
+	display: block;
+}
+
