@@ -27,29 +27,28 @@ function showPortfolioImages(portfolioItem) {
 	portfolioItem = portfolioItem.replace(/\//g, "\\/");
 	doLightBox(portfolioItem);
 	$(window).keydown(function(e) { handleLightBoxKeyPresses(e, portfolioItem); });
-	$('html').click(function(e) { closeLightBox(portfolioItem); });
+	$('html').click(function() { closeLightBox(portfolioItem); });
 	$(portfolioItem).click(function(e) { e.stopPropagation(); });
 }
 
 function doLightBox(portfolioItem) {
 	$(portfolioItem).show();
-	$(portfolioItem + " figure:first-child").show();
+	$(portfolioItem + " figure").first().show();
 	$('body').append('<div class="lightmybox"></div>');
 	$('body').addClass('myboxislit');
 }
 
 function handleLightBoxKeyPresses(e, portfolioItem) {
 	var key			= e.which ? e.which : e.keyCode;
-	var currentFigure	= $(portfolioItem + " figure").filter(':visible');
 	switch (key) {
 		case 27: // Escape key
 			closeLightBox(portfolioItem);
 			break;
 		case 37: // Left arrow
-			showPreviousPortfolioImage(portfolioItem, currentFigure);
+			showPreviousPortfolioImage(portfolioItem);
 			break;
 		case 39: // Right arrow
-			showNextPortfolioImage(portfolioItem, currentFigure);
+			showNextPortfolioImage(portfolioItem);
 			break;
 	}
 }
@@ -64,15 +63,17 @@ function closeLightBox(portfolioItem) {
 	$(portfolioItem).unbind('click');
 }
 
-function showPreviousPortfolioImage(portfolioItem, currentFigure) {
+function showPreviousPortfolioImage(portfolioItem) {
+	var currentFigure = $(portfolioItem + " figure").filter(':visible');
 	currentFigure.hide();
-	currentFigure = (currentFigure.prev().length != 0) ? currentFigure.prev() : $(portfolioItem + " figure:last-child");
+	currentFigure = (currentFigure.prev().is('figure')) ? currentFigure.prev() : $(portfolioItem + " figure").last();
 	currentFigure.show();
 }
 
-function showNextPortfolioImage(portfolioItem, currentFigure) {
+function showNextPortfolioImage(portfolioItem) {
+	var currentFigure = $(portfolioItem + " figure").filter(':visible');
 	currentFigure.hide();
-	currentFigure = (currentFigure.next().length != 0) ? currentFigure.next() : $(portfolioItem + " figure:first-child");
+	currentFigure = (currentFigure.next().is('figure')) ? currentFigure.next() : $(portfolioItem + " figure").first();
 	currentFigure.show();
 }
 
@@ -89,7 +90,6 @@ $(document).ready(function() {
 		showArticle($(this).attr('href'));
 	});
 	
-	// deal with portfolio stuff
 	// TODO: choose a better selector here
 	$('#portfolio aside a:first-child').click(function(e) {
 		e.stopPropagation();
