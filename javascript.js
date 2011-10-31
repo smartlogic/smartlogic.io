@@ -28,6 +28,7 @@ function showPortfolioImages(portfolioItem) {
 	$(window).keydown(function(e) { handleLightBoxKeyPresses(e, portfolioItem); });
 	$('html').click(function() { closeLightBox(portfolioItem); });
 	$(portfolioItem).click(function(e) { e.stopPropagation(); });
+	$(window).resize(function(e) { positionFigure(); });
 }
 
 function handleLightBoxKeyPresses(e, portfolioItem) {
@@ -55,12 +56,19 @@ function removeNavButtons(figure) {
 	figure.find('a').remove();
 }
 
+function positionFigure(figure) {
+	if (!figure) figure = $('#portfolio figure').filter(':visible');
+	figure.css('left', ($(window).width() - figure.width()) / 2);
+}
+
 function openLightBox(portfolioItem) {
 	$(portfolioItem).show();
-	$(portfolioItem + " figure").first().show();
+	var figure = $(portfolioItem + " figure").first();
+	figure.show();
+	positionFigure(figure);
 	$('body').append('<div class="lightmybox"></div>');
 	$('body').addClass('myboxislit');
-	showNavButtons($(portfolioItem + " figure").first());
+	showNavButtons(figure);
 }
 
 function closeLightBox(portfolioItem) {
@@ -72,24 +80,27 @@ function closeLightBox(portfolioItem) {
 	$(window).unbind('keydown');
 	$('html').unbind('click');
 	$(portfolioItem).unbind('click');
+	$(window).unbind('resize');
 }
 
 function showPreviousPortfolioImage(portfolioItem) {
-	var currentFigure = $(portfolioItem + " figure").filter(':visible');
-	removeNavButtons(currentFigure);
-	currentFigure.hide();
-	currentFigure = (currentFigure.prev().is('figure')) ? currentFigure.prev() : $(portfolioItem + " figure").last();
-	currentFigure.show();
-	showNavButtons(currentFigure);
+	var figure = $(portfolioItem + " figure").filter(':visible');
+	removeNavButtons(figure);
+	figure.hide();
+	figure = (figure.prev().is('figure')) ? figure.prev() : $(portfolioItem + " figure").last();
+	figure.show();
+	positionFigure(figure);
+	showNavButtons(figure);
 }
 
 function showNextPortfolioImage(portfolioItem) {
-	var currentFigure = $(portfolioItem + " figure").filter(':visible');
-	removeNavButtons(currentFigure);
-	currentFigure.hide();
-	currentFigure = (currentFigure.next().is('figure')) ? currentFigure.next() : $(portfolioItem + " figure").first();
-	currentFigure.show();
-	showNavButtons(currentFigure);
+	var figure = $(portfolioItem + " figure").filter(':visible');
+	removeNavButtons(figure);
+	figure.hide();
+	figure = (figure.next().is('figure')) ? figure.next() : $(portfolioItem + " figure").first();
+	figure.show();
+	positionFigure(figure);
+	showNavButtons(figure);
 }
 
 $(document).ready(function() {
