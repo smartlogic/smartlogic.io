@@ -2,7 +2,6 @@
 /** Hides articles in favor of another **/
 function showArticle(article) {
 	$('body > article').hide();
-	$('body > div > article').hide();
 	$('article' + article).show();
 	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
 	window.scrollTo(0, 0);
@@ -25,17 +24,11 @@ function loadStateFromHash() {
 /** Loads the selected portfolio item's images **/
 function showPortfolioImages(portfolioItem) {
 	portfolioItem = portfolioItem.replace(/\//g, "\\/");
-	doLightBox(portfolioItem);
+	openLightBox(portfolioItem);
 	$(window).keydown(function(e) { handleLightBoxKeyPresses(e, portfolioItem); });
 	$('html').click(function() { closeLightBox(portfolioItem); });
 	$(portfolioItem).click(function(e) { e.stopPropagation(); });
-}
-
-function doLightBox(portfolioItem) {
-	$(portfolioItem).show();
-	$(portfolioItem + " figure").first().show();
-	$('body').append('<div class="lightmybox"></div>');
-	$('body').addClass('myboxislit');
+	$(window).resize(function(e) { positionFigure(); });
 }
 
 function handleLightBoxKeyPresses(e, portfolioItem) {
@@ -53,7 +46,33 @@ function handleLightBoxKeyPresses(e, portfolioItem) {
 	}
 }
 
+function showNavButtons(figure) {
+	var id = figure.parent().attr('id').replace(/\//g, "\\\\/");
+	figure.prepend("<a href='#' onclick='javascript:showPreviousPortfolioImage(\"#" + id + "\"); return false;'></a>");
+	figure.append("<a href='#' onclick='javascript:showNextPortfolioImage(\"#" + id + "\"); return false;'></a>");
+}
+
+function removeNavButtons(figure) {
+	figure.find('a').remove();
+}
+
+function positionFigure(figure) {
+	if (!figure) figure = $('#portfolio figure').filter(':visible');
+	figure.css('left', ($(window).width() - figure.width()) / 2);
+}
+
+function openLightBox(portfolioItem) {
+	$(portfolioItem).show();
+	var figure = $(portfolioItem + " figure").first();
+	figure.show();
+	positionFigure(figure);
+	$('body').append('<div class="lightmybox"></div>');
+	$('body').addClass('myboxislit');
+	showNavButtons(figure);
+}
+
 function closeLightBox(portfolioItem) {
+	removeNavButtons($(portfolioItem + " figure").filter(':visible'));
 	$(portfolioItem).hide();
 	$(portfolioItem + " figure").hide();
 	$('.lightmybox').remove();
@@ -61,20 +80,27 @@ function closeLightBox(portfolioItem) {
 	$(window).unbind('keydown');
 	$('html').unbind('click');
 	$(portfolioItem).unbind('click');
+	$(window).unbind('resize');
 }
 
 function showPreviousPortfolioImage(portfolioItem) {
-	var currentFigure = $(portfolioItem + " figure").filter(':visible');
-	currentFigure.hide();
-	currentFigure = (currentFigure.prev().is('figure')) ? currentFigure.prev() : $(portfolioItem + " figure").last();
-	currentFigure.show();
+	var figure = $(portfolioItem + " figure").filter(':visible');
+	removeNavButtons(figure);
+	figure.hide();
+	figure = (figure.prev().is('figure')) ? figure.prev() : $(portfolioItem + " figure").last();
+	figure.show();
+	positionFigure(figure);
+	showNavButtons(figure);
 }
 
 function showNextPortfolioImage(portfolioItem) {
-	var currentFigure = $(portfolioItem + " figure").filter(':visible');
-	currentFigure.hide();
-	currentFigure = (currentFigure.next().is('figure')) ? currentFigure.next() : $(portfolioItem + " figure").first();
-	currentFigure.show();
+	var figure = $(portfolioItem + " figure").filter(':visible');
+	removeNavButtons(figure);
+	figure.hide();
+	figure = (figure.next().is('figure')) ? figure.next() : $(portfolioItem + " figure").first();
+	figure.show();
+	positionFigure(figure);
+	showNavButtons(figure);
 }
 
 $(document).ready(function() {
@@ -88,7 +114,6 @@ $(document).ready(function() {
 	// when you click a nav link show the associated article
 	$('body > nav > a').click(function() {
 		showArticle($(this).attr('href'));
-		return false;
 	});
 	
 	// TODO: choose a better selector here
