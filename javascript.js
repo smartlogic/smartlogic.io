@@ -88,6 +88,7 @@ $(document).ready(function() {
 	// when you click a nav link show the associated article
 	$('body > nav > a').click(function() {
 		showArticle($(this).attr('href'));
+		return false;
 	});
 	
 	// TODO: choose a better selector here
