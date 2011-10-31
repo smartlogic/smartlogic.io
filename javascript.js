@@ -2,7 +2,6 @@
 /** Hides articles in favor of another **/
 function showArticle(article) {
 	$('body > article').hide();
-	$('body > div > article').hide();
 	$('article' + article).show();
 	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
 	window.scrollTo(0, 0);
@@ -88,7 +87,6 @@ $(document).ready(function() {
 	// when you click a nav link show the associated article
 	$('body > nav > a').click(function() {
 		showArticle($(this).attr('href'));
-		return false;
 	});
 	
 	// TODO: choose a better selector here
