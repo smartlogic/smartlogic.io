@@ -25,34 +25,55 @@ function loadStateFromHash() {
 /** Loads the selected portfolio item's images **/
 function showPortfolioImages(portfolioItem) {
 	portfolioItem = portfolioItem.replace(/\//g, "\\/");
+	doLightBox(portfolioItem);
+	$(window).keydown(function(e) { handleLightBoxKeyPresses(e, portfolioItem); });
+	$('html').click(function(e) { closeLightBox(portfolioItem); });
+	$(portfolioItem).click(function(e) { e.stopPropagation(); });
+}
+
+function doLightBox(portfolioItem) {
 	$(portfolioItem).show();
-	var whoToShow = $(portfolioItem + " figure:first-child");
-	whoToShow.show();
+	$(portfolioItem + " figure:first-child").show();
 	$('body').append('<div class="lightmybox"></div>');
 	$('body').addClass('myboxislit');
-	window.scrollTo(0, 0);
-	$(window).keydown(function(e) {
-		var key = e.which ? e.which : e.keyCode;
-		switch (key) {
-			case 27:
-				$(portfolioItem).hide();
-				$(portfolioItem + " figure").hide();
-				$('.lightmybox').remove();
-				$('body').removeClass('myboxislit');
-				$(window).unbind('keydown');
-				break;
-			case 37:
-				whoToShow.hide();
-				whoToShow = (whoToShow.prev().length != 0) ? whoToShow.prev() : $(portfolioItem + " figure:last-child");
-				whoToShow.show();
-				break;
-			case 39:
-				whoToShow.hide();
-				whoToShow = (whoToShow.next().length != 0) ? whoToShow.next() : $(portfolioItem + " figure:first-child");
-				whoToShow.show();
-				break;
-		}
-	});
+}
+
+function handleLightBoxKeyPresses(e, portfolioItem) {
+	var key			= e.which ? e.which : e.keyCode;
+	var currentFigure	= $(portfolioItem + " figure").filter(':visible');
+	switch (key) {
+		case 27: // Escape key
+			closeLightBox(portfolioItem);
+			break;
+		case 37: // Left arrow
+			showPreviousPortfolioImage(portfolioItem, currentFigure);
+			break;
+		case 39: // Right arrow
+			showNextPortfolioImage(portfolioItem, currentFigure);
+			break;
+	}
+}
+
+function closeLightBox(portfolioItem) {
+	$(portfolioItem).hide();
+	$(portfolioItem + " figure").hide();
+	$('.lightmybox').remove();
+	$('body').removeClass('myboxislit');
+	$(window).unbind('keydown');
+	$('html').unbind('click');
+	$(portfolioItem).unbind('click');
+}
+
+function showPreviousPortfolioImage(portfolioItem, currentFigure) {
+	currentFigure.hide();
+	currentFigure = (currentFigure.prev().length != 0) ? currentFigure.prev() : $(portfolioItem + " figure:last-child");
+	currentFigure.show();
+}
+
+function showNextPortfolioImage(portfolioItem, currentFigure) {
+	currentFigure.hide();
+	currentFigure = (currentFigure.next().length != 0) ? currentFigure.next() : $(portfolioItem + " figure:first-child");
+	currentFigure.show();
 }
 
 $(document).ready(function() {
@@ -70,8 +91,10 @@ $(document).ready(function() {
 	
 	// deal with portfolio stuff
 	// TODO: choose a better selector here
-	$('#portfolio aside a:first-child').click(function() {
+	$('#portfolio aside a:first-child').click(function(e) {
+		e.stopPropagation();
 		showPortfolioImages($(this).attr('href'));
+		return false;
 	});
 
 });
