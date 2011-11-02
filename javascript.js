@@ -5,6 +5,7 @@ function showArticle(article) {
 	$('article' + article).show();
 	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
 	window.scrollTo(0, 0);
+	_gaq.push(['_trackPageview', '/' + article.substring(1)]);
 }
 
 /** Loads selected article and portfolio item, if any **/
@@ -124,3 +125,13 @@ $(document).ready(function() {
 	});
 
 });
+
+// Google Analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-466947-11']); // for smartlogicsolutions.com change the last part from 11 to 1
+_gaq.push(['_trackPageview']);
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
