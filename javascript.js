@@ -5,7 +5,7 @@ function showArticle(article) {
 	$('article' + article).show();
 	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
 	window.scrollTo(0, 0);
-	_gaq.push(['_trackPageview', '/' + article.substring(1)]);
+	_gaq.push(['_trackPageview'], article.replace(/#/g, '/'));
 }
 
 /** Loads selected article and portfolio item, if any **/
@@ -24,6 +24,7 @@ function loadStateFromHash() {
 
 /** Loads the selected portfolio item's images **/
 function showPortfolioImages(portfolioItem) {
+	_gaq.push(['_trackPageview'], portfolioItem.replace(/#/g, '/').replace(/\\/g, ''));
 	portfolioItem = portfolioItem.replace(/\//g, "\\/");
 	openLightBox(portfolioItem);
 	$(window).keydown(function(e) { handleLightBoxKeyPresses(e, portfolioItem); });
