@@ -119,7 +119,7 @@ $(document).ready(function() {
 	});
 	
 	// TODO: choose a better selector here
-	$('#portfolio aside a:first-child').click(function(e) {
+	$('#portfolio aside a:first-child, #portfolio a:first-child').click(function(e) {
 		e.stopPropagation();
 		showPortfolioImages($(this).attr('href'));
 		return false;
