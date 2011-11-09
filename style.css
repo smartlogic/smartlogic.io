@@ -6,7 +6,6 @@ body {
 	padding: 0;
 	margin: 0 auto;
 	background-color: #f5f5f5;
-	width: 960px;
 	overflow-x: hidden;
 }
 
@@ -25,30 +24,22 @@ a[href="tel:443-451-3001"] {
 img {	border: 0; }
 
 /*** HEADER ***/
-header {
+hgroup {
 	position: fixed;
-	top: 0;
+	width: 100%;
+	overflow-x: hidden;
+	z-index: 15;
+	background: url('images/header-bg.png') repeat-x;
+}
+
+header {
 	width: 960px;
+	margin: 0 auto;
+	display: block;
+	top: 0;
 	height: 52px;
 	z-index: 10;
-	border-bottom: solid 1px #C8C8C8;
-	background: url('images/header-bg.png') repeat-x;
 }
-
-header:before, header:after {
-	content: "";
-	height: 52px;
-	position: absolute;
-	border-bottom: solid 1px #C8C8C8;
-	background: url('images/header-bg.png') repeat-x;
-	top: 0;
-	bottom: 0;
-	width: 9999px;
-}
-
-header:before {	right: 100%; }
-
-header:after {	left: 100%; }
 
 header img {	margin-top: 7px; }
 
@@ -62,11 +53,14 @@ header a:last-child {
 
 /*** NAV LINKS ***/
 nav {
-	position: fixed;
+	display: block;
 	top: 53px;
-	width: 960px;
+	width: 100%;
+	text-align: center;
+	margin: 0 auto;
 	height: 27px;
 	z-index: 11;
+	border-top: solid 1px #C8C8C8;
 	border-bottom: solid 1px #B4B4B4;
 	background: url('images/nav-bg.png') repeat-x;
 }
@@ -87,8 +81,7 @@ nav:before {	right: 100%; }
 nav:after {	left: 100%; }
 
 nav a {
-	display: block;
-	float: left;
+	display: inline-block;
 	text-align: center;
 	text-decoration: none;
 	margin: 0 15px;
@@ -104,6 +97,8 @@ body > article {
 	display: none;
 	padding-top: 75px;
 	position: relative;
+	width: 960px;
+	margin: 0 auto;
 }
 
 body > article h2 {
@@ -551,8 +546,15 @@ article nav a {		display: block; }
 	}
 
 /*** FOOTER ***/
+body > footer > div {
+	display: block;
+	width: 960px;
+	margin: 0 auto;
+}
+
 body > footer {
-	position: relative;
+	display: block;
+	width: 100%;
 	color: #0A7878;
 	background-color: #6AC8C8;
 	border-top: solid 2px #32aaaa;
@@ -560,28 +562,7 @@ body > footer {
 	margin-top: 18px;
 	font-size: 75%;
 	line-height: 150%;
-	clear: both;
 	height: 60px;
-}
-
-body > footer:before, body > footer:after {
-	content: "";
-	height: 60px;
-	padding: 4px 0;
-	position: absolute;
-	background-color: #6AC8C8;
-	border-top: solid 2px #32aaaa;
-	top: -2px;
-	bottom: 0;
-	width: 9999px;
-}
-
-body > footer:before {
-	right: 100%;
-}
-
-body > footer:after {
-	left: 100%;
 }
 
 body > footer p, body > footer address {
