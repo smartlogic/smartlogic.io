@@ -34,7 +34,7 @@ function showPortfolioImages(portfolioItem) {
 }
 
 function handleLightBoxKeyPresses(e, portfolioItem) {
-	var key			= e.which ? e.which : e.keyCode;
+	var key = e.which ? e.which : e.keyCode;
 	switch (key) {
 		case 27: // Escape key
 			closeLightBox(portfolioItem);
@@ -110,19 +110,14 @@ $(document).ready(function() {
 	// load initial state
 	loadStateFromHash();
 	
-	// detect when the hash changes and react accordingly --> catch fwd/back buttons
+	// detect when the hash changes and react accordingly --> catch fwd/back buttons and all clicks to another article
 	$(window).bind('hashchange', loadStateFromHash);
 	
-	// when you click a nav link show the associated article
-	$('body > nav > a').click(function() {
-		showArticle($(this).attr('href'));
-	});
-	
-	// TODO: choose a better selector here
-	$('#portfolio aside a:first-child, #portfolio a:first-child').click(function(e) {
+	// Open lightbox when appropriate link is clicked
+	$('#portfolio aside a:first-child').click(function(e) {
 		e.stopPropagation();
 		showPortfolioImages($(this).attr('href'));
-		return false;
+		e.preventDefault();
 	});
 
 });
