@@ -114,7 +114,7 @@ $(document).ready(function() {
 	$(window).bind('hashchange', loadStateFromHash);
 	
 	// Open lightbox when appropriate link is clicked
-	$('#portfolio aside a:first-child').click(function(e) {
+	$('#portfolio aside a:first-child, #portfolio article a').click(function(e) {
 		e.stopPropagation();
 		showPortfolioImages($(this).attr('href'));
 		e.preventDefault();
