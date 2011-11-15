@@ -50,8 +50,8 @@ function handleLightBoxKeyPresses(e, portfolioItem) {
 
 function showNavButtons(figure) {
 	var id = figure.parent().attr('id').replace(/\//g, "\\\\/");
-	figure.prepend("<a href='#' onclick='javascript:showPreviousPortfolioImage(\"#" + id + "\"); return false;'></a>");
-	figure.append("<a href='#' onclick='javascript:showNextPortfolioImage(\"#" + id + "\"); return false;'></a>");
+	figure.prepend("<a href='#' class='lightbox-left-arrow' onclick='javascript:showPreviousPortfolioImage(\"#" + id + "\"); return false;'></a>");
+	figure.append("<a href='#' class='lightbox-right-arrow' onclick='javascript:showNextPortfolioImage(\"#" + id + "\"); return false;'></a>");
 }
 
 function removeNavButtons(figure) {
