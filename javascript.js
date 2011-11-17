@@ -122,6 +122,64 @@ $(document).ready(function() {
 
 });
 
+// CONTACT FORM - TEXTFIELD CLEAR/RESET
+
+function clearField1() {
+	var textfield = document.getElementById("contact-form-name");
+	if (textfield.value == "Name") {
+		textfield.value = "";
+	}
+}
+
+function resetField1() {
+	var textfield = document.getElementById("contact-form-name");
+	if (textfield.value == "") {
+		textfield.value = "Name";
+	}
+}
+
+function clearField2() {
+	var textfield = document.getElementById("contact-form-email");
+	if (textfield.value == "Email Address") {
+		textfield.value = "";
+	}                                   
+}
+
+function resetField2() {
+	var textfield = document.getElementById("contact-form-email");
+	if (textfield.value == "") { 
+		textfield.value = "Email Address";
+	}
+}
+
+function clearField3() {
+	var textfield = document.getElementById("contact-form-phone");
+	if (textfield.value == "Phone Number") {
+		textfield.value = "";
+	}                                   
+}
+ 
+function resetField3() {
+	var textfield = document.getElementById("contact-form-phone");
+	if (textfield.value == "") { 
+		textfield.value = "Phone Number";
+	}
+}
+
+function clearField4() {
+	var textarea = document.getElementById("contact-form-comments");
+	if (textarea.value == "Comments") {
+		textarea.value = "";
+	}
+}
+
+function resetField4() {
+	var textarea = document.getElementById("contact-form-comments");
+	if (textarea.value == "") {
+		textarea.value = "Comments";
+	}
+}
+
 // Google Analytics
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-466947-11']); // for smartlogicsolutions.com change the last part from 11 to 1
