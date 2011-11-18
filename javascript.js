@@ -180,6 +180,11 @@ function resetField4() {
 	}
 }
 
+function submitMessage() {
+	$("#contact form input, #contact form textarea").hide();
+	$("#contact form").append("<strong>Thank you, your comments have been received.</strong>");
+}
+
 // Google Analytics
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-466947-11']); // for smartlogicsolutions.com change the last part from 11 to 1
