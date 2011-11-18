@@ -122,7 +122,7 @@ $(document).ready(function() {
 
 });
 
-// CONTACT FORM - TEXTFIELD CLEAR/RESET
+// CONTACT FORM - textfield clear/reset + show message when form is submitted
 
 function clearField1() {
 	var textfield = document.getElementById("contact-form-name");
