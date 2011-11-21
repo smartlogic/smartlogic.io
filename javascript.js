@@ -122,63 +122,7 @@ $(document).ready(function() {
 
 });
 
-// CONTACT FORM - textfield clear/reset + show message when form is submitted
-
-function clearField1() {
-	var textfield = document.getElementById("contact-form-name");
-	if (textfield.value == "Name") {
-		textfield.value = "";
-	}
-}
-
-function resetField1() {
-	var textfield = document.getElementById("contact-form-name");
-	if (textfield.value == "") {
-		textfield.value = "Name";
-	}
-}
-
-function clearField2() {
-	var textfield = document.getElementById("contact-form-email");
-	if (textfield.value == "Email Address") {
-		textfield.value = "";
-	}                                   
-}
-
-function resetField2() {
-	var textfield = document.getElementById("contact-form-email");
-	if (textfield.value == "") { 
-		textfield.value = "Email Address";
-	}
-}
-
-function clearField3() {
-	var textfield = document.getElementById("contact-form-phone");
-	if (textfield.value == "Phone Number") {
-		textfield.value = "";
-	}                                   
-}
- 
-function resetField3() {
-	var textfield = document.getElementById("contact-form-phone");
-	if (textfield.value == "") { 
-		textfield.value = "Phone Number";
-	}
-}
-
-function clearField4() {
-	var textarea = document.getElementById("contact-form-comments");
-	if (textarea.value == "Comments") {
-		textarea.value = "";
-	}
-}
-
-function resetField4() {
-	var textarea = document.getElementById("contact-form-comments");
-	if (textarea.value == "") {
-		textarea.value = "Comments";
-	}
-}
+// CONTACT FORM - show message when form is submitted & iframe back-button issue
 
 function submitMessage() {
 	$("#contact form input, #contact form textarea").hide();
