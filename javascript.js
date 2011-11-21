@@ -182,7 +182,14 @@ function resetField4() {
 
 function submitMessage() {
 	$("#contact form input, #contact form textarea").hide();
-	$("#contact form").append("<strong>Thank you, your comments have been received.</strong>");
+	$("#contact form").append("<strong>Thank you, your comments have been received.</strong>")
+}
+
+function iframeBack() {
+	var fakeTarget = document.getElementById("fake-target");
+	if (fakeTarget.contentWindow.location.href == undefined) {
+		window.history.back();
+	}
 }
 
 // Google Analytics
