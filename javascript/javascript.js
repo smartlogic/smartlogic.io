@@ -67,6 +67,8 @@ function openLightBox(portfolioItem) {
 	$(portfolioItem).show();
 	var figure = $(portfolioItem + " figure").first();
 	figure.show();
+	var imageWidth = figure.children('img').width() + 'px';
+	figure.css('width', imageWidth);	
 	$('body').append('<div class="lightmybox"></div>');
 	$('body').addClass('myboxislit');
 	positionFigure(figure);
