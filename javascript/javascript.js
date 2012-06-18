@@ -5,7 +5,9 @@ function showArticle(article) {
 	$('article' + article).show();
 	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
 	window.scrollTo(0, 0);
-	_gaq.push(['_trackPageview'], article.replace(/#/g, '/'));
+	var page_url = article.replace(/#/g, '/');
+	if (page_url == "/home") page_url = "/";
+	_gaq.push(['_trackPageview', page_url]);
 }
 
 /** Loads selected article and portfolio item, if any **/
@@ -128,7 +130,7 @@ $(document).ready(function() {
 
 function submitMessage() {
 	$("#contact form input, #contact form textarea").hide();
-	$("#contact form").append("<strong>Thank you, your comments have been received.</strong>")
+	$("#contact form").append("<strong>Thank you, we'll be in touch shortly!</strong>")
 }
 
 function iframeBack() {
