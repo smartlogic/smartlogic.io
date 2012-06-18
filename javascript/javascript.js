@@ -18,7 +18,7 @@ function loadStateFromHash() {
 			showArticle(article);
 		}
 	} else {
-		showArticle('#services');
+		showArticle('#home');
 	}
 }
 
