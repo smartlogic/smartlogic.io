@@ -69,8 +69,6 @@ function openLightBox(portfolioItem) {
 	$(portfolioItem).show();
 	var figure = $(portfolioItem + " figure").first();
 	figure.show();
-	var imageWidth = figure.children('img').width() + 'px';
-	figure.css('width', imageWidth);	
 	$('body').append('<div class="lightmybox"></div>');
 	$('body').addClass('myboxislit');
 	positionFigure(figure);
@@ -95,8 +93,6 @@ function showPreviousPortfolioImage(portfolioItem) {
 	figure.hide();
 	figure = (figure.prev().is('figure')) ? figure.prev() : $(portfolioItem + " figure").last();
 	figure.show();
-	var imageWidth = figure.children('img').width() + 'px';
-	figure.css('width', imageWidth);
 	positionFigure(figure);
 	showNavButtons(figure);
 }
@@ -107,8 +103,6 @@ function showNextPortfolioImage(portfolioItem) {
 	figure.hide();
 	figure = (figure.next().is('figure')) ? figure.next() : $(portfolioItem + " figure").first();
 	figure.show();
-	var imageWidth = figure.children('img').width() + 'px';
-	figure.css('width', imageWidth);
 	positionFigure(figure);
 	showNavButtons(figure);
 }
