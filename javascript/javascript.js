@@ -128,7 +128,8 @@ $(document).ready(function() {
 
 function submitMessage() {
 	$("#contact form input, #contact form textarea").hide();
-	$("#contact form").append("<strong>Thank you, we'll be in touch shortly!</strong>")
+	$("#contact form").append("<strong>Thank you, we'll be in touch shortly!</strong>");
+  _gaq.push(['_trackPageview', '/thankyou']);
 }
 
 function iframeBack() {
