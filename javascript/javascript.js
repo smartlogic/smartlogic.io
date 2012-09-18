@@ -130,13 +130,7 @@ function submitMessage() {
 	$("#contact form input, #contact form textarea").hide();
 	$("#contact form").append("<strong>Thank you, we'll be in touch shortly!</strong>");
   _gaq.push(['_trackPageview', '/thankyou']);
-}
-
-function iframeBack() {
-	var fakeTarget = document.getElementById("fake-target");
-	if (fakeTarget.contentWindow.location.href == undefined) {
-		window.history.back();
-	}
+	document.getElementById("google-adwords-fake-target").src = "thank-you.html";
 }
 
 // Google Analytics
