@@ -5,6 +5,7 @@ function showArticle(article) {
 	$('article' + article).show();
 	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
 	window.scrollTo(0, 0);
+  $('header nav select').val(article);
 	var page_url = article.replace(/#/g, '/');
 	if (page_url == "/home") page_url = "/";
 	_gaq.push(['_trackPageview', page_url]);
@@ -22,6 +23,13 @@ function loadStateFromHash() {
 	} else {
 		showArticle('#home');
 	}
+}
+
+/** Dropdown site navigation for mobile browsers **/
+function mobileNavDropdownChange() {
+  var selectedArticle = $('header nav select').val();
+  showArticle(selectedArticle);
+  window.location = window.location.href.split('#')[0] + selectedArticle;
 }
 
 /** Loads the selected portfolio item's images **/
@@ -114,7 +122,10 @@ $(document).ready(function() {
 	
 	// detect when the hash changes and react accordingly --> catch fwd/back buttons and all clicks to another article
 	$(window).bind('hashchange', loadStateFromHash);
-	
+
+  // detect when mobile navigation dropdown is changed
+  $('header nav select').bind('change', mobileNavDropdownChange);
+
 	// Open lightbox when appropriate link is clicked
 	$('#portfolio aside a:first-child, #portfolio article a').click(function(e) {
 		e.stopPropagation();
