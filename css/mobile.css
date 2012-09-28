@@ -6,12 +6,13 @@ body {
 
 body > article {
   width: auto;
-  padding: 8% 0 0 0;
+  padding: 0 16px;
   margin: 0;
 }
 
 body > article > h2 {
-  margin-left: 16px;
+  margin: 0 0 16px 0;
+  padding: 50px 0 0 0;
 }
 
 * {
@@ -23,6 +24,8 @@ body > article > h2 {
 
 header {
   width: 100%;
+  border-bottom: solid 1px #000;
+  margin: 0;
 }
 
 header section {
@@ -33,9 +36,12 @@ header section {
 }
 
 header section img {
-  width: 60%;
+  width: 50%;
   max-width: 227px;
   height: auto;
+  padding-left: 16px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 header section a:last-of-type {
@@ -47,11 +53,15 @@ header nav {
   top: 0;
   right: 0;
   width: auto;
+  max-width: 50%;
   height: 100%;
   background-image: none;
   border: none;
   border-left: solid 1px #555;
+  font-size: 14px;
   text-align: right;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 header nav:before,
 header nav:after {
@@ -70,7 +80,11 @@ header nav select {
   height: 100%;
   -webkit-appearance: none;
   background: none;
+  background-image: url('../images/nav-dropdown-arrow.png');
+  background-repeat: no-repeat;
+  background-position: 3px center;
   border: none;
+  padding: 0 20px;
   color: #fff;
   text-shadow: 0 -1px 0 #000;
   text-align: left;
@@ -127,7 +141,7 @@ article#home aside {
   overflow: hidden;
   margin: 24px 0;
   border: none;
-  padding: 0 24px;
+  padding: 0;
   text-align: center;
 }
 
@@ -152,7 +166,7 @@ article#process-tools aside {
   float: none;
   width: 100%;
   margin: 0;
-  padding: 12px;
+  padding: 0;
   border-bottom: solid 1px #dcdcdc;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -170,17 +184,11 @@ article#process-tools aside figure {
   box-shadow: 0 2px 0 #fff;
 }
 
-article#process-tools aside figure figcaption {
-}
-
 article#process-tools section,
 article#process-tools section:first-of-type {
   width: auto;
-  padding: 12px;
+  padding: 0;
   border-top: solid 1px #fff;
-}
-
-article#process-tools h3 {
 }
 
 article#process-tools p {
@@ -190,10 +198,12 @@ article#process-tools p {
 /* PORTFOLIO */
 
 article#portfolio > article {
+  position: relative;
   width: auto;
   height: auto;
   display: block;
-  margin: 24px 12px;
+  margin: 24px 0;
+  padding-bottom: 30px;
   text-align: center;
 }
 
@@ -201,10 +211,14 @@ article#portfolio > article h2 {
   position: absolute;
   top: 0;
   left: 0;
-  width: auto;
+  width: 100%;
   margin-left: -24px;
   font-size: 21px;
   text-align: center;
+}
+
+article#portfolio > article:last-child h2 {
+  position: relative;
 }
 
 article#portfolio > article > a > img {
@@ -216,7 +230,7 @@ article#portfolio > article > a > img {
 }
 
 article#portfolio > article > p {
-  margin: 16px 0 54px 0;
+  margin: 16px 0 24px 0;
   text-align: left;
 }
 
@@ -236,17 +250,18 @@ article#portfolio > article > aside a {
   display: block;
   position: relative;
   color: #32aaaa;
+  margin: 0 0 6px 0;
 }
 
 article#portfolio > article > aside a:last-child {
   background: url('../images/portfolio-item-bg.png') repeat-x;
   color: #fff;
   font-size: inherit;
-  padding: 5px 0 5px 32px;
+  padding: 5px 0 5px 36px;
   border: 0;
-  width: 90%;
+  width: 100%;
   height: 25px;
-  margin: 0 0 0 -32px;
+  margin: 0 0 0 -36px;
   box-shadow: 0 3px 1px #CCC;
   float: none;
 }
@@ -318,18 +333,26 @@ article#portfolio section figure a.lightbox-right-arrow {
 
 article#team figure {
   width: auto;
-  margin: 0 16px 16px 16px;
+  margin: 0 0 16px 0;
   -webkit-box-shadow: 0 2px 0 #fff;
   box-shadow: 0 2px 0 #fff;
   float: none;
   text-align: center;
 }
 
+article#team figure:first-of-type > h3 {
+  float: none;
+}
+
+article#team figure:first-of-type > p {
+  text-align: left;
+}
+
 article#team figure img {
   float: none;
 }
 
-article#team figure:first-of-type img {
+article#team figure:first-of-type > img {
   width: 100%;
   max-width: 450px;
   height: auto;
@@ -346,16 +369,30 @@ article#team figure footer {
   background: none;
 }
 
+article#team figure:first-of-type footer {
+  width: auto;
+  left: auto;
+}
+
+article#team figure footer img {
+  background-repeat: no-repeat;
+}
+
 /* CONTACT */
 
 article#contact section,
 article#contact section:last-of-type {
-  padding: 16px;
   text-align: center;
 }
 
-article#contact section p {
+article#contact section:last-of-type {
+  padding-bottom: 0;
+}
+
+article#contact section p,
+article#contact section p:last-of-type {
   text-align: left;
+  margin-bottom: 16px;
 }
 
 article#contact form {
@@ -388,6 +425,10 @@ article#contact section.images img {
   box-sizing: border-box;
 }
 
+article#contact section.images img:last-of-type {
+  margin-bottom: 0;
+}
+
 article#contact section:last-of-type img {
   float: none;
   width: 100%;
@@ -405,7 +446,7 @@ article#contact section:last-of-type img {
 article#community > article {
   width: auto;
   height: auto;
-  margin: 0 16px 16px 16px;
+  margin: 0 0 16px 0;
   padding: 16px;
   float: none;
   -webkit-box-shadow: 0 2px 0 #fff;
@@ -438,6 +479,8 @@ body > footer {
   width: auto;
   height: auto;
   padding: 0 24px;
+  font-size: 16px;
+  text-align: center;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
