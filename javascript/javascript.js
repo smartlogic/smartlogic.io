@@ -1,4 +1,3 @@
-
 /** Hides articles in favor of another **/
 function showArticle(article) {
 	$('body > article').hide();
@@ -28,8 +27,13 @@ function loadStateFromHash() {
 /** Dropdown site navigation for mobile browsers **/
 function mobileNavDropdownChange() {
   var selectedArticle = $('header nav select').val();
-  showArticle(selectedArticle);
-  window.location = window.location.href.split('#')[0] + selectedArticle;
+  if(selectedArticle.charAt(0) == '#') {
+    showArticle(selectedArticle);
+    window.location = window.location.href.split('#')[0] + selectedArticle;
+  }
+  else {
+    window.location = selectedArticle;
+  }
 }
 
 /** Loads the selected portfolio item's images **/
