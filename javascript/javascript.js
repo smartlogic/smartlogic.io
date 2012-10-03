@@ -130,11 +130,14 @@ $(document).ready(function() {
   // detect when mobile navigation dropdown is changed
   $('header nav select').bind('change', mobileNavDropdownChange);
 
-	// Open lightbox when appropriate link is clicked
-	$('#portfolio aside a:first-child, #portfolio article a').click(function(e) {
-		e.stopPropagation();
-		showPortfolioImages($(this).attr('href'));
-		e.preventDefault();
+	// if browser is wider than 670px, open lightbox when appropriate link is clicked
+	$('#portfolio aside a:first-child, #portfolio > article > a').click(function(e) {
+    var documentWidth = $(document).width();
+    if(documentWidth >= 670) {
+		  showPortfolioImages($(this).attr('href'));
+    } 
+    e.stopPropagation();
+    e.preventDefault();
 	});
 
 });
