@@ -1,29 +1,3 @@
-
-/** Hides articles in favor of another **/
-function showArticle(article) {
-	$('body > article').hide();
-	$('article' + article).show();
-	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
-	window.scrollTo(0, 0);
-	var page_url = article.replace(/#/g, '/');
-	if (page_url == "/home") page_url = "/";
-	_gaq.push(['_trackPageview', page_url]);
-}
-
-/** Loads selected article and portfolio item, if any **/
-function loadStateFromHash() {
-	if (window.location.hash) {
-		var article = (window.location.hash.indexOf('/') > 0) ?
-			window.location.hash.substring(0, window.location.hash.indexOf('/')) :
-			window.location.hash;
-		if ($('article' + article)) {
-			showArticle(article);
-		}
-	} else {
-		showArticle('#home');
-	}
-}
-
 /** Loads the selected portfolio item's images **/
 function showPortfolioImages(portfolioItem) {
 	_gaq.push(['_trackPageview'], portfolioItem.replace(/#/g, '/').replace(/\\/g, ''));
@@ -110,10 +84,10 @@ function showNextPortfolioImage(portfolioItem) {
 $(document).ready(function() {
 	
 	// load initial state
-	loadStateFromHash();
+	//loadStateFromHash();
 	
 	// detect when the hash changes and react accordingly --> catch fwd/back buttons and all clicks to another article
-	$(window).bind('hashchange', loadStateFromHash);
+	//$(window).bind('hashchange', loadStateFromHash);
 	
 	// Open lightbox when appropriate link is clicked
 	$('#portfolio aside a:first-child, #portfolio article a').click(function(e) {
