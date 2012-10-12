@@ -1,3 +1,44 @@
+<<<<<<< HEAD
+=======
+/** Hides articles in favor of another **/
+function showArticle(article) {
+	$('body > article').hide();
+	$('article' + article).show();
+	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
+	window.scrollTo(0, 0);
+  $('header nav select').val(article);
+	var page_url = article.replace(/#/g, '/');
+	if (page_url == "/home") page_url = "/";
+	_gaq.push(['_trackPageview', page_url]);
+}
+
+/** Loads selected article and portfolio item, if any **/
+function loadStateFromHash() {
+	if (window.location.hash) {
+		var article = (window.location.hash.indexOf('/') > 0) ?
+			window.location.hash.substring(0, window.location.hash.indexOf('/')) :
+			window.location.hash;
+		if ($('article' + article)) {
+			showArticle(article);
+		}
+	} else {
+		showArticle('#home');
+	}
+}
+
+/** Dropdown site navigation for mobile browsers **/
+function mobileNavDropdownChange() {
+  var selectedArticle = $('header nav select').val();
+  if(selectedArticle.charAt(0) == '#') {
+    showArticle(selectedArticle);
+    window.location = window.location.href.split('#')[0] + selectedArticle;
+  }
+  else {
+    window.location = selectedArticle;
+  }
+}
+
+>>>>>>> 3cb761207f2a1c52c386756d58b2a956691bd875
 /** Loads the selected portfolio item's images **/
 function showPortfolioImages(portfolioItem) {
 	_gaq.push(['_trackPageview'], portfolioItem.replace(/#/g, '/').replace(/\\/g, ''));
@@ -87,6 +128,7 @@ $(document).ready(function() {
 	//loadStateFromHash();
 	
 	// detect when the hash changes and react accordingly --> catch fwd/back buttons and all clicks to another article
+<<<<<<< HEAD
 	//$(window).bind('hashchange', loadStateFromHash);
 	
 	// Open lightbox when appropriate link is clicked
@@ -94,6 +136,21 @@ $(document).ready(function() {
 		e.stopPropagation();
 		showPortfolioImages($(this).attr('href'));
 		e.preventDefault();
+=======
+	$(window).bind('hashchange', loadStateFromHash);
+
+  // detect when mobile navigation dropdown is changed
+  $('header nav select').bind('change', mobileNavDropdownChange);
+
+	// if browser is wider than 670px, open lightbox when appropriate link is clicked
+	$('#portfolio aside a:first-child, #portfolio > article > a').click(function(e) {
+    var documentWidth = $(document).width();
+    if(documentWidth >= 670) {
+		  showPortfolioImages($(this).attr('href'));
+    } 
+    e.stopPropagation();
+    e.preventDefault();
+>>>>>>> 3cb761207f2a1c52c386756d58b2a956691bd875
 	});
 
 });
