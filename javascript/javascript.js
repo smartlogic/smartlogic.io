@@ -1,3 +1,21 @@
+/** Support and redirect the old links **/
+function redirectOldLinks() {
+  // hash table of old to new links
+  var newLinks = new Object();
+  newLinks['/#home']          = '/index.html';
+  newLinks['/#process-tools'] = '/process-and-tools.html';
+  newLinks['/#portfolio']     = '/portfolio.html';
+  newLinks['/#team']          = '/team.html';
+  newLinks['/#contact']       = '/contact.html';
+  newLinks['/#community']     = '/community.html';
+  // redirect!
+  var oldUrl = window.location.href.substring(window.location.href.lastIndexOf("/"));
+  if (newLinks.hasOwnProperty(oldUrl)) {
+    window.location = newLinks[oldUrl];
+  }
+}
+redirectOldLinks();
+
 /** Dropdown site navigation for mobile browsers **/
 function mobileNavDropdownChange() {
   var selectedArticle = $('header nav select').val();
