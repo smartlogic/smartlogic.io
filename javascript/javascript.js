@@ -1,38 +1,36 @@
-/** Hides articles in favor of another **/
-function showArticle(article) {
-	$('body > article').hide();
-	$('article' + article).show();
-	document.title = $('article' + article + ' h2').html().replace('&amp;', '&') + ' :: SmartLogic';
-	window.scrollTo(0, 0);
-  $('header nav select').val(article);
-	var page_url = article.replace(/#/g, '/');
-	if (page_url == "/home") page_url = "/";
-	_gaq.push(['_trackPageview', page_url]);
+/** Support and redirect the old links **/
+function redirectOldLinks() {
+  // hash table of old to new links
+  var newLinks = new Object();
+  newLinks['/#home']          = '/index.html';
+  newLinks['/#process-tools'] = '/process-and-tools.html';
+  newLinks['/#portfolio']     = '/portfolio.html';
+  newLinks['/#team']          = '/team.html';
+  newLinks['/#contact']       = '/contact.html';
+  newLinks['/#community']     = '/community.html';
+  // redirect!
+  var oldUrl = window.location.href.substring(window.location.href.lastIndexOf("/"));
+  if (newLinks.hasOwnProperty(oldUrl)) {
+    window.location = newLinks[oldUrl];
+  }
 }
-
-/** Loads selected article and portfolio item, if any **/
-function loadStateFromHash() {
-	if (window.location.hash) {
-		var article = (window.location.hash.indexOf('/') > 0) ?
-			window.location.hash.substring(0, window.location.hash.indexOf('/')) :
-			window.location.hash;
-		if ($('article' + article)) {
-			showArticle(article);
-		}
-	} else {
-		showArticle('#home');
-	}
-}
+redirectOldLinks();
 
 /** Dropdown site navigation for mobile browsers **/
 function mobileNavDropdownChange() {
   var selectedArticle = $('header nav select').val();
-  if(selectedArticle.charAt(0) == '#') {
-    showArticle(selectedArticle);
-    window.location = window.location.href.split('#')[0] + selectedArticle;
-  }
-  else {
-    window.location = selectedArticle;
+  window.location = selectedArticle;
+}
+
+/** Display current page in navigation dropdown menu **/
+function selectCurrentPage() { 
+  var numberOfDropdownOptions = $('option').size();
+  var fileName = window.location.href.substring(window.location.href.lastIndexOf("/") + 1);
+  for(i=1; i<=numberOfDropdownOptions; i++) {
+    var dropdownOptionValue = $('option:nth-child(' + i + ')').attr('value');
+    if(dropdownOptionValue == fileName) {
+      $('option:nth-child(' + i + ')').attr('selected', 'selected');
+    }
   }
 }
 
@@ -121,14 +119,11 @@ function showNextPortfolioImage(portfolioItem) {
 
 $(document).ready(function() {
 	
-	// load initial state
-	loadStateFromHash();
-	
-	// detect when the hash changes and react accordingly --> catch fwd/back buttons and all clicks to another article
-	$(window).bind('hashchange', loadStateFromHash);
-
   // detect when mobile navigation dropdown is changed
   $('header nav select').bind('change', mobileNavDropdownChange);
+  
+  // select current page in navigation dropwdown
+  selectCurrentPage();
 
 	// if browser is wider than 670px, open lightbox when appropriate link is clicked
 	$('#portfolio aside a:first-child, #portfolio > article > a').click(function(e) {
