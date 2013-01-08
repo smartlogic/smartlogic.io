@@ -140,10 +140,9 @@ $(document).ready(function() {
 // CONTACT FORM - show message when form is submitted & iframe back-button issue
 
 function submitMessage() {
-	$("#contact form input, #contact form textarea").hide();
-	$("#contact form").append("<strong>Thank you, we'll be in touch shortly!</strong>");
   _gaq.push(['_trackPageview', '/thankyou']);
-	document.getElementById("google-adwords-fake-target").src = "thank-you.html";
+//	document.getElementById("google-adwords-fake-target").src = "thank-you.html";
+  window.location.href = "thank-you.html";
 }
 
 // Google Analytics
