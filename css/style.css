@@ -29,7 +29,7 @@ header {
 	width: 100%;
 	overflow-x: hidden;
 	z-index: 15;
-	background: url('../images/header-bg.png') repeat-x;
+  background-color: #3c3c3c;
 }
 
 header section {
@@ -47,10 +47,14 @@ header section a:last-child {
 	float: right;
 	padding-top: 10px;
 	padding-right: .8em;
-	color: #828282;
+	color: #b2b2b2;
 	font-size: 18pt;
+  text-shadow: 0 2px 1px #000;
 }
 
+header section a:last-child:hover {
+  color: #dedede;
+}
 /*** NAV LINKS ***/
 nav {
 	display: block;
@@ -59,11 +63,19 @@ nav {
 	text-align: center;
 	margin: 0 auto;
 	padding: 0;
-	height: 27px;
 	z-index: 11;
-	border-top: solid 1px #C8C8C8;
+	border-top: solid 1px #111;
 	border-bottom: solid 1px #B4B4B4;
-	background: url('../images/nav-bg.png') repeat-x;
+  background-color: #ccc;
+  background-image: linear-gradient(bottom, rgb(236,236,236) 0%, rgb(192,192,192) 100%);
+  background-image: -o-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(192,192,192) 100%);
+  background-image: -moz-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(192,192,192) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(192,192,192) 100%);
+  background-image: -ms-linear-gradient(bottom, rgb(236,236,236) 0%, rgb(192,192,192) 100%);
+  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(236,236,236)), color-stop(1, rgb(192,192,192)));
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 -3px 2px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 -3px 2px rgba(0, 0, 0, .5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 -3px 2px rgba(0, 0, 0, .5);
 }
 
 nav:before, nav:after {
@@ -83,26 +95,28 @@ nav:after {	left: 100%; }
 
 nav a {
 	display: inline-block;
-	height: 22px;
 	text-align: center;
 	text-decoration: none;
 	margin: 0 8px;
-	padding: 2px 28px 3px 28px;
-	color: #636363;
-	text-shadow: 0 -1px 0 #eee;
-	background-image: url('../images/nav-sprite.png');
-	background-repeat: repeat-x;
+	padding: 6px 28px;
+	color: #555;
+  font-size: 15px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, .7);
 }
 
 nav a:hover {
-	color: #fff;
-	background-position: 0 -28px;
-	text-shadow: 0 -1px 0 #188;
+	color: #333;
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, .5);
 }
 
 nav a:active {
-	color: #eee;
-	background-position: 0 -56px;
+  color: #333;
+  background-color: #bbb;
+  background-color: rgba(0, 0, 0, .05);
+  -moz-box-shadow: inset 0 2px 8px rgba(0, 0, 0, .2);
+  -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, .2);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, .2);
 }
 
 nav select {
@@ -496,25 +510,25 @@ article nav a {		display: block; }
 		top: -9px;
 	}
 
-/*** CONTACT ***/
+/*** CONTACT + THANK YOU PAGE + ADWORDS-LANDING-PAGE ***/
 
-	#contact p {
+	#contact p, #thank-you p {
 		color: #555;
 		font-size: 11pt;
 		line-height: 165%;
 	}
 
-	#contact form {
+	form {
 		margin-top: 24px;
 	}
 
-	#contact >  p:first-of-type {
+	#contact > p:first-of-type, #thank-you > p:first-of-type {
 		border-bottom: solid 1px #dcdcdc;
 		padding: 0 0 24px 0;
 		margin: 0;
 	}
 
-	#contact form input, #contact form textarea {
+	form input, form textarea {
 		border: solid 1px #dcdcdc;
 		display: block;
 		padding: 8px;
@@ -525,7 +539,7 @@ article nav a {		display: block; }
 		margin-bottom: 12px;
 	}
 
-	#contact form input {
+	form input {
 		margin-right: 12px;
 		font-size: 18px;
 		float: left;
@@ -533,7 +547,7 @@ article nav a {		display: block; }
 		width: 360px;
 	}
 
-	#contact form textarea {
+	form textarea {
 		font-family: 'Open Sans', sans-serif;
 		float: none;
 		clear: right;
@@ -542,11 +556,11 @@ article nav a {		display: block; }
 		width: 552px;
 	}
 
-	#contact form input[type="text"]:focus, #contact form textarea:focus {
+	input[type="text"]:focus, form textarea:focus {
 		color: #000;
 	}
 
-	#contact form input[type="submit"] {
+	form input[type="submit"] {
 		float: none;
 		clear: both;
 		height: 40px;
@@ -554,32 +568,34 @@ article nav a {		display: block; }
 		background-repeat: repeat-x;
 		color: #fff;
 		text-shadow: 0 -1px 0 #199;
-		border-top: solid 1px #ccffff;
-		border-bottom: solid 1px #50b4b4;
+		border: solid 1px #50b4b4;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 1px 2px rgba(0, 0, 0, .3);
 		width: 120px;
 		margin: 24px auto 0 auto;
+    cursor: pointer;
+    cursor: hand;
 	}
 
-	#contact form input[type="submit"]:hover {
+	form input[type="submit"]:hover {
 		background-position: 0 -40px;
 	}
 
-	#contact form input[type="submit"]:active {
+	form input[type="submit"]:active {
 		background-position: 0 -80px;
 	}
 
-	#contact form strong {
+	form strong {
 		color: #555;
 	}
 
-	#contact iframe {
+	#contact iframe, #adwords-landing-page iframe {
 		width: 0;
 		height: 0;
 		border: 0;
 		display: none;
 	}
 
-	#contact img {
+	#contact img, #thank-you img {
 		background-color: #fff;
 		border: solid 1px #dcdcdc;
 		border-radius: 6px;
@@ -590,56 +606,53 @@ article nav a {		display: block; }
 		margin-right: 14px;
 	}
 
-	#contact img:last-child {
+	#contact img:last-child, #thank-you img:last-child {
 		margin: 0;
 	}
 
-	#contact section {
+	#contact section, #thank-you section {
 		border-top: solid 1px #fff;
 		border-bottom: solid 1px #dcdcdc;
 		padding: 24px 0;
 	}
 
-	#contact section h3 {
+	#contact section h3, #thank-you section h3 {
 		color: #555;
 		margin-top: 0;
 	}
 
-	#contact section p:last-of-type {
+	#contact section p:last-of-type, #thank-you section p:last-of-type {
 		margin-bottom: 0;
 	}
 
-	#contact section:first-of-type {
+	#contact section:first-of-type, #thank-you section:first-of-type {
 		border-top: none;
 		padding-top: 0;
 	}
 
-	#contact section:last-of-type {
-		border-bottom: none;
-	}
-
-	#contact section:last-of-type {
+	#contact section:last-of-type, #thank-you section:last-of-type {
 		display: block;
 		margin: 0;
 		border-top: solid 1px #fff;
+		border-bottom: none;
 		padding: 24px 0;
 	}
 
-	#contact section:last-of-type img {
+	#contact section:last-of-type img, #thank-you section:last-of-type img {
 		margin-left: 36px;
 		float: right;
 	}
 
-	#contact section:last-of-type p {
+	#contact section:last-of-type p, #thank-you section:last-of-type p {
 		margin-bottom: 36px;
 	}
 
-	#contact section:last-of-type p strong {
+	#contact section:last-of-type p strong, #thank-you section:last-of-type p strong {
 		display: block;
 		margin-bottom: 4px;
 	}
 
-	#contact section:last-of-type:after {
+	#contact section:last-of-type:after, #thank-you section:last-of-type:after {
 		content: ".";
 		display: block;
 		height: 0;
@@ -647,13 +660,42 @@ article nav a {		display: block; }
 		visibility: hidden;
 	}
 
+  #adwords-landing-page img {
+    display: inline-block;
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    margin: 0 0 24px 0;
+    float: left;
+  }
+
+  #adwords-landing-page ul {
+    display: inline-block;
+    width: 100%;
+    max-width: 440px;
+    margin: 20px 0 40px 0;
+    float: right;
+  }
+
+  #adwords-landing-page ul li {
+    color: #444;
+    font-size: 16px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
+    margin: 0 0 24px 0;
+    padding: 0 0 0 8px;
+  }
+
+  #adwords-landing-page form {
+    clear: both;
+  }
+
 /*** COOL STUFF ***/
 
 	#community article {
 		width: 290px;
 		float: left;
 		height: 300px;
-       		margin-right: 20px;
+    margin-right: 20px;
 		margin-bottom: 20px;
 		background-color: white;
 		border-radius: 6px;
@@ -680,6 +722,24 @@ article nav a {		display: block; }
 		font-size: 10pt;
 		padding: 0 12px;
 	}
+
+/*** LOGO PAGE ***/
+
+  #logo section a {
+    display: block;
+    width: 100%;
+    border-top: solid 1px #fff;
+    border-bottom: solid 1px #dedede;
+    padding: 16px 0;
+  }
+
+  #logo section a:first-of-type {
+    border-top: none;
+  }
+
+  #logo section a:last-of-type {
+    border-bottom: none;
+  }
 
 /*** FOOTER ***/
 body > footer {
