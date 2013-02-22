@@ -126,7 +126,7 @@ $(document).ready(function() {
   selectCurrentPage();
 
 	// if browser is wider than 670px, open lightbox when appropriate link is clicked
-	$('#portfolio aside a:first-child, #portfolio > article > a').click(function(e) {
+	$('#portfolio aside a:first-child:not(.case-study), #portfolio > article > a').click(function(e) {
     var documentWidth = $(document).width();
     if(documentWidth >= 670) {
 		  showPortfolioImages($(this).attr('href'));
