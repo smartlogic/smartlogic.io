@@ -142,7 +142,7 @@ $(document).ready(function() {
 function submitMessage() {
   _gaq.push(['_trackPageview', '/thankyou']);
 //	document.getElementById("google-adwords-fake-target").src = "thank-you.html";
-  window.location.href = "thank-you.html";
+  window.location.href = "/thank-you";
 }
 
 // Google Analytics
