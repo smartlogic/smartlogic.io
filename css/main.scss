@@ -13,6 +13,50 @@ body {
   ul.grid {
     @include grid-layout(3);
   }
+  #get-in-touch {
+    text-align: center;
+    form {
+      width: 70%;
+      font-size: 0;
+      margin: 0 auto;
+      * {
+        @include appearance(none);
+        font-size: 20px;
+      }
+      select.lets-work-together {
+        width: 100%;
+        margin: 0 0 $gutter 0;
+      }
+      .name,
+      .email,
+      .phone-number,
+      .budget-range {
+        display: inline-block;
+        width: 50%;
+        margin: 0 0 $gutter 0;
+        padding: 0 $gutter/2 0 0;
+        input,
+        select {
+          width: 100%;
+        }
+      }
+      .email,
+      .budget-range {
+        padding: 0 0 0 $gutter/2;
+      }
+      input,
+      select,
+      textarea {
+        background-color: #fff;
+        border: none;
+        border-radius: 0;
+        padding: $gutter;
+      }
+      textarea {
+        width: 100%;
+      }
+    }
+  }
   .sidebar {
     position: fixed;
     top: 0;
@@ -20,6 +64,26 @@ body {
     width: $sidebar-width;
     height: 100%;
     background-color: $teal;
+    &.home-navigation {
+      @for $i from 1 to 6 {
+        a:nth-child(#{$i}) {
+          position: absolute;
+          top: 16.66% * $i - 16.66%; 
+          display: block;
+          background-color: $teal;
+          width: 100%;
+          height: 16.66%;
+        }
+      }
+      footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 16.66%;
+        background-color: $yellow;
+      }
+    }
   }
 }
 
