@@ -1,5 +1,7 @@
-$(function() {
-  $('h1,h2,h3,h4').on('click', function(event) {
-    $(event.target).addClass('highlight');
+$(document).ready(function() {
+
+  $('.sidebar a').click(function() {
+    $('.primary-navigation').toggleClass('active', 1000, 'easeOutCubic');
   });
+
 });
