@@ -74,6 +74,9 @@ body {
       height: 100%;
       background-color: $gray;
       font-size: 20px;
+      a {
+        @include navigation-links(3, $teal);
+      }
     }
     .primary-navigation {
       position: absolute;
@@ -86,13 +89,18 @@ body {
       font-size: 20px;
       &.home-navigation {
         background-color: #000;
-        @for $i from 1 to 6 {
-          a:nth-child(#{$i}) {
-            display: block;
-            width: 100%;
-            height: 16.66%;
-            background-color: $teal;
-            box-shadow: inset 0 -2px 0 (lighten($teal, 20%));
+        a {
+          @include navigation-links(6, $teal);
+          p {
+            &:after {
+              content: "";
+              position: relative;
+              display: block;
+              width: 40px;
+              height: 0;
+              border-bottom: solid 2px #fff;
+              margin: 20px 0 0 0;
+            }
           }
         }
       }
