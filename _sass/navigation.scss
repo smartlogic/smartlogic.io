@@ -1,0 +1,73 @@
+@import '../_sass/bourbon/bourbon';
+@import 'variables';
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  vertical-align: top;
+  width: $sidebar-width;
+  height: 100%;
+  background-color: $teal;
+  font-size: 0;
+
+  .secondary-navigation {
+    position: relative;
+    display: inline-block;
+    width: 75%;
+    height: 100%;
+    background-color: $gray;
+    font-size: 20px;
+
+    a {
+      @include navigation-links(3, $teal);
+    }
+  }
+
+  .primary-navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+
+    &.active {
+      left: 75%;
+    }
+
+    > *.active {
+      opacity: .5;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 16.66%;
+      background-color: $yellow;
+    }
+  }
+
+  .home-navigation {
+    background-color: #000;
+    a {
+      @include navigation-links(6, $teal);
+      p {
+        &:after {
+          content: "";
+          position: relative;
+          display: block;
+          width: 40px;
+          height: 0;
+          border-bottom: solid 2px $white;
+          margin: 20px 0 0 0;
+        }
+      }
+    }
+  }
+}
