@@ -20,6 +20,29 @@ $teal: #3bbdb1;
 $sidebar-width: 25%;
 $gutter: 10px;
 
+
+// BREAKPOINTS
+
+// Extra small screen / phone
+$screen-xs-min: 480px;
+
+// Small screen / tablet
+$screen-sm-min: 768px;
+
+// Medium screen / desktop
+$screen-md-min: 992px;
+
+// Large screen / wide desktop
+$screen-lg-min: 1200px;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max: ($screen-sm-min - 1);
+$screen-sm-max: ($screen-md-min - 1);
+$screen-md-max: ($screen-lg-min - 1);
+
+
+// MIXINS
+
 @mixin navigation-links($number-of-links, $color) {
   @include display(flex);
   @include align-items(center);
@@ -67,5 +90,19 @@ $gutter: 10px;
         line-height: 1.5em;
       }
     }
+  }
+}
+
+// Responsive utilities
+
+@mixin responsive-visibility($parent) {
+  #{$parent} {
+    display: block !important;
+  }
+}
+
+@mixin responsive-invisibility($parent) {
+  #{$parent} {
+    display: none !important;
   }
 }
