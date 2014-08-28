@@ -1,7 +1,7 @@
 @import '../_sass/bourbon/bourbon';
 @import 'variables';
 
-.sidebar {
+.sidebar-old {
   position: fixed;
   top: 0;
   right: 0;
@@ -52,22 +52,31 @@
       background-color: $yellow;
     }
   }
+}
 
-  .home-navigation {
-    background-color: #000;
-    > a {
-      @include navigation-links(6, $teal);
+.sidebar {
 
-      span {
-        &:after {
-          content: "";
-          position: relative;
-          display: block;
-          width: 40px;
-          height: 0;
-          border-bottom: solid 2px $white;
-          margin: 20px 0 0 0;
-        }
+  .nav-item {
+    @include display(flex);
+    @include align-items(center);
+    padding: 10px 20px;
+    background-color: $teal;
+    box-shadow: inset 0 -4px 0 (darken($teal, 10%));
+    text-decoration: none;
+
+    a {
+      color: $white;
+    }
+
+    span {
+      &:after {
+        content: "";
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 0;
+        border-bottom: solid 2px $white;
+        margin: 20px 0 0;
       }
     }
   }
