@@ -1,18 +1,12 @@
-<div class="nav-item">
-  <a href="/about.html"><span>About</span></a>
-</div>
-<div class="nav-item">
-  <a href="/experience.html"><span>Experience</span></a>
-</div>
-<div class="nav-item">
-  <a href="/smart-thinking.html"><span>Smart Thinking</span></a>
-</div>
-<div class="nav-item">
-  <a href="/get-in-touch.html"><span>Get In Touch</span></a>
-</div>
-<div class="nav-item">
-  <a href="/what-makes-us-different.html"><span>What makes us different</span></a>
-</div>
+{% for link in site.navigation %}
+  {% assign active = nil %}
+  {% if page.url contains link.url %}
+    {% assign active = 'active' %}
+  {% endif %}
+  <div class="nav-item {{ active }}">
+    <a href="{{ link.url }}"><span>{{ link.title }}</span></a>
+  </div>
+{% endfor %}
 <footer>
   <ul class="inline">
     <li><a href="/location.html" class="decorated"><strong>Baltimore</strong></a> ·</li>
