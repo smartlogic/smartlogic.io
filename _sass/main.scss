@@ -2,171 +2,208 @@
 @import 'normalize';
 @import 'fonts';
 @import 'variables';
+@import 'base';
+@import 'navigation';
+@import 'responsive';
 
-* {
-  @include box-sizing(border-box);
-  font-family: 'LTCircular', sans-serif;
-  margin: 0;
-  padding: 0;
+.site-container {
+  height: 100%;
+  width: 100%;
+  @include display(flex);
+  @include flex-direction(row);
+
+  > * {
+    @include flex(1 100%);
+  }
 }
 
-body {
+.main {
+  @include flex(3 0px);
+  @include order(1);
+}
+
+.sidebar {
+  @include order(2);
+  @include flex(1 0px);
+  @include display(flex);
+  @include flex-flow(column);
+
+  > * {
+    @include flex(1 100%);
+  }
+}
+
+header {
+  min-height: 50px;
+  text-align: center;
+  z-index: 100;
+}
+
+@media (max-width: $screen-sm-max) {
+  .site-container {
+    @include flex-direction(column);
+  }
+
+  .main,
+  .sidebar {
+    @include order(0);
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
+
+footer {
   background-color: $yellow;
-  padding: 0;
-  #home {
-    .slider {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100% - $sidebar-width;
-      height: 100%;
-      overflow: hidden;
-      .slide {
-        @include display(flex);
-        @include align-items(center);
-        @include justify-content(center);
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        &.current-slide {
-          top: 0;
-        }
-        &.previous-slide {
-          top: -100%;
-        }
-      }
-      span.slider-control {
-        position: absolute;
-        bottom: 70px;
-        left: 50%;
-        display: block;
-        width: 140px;
-        font-size: 20px;
-        text-align: center;
-        margin: 0 0 0 -70px;
-        padding: 10px 0;
-        cursor: pointer;
-        &:after {
-          @include triangle(20px 10px, #000, down);
-          content: "";
-          position: absolute;
-          bottom: -10px;
-          left: 50%;
-          margin: 0 0 0 -10px;
-        }
-      }
+  font-size: 14px;
+
+  a {
+    border: 0;
+    color: $black;
+  }
+
+  ul {
+    display: inline;
+  }
+}
+
+ul.grid {
+  @include grid-layout(3);
+}
+
+ul.inline li {
+  display: inline-block;
+}
+
+.social-media li {
+  padding: 0 5px;
+  font-size: 18px;
+
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+.call-to-action {
+  border: 0;
+  color: $red;
+  display: inline-block;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px auto;
+
+  &:after {
+    padding-left: 10px;
+    content: '→';
+  }
+}
+
+.landing-page {
+  text-align: center;
+  margin: 0 10px;
+}
+
+#home {
+  h1 {
+    line-height: 1;
+
+    span {
+      display: block;
     }
   }
-  ul.grid {
-    @include grid-layout(3);
-  }
-  #get-in-touch {
-    text-align: center;
-    form {
+}
+
+#get-in-touch {
+  form {
+    * {
+      @include appearance(none);
+      font-size: 20px;
+    }
+
+    fieldset {
       width: 70%;
       font-size: 0;
       margin: 0 auto;
-      * {
-        @include appearance(none);
-        font-size: 20px;
+      border: 0;
+    }
+
+    span {
+      display: inline-block;
+      width: 50%;
+      margin: 0 0 $gutter;
+      padding: 0;
+
+      &:nth-of-type(2n) {
+        padding-right: $gutter/2;
       }
-      select.lets-work-together {
+
+      &:nth-of-type(2n+1) {
+        padding-left: $gutter/2;
+      }
+
+      &:first-child {
+        padding-left: 0;
         width: 100%;
-        margin: 0 0 $gutter 0;
       }
-      .name,
-      .email,
-      .phone-number,
-      .budget-range {
-        display: inline-block;
-        width: 50%;
-        margin: 0 0 $gutter 0;
-        padding: 0 $gutter/2 0 0;
-        input,
-        select {
-          width: 100%;
-        }
-      }
-      .email,
-      .budget-range {
-        padding: 0 0 0 $gutter/2;
-      }
+
       input,
-      select,
-      textarea {
-        background-color: #fff;
-        border: none;
-        border-radius: 0;
-        padding: $gutter;
-      }
-      textarea {
+      select {
         width: 100%;
       }
+    }
+
+    input,
+    select,
+    textarea {
+      background-color: $white;
+      border: 0;
+      border-radius: 0;
+      padding: $gutter;
+    }
+
+    textarea,
+    input[type="submit"] {
+      width: 100%;
+      margin: 0 0 $gutter;
+    }
+
+    input[type="submit"] {
+      background-color: $teal;
+      color: $white;
     }
   }
-  .sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    overflow: hidden;
-    vertical-align: top;
-    width: $sidebar-width;
-    height: 100%;
-    background-color: $teal;
-    font-size: 0;
-    .secondary-navigation {
-      position: relative;
-      display: inline-block;
-      width: 75%;
-      height: 100%;
-      background-color: $gray;
-      font-size: 20px;
-      a {
-        @include navigation-links(3, $teal);
-      }
-    }
-    .primary-navigation {
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: inline-block;
-      vertical-align: top;
-      width: 100%;
-      height: 100%;
-      font-size: 20px;
-      &.home-navigation {
-        background-color: #000;
-        a {
-          @include navigation-links(6, $teal);
-          p {
-            &:after {
-              content: "";
-              position: relative;
-              display: block;
-              width: 40px;
-              height: 0;
-              border-bottom: solid 2px #fff;
-              margin: 20px 0 0 0;
-            }
-          }
-        }
-      }
-      &.active {
-        left: 75%;
-      }
-      > *.active {
-        opacity: .5;
-      }
-      footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 16.66%;
-        background-color: $yellow;
-      }
-    }
+}
+
+#location {
+  img {
+    height: 300px;
+    width: 700px;
+  }
+}
+
+.mobile-menu {
+  background-color: $yellow;
+  border-radius: 50%;
+  height: 40px;
+  padding: 10px;
+  text-align: center;
+  width: 40px;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+
+  a {
+    border: 0;
+  }
+
+  i {
+    font-weight: bold;
+  }
+}
+
+#thanks {
+  @media (min-width: $screen-sm-min) {
+    margin: 0 20%;
   }
 }

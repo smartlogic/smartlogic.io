@@ -1,21 +1,56 @@
 @import '../_sass/bourbon/bourbon';
+@import 'fonts';
 
-$gray: #788687;
-$yellow: #FDDF26;
-$red: #E1233A;
-$teal: #3EBEB1;
+// FONTS
 
+$body-font: 'LTCircular', sans-serif;
+$heading-font: 'LTCircular', sans-serif;
+
+// COLORS
+
+$black: #231f20;
+$white: #fff;
+$gray: #f9f9f9;
+$yellow: #fefa39;
+$red: #da1036;
+$teal: #3bbdb1;
+
+// DIMENSIONS
+
+$header-height: 25%;
 $sidebar-width: 25%;
-
 $gutter: 10px;
+
+
+// BREAKPOINTS
+
+// Extra small screen / phone
+$screen-xs-min: 480px;
+
+// Small screen / tablet
+$screen-sm-min: 768px;
+
+// Medium screen / desktop
+$screen-md-min: 992px;
+
+// Large screen / wide desktop
+$screen-lg-min: 1200px;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max: ($screen-sm-min - 1);
+$screen-sm-max: ($screen-md-min - 1);
+$screen-md-max: ($screen-lg-min - 1);
+
+
+// MIXINS
 
 @mixin navigation-links($number-of-links, $color) {
   @include display(flex);
-  @include align-items(center);
-  position: relative;
-  width: 100%;
-  height: 100% / $number-of-links;
-  color: #fff;
+  //@include align-items(stretch);
+  //position: relative;
+  //width: 100%;
+  //height: 100% / $number-of-links;
+  color: $white;
   background-color: $color;
   box-shadow: inset 0 -4px 0 (darken($color, 10%));
   text-decoration: none;
@@ -27,14 +62,17 @@ $gutter: 10px;
   font-size: 0;
   margin: 0;
   padding: 0;
+
   li {
     position: relative;
     display: inline-block;
     width: 100%/$number-of-columns;
+
     img {
       width: 100%;
       height: auto;
-    } 
+    }
+
     div {
       @include display(flex);
       @include align-items (center);
@@ -46,11 +84,26 @@ $gutter: 10px;
       width: 100%;
       height: 100%;
       background-color: rgba($teal, .5);
+
       p {
         display: block;
         font-size: 20px;
         line-height: 1.5em;
       }
     }
+  }
+}
+
+// Responsive utilities
+
+@mixin responsive-visibility($parent) {
+  #{$parent} {
+    display: block !important;
+  }
+}
+
+@mixin responsive-invisibility($parent) {
+  #{$parent} {
+    display: none !important;
   }
 }
