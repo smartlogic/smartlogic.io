@@ -18,16 +18,13 @@
 }
 
 .main {
-  background-color: $teal;
   @include flex(3 0px);
   @include order(1);
 }
 
 .sidebar {
-  background-color: $yellow;
-
   @include order(2);
-  flex: 1 0px;
+  @include flex(1 0px);
   @include display(flex);
   @include flex-flow(column);
 
@@ -37,13 +34,12 @@
 }
 
 header {
-  background-color: $red;
   min-height: 50px;
   text-align: center;
   z-index: 100;
 }
 
-@media all and (max-width: 640px) {
+@media (max-width: $screen-sm-max) {
   .site-container {
     @include flex-direction(column);
   }
@@ -59,6 +55,7 @@ header {
 }
 
 footer {
+  background-color: $yellow;
   font-size: 14px;
 
   a {
@@ -103,8 +100,12 @@ ul.inline li {
 }
 
 #home {
-  h1 span {
-    display: block;
+  h1 {
+    line-height: 1;
+
+    span {
+      display: block;
+    }
   }
 }
 
@@ -173,5 +174,25 @@ ul.inline li {
   img {
     height: 300px;
     width: 700px;
+  }
+}
+
+.mobile-menu {
+  background-color: $yellow;
+  border-radius: 50%;
+  height: 40px;
+  padding: 10px;
+  text-align: center;
+  width: 40px;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+
+  a {
+    border: 0;
+  }
+
+  i {
+    font-weight: bold;
   }
 }
