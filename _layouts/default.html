@@ -37,7 +37,21 @@
 
       </div>
       <div class="sidebar">
-        {% include main-navigation.html %}
+        <div class="secondary-navigation">
+          {% for link in site.navigation.subnav %}
+            <h1>{{ link.subnav.anchor }}</h1>
+            {% assign active = nil %}
+            {% if page.url contains link.subnav.anchor %}
+              {% assign active = 'active' %}
+            {% endif %}
+            <div class="nav-item {{ active }}">
+              <a href="{{ link.url }}#{{ link.subnav.anchor }}"><span>{{ link.subnav.title }}</span></a>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="primary-navigation">
+          {% include main-navigation.html %}
+        </div>
       </div>
     </div>
   </body>
