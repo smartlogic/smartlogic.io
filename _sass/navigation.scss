@@ -55,9 +55,12 @@
 }
 
 .sidebar {
+  @include display(flex);
+  @include flex-flow(column);
 
   .nav-item,
   footer {
+    @include flex(1 100%);
     @include display(flex);
     @include align-items(center);
     padding: 0 20px;
@@ -82,6 +85,10 @@
         border-bottom: solid 2px $white;
         margin: 20px 0 0;
       }
+    }
+
+    &.active {
+      background-color: $black;
     }
   }
 }
