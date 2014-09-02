@@ -2,12 +2,12 @@
 @import 'variables';
 
 .sidebar {
+  background-color: $teal;
   @include display(flex);
-  @include flex-flow(column);
 
   .nav-item,
   footer {
-    @include flex(1 100%);
+    @include flex(1 0);
     @include display(flex);
     @include align-items(center);
     padding: 0 20px;
@@ -33,9 +33,51 @@
         margin: 20px 0 0;
       }
     }
+  }
+}
 
-    &.active {
-      background-color: $black;
+.main-navigation,
+.secondary-navigation {
+  @include display(flex);
+  @include flex-direction(column);
+}
+
+.main-navigation {
+  min-width: 100%;
+  @include flex(1 0);
+  @include order(2);
+
+  .active {
+    background-color: $black;
+  }
+}
+
+.secondary-navigation {
+  @include flex(3 0);
+  @include order(1);
+
+  .active {
+    span {
+      &:after {
+        border-bottom-color: $black;
+      }
     }
+
+    a {
+      color: $black;
+    }
+  }
+}
+
+.slided-out .main-navigation {
+  position: relative;
+  min-width: 0;
+  background: $black;
+
+  .nav-item,
+  footer {
+    opacity: .5;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
