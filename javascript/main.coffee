@@ -2,13 +2,7 @@
 ---
 
 $ ->
-  # TODO: revisit this later
-  $('.sidebar a').click ->
-    $('.primary-navigation').toggleClass('active', 1000, 'easeOutCubic')
-    $('.primary-navigation > *').delay(250).toggleClass('active', 750, 'easeOutCubic')
-
-  # initiate full page sliding
-  $('.sliding-page').fullpage
+  commonFullPageOptions =
     verticalCentered: true
     resize : true
     scrollingSpeed: 700
@@ -22,5 +16,31 @@ $ ->
     autoScrolling: true
     paddingTop: '50px'
     paddingBottom: '0'
-    menu: true
+    menu: '.secondary-navigation'
     scrollOverflow: true
+
+  aboutPageOptions =
+    anchors: ['landing', 'four-keys', 'who-we-work-with', 'the-team']
+
+  experiencePageOptions =
+    anchors: ['landing', 'case-studies', 'areas-of-expertise', 'lets-work-together']
+
+  smartThinkingPageOptions =
+    anchors: ['landing', 'community']
+
+  getInTouchPageOptions =
+    anchors: ['landing', 'work-with-us', 'our-office', 'location']
+
+  whatMakesUsDifferentPageOptions =
+    anchors: ['landing']
+
+  # initiate full page sliding
+  $('#home').fullpage(commonFullPageOptions) if $('#home').length
+  $('#about').fullpage($.extend(commonFullPageOptions, aboutPageOptions)) if $('#about').length
+  $('#experience').fullpage($.extend(commonFullPageOptions, experiencePageOptions)) if $('#experience').length
+  $('#smart-thinking').fullpage($.extend(commonFullPageOptions, smartThinkingPageOptions)) if $('#smart-thinking').length
+  $('#get-in-touch').fullpage($.extend(commonFullPageOptions, getInTouchPageOptions)) if $('#get-in-touch').length
+  $('#what-makes-us-different').fullpage($.extend(commonFullPageOptions, whatMakesUsDifferentPageOptions)) if $('#what-makes-us-different').length
+
+  if $('.secondary-navigation').children().length
+    $('.sidebar').addClass('slided-out', 1000, 'easeOutCubic')
