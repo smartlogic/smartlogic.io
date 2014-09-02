@@ -105,16 +105,6 @@ ul.inline li {
   color: #999;
 }
 
-#home {
-  h1 {
-    line-height: 1;
-
-    span {
-      display: block;
-    }
-  }
-}
-
 #get-in-touch {
   form {
     margin-top: 20px;
@@ -216,5 +206,78 @@ ul.inline li {
 
   i {
     font-weight: bold;
+  }
+}
+
+.grid-container {
+  @include display(flex);
+  @include flex-flow(row wrap);
+}
+
+.grid-cell {
+  @include flex(1 auto);
+  @include flex-basis(32%); // 33% minus margin
+  margin: 3px;
+  position: relative;
+  text-align: center;
+
+  @media (max-width: $screen-xs-max) {
+    @include flex-basis(45%); // 50% minus margin
+  }
+
+  img {
+    @include transition(all 300ms);
+    height: auto;
+    width: 100%;
+  }
+
+  figure {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  figcaption {
+    @include transition(all 300ms);
+    @include transition-delay(100ms);
+    background: rgba(0, 0, 0, .8);
+    color: $white;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+
+    h3, p {
+      position: relative;
+      top: -40px;
+      vertical-align: middle;
+      @include transition(all 300ms ease-out);
+    }
+
+    i {
+      font-size: 30px;
+      position: absolute;
+      bottom: 20px;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    figcaption {
+      opacity: 1;
+    }
+
+    img {
+      @include transform(scale(1.4));
+    }
+
+    figcaption h3,
+    figcaption p {
+      @include transform(translateY(150px));
+    }
   }
 }
