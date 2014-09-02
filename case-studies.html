@@ -4,7 +4,17 @@ title:
 description:
 nav-title: Case Studies
 nav-description:
-id: case-studies
-class: landing-page
+class: grid-container
 ---
-<h2>Case Studies Grid</h2>
+{% for item in site.data.case_study %}
+  <div class="grid-cell">
+    <figure>
+      <img src="http://placehold.it/250x250" alt="{{ item.title }}">
+      <figcaption>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.subtitle }}</p>
+        <i class="fa fa-plus-circle"></i>
+      </figcaption>
+    </figure>
+  </div>
+{% endfor %}
