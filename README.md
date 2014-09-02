@@ -6,7 +6,7 @@ This repository is for hosting smartlogic.io on GitHub Pages.
 
 Run `bundle install`
 
-Run `bundle exec foreman start`
+To serve Jekyll with live reload (requires a [browser extension](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-)), run `bundle exec guard`
 
 The site will be at [http://localhost:4000](http://localhost:4000)
 
