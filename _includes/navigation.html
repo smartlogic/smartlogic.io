@@ -2,9 +2,7 @@
   {% for link in site.navigation %}
     {% if page.url contains link.url %}
       {% for sublink in link.subnavigation %}
-      <div class="nav-item" data-menuanchor="{{ sublink.anchor }}">
-          <a href="#{{ sublink.anchor }}"><span>{{ sublink.title }}</span></a>
-        </div>
+        <a href="#{{ sublink.anchor }}" class="nav-item" data-menuanchor="{{ sublink.anchor }}"><span>{{ sublink.title }}</span></a>
       {% endfor %}
     {% endif %}
   {% endfor %}
@@ -15,9 +13,7 @@
     {% if page.url contains link.url %}
       {% assign active = 'active' %}
     {% endif %}
-    <div class="nav-item {{ active }}">
-      <a href="{{ link.url }}"><span>{{ link.title }}</span></a>
-    </div>
+    <a href="{{ link.url }}" class="nav-item {{ active }}"><span>{{ link.title }}</span></a>
   {% endfor %}
   <footer>
     <ul class="inline">
