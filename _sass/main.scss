@@ -10,7 +10,6 @@
   height: 100%;
   width: 100%;
   @include display(flex);
-  @include flex-direction(row);
 }
 
 .main {
@@ -23,6 +22,27 @@
   @include order(2);
 }
 
+.showing-mobile-menu {
+  .main {
+    @include flex(1 0);
+  }
+
+  .sidebar {
+    @include flex(3 0);
+
+    .nav-item {
+      box-shadow: none;
+      font-size: 16px;
+
+      span {
+        &:after {
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
 header {
   min-height: $header-height;
   text-align: center;
@@ -30,17 +50,8 @@ header {
 }
 
 @media (max-width: $screen-sm-max) {
-  .site-container {
-    @include flex-direction(column);
-  }
-
-  .main,
   .sidebar {
-    @include order(0);
-  }
-
-  .sidebar {
-    display: none;
+    //display: none;
   }
 }
 
