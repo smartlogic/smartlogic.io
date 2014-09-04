@@ -1,0 +1,25 @@
+<div class="secondary-navigation">
+  {% for link in site.navigation %}
+    {% if page.url contains link.url %}
+      {% for sublink in link.subnavigation %}
+        <a href="#{{ sublink.anchor }}" class="nav-item" data-menuanchor="{{ sublink.anchor }}"><span>{{ sublink.title }}</span></a>
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+</div>
+<div class="main-navigation">
+  {% for link in site.navigation %}
+    {% assign active = nil %}
+    {% if page.url contains link.url %}
+      {% assign active = 'active' %}
+    {% endif %}
+    <a href="{{ link.url }}" class="nav-item {{ active }}"><span>{{ link.title }}</span></a>
+  {% endfor %}
+  <footer>
+    <ul class="inline">
+      <li><a href="/location.html" class="decorated"><strong>Baltimore</strong></a> ·</li>
+      <li><a href="tel:+14434513001">443-451-3001</a></li>
+    </ul>
+    {% include social-media.html %}
+  </footer>
+</div>

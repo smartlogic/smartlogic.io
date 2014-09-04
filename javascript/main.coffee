@@ -2,23 +2,45 @@
 ---
 
 $ ->
-  # TODO: revisit this later
-  $('.sidebar a').click ->
-    $('.primary-navigation').toggleClass('active', 1000, 'easeOutCubic')
-    $('.primary-navigation > *').delay(250).toggleClass('active', 750, 'easeOutCubic')
+  commonFullPageOptions =
+    verticalCentered: true
+    resize : true
+    scrollingSpeed: 700
+    easing: 'easeInQuart'
+    loopTop: false
+    loopBottom: true
+    loopHorizontal: true
+    sectionSelector: '.section'
+    slideSelector: '.slide'
+    css3: true
+    autoScrolling: true
+    paddingTop: '50px'
+    paddingBottom: '0'
+    menu: '.secondary-navigation'
+    scrollOverflow: true
 
-  # content section slider
+  aboutPageOptions =
+    anchors: ['landing', 'four-keys', 'who-we-work-with', 'the-team']
 
-  sliderSpeed = 1000
+  experiencePageOptions =
+    anchors: ['landing', 'case-studies', 'areas-of-expertise', 'lets-work-together']
 
-  $('.slider-control').click ->
-    if $('.current-slide').next('.slide').length
-      $('.current-slide').addClass('previous-slide', sliderSpeed, 'easeOutCubic').removeClass('current-slide').next('.slide').addClass('current-slide', sliderSpeed, 'easeOutCubic')
-    else
-      $('.current-slide').addClass('previous-slide', sliderSpeed, 'easeOutCubic').removeClass('current-slide')
-      $('.slide:first-child').addClass('current-slide', sliderSpeed, 'easeOutCubic')
+  smartThinkingPageOptions =
+    anchors: ['landing', 'community']
 
-    $('.slide').removeClass('previous-slide')
+  getInTouchPageOptions =
+    anchors: ['landing', 'work-with-us', 'our-office', 'location']
 
-  if $('.slide').length is 1
-    $('.slider-control').hide()
+  whatMakesUsDifferentPageOptions =
+    anchors: ['landing']
+
+  # initiate full page sliding
+  $('#home').fullpage(commonFullPageOptions) if $('#home').length
+  $('#about').fullpage($.extend(commonFullPageOptions, aboutPageOptions)) if $('#about').length
+  $('#experience').fullpage($.extend(commonFullPageOptions, experiencePageOptions)) if $('#experience').length
+  $('#smart-thinking').fullpage($.extend(commonFullPageOptions, smartThinkingPageOptions)) if $('#smart-thinking').length
+  $('#get-in-touch').fullpage($.extend(commonFullPageOptions, getInTouchPageOptions)) if $('#get-in-touch').length
+  $('#what-makes-us-different').fullpage($.extend(commonFullPageOptions, whatMakesUsDifferentPageOptions)) if $('#what-makes-us-different').length
+
+  if $('.secondary-navigation').children().length
+    $('.sidebar').addClass('slided-out', 1000, 'easeOutCubic')
