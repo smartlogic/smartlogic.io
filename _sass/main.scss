@@ -95,7 +95,22 @@ ul.inline li {
 
 .landing-page {
   text-align: center;
-  padding: 0 10px;
+  padding: 0 100px;
+
+  @media (max-width: $screen-sm-max) {
+    padding: 0 20px;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+}
+
+.lead {
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 200;
+  color: #999;
 }
 
 #home {
@@ -110,6 +125,8 @@ ul.inline li {
 
 #get-in-touch {
   form {
+    margin-top: 20px;
+
     * {
       @include appearance(none);
       font-size: 20px;
@@ -167,12 +184,26 @@ ul.inline li {
       color: $white;
     }
   }
+
+  .expanded-form {
+    display: none;
+  }
 }
 
 #location {
   img {
-    height: 300px;
-    width: 700px;
+    height: 100%;
+    width: auto;
+    margin: 50px 0;
+  }
+
+  .address > * {
+    display: inline-block;
+  }
+
+  .address,
+  .contact-info {
+    margin: 5px 0;
   }
 }
 
@@ -193,12 +224,6 @@ ul.inline li {
 
   i {
     font-weight: bold;
-  }
-}
-
-#thanks {
-  @media (min-width: $screen-sm-min) {
-    margin: 0 20%;
   }
 }
 
