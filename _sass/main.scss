@@ -95,7 +95,22 @@ ul.inline li {
 
 .landing-page {
   text-align: center;
-  padding: 0 10px;
+  padding: 0 100px;
+
+  @media (max-width: $screen-sm-max) {
+    padding: 0 20px;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+}
+
+.lead {
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 200;
+  color: #999;
 }
 
 #home {
@@ -110,6 +125,8 @@ ul.inline li {
 
 #get-in-touch {
   form {
+    margin-top: 20px;
+
     * {
       @include appearance(none);
       font-size: 20px;
@@ -167,12 +184,26 @@ ul.inline li {
       color: $white;
     }
   }
+
+  .expanded-form {
+    display: none;
+  }
 }
 
 #location {
   img {
-    height: 300px;
-    width: 700px;
+    height: 100%;
+    width: auto;
+    margin: 50px 0;
+  }
+
+  .address > * {
+    display: inline-block;
+  }
+
+  .address,
+  .contact-info {
+    margin: 5px 0;
   }
 }
 
@@ -193,65 +224,5 @@ ul.inline li {
 
   i {
     font-weight: bold;
-  }
-}
-
-#thanks {
-  @media (min-width: $screen-sm-min) {
-    margin: 0 20%;
-  }
-}
-
-.slider {
-  position: fixed;
-  top: $header-height;
-  left: 0;
-  bottom: $header-height;
-  width: 75%;
-  height: 100%;
-  overflow: hidden;
-
-  @media (max-width: $screen-sm-max) {
-    width: 100%;
-  }
-
-  .slide {
-    @include display(flex);
-    @include align-items(center);
-    @include justify-content(center);
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    &.current-slide {
-      top: 0;
-    }
-    &.previous-slide {
-      top: -100%;
-    }
-  }
-
-}
-
-.slider-control {
-  position: absolute;
-  bottom: 70px;
-  left: 50%;
-  display: block;
-  width: 140px;
-  font-size: 20px;
-  text-align: center;
-  margin: 0 0 0 -70px;
-  padding: 10px 0;
-  cursor: pointer;
-
-  &:after {
-    @include triangle(20px 10px, $black, down);
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    margin: 0 0 0 -10px;
   }
 }
