@@ -1,57 +1,13 @@
 @import '../_sass/bourbon/bourbon';
 @import 'variables';
 
-.sidebar-old {
-  position: fixed;
-  top: 0;
-  right: 0;
-  overflow: hidden;
-  vertical-align: top;
-  width: $sidebar-width;
-  height: 100%;
-  background-color: $teal;
-  font-size: 0;
-
-  .secondary-navigation {
-    position: relative;
-    display: inline-block;
-    width: 75%;
-    height: 100%;
-    background-color: $gray;
-    font-size: 20px;
-
-    a {
-      @include navigation-links(3, $teal);
-    }
-  }
-
-  .primary-navigation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: inline-block;
-    vertical-align: top;
-    width: 100%;
-    height: 100%;
-    font-size: 20px;
-
-    &.active {
-      left: 75%;
-    }
-
-    > *.active {
-      opacity: .5;
-    }
-  }
-}
-
 .sidebar {
+  background-color: $teal;
   @include display(flex);
-  @include flex-flow(column);
 
   .nav-item,
   footer {
-    @include flex(1 100%);
+    @include flex(1 0);
     @include display(flex);
     @include align-items(center);
     padding: 0 20px;
@@ -60,11 +16,8 @@
   .nav-item {
     background-color: $teal;
     box-shadow: inset 0 -4px 0 (darken($teal, 10%));
-
-    a {
-      color: $white;
-      font-size: 20px;
-    }
+    color: $white;
+    font-size: 20px;
 
     span {
       &:after {
@@ -77,9 +30,75 @@
         margin: 20px 0 0;
       }
     }
+  }
+}
 
-    &.active {
-      background-color: $black;
+.main-navigation,
+.secondary-navigation {
+  @include display(flex);
+  @include flex-direction(column);
+}
+
+.main-navigation {
+  min-width: 100%;
+  @include flex(1 0);
+  @include order(2);
+
+  .active {
+    background-color: $black;
+  }
+}
+
+.secondary-navigation {
+  @include flex(3 0);
+  @include order(1);
+
+  .active {
+    color: $black;
+
+    span {
+      &:after {
+        border-bottom-color: $black;
+      }
     }
+  }
+}
+
+.slided-out .main-navigation {
+  position: relative;
+  min-width: 0;
+  background: $black;
+
+  .nav-item,
+  footer {
+    opacity: .5;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+.slideded-out {
+  .nav-description {
+    @include flex(2 0);
+    @include order(1);
+    background-color: $black;
+    color: $white;
+  }
+
+  .secondary-navigation {
+    @include flex(1 0);
+    @include order(2);
+    background: $black;
+  }
+
+  .main-navigation {
+    @include order(3);
+  }
+
+  .nav-item,
+  footer {
+    opacity: .5;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
