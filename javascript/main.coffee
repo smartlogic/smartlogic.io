@@ -7,6 +7,10 @@ $ ->
     $('.primary-navigation').toggleClass('active', 1000, 'easeOutCubic')
     $('.primary-navigation > *').delay(250).toggleClass('active', 750, 'easeOutCubic')
 
+
+  $('.lets-work-together select').change ->
+    $('form .expanded-form').removeClass('expanded-form')
+
   # initiate full page sliding
   $('.sliding-page').fullpage
     verticalCentered: true
