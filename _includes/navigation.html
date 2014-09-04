@@ -1,0 +1,36 @@
+<div class="secondary-navigation">
+  {% assign section = nil %}
+  {% for link in site.navigation %}
+    {% for sublink in link.subnavigation %}
+      {% if page.url contains sublink.url or page.url contains link.url %}
+        {% assign section = link %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+
+  {% unless section == nil %}
+    {% for sublink in section.subnavigation %}
+      {% assign active = nil %}
+      {% if page.url contains sublink.url %}
+        {% assign active = 'active' %}
+      {% endif %}
+      <a href="{{ sublink.url }}" class="nav-item {{ active }}"><span>{{ sublink.title }}</span></a>
+    {% endfor %}
+  {% endunless %}
+</div>
+<div class="main-navigation">
+  {% for link in site.navigation %}
+    {% assign active = nil %}
+    {% if page.url contains link.url %}
+      {% assign active = 'active' %}
+    {% endif %}
+    <a href="{{ link.url }}" class="nav-item {{ active }}"><span>{{ link.title }}</span></a>
+  {% endfor %}
+  <footer>
+    <ul class="inline">
+      <li><a href="/location.html" class="decorated"><strong>Baltimore</strong></a> ·</li>
+      <li><a href="tel:+14434513001">443-451-3001</a></li>
+    </ul>
+    {% include social-media.html %}
+  </footer>
+</div>
