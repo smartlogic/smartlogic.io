@@ -15,6 +15,10 @@ body {
   article {
     @include flex(3 0);
     @include order(1);
+    padding: 0 100px;
+    @media (max-width: $screen-sm-max) {
+      padding: 0 20px;
+    }
   }
 }
 
@@ -79,7 +83,12 @@ ul.inline li {
   }
 }
 
-.landing-page {
+.dark-background {
+  background-image: url('/images/dark-background.jpg');
+  left: 0;
+  width: 75%;
+  height: 100%;
+  color: $white;
   text-align: center;
   padding: 0 100px;
 
@@ -90,26 +99,6 @@ ul.inline li {
   h2 {
     margin-bottom: 20px;
   }
-}
-
-.content-page {
-  padding: 0 100px;
-
-  @media (max-width: $screen-sm-max) {
-    padding: 0 20px;
-  }
-
-  h1, h2 {
-    text-align: center;
-  }
-}
-
-.dark-background {
-  background-image: url('/images/dark-background.jpg');
-  left: 0;
-  width: 75%;
-  height: 100%;
-  color: $white;
 }
 
 .lead {
@@ -240,6 +229,7 @@ ul.inline li {
 .grid-container {
   @include display(flex);
   @include flex-flow(row wrap);
+  padding: 0px;
 }
 
 .grid-cell {
