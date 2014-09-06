@@ -11,11 +11,11 @@ body {
   width: 100%;
   @include display(flex);
   @include flex-direction(row);
-}
 
-#main {
-  @include flex(3 0);
-  @include order(1);
+  article {
+    @include flex(3 0);
+    @include order(1);
+  }
 }
 
 #sidebar {
@@ -26,15 +26,15 @@ body {
 @media (max-width: $screen-sm-max) {
   body {
     @include flex-direction(column);
-  }
 
-  #main,
-  #sidebar {
-    @include order(0);
-  }
+    article,
+    #sidebar {
+      @include order(0);
+    }
 
-  #sidebar {
-    display: none;
+    #sidebar {
+      display: none;
+    }
   }
 }
 
@@ -106,7 +106,6 @@ ul.inline li {
 
 .dark-background {
   background-image: url('/images/dark-background.jpg');
-  position: fixed;
   left: 0;
   width: 75%;
   height: 100%;
@@ -120,11 +119,8 @@ ul.inline li {
   color: #999;
 }
 
-#main.is-home-page {
-  background-image: url('/images/home-background.jpg');
-}
-
 #home {
+  background-image: url('/images/home-background.jpg');
   h1 {
     font-size: 6em;
     @media (max-width: $screen-sm-max) {
