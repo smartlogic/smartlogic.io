@@ -5,7 +5,7 @@
   background-color: $teal;
   @include display(flex);
 
-  .nav-item,
+  >nav >a,
   footer {
     @include flex(1 0);
     @include display(flex);
@@ -13,7 +13,7 @@
     padding: 0 20px;
   }
 
-  .nav-item {
+  >nav >a {
     background-color: $teal;
     box-shadow: inset 0 -4px 0 (darken($teal, 10%));
     color: $white;
@@ -31,12 +31,11 @@
       }
     }
   }
-}
 
-.main-navigation,
-.secondary-navigation {
-  @include display(flex);
-  @include flex-direction(column);
+  nav {
+    @include display(flex);
+    @include flex-direction(column);
+  }
 }
 
 .main-navigation {
@@ -53,13 +52,11 @@
   @include flex(3 0);
   @include order(1);
 
-  .active {
+  >a.active {
     color: $black;
 
-    span {
-      &:after {
-        border-bottom-color: $black;
-      }
+    &:after {
+      border-bottom-color: $black;
     }
   }
 }
@@ -69,7 +66,7 @@
   min-width: 0;
   background: $black;
 
-  .nav-item,
+  >a,
   footer {
     opacity: .5;
     overflow: hidden;
@@ -110,7 +107,7 @@
     @include order(3);
   }
 
-  .nav-item,
+  >nav >a,
   footer {
     opacity: .5;
     overflow: hidden;
