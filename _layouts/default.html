@@ -14,24 +14,22 @@
     <script src="/javascript/main.js"></script>
   </head>
   <body>
-    <div id="site-container">
-      <div id="main"{% if page.id == 'home' %} class="is-home-page"{% endif %}>
+    <div id="main"{% if page.id == 'home' %} class="is-home-page"{% endif %}>
 
-        <div id="{{ page.id }}" class="{{ page.class }}">
-          {{ content }}
+      <div id="{{ page.id }}" class="{{ page.class }}">
+        {{ content }}
+      </div>
+
+    </div>
+    <div id="sidebar">
+      {% if page.nav-title %}
+        <div id="nav-description">
+          <h2>{{ page.nav-title }}</h2>
+          <p>{{ page.nav-description }}</p>
+          <a href="/get-in-touch.html" class="call-to-action">Get in Touch</a>
         </div>
-
-      </div>
-      <div id="sidebar">
-        {% if page.nav-title %}
-          <div id="nav-description">
-            <h2>{{ page.nav-title }}</h2>
-            <p>{{ page.nav-description }}</p>
-            <a href="/get-in-touch.html" class="call-to-action">Get in Touch</a>
-          </div>
-        {% endif %}
-        {% include navigation.html %}
-      </div>
+      {% endif %}
+      {% include navigation.html %}
     </div>
   </body>
 </html>
