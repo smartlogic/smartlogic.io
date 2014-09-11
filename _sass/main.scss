@@ -1,5 +1,5 @@
 @import '../_sass/bourbon/bourbon';
-@import 'normalize';
+// @import 'normalize';
 @import 'fonts';
 @import 'variables';
 @import 'base';
@@ -9,22 +9,6 @@
 body {
   height: 100%;
   width: 100%;
-  @include display(flex);
-  @include flex-direction(row);
-
-  article {
-    @include flex(3 0);
-    @include order(1);
-    padding: 0 100px;
-    @media (max-width: $screen-sm-max) {
-      padding: 0 20px;
-    }
-  }
-}
-
-#sidebar {
-  @include flex(1 0);
-  @include order(2);
 }
 
 @media (min-width: $screen-sm-min) {
@@ -36,21 +20,17 @@ body {
     height: 100%;
     width: 250px;
     right: 0;
+    top: 0;
   }
 }
 
+article {
+  display: block;
+}
+
 @media (max-width: $screen-sm-max) {
-  body {
-    @include flex-direction(column);
-
-    article,
-    #sidebar {
-      @include order(0);
-    }
-
-    #sidebar {
-      display: none;
-    }
+  #sidebar {
+    display: none;
   }
 }
 
