@@ -14,18 +14,26 @@
     <script src="/javascript/main.js"></script>
   </head>
   <body>
-    <article id="{{ page.id }}" class="{{ page.class }}{% if page.id == 'home' %} is-home-page{% endif %}">
-      {{ content }}
-    </article>
-    <section id="sidebar">
-      {% if page.nav-title %}
-        <div id="nav-description">
-          <h2>{{ page.nav-title }}</h2>
-          <p>{{ page.nav-description }}</p>
-          <a href="/get-in-touch.html" class="call-to-action">Get in Touch</a>
-        </div>
-      {% endif %}
-      {% include navigation.html %}
-    </section>
+
+    {% assign active = ' class="active"' %}
+    <nav id="primary-navigation">
+      <a href="/about.html"{% if page.root-navigation == 'about' %}{{ active }}{% endif %}><span>About</span></a>
+      <a href="/experience.html"{% if page.root-navigation == 'experience' %}{{ active }}{% endif %}><span>Experience</span></a>
+      <a href="/smart-thinking.html"{% if page.root-navigation == 'smart-thinking' %}{{ active }}{% endif %}><span>Smart Thinking</span></a>
+      <a href="/get-in-touch.html"{% if page.root-navigation == 'get-in-touch' %}{{ active }}{% endif %}><span>Get In Touch</span></a>
+      <a href="/what-makes-us-different.html"{% if page.root-navigation == 'what-makes-us-different' %}{{ active }}{% endif %}><span>What makes us different</span></a>
+    </nav>
+
+    {{ content }}
+
+    <footer>
+      <p>
+        3500 Boston St Ste 323,<br>
+        Baltimore, MD 21224<br>
+        443-451-3001
+      </p>
+      {% include social-media.html %}
+    </footer>
+
   </body>
 </html>
