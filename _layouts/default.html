@@ -15,18 +15,24 @@
   </head>
   <body>
 
+    {% assign active = ' class="active"' %}
+    <nav id="primary-navigation">
+      <a href="/about.html"{% if page.root-navigation == 'about' %}{{ active }}{% endif %}><span>About</span></a>
+      <a href="/experience.html"{% if page.root-navigation == 'experience' %}{{ active }}{% endif %}><span>Experience</span></a>
+      <a href="/smart-thinking.html"{% if page.root-navigation == 'smart-thinking' %}{{ active }}{% endif %}><span>Smart Thinking</span></a>
+      <a href="/get-in-touch.html"{% if page.root-navigation == 'get-in-touch' %}{{ active }}{% endif %}><span>Get In Touch</span></a>
+      <a href="/what-makes-us-different.html"{% if page.root-navigation == 'what-makes-us-different' %}{{ active }}{% endif %}><span>What makes us different</span></a>
+    </nav>
+
     {{ content }}
 
-    <section id="sidebar">
-      {% if page.nav-title %}
-        <div id="nav-description">
-          <h2>{{ page.nav-title }}</h2>
-          <p>{{ page.nav-description }}</p>
-          <a href="/get-in-touch.html" class="call-to-action">Get in Touch</a>
-        </div>
-      {% endif %}
-      {% include navigation.html %}
-    </section>
+    <footer>
+      <ul class="inline">
+        <li><a href="/location.html" class="decorated"><strong>Baltimore</strong></a> ·</li>
+        <li><a href="tel:+14434513001">443-451-3001</a></li>
+      </ul>
+      {% include social-media.html %}
+    </footer>
 
   </body>
 </html>
