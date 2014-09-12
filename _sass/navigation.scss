@@ -4,6 +4,7 @@
 #sidebar {
   background-color: $teal;
   @include display(flex);
+  min-width: 390px;
 
   >nav >a,
   footer {
@@ -17,7 +18,6 @@
     background-color: $teal;
     box-shadow: inset 0 -4px 0 (darken($teal, 10%));
     color: $white;
-    font-size: 20px;
 
     span {
       &:after {
@@ -38,19 +38,43 @@
   }
 }
 
-#main-navigation {
-  min-width: 100%;
+#primary-navigation {
+  min-width: 140px !important;
   @include flex(1 0);
   @include order(2);
 
   .active {
     background-color: $black;
   }
+
+  >a {
+    font-size: 1.1em;
+  }
+
+  >a:hover:nth-child(1) {
+    background: url('/images/sidebar/bg1.jpg');
+  }
+  >a:hover:nth-child(2) {
+    background: url('/images/sidebar/bg2.jpg');
+  }
+  >a:hover:nth-child(3) {
+    background: url('/images/sidebar/bg3.jpg');
+  }
+  >a:hover:nth-child(4) {
+    background: url('/images/sidebar/bg4.jpg');
+  }
+  >a:hover:nth-child(5) {
+    background: url('/images/sidebar/bg5.jpg');
+  }
 }
 
 #secondary-navigation {
   @include flex(3 0);
   @include order(1);
+  
+  >a {
+    font-size: 1.2em;
+  }
 
   >a.active {
     color: $black;
@@ -61,7 +85,7 @@
   }
 }
 
-.showing-secondary-navigation #main-navigation {
+.showing-secondary-navigation #primary-navigation {
   position: relative;
   min-width: 0;
   background: $black;
@@ -103,7 +127,7 @@
     background: $black;
   }
 
-  #main-navigation {
+  #primary-navigation {
     @include order(3);
   }
 

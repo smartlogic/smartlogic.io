@@ -6,16 +6,20 @@
 @import 'navigation';
 @import 'responsive';
 
-#site-container {
+body {
   height: 100%;
   width: 100%;
   @include display(flex);
   @include flex-direction(row);
-}
 
-#main {
-  @include flex(3 0);
-  @include order(1);
+  article {
+    @include flex(3 0);
+    @include order(1);
+    padding: 0 100px;
+    @media (max-width: $screen-sm-max) {
+      padding: 0 20px;
+    }
+  }
 }
 
 #sidebar {
@@ -23,24 +27,18 @@
   @include order(2);
 }
 
-header {
-  min-height: $header-height;
-  text-align: center;
-  z-index: 100;
-}
-
 @media (max-width: $screen-sm-max) {
-  #site-container {
+  body {
     @include flex-direction(column);
-  }
 
-  #main,
-  #sidebar {
-    @include order(0);
-  }
+    article,
+    #sidebar {
+      @include order(0);
+    }
 
-  #sidebar {
-    display: none;
+    #sidebar {
+      display: none;
+    }
   }
 }
 
@@ -74,10 +72,11 @@ ul.inline li {
 .call-to-action {
   border: 0;
   color: $red;
-  display: inline-block;
+  display: block;
   font-size: 22px;
   font-weight: bold;
   margin: 20px auto;
+  text-align: center;
 
   &:after {
     padding-left: 10px;
@@ -85,7 +84,12 @@ ul.inline li {
   }
 }
 
-.landing-page {
+.dark-background {
+  background-image: url('/images/dark-background.jpg');
+  left: 0;
+  width: 75%;
+  height: 100%;
+  color: $white;
   text-align: center;
   padding: 0 100px;
 
@@ -98,28 +102,6 @@ ul.inline li {
   }
 }
 
-.content-page {
-  padding: 0 100px;
-
-  @media (max-width: $screen-sm-max) {
-    padding: 0 20px;
-  }
-
-  h1, h2 {
-    text-align: center;
-  }
-}
-
-.dark-background {
-  background-image: url('/images/dark-background.jpg');
-  position: fixed;
-  top: $header-height;
-  left: 0;
-  width: 75%;
-  height: 100%;
-  color: $white;
-}
-
 .lead {
   font-size: 16px;
   line-height: 1.6;
@@ -129,6 +111,17 @@ ul.inline li {
 
 #home {
   background-image: url('/images/home-background.jpg');
+  h1 {
+    letter-spacing: -1px;
+    font-size: 6em;
+    @media (max-width: $screen-sm-max) {
+      font-size: 5em;
+    }
+    @media (max-width: $screen-xs-max) {
+      font-size: 3.5em;
+      margin-bottom: .2em;
+    }
+  }
 }
 
 #get-in-touch {
@@ -202,15 +195,15 @@ ul.inline li {
   img {
     height: 100%;
     width: auto;
-    margin: 50px 0;
+    margin: 35px 0;
   }
 
-  .address > * {
+  .contact-info > * {
     display: inline-block;
   }
 
-  .address,
   .contact-info {
+    text-align: center;
     margin: 5px 0;
   }
 }
@@ -238,6 +231,7 @@ ul.inline li {
 .grid-container {
   @include display(flex);
   @include flex-flow(row wrap);
+  padding: 0px;
 }
 
 .grid-cell {

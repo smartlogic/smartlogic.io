@@ -14,39 +14,18 @@
     <script src="/javascript/main.js"></script>
   </head>
   <body>
-    <div id="site-container">
-      <div id="main">
-        <header>
-          <div class="visible-xs-block visible-sm-block">
-            <a href="/">SmartLogic Logo</a>
-            <!-- <img src="/images/icon-logo.png" alt="SmartLogic" /> -->
-          </div>
-          <div class="hidden-sm hidden-xs">
-            <a href="/">SmartLogic Logo</a>
-            <!-- <img src="/images/icon-name-logo.png" alt="SmartLogic" /> -->
-          </div>
-          <div class="visible-sm-inline-block visible-xs-inline-block mobile-menu">
-            <a href="#">
-              <i class="fa fa-bars"></i>
-            </a>
-          </div>
-        </header>
-
-        <div id="{{ page.id }}" class="{{ page.class }}">
-          {{ content }}
+    <article id="{{ page.id }}" class="{{ page.class }}{% if page.id == 'home' %} is-home-page{% endif %}">
+      {{ content }}
+    </article>
+    <section id="sidebar">
+      {% if page.nav-title %}
+        <div id="nav-description">
+          <h2>{{ page.nav-title }}</h2>
+          <p>{{ page.nav-description }}</p>
+          <a href="/get-in-touch.html" class="call-to-action">Get in Touch</a>
         </div>
-
-      </div>
-      <div id="sidebar">
-        {% if page.nav-title %}
-          <div id="nav-description">
-            <h2>{{ page.nav-title }}</h2>
-            <p>{{ page.nav-description }}</p>
-            <a href="/get-in-touch.html" class="call-to-action">Get in Touch</a>
-          </div>
-        {% endif %}
-        {% include navigation.html %}
-      </div>
-    </div>
+      {% endif %}
+      {% include navigation.html %}
+    </section>
   </body>
 </html>
