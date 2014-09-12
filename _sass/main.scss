@@ -174,58 +174,89 @@ body.is-home-page {
   }
 }
 
-// class below is a temporary hack Yair is using cause he jacked some
-// images from some other sites that were just white images
-img.invert-colors {
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
+article:first-of-type h1 {
+  margin-top: 0;
 }
 
-ul.small-grid {
+ul.small-grid,
+ol.linear {
   list-style: none;
-
-  h2 {
-    margin-top: 0;
-    text-align: left;
-    font-size: 18px;
-    margin-bottom: 6px;
-  }
-  p {
-    font-size: 15px;
-  }
-
   li {
     display: inline-block;
-    width: 50%;
-    padding: 20px 20px 20px 75px;
     vertical-align: top;
     background-repeat: no-repeat;
     background-position: top left;
     background-size: 60px 60px;
     background-position: 10px 20px;
+
+    h2 {
+      margin-top: 0;
+      text-align: left;
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 15px;
+    }
   }
+}
+
+ul.small-grid {
+  li {
+    width: 50%;
+    padding: 20px 20px 20px 75px;
+
+    h2 {
+      margin-bottom: 6px;
+    }
+  }
+
   @media (max-width: $screen-xs-max) {
     li {
       width: 100%;
     }
   }
+}
 
-  li.communication {
-    background-image: url('/images/icons/communication.svg');
+ol.linear {
+  li {
+    width: 33%;
+    padding: 20px 20px 20px 75px;
   }
-  li.planning {
-    background-image: url('/images/icons/planning.png');
-  }
-  li.team {
-    background-image: url('/images/icons/team.svg');
-  }
-  li.the-best-code {
-    background-image: url('/images/icons/the-best-code.svg');
-  }
-  li.transparency {
-    background-image: url('/images/icons/transparency.svg');
+
+  @media (max-width: $screen-md-max) {
+    li {
+      width: 100%;
+    }
   }
 }
+
+/* background images for ul's and ol's */
+li.communication {
+  background-image: url('/images/icons/communication.svg');
+}
+li.planning {
+  background-image: url('/images/icons/planning.png');
+}
+li.team {
+  background-image: url('/images/icons/team.svg');
+}
+li.the-best-code {
+  background-image: url('/images/icons/the-best-code.svg');
+}
+li.transparency {
+  background-image: url('/images/icons/communication.svg');
+}
+li.application-discovery {
+  background-image: url('/images/icons/communication.svg');
+}
+li.application-development {
+  background-image: url('/images/icons/communication.svg');
+}
+li.application-maintenance {
+  background-image: url('/images/icons/communication.svg');
+}
+/* end background images */
 
 .grid-container {
   @include display(flex);
