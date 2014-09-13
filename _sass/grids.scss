@@ -1,0 +1,184 @@
+/**
+ * This file includes all style for the grid layouts, of which there are currently three:
+ * 1) info-grid: a grid containing text / copy
+ * 2) linear: a grid showing a progression from point A to B
+ * 3) photo-grid: a grid of photos
+ */
+@import '../_sass/bourbon/bourbon';
+@import 'fonts';
+@import 'variables';
+
+ul.info-grid,
+ol.linear,
+ol.photo-grid {
+  list-style: none;
+
+  li {
+    display: inline-block;
+  }
+}
+
+ul.info-grid,
+ol.linear {
+  li {
+    vertical-align: top;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 60px 60px;
+    background-position: 10px 20px;
+
+    h2 {
+      margin-top: 0;
+      text-align: left;
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+}
+
+ul.info-grid {
+  li {
+    width: 50%;
+    padding: 20px 20px 20px 75px;
+
+    h2 {
+      margin-bottom: 6px;
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    li {
+      width: 100%;
+    }
+  }
+}
+
+ol.linear {
+  li {
+    width: 33%;
+    padding: 20px 20px 20px 75px;
+  }
+
+  @media (max-width: $screen-md-max) {
+    li {
+      width: 100%;
+    }
+  }
+}
+
+ol.photo-grid {
+  li {
+    width: 25%;
+    padding: 3px;
+    text-align: center;
+
+    @media (max-width: $screen-xs-max) {
+      width: 33%;
+    }
+
+    img {
+      @include transition(all 300ms);
+      height: auto;
+      width: 100%;
+    }
+
+    figure {
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    figcaption {
+      @include transition(all 300ms);
+      @include transition-delay(100ms);
+      background: rgba(0, 0, 0, .8);
+      color: $white;
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
+
+      strong,
+      p {
+        position: relative;
+        top: -40px;
+      }
+
+      strong,
+      p,
+      i {
+        display: block;
+        vertical-align: middle;
+        @include transition(all 300ms ease-out);
+      }
+
+      i {
+        font-size: 30px;
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        left: 0;
+        text-align: center;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      figcaption {
+        opacity: 1;
+      }
+
+      img {
+        @include transform(scale(1.4));
+      }
+
+      figcaption strong,
+      figcaption p {
+        @include transform(translateY(150px));
+      }
+    }
+  }
+}
+
+/* background images for ul's and ol's */
+li.communication {
+  background-image: url('/images/icons/communication.svg');
+}
+li.planning {
+  background-image: url('/images/icons/planning.png');
+}
+li.team {
+  background-image: url('/images/icons/team.svg');
+}
+li.the-best-code {
+  background-image: url('/images/icons/the-best-code.svg');
+}
+li.transparency {
+  background-image: url('/images/icons/communication.svg');
+}
+li.application-discovery {
+  background-image: url('/images/icons/communication.svg');
+}
+li.application-development {
+  background-image: url('/images/icons/communication.svg');
+}
+li.application-maintenance {
+  background-image: url('/images/icons/communication.svg');
+}
+li.startups {
+  background-image: url('/images/icons/startup.png');
+}
+li.growing-organizations {
+  background-image: url('/images/icons/growing-organizations.png');
+}
+li.enterprise {
+  background-image: url('/images/icons/enterprise.png');
+}
+/* end background images */
