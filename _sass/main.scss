@@ -4,6 +4,7 @@
 @import 'base';
 @import 'navigation';
 @import 'responsive';
+@import 'grids';
 
 @media (min-width: $screen-sm-min) {
   body {
@@ -78,7 +79,9 @@ ul.social-media {
 
 #home {
   h1 {
+    display: block;
     letter-spacing: -1px;
+    border-bottom: 0;
     font-size: 6em;
     @media (max-width: $screen-sm-max) {
       font-size: 5em;
@@ -97,152 +100,65 @@ body.is-home-page {
 #get-in-touch {
   form {
     margin-top: 20px;
+    display: block;
 
     * {
-      font-size: 20px;
+      font-size: 14px;
     }
 
-    fieldset {
-      width: 70%;
-      font-size: 0;
-      margin: 0 auto;
-      border: 0;
-    }
-
-    span {
-      display: inline-block;
-      width: 50%;
-      margin: 0 0 $gutter;
-      padding: 0;
-
-      &:nth-of-type(2n) {
-        padding-right: $gutter/2;
-      }
-
-      &:nth-of-type(2n+1) {
-        padding-left: $gutter/2;
-      }
-
-      &:first-child {
-        padding-left: 0;
-        width: 100%;
-      }
-
-      input,
-      select {
-        width: 100%;
-      }
+    input,
+    select {
+      width: 350px;
+      float: left;
     }
 
     input,
     select,
     textarea {
+      display: inline-block;
       background-color: $white;
-      border: 0;
+      border: solid 1px $black;
       border-radius: 0;
       padding: $gutter;
+      margin: 4px;
     }
 
     textarea,
     input[type="submit"] {
-      width: 100%;
-      margin: 0 0 $gutter;
+      clear: both;
+      width: 708px;
+    }
+
+    @media (max-width: $screen-md-min) {
+      textarea,
+      input[type="submit"] {
+        width: 350px;
+      }
     }
 
     input[type="submit"] {
       background-color: $teal;
       color: $white;
+      border: 0;
     }
   }
 }
 
 #location {
-  img {
-    height: 100%;
-    width: auto;
-    margin: 35px 0;
-  }
-
   .contact-info > * {
     display: inline-block;
   }
 
   .contact-info {
     text-align: center;
-    margin: 5px 0;
+    margin: 15px 0;
   }
 }
 
-.grid-container {
-  @include display(flex);
-  @include flex-flow(row wrap);
-  padding: 0px;
+article {
+  clear: both;
 }
 
-.grid-cell {
-  @include flex(1 auto);
-  @include flex-basis(32%); // 33% minus margin
-  margin: 3px;
-  position: relative;
-  text-align: center;
-
-  @media (max-width: $screen-xs-max) {
-    @include flex-basis(45%); // 50% minus margin
-  }
-
-  img {
-    @include transition(all 300ms);
-    height: auto;
-    width: 100%;
-  }
-
-  figure {
-    margin: 0;
-    overflow: hidden;
-    position: relative;
-  }
-
-  figcaption {
-    @include transition(all 300ms);
-    @include transition-delay(100ms);
-    background: rgba(0, 0, 0, .8);
-    color: $white;
-    opacity: 0;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 100;
-
-    h3, p {
-      position: relative;
-      top: -40px;
-      vertical-align: middle;
-      @include transition(all 300ms ease-out);
-    }
-
-    i {
-      font-size: 30px;
-      position: absolute;
-      bottom: 20px;
-    }
-  }
-
-  &:hover {
-    cursor: pointer;
-
-    figcaption {
-      opacity: 1;
-    }
-
-    img {
-      @include transform(scale(1.4));
-    }
-
-    figcaption h3,
-    figcaption p {
-      @include transform(translateY(150px));
-    }
-  }
+article:first-of-type h1 {
+  margin-top: 0;
 }
