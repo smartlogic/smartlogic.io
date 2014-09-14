@@ -100,61 +100,46 @@ body.is-home-page {
 #get-in-touch {
   form {
     margin-top: 20px;
+    display: block;
 
     * {
-      font-size: 20px;
+      font-size: 14px;
     }
 
-    fieldset {
-      width: 70%;
-      font-size: 0;
-      margin: 0 auto;
-      border: 0;
-    }
-
-    span {
-      display: inline-block;
-      width: 50%;
-      margin: 0 0 $gutter;
-      padding: 0;
-
-      &:nth-of-type(2n) {
-        padding-right: $gutter/2;
-      }
-
-      &:nth-of-type(2n+1) {
-        padding-left: $gutter/2;
-      }
-
-      &:first-child {
-        padding-left: 0;
-        width: 100%;
-      }
-
-      input,
-      select {
-        width: 100%;
-      }
+    input,
+    select {
+      width: 350px;
+      float: left;
     }
 
     input,
     select,
     textarea {
+      display: inline-block;
       background-color: $white;
-      border: 0;
+      border: solid 1px $black;
       border-radius: 0;
       padding: $gutter;
+      margin: 4px;
     }
 
     textarea,
     input[type="submit"] {
-      width: 100%;
-      margin: 0 0 $gutter;
+      clear: both;
+      width: 708px;
+    }
+
+    @media (max-width: $screen-md-min) {
+      textarea,
+      input[type="submit"] {
+        width: 350px;
+      }
     }
 
     input[type="submit"] {
       background-color: $teal;
       color: $white;
+      border: 0;
     }
   }
 }
@@ -176,7 +161,10 @@ body.is-home-page {
   }
 }
 
+article {
+  clear: both;
+}
+
 article:first-of-type h1 {
   margin-top: 0;
 }
-
