@@ -57,7 +57,8 @@ root-navigation: get-in-touch
 </article>
 
 <article id="location">
-  <h1>Baltimore</h1>
+  <h1>Our Office</h1>
+  <p>We're located at the <a href="http://www.broomfactory.com/">Broom Factory in Canton</a>. To visit, dial 323 on the call pad located at the front or side entrance. We're located on the third floor, to the right as you exit the staircase.</p>
   <div class="contact-info">
     <address>3500 Boston St, Ste 323, Baltimore, MD 21224</address>
     <a href="https://goo.gl/maps/nM1Gc" target="_blank">[Map]</a>
@@ -66,8 +67,16 @@ root-navigation: get-in-touch
     <a href="tel:+14434513001">(443) 451-3001</a> ·
     <a href="mailto:contact@smartlogic.io">contact@smartlogic.io</a>
   </div>
-  <a href="https://goo.gl/maps/nM1Gc" target="_blank">
-    <img src="/images/map.png" height="50" width="50" alt="Map of SmartLogic office" />
-  </a>
-  <p>We're located at the <a href="http://www.broomfactory.com/">Broom Factory in Canton</a>. To visit, dial 323 on the call pad located at the front or side entrance. We're located on the third floor, to the right as you exit the staircase.</p>
+  <ol class="photo-grid">
+    {% for item in site.data.our-office %}
+      <li>
+        <figure>
+          <img src="/images/our-office/{{ item.photo }}" alt="{{ item.heading }}">
+          <figcaption>
+            <strong>{{ item.heading }}</strong>
+            <p>{{ item.description }}</p>
+          </figcaption>
+        </figure>
+    {% endfor %}
+  </ol>
 </article>
