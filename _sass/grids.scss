@@ -81,10 +81,11 @@ ol.linear {
 }
 
 ol.photo-grid {
+  font-size: 0;
   li {
     width: 25%;
-    padding: 3px;
     text-align: center;
+    padding: 4px;
 
     @media (max-width: $screen-xs-max) {
       width: 33%;
@@ -97,28 +98,31 @@ ol.photo-grid {
     }
 
     figure {
-      margin: 0;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
+      margin: 0;
     }
 
     figcaption {
       @include transition(all 300ms);
       @include transition-delay(100ms);
-      background: rgba(0, 0, 0, .8);
-      color: $white;
-      opacity: 0;
       position: absolute;
       left: 0;
       right: 0;
       top: 0;
       bottom: 0;
       z-index: 100;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .8);
+      color: $white;
+      opacity: 0;
 
       strong,
       p {
         position: relative;
         top: -40px;
+        font-size: 16px;
       }
 
       strong,
