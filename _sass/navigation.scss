@@ -3,8 +3,9 @@
 
 footer,
 #primary-navigation a {
+  @include display(flex);
+  @include align-items(center);
   padding: 0 20px;
-  display: block;
   height: 16.6666667%;
 }
 
@@ -18,41 +19,53 @@ footer,
   top: 0;
 
   a {
+    position: relative;
     font-size: 1.1em;
     background-color: $teal;
-    box-shadow: inset 0 -4px 0 (darken($teal, 10%));
+    box-shadow: inset 0 -2px 0 (darken($teal, 10%));
     color: $white;
-
+    &:hover {
+      transition: background-color .4s;
+      background-color: rgba($teal, .5);
+    }
+    &.active {
+      background-color: darken(rgba($teal, .4), 15%);
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+    }
+    &:nth-child(1):after {
+      background-image: url('/images/sidebar/bg1.jpg');
+    }
+    &:nth-child(2):after {
+      background-image: url('/images/sidebar/bg2.jpg');
+    }
+    &:nth-child(3):after {
+      background-image: url('/images/sidebar/bg3.jpg');
+    }
+    &:nth-child(4):after {
+      background-image: url('/images/sidebar/bg4.jpg');
+    }
+    &:nth-child(5):after {
+      background-image: url('/images/sidebar/bg5.jpg');
+    }
     span {
+      z-index: 1;
       &:after {
         content: "";
         position: relative;
         display: block;
         width: 40px;
         height: 0;
-        border-bottom: solid 2px $white;
+        border-bottom: solid 1px $white;
         margin: 20px 0 0;
       }
     }
-  }
-
-  a.active {
-    background-color: $black;
-  }
-
-  a:hover:nth-child(1) {
-    background: url('/images/sidebar/bg1.jpg');
-  }
-  a:hover:nth-child(2) {
-    background: url('/images/sidebar/bg2.jpg');
-  }
-  a:hover:nth-child(3) {
-    background: url('/images/sidebar/bg3.jpg');
-  }
-  a:hover:nth-child(4) {
-    background: url('/images/sidebar/bg4.jpg');
-  }
-  a:hover:nth-child(5) {
-    background: url('/images/sidebar/bg5.jpg');
   }
 }
