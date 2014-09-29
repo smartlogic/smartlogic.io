@@ -1,0 +1,75 @@
+@import '../_sass/bourbon/bourbon';
+@import 'variables';
+
+body.is-contact-page {
+  background: $black;
+  #get-in-touch {
+    form {
+      width: 100%;
+      font-size: 0;
+      padding: 0;
+      > div {
+        display: inline-block;
+        width: 50%;
+        margin: 0 0 $gutter 0;
+        &:nth-child(odd) {
+          padding: 0 $gutter/2 0 0;
+        }
+        &:nth-child(even) {
+          padding: 0 0 0 $gutter/2;
+        }
+        &.budget-range {
+          position: relative;
+          &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: $gutter*8;
+            height: 100%;
+            background-color: lighten($black, 80%);
+            pointer-events: none;
+          }
+          &:before {
+            @include triangle($gutter*2 $gutter, lighten($black, 40%), down);
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: $gutter*4;
+            z-index: 100;
+            margin: (-$gutter/2) (-$gutter) 0 0;
+          }
+        }
+      }
+      input,
+      select,
+      textarea {
+        @include appearance(none);
+        display: inline-block;
+        width: 100%;
+        background-color: $white;
+        font-size: 18px;
+        line-height: $gutter*2;
+        border: none;
+        border-radius: 0;
+        margin: 0;
+        padding: $gutter*3 $gutter*1.5;
+      }
+      textarea,
+      input[type="submit"] {
+        clear: both;
+      }
+    }
+    @media (max-width: $screen-md-min) {
+      textarea,
+      input[type="submit"] {
+        width: 350px;
+      }
+      input[type="submit"] {
+        background-color: $teal;
+        color: $white;
+        border: 0;
+      }
+    }
+  }
+}
