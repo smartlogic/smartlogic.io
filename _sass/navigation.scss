@@ -13,7 +13,7 @@ footer,
   display: none;
 }
 
-#primary-navigation {
+.navigation-menu {
   height: 100%;
   background-color: $teal;
   position: fixed;
@@ -21,62 +21,88 @@ footer,
   width: 250px;
   right: 0;
   top: 0;
-  a {
-    position: relative;
-    font-size: 1.1em;
-    background-color: $teal;
-    box-shadow: inset 0 -2px 0 (darken($teal, 10%));
-    color: $white;
-    &:hover {
-      transition: background-color .4s;
-      background-color: rgba($teal, .5);
-    }
-    &.active {
-      background-color: darken(rgba($teal, .4), 15%);
-    }
-    &:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-    }
-    &:nth-child(1):after {
-      background-image: url('/images/sidebar/bg1.jpg');
-    }
-    &:nth-child(2):after {
-      background-image: url('/images/sidebar/bg2.jpg');
-    }
-    &:nth-child(3):after {
-      background-image: url('/images/sidebar/bg3.jpg');
-    }
-    &:nth-child(4):after {
-      background-image: url('/images/sidebar/bg4.jpg');
-    }
-    &:nth-child(5):after {
-      background-image: url('/images/sidebar/bg5.jpg');
-    }
-    span {
-      z-index: 1;
+  #primary-navigation {
+    a {
+      position: relative;
+      font-size: 1.1em;
+      background-color: $teal;
+      box-shadow: inset 0 -2px 0 (darken($teal, 10%));
+      color: $white;
+      &:hover {
+        transition: background-color .4s;
+        background-color: rgba($teal, .5);
+      }
+      &.active {
+        background-color: darken(rgba($teal, .4), 15%);
+      }
       &:after {
         content: "";
-        position: relative;
-        display: block;
-        width: 40px;
-        height: 0;
-        border-bottom: solid 1px $white;
-        margin: 20px 0 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+      }
+      &:nth-child(1):after {
+        background-image: url('/images/sidebar/bg1.jpg');
+      }
+      &:nth-child(2):after {
+        background-image: url('/images/sidebar/bg2.jpg');
+      }
+      &:nth-child(3):after {
+        background-image: url('/images/sidebar/bg3.jpg');
+      }
+      &:nth-child(4):after {
+        background-image: url('/images/sidebar/bg4.jpg');
+      }
+      &:nth-child(5):after {
+        background-image: url('/images/sidebar/bg5.jpg');
+      }
+      span {
+        z-index: 1;
+        &:after {
+          content: "";
+          position: relative;
+          display: block;
+          width: 40px;
+          height: 0;
+          border-bottom: solid 1px $white;
+          margin: 20px 0 0;
+        }
       }
     }
   }
+  footer { 
+    background-color: $yellow; 
+    position: fixed; 
+    bottom: 0; 
+    right: 0; 
+    width: 250px; 
+    span { 
+      display: block; 
+      width: 100%; 
+      text-align: center; 
+      address { 
+        display: block; 
+        width: 100%; 
+        margin: 0 0 .5em 0; 
+        p { 
+          font-size: 13px; 
+        } 
+      } 
+      a { 
+        border: 0; 
+        color: $black; 
+      } 
+    } 
+  } 
 }
- 
+   
 @media (max-width: $screen-xs-max) {
   .mobile-navigation-toggle {
     position: fixed;
-    top: 50px;
+    top: 2em;
     right: 250px;
     z-index: 1;
     display: block;
@@ -84,16 +110,33 @@ footer,
     height: 50px;
     background-color: $yellow;
     border-radius: 25px;
+    cursor: pointer;
     @include transition-property (transform);
     @include transition-duration(1.0s);
     @include transform(translateX(260px));
     @include transform-origin(0 0);
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      background-image: url("../images/mobile-navigation-sprite.png");
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      background-size: 40px 20px;
+      margin: -10px 0 0 -10px;
+    }
     &.active {
       @include transition-property (transform);
       @include transition-duration(1.0s);
       @include transform(translateX(25px));
       @include transform-origin(0 0);
-      & ~ #primary-navigation {
+      &:after {
+        background-position: -20px 0;
+      }
+      & ~ .navigation-menu {
         @include transition-property (transform);
         @include transition-duration(1.0s);
         @include transform(translateX(-250px));
@@ -101,11 +144,76 @@ footer,
       }
     }
   }
-  #primary-navigation {
+  .navigation-menu {
     right: -250px;
     @include transition-property (transform);
     @include transition-duration(1.0s);
     @include transform(translateX(250px));
     @include transform-origin(-250px 0);
+    #primary-navigation {
+      padding: 2em 0;
+      a {
+        display: block;
+        height: auto;
+        background-color: transparent;
+        font-size: 1.1em;
+        box-shadow: none;
+        color: $white;
+        padding: .5em 2.5em;
+        &:hover {
+          transition: none;
+          background-color: transparent;
+        }
+        &.active {
+          background-color: transparent;
+        }
+        &:after {
+          content: none;
+        }
+        span {
+          &:after {
+            display: none;
+          }
+        }
+      }
+    }
+    footer { 
+      position: static;
+      background-color: transparent; 
+      bottom: auto; 
+      right: auto; 
+      height: auto;
+      padding: 0 2.5em;
+      span { 
+        position: static;
+        text-align: left; 
+        address {
+          position: relative;
+          padding: 3em 0 0 0;
+          &:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 0;
+            border-top: solid 2px #fff;
+          }
+          p {
+            font-size: .85em;
+            margin: 0 0 .5em 0;
+          }
+        }
+        ul {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          background-color: $yellow;
+          text-align: center;
+          padding: 3em 2em;
+        }
+      } 
+    } 
   }
 }
