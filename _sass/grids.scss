@@ -82,26 +82,31 @@ ol.photo-grid {
     width: 25%;
     text-align: center;
     padding: 4px;
-
-    @media (max-width: $screen-xs-max) {
-      width: 33%;
+    @media (max-width: $screen-md-min) {
+      width: 33.33%;
     }
-
+    @media (max-width: $screen-xs-min) {
+      width: 50%;
+    }
     img {
       @include transition(all 300ms);
-      height: auto;
       width: 100%;
+      height: auto;
     }
 
     figure {
       position: relative;
+      width: 100%;
       overflow: hidden;
       margin: 0;
     }
 
     figcaption {
+      @include font-size;
       @include transition(all 300ms);
-      @include transition-delay(100ms);
+      @include display(flex);
+      @include flex-direction(column);
+      @include justify-content(center);
       position: absolute;
       left: 0;
       right: 0;
@@ -110,33 +115,28 @@ ol.photo-grid {
       z-index: 100;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, .8);
+      background: rgba(darken($teal, 35%), .7);
       color: $white;
+      padding: 1em;
       opacity: 0;
 
       strong,
       p {
-        position: relative;
-        top: -40px;
-        font-size: 16px;
-      }
-
-      strong,
-      p,
-      i {
-        display: block;
-        vertical-align: middle;
         @include transition(all 300ms ease-out);
+        @include transform(translateY(-150px));
+        position: relative;
+        display: block;
+        font-weight: normal;
+        opacity: 0;
       }
-
-      i {
-        font-size: 30px;
-        position: absolute;
-        bottom: 20px;
-        width: 100%;
-        left: 0;
-        text-align: center;
-      }
+    }
+    strong {
+      color: $yellow;
+      font-size: 1.5em;
+      margin: 0 0 2px 0;
+    }
+    p {
+      font-size: 1em;;
     }
 
     &:hover {
@@ -145,12 +145,14 @@ ol.photo-grid {
       }
 
       img {
-        @include transform(scale(1.4));
+        @include transform(scale(1.2));
+        @include filter(blur(5px));
       }
 
       figcaption strong,
       figcaption p {
-        @include transform(translateY(150px));
+        @include transform(translateY(0));
+        opacity: 1;
       }
     }
   }
