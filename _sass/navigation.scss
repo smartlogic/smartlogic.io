@@ -21,6 +21,7 @@ footer,
   width: 250px;
   right: 0;
   top: 0;
+  z-index: 100;
   #primary-navigation {
     a {
       position: relative;
@@ -40,7 +41,7 @@ footer,
         position: absolute;
         top: 0;
         left: 0;
-        z-index: -1;
+        z-index: -100;
         width: 100%;
         height: 100%;
       }
@@ -60,7 +61,7 @@ footer,
         background-image: url('/images/sidebar/bg5.jpg');
       }
       span {
-        z-index: 1;
+        z-index: 100;
         &:after {
           content: "";
           position: relative;
@@ -104,7 +105,7 @@ footer,
     position: fixed;
     top: 2em;
     right: 250px;
-    z-index: 2;
+    z-index: 300;
     display: block;
     width: 50px;
     height: 50px;
@@ -141,16 +142,28 @@ footer,
         @include transition-duration(1.0s);
         @include transform(translateX(-250px));
         @include transform-origin(100% 0);
+        & ~ .mobile-backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 150;
+          width: 100%;
+          height: 100%;
+          background-color: darken($teal, 20%);
+          opacity: .6;
+          cursor: pointer;
+        }
       }
     }
   }
   .navigation-menu {
     right: -250px;
-    z-index: 1;
+    z-index: 200;
     @include transition-property (transform);
     @include transition-duration(1.0s);
     @include transform(translateX(250px));
     @include transform-origin(-250px 0);
+    box-shadow: 0 -15px 20px rgba(darken($teal, 30%), .2);
     #primary-navigation {
       padding: 2em 0;
       a {
@@ -219,5 +232,9 @@ footer,
         }
       } 
     } 
+  }
+  .mobile-backdrop {
+    @include transition(opacity 1.0s);
+    opacity: 0;
   }
 }
