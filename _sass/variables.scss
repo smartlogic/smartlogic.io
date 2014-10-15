@@ -8,7 +8,7 @@ $heading-font: 'LTCircular', sans-serif;
 
 @mixin font-size {
   font-size: 16px;
-  @media (max-width: $screen-sm-min) {
+  @media (max-width: $breakpoint-tablet) {
     font-size: 12px;
   }
 }
@@ -26,36 +26,16 @@ $teal: #3bbdb1;
 
 $gutter: 10px;
 
-
 // BREAKPOINTS
 
 // Extra small screen / phone
-$screen-xs-min: 480px;
+$breakpoint-phone: 480px;
 
 // Small screen / tablet
-$screen-sm-min: 768px;
+$breakpoint-tablet: 768px;
 
 // Medium screen / desktop
-$screen-md-min: 992px;
+$breakpoint-desktop: 992px;
 
 // Large screen / wide desktop
-$screen-lg-min: 1200px;
-
-// So media queries don't overlap when required, provide a maximum
-$screen-xs-max: ($screen-sm-min - 1);
-$screen-sm-max: ($screen-md-min - 1);
-$screen-md-max: ($screen-lg-min - 1);
-
-// Responsive utilities
-
-@mixin responsive-visibility($parent) {
-  #{$parent} {
-    display: block !important;
-  }
-}
-
-@mixin responsive-invisibility($parent) {
-  #{$parent} {
-    display: none !important;
-  }
-}
+$breakpoint-wide-desktop: 1200px;
