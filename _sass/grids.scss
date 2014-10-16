@@ -36,14 +36,7 @@ ul.info-grid {
   }
 }
 
-ol.linear {
-  li {
-    width: 33%;
-  }
-}
-
-ul.info-grid,
-ol.linear {
+ul.info-grid {
   > li {
     vertical-align: top;
     background-repeat: no-repeat;
@@ -72,6 +65,52 @@ ol.linear {
       background-position: 0 .5em;
       background-size: 5em 5em;
       padding: .5em 0 .5em 6.5em;
+    }
+  }
+}
+
+ol.linear {
+  > li {
+    vertical-align: top;
+    width: 33.33%;
+    text-align: justify;
+    line-height: 150%;
+    margin: 1.5em 0 0 0;
+    padding: 0 .5em;
+    span {
+      @include display(flex);
+      @include align-items(center);
+      width: 100%;
+      height: 5em;
+      background-repeat: no-repeat;
+      background-size: 5em 5em;
+      margin: 0 0 .5em 0;
+      padding: 0 0 0 6em;
+      h2 {
+        color: $teal;
+        font-size: 1.25em;
+        font-weight: normal;
+        text-align: left;
+        margin: 0;
+      }
+    }
+    p {
+      clear: both;
+      font-size: .8em;
+    }
+    &:first-child {
+      padding: 0 1em 0 0;
+    }
+    &:last-child {
+      padding: 0 0 0 1em;
+    }
+  }
+  @media (max-width: $breakpoint-desktop) {
+    > li,
+    > li:first-child,
+    > li:last-child {
+      width: 100%;
+      padding: 0;
     }
   }
 }
@@ -179,22 +218,34 @@ li.transparency {
   background-image: url('/images/icons/transparency.svg');
 }
 li.application-discovery {
-  background-image: url('/images/icons/application-discovery.svg');
+  span {
+    background-image: url('/images/icons/application-discovery.svg');
+  }
 }
 li.application-development {
-  background-image: url('/images/icons/application-development.svg');
+  span {
+    background-image: url('/images/icons/application-development.svg');
+  }
 }
 li.application-maintenance {
-  background-image: url('/images/icons/application-maintenance.svg');
+  span {
+    background-image: url('/images/icons/application-maintenance.svg');
+  }
 }
 li.startups {
-  background-image: url('/images/icons/startups.svg');
+  span {
+    background-image: url('/images/icons/startups.svg');
+  }
 }
 li.growing-organizations {
-  background-image: url('/images/icons/growth-stage.svg');
+  span {
+    background-image: url('/images/icons/growth-stage.svg');
+  }
 }
 li.enterprise {
-  background-image: url('/images/icons/enterprise.svg');
+  span {
+    background-image: url('/images/icons/enterprise.svg');
+  }
 }
 li.iphone {
   background-image: url('/images/icons/ios.svg');
