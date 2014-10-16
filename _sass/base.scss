@@ -11,12 +11,23 @@
 
 html,
 body {
+  @include font-size;
   color: $black;
   padding: 0;
   height: 100%;
   width: 100%;
   .content {
-    padding: 2em 4em;
+    padding: 2em 0 0 0;
+    article {
+      padding: 0 4em;
+      &.grid {
+        padding: 0;
+        > span {
+          display: block;
+          padding: 0 4em;
+        }
+      }
+    }
     a.smartlogic-logo {
       h1 {
         width: 5.55em;
@@ -30,7 +41,10 @@ body {
       }
     }
     @media (max-width: $breakpoint-phone) {
-      padding: 1em;
+      padding: 1em 0 0 0;
+      article {
+        padding: 0 1em;
+      }
     }
   }
 }
