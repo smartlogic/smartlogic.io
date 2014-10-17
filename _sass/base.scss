@@ -11,24 +11,31 @@
 
 html,
 body {
+  @include font-size;
   color: $black;
   padding: 0;
   height: 100%;
   width: 100%;
   .content {
-    padding: 2em 4em;
-    > h1 {
-      width: 6em;
-      height: 1em;
-      background-image: url("/images/smartlogic-logo.svg");
-      background-size: 6em 4em;
-      background-position: 0 0;
-      font-size: 40px;
-      text-indent: -9999px;
-      margin: 0 0 .5em 0;
+    padding: 2em 0 0 0;
+    article {
+      padding: 0 4em;
+      &.grid {
+        padding: 0;
+        > span {
+          display: block;
+          padding: 0 4em;
+        }
+      }
     }
-    @media (max-width: $screen-xs-min) {
-      padding: 1em;
+    a.smartlogic-logo {
+      @include smartlogic-logo-teal; 
+    }
+  }
+  @media (max-width: $breakpoint-phone) {
+    padding: 1em 0 0 0;
+    article {
+      padding: 0 1em;
     }
   }
 }
@@ -79,8 +86,7 @@ a {
 }
 
 p {
-  font-size: 16px;
-  letter-spacing: .25px;
+  font-size: 1em;
 }
 
 address {
