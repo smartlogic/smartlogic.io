@@ -157,6 +157,7 @@ ol.photo-grid {
       height: 100%;
       background: rgba(darken($teal, 35%), .7);
       color: $white;
+      text-align: center;
       padding: 1em;
       opacity: 0;
       cursor: pointer;
@@ -168,6 +169,21 @@ ol.photo-grid {
         position: relative;
         display: block;
         font-weight: normal;
+        opacity: 0;
+      }
+      span {
+        @include transition(all 300ms ease-out);
+        @include transform(translateY(150px));
+        display: block;
+        width: 2.5em;
+        height: 2.5em;
+        background-image: url('/images/white-plus.svg');
+        background-repeat: no-repeat;
+        background-size: 1em 1em;
+        background-position: center;
+        border: solid 3px #fff;
+        border-radius: 1.25em;
+        margin: 1em auto 0 auto;
         opacity: 0;
       }
     }
@@ -253,7 +269,8 @@ ol.photo-grid {
       }
 
       figcaption strong,
-      figcaption p {
+      figcaption p,
+      figcaption span {
         @include transform(translateY(0));
         opacity: 1;
       }
