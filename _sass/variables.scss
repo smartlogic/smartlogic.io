@@ -24,6 +24,20 @@ $teal: #3bbdb1;
 
 // DIMENSIONS
 
+@mixin vertical-padding {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+@mixin horizontal-padding {
+  padding-right: 4em;
+  padding-left: 4em;
+  @media (max-width: $breakpoint-phone) {
+    padding-right: 1em;
+    padding-left: 1em;
+  }
+}
+
 $gutter: 10px;
 
 // BREAKPOINTS
@@ -43,6 +57,8 @@ $breakpoint-wide-desktop: 1200px;
 // SmartLogic Logo
 
 @mixin smartlogic-logo($logo-position, $seal-position, $wordmark-position) {
+  display: block;
+  @include horizontal-padding;
   h1 {
     width: 5.55em;
     height: 1em;
@@ -60,6 +76,7 @@ $breakpoint-wide-desktop: 1200px;
     display: block;
     font-size: 40px;
     text-align: center;
+    padding: 0;
     h1 {
       width: 2.5em;
       height: 2.5em;
@@ -99,7 +116,7 @@ $breakpoint-wide-desktop: 1200px;
 
 // Button
 
-@include button {
+@mixin button {
   color: #fff;
   background-color: $teal;
   &:hover {
