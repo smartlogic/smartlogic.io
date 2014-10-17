@@ -159,6 +159,7 @@ ol.photo-grid {
       color: $white;
       padding: 1em;
       opacity: 0;
+      cursor: pointer;
 
       strong,
       p {
@@ -178,6 +179,68 @@ ol.photo-grid {
     p {
       font-size: 1em;;
     }
+    > div {
+      @include font-size;
+      @include transition(.3s);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 101;
+      width: 100%;
+      height: 100%;
+      visibility: hidden;
+      opacity: 0;
+      padding: 0 250px 0 0;
+      &:after {
+        content: "";
+        position: absolute;
+        top: 2em;
+        left: 2em;
+        width: 4em;
+        height: 4em;
+        background-image: url('/images/smartlogic-seal.svg');
+        background-repeat: no-repeat;
+        background-size: 4em 16em;
+        background-position: 0 -12em;
+      }
+      span {
+        position: relative;
+        display: block;
+        height: 100%;
+        color: #fff;
+        background-color: darken($teal, 10%);
+        box-shadow: inset 0 0 0 4px #fff;
+        padding: 6em 8em;
+        .close {
+          @include transition(.3s);
+          position: absolute;
+          top: 2em;
+          right: 2em;
+          width: 2em;
+          height: 2em;
+          background-image: url('/images/white-x.svg');
+          background-repeat: no-repeat;
+          background-size: 2em 2em;
+          opacity: .7;
+          cursor: pointer;
+          &:hover {
+            @include transition(.3s);
+            opacity: 1;
+          }
+        }
+        p.name {
+          font-size: 2em;
+          font-weight: bold;
+        }
+        p.position {
+          font-size: 1.25em;
+          margin: 0 0 2em 0;
+        }
+      }
+      @media (max-width: $breakpoint-tablet) {
+        padding: 0;
+      }
+    }
 
     &:hover {
       figcaption {
@@ -192,6 +255,13 @@ ol.photo-grid {
       figcaption strong,
       figcaption p {
         @include transform(translateY(0));
+        opacity: 1;
+      }
+    }
+    &.active {
+      div {
+        @include transition(.3s);
+        visibility: visible;
         opacity: 1;
       }
     }
