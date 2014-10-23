@@ -10,11 +10,18 @@ body.contact-page {
     .info-grid li p {
       color: $gray;
     }
+    h1,
+    p,
+    .contact-info {
+      color: $white;
+    }
+    article {
+      border-bottom: solid 1px $white;
+    }
   }
   #get-in-touch {
     h1 {
       display: block;
-      color: #fff;
       font-size: 4em;
       text-align: center;
       line-height: 1em;
@@ -46,31 +53,6 @@ body.contact-page {
         &:nth-child(even) {
           padding: 0 0 0 $gutter/2;
         }
-        &.budget-range {
-          position: relative;
-          &:after {
-            @include font-size;
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 4em;
-            height: 100%;
-            background-color: rgba($black, .1);
-            pointer-events: none;
-          }
-          &:before {
-            @include font-size;
-            @include triangle(1em .5em, lighten($black, 40%), down);
-            content: "";
-            position: absolute;
-            top: 50%;
-            right: 2em;
-            z-index: 1;
-            margin: (-.25em) (-.5em) 0 0;
-            pointer-events: none;
-          }
-        }
       }
       input,
       select,
@@ -85,7 +67,7 @@ body.contact-page {
         border: none;
         border-radius: 0;
         margin: 0;
-        padding: 1.5em 1em;
+        padding: .75em;
         box-shadow: inset 0 0 0 3px #fff;
         &:focus {
           @include transition(box-shadow, .4s);
