@@ -52,13 +52,13 @@ root-navigation: about
   </span>
   <ol class="photo-grid">
     {% for member in site.data.team %}
-    <li>
+    <li{% if member.bio %} class="has-bio"{% endif %}>
       <figure>
         <img src="/images/team/{{ member.photo }}" alt="{{ member.name }}'s photo">
         <figcaption>
           <strong>{{ member.name }}</strong>
           <p>{{ member.position }}</p>
-          <span></span>
+          {% if member.bio %}<span></span>{% endif %}
         </figcaption>
       </figure>
       <div>
