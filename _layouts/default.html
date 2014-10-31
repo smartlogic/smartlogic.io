@@ -1,12 +1,51 @@
-<!DOCTYPE html>
+<DOCTYPE html>
 <html lang="en">
   <head>
-    {% include head-content.html %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{{ page.title }}</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="{{ page.description }} | SmartLogic">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-152x152.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="/images/mstile-144x144.png">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/javascript/navigation.js"></script>
+    <script src="/javascript/our-team.js"></script>
   </head>
 
-  <body>
-    {% include header.html %}
-    {{ content }}
-    {% include footer.html %}
+  <body class="{{ page.body-class }}">
+    {% assign active = ' class="active"' %}
+    <span class="mobile-navigation-toggle"></span>
+    <div class="navigation-menu">
+      <nav id="primary-navigation">
+        <a href="/about.html"{% if page.root-navigation == 'about' %}{{ active }}{% endif %}><span>About</span></a>
+        <a href="/experience.html"{% if page.root-navigation == 'experience' %}{{ active }}{% endif %}><span>Experience</span></a>
+        <a href="http://blog.smartlogicsolutions.com/"><span>Blog</span></a>
+        <a href="/get-in-touch.html"{% if page.root-navigation == 'get-in-touch' %}{{ active }}{% endif %}><span>Get In Touch</span></a>
+        <a href="/what-makes-us-different.html"{% if page.root-navigation == 'what-makes-us-different' %}{{ active }}{% endif %}><span>What makes us different</span></a>
+      </nav>
+      <footer>
+        <span>
+          <address>
+            <p>3500 Boston St Ste 323,</p>
+            <p>Baltimore, MD 21224</p>
+            <p>443-451-3001</p>
+          </address>
+          {% include social-media.html %}
+        </span>
+      </footer>
+    </div>
+    <div class="mobile-backdrop"></div>
+
+    <div class="content">
+      <a href="/" class="smartlogic-logo">
+        <h1>SmartLogic</h1>
+      </a>
+      {{ content }}
+    </div>
+
   </body>
 </html>

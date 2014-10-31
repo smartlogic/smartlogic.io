@@ -1,0 +1,382 @@
+/**
+ * This file includes all style for the grid layouts, of which there are currently three:
+ * 1) info-grid: a grid containing text / copy
+ * 2) linear: a grid showing a progression from point A to B
+ * 3) photo-grid: a grid of photos
+ */
+@import '../_sass/bourbon/bourbon';
+@import 'fonts';
+@import 'variables';
+
+ul.info-grid,
+ol.linear,
+ol.photo-grid {
+  list-style: none;
+
+  li {
+    display: inline-block;
+  }
+}
+
+ul.info-grid {
+  > li {
+    width: 50%;
+    vertical-align: top;
+    background-repeat: no-repeat;
+    background-position: 1.5em 0;
+    background-size: 7em 7em;
+    min-height: 7em;
+    text-align: justify;
+    line-height: 150%;
+    margin: 1.5em 0 0 0;
+    padding: 0 1.5em 0 9.5em;
+    ul {
+      list-style: square;
+      li {
+        background: none;
+        padding: 0;
+        display: block;
+        width: 100%;
+      }
+    }
+    h2 {
+      color: $teal;
+      font-size: 1.25em;
+      font-weight: normal;
+      text-align: left;
+      margin: 0 0 .5em 0;
+    }
+    p {
+      font-size: .8em;
+    }
+  }
+  @media (max-width: $breakpoint-desktop) {
+    li {
+      width: 100%;
+      min-height: 5em;
+      background-position: 0 .5em;
+      background-size: 5em 5em;
+      padding: .5em 0 .5em 6.5em;
+    }
+  }
+}
+
+ul.vertical-info-grid {
+  @extend .info-grid;
+  > li {
+    width: 100%;
+  }
+}
+
+ol.linear {
+  > li {
+    vertical-align: top;
+    width: 33.33%;
+    text-align: justify;
+    line-height: 150%;
+    margin: 1.5em 0 0 0;
+    padding: 0 .5em;
+    span {
+      @include display(flex);
+      @include align-items(center);
+      width: 100%;
+      height: 5em;
+      background-repeat: no-repeat;
+      background-size: 5em 5em;
+      margin: 0 0 .5em 0;
+      padding: 0 0 0 6em;
+      h2 {
+        color: $teal;
+        font-size: 1.25em;
+        font-weight: normal;
+        text-align: left;
+        margin: 0;
+      }
+    }
+    p {
+      clear: both;
+      font-size: .8em;
+    }
+    &:first-child {
+      padding: 0 1em 0 0;
+    }
+    &:last-child {
+      padding: 0 0 0 1em;
+    }
+  }
+  @media (max-width: $breakpoint-desktop) {
+    > li,
+    > li:first-child,
+    > li:last-child {
+      width: 100%;
+      padding: 0;
+    }
+  }
+}
+
+ol.photo-grid {
+  font-size: 0;
+  padding: 2px;
+  li {
+    width: 25%;
+    text-align: center;
+    padding: 2px;
+    @media (max-width: $breakpoint-desktop) {
+      width: 33.33%;
+    }
+    @media (max-width: $breakpoint-phone) {
+      width: 50%;
+    }
+    img {
+      @include transition(all 300ms);
+      width: 100%;
+      height: auto;
+    }
+
+    figure {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    figcaption {
+      @include font-size;
+      @include transition(all 300ms);
+      @include display(flex);
+      @include flex-direction(column);
+      @include justify-content(center);
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      background: rgba(darken($teal, 35%), .7);
+      color: $white;
+      text-align: center;
+      padding: 1em;
+      opacity: 0;
+
+      strong,
+      p {
+        @include transition(all 300ms ease-out);
+        @include transform(translateY(-150px));
+        position: relative;
+        display: block;
+        font-weight: normal;
+        opacity: 0;
+      }
+      span {
+        @include transition(all 300ms ease-out);
+        @include transform(translateY(150px));
+        display: block;
+        width: 2.5em;
+        height: 2.5em;
+        background-image: url('/images/white-plus.svg');
+        background-repeat: no-repeat;
+        background-size: 1em 1em;
+        background-position: center;
+        border: solid 3px #fff;
+        border-radius: 1.25em;
+        margin: 1em auto 0 auto;
+        opacity: 0;
+      }
+    }
+    strong {
+      color: $yellow;
+      font-size: 1.5em;
+      margin: 0 0 2px 0;
+    }
+    p {
+      font-size: 1em;;
+    }
+    > div {
+      @include font-size;
+      @include transition(.3s);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 101;
+      width: 100%;
+      height: 100%;
+      visibility: hidden;
+      opacity: 0;
+      padding: 0 250px 0 0;
+      &:after {
+        content: "";
+        position: absolute;
+        top: 2em;
+        left: 2em;
+        width: 4em;
+        height: 4em;
+        background-image: url('/images/smartlogic-seal.svg');
+        background-repeat: no-repeat;
+        background-size: 4em 16em;
+        background-position: 0 -12em;
+      }
+      span {
+        position: relative;
+        display: block;
+        height: 100%;
+        color: #fff;
+        background-color: darken($teal, 10%);
+        box-shadow: inset 0 0 0 4px #fff;
+        padding: 6em 8em;
+        .close {
+          @include transition(.3s);
+          position: absolute;
+          top: 2em;
+          right: 2em;
+          width: 2em;
+          height: 2em;
+          background-image: url('/images/white-x.svg');
+          background-repeat: no-repeat;
+          background-size: 2em 2em;
+          opacity: .7;
+          cursor: pointer;
+          &:hover {
+            @include transition(.3s);
+            opacity: 1;
+          }
+        }
+        p.name {
+          font-size: 2em;
+          font-weight: bold;
+        }
+        p.position {
+          font-size: 1.25em;
+          margin: 0 0 2em 0;
+        }
+      }
+      @media (max-width: $breakpoint-tablet) {
+        padding: 0;
+      }
+    }
+
+    &:hover {
+      figcaption {
+        opacity: 1;
+      }
+
+      img {
+        @include transform(scale(1.2));
+        @include filter(blur(5px));
+      }
+
+      figcaption strong,
+      figcaption p,
+      figcaption span {
+        @include transform(translateY(0));
+        opacity: 1;
+      }
+    }
+    &.active {
+      div {
+        @include transition(.3s);
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+  li.has-bio {
+    cursor: hand;
+  }
+}
+
+/* background images for ul's and ol's */
+li.communication {
+  background-image: url('/images/icons/communication.svg');
+}
+li.organization {
+  background-image: url('/images/icons/organization.svg');
+}
+li.planning {
+  background-image: url('/images/icons/planning.svg');
+}
+li.team {
+  background-image: url('/images/icons/team.svg');
+}
+li.the-best-code {
+  background-image: url('/images/icons/the-best-code.svg');
+}
+li.transparency {
+  background-image: url('/images/icons/transparency.svg');
+}
+li.application-discovery {
+  span {
+    background-image: url('/images/icons/application-discovery.svg');
+  }
+}
+li.application-development {
+  span {
+    background-image: url('/images/icons/application-development.svg');
+  }
+}
+li.application-maintenance {
+  span {
+    background-image: url('/images/icons/application-maintenance.svg');
+  }
+}
+li.startups {
+  span {
+    background-image: url('/images/icons/startups.svg');
+  }
+}
+li.growing-organizations {
+  span {
+    background-image: url('/images/icons/growth-stage.svg');
+  }
+}
+li.enterprise {
+  span {
+    background-image: url('/images/icons/enterprise.svg');
+  }
+}
+li.iphone {
+  background-image: url('/images/icons/ios.svg');
+}
+li.user-experience {
+  background-image: url('/images/icons/user-experience.svg');
+}
+li.robust-software {
+  background-image: url('/images/icons/robust-software.svg');
+}
+li.ruby-on-rails {
+  background-image: url('/images/icons/ruby-on-rails.svg');
+}
+li.android {
+  background-image: url('/images/icons/android.svg');
+}
+li.javascript {
+  background-image: url('/images/icons/javascript.svg');
+}
+li.apis {
+  background-image: url('/images/icons/apis.svg');
+}
+li.cloud {
+  background-image: url('/images/icons/cloud-deployment.svg');
+}
+li.quality {
+  background-image: url('/images/icons/quality.svg');
+}
+li.process {
+  background-image: url('/images/icons/process.png');
+}
+li.flower {
+  background-image: url('/images/icons/flower.jpg');
+}
+li.flexibility {
+  background-image: url('/images/icons/flexibility.png');
+}
+li.benefits {
+  background-image: url('/images/icons/benefits.svg');
+}
+/*
+li. {
+  background-image: url('/images/icons/');
+}
+*/
+/* end background images */
