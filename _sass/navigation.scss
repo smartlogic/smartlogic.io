@@ -103,6 +103,13 @@ footer,
    
 @media (max-width: $breakpoint-tablet) {
   .mobile-navigation-toggle {
+    @include transition-property (transform);
+    @include transition-duration(1.0s);
+    @include transform(translateX(260px));
+    @include transform-origin(0 0);
+    @include user-select(none);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
     position: fixed;
     top: 3em;
     right: 250px;
@@ -113,10 +120,6 @@ footer,
     background-color: $yellow;
     border-radius: 25px;
     cursor: pointer;
-    @include transition-property (transform);
-    @include transition-duration(1.0s);
-    @include transform(translateX(260px));
-    @include transform-origin(0 0);
     &:after {
       content: "";
       position: absolute;
@@ -138,32 +141,11 @@ footer,
       &:after {
         background-position: -20px 0;
       }
-      & ~ .navigation-menu {
-        @include transition-property (transform);
-        @include transition-duration(1.0s);
-        @include transform(translateX(-250px));
-        @include transform-origin(100% 0);
-        & ~ .mobile-backdrop {
-          position: fixed;
-          top: 0;
-          left: 0;
-          z-index: 150;
-          width: 100%;
-          height: 100%;
-          background-color: darken($teal, 20%);
-          opacity: .6;
-          cursor: pointer;
-        }
-      }
     }
   }
   .navigation-menu {
     right: -250px;
-    z-index: 200;
-    @include transition-property (transform);
-    @include transition-duration(1.0s);
-    @include transform(translateX(250px));
-    @include transform-origin(-250px 0);
+    z-index: 250;
     box-shadow: 0 -15px 20px rgba(darken($teal, 30%), .2);
     #primary-navigation {
       padding: 2em 0;
@@ -194,6 +176,10 @@ footer,
           }
         }
       }
+    }
+    &.active {
+      right: 0;
+      width: 250px;
     }
     footer { 
       position: static;
@@ -237,5 +223,16 @@ footer,
   .mobile-backdrop {
     @include transition(opacity 1.0s);
     opacity: 0;
+    &.active {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 200;
+      width: 100%;
+      height: 100%;
+      background-color: darken($teal, 20%);
+      opacity: .6;
+      cursor: pointer;
+    }
   }
 }
