@@ -1,0 +1,87 @@
+.article{
+  @include tablet{
+    padding: 0 0 25px 0;
+  }
+}
+.article__wrap{
+  display: flex;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+  @media screen and (max-width: 1600px){
+    width: 75%;
+  }
+  @include desktop{
+    width: 90%;
+  }
+  @include grid-media($my-custom-grid-3){
+    @include grid-column(12);
+    flex-wrap: wrap;
+  }
+}
+.article__text-wrap{
+  flex: 1;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  @include tablet{
+    padding-left: $left;
+    text-align: left;
+  }
+  @include phone{
+    padding: 0 20px;
+    text-align: left;
+  }
+}
+.article__link{
+  margin-bottom: 5px;
+}
+.article__text-head{
+  margin-bottom: 5px;
+}
+.article__text-desc{
+  margin-bottom: 10px;
+  @include tablet{
+    margin-bottom: 20px;
+  }
+  p{
+    font-size: 16px;
+    @include laptop{
+      font-size: 14px;
+    }
+  }
+}
+.article__link{
+  a{
+    padding: 6px 35px;
+    color: $green;
+    border: 1px solid $green;
+    @include laptop{
+      font-size: 12px;
+      padding: 5px 20px;
+    }
+    @include phone{
+      padding: 6px 35px;
+    } 
+  }
+}
+.article__img-wrap{
+  width: 250px;
+  margin: 0 25px 0 60px;
+  @include laptop{
+    margin: 0 0 0 40px;
+  }
+  @include tablet{
+    order: -1;
+    width: 100%;
+    height: 100px;
+    margin: 0 0 25px 0;
+  }
+  img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 25%;
+  }
+}

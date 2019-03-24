@@ -1,6 +1,4 @@
 source 'https://rubygems.org'
 gem 'github-pages'
-gem 'foreman'
-gem 'guard'
-gem 'guard-jekyll-plus'
-gem 'guard-livereload'
+gem 'html-proofer'
+gem 'rake'

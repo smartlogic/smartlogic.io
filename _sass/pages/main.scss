@@ -1,0 +1,261 @@
+.main-home{
+  .quote{
+    @include tablet{
+      &::after{
+        display: none;
+      }
+    }
+  }
+}
+.logobar{
+  padding: 25px 15px;
+  @include laptop{
+    padding:  10px;
+  }
+  @include phone{
+    padding: 5px 10px 8px 10px;
+  }
+}
+.logobar__wrap{
+  @include phone{
+    overflow-x: scroll;
+  }
+}
+.logobar__list{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @include phone{
+    width: 600px;
+  }
+}
+.logobar__item{
+  width: 15%;
+  @include phone{
+    width: 80px;
+  }
+  img{
+    width: 100%;
+    max-height: 60px;
+    @include laptop{
+      max-height: 45px;
+    }
+  }
+}
+.logobar__item-order-mw{
+  max-width: 125px;
+}
+.casestudy__left{
+  @include grid-column(8, $my-custom-grid);
+  @include grid-media($my-custom-grid-3){
+    @include grid-column(12);
+    margin-left: -15%;
+    margin-bottom: 15px;
+  }
+  
+}
+.casestudy__left-wrap{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.casestudy__left-img, .casestudy__left-text{
+  width: 48%;
+}
+.casestudy__left-img{
+  img{
+    width: 100%;
+  }
+}
+.casestudy__left-text-head{
+  margin-bottom: 15px;
+  .head-text{
+    h3{
+      @include circular(bold);
+    }
+  }
+}
+.casestudy__left-text-link{
+  a{
+    padding: 7px 16px;
+    border: 1px solid $green;
+    color: $green;
+    @include laptop{
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+    @include phone{
+      padding: 8px 15px;
+    }
+  }
+}
+
+.casestudy__right{
+  @include grid-column(4, $my-custom-grid);
+  @include grid-media($my-custom-grid-2){
+    @include grid-column(12);
+  }
+  .casestudy__right-article{
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}
+.casestudy__right-article{
+  padding: 25px 0 25px 50px;
+  border-left: 3px solid $green;
+  margin-bottom: 40px;
+  @include laptop{
+    padding: 10px 0 10px 15px;
+    border-left-width: 2px;
+  }
+  @include tablet{
+    margin-bottom: 15px;
+    padding: 5px 0 5px 15px;
+  }
+}
+.casestudy__right-article-desc{
+  p{
+    font-size: 18px;
+    @include circular(medium);
+    a{
+      @include circular;
+      font-size: 15px;
+      color: $green;
+      display: block;
+      margin-top: 15px;
+      @include laptop{
+        font-size: 12px;
+      }
+      @include laptop{
+        font-size: 14px;
+        display: inline;
+        margin-top: 0;
+      }
+    }
+    @include laptop{
+      font-size: 16px;
+    }
+    @include tablet{
+      font-size: 14px;
+    }
+  }
+}
+
+
+.features__left{
+  @include grid-column(7, $my-custom-grid);
+  @include grid-media($my-custom-grid-2){
+    @include grid-column(7);
+    padding-left: $left;
+  }
+}
+.features__left-text{
+  margin-bottom: 30px;
+}
+.features__left-links{
+  p{
+    font-size: 18px;
+    @include phone{
+      font-size: 14px;
+    }
+    a{
+      color: $green;
+    }
+  }
+}
+
+.features__right{
+  @include grid-column(5, $my-custom-grid);
+  @include grid-media($my-custom-grid-2){
+    @include grid-column(5);
+  }
+}
+.features__right-img{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include phone{
+    flex-direction: column;
+    justify-content: center;
+  }
+  img{
+    width: 45%;
+    @include phone{
+      width: 65%;
+      margin-bottom: 20px;
+    }
+  }
+}
+.quote{
+  width: 75%;
+  margin: 0 auto;
+  @media screen and (max-width: 1600px){
+    width: 90%;
+  }
+  @include desktop{
+    width: 100%;
+  }
+  .container{
+    @include tablet{
+      align-items: flex-start;
+    }
+  }
+}
+.quote__left{
+  @include grid-column(5, $my-custom-grid);
+  @include grid-media($my-custom-grid-2){
+    @include grid-column(4);
+  }
+}
+.quote__left-img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img{
+    max-width: 350px;
+    @include laptop{
+      width: 100%;
+    }
+  }
+}
+.quote__right{
+  @include grid-column(7, $my-custom-grid);
+  @include grid-media($my-custom-grid-2){
+    @include grid-column(8);
+  }
+}
+.quote__right{
+  p{
+    font-size: 18px;
+    color: $hcolor;
+    @include circular(regularItalic);
+    @include phone{
+      font-size: 13px;
+    }
+  }
+}
+.quote__right-text{
+  margin-bottom: 15px;
+  @include phone{
+    margin-bottom: 10px;
+  }
+}
+.quote__right-author{
+  p{
+    @include phone{
+      text-align: right;
+      padding-right: 10px;
+      width: 75%;
+      margin-left: 25%;
+    }
+  }
+}
+.quote_reverse{
+  .quote__right-author{
+    padding-right: 10px;
+    p{
+      text-align: right;
+    }
+  }
+}
