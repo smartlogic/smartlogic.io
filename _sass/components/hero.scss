@@ -1,0 +1,61 @@
+.hero{
+  @include phone{
+    padding: 15px 0;
+  }
+}
+.hero-no-img{
+  .hero__left{
+    @include grid-media($my-custom-grid-2){
+      @include grid-column(10);
+      padding-left: $left;
+    }
+  }
+  .hero__right{
+    @include grid-media($my-custom-grid-3){
+      @include grid-column(2);
+    }
+  }
+}
+.hero__left{
+  @include grid-column(8, $my-custom-grid);
+  @include grid-media($my-custom-grid-2){
+    @include grid-column(7);
+    padding-left: $left;
+  }
+}
+.hero__left-text{
+  margin-bottom: 10px;
+  .head-text{
+    h1{
+      color: #3CBEB1;
+      @include circular(medium);
+    }
+  }
+}
+.hero__left-desc{
+  @include tablet{
+    display: none;
+  }
+  p{
+    font-size: 18px;
+    color: #949CA2;
+    @include tablet{
+      font-size: 14px;
+    }
+  }
+}
+
+.hero__right{
+  @include grid-column(4, $my-custom-grid);
+  @include grid-media($my-custom-grid-3){
+    @include grid-column(5);
+  }
+}
+.hero__right-img{
+  @include tablet{
+    margin-right: -25%
+  }
+  img{
+    width: 100%;
+  }
+}

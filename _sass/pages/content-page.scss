@@ -1,0 +1,110 @@
+.content-page-wrapper{
+  text-align: center;
+}
+.content-block{
+  display:inline-block;
+  text-align: left;
+  margin-left: 2em;
+  margin-right:2em;
+  max-width: 1000px;
+
+  p{
+    font-size: 18px;
+    line-height:1.5em;
+    padding-bottom:1em;
+  }
+  h2{
+    font-size: 30px;
+    color: #7B868C;
+    font-family: 'CircularStd-bold', Arial, Helvetica, sans-serif;
+    padding-bottom: 1em;
+  }
+  h3{
+    font-size: 24px;
+    font-family: 'CircularStd-bold', Arial, Helvetica, sans-serif;
+    padding-bottom: 1em;
+  }
+
+  .diagram{
+    padding-top:2em;
+    padding-bottom:2em;
+  }
+  figure{
+    // need to add something to help these scale nicely at small sizes
+    text-align: center;
+    display: block;
+    width: 100%;
+    margin:0em;
+    padding-bottom:1em;
+    padding-top:1em;
+    figcaption{
+      font-family: 'CircularStd-bold', Arial, Helvetica, sans-serif;
+      padding-top: .5em;
+      padding-bottom: 1em;
+    }
+    img{
+      width:100%;
+      padding-bottom:1em;
+    }
+    img.big{
+      max-width:750px;
+      height:auto;
+    }
+    img.tall{
+      max-width:450px;
+      height:auto;
+    }
+    img.small{
+      max-width:200px;
+      height:auto;
+    }
+  }
+// getting sidetracked on image scaling at diff view sizes
+  // .tablet-image{
+  //   max-width:650px;
+  //   height:auto;
+  //   display:block;
+  //   text-align: center;
+  // }
+
+
+  // this styling is lifted from the method page - we're getting extra padding, not sure if it's worth the extra work to figure out how to remove that
+  .embed{
+    @include grid-column(12, $my-custom-grid);
+    @include grid-media($my-custom-grid-2){
+      @include grid-column(12);
+    }
+    position: relative;
+    height: 0;
+    padding-bottom: 50%;
+    margin-bottom: 50px;
+    // margin-left:.1em;
+    // margin-right:1em;
+    @include phone{
+      margin-bottom: 25px;
+    }
+    iframe{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  li{
+    font-size: 18px;
+    line-height: 1.5em;
+    padding-bottom:1em;
+  }
+  ul, ol{
+    padding-top:1em;
+    margin-left:2em;
+    padding-bottom:.5em;
+  }
+  ul{
+    li{
+        list-style: disc;
+    }
+  }
+
+}
