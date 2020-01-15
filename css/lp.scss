@@ -4,6 +4,8 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap");
 @import "layout/fonts";
 
+$primary: #3cbeb1;
+
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -12,12 +14,20 @@ body {
   max-width: 1440px;
 }
 
+.bg-primary {
+  background-color: $primary !important;
+}
+
+.text-primary {
+  color: $primary !important;
+}
+
 .form-control {
   border-radius: 0;
   &:focus {
-    border-color: #3cbeb1;
+    border-color: $primary;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(#3cbeb1, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
   }
 }
 
@@ -36,31 +46,47 @@ body {
 
 .btn-primary {
   border: 0;
-  background-color: #3cbeb1;
+  background-color: $primary;
   &:hover {
-    background-color: #3cbeb1;
+    background-color: $primary;
   }
   &:focus,
   &:active {
-    background-color: #3cbeb1 !important;
+    background-color: $primary !important;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(#3cbeb1, 0.25) !important;
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25) !important;
   }
 }
 
 .btn-outline-primary {
-  border: 3px solid #3cbeb1;
-  color: #3cbeb1;
+  border: 3px solid $primary;
+  color: $primary;
   &:hover {
-    border: 3px solid #3cbeb1;
-    background-color: #3cbeb1;
+    border: 3px solid $primary;
+    background-color: $primary;
   }
   &:focus,
   &:active {
-    border: 3px solid #3cbeb1;
-    background-color: #3cbeb1 !important;
+    border: 3px solid $primary;
+    background-color: $primary !important;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(#3cbeb1, 0.25) !important;
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25) !important;
+  }
+}
+
+.btn-outline-white {
+  border: 3px solid white;
+  color: white;
+  &:hover {
+    border: 3px solid white;
+    background-color: white;
+  }
+  &:focus,
+  &:active {
+    border: 3px solid white;
+    background-color: white !important;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(white, 0.25) !important;
   }
 }
 
@@ -76,6 +102,7 @@ h2 {
   font-weight: 300;
 }
 
+.h3,
 h3 {
   @include circular(blak);
 }
@@ -86,4 +113,11 @@ h4 {
 
 .nowrap {
   white-space: nowrap;
+}
+
+.demo-circle {
+  background-color: #c4c4c4;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
 }
