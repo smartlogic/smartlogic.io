@@ -1,0 +1,49 @@
+---
+layout: none
+---
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0" encoding="UTF-8">
+  <channel>
+    <generator>SmartLogic Podcasts</generator>
+    <title>{{ site.data.elixir_wizards.title }}</title>
+    <link>{{ site.data.elixir_wizards.link }}</link>
+    <pubDate>{{ site.data.elixir_wizards.pubDate }}</pubDate>
+    <description>{{ site.data.elixir_wizards.description | xml_escape }}</description>
+    <language>en-us</language>
+    <itunes:type>{{ site.data.elixir_wizards.itunes.type }}</itunes:type>
+    <itunes:subtitle>{{ site.data.elixir_wizards.itunes.subtitle | xml_escape }}</itunes:subtitle>
+    <itunes:author>{{ site.data.elixir_wizards.itunes.author | xml_escape }}</itunes:author>
+    <itunes:summary>{{ site.data.elixir_wizards.itunes.summary | xml_escape }}</itunes:summary>
+    <itunes:image href="{{ site.data.elixir_wizards.itunes.image }}" />
+    <itunes:explicit>{{ site.data.elixir_wizards.itunes.explicit }}</itunes:explicit>
+    <itunes:keywords>{{ site.data.elixir_wizards.itunes.keywords | xml_escape }}</itunes:keywords>
+    <itunes:owner>
+      <itunes:name>{{ site.data.elixir_wizards.itunes.owner.name }}</itunes:name>
+      <itunes:email>{{ site.data.elixir_wizards.itunes.owner.email }}</itunes:email>
+    </itunes:owner>
+    <itunes:category text="Technology"/>
+    <itunes:category text="Education">
+      <itunes:category text="How To"/>
+    </itunes:category>
+    {% for item in site.data.elixir_wizards.items %}
+    <item>
+      <title>{{ item.title | xml_escape }}</title>
+      <link>{{ site.data.elixir_wizards.link }}/{{ item.slug }}</link>
+      <guid isPermaLink="false">{{ item.guid }}</guid>
+      <pubDate>{{ item.pubDate }}</pubDate>
+      <author>{{ item.author }}</author>
+      <enclosure url="{{ item.enclosure.url }}" length="{{ item.enclosure.length }}" type="{{ item.enclosure.type }}"/>
+      <itunes:episodeType>{{ item.itunes.episodeType }}</itunes:episodeType>
+      <itunes:season>{{ item.itunes.season }}</itunes:season>
+      <itunes:author>{{ item.itunes.author }}</itunes:author>
+      <itunes:subtitle>{{ item.itunes.subtitle | xml_escape }}</itunes:subtitle>
+      <itunes:duration>{{ item.itunes.duration }}</itunes:duration>
+      <itunes:explicit>{{ item.itunes.explicit }}</itunes:explicit>
+      <itunes:image href="{{ item.itunes.image }}" />
+      <description>{{ item.description | xml_escape }}</description>
+      <itunes:keywords>{{ item.itunes.keywords | xml_escape }}</itunes:keywords>
+      <content:encoded><![CDATA[{{ item.contentEncoded }}]]></content:encoded>
+      <itunes:summary><![CDATA[{{ item.itunes.summary }}]]></itunes:summary>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>
