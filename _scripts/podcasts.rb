@@ -63,3 +63,4 @@ rss_map = {
 }
 
 File.write("_data/elixir_wizards.yml", rss_map.to_yaml)
+File.write("_data/elixir_wizards_episodes.yml", items.to_yaml)
