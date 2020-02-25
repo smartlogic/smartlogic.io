@@ -1,8 +1,13 @@
 #/bin/env ruby
 
+require 'date'
 require 'faraday'
 require 'nokogiri'
 require 'yaml'
+
+def parse_date(date)
+  Date.parse(date).strftime("%B %e, %Y")
+end
 
 response = Faraday.get("https://feeds.fireside.fm/smartlogic/rss")
 
@@ -19,6 +24,7 @@ items = rss_xml.xpath("//channel/item").map do |item|
     "link" => item.xpath("link").text,
     "guid" => item.xpath("guid").text,
     "pubDate" => item.xpath("pubDate").text,
+    "pubDateFriendly" => parse_date(item.xpath("pubDate").text),
     "description" => item.xpath("description").text,
     "author" => item.xpath("author").text,
     "enclosure" => {
@@ -62,5 +68,16 @@ rss_map = {
   },
 }
 
-File.write("_data/elixir_wizards.yml", rss_map.to_yaml)
+seasons = items.group_by do |item|
+  "Season #{item["itunes"]["season"]}"
+end
+
+seasons.each do |season, items|
+  seasons[season] = items.sort_by do |item|
+    Date.parse(item["pubDate"])
+  end.reverse
+end
+
+File.write("_data/elixir_wizards_feed.yml", rss_map.to_yaml)
 File.write("_data/elixir_wizards_episodes.yml", items.to_yaml)
+File.write("_data/elixir_wizards_seasons.yml", seasons.to_yaml)
