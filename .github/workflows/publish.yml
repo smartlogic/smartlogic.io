@@ -1,0 +1,22 @@
+name: Pages Publish
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -yqq git build-essential
+    - name: Setup ruby
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+
+    - name: Generate site
+      run: |
+        bundle exec jekyll build
