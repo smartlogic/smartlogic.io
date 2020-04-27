@@ -5,13 +5,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6
+
     - name: Install Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -yqq git build-essential
+
     - name: Setup ruby
       run: |
         gem install bundler
@@ -20,3 +25,15 @@ jobs:
     - name: Generate site
       run: |
         bundle exec jekyll build
+
+    - name: Install SSH Client
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        SSH: true
+        BRANCH: gh-pages
+        FOLDER: _site
