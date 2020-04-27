@@ -29,7 +29,14 @@ jobs:
       run: |
         bundle exec ruby _scripts/podcasts.rb
 
-    - name: Install SSH Client
-      uses: webfactory/ssh-agent@v0.2.0
+    - name: Commit files
+      run: |
+        git config --local user.email "podcast@smartlogic.io"
+        git config --local user.name "SmartLogic Podcasts"
+        git add _data/elixir_wizards_*
+        git commit -m "Update podcast files"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
       with:
-        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
