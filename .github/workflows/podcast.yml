@@ -1,0 +1,35 @@
+name: Podcast
+on:
+  push:
+    branches:
+      - automate-episodes
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -yqq git build-essential
+
+    - name: Setup ruby
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+
+    - name: Update podcast data files
+      run: |
+        bundle exec ruby _scripts/podcasts.rb
+
+    - name: Install SSH Client
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
