@@ -1,0 +1,41 @@
+name: Podcast
+on:
+  repository_dispatch:
+    types: rss-feed-updated
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -yqq git build-essential
+
+    - name: Setup ruby
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+
+    - name: Update podcast data files
+      run: |
+        bundle exec ruby _scripts/podcasts.rb
+
+    - name: Commit files
+      run: |
+        git config --local user.email "podcast@smartlogic.io"
+        git config --local user.name "SmartLogic Podcasts"
+        git add _data/elixir_wizards_*
+        git commit -m "Update podcast files"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
