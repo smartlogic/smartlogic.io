@@ -7,9 +7,15 @@ This repository is for hosting smartlogic.io on GitHub Pages.
 You can run the website locally via:
 
 - Run `bundle install`
-- Run `jekyll serve`
+- Run `bundle exec jekyll serve`
 
 Then open [https://127.0.0.1:4000](https://127.0.0.1:4000)
+
+# Deployment
+
+- Commit your changes
+- Push to the `master` branch
+- Github Actions will take over and build the jeykll site and make a new commit to `gh-pages`
 
 # Checking Links
 
