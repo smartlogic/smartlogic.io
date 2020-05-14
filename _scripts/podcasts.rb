@@ -20,7 +20,7 @@ rss_xml = Nokogiri::XML(response.body)
 items = rss_xml.xpath("//channel/item").map do |item|
   {
     "title" => item.xpath("title").text,
-    "slug" => item.xpath("link").text.gsub("https://podcast.smartlogic.io/", ""),
+    "slug" => item.xpath("link").text.gsub("https://smartlogic.io/podcast/elixir-wizards/", ""),
     "link" => item.xpath("link").text,
     "guid" => item.xpath("guid").text,
     "pubDate" => item.xpath("pubDate").text,
