@@ -1,0 +1,282 @@
+Justus:
+Welcome to Smart Software with SmartLogic, a podcast where we talk about best practices in web and mobile software development with a focus on new and emerging technologies. My name is Justus Eapen and I'll be your host today. I'm a full stack developer at SmartLogic, a Baltimore-based consulting company that has been building web and mobile software apps since 2005. From the SmartLogic team today I have cohost, our residence Elixir wizard, Eric Oestrich. Really glad to have him. Say hi, Eric.
+
+Eric:
+Hey, everybody.
+
+Justus:
+Awesome. As you might know if you've been listening, our first series here covers Phoenix and Elixir in production. Today we're joined by a well-known Elixir developer, one of the hosts of the famous Elixir Mix podcast, Mark Erickson. Say hi, Mark.
+
+Mark:
+Hey, friends.
+
+Justus:
+Awesome. Mark is a pro at this podcasting thing. Mark, to start out, could you introduce yourself, give us a little bit of background, and how you got started with Phoenix and Elixir?
+
+Mark:
+Sure. I've been doing development for a long time, software development in general. It was around 2006, I was doing C# development, and then 2008-ish, I learned about Ruby on Rails. Doing C# web development, before they even had MVC framework, it was using web forms, it was terrible. It was a terrible experience. Then when I had come to Rails, and it's like, "Wow. This is how it should be. This is how web development should be." I fell in love with it. I moved across the country just to have opportunities to work with that technology, even without having a job lined up, just because I knew the market I wanted to be in. I've done Rails for a long time.
+
+Mark:
+Then through the Ruby on Rails community, Dave Thomas wrote a book. He's written a lot of Ruby books. He started writing Elixir books, and I started ... "I respect his opinions," so I started looking into Elixir, and then I fell in love with Elixir, with the same amount of excitement that I had with Rails. I was like, "Wow. This is how it should be. I'm having so much fun again." It was the most fun I've had in programming, doing Elixir, since I first found Rails. I've been doing Elixir ever since, and making job choices and things just to make sure I could work with the technology that I really cared about. It wasn't so much, like, "I want to work with a new shiny," I felt like I was a better developer with these tools. That's why I wanted to work with Elixir. That's kind of how I got here.
+
+Eric:
+I can definitely concur with feeling like a better developer in Elixir. Now that we have an intro out of the way, could you give us a quick overview of the Elixir projects that you have in production?
+
+Mark:
+Sure. The current company that I'm at, I came and I started here in June. They'd already had some existing Elixir and Rails software. Prior to that, I was with a separate company in the FinTech space. It was a startup. That was a place where I was the lead software architect for their backend Elixir system. That was really where I got to build from the ground up, and had a lot of fun doing that. I've had experience on both sides. The system I've build previously, it was an umbrella, with two Phoenix apps in it. One was an admin-facing Phoenix app, but everything was really in that umbrella. Since June, I've been with this other company now, and we have about eight or nine services, and two of them are Rails, and one is a monolith, and then we have one, two, three, a number of other Elixir ones, or they were Rails projects that have been converted to Elixir.
+
+Mark:
+I've kind of been introducing, we can bring some of these together as an umbrella to improve some of the inter-app communication, and organization. We're doing that. That's kind of what I have in production. The Elixir monolith, I call them microlith, the idea of the small applications inside of an umbrella. Then there's the multiple services coordinating together. I've done both, and currently working with the multiple services one.
+
+Eric:
+Is there any particular reason why you picked Elixir to use in production?
+
+Mark:
+Yeah. Once I first found Elixir, I fell in love with ... At first, trying to just get my head around pattern matching was a little bit difficult. It's like, this is telling me no match, and I don't even know what that means, when I'm trying to do an assignment or something. Once I got past that, then it was the OTP concepts, just that I have these fundamentals, these primitives built into the BEAM, that are incredibly powerful. Just like I have supervisors, and I can supervision trees, and I can have named processes that I can find and send messages to, and it can do work for me, and it's all concurrent and parallel. That was really why I started wanting to have Elixir in production. It comes with so much powerful stuff out of the box.
+
+Justus:
+This is a really common thread we here from people. First of all, they're coming from the Ruby and Rails background, where syntax is king, and the first challenge being understanding pattern matching. Once you understand pattern matching, you having this incredible weapon at your disposal. You laid it out perfectly, the easy concurrency, primitives. This is the recurring thread. Every single time we hear from people, they get stoked about the pattern matching, and then they get stoked about the standard library, and it's exciting to see that commonality for me.
+
+Mark:
+I've seen it a lot too. I think that's a testament to what the Erlang community has already built up, and how solid it really is as a technology and a foundation, that we can just take Elixir and the work of more modern language syntax put on top of it, and some other modern helpers, like macros, to really have a powerful system that has a lot of that. What was considered valuable from Rails was that developer happiness and developer friendliness. Then it takes that into the grownup version, where it's like, "But I don't fall down. If I do fall down, I get back up. I'm supervised." It's solid.
+
+Justus:
+Do you think that coming from Rails to Elixir, you get a similar sort of community vibe, where everybody is very helpful and newbie-friendly, that you maybe didn't get in the C# world?
+
+Mark:
+It's true. The C# world was very commercial. It was very business-oriented. When you go to a meetup, like .NET ... This is in the early days. When I was going to some of these meetups, I was wanting to get into this tech. Recruiting was what they were about. It was just all business. These people aren't here for fun, they're networking. Then you go to a Rails, or early days Ruby meetup, and it was like, "Hey, we're just playing with this awesome tech that we're having fun with, and we're not even doing it with our job yet. We're just doing it because we care about it."
+
+Eric:
+That feels like a lot of the Elixir meetups I've been to, where it's like, "How many of you are doing this professionally?" Two out of the 10 hands will go up.
+
+Mark:
+I know. It's true. I do run a Utah Elixir meetup, and so I do see that a lot. There's a lot of people who are coming. We have people are current students, going to university. We have people are actually working professionally and they're not using Elixir yet, and people who are. But it is, there's a lot of interest and people are coming just because it's fun and it's a community. I'm glad to see that the Elixir community has borrowed and built on that pattern from the Ruby community. I think that's a good pattern to have.
+
+Eric:
+Cool. We've heard a bit about the advantages of Elixir, but we should touch on maybe a brief bit of disadvantages. Have you seen any during your usage of Elixir?
+
+Mark:
+I think the biggest one that I've seen is, when I started building releases, and then doing the configuration management around releases. That's been a topic in the community for a while. It's a recognized problem. It's not unsolvable. I have it solved, but figuring that out can be a little clumsy. I'm looking forward to when we have a really good solution around that. Just recently, I saw with the release of Elixir 1.8, Jose was announcing, "This is some of the stuff, the main new feature we're working on for 1.9." He was talking about how they want to be able to have a mix release as a full part of the language, feature not like an external third party library. I'm really optimistic that this can be something we solve elegantly. I'm looking forward to seeing how we do that. Currently, that's the pain point I have.
+
+Eric:
+I run an open source project that I actually showed at Utah Elixir, but every now and then someone will pop in and say, "I want to turn this on for production." I was like, "You have to become a full-time Elixir developer. Sorry, but we're getting there."
+
+Mark:
+Yep. That's true.
+
+Eric:
+Definitely the big pain point right now.
+
+Justus:
+Maybe we can segue from some of the discussion about these pain points to some of the hosting environments questions, Eric.
+
+Eric:
+Yeah. The first big one is, where do you put these Elixir apps in production?
+
+Mark:
+We are running on AWS, and since I came to this company in June, my focus has been moving to Kubernetes. Previously, these were just being deployed to Amazon EC2 instances. I'm happy to say next week we're going to be rolling out the production Kubernetes deployment. It's been a long time coming, getting everything set up.
+
+Eric:
+Cool.
+
+Mark:
+Yeah so we use Amazon EKS for that.
+
+Eric:
+Cool. We're getting super fresh news.
+
+Mark:
+That's right.
+
+Eric:
+It's Kubernetes, so you're obviously using Docker. What else are you doing besides Docker? Is it Distillery? How are you getting those on Kubernetes, et cetera?
+
+Mark:
+It is Docker, and Distillery 2.0, using releases there. Then just using YAML files for creating the deployments, and then a series of Bash grips for saying, "Now I want to roll out this version. Just modify the version and roll that out." It's like a build script too. I follow the Distillery pattern where he said, "This is bitwalker," Paul Schoenfelder, who runs that project, and he set up a pattern using Makefiles. I've just continued with that.
+
+Eric:
+Makefiles.
+
+Mark:
+I know. They're archaic, because they have to be tab invented, because it doesn't work without that. My editor doesn't care about tabs. Once I got that figured out, it's like, using Makefiles to build and push to the ECR, the elastic container registry, whatever it is called on AWS. It is my intention as part of this whole deployment moving to Kubernetes, is that we will have a continuous integration, continuous deployment. Currently, my plan is to use that, like using GitLab, like an internally hosted GitLab that will do ... As merges happen, then we can auto-deploy to Kubernetes there. That's my goal.
+
+Eric:
+Cool. I know a tiny bit about the Kubernetes world. Are you using Helm or ksonnet? I don't know if they do the same thing. I know they're words.
+
+Mark:
+Helm is really helpful. Helm is a project, and you use files called charts. If I wanted to deploy a service to Kubernetes, there's a series of YAML files that I would have to create. One defines the deployment itself, which talks about the environment variables and how the secrets are given to the container, and all of that. Another file would say, "This is how my service is exposed," so that I can talk to it from outside or within the cluster. Then I might have an ingress that says, "This is how things from outside of the cluster can talk to this service." You have these series of YAML files, and a chart lets you wrap all of those up together into a zip file kind of thing. It's like a templating, building convenience. I haven't started using those yet. I'm starting to get to the point where that would be helpful, but so far, I haven't needed it yet. I have used Helm and Charts for installing other services into my Kubernetes, like Prometheus, or Grafana, things like that.
+
+Eric:
+Cool. When you do a deploy, are you able to get zero downtime when you do deploy?
+
+Mark:
+Yes. That is a really convenient benefit of Kubernetes, where I can just say, "Deploy this," and in the configuration of the YAML file, I say I want it to be a rolling update, and so it will say, "You can configure it all," but by default I'm going to say, "I want to create one new instance. Once that's up, take down the old one, and then roll out to the next one and the next one." Say I've got three instances of my application running. It'll roll them out one at a time, and wait for it to come up and be solid and health checks, kind of thing, and then it goes onto the next one. Yes, Kubernetes makes that part easy.
+
+Eric:
+I guess our next question is, are you able to do any clustering inside of Kubernetes?
+
+Mark:
+Yes. I mentioned we have eight or so services, and two of the Elixir ones are clustered. Most of the other ones are really following that microservice architecture, where they're talking through REST web calls. What I do like is that Libcluster, also by Paul Schoenfelder, bitwalker, same person as Distillery ... You can kind of get a vibe here. He's had to solve some of these problems. He's done a really good job. With Libcluster, there's different strategies that they provide. There's a cluster strategy for Kubernetes, so I'm using that one. What that does, the way it works, just kind of the overview, is it allows your deployment to Kubernetes to query Kubernetes itself, and say, "Where are the other applications that are named this?" It can query by label. When it finds them, it says, "Here are all the other applications that have the same label. That's your application that you want to be clustered," and then it hooks it up, and I don't have to worry about it. That makes it really easy. Love it.
+
+Eric:
+I've looked a tiny bit into the Kubernetes clustering stuff, but the rest of Kubernetes has scared me away, so I never got to that point.
+
+Mark:
+I understand. The way I got into it was ... You know Humble Bundle? They have games that you can buy, like a pack of games or something. They also do books, and they had a DevOps Humble Bundle. I was able to buy a whole bunch of books, and some of them were Kubernetes, and so I started going through those books and started spending my time doing that. That's how I got there. It's daunting if you don't have a guide, either a book, or some kind of tutorial, or something to walk you through it.
+
+Eric:
+I've played briefly around in early Kubernetes, maybe three or four years ago, and then stopped using it for six months, and then when I looked back at it, it was all different, and that's where I'm currently at. I know a little bit of what it is, and it's all changed.
+
+Mark:
+The other thing that is funny, is when you're doing all of your working out Kubernetes locally, you're usually doing something like Minikube, where it runs like a mini cluster in VM on your machine. When you say, "I've got it. I figured it out. I can make this all work," and then you go and try and do it in production, it's like, now you have to know how to talk ... Especially in AWS. Now you have to take into account IAM roles, and things that are AWS specific. How do I get the Amazon application load balancers to talk to my Kubernetes cluster? That'll be different if you're going to Azure, or DigitalOcean. It's that boundary problem.
+
+Eric:
+I was doing it on the Google Cloud at that point.
+
+Eric:
+How do these new Elixir apps that you've got ... It sounded like you replaced at least one of your old Ruby apps. How do they compare?
+
+Mark:
+One example is just thinking about resources. The traffic load is not so high that we're concerned. We're not at a Twitter scale or anything like that, where we really care about that much. Putting a Rails application with Passenger and Nginx into a container, and just getting four instances of this Ruby app running, it's like 750 megabytes of RAM, and that's just allowing me to do four parallel requests. That's insane compared to what I can do with Elixir. I can run an Elixir application in a container, and this is a sizable Elixir application, and I'm running about 100 megabytes of RAM, and it's concurrent up to some unbounded set of concurrent requests that I can handle.
+
+Eric:
+It's essentially, how many ports can you open?
+
+Mark:
+Right. At some point, you do run out of ... Either they're doing so much work, so it's CPU bound, or you're doing so many requests that you're flooding your network traffic or something. I don't have to worry about how many requests I can handle when I'm running Phoenix and Elixir. At the scale that we're at right now, I don't have to worry about that.
+
+Eric:
+We have an app on Heroku, and this was one of our first actually production servers, and so, "What do we need for dyno size?" "I don't know. Pick a 2X."
+
+Mark:
+Right.
+
+Eric:
+That's usually a safe bet. This thing has been running at 100 megabytes, so the only reason we have it is that second CPU core.
+
+Mark:
+Yeah. It's been a while since I've used Heroku, but you have to go to some certain level just so they don't shut it off. The free tier, they'd kill it after inactivity or something.
+
+Justus:
+Maybe we should move on here, talking a little bit about background task processing. Is that about right, Eric?
+
+Eric:
+Yep.
+
+Justus:
+Very good. How are you doing that, Eric? Mark, Eric's doing that. So funny.
+
+Mark:
+With background jobs, every project I've worked on, at some point you have to deal with that. Either you're wanting to send out an email asynchronously, or something. A lot of times, I've just liked writing in them myself, because with the primitives that are built into the BEAM, assuming you're clustered, then you can create a GenServer that's named and coordinate with the other nodes to say, "I'm the guy running the background jobs," or whatever it is, and then it becomes really easy.
+
+Mark:
+There are some off the shelf tools also that we have in production. There's one called Exq.
+
+Eric:
+We've used that one too.
+
+Mark:
+That has been very helpful for us, because we also have these Ruby applications. There's this API compatibility, so you could put a job in on the Ruby side, and have it processed and fulfilled on the Elixir side. That makes it easy. Another one is Quantum. Quantum is nice because you can use a cron-like syntax to say, "I want to run these jobs at this time." That's a handy one too that I've used.
+
+Eric:
+Continuing with the theme of libraries, what other ones have you used in these applications?
+
+Mark:
+Phoenix, obviously. You know they're web applications. We were using Ecto 3. For sending out emails, we're using a project called Bamboo. What's nice about that is it gives you a struct for being able to validate that the email content is going to have what you want, like the correct recipients and the body and everything. It makes that easy for tests. Speaking of tests, there's ExMachina. I use that a lot. I don't know of a better one. It's great. It comes back from the Rails factory_girl. It's like a factory for creating test data, and inserting it into your database, or not. Just building it in memory. I use it on every project. Love it.
+
+Mark:
+Eric, when I met you at ElixirConf, you introduced me to Prometheus.ex. It was great. Sidebar, I think that's the value of going to actual in-person places where you meet people. I just made the effort. I was like, "All right. I just want to meet people," so every time we'd break, I'd go sit at a different table, and just meet people. That's where I met Eric, and he introduced me to Prometheus.ex, and he showed me how it works. Because of his awesome project, ExVenture, I was able to actually see examples of how to use it, because reading the docs was not necessarily clear.
+
+Justus:
+I guess I have to pop in here. It might be anachronistic by the time this comes out, but pretty shortly, Eric will be introducing a lot of people to Prometheus at Lonestar. Are you going to be there, Mark?
+
+Mark:
+No, I won't be able to make Lonestar this year.
+
+Justus:
+Bummer.
+
+Mark:
+I'm hoping to make it to the Elixir conference in Denver, or outside of Denver.
+
+Justus:
+Aurora.
+
+Mark:
+At Aurora, yes. I'm hoping to be there.
+
+Justus:
+We should be there. Eric will be there speaking.
+
+Eric:
+Got to be accepted in the CFP first.
+
+Justus:
+Great.
+
+Mark:
+In terms of finishing out the libraries, I already mentioned Exq and you guys are familiar with that. Another one is Sweet_XML. Some of the external services, like partner organizations, deal in XML. We have to parse that, and that works well for that. Absinthe is the last one, and that is the Elixir GraphQL implementation that's the default. If you want to do GraphQL, you probably start with Absinthe. I really love that. I much prefer that over writing REST APIs anymore. That's my favorite.
+
+Eric:
+Going from libraries to third party services, have you struggled integrating any?
+
+Mark:
+A lot of the big professional ones, you don't really have a problem with, because there's a lot of good documentation. Using Stripe, or talking to AWS for S3. I think it's EX AWS or there's various AWS libraries that already exist for doing some of those things. The ones that I've had the biggest issue with are the custom partner ones. With the FinTech company that I was with, one of the things we had to do was, our partner organization was a bank, and banks are not known for being super tech leading edge. This company was given credit for being much more tech savvy than our first partner. They were terrible. I won't name them by name, but they were terrible. It was the worst thing. Literally, we're having to FTP files, and pull FTP folders. It was terrible. Having to literally use Java applications to write Excel files, spreadsheets. It was awful.
+
+Mark:
+Anyway, this new modern bank partner, they had VB.NET, and they had a SOAP API. It's inconsistent on every different request. That is where I've spent a lot of the time. It's the external partners. They aren't big. They're not investing in making their service easy to use for other developers. That's not their focus.
+
+Justus:
+I'm sure we could spend a lot of time talking about SOAP APIs and how bad they are.
+
+Mark:
+You guys deal with that too?
+
+Justus:
+Yeah. But, we do have limited time, and Eric, we've got some close out questions here, if you want to start with that punch list.
+
+Eric:
+Sure. Our first one is, do you have any stories where Elixir saved the day in production?
+
+Mark:
+There is one that comes to mind. A lot of the focus of this primary application that I work with is, it's an applicant tracking system. Like the tenant space, they're applying to an apartment or something like that. As part of this whole process, we're doing background checks, and that's the space that we're in. The main applicant tracking page is kind of like the homepage for the property managers who are seeing who all has been applying. That was a very heavy ... so it's served by Rails, and it was a very heavy page, in terms of the size of the JSON download, because it's a View front end, ViewJS front end, and the size of the download of all the data that was coming down, all of the data it took to build this set of data. Because you had a list of an applicant, and then an applicant. They invited roommates, so multiple roommates, and each one of those has a different application status and background check status. For one applicant or one application, it goes down. It fans out into all of these different related things that you're fetching. We had all these things in the Rails app to try and make that work.
+
+Mark:
+We had Redis caches, we had in database denormalized caches. All this stuff to try and ... So this is not a terrible page to be on, because it's the main page. It depends on each individual company, like how many applications they would have. One of our clients has 10,000 properties that they manage. There's a lot. Thankfully, it's broken out, so it's not all in one. That was the nature of this problem. When we experimented with how can we do this differently with Elixir ... This was still the View front end, talking to a GraphQL backend, and using the DataLoader library that's part of the Absinthe project. What that let us do, basically there's one query for the applicants, and then using Data Loader, it's able to fetch out all the different related tables, but it's able to do that in parallel, and then it pulls all the data back together, so I don't even have to worry about how it does that. That was awesome.
+
+Mark:
+The other aspect of it was, because it's GraphQL, we could say previously, we were having this large JSON body come down that we were saving into view stores, so we could move around between pages. We realized we don't need to do that. We can just say, "What is the data I need for this page?" And fetch it all it one document. It literally went 10 times faster, like from over three seconds per page load to 300 milliseconds. It was literally 10 times faster. The JSON download literally got 10 times smaller. All the other efforts that we'd made to optimize and make it work, we were able to remove all of that. That was Elixir, that was the benefit of these mature libraries like Absinthe and DataLoader, which are all taking advantage of everything that's in Elixir and the BEAM runtime to be concurrent and automatically parallelizing work where it can be done. That was it. That was a huge win for me, and you get all kinds of buy in when you get something like that, where all of a sudden we deployed it and everything is literally faster, like noticeably an improvement.
+
+Eric:
+Did you take a screenshot of some charts somewhere that showed really high graph and then a huge dip?
+
+Mark:
+I would have if I had already met you and you'd shown me Prometheus. I didn't have that.
+
+Eric:
+Are you using any cool OTP features?
+
+Mark:
+Like I described before, we have these multiple services, and a lot of them are kind of like Phoenix apps. All the communication between them is HTTP calls. There's really nothing impressive or really fun going on there, but I actually kind of view that as a testament to, you don't have to worry about that. You can be insanely productive and not have to understand any of that, because of what Phoenix gives you. Phoenix automatically creates a process per request, so you're automatically concurrent and running in parallel. Ecto has connection pooling, and it's automatically going to buy you a lot. You can go really far without doing any of that. I have worked on other projects like at the FinTech company, where there was a lot more that was OTP specific, where we have GenServers that are managing work queues. Then using GenStage to have a set number of workers, because we had this partner bank, and we don't want to flood them with requests like when we're doing a background job or something, so we're throttling ourselves, so that kind of stuff. It just makes it easy.
+
+Eric:
+Our last question here is, if you could give one tip to developers out there who may or already have Elixir in production, what would it be?
+
+Mark:
+Kind of falling on with that last one, is just have fun with it. Just enjoy it. Don't stress. I've talked to a lot of people who kind of get frozen up about worrying about doing it the right way. When you go into all the forums and see what people are talking about, they're saying, "You should do it with context, or you should do it with umbrellas, or you should do it this way. This is the right way." People get frozen where they don't move. Don't worry about that. One of the nice things about Elixir is, if you're worrying about modules and functions, and you're trying to create intelligent code, you're just designing it well, then refactoring it is not that bad. It is not like refactoring object-oriented code. That is a whole lot harder. I'd say just keep having fun with it, and just to reiterate a point that we talked about earlier, is going out and actually meeting people, be that at a meetup, or at a conference or something. Just meet people and you learn a ton from other people, and you have someone who can mentor and just ask questions. That's it.
+
+Justus:
+Mark, that is great advice. Thank you so much. Before we let you go, do you want to plug any of your projects, any URLs that people can go find you at, any reasons to reach out to you and ways to reach out to you?
+
+Mark:
+Sure. Yeah, thanks. I'd love to have people listen on the ElixirMix podcast. I'm a host on there. You can check out my blog at brainlid.org. I'm on Twitter. Brainlid there as well. It's spelled like brain, B-R-A-I-N L-I-D, like flip open my head and I'm sharing my thoughts.
+
+Justus:
+Are you open minded, then?
+
+Mark:
+I try to be very open minded, yes.
+
+Justus:
+Very great. This has been wonderful. Mark Erickson, thank you so much for joining us today. Once again, this has been Smart Software with SmartLogic talking about Elixir in production. Join us for our next episode in this series. Thank you so much to everybody who listened, and have a great rest of your day.
+

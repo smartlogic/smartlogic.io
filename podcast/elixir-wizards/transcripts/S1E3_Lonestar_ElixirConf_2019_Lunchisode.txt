@@ -1,0 +1,600 @@
+Justus Eapen:
+Welcome to Smart Software with SmartLogic, a podcast where we talk about new and emerging technologies in the field of web and mobile software development. My name is Justus Eapen, and I'll be your host today. I'm a developer at SmartLogic, a Baltimore based consulting company that has been building custom web and mobile software applications since 2005. I'm joined today by my colleague and cohost, the infamous wizard, Eric Oestrich.
+
+Eric Oestrich:
+Hello everybody.
+
+Justus Eapen:
+Great, and Eric can you maybe tell us a little bit why this episode is a very special episode in comparison to our usual.
+
+Eric Oestrich:
+This episode, we recorded the Saturday at lunch of Lonestar ElixirConf 2019.
+
+Justus Eapen:
+What did we talk about in this episode, because we definitely hit a lot of topics, but it's definitely worth listening to?
+
+Eric Oestrich:
+We talked about Elixir.next, kind of what's coming there, Releases in the core, numerical computation performance, a lot about that. Elixir language wars, and the challenges of adopting Elixir in your workplace.
+
+Justus Eapen:
+We somehow managed to get probably the ten most important developers in the ecosystem all in one room, kind of a big deal, so give it a listen. Here is the Lonestar ElixirConf 2019 Lunchisode. We are at Lonestar Elixir 2019, sitting in the green room with a number of the speakers and keynote speakers that are here for this conference. I'm going to let them go around and introduce themselves. We're jumping in right now. What's up, man.
+
+Amos King:
+Oh sorry, Chris just messaged me and told me to come.
+
+Justus Eapen:
+Come on in. We've also got the crew from Elixir Outlaws here. We've got Chris Keathley, we've got Amos King, we've got Chris McCord, we've got Jose Valim, we've got Paul Schoenfelder, and we've got some more. We'll all introduce ourselves. Chris Keathly, do you want to take it off since you're in the corner right by the mic?
+
+Chris Keathley:
+Yeah, sure. I'm Chris Keathley. I don't know what I'm known for, probably, maps versus structs is the thing I'm most popular for right now, and just being a resident curmudgeon, I guess. I didn't really mean to end up that way, but here we are. I run a podcast with Amos, and do open source stuff. More or less just say things in the community. I don't know. This is so awkward. What do I do? I don't do anything. I just talk to people.
+
+Chris McCord:
+You write Raft implementations. Just small-
+
+Chris Keathley:
+I wrote Raft once. I wrote Raft once.
+
+Justus Eapen:
+Chris?
+
+Chris McCord:
+I wrote the Phoenix, so it's my major —
+
+Chris Keathley:
+No big deal, I wrote —
+
+José Valim:
+He could've been a little bit more enthusiastic about that.
+
+Chris McCord:
+I wrote this web framework called Phoenix. Phoenix is obviously my main contribution to the community, and I somehow parlayed that into working on Phoenix and related libraries almost full-time at Dockyard. I have found myself getting paid by open source, which wasn't the original goal but has worked out pretty well. It's been crazy being involved in the community since 2013 when we were just doing the best we could.
+
+Chris Keathley:
+Don't count the days.
+
+Chris McCord:
+At the beginning, we were just trying to get anyone to just listen to us and try the library and language out. I remember being in IRC watching the active users like, “Oh, we've got 18 people today. Last week we'd usually see like, 10.” Anyway, that's been pretty cool to see the community grow and people start using Phoenix and somehow I found myself with a large user base and companies using it. It's been a pretty cool ride so far and happy to be a part of this.
+
+Justus Eapen:
+Very cool, and feel free to shamelessly plug anything you want. Paul?
+
+Paul S:
+I came in the community, I think not long after these guys. Came from dotnet mostly working in enterprise hell and started writing libraries for things I was interested in. That's why I ended up building Exrm and Distillery, Timex, later Libcluster and some of those other things. There's a handful of libraries I've written for different things.
+
+José Valim:
+Combined.
+
+Paul S:
+Combined. It's nothing now though with the NimbleParsec, but a lot of those libraries. Just have fun finding problems I want to solve and writing open source. Like Chris, I work for DockYard. They pay me to basically work on open source all the time. That's what I find myself doing, and just trying to do that for as long as I possibly can, and keep contributing to Elixir and Erlang to try and keep things moving forward to bigger and better things.
+
+Justus Eapen:
+Great. Amos.
+
+Amos King:
+I do the podcast with Keathley. I've done quite a bit of Nerves work over the years. Library called GrovePie for people who are really just starting out with hardware, using GrovePi system. Worked on Shoehorn. The crazy Shoehorn thing as Keathley shakes his head at me. This is how it normally goes. I pretend that I know what I'm talking about and Keathley "Well, actually's" me, and shows me how I'm wrong-
+
+Chris Keathley:
+That's not true.
+
+Amos King:
+... but it works out well.
+
+Justus Eapen:
+That's also how our podcast works, where Eric Oestrich makes sure I'm not a total idiot.
+
+Amos King:
+We edit it all, so it sounds like I know what I'm talking about, but really, Chris just keeps me aligned. I guess that's about it.
+
+Justus Eapen:
+The reason we're all here, Jim.
+
+Jim Freeze:
+I know Chris. That's why I'm here. I know Chris-
+
+Chris McCord:
+It's an inside joke, but he does know me.
+
+Chris Keathley:
+I thought he was talking about me.
+
+Paul S:
+Jeez McCord. Don't get ahead of yourself.
+
+Chris Keathley:
+Man. Just everything's always about you.
+
+Chris McCord:
+Which one of us is the other Chris?
+
+Chris Keathley:
+Snap. 100%, I'm the other Chris.
+
+Jim Freeze:
+I met Mr. McCord for the first time on IRSSI. Just talking about Phoenix over Sugar.
+
+Chris McCord:
+There are a few. There a few options.
+
+Jim Freeze:
+A few things were trying to crop up at the time, right?
+
+Chris Keathley:
+Phoenix, Sugar, Thunder…
+
+Jim Freeze:
+Yeah.
+
+José Valim:
+Wait. There was a project named Thunder?
+
+Chris McCord:
+Yeah. Remember Darko. He joined — he was the first Phoenix core team member.
+
+José Valim:
+I remember that.
+
+Chris McCord:
+He disappeared very quickly. He helped with the first generator. The project generator.
+
+José Valim:
+Amazing.
+
+Chris McCord:
+Fun times.
+
+Jim Freeze:
+I told him, "I really, really wish I could use Phoenix," but it was like a week old. My contribution is, I started the first ElixirConf here in Austin, Texas, and this is our fourth. Two, three, four-
+
+Jim Freeze:
+Fifth! Fifth conference here in Austin. I started the first-
+
+José Valim:
+No. Six. The first one was 2014, so unless-
+
+Jim Freeze:
+We had the two main Elixir conferences and this is our third Lone Star.
+
+José Valim:
+You skipped a year at some point.
+
+Jim Freeze:
+This is number three for Lone Star.
+
+Chris Keathley:
+Because ElixirConf was here, right?
+
+José Valim:
+Right.
+
+Chris Keathley:
+It starts to blend in as though that was Lonestar
+
+José Valim:
+Yeah. We had ElixirConf here '14 and '15.
+
+Jim Freeze:
+Yes, that's two, and then this is the third ElixirConf.
+
+José Valim:
+You have 17, 16, 19. You skipped 16.
+
+Jim Freeze:
+Two plus three is five.
+
+José Valim:
+You skipped a year.
+
+Jim Freeze:
+Anyway, I started ElixirConf EU, the first one was in Krakow. Then, I helped start ElixirConf Mexico, and I then I started Lonestar ElixirConf.
+
+José Valim:
+After you skipped a year.
+
+Jim Freeze:
+Yeah.
+
+Justus Eapen:
+Zaki is in the corner working on his talk that he's about to give. Do you want to introduce yourself?
+
+Zaki:
+Mm-hmm?
+
+Justus Eapen:
+Do you want to introduce yourself?
+
+Zaki:
+Yeah. I am practicing.
+
+Jim Freeze:
+So no.
+
+Justus Eapen:
+Okay.
+
+Justus Eapen:
+The man himself, José Valim.
+
+José Valim:
+Hi. I'm José. I'm the creator of Elixir, co-founder of Plataformatec.
+
+Justus Eapen:
+Great.
+
+Eric Oestrich:
+I'm Eric. Mostly do silly text games.
+
+Justus Eapen:
+Great. I think we should start with José and hear partly what was the impetus behind Elixir. I know we've all heard that before, but now you where's it going? Where's the future?
+
+José Valim:
+The future, that's great, because I was looking for an excuse to delegate the question to all of you. The future is in the community, so your turn. Taking seriously, at my last ElixirConf keynote, I talked exactly about that. Like, Elixir is the things you want to have in the programming language. We are mostly done, so the next thing we're doing is exactly what this is, bringing a new set of features. We can have Releases as part of core, and after that I'm in permanent holidays, and it is really up to the community to continue extending and bringing it up to new domains and tackling new challenges.
+
+Justus Eapen:
+Releases just came up in that answer. I guess Paul can really talk about where we stand with the Releases and where we're going.
+
+Paul S:
+José has taken the general concepts that were in Exrm and Distillery and made it part of Mix. I don't know that that's been released yet, but that's in progress, I think, planning for the next major release.
+
+José Valim:
+Yeah. Out in July according to our every six months release.
+
+Paul S:
+That would be the first time that Releases would be part of core, and it would be like the fundamental primitives. It's not the full feature set that Distillery has and that's intentional. The idea is that the community provides those extensions and additional features. Distillery would be one of those libraries. My aim is to essentially rip out the parts that will now be in core, and then just act as a library on top of the things to provide some of the things that don't really belong in core but are "nice to have's" anyways.
+
+Paul S:
+This past year when I was working in Distillery, it was mostly about figuring out, how are we going to deal with the question of runtime configuration and just, how do we get that last mile on the features we need to really make this part of core. I think José was really helpful in helping me work through that. We came up with the config provider stuff. That seems like the right abstraction for this, but it remains to be seen, once we've got stuff actually in mix, how it works out, I think. We've seen Distillery, a lot of people have been really happy with the 2.0 release, and how much easier it is to use versus how it used to be. I hope that with it in core, it becomes even easier and there's just less friction.
+
+Paul S:
+People always expect that deployment to some degree is solved by the language itself. Some languages it's just kind of a given because you're compiling to like a static binary or something, but it's a little bit different in Elixir because we're kind of this blend of interpreter base but also doing some form of ahead-of-time compilation. It's a little bit confusing that you don't get like some artifact that you can run right off that. With Releases in core, I think they will feel more like that. More like there's a native solution to deployment and that should help people. I feel like there's less of this pain in the process, especially back when Exrm was the primary tool. There was a lot of edge cases and things that didn't work particularly well. A lot of areas where it wasn't very flexible and that was the main reason for rewriting it into Distillery was to provide more extension points and things like that, but there's still lessons learned even in Distillery.
+
+Paul S:
+Now that we've iterated through a lot of those different pain periods I think, it Mix has got the right abstraction.
+
+Zaki:
+Excuse me. Did you mention about the compiler of Elixir?
+
+Paul S:
+Yeah. I mentioned the compiler.
+
+Zaki:
+I am developing a compiler of Elixir, this is Hastega is a part of a compiler, this compiler. I use meta programming infrastructure of Elixir, that utilizies the parser — as a parser. The back end will be implemented as LLVM. Today is my presentation, introducing the fixture of this compiler.
+
+José Valim:
+Awesome.
+
+Zaki:
+Yes.
+
+Paul S:
+You were working on a compiler to leverage the GPU, right?
+
+Zaki:
+Yes. Not only GPU.
+
+Paul S:
+That's cool.
+
+Zaki:
+Now, I developed a focus on GPU and the assembly instruction, but not only them, but also all of the computation on Elixir.
+
+Paul S:
+Those kind of efforts, I think are important because particularly being able to leverage the GPU for things like vector calculations or heavy math will enable us to close the gap with formats on the BEAM's weakest point, which is really raw computation.
+
+Chris McCord:
+You get an answer to the unsubstantiated adage about number crunching, which is like true, but also no one has any measurements, so it would be nice to say, "Oh yeah, if you need to do this number crunching, we actually have a great option for that."
+
+Zaki:
+Thank you.
+
+Justus Eapen:
+Can you expand on that a little bit?
+
+José Valim:
+I think we inherited that from Erlang, from old Erlang, because it's not a problem now anymore. The issue is that Erlang would be slow with number crunching. When we say slow, it's not like we are comparing to C. We are comparing to Fortran, comparing to Java. We are not comparing to PHP. I'm not dissing on PHP. Just saying that in bechmarks, it's one of the top.
+
+Zaki:
+My vision includes this vision, yeah.
+
+José Valim:
+It's low if we are going to compare with those languages, but when this was — everybody talked about it, was before we had NIFs. Erlang improved by adding NIFs, which is a way that you can run native code like C, in the Erlang virtual machine. But that was still a problem because even if you have NIFs, the NIFs, they could not block, they could not hold. They could stay ... They could not run for a second, because that would mess up the scheduler in the virtual machine, how the virtual machine works.
+
+José Valim:
+Three years ago ... Actually started Erlang 17, which is four or five years ago. They started to experiment with this thing called dirty NIFs. I said, "Look. I have to perform a task that's going to take a really long time, and just let me do this." Now we have ... When we are talking about number crunching, right so a language a lot of people use number crunching like Python. You're not doing that in Python. You are integrating with C. Before, Erlang and Elixir did not even have this option to integrate with C.
+
+José Valim:
+Today we have the option to be able to pair with the other languages, given that the fact that all those languages, they are mostly doing C integration, and that's a possibility today. Number crunching is an issue, but today it can be solved as we ... As you would solve it in any other platform.
+
+Paul S:
+There's also high performance Erlang. If you compiled to native, it's got an LLVM backend or regular GCC based backend. That gives you something. It's like in between NIFs and just raw Erlang/Elixir code, because you're compiling to machine code, but you're not running the risk of interfering with the schedule. That was the main thing with NIFs is that, still even with dirty NIFs, it's possible if you're not writing the NIF correctly to break things, kill the node, that sort of thing. But, I don't think HiPE is particularly used too often or people aren't necessarily aware of it.
+
+José Valim:
+Right. The thing about HiPE, which is ... HiPE is a way you can say, "I want to compile this code to native," and it goes there through your Erlang/Elixir codes, when it's compiled it's native. But with built-in integration in the VM it uses the same memory modeling and everything. The issue with HiPE is that ... For example, if you run dialyzer, you want to compile dialyzer with HiPE because it's going to run three or four times faster. It can really be an improvement, but you need to make sure that you are compiling a closed part of the codebase. You do not want to be jumping between HiPE compiled code and non-HiPE compiled code.
+
+Paul S:
+Crossing that barrier is really expensive.
+
+José Valim:
+If you say, I have this numerical computation where everything is expressed like this, and then you say, "Look, I want to compile everything here and everything that this calls to native," then HiPE is going to give you an improvement. I was just coming from CodeBEAM San Francisco. They announced that they are also going to make the JIT compiler. They are going to make it open source. They have been researching it for a while. Then, make it open source but there's still no deadline when that thing is actually going to be usable, but they are making at least one step in this direction. A lot of that same work happening on the [inaudible].
+
+Chris Keathley:
+I also think though like ... I'm super excited about all that. That's going to be awesome. I also think that it's funny when people comment on the BEAM being slow, and those are the same people who are running web services and they're like, "I want to run web services that do all this I/O work." It's very funny to me because there's so few pieces of that problem that are truly CPU bound, and they're all bound by networks, and more than anything, in my opinion, at really high scales, you're bound by failure. You're bound by like faults and you're bound by faults in the system and how you handle those faults in the system. It doesn't matter that the BEAM is slow, even if you took the line of reasoning that it is slow. Computationally, does less CPU than Java does or whatever, because you're able to handle faults so much better and run all these things concurrently and isolate failures everywhere.
+
+Chris Keathley:
+I don't know. When I look at our metrics and see our traffic spikes and stuff, it's like, I can imagine trying to do any of this with Java. I've worked on big systems with Java running at scale. It's like, this is a nightmare. I gotta pay like three people to learn how garbage collection works and to swap it out with some other improved thing, and to tune JVM heap sizes. I don't want to do any of that crap. We barely do any tweaking of the BEAM to get performance out of our system.
+
+Paul S:
+Right. Out of the boxes it's really well optimized.
+
+Zaki:
+Did you mention the isolation of the memory space?
+
+Chris Keathley:
+Mm-hmm (affirmative).
+
+Zaki:
+I agree strongly, because LLVM has very strong memory protection. Erlang and Elixir can-
+
+Chris Keathley:
+Use, leverage?
+
+Zaki:
+Yeah. Now, NIF mean that native interface function is not ... I think this is not called [inaudible 00:23:08] new processor of LLVM. NIF cannot multiprocessor programming, so Hastega can tend to multiple programming. Now, currently the implementation is using [inaudible 00:23:42], but this has some overhead. I want to use LLVM process, but I can't.
+
+Chris McCord:
+I also think with the number crunching, I'm in the web space, obviously, so I don't go too low level, but the number crunching thing also frustrates me a little bit because some people use that as a way to dismiss Elixir. This is the audio recording, but will we keep mentioning slow, but it's like an air quotes so that you don't see it. Imagine the air quotes, but it's like "slow" in the context of like compared to C but faster than probably anything most people are using. The thing with number crunching specifically for me is, and someone can correct me if I'm wrong, but is this a true statement? I can represent ... If I'm trying to represent the largest integer possible, that the BEAM would exhaust system memory versus overflowing.
+
+Paul S:
+Yeah, you're right.
+
+Chris McCord:
+For me, I think the conversation around this too, like people, they just see, "Oh, it's slower than C or it's slower than Java," but the nuances like what Chris was talking about, for one, at least coming from the context of what I think a lot of us in the community are building, it doesn't matter at all, but for two, there's a trade-off there where we don't have to worry about the specific data types overflowing.
+
+José Valim:
+They have to worry about the different kinds of integers.
+
+Chris McCord:
+There's legitimate reasons for that. If you look at Erlang and the problems they were solving, if you want a system that's up and running for months or years, you don't have to worry about like, if I'm bumping some counter reference like, "Oh well, I ran this for eight months and it crashed because I overflowed an integer." There are valid reasons that ... There are valid reasons to some of this number crunching being "slower", but it's not like, "Oh, we didn't get it right." It's like there are legitimate reasons they are the way that they are. You're getting benefits from the potential downsides. That conversation and that side of it never happens.
+
+José Valim:
+I like there some things in the Erlang docs exactly because from the scenario, they have to think about running it long-term. It's like, "Oh no. We add this functionality," and that for example is allocating like unique references, and then they are like, "Well, we have this functionality implemented in a way that if you call it every second, you are going to get a duplicate." They did the math and they put it in the docs, you are going to get a duplicate in the year 2307. I'm glad you did the math. I'm glad you are safe.
+
+Chris Keathley:
+I think a lot of people end up too using a lot of really, just bad logic to reason about this kind of stuff. It comes up with the immutable data stuff too, where people say, "Well, because I can't do." You talked about this yesterday in your talk as I gesture to Osa.
+
+Justus Eapen:
+I'm going to take this opportunity to introduce the guest that just joined us. Osa, guys. Do you want to introduce yourself and talk a little bit about your history with Elixir?
+
+Osa:
+Yeah. Sure. I'm Osa Gaius. I worked at places on functional programming for a company called Luma. We built lots of consumer devices. I faced a similar challenge like they were describing here where about five Elixir engineers sort of conflict within the company. The answer to that by management was to bring in two Java developers to rewrite the entire piece of software. I thought that was interesting because their argument was Elixir was slow, even though we had like 50,000 devices in the field, but I think they were able to make the argument because we as Elixir developers at the company didn't have a strong sense on why saying something is slow is intellectually bankrupt as an idea, and saying that writing in Java was also like equally silly.
+
+Osa:
+We couldn't say that because we weren't bold enough, but I think they as Java developers were bold enough to say, "No, your languages is silly and it's a toy language." I think there's definitely a-
+
+Chris Keathley:
+No one has ever been fired for choosing Java.
+
+Osa:
+Right. I think part of the challenge at least for me in that moment was being pretty strongly opinionated about why slow doesn't matter and why Java wasn't the right answer in that situation, especially given a complete rewrite. I think that's kind of tough when you're in the moment.
+
+Chris Keathley:
+I also think slow is not ... The things that people do even when they try to be scientific about what slow means is just wrong. They're just not correct. People talk about with immutable data, like not being able to do like, O(1) access to things, It's like, "Yeah." Well, it turns out you don't know how to ... It turns out that one doesn't matter in practice because O(log 32) is pretty good, and also you need to learn how amortized time complexity works. Amos will tell you all about that.
+
+Amos King:
+Don't look at me. I'm tired of reading that book.
+
+Chris McCord:
+I just mean like amoritized time is actually how new data structures are being created, and those are where like interesting advancements are happening, and this whole swath of people doesn't know how to do that.
+
+Amos King:
+Even in the OO languages, amoritized time is something that-
+
+Chris McCord:
+Matters.
+
+Amos King:
+... researchers are looking at way more often than they used to.
+
+Chris Keathley:
+It's easy to sort of talk up and be like, "No. It's too slow. It's just a bunch of lists."
+
+Justus Eapen:
+Could you define that in simple terms for-
+
+Chris McCord:
+No.
+
+Amos King:
+There's a book.
+
+Chris Keathley:
+No. Amortized time just means ... Traditional Big O Notation is based on this thing called asymptotic time analysis. The idea is that you look at the worst case scenario. Probably, people are familiar with that. Amortized time analysis basically says ... Well, it turns out that worst case isn't always the worst case. The worst case isn't what you do a lot of the time. Instead, you do a time analysis based on the types of operations that you would actually do to a real data structure. I'm getting and I'm setting and those increase costs and decrease costs. I can actually do a more interesting time analysis based on the distribution of operations that I'm going to do on a piece of data. It turns out that when you do that, it opens up this whole design space for much more interesting data structures and that's where you start to get things like hash array mapped tries.
+
+Chris Keathley:
+There's a lineage there that traces all the way back to like Chris Okasaki's book and doing immutable pure data structures and works its way down to where we are now where we get to utilize all this stuff. It's because it opened up the design space to talk about more interesting ways of mutating and changing data, and more interesting ways of doing analysis. And yet most of us don't ever learn that unless you take a master's degree or you study it on your own. We're still stuck in a way of looking at design space when actually a lot of the design space has changed. We can talk about academia. I don't know. There's that too. That's like people are still using old ways of thinking about problems.
+
+Paul S:
+Slow to you is about CPU, but your problem is not CPU bound, then it's irrelevant. It doesn't matter how slow it is.
+
+Chris Keathley:
+But my Fibonacci-as-a-service is gonna be dope.
+
+Paul S:
+Better write that in Rust.
+
+Chris Keathley:
+Yeah, better write it in Rust. Those types will really solve it.
+
+Jim Freeze:
+I've heard assemblers that are Rust.
+
+Amos King:
+I've run into it a few times where arguments with people saying Elixir or Erlang are slow, and even doing mathematical computations, a lot of that stuff, if you sit down and try to break it down, you can parallelize it pretty easily. I brought that up and I've been told, "Oh well, we can do that too." Then, I have I have it parallelized and faster because I can parallelize it in less than a day, and they're still working on it two weeks later and frustrated and can't get things working. To me, it was worth that amount of time to move on to the next problem and I'm already faster than their current solution and they're still working on the next one to try to parallelize that.
+
+Chris McCord:
+Without data points and the nuance, then that the conversation is, there's no value to it. As far as number crunching ... I said I'm not doing any matrix computations. Like one of the projects that we've worked on recently is a financial trading platform. Instead of immediately saying like, "Oh, we better shell out, to something that can do number crunching," we started with like, what are your ... We ask the client, what are the training requirements? What's the max throughput this thing needs to handle? We were told 10,000 trades a second. It was like, well, let's see what we can do in Elixir, and see if we can get 10,000 trades a second. We wrote a trading algorithm.
+
+Chris McCord:
+Long story short, using Ecto, getting the data in the system with Postgres and then reacting to that event, walking a couple of ETS tables and doing the actual trade matching logic, just in Elixir, comparing Elixir with structs and data structures. So it's not hard number crunching, but something that you would say for a financial trading platform, comparing all this data. Anyway, we were able to get thirteen thousand trade a second on our development MacBooks to validate like is Elixir good-
+
+José Valim:
+On the first try or pretty much like the implementation as it came to be-
+
+Chris McCord:
+As it came to be. There wasn't really any massaging. It was like, okay, get the data into the system, persist it, build it in ETS, and then we would walk a couple of ETS tables and match trades and then move data around, load it up with work, run the benchmark, 13,000 trades a second. That's how ... When I hear a number crunching, at first it needs to be nuanced, like what are you doing, and then what do you mean by number crunching. Given this metric that you are trying to achieve, that maybe ... For us that was blazing fast. We were like, "Okay, great. This works on a MacBook. Let's build this product." We didn't have to go down the rabbit hole of "let's write a NIF for this."
+
+Chris Keathley:
+We've certainly seen CPU problems. It is something to address. It is a real thing that you do need to be aware of, certainly like at Bleacher Report, we've seen CPU-bound problems mainly around JSON decoding and encoding, but it's surmountable. It's surmountable.
+
+José Valim:
+If you can make it faster, why don't you make it faster, right?
+
+Chris Keathley:
+Right. Yeah.
+
+José Valim:
+I think everyone in this room, if you say, "I will make it 10 times faster." Nobody's going to say no. Everybody would say yes. Nobody's like, "No, I don't want that," unless you have issues like ... I saw that somebody tweeted that they had to add a slow down in the application because it was-
+
+Chris McCord:
+I retweeted it.
+
+José Valim:
+It was replying so fast that people, they would-
+
+Chris Keathley:
+Thought it was fake?
+
+José Valim:
+Yeah.
+
+Chris McCord:
+The customers thought they were faking the UI. They didn't believe it.
+
+José Valim:
+Anyway, going back-
+
+Chris Keathley:
+That seems like a good tweet that made ... I don't buy it. I don't buy any of that.
+
+Zaki:
+I have a vision. My Hastega will, not only server side, and client side, web assembly and webGL, and web GPU. Client side computing, just user interface and machine learning on user side. On the server side computing, the database manipulation and some cloud computing. This is my vision.
+
+Justus Eapen:
+We've got about 10 minutes left, and I want to shift gears from some of the real deep technical topics that we've touched on, and José I'll let you go there, but I want to talk to Osa. Yesterday in your talk you brought up how Java in the 90s won the language wars, and how that was not the outcome that was actually best for the community. I'd like to hear from you guys. I think part of this is being pretty aggressive about it, but how do we take back the mantle, how do we displace the top dog and rectify this error in the marketplace?
+
+José Valim:
+Just a second. I just want to finish the thought. We would all take a performance speed, like if it could be 10 times faster, but the goal is that ... The point is that performance in the huge majority of the cases is ... It's like salary. Like who would like here a 10 times raise in salary? Everybody's like, yes, please, and no one is saying no. But we as engineers, it's like we want to receive a reasonable amount of salary, so we can focus on our work and don't have to worry about a thing. That — the same thing with performance, you want to have a good ballpark where it can do everything and then you can focus on everything else. Assuming that performance is good, is in a good place, then you're going to value everything else. You're going to value fault tolerance, you're going to value the programmer productivity, happiness. You are going to value the tooling.
+
+José Valim:
+In most cases the performance is in a good ballpark, and yes, there are things that can improve. For example, in our application, I think what could be improved with performance is JSON. That's something that could improve, but even things like ... In other languages, in other frameworks, it would be a problem like template rendering. Template rendering is a problem solving thing, there's nothing still out there. It goes as fast as it can. In an application, I see possibly encoding the [inaudible] performance. To maybe something that's going to be three times faster than where we are right now.
+
+José Valim:
+Then, to me if I would say why I would want things personally to be faster is just to make the compiler even work more faster. For me, that's that. To me, if I can get a 10 times faster compiler, it would be about the tooling, but I think most cases the performance is totally fine. It will be totally fine, and we can look at everything else. Sorry I had to ...
+
+Osa:
+No. I think that's interesting. I think if we assume that performance is already good or good enough, I think then the real question is, how do I as an engineer convince my manager who manages 10 people to let me spin up this Elixir thing to solve this problem when we already to use PHP or Java? I think the real challenge isn't, how do we overturn Java or replace Java, whatever phrase you want to use. I think the real question is how do we get a seat at the table so that when we make a decision it's not, "Here's this random esoteric language versus here is the best performant language that there are a bunch of libraries for." I that takes more work on our end and then it does from a language level because I think we have to come to the table with an openness and say like, "What is the Java thing you care about performance for?" Like, "How many requests per second do you want? How many trades per second do you want? I'll go build you a system that does that. Let's compare." Apples vs apples rather than, I think today people assume that we don't have an answer to the performance question, and so they automatically dismiss it and say, "Well, let's just pick something we know is 'performant.' "
+
+Osa:
+I don't think it's about winning. I think it's more about getting into the conversation.
+
+José Valim:
+But do we think that generally performance is the bottleneck of Elixir adoption?
+
+Chris Keathley:
+No, I don't.
+
+José Valim:
+I don't think it is.
+
+Chris McCord:
+I think it drives the adoption.
+
+Justus Eapen:
+So we just had Ben Cardarella walk in the room. We're shooting a podcast right now. You are on audio if you want to be. Do you want to maybe answer this question about, how does Elixir win the language war and displace Java as top dog?
+
+Brian C:
+I don't think it will.
+
+Chris Keathley:
+I don't think that's realistic. That's a sisyphean task.
+
+Brian C:
+Honestly, if that's the goal is to displace Java, I think it's going to ... Failure is the only result of that. I think that a more realistic goal for Elixir is to probably aim for top three as opposed to go for number one. If you go for number one, displacing how heavily ... Java benefit from the time in which they came up, and where systems were being developed from scratch and they assessed what language to use. Now at this point, if you're trying to displace Java, you have to convince those organizations to replace what they currently have, which is significantly more difficult than going in and deciding something from the get go.
+
+Brian C:
+So I don't think that's a realistic approach. I think instead ... Like I said, like top three or something like that, but as far as methods for doing so ... Like my talk said, it's a more nuanced approach. The performance and the developer ergonomics, these are all good for engineers to discuss with each other. I think some engineers, that have been faced with those problems see the value of that, but there has to be economical reasons that is brought back to non-technical people on why they should adopt this or consider it. And the economical reasons vary from organization to organization. Someone came up to me after my talk and said that they've been interviewing with a bunch of companies and they want to use Elixir in these companies, and they asked me how they can get Elixir to be adopted in those companies.
+
+Brian C:
+As I said, I can't answer that question without understanding what the pain points of those companies are. Maybe in some cases not the right answer. The specific points that we've seen with difficulty bringing Elixir into companies is talent availability, which I think ... My argument in my presentation about those that are able and willing to transition to Elixir I think has truth to it. I wouldn't have put it in there if I didn't think it was true, but I think that there is just a gap right now between where Elixir is and other languages are in terms of available high caliber talent. Bringing over Rails engineers to doing Phoenix apps is good, but when you start to get into more of the weeds of building out really like highly concurrent systems and what that takes, that's where some real training is occurring.
+
+Brian C:
+The other side of it is going to be just that a lot of companies are burnt out on being told that they need to now try out this other thing. This has been a consistent problem that we've seen. It used to be that companies would like to get ahead of the technology curve to a degree and they would talk about, or they'd be willing to adopt it because some new engineers came in and say, "Oh, this is what everyone is doing now. I need to do that." A lot of companies and a lot of managements are wise to that game, and they're sick of it. They're sick of wasting money, they are sick of having this disruption to their product, their future development and their products being part of the roadmap now. I think what they're looking for is long-term investment in a particular platform or technology. If they're willing to accept what they currently have, okay.
+
+Brian C:
+I know José didn't see my talk, but one thing I put in there was at ElixirConf you spoke about how you have no real plans for 2.0 right now. I think stability is one of the most under appreciated value what Elixir brings to the table. It's something that should absolutely be part of the conversation when putting together the values of Elixir into organizations. It has a longterm stability, you can make bets on this technology and not be concerned that two years from now you're going to have to rewrite everything because some new version, like new APIs are available. Always just like upgrade pains, upgrade pains, upgrade pains, exist in all these — I mean, JavaScript is probably the exact opposite. It's like the other side. Everything's moving so fast in JavaScript that you're constantly upgrading all of your applications, and it's such a weight on the teams to adsorb that.
+
+Amos King:
+I've run into a lot in working with clients in that, they're not after high concurrency, high availability. Many pieces of software out there don't need to be that, so when you try to sell them that, they also say, "Well, I don't need an engineer who's good at that stuff. I can hire a mid level Java developer at a dime a dozen compared to what I have to give somebody who has that skill set to come in and do Elixir and high availability." Being able to show them why high concurrency can help them more than just in the engineering point is has been a good way that I've-
+
+Brian C:
+It's a bit of a double-edged sword, because the things that we get excited about as engineers aren't always the things that other people in orgs are excited about. When we start to really go off and get into the weeds of talking about these things, we lose them.
+
+Chris McCord:
+Sometimes you lose the argument. For us-
+
+Chris Keathley:
+Like when you talk about number crunching.
+
+Chris McCord:
+That's one thing. For us, I have been involved with stakeholder meetings where I'm pitching Elixir, they're evaluating, and sometimes it just doesn't make sense for them. I think that's okay. Like Amos was saying, the fact that it was fast and scalable, the main things that we use, to pitch Elixir, all of the shiny points, they were no big deal. It's not a direct quote, but they said we were happy to literally throw money at the problem. They had a lot of Ruby engineers and they didn't want to retrain them. The pitch that I could make was not compelling. I think that's okay in some cases. I think this is kind of what Brian was saying. You're not going to always win. We can't displace everything. I think no matter how good we are, it has to make a business sense and that's where ... You have to play to, what can we actually do for the company. For that specific stakeholder for what they saw could not do much for them.
+
+Chris McCord:
+Then, we were talking at dinner, Chris and I with someone else at their company. They were paying for a web socket connection provider, and they're paying like $10,000 a month. They were able to go to management and say, "I think elixir could be pretty good here and save us $10,000 a month." Then, they spent one week of company time and rewrote it with Phoenix and it works better and they're not paying $10,000 a month. It was a easy business decision there but it had to make sense for the company.
+
+Chris Keathley:
+All these things are marketing things and at the end of the day, marketing is a 100% always about picking your competition and comparing you to the competition. You don't pick competition that can beat you. You pick competition that you will win against, and then you let people make choices for themselves. I think-
+
+Brian C:
+Displace visual basic.
+
+Chris Keathley:
+We as a group have to have to figure out what it is that we're going to market. Like what is it that's going to take us to that next level and, and like lean into those things and then just give up, or not waste our energy trying to win against things that are always going to be the default choice. Like trying to be like ... Let's say you wanted to replace Rails as the default choice for boot camps. You will fail. You will just not succeed at doing that because it's already the de facto standard. You're going into a competition that you're never going to win. You got to pick your battles.
+
+Justus Eapen:
+Well, we're at time now guys. This has been an incredible conversation. I've never seen anything like this on a podcast before, so thank you all very much. The fact that Bruce Tate just walked in there and at the last minute.
+
+Chris Keathley:
+Hey Bruce.
+
+Justus Eapen:
+You want to say hi Bruce?
+
+Bruce Tate:
+Hi.
+
+Justus Eapen:
+It's just wild. I've never seen anything like that.
+
+Chris McCord:
+We have Ben Marks as well.
+
+Justus Eapen:
+Ben Marks has walked in too.
+
+Ben Marks:
+Hello.
+
+Brian C:
+How many people can we fit in this room?
+
+Justus Eapen:
+It's pretty remarkable. Thank you all so much. This has been an episode of Smart Software with SmartLogic.
+
+José Valim:
+With smart people.
+
+Brian C:
+We do not have smartwater though.
+
+Justus Eapen:
+That's a wrap. Great.
+
