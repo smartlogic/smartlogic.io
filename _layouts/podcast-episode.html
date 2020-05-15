@@ -37,7 +37,15 @@
 
         <h2>About this Episode</h2>
 
-        <h3>Published {{ page.pubDateFriendly }} | Duration: {{ page.itunes.duration }} | <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> | <a href="{{ page.enclosure.url }}">Direct download</a></h3>
+        <h3>
+          Published {{ page.pubDateFriendly }} |
+          Duration: {{ page.itunes.duration }} |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="{{ page.enclosure.url }}">Direct download</a>
+          {% if site.data.elixir_wizards_transcripts[page.slug] %}
+          | <a href="{{ site.data.elixir_wizards_transcripts[page.slug] }}">Transcript</a>
+          {% endif %}
+        </h3>
 
         <!-- description copy starts here - pulled from fireside -->
 

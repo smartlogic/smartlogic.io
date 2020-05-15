@@ -1,0 +1,354 @@
+Justus Eapen:
+Welcome to Smart Software with SmartLogic, a podcast where you talk about the best practices in web and mobile software development with a focus on new and emerging technologies. My name is Justus Eapen and I'll be your host today. I'm a developer here at SmartLogic and we're a Baltimore based consulting company that has been building custom web and mobile software applications since 2005.
+
+Justus Eapen:
+From the SmartLogic team today we have our resident Elixir expert Eric Oestrich. Say hi, Eric.
+
+Eric Oestrich:
+Hello.
+
+Justus Eapen:
+And we also have a very special guest today, a good friend of ours, Todd Resudek.
+
+Todd Resudek:
+Hello.
+
+Justus Eapen:
+Hey, Todd. I'm really glad to have you. Now, our first series is covering Phoenix and Elixir in production and today we are going to dive into that topic. We'd first like to hear a little bit about you, Todd. If you could introduce yourself and give us a little bit of background about Weedmaps and how you personally got started with Elixir and Phoenix.
+
+Todd Resudek:
+Cool. Yes, as you said, my name is Todd Resudek. I am based outside of Denver, Colorado. I got started in development almost 16 years ago, I guess, and dabbled in a few different languages. Native mobile as well as web stuff and... Since I started working at Weedmaps we were mostly a Rails shop. We hit some performance snags at a point about three years ago on 4/20, which is our Black Friday.
+
+Todd Resudek:
+So right after that our leadership team went into a focus figuring out how we could prevent that from happening again. Coming out of that was some resolution that we might need to move some of our components or some of our software outside of Rails for performance reasons.
+
+Todd Resudek:
+We assessed a few different options. When I was hired, which was right after that, they interviewed me and asked me if I was more interested in Node or Elixir and I told them I liked both but I would probably be more interested in Elixir because I was less familiar with it and so shortly thereafter the decision was made that we would start building up an Elixir team, I guess. Just a few months after that, so this would be about two and a half years ago, we hired our first Elixir developer.
+
+Todd Resudek:
+Yeah, eventually I was on a Rails project and then eventually I moved into the Elixir squads and started working on our Elixir services.
+
+Justus Eapen:
+And, before Eric jumps into the rest of the questions I do want to just get a quick intro like to what is Weedmaps?
+
+Todd Resudek:
+Oh, yeah. This is a great one for me. Whenever I have a Weedmaps shirt on or I tell people I work at Weedmaps there's usually one of two reactions. Reaction one is the one that you had, which is what is Weedmaps? What do they do?
+
+Todd Resudek:
+And then the other one is "Awesome!"
+
+Todd Resudek:
+I think a lot of it depends on who you are or where you live. So you guys are in Maryland so you maybe more familiar with Weedmaps than somebody in Illinois or Indiana would be.
+
+Eric Oestrich:
+Yeah, I'm In Indiana so.
+
+Todd Resudek:
+Yeah, sorry, friend.
+
+Todd Resudek:
+So, Weedmaps is a lot of things but what most people know us for is our mobile app for finding cannabis resources. We do delivery services so you can find a dispensary near you or you can find a delivery service near you so you don't have to leave the house.
+
+Todd Resudek:
+So we do a lot of other things that are behind the scenes for the cannabis industry and that's mostly where I'm working, is back office stuff.
+
+Justus Eapen:
+Very cool. And Elixir has been growing on you guys for a few years now.
+
+Todd Resudek:
+Excellent pun.
+
+Justus Eapen:
+Okay.
+
+Todd Resudek:
+Yeah, we've been really lucky to be able to hire some experienced Elixir programmers from the get go and some Erlang programmers from the get go to show us the ropes. When we first were getting off the ground the guys at Bleacher Report, Ben and Peter and some of the other guys, were nice enough to jump on some video chats with us to get us headed in the right direction when we had questions.
+
+Todd Resudek:
+So, yeah, it's been... I don't know if everybody has such a smooth transition but it's been pretty easy for me.
+
+Eric Oestrich:
+Do you want to give us a quick overview of what's actually in production at Weedmaps? Like where it's being used?
+
+Todd Resudek:
+Sure. Yeah, like I said, most of the stuff wouldn't be things that a normal customer sees. It would be things that dispensary owners see when they get into the back office.
+
+Todd Resudek:
+Just to name a few that I've worked on, one would be our logistics platform. That, to put it simply, is when you order delivery it's what happens on the back end. In this case, as a dispensary owner or distributor you would log in and you would see a real time map of where all your drivers are and what orders they are currently out delivering and a route back. This allows you to sort of dispatch to those to say, "You've got an order. Come back to the distribution center, pick this order up and bring it to so-and-so." So it manages that whole process of delivery.
+
+Todd Resudek:
+I've also worked on a tax service which is just an API service that a lot of our services are going to use to be able to calculate the correct taxes. The taxes in the cannabis industry are even more complicated than other retail taxes so this is sort of a store for that.
+
+Todd Resudek:
+Most recently I've been working on something that just got released into a private outfit today so I can't go into too many details on it but it's a full stack application for more of a business-to-business services. That's technically in production but it's by invite only.
+
+Todd Resudek:
+We have a few other things that I haven't been involved with so I can't really talk about them in too much detail. But yeah, quite a few services right now in back end that are Elixir.
+
+Eric Oestrich:
+Cool. So we heard a bit about, I guess, how you guys picked it, but is there more of a why to Elixir in production?
+
+Todd Resudek:
+Like why we picked it over other options?
+
+Eric Oestrich:
+Yeah.
+
+Todd Resudek:
+Yeah, I think at the time we had more Ruby developers than we had JavaScript developers and a lot of... I still think a lot of the blog posts and learning curve coming from a Ruby background is a little bit easier into Elixir than if you come from a different stack.
+
+Todd Resudek:
+We felt confident that it would be a pretty easy transition for us. And then as well as performance, we kind of felt like the concurrency model of Elixir was probably, in the long run, probably going to serve us better than that of Node. I still think that we probably would have gotten an increase in Node over what we did in Rails but I think the Elixir implementation is even greater than that.
+
+Todd Resudek:
+Yes, so far we haven't had any problems since that 4/20 three years ago, knock on wood.
+
+Eric Oestrich:
+So, what are some of the high level advantages or disadvantages of using Elixir?
+
+Todd Resudek:
+For us I think the advantages are the speed, so the concurrency model so you can get AWS instances up to 48 cores now and to be able to chew through all those cores automatically is pretty amazing. The tooling on it, so ExUnit, all the OTP stuff, GenServers, that's good. The documentation, I think... I think the Ruby documentation is okay but it's not really anything compared to the Elixir documentation. It makes it really easy to ramp up on things or learn things and their package manager is one of the best in the world so-
+
+Eric Oestrich:
+Alright, I believe before we scoot on from that, you are part of Hex, right?
+
+Todd Resudek:
+Yeah, I'm one of the maintainers. Yes, I play a small role in it actually.
+
+Justus Eapen:
+We'll get more into that, won't we at one of the later sections? But maybe we could move onto some of the system level hostings, deployment sort of questions.
+
+Todd Resudek:
+Oh, yeah. Let's talk about the disadvantages if you don't mind.
+
+Justus Eapen:
+Yeah, yeah.
+
+Todd Resudek:
+If I can emcee this for just a second. One of the things was hiring. Weedmaps headquarters is in Urban, California and our biggest satellite engineering office is in Denver and so when we went up to hire our first Elixir programmer we were looking for somebody that had production experience and, I think, everybody quickly figured out that restricting ourselves to a geographic area wasn't going to be very feasible. To some degree I still think it's not very feasible, or at least not at the scale that we need to hire, so I'd say hiring is a little bit harder.
+
+Todd Resudek:
+That's just because top of funnel is smaller on that. I mean hiring is difficult no matter what but the number of people in North America where we can hire people is pretty small for Elixir and the number that are looking for a job at any one time is much smaller than that so there's that.
+
+Todd Resudek:
+It's a little bit newer so there's not the history of blog posts and libraries. If you look at the number of libraries available sometimes there's things that are available in other ecosystems that Elixir doesn't have for various reasons.
+
+Todd Resudek:
+And then I think the big one, and I think it's being worked on, the deployment strategies. Definitely two years ago there was not a really well defined defacto deployment strategy and to this day I still think it's a little, it's an area of confusion and I know that Brian and the rest of the people at DockYard are working vigorously with Paul on making it easier to deploy apps.
+
+Eric Oestrich:
+Yeah, I think we have... I can think of at least two very different ways of how we do deployments just at SmartLogic so it's definitely not the way yet.
+
+Todd Resudek:
+Yeah. There's probably a way but nobody's discovered it yet.
+
+Justus Eapen:
+Yeah, which is a great segue.
+
+Eric Oestrich:
+Yeah, so where do you host your Elixir app?
+
+Todd Resudek:
+Apps, yeah. So all of our services at Weedmaps are hosted at AWS so we use AWS instances and RDS instances for those.
+
+Eric Oestrich:
+Cool, and how do you get code to those instances?
+
+Todd Resudek:
+Yeah, we use Distillery to build the releases and our release infrastructure goes into Docker and we use rancher right now to orchestrate the Docker containers.
+
+Todd Resudek:
+To be fair we have a dev ops team that's dedicated to this and that process is the same for us. Our internal development teams builds tools for us to do this so the deployment is basically the same for our Rails apps and our Elixir apps so some of it is a little black boxy to me.
+
+Eric Oestrich:
+Are you able to get zero downtime deploys with this setup?
+
+Todd Resudek:
+We have not even pursued that yet. I think, and maybe other teams are doing this, but we could use Canary deploys, I guess, since we're a behind the load balancer. It's possible on some of the other services there, if it's necessary they can just pull down, or pull some of the instances out of the load balancer and sort of do deploys that way to get zero downtime.
+
+Todd Resudek:
+The apps that I'm working on we don't maintain state in memory very often or at least not long term and so that part of it is not really something that we're worried about.
+
+Eric Oestrich:
+Do you do any clustering for any of these applications?
+
+Todd Resudek:
+The application that I'm working on isn't clustered, it's just running multiple instances in parallel behind the load balancer. We do have the logistics service is running in sort of a clustered environment and this was something that, I think, Andrea and another developer Jeffery Matthias worked on extensively and it more or less takes advantage of the Docker container infrastructure to use like a shared file system to share memory between them. I don't think it's a traditional lib cluster clustering but it's sort of a quasi Erlang cluster.
+
+Eric Oestrich:
+Yeah, I don't think I've heard of clustering via files.
+
+Todd Resudek:
+I may be doing a very bad job of describing it.
+
+Eric Oestrich:
+Okay.
+
+Todd Resudek:
+Or if I am, it's either such a brilliant idea no one's thought of it before or it's such a horrible idea. To be determined maybe.
+
+Eric Oestrich:
+So, you've mentioned you specially switched to Elixir from Rails because of performance, do you have any metrics around any of that? Outside of you didn't go down on 4/20?
+
+Todd Resudek:
+Yeah. No, I think our apps team would probably have all the metrics as far as RPMs on things. We are testing in the thousands to tens of thousands of RPMs as part of our load testing and so all of the Elixir work that we have been doing has been Greenfield stuff so, as I mentioned, like the consumer facing app is still a Rails app and so what we've been doing with our Elixir teams has been, as we're building new verticals at Weedmaps we are building them in Elixir so it's really hard to get a one-to-one comparison of how this performs in Rails versus how it performs in Elixir but yeah, I guess, like I said we load test assuming thousands to tens of thousands of requests per second. Yeah, we'll see.
+
+Todd Resudek:
+It hasn't fallen down yet but the number of clients that are on some of these services is much lower than the ones that are on the mobile app service.
+
+Justus Eapen:
+Yeah, so maybe we want to talk a little bit about background task processing, some libraries, those sorts of things.
+
+Todd Resudek:
+Yeah, so I think, like a lot of people in Rails, I'm used to working in Sidekiq or Redis or Resque, sorry, to get the performance and move things into separate threads and I guess I just took it for granted before I started working in the BEAM that it was always a lot of setup and extra tooling and everything you needed to move things into separate threads and to get the extra performance.
+
+Todd Resudek:
+But in BEAM obviously that's not as necessary or even necessary at all. In the app that I'm using now we are just running a regular GenServer in the supervision tree with a send_after callback so it runs once a minute to sync data between two different data stores. That is, without looking at it, it's somewhere between twenty and forty lines of code in total to run that. And that's it. There's a little bit of extra code to make sure that everything is itempotent, because we have parallel instances running. It's a very, very simple process in the BEAM that doesn't require us to spin up separate instances or use separate libraries or have a separate interface to manage our background queues or any of that stuff.
+
+Eric Oestrich:
+I feel like we are just getting to the point where I feel confident to just reach for primitives instead of trying to reach for Exq or Verk or any of the other ones. I think Tonic is out there, as well. It's pretty great to just use stuff that's there.
+
+Todd Resudek:
+Yeah, maybe to reinforce this idea, I guess, when we first started on this project we knew that this was something that we were going to have to do. We were lucky enough to have one of the Elixir lang maintainers at Weedmaps, Andrea Leopardi, and so when we run into new stuff, new patterns that we haven't done before, a lot of times we'll sanity check them with him or ask him for his advice and this is what he came up with so I feel like even though it's a very simple implementation I feel pretty confident that it's the right implementation for this.
+
+Eric Oestrich:
+Yeah. So basically what you're saying is, in order to do Elixir in production, get a core team member.
+
+Todd Resudek:
+It never hurts to get a core team member on your team. Don't take Andrea. There's six others.
+
+Eric Oestrich:
+Cool.
+
+Eric Oestrich:
+So I guess to move along, what libraries are you using? Anything that stands out beside your standard Phoenix and Ecto?
+
+Todd Resudek:
+Yeah, maybe we could talk a little bit about some of the stuff that we use in dev and in test modes? We use Credo for one and part of our process in CI is to run everything through Credo to make sure...
+
+Todd Resudek:
+Should I go into definition on Credo or do you want to go into it, Eric?
+
+Eric Oestrich:
+You go ahead.
+
+Todd Resudek:
+For simplicity's sake you could think of Credo as kind of being the Elixir version of Robocop, if you're familiar with the Ruby ecosystem.
+
+Eric Oestrich:
+Robocop but much nicer.
+
+Todd Resudek:
+Yeah, so we've customized it a little bit to meet our needs and so in CI everything runs through Credo to make sure that we do the static analysis, make sure style checks are in place. So we do that and also we use Dialyxir and Dialyzer to check all of our types and make sure everything is squared away on that. So both of those things have to happen before it can pass CI, as well as running the formatter, which isn't a library but built into Elixir now.
+
+Todd Resudek:
+These might be popular or might not be popular libraries, I'm not really sure but, one difference it's had on our workflows at Weedmaps is that we've gotten out of the habit or gotten out of that whole process where we're bike shedding on PRs a lot about, "This isn't how I would have done it," or, "You could change this to two lines or add the parens around here."
+
+Todd Resudek:
+Basically any of those style or subjective matters we leave it up to robots in this case and as long as a robot says it's okay then it's okay for us so we can just focus on the higher level parts of each PR.
+
+Todd Resudek:
+Those are the ones that I think have made the biggest difference to me. Besides, maybe interesting-wise is Prometheus so we use some of the Prometheus libraries and Datadog as well. So we are gathering a lot of system level data from the DM and moving that into Datadog dashboards. Those would be the ones I think are the most interesting, other than that yeah it's the basic JSON, ja_serializer, Phoenix, Ecto, et cetera.
+
+Eric Oestrich:
+I see you have both Poison and Jason as well.
+
+Todd Resudek:
+Don't remind me. So yeah, this came up pretty recently. I was trying to... So, as I do periodically I run mix hex.audit and mix hex.outdated, which everybody should be doing here. So I noticed the version of Poison we run, it was a 3.0 version and 4.0 came out relatively recently but not recently enough to excuse us for not having upgraded and so we started to dig in like, "Why do we still have Poison?" And there's a couple of libraries in here that are requiring it and so my goal would be to get us off of Poison completely.
+
+Todd Resudek:
+We had one team that had Poison for, because ja_serializer was requiring it, so he started doing some investigation and recently merged in a PR for this but apparently all it was being used for was Poison was mentioned in one of the back tests and so that was literally the only reason it had the dependency so he was able to remove Poison from their service by getting that pull request merged into ja_serializer.
+
+Todd Resudek:
+We have unfortunately a couple of other dependencies that require it so.
+
+Justus Eapen:
+Maybe I'll jump in here and say now would be a good time for you to plug your talk at ElixirConf about all the suitable features Hex has. Because you dropped a couple of Hex commands in that.
+
+Todd Resudek:
+Oh, okay. Yeah, you know what, I think the ones that I want everybody to run is mix hex.outdated and mix hex.audit. If you're really interested in more you can go back and watch the videos but I think those will go a long way into making sure your libraries are where they should be. As Justin mentioned there was a talk at ElixirConf 2018 where I go into great detail about all of the things Hex can do and how it works.
+
+Eric Oestrich:
+And we'll make sure to include a link to that.
+
+Todd Resudek:
+Alright. Awesome.
+
+Eric Oestrich:
+Okay, so moving on. Do you guys deal with third party services at all and do you have any troubles integrating or anything like that?
+
+Todd Resudek:
+Yeah, so the ones that we use on my app are SendGrid just for sending transactional emails and also Mailtrap. So in non-production environments we use Mailtrap for suspending the emails. If you're not familiar with it it just basically hooks into your SMPT and sends things, reroutes your mail from the address that you gave it to a Mailtrap account and so we use those.
+
+Todd Resudek:
+And for this app we use a library called Swoosh to integrate both of them and it has really good support for both. It was really easy to do.
+
+Todd Resudek:
+The other big third party was Google Places. That, again, not a lot of problems with that. I think one thing Elixir has forced me to do is to stop looking for API libraries, which just act as really simple wrappers around API requests, and to just start essentially making them ourselves. So instead of downloading a huge library that a lot of times in Elixir doesn't exist yet or may never exist and having support for every endpoint that Google Places supports it's pretty easy to write your HTTP client module and just add the one or two endpoints to it that you need.
+
+Todd Resudek:
+Otherwise it's actually been really, really smooth moving over to Elixir.
+
+Eric Oestrich:
+Cool. And I'll just second that, writing your own client because then it works exactly how you want it to, there's no integration mini-pain or whatever.
+
+Todd Resudek:
+Yeah, HTTP requests are pretty ubiquitous at this point so there's not a lot of magic in those libraries. As long as you can read documentation and handle error cases you should be okay.
+
+Todd Resudek:
+I would say one of the weird things, since you didn't mention it, is some of the responses we get back from Google come back as strings and we're converting them to atoms and so you have to be careful with that, that you know the list of potential atoms that can be, since it's data that's not generated by us. So word of advice is string to atom can be dangerous because your atoms table can fill up really fast if you're not careful with it or if somebody exploits that as a vulnerability so having a predefined list of atoms that you will accept and using string to existing atom can mitigate or protect you from that. Helpful tip.
+
+Justus Eapen:
+That is great. Maybe you want to jump now into our, is this a lightning round? Do we call it lightning round, Eric?
+
+Eric Oestrich:
+I think it's the wrap up round.
+
+Justus Eapen:
+Wrap up round, okay. We'll call it the wrap up round. Eric, take it away.
+
+Eric Oestrich:
+Do you have any story where Elixir has saved the day in production?
+
+Todd Resudek:
+No, not yet. I think it prevents us from ever having that issue in the first place.
+
+Eric Oestrich:
+Yep. The best story for that, yeah. Production didn't go down.
+
+Todd Resudek:
+Yeah, knock on wood. We've have two 4/20's since the one where we had a lot of issues and they've been smoother and smoother ever since.
+
+Eric Oestrich:
+Awesome.
+
+Eric Oestrich:
+Are you using any cool OTP features?
+
+Todd Resudek:
+Right now just the GenServers, I guess, and that's for caching, but I think as our demand grows a little bit I want to look into incorporate Flow and GenStage into that.
+
+Eric Oestrich:
+Alright, and finally if you could give one tip to developers out there who are or may be soon running Elixir in production, what would it be?
+
+Todd Resudek:
+Yeah, I would say don't struggle trying to wrap your head around things like hot swapping deployments or clustering. There's a really good chance that you're not going to need it or at least you're not going to need it for a long time. So those can be difficult topics and I think for most people it's just going to be a waste of time right away.
+
+Justus Eapen:
+Is that all we got?
+
+Eric Oestrich:
+I think so.
+
+Justus Eapen:
+Man, Todd, it is always such a pleasure to talk to you man. Before we let you go, any final plugs, asks for the audience, where they can find you, why they should find you?
+
+Todd Resudek:
+If you're very curious you can find me online. My GitHub handle is SuperSimple and my Twitter handle is SprSmpl without any vowels in it. If you're very interested in learning more about me you can check those things out.
+
+Justus Eapen:
+Great. Todd Resudek, thank you so much for joining us today. Eric Oestrich, thank you for being my co-host and a gentleman and a scholar. Once again, this has been Smart Software with SmartLogic talking about Elixir in production. Join us for our next episode in the series. Goodbye, everybody.
+
+Todd Resudek:
+Goodbye, friends.
+

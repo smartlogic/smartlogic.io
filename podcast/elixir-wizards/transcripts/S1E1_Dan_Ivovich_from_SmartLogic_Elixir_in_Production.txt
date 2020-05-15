@@ -1,0 +1,210 @@
+Justus Eapen:
+Hello everybody, and welcome to Smart Software with SmartLogic. A podcast, where we talk about the best practices in web and mobile software development, with a focus on new and emerging technologies. My name is Justus Eapen, and I'm your host today. I'm a developer here at SmartLogic, a Baltimore based consulting company, that has been building custom web and mobile applications, since 2005.
+
+Justus Eapen:
+Our first series covers Elixir in Production, and today, I'm joined by Dan Ivovich and Eric Oestrich. They are a couple of developers here at SmartLogic, that do the bulk of our production development environment work. I'm going to let them introduce themselves. Dan, why don't you get us started?
+
+Dan Ivovich:
+Hi, thanks. Yeah, my name's Dan Ivovich. I'm the Director of Development, here are SmartLogic. I've been here almost eight years, and was kind of part of the decision to move to Elixir a couple of years ago, and I'm happy to be here.
+
+Justus Eapen:
+And Eric.
+
+Eric Oestrich:
+Hey, I'm Eric Oestrich. I'm a developer here, and I am the the lead Elixir person, I guess you could say.
+
+Dan Ivovich:
+I think that's fair.
+
+Justus Eapen:
+Great. I am also a developer here, so we've got a great episode coming to you from SmartLogic today. We're gonna be talking about Elixir in production. Dan, I want to start with you. If you could, maybe give us a quick overview of the projects, that we have in production here?
+
+Dan Ivovich:
+Sure. I'd say for the last 18 to 24 months or so, almost all of our new API and web based work, has been using Elixir and Phoenix. We do a lot of mobile applications, and most of their APIs now are powered by Elixir. We've got E-Commerce ticketing systems in Elixir. We've got other kinds of mostly a lot of commerce-related things, data processing, Postgres databases, kind of an interesting mix of technology, all working together in Elixir.
+
+Justus Eapen:
+Eric, can you talk a little bit about why we are using Elixir in production? What are some of the high level advantages, and maybe even disadvantages from your perspective?
+
+Eric Oestrich:
+Yes. We had a developer who is generally interested in functional programming, and wanted to take a look around Elixir. Then we just kind of really liked how quick, or how fast Elixir is and Phoenix, and all of that got suckered in with that, and fell in love with the language and all of OTP, and all the nice features, you just kind of get with it, is why I'd say we're using Elixir.
+
+Justus Eapen:
+Great, and we might dive in to some of the things that you just mentioned, as far as OTP, et cetera is concerned, but I want to go back to Dan, and I want to talk a little bit about the hosting environment that we're using, so people can get sort of a very good high level idea of what we're doing here. Dan, do you want to talk a little bit about where we host our Elixir applications?
+
+Dan Ivovich:
+Yeah, sure. I would say we kind of started in our default, at least for spinning up a quick staging environment is Heroku. We were traditionally a Ruby on Rails Shop for over the last eight years. Our familiarity with Heroku is pretty strong, and there's a lot of really convenient well encapsulated services under one roof. We certainly have started there, and have some production things running there, especially things that we don't need some of the really low level Phoenix and Elixir OTP networking node-to-node communication for, and then some of our larger things are deployed. We've done things in Linode, DigitalOcean, and of course AWS.
+
+Justus Eapen:
+When we're going, to say AWS, Eric, do you want to talk a little bit about the deployment process that we have here, whatever tools we use, deployment scripts, and that sort of thing?
+
+Eric Oestrich:
+We use Ansible to set up all of our underlying like VPSs and and servers, and we've also started switching to use Ansible to do the actual deployment as well. We have it set up to be very similar to how Capistrano does the deployment, where there's a versions folder, and then a current that gets symlinked to whatever the most recent release is. We're not fully utilizing the benefits of OTP and releases and whatnot, but this is a good stepping stone that is proven to work, so that's what we've landed on currently. We use Distillery. I'm not sure that a lot of our apps are on 2.0 yet.
+
+Justus Eapen:
+Maybe for someone who is totally new to this, could you give me a definition of Ansible and Distillery for someone? Let's say it's a Junior Developer?
+
+Eric Oestrich:
+Yes. Ansible is a tool that is like a ... it's a known set of scripts. They call it a playbook in their terminology, that will always set up the server the same way, and it's also idempotent, so if that step has already run, as a way of knowing that that step ran, and then skipping it. It's a way to always guarantee that your server looks the same as it should. So, you can turn on the EC2 instance, install Python, this little bit one small manual step you have to do, unless Python's already there. Then Ansible connects via SSH, and then just starts running the commands that you tell it to.
+
+Eric Oestrich:
+Then, at the end of the run, you have a known configured server. The same goes with deploying your actual application. This one is slightly less idempotent, because it's kind of always going to do something, because you're telling it to deploy. So, we have it download, our latest gitref, install all the dependencies, install Node, bundle all the assets, compile all of the packages, and the application itself, and then run the mix release, which is the Distillery release, that then bundles it all together, including Erlang, in to a single tarball, which we then copy out in to a release version folder, and then re-symlink, restart the application through systemd, and then boof, we have our newly deployed application.
+
+Justus Eapen:
+That's really helpful. You mentioned in the first part of that, that it's analogous to Capistrano, which we use in some of our older Ruby on Rails environments, right?
+
+Eric Oestrich:
+Yup.
+
+Justus Eapen:
+Okay, and if you could maybe also give us that high level of review for Distillery. If you're a Junior Developer, you might not know what that is.
+
+Eric Oestrich:
+Yeah, Distillery is, I think that, that current idea behind it is, that it's going to be the bleeding edge of where Elixir is headed for deployments. It bundles up what's called an OTP release, which is a pretty old idea through Erlang, that kind of puts together everything you need for Erlang, or the Erlang runtime system, E-R-T-S I think. All of the packages that you've installed that get compiled down to the BEAM files. All of that is bundled up in to a single tarball, that you can copy and paste somewhere, and once you unzip it, or I guess untar it, you have a full system, that you can just turn on, and assuming you have the correct configuration, it'll just connect, and be a full running Elixir/Erlang application.
+
+Justus Eapen:
+Is that Distillery process that you just described, happening within your Ansible playbook?
+
+Eric Oestrich:
+It is, yeah.
+
+Justus Eapen:
+Okay, so that really clears it up. I want to go over to Dan, talking a little bit more about deployments. How are we able to get zero downtime deployments at SmartLogic, Dan?
+
+Dan Ivovich:
+Well, as Eric mentioned, we're not really doing a whole lot with OTP releases, and hot upgrades in that regard. We're building those releases, but we're kind of doing a hard restart every time. For right now, we're mostly getting to those zero downtime updates, just by using load balancers, and rolling restarts across a fleet of nodes.
+
+Justus Eapen:
+Okay, and how are these applications that we are deploying, how are they performing, Dan, compared to other applications that we have in production?
+
+Dan Ivovich:
+Well, they're performing great. Traditionally, we would see a lot of memory leaks over time, with Ruby when we're processing large JSON objects or doing a lot of API work, there's a good chance that you'll allocate some memory, and maybe never quite get it all the way back. Often, we've felt RAM constrained in many systems, as opposed to CPU constrained. The biggest thing that I've noticed with our production Elixir applications, is just memory utilization is flat and low, and kind of no matter what we throw at it, it stays really, really low.
+
+Dan Ivovich:
+We're also seeing phenomenal response times. If you've ever bring up Phoenix, and kind of mess around with it, you'll see microsecond response times, instead of millisecond response times. That's fine for local things, and once you get in to the real world, things start to creep up, but they're definitely still much faster than some of our previous development efforts.
+
+Justus Eapen:
+Eric, maybe you could dive a little bit in to application architecture, especially as far as like clustering is concerned, multi-node. You're kind of the expert in that. Do you want to talk a little bit about clustering applications?
+
+Eric Oestrich:
+Yeah, let's just clarify the expert in clustering at SmartLogic. There's definitely forever to learn going forward with that. But yeah, I've done a bit with clustering. I gave a talk at ElixirConf this year, which we can leave in the show notes, called Going Multi-Node, that dealt with libcluster, and figuring out different parts of OTP that are set up to deal with the clustering for you. Libcluster just kind of connects all of your nodes, and then once you're connected, you fall back to OTP at that point. So, there's libraries like PG2, which is process groups. You register a name, say I'm in it, and then you can get all the members, and kind of broadcast messages around to all of the members, and there's other tools like mnesia, if you want to distribute a database. There's lots of gotchas around that, so make sure you know you want that, but yeah, it's mostly process group stuff, and just sending messages to PIDs, because Erlang is great, and as long as you have a PID, you can send a message to it, anywhere in the cluster.
+
+Justus Eapen:
+Maybe you could reduce it even further for me, so that I could understand? What exactly is clustering, and why is it valuable to know, and why is it being easy in Erlang important for us?
+
+Eric Oestrich:
+Specifically what I'm talking about is, Erlang ships with the distributed protocol, I guess. So you can connect to Erlang nodes together, and then once they're connected, they are effectively one system. There's still a lot that is set up to deal with, specifically one node. So that is like, if you're using the Elixir registry, that is specifically for that local node. It's not a global thing. There's a few libraries out there that have kind of spun up within the last year or two. One is called Swarm. One's called Horde, that helped dealing with spanning the whole cluster, in terms of a registry.
+
+Eric Oestrich:
+So once your nodes are connected, it's effectively a single system as far as processes are concerned. You can just send a message to any PID, but the reason we want this, the real question there, is that if a single node goes down, you can construct your application, so that the other node or nodes in the system then notice that that died, and then act on it.
+
+Eric Oestrich:
+I have a side project that is called ExVenture. That's the project I show in the talk previously mentioned, so that you can spin up with three nodes. If one node dies, the rest of the cluster notices and says, oh, everything that was on that node now gets spun up between the two nodes that are remaining, and then within a second or two, depending on how fast things go, then it's as if nothing happened, and we just continue on. If the other node comes back up online and rejoins the cluster, and you can push everything back out across it, so then you're like it dropped and came back into the same cluster, and no one is the wiser effectively.
+
+Justus Eapen:
+I want to try to sum this up here, because I'm about to segue in to another question, that's sort of related, but when you're talking about nodes, you're talking about servers, right? That are running the same application, and so they're able to do ...
+
+Eric Oestrich:
+Yup.
+
+Justus Eapen:
+This creates redundancies in the system, and it's able to do ...
+
+Eric Oestrich:
+Yup.
+
+Justus Eapen:
+Okay. That's really interesting at the highest level of abstraction, but then, if you come down to the application level on a single machine, the question I think you know what I'm gonna ask you, is about background tasks and concurrency, at the level of a single node. Can you talk maybe a little bit, about how we're handling that? What kind of tasks we are handling, and then how we think about solving these single node background tasks?
+
+Eric Oestrich:
+Yeah. I have recently transitioned to ... actually, we use two different ways. The way we started was, we use something called Verk, which uses the Sidekiq process, or Sidekiq, I don't know Redis protocol, I guess is what that is. It uses Redis as it's storage for all the jobs. It looks exactly like Sidekiq to Redis or whatever, and pulls off a job, works on it, and says it's done. Pulls out a queue et cetera.
+
+Eric Oestrich:
+So, the reason we went with that, is because it's a known quantity to us. We knew exactly how Sidekiq worked, because we've done plenty of projects with it. So, it was just one less thing to change, when we transitioned to Elixir. I've recently started to become a lot more comfortable, with you just turn on a GenServer somewhere in your supervision tree, that is like that worker, or you can make it a pool of workers, and you just send messages to it. So, that GenServer gets the message to do some work, does some work, and is out of ... we're in a concurrent environment, it's own little mini thread, and they can do whatever it wants, and not impact the rest of the system. It's in the background, and whatnot.
+
+Justus Eapen:
+Okay, so when people talk about Elixir being really good at concurrency, they're talking about, both at the high level that we discussed earlier, with like separate nodes working in a cluster, but also at this lower level of on the given node, having lots of libraries really, that provide these background processing primitives. Is that a fair summation, of what you're talking about?
+
+Eric Oestrich:
+Yeah, I think it's less about libraries, and more just the language itself is built to be concurrent. It'll utilize every CPU core that you have, I think by default. Yeah, it's just the way that the GenServers are all set up, and how the scheduler bounces between each one, to try and give them a fair amount of actual process time. Each process is effectively a thread. It's not, but that's what you can sort of think of it as, as a single thread application, or like function, whatever you want to, module, object, whatever you want to call it, I guess.
+
+Justus Eapen:
+I want to get a little bit into the libraries. Dan, you're the big boss here at SmartLogic, and when I want to pull a new dependency in to a project, I usually check with you first, before I do that, because when you work with other people, you want to get their feedback on dependencies you're pulling the projects. What libraries are we using here at SmartLogic, that help us build Elixir applications very quickly, and with a high degree of reliability?
+
+Dan Ivovich:
+Sure. Well, I tend to start with one of the good things we'd kind of love about Elixir in the community is, that we don't need a whole lot. There's a lot of primitives in to the language, that give us kind of the things that we need. Everything Eric is talking about with GenServers and the OTP, those things are just there, and so we can do a lot of things without pulling in external dependencies. In some regards, Eric mentioned Verk, because we were used to using Sidekiq, and we wanted something that had that same pattern. To not make too many changes at once, we started using that, but we may not necessarily reach for it going forward, because the primitives of the language give us the things that we need, but there are certainly some fundamental components that we pull in, the big one being Phoenix in the web framework.
+
+Dan Ivovich:
+Also Ecto, for managing our Postgres databases, and the repository pattern, and change sets, and being able to query, and modify a database, Ecto is phenomenal, and it's one of my favorite things about having switched to Elixir. We mentioned earlier Distillery, to help us build our releases. There's a lot of community effort behind making Distillery even better, and it's had a lot of progress over the last couple of years, and it's gotten a lot easier to work with, and really gives us what we need to build a nice binary release to run on the server. Bamboo, from the well known thoughtbot crew, is a great way for us to send emails, and template out emails, has a lot of different adapters for the various email providers, that our clients may or may not be using, or a transactional email servers that we prefer to use, integrate really well there.
+
+Dan Ivovich:
+Quantum is a great way to schedule tasks, and basically just have one of your functions run at a given time. It kind of removes the need for an external cron state. You certainly can accomplish some of these things just by having your supervisor spin up tasks, and schedule various message deliveries, and things like that. Sometimes having that known cron pattern is something you'd want in building it right in to your binary is easy with Quantum. Almost any modern application has to deal with dates, and times, and time zones, and the Timex package is really great for that. Then the other one I think we pull in pretty often is Cachex, which gives you a really great pattern for defining caches, when you're querying external APIs, and you don't necessarily need to get fresh data every time. You can really do some good in memory caching, with very minimal implementation code, using the Cachex package.
+
+Justus Eapen:
+All the libraries that you just mentioned are open source, reliable, community supported, regularly updated, and maintained? That's all true, yeah?
+
+Dan Ivovich:
+For everything that I've mentioned, yes, that's absolutely true.
+
+Justus Eapen:
+Very cool. I love the open source world. I want to stay in this vein, of sort of libraries, but I want to move more toward like the third party services, that we're using in production, email, payment processing, that kind of thing. Eric, you're kind of our guy for a third party API integration here. Have you struggled with any of these integrations in the Elixir environment? What have you worked with?
+
+Eric Oestrich:
+No, I don't think we've struggled at all. We use Stripe, Square, Twilio. Done some even soap stuff with MindBody. I think a lot of what we've done, is just avoid looking for any kind of existing client. Partially because Elixir is new enough, that these things don't have one, but I've also kind of gone with the mentality of being more explicit, and using more primitives, that Elixir kind of pushes you towards.
+
+Eric Oestrich:
+Each project just uses the straight HTTP API, that these all have. We have HTTPoison most of the time. Another library that's a HTTP client, that we have a module called Stripe. It has exactly the functions that we need it to do. It does exactly what we want, and just calls directly to, their API so that way we don't have to deal with integration issues of the Elixir Stripe client, or the Square Stripe client, if they exist, and oh, this works most of the time, most of the way, but it doesn't do exactly what we want, so now it does exactly what we want. Yeah, that's been a great change I think, in general.
+
+Justus Eapen:
+Right. Elixir makes it very easy for us to spin up those custom integration modules. Dan, do you have a story where Elixir has sort of saved the day in production?
+
+Dan Ivovich:
+Sure.
+
+Justus Eapen:
+Yeah. Anything you could share there?
+
+Dan Ivovich:
+I think the biggest way the Elixir has saved the day in production is, that it hasn't had any problems. Things are all kind of quiet, and things move along as they should, which maybe isn't necessarily a language feature, other than the fact that it is a stable production-ready and reliable platform, which is what you want. I would say a lack of problems is certainly a production win. I think the big thing that is Elixir-specific, because of it's underlying Erlang core, is the supervision trees, and the way processes are handled, so you'll see that systems are architected in a way as such, that there's processes of handle talking to Redis, or processes that handle talking to the database. The one thing that we'll see kind of flip across the screen every once in awhile, is errors from the systems, when the external dependency goes down for maintenance, or it has a networking hiccup, or things like that.
+
+Dan Ivovich:
+The reality is that the system, the way Elixir and its supervision trees work is, it'll just kind of restart those processes, and rebuild those pools, and those services become available to your code again, without the entire system going down. It's kind of like a little bit of fault tolerance, a little bit of self healing and it's just kind of the way things are expected to work. Yes, we know that some of the times external dependencies don't work out exactly as they should, and the system's designed to kind of recover, and keep moving forward, and you can certainly take that same pattern, and extend it in to a much more complicated, and much more robust way of doing things. We haven't really had that need directly, but, it's great to know that it's there, and it's part of the core, and we see it work, kind of day in and day out, in the very basic things that we're starting to do with it.
+
+Justus Eapen:
+Right. An ounce of prevention, is worth a pound of cure. Eric, I've heard a couple times mentioned, this is a question that I have, I guess. I've heard supervision trees mentioned a couple times. Are supervision trees rolled in to OTP, or is that an Erlang level thing? And Eric, maybe you could tell us what OTP is, and if there are any cool OTP features, that you've been using, that you want to share?
+
+Eric Oestrich:
+Yeah, OTP is, I believe, I might be wrong on this, but I think Erlang and OTP, are now the same thing. OTP is a standard library for Erlang. That includes supervision trees, GenServers, and a whole bunch of stuff that you probably don't know about. There's actually a few talks I think on YouTube from an ElixirConf, a few ElixirConfs, that kind of just show all of the stuff that is in OTP. So those might be a good thing to look out for as well. I guess the standard stuff that we use for OTP, supervision trees, GenServers, something called ETS, which is the Erlang term storage, so that's a local, really, really fast reads and writes, for any kind of term you want to stick in to it. It's kind of like global memory storage.
+
+Eric Oestrich:
+Some other cool things. I've done a bit with :gen_tcp, which is a way to ... I think you can stand up a TCP server, or be a TCP client, so you can just kind of connect to stuff. Other cool things, Mnesia is part of the the built-in libraries. There's a ...
+
+Justus Eapen:
+What is Mnesia?
+
+Eric Oestrich:
+Mnesia is a replicated database, sort of like PostgreSQL, but inside of Erlang, I think is how you can think about it. There's a disc-based term storage as well, called DETS, D-E-T-S. There's an SSH client and server built in. There's all kinds of cool stuff, should you need to use them, that just kind of ships with OTP.
+
+Justus Eapen:
+Maybe one day, we'll do a whole episode on cool OTP features. Dan, so I've got one more question for both of you. We'll start with Dan, and let Eric close it out. Dan, if you could give one tip to developers out there, who are or may be soon running Elixir in production, what would it be?
+
+Dan Ivovich:
+I would say, kind of jump in, and read the docs. I think, some of the places where we struggled a little bit early on, was understanding how the system boots up, or how Distillery works, and how to get our systemd configuration just right, so that we can monitor the right PID, and know that things are up and running, and restart things should anything go wrong. Not that anything has gone wrong. Just kind of have that good server monitoring hygiene, is probably where Elixir is the most different, from what you've done in the past. That's where I would probably focus my attention, and this good thing about Distillery having so much focus from the community right now is, that the documentation is getting better, and it's becoming a more and more robust tool, with every passing day, or probably even passing hour. It's a friendly community. Dive in, read the docs, ask questions in the Elixir forum, or in the Elixir laying slack. You'll get the help that you need, and just go for it, would be my advice.
+
+Justus Eapen:
+Awesome. Eric, same question.
+
+Eric Oestrich:
+Yeah, continuing with that, is to dive in and figure out exactly how to do a Distillery release, and look in to their config providers, specifically, the config providers. Being able to spin up on Heroku with just mix phx.server is pretty cool, but being able to drastically level up, and make an actual Elixir release, is a pretty amazing thing.
+
+Justus Eapen:
+Awesome. Thank you so much, Eric. Dan Ivovich, Eric Oestrich, thank you so much for joining us today.
+
+Dan Ivovich:
+Absolutely. It was a lot of fun. Thanks for having us.
+
+Eric Oestrich:
+Yeah.
+
+Justus Eapen:
+Once again, this has been a production of Smart Software with SmartLogic, talking about Elixir in Production. Join us for our next episode, for more conversations on Elixir in Production. Thank you. Have a great day.
+
