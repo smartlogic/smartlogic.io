@@ -27,6 +27,7 @@ items = rss_xml.xpath("//channel/item").map do |item|
     "pubDateFriendly" => parse_date(item.xpath("pubDate").text),
     "description" => item.xpath("description").text,
     "author" => item.xpath("author").text,
+    "embedUrl" => item.xpath("fireside:playerURL").text,
     "enclosure" => {
       "url" => item.xpath("enclosure").first.attributes["url"].value,
       "length" => item.xpath("enclosure").first.attributes["length"].value,
