@@ -1,0 +1,582 @@
+Justice Ethan:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore, Maryland. My name is Justice Ethan, and I'll be your host today. I'm joined by my cohost, Eric Oestrich, and today we've got a very special guest, none other than Dave Thomas. How are you, Dave?
+
+Dave Thomas:
+I am wonderful. Thanks very much.
+
+Justice Ethan:
+Now Dave, this season on Elixir Wizards, we're talking about system and application architecture, but we wanted to ask you a personal question to just start off, which is, what is the coding gnome?
+
+Dave Thomas:
+Oh, that is a site that I am starting to populate very slowly. So my idea is that universities typically teach a whole bunch about computing, but very little about how to write software. And so people who will come out of those classes, really don't know the real world, if you'd like to know how software is done. And then on the other side of the coin, you have the bootcamp people who have been exposed to a whole bunch of real world stuff, but also don't have the background in some of the theory that they need.
+
+Dave Thomas:
+And so what I will be doing over time is starting to populate that site with a filler material between the two worlds. So I want to look at the theory that you need to know, and I want to look at the practices that you need to know in order to be a developer. So basically, it's a replacement for university. No, not really. I mean, I don't know. I am less and less convinced that university is the right place to go if you want to be a developer. I think if you want to be a researcher, that's fine. But-
+
+Justice Ethan:
+Do you teach at university right now?
+
+Dave Thomas:
+... I do teach. I'm an adjunct at SMU, so probably if they see this, I won't be anymore. But I think universities are not particularly geared towards producing people who are up to speed with what's actually happening in the world in the industry right now. They certainly have a whole bunch of research topics and every professor will have their own interests and teach that. I'm teaching mostly seniors, so they've been there for years, most of them have never written a unit test in their life, and don't know how to do it. I mean, I asked them to write tests and one student came back with a program, and I ran it, and it output zeros and ones. And I said, "Well, what am I supposed to do with that?" And he said, "Oh, the pattern's supposed to be 00011001100.
+
+Justice Ethan:
+Was he messing with you?
+
+Dave Thomas:
+No, that was it. A lot of them were out putting just the results of running some code, or just random strings would come up on the screen or whatever. So it's that kind thing. They are taught. Well, this class, this cadre have been taught C++. And a lot of that is because the university asks local industry what they want, and local industry in Dallas, there's a fair amount of telco stuff and everything else, and it looks C++ is a language they use. But they don't teach them C++, they teach them just the bits of C++ they need in order to be able to show them things like data structures or whatever else.
+
+Dave Thomas:
+And so they really are... I mean, I have been written C++ for at least 20 years when I was starting to do this. And I know it better than they do. Just because they haven't been shown it. So yeah, I'm not convinced the universities are... Should they be a trade school, right? This is one of those things in the US, probably in the rest of the world too now, but in the US, you basically have to get a degree if you want to be anything. And the result of that is that it's degraded, devalued under the point where basically the university is considered a trade school that gets you into software development or whatever else it might be.
+
+Dave Thomas:
+But software development isn't that trade, software development is and should be an apprenticeship scheme. You should learn on the job, you should learn from people who know what they're doing. And so it's just not appropriate. And in the same way, if you wanted to go research mathematics, then you'd go to university. Then if you want to research in computing, go to university.
+
+Justice Ethan:
+Do you teach Elixir at SMU?
+
+Dave Thomas:
+I used to up until last... Well, not this semester, but the previous one, and before that, I used to teach it. I had one entire class that was just Elixir, so I was showing them a different way of programming and we're thinking about programming. And then I'm also teaching a class on general programming languages, and Elixir was one of the languages that I used to use to illustrate different stuff. But it got squeezed out because the students were... I always set a final project, which is to implement a little mini-proper functional language. And I found that they were getting time squeezed, so I had to cut some content out.
+
+Justice Ethan:
+I want to ask one more question about working in the university before Eric asks some questions. Which is, of the students that you work with, how many are in it for a computer science major? And of those, how many of them are studying computer science as a passion versus trying to get a job?
+
+Dave Thomas:
+That's a really good question. I would say it's probably... So there are definitely about 50/50, I would say of, "I'm here for a job." As opposed to, "I'm here because I love it." The 50 who are there and are passionate about it, the surprising thing is that most of the double majors fall into that category. So some of my best students were double majors economics and software development. Business studies and software development.
+
+Justice Ethan:
+Oh, probably if they want to get into Bcom and data science?
+
+Dave Thomas:
+Well, partly that, I think, but also partly because these are the people who are really anxious to learn stuff. And so they are setting themselves up that, "I want to be a spongier. I want to suck up what I can." And so they come to class and they're not necessarily the best programmers, but they are the best learners. And they're ready to pick it up. Some of the students I've had... I had one student two years ago, and this was in the Elixir class, and I set a final project. I don't set exams because exams.... There are no exams in the real world, right? So my final project was a six week, I guess, development exercise, where I said, "Okay, I've shown you a whole bunch of features in Elixir, prove to me that you understand them by writing something." And I sent them off. And they did something.
+
+Dave Thomas:
+One guy came back with a... It was a sucker, a version like asteroids or something that ran in the browser, but had an Elixir backend. And the cool thing about it, it was multi-user and all of the... You think, "Well, that can't be hard." Well, actually getting clock synchronization correct and allowing for lag in a multi-user asteroids game is actually remarkably difficult. He went to work for Google, and I'm on his repository because that's how I graded it, and he's still adding to that project two years later. Yeah, so you get students like that who are obviously very keen. I had a student this year who basically said, "I need advice on how to continue studying over the summer." And that's nice. I like that.
+
+Justice Ethan:
+Do you feel a sense of pride when you hear that kind of feedback from students?
+
+Dave Thomas:
+I thought about [inaudible 00:07:23]. So I don't think it's anything I necessarily did. I think it's just hope, I guess, that there is a generation that still cares.
+
+Eric:
+Yeah. I'll just jump in with my take on the... I got a CS degree, and I feel most of my degree was worthwhile by all of the things I did outside of the degree. So I worked at the computer science department as one of two helpers or whatever for setting up computers around there. And then that got me involved with much of the teachers, and then I got an internship with one of them to do an Eclipse plugin, which don't judge, but... And then I worked for the IT stuff, and then switched to that one. But yeah, I was like everything I did around it was worthwhile, but the degree itself is not necessarily worth it.
+
+Dave Thomas:
+Yeah. I had exactly the same experience with my degree. I mean, yeah, I probably did learn more outside the classroom, but at the same time, my degree was back when I were just starting to do computer science degrees. And I know I don't look that old. Stop smiling. As a result, what we were learning was really fresh for the professors as well. And so I think that the actual education we got was fantastic. I mean, I actually still literally use the stuff I learned there today still. So I guess that varies.
+
+Eric:
+Do you think that's because the professors were teaching you something that was more cutting versus now you're learning something like Java or C++ [inaudible 00:08:59].
+
+Dave Thomas:
+No. I think they were still learning. And so it was a bit of a shared experience in some ways. We were taught logic programming by Bob Kowalski, who was the guy who, in the previous year, had actually come up with this idea of Horn clauses and that led to prologue. So this stuff really was just on the leading edge all the way through. We were using compilers that were being ported as the classes were running onto our systems because they didn't exist. So it was fun in that way. But yeah, definitely everybody was exploring how to express stuff. Also, remember that the amount of knowledge that they had back then was a lot less than now it is. So it's easier to see what's important and what's not. Whereas nowadays, sorting out the wheat from the chaff is like it's really difficult. I mean, what's significant and what's not.
+
+Eric:
+All right. So one of the things that we're always interested is, when did you first realize you had a Wikipedia page?
+
+Dave Thomas:
+I have a Wikipedia page? I don't know. Honestly, I don't know. I don't know at all. It was a while back, but I can't remember. I can't remember coming across it.
+
+Eric:
+It's such a humble brag.
+
+Dave Thomas:
+No, it's not. Honestly, I cannot remember it.
+
+Eric:
+[inaudible 00:10:15] had a Wikipedia page since before, I can remember.
+
+Dave Thomas:
+Well, maybe it was passed down to me by my grandparents.
+
+Eric:
+But I do want to hear you talk a little bit about the journey. Because obviously you're at a stage in your career right now where many of us would like to be.
+
+Dave Thomas:
+Wow. That would be fun.
+
+Eric:
+Well, I meant keynoting every conference that you want to keynote. That's an accomplishment.
+
+Dave Thomas:
+I guess. I mean, I do the conference things because there is a group of speakers around the world that I really like spending time with. And when I do the conference stuff, they just appear. And you don't know who will be at a particular conference. So you have this flock and then you get a subset of them at each different conference you go to, and that's really nice because you actually get to spend... We've all got this interrupted relationship thing down, so we can actually carry on conversations that we're having four months ago in Sydney or whatever it might be. So I do it for that. There was a time when I was enjoying lobbing grenades just because people were getting a little bit complacent about stuff, "Hey, look, we're the best." So part of me always wants to tear that thing down. But I've got over that now, so there's now a new gentler Dave's that you're seeing.
+
+Eric:
+I don't know Dave.
+
+Dave Thomas:
+Oh, come on. [inaudible 00:11:47] where was that long we guest did?
+
+Eric:
+Austin.
+
+Dave Thomas:
+Austin. That's right. There was no meanness in that talk at all. Not at all. I was just-
+
+Eric:
+But you did drop some bombs.
+
+Dave Thomas:
+... Really?
+
+Eric:
+Okay. So we're going to not stick to the old at all, because you said... One of the assertions that you made was that you don't need to write unit test.
+
+Dave Thomas:
+Well, that's not a bomb. That's just the truth. The truth all can never hurt. Right?
+
+Eric:
+Talk about it. I mean, and we might've talked about it a little bit on the live episode, but you have all the time in the world now. So people who are hearing this idea that you don't need to write unit tests are going to be shocked and concerned-
+
+Dave Thomas:
+That's not what I said. That's the thing that is interesting, right? I try really hard not to tell people what to do, because I don't know what they should do. All right. I mean, nobody does. So the best I can do is to share values and my experience. So I would never tell people, "You should not write your unit tests." But I am happy to tell people, "I don't write unit tests." The difference is that I've been programming for over 40 years.
+
+Eric:
+... Wow.
+
+Dave Thomas:
+And for all of that time, pretty much, I've been writing tests of one sort or another. And for me, most of the time, the value of a test is not the actual test, but it's thinking about the test, and thinking about, "How do I make my code testable?" And one of the big benefits for me of testing is that it forces me to create code, which is decoupled and easy to use in small chunks. Because otherwise, I can't test it.
+
+Dave Thomas:
+If I've got to set 1000 lines of code up just to set up the environment to run a single function, I'm not going to do it. Right? So I try to write functions where the state is always passed in and then it comes back out again and this stuff. And the reflex that has developed over the time doing that is now so ingrained, I don't have to worry about it, i just happens. And so as an experiment, I just took a few months where I said, "Okay, I'm not going to write any tests and see what happens." And my code did not get any worse. I didn't see any increase in bugs or anything that. And afterwards, I went back and looked at it. And in terms of design, it was pretty much the same.
+
+Dave Thomas:
+Now, having said that, I'm currently working on a project for myself, which is involving a whole bunch of SVG animations. And that involves all these wonderful matrix transforms, which is not a strength, and all of this kind of, is it referencing the center? Or is it referencing the Northwest corner? And all that kind of crap. And so I am actually writing tests for that simply because I don't trust myself. I'm not running tests for the design part, although somebody is helping a bit there, but I'm writing tests simply because I'm doing stuff I'm [inaudible 00:14:52] I'm doing. So I want to have a bit of a safety net for that. I mean, I say that I never write tests, the reality is I rarely write tests, but I get the benefit as if I had.
+
+Eric:
+I do want to dig into something. You said that you'd been writing tests most of your career. When you were in college and getting started, what was the culture around test-driven development and writing tests?
+
+Dave Thomas:
+The culture was typically that... So I worked in a little small software house, to start with. And so we would be doing work for customers, and typically that work would be on a fixed price basis. And so at the end, we would have to have our code pass some kind of acceptance tests. And so the customer would come... Oh, we would just have a contract with a customer, and we would to get them to specify or we would specify and then we agree to a set of acceptance tests. And then we would typically try to make those automated so that there was no debate. If we could pass the test, then we pass the test, everything was fine. As opposed to them saying, "That should be Red." So from the start, we were writing automated acceptance tests.
+
+Dave Thomas:
+And typically, when I was doing projects, I would actually start writing tests as soon as I had enough of the project coded for them to make sense. Because quite often, there needs to be an environment. So if remember back then, you were doing a lot more from the ground up. So you had to get more framework done before you could actually get tests to run your stuff. But I would start to write the acceptance tests pretty early on. And so that was the predominant form of testing that people were doing.
+
+Dave Thomas:
+We would also write regression tests. If something goes wrong, you write a regression test so that it doesn't go wrong again. And if you were doing something remarkably scary, then you would definitely write little test drivers for that. But it would be ad hoc. You'd write them yourself, you wouldn't look around for a framework, you just write the seven lines of code that was necessary to do it and then do it.
+
+Eric:
+You were writing acceptance tests more from the business value perspective of being able to define a scope rather than from the...
+
+Dave Thomas:
+Nowadays it'd be called integration tests, I think. So I'll give you an example. We wrote a... This was actually in the '80s, I think. So telexes, the teletypes with the paper tape, and they used to be used to send messages internationally. Because they're low bandwidth some cheap and whatever else. Right?
+
+Eric:
+I'm nodding, but I actually don't know.
+
+Dave Thomas:
+You've seen the pictures of it. It's a terminal... It looks like a weird looking typewriter, it's got a roll of paper and then it comes at the top. Yeah. Quite often, in movies people will walk up to them and rip the paper out the top. Right? And then they'll look at it and go, "Oh, my God, the queen." So that's a telex machine. So telex traffic is a rooted routed internationally using just basically special characters they embed in the messages.
+
+Dave Thomas:
+And we got the job to write the incoming telex switch for the UK. And so who was it at the time? It was the Post Office or British Telecom. I can't remember. Whoever was it, ran it at that point. Came up with this set of things that we had to be able to handle. And so what we did is we created a document that actually listed out every single test in terms of, "Here's the inputs we're going to give it, here's how we're going to run it, and here's the outputs we expect. And this is the document."
+
+Dave Thomas:
+And we gave them that document, and then early on the process, they signed off on it. But actually behind the scenes, that document was just a text file that we were formatting to produce the actual thing. We ran it through a separate Post Processor and it actually produced the code that ran the tests. So we had English version and we had a programmatic version of the same tests. And that was scarily wonderful because this was a quite a long project, and the entire sign off for the acceptance tests took under a minute. All we had to do is to show them the tests that were being run with the same as the document they had. We ran the test, it didn't take long, and they went, "Oh, okay." And that was it.
+
+Eric:
+It's an early form of Cucumber, I guess.
+
+Dave Thomas:
+Yeah. I guess it was. We didn't have to write 1700 matches.
+
+Eric:
+All right. So you've written 10 plus books. Which one was your favorite to write or the one that you had the most fun making? I guess.
+
+Dave Thomas:
+I think probably the first edition of Programming Rub. And the reason was that it was really low pressure, because no one had heard of Ruby. It was just a pet project for me. And there was no real English languages. There was little bit, but no real English language documentation for it. The English language in mailing list was about 20 people. And so the only way to learn about it was to actually get in there and read the code and then write experiments and stuff. And I really enjoyed doing that, because Ruby is Asha language that rewards that kind of exploration. There's always weird corners where I go, "Oh, that worked. I didn't expect that to work, but it did." And so I got to spend a lot of time pleasantly surprising myself when I was writing that.
+
+Dave Thomas:
+And the bad thing about that is every now and then, I got something wrong because I experimented to try and find out what it was supposed to do, and I would interpret the results one way, and later on [Maks 00:20:26] would say to me... [Maks 00:20:27] at that point was... He could speak English, but he didn't like to speak English. And so we very rarely communicated. But later on, when he was far more comfortable, he would saying, well, actually it doesn't need to do that. And so we'd have to fix it up." But yeah, so I think that book probably was the at least the first half of that book. The reference section at the end was just tedious. But the first half when I was just playing around with the language was good fun.
+
+Justice Ethan:
+Well, which of the books that you've written are you the most proud of?
+
+Dave Thomas:
+Oh, Pragmatic Programmer. I think the thing about Pragmatic Programmer is that I never expected it to be a significant book. We wrote it, it took a long time and we were proud of it, but we weren't... That's an old one. Is he holding up a 1999 Pragmatic Programmer?
+
+Eric:
+Yeah. That's a 20th anniversary? Right? Last year.
+
+Dave Thomas:
+Yeah, it's not quite a rewrite, but pretty close.
+
+Justice Ethan:
+That's probably my favorite programming book.
+
+Dave Thomas:
+Oh, well, thank you. Thank you, Justice.
+
+Justice Ethan:
+And it feels very nice in your hand.
+
+Dave Thomas:
+That cover. I love that cover. It's got that map feel to it.
+
+Justice Ethan:
+Really a great book.
+
+Dave Thomas:
+Yeah. That was actually our editor that did that. Because we had no idea what we wanted to do for cover, so he came up with that. But I think that book I'm proud because... I mean that one you're holding is over 20 years old. Right? It's 22 years old since when it was written. And yeah, it's got a fair number of little anachronisms in it, but in general, that's actually held up. And if you consider the software years, it feels like dog years, or what is it? Five or six or seven or something, human years. Well, software years are about 170. Every year in software is like 170 years for a human being. So, that book has actually stood the test of time really quite well.
+
+Justice Ethan:
+1999.
+
+Dave Thomas:
+Yeah. That's the copyright date. It was actually written in 97, 98.
+
+Justice Ethan:
+Well, do you know what I was doing 99?
+
+Dave Thomas:
+Breastfeeding?
+
+Justice Ethan:
+Almost. Oh, men. Second grade. I think I had just discovered... My dad had a... he was a tech guy. And so he had games that you could play on MS-DOS. I think it was actually before that even. I think that was probably closer to 97. But yeah, I remember playing little games on the MS-DOS. I don't remember anything about it other than that though.
+
+Eric:
+The earliest game I remember playing was Card Sharks on the DOS. It was very exciting stuff.
+
+Dave Thomas:
+Cool.
+
+Justice Ethan:
+Would you or are you writing another book?
+
+Dave Thomas:
+No, not at the moment. Because I'm wanting to concentrate on this pseudo course material stuff. And that is not the book. A good technical book has a narrative, right? It has an arc that goes through it or a couple of arcs. And what I want to write here is more a N-dimensional thing, where you can follow it in all sorts of different ways and do different things. So if you want to follow a theory of, I don't know, algorithms of some kind, right? You can take that tech.
+
+Dave Thomas:
+If instead you want to learn about a particular language or a particular technology, you can too take that tech. So it doesn't really fit in a book, what I'm doing instead is producing individual chunks that weave together the way you want them to weave together. So it's pick your own adventure book.
+
+Justice Ethan:
+I'm tempted to ask you to explain that certain narrative development process a little bit more, because maybe someone here is writing a book.
+
+Dave Thomas:
+People think that the idea of a technical book is to tell people how to do something. And my belief is you cannot tell people how to do something. People are people, and you try and tell them how to do something and it's not going to work. So, I think that the actual goal of a technical book is to inspire people to try something. And so to do that, you have to put a series of challenges in their way. And you have to grade those challenges in such a way that they ramp up in difficulty and in scope, so that they can get an achievement whenever they go through a section or chapter, whatever it might be.
+
+Dave Thomas:
+And so the narrative is the journey that you're taking the reader through, right? It's like when you read these cheap [inaudible 00:25:12], right? And the situation was getting more and more dire, right? And things get harder and harder for the poor hero and everything else. Right? Well, that's what we're doing in the technical book, right? We're starting off with the easy stuff and we're getting harder and harder until we get to this, "Whoa, look what I just did." And that's the achievement. So the narrative arc is the arc of the reader progressing through the topic. And if you can combine that with an actual story arc, as well, then that's fantastic.
+
+Justice Ethan:
+What a segue. Because you mentioned this product that you're working on and I was looking at it before we got on the call. And so I've got this question that might sound naive, but it's designed to you, which is, what is state and where does it live?
+
+Dave Thomas:
+What is Red? I think, personally that is one of the two fundamental questions of software development. I think the question of what and where is state is absolutely critical, it's not the way we think about development. And we very rarely do. And part of the reason for that is that everybody has been trained in Ode development. And in Ode development, that question is answered for you. State is instance variables and it which lives in a class, right? And classes are, "models of the real world." So you have a class for everything that you can think of, and then you put the state in all those classes and then wonder why nothing ever agrees with itself. So because of that, we have this very, I think, wrong view of state.
+
+Dave Thomas:
+I think state is a record of where you are in a process. Right? Mathematically even. I mean, if you imagine that you had a program and all it had was two Boolean variables, then that program has four states. True, false, true, false. Isn't this right?
+
+Justice Ethan:
+Right.
+
+Dave Thomas:
+That program can only have four states. The state defines where that program is at any point. Take it more complicated, you can have integers and floats and strings and stuff. Right? The number of states goes up phenomenally obviously. But, you can still imagine that that state represents where your program is at that point. So if you ran into the program and you waved a red flag and you shouted, "Stop." And the program did, you should be able to look at that program and say, "Here's the state. This is where I am right now." I should be able to take that state. Take it, put it in the deep freeze, a year or later, come back to that program. And ignoring things clock time and stuff like that, stick that state back into the program, and it should carry on running as if nothing had happened. Right? That's what state is. And so the question is how do you work that out? And that's really a domain or it's specific to each individual program as to how you handle that.
+
+Justice Ethan:
+I guess then my question would be, how does state then...? How is it distinct from data?
+
+Dave Thomas:
+How is information distinct from data?
+
+Justice Ethan:
+If you're asking me, I would say that information has context.
+
+Dave Thomas:
+Okay. Here's some data. Okay.
+
+Justice Ethan:
+Okay, are you agreeing with me?
+
+Dave Thomas:
+That depends. Right? Without that... Not just the context, but the ability to interpret the data, right? It's meaningless. So information is when you give meaning to data, state is the step up from information, is when you have given not just names to things, but relationships between things in such a way that they actually have meaning, right? So one way of looking at... And believe it or not, this actually goes back to my degree that we're talking about earlier on, but it's actually quite a useful way of thinking about it.
+
+Dave Thomas:
+A state space is... Okay from two Boolean's program, we have a two dimensional state space, right? You can imagine you draw a square that has four boxes in it, right? So just draw a line both ways. And you can just say where the program is in that state space by just putting an X in one of those four squares, and that tells you the value of the two variables. If you have three variables, then you're going to have a three dimensional state space. And it keeps going up and up and up. And you can imagine the execution of the program is actually pretty much defined if you can follow the progress of your X through the state space.
+
+Dave Thomas:
+Now, in a real life program, you've got 1000 dimensional state space, right? So that's not imaginable. But in Siri, actually, it is. Right? That's the transition to the state space defines what the program does. So it's more powerful than just pure data. Because what it actually is, is it is a representation of not just the data, but how you got there and where are you going to go next. Actually, it's like a timeline, almost, of the process that you go through. I mean, the other thing is it's whatever you stick into a GenServer, right?
+
+Eric:
+That's a variable for handle calls.
+
+Dave Thomas:
+Yeah, there you go. That's what state is.
+
+Eric:
+All right. So that brings us to the 30 minutes in to the theme of our season of architecture. So, what does architecture mean to you?
+
+Dave Thomas:
+Oh, when I think of architecture... So architecture, I think, is a misunderstood metaphor. I think that developers... When we were young and insecure, we have no way of talking about what we did. Right? Nobody knew what software was, what programming was. And we didn't either to be honest. So we borrowed metaphors from other disciplines. For example, we used to call ourselves software engineers because we felt, "Oh, okay, I must be in engineering discipline."
+
+Dave Thomas:
+And we looked around for things that would help us describe what we were doing. And the idea of architecture is an appealing one, because what an architect does is try to fulfill some need given a set of constraints, right? So someone says, "I need a four bedroom house, and I need to have a media room and I need to have blah, blah, blah, blah, blah. And I want it to look Western in style and et cetera. And it's got to fit on this lot with the following grading and whatever else." And then the architect comes along, and given all of those constraints, comes up with an outline of how that could be hung together.
+
+Dave Thomas:
+Okay, this is in the mind of the developer. They then hand that off to someone who handles the details, right? Where's the wiring room? What size of those beams is going to have to be? What kind wall coverings, blah, blah, blah. And that designer person then hands that larger set of documents off to a builder. And the builder then goes ahead and in theory, follows these instructions and produces a house or a factory or whatever it is.
+
+Dave Thomas:
+And I think people liked that because it was easy to understand metaphor, and it also structured the way people worked. It gave senior people something to call themselves, if you like. It really totally failed to understand though how architects and designers and builders work. I mean, it's interesting, because I got into this thing where people were talking about design patterns all the time, and how important that was to architecture. So whenever I met someone who was an architect, I made a point of asking them about that. And no one had actually ever heard of Christopher Alexander in the architecture industry.
+
+Justice Ethan:
+I'm sorry. Who's Christopher Alexander?
+
+Dave Thomas:
+The guy who wrote the original design patterns book.
+
+Justice Ethan:
+Okay. We're talking about software architects.
+
+Dave Thomas:
+We're talking about software, but Chris Alexander... Okay. So the design patents came about in the mid '90s through a group called the Hillside Group in the Northwest, who were a group of developers who had read Christopher Alexander's book, a timeless way of something [inaudible 00:33:35]. And in that book, he talked about patterns for architecture, which were just the same as patterns they felt for software. And these were, "If you are faced with the following situation, then a good solution will include this, this and this," Right? So they started trying to find his design patterns, but for software and not for architects.
+
+Justice Ethan:
+We actually ripped off the entire... all the metaphor?
+
+Dave Thomas:
+Oh, yeah.
+
+Justice Ethan:
+Wow. I didn't realize. So when we're saying design patterns, I think you're talking about a software design pattern book, but there's an actual book here about architecture design patterns. Wow. We really ripped off the entire profession. That's great.
+
+Dave Thomas:
+Oh, yeah. But the thing is we didn't, right? Because what we did was we sat down and said, "What should we call ourselves? Oh, I know architects and designers. Right." And nobody actually stopped to ask an architect what they did. And the reality is that architects actually spend a fair amount of time onsite with the builders. And the builders actually spent quite a lot of time informing the architecture. So the architecture and the designer will produce plans or whatever, and the builder will say, "Well, you know what? I can do it 10% cheaper if you move that wall over here because then I wouldn't have to worry about this, this and this." Or they'd get onsite and they would discover that there was a sinkhole and they couldn't do this here had to do that over there. And there's all this back and forth.
+
+Dave Thomas:
+And that got lost. And so it became like Moses handling tablets down as opposed to a collaboration. So I don't know if architect and design and anything else are useful terms to have. I think we have more experienced people and less experienced people. And the more experienced people's job is to make the less experienced people more productive. Because typically, there's more of the less experienced people than there are to more experienced people. So your job is not to tell them what to do, not to hand down tablets, it's to empower them so that they can do the work for you.
+
+Justice Ethan:
+I think that might be the most unique answer to this question we've received so far. Because you definitely took it from the perspective of the architect, the software architect. And most people respond with something about the structure of the program, which is different. Yeah, that's a really interesting answer.
+
+Dave Thomas:
+Architecture doesn't exist as a... What does it mean? What does architecture mean? Right? I mean, it could mean the study of what architects do. But if you were to say, "What is the architecture?" You could say, "Well, it's based on some Frank Lloyd Wright or whatever else, but it's not like... it's modernist or whatever." But it's not... that's a style, it doesn't state what architecture is. Architecture is what architects do.
+
+Justice Ethan:
+Right. Fascinating. That's really good. I'm going to have to think about this for a while. Yeah, that's really good. Obviously, we'd love to dive into these questions around language and definitions. And I think one thing that comes up a lot, you've already addressed the difference between architecture and design, I'm curious about specific design patterns, namely domain-driven design, microservice architecture. What are your thoughts on these buzzwordy type things?
+
+Dave Thomas:
+If it has a name, it's wrong.
+
+Justice Ethan:
+Grenades.
+
+Dave Thomas:
+By and large. No. Because remember I came back to this idea of, I can't tell anyone what to do because everyone's circumstances are different. Right? And so people who come up with these catchphrases domain-driven design, or test-first development, or whatever it might be, microservices, what they're really saying is, "I tried this once and it worked." Totally ignoring the fact that they were lucky, and the next 10 times they'd try it, it would fail. It doesn't matter. It worked for me once. And they are giving people advice based on that. And then people feel good because they've actually done the due diligence and they've gone and found an expert, and the expert said, "Oh, do it this way."
+
+Dave Thomas:
+But nobody is an expert when it comes to what you're doing. So, at most what they can do is say... You think about some of these things, because some of these things I found really useful, right? It's an experience report. It's not a methodology, it's not an architecture, it's an experience report. And so if you can treat them that way, then I think it's really interesting. So for example, when I look at microservices, I don't think of it as being a dogmatic way of organizing components. I think of it as being a way of thinking about, "How do I minimize the amount of traffic between things that hold state?" So if I'm doing microservices, I have lots of independent things that are all having to communicate with each other.
+
+Dave Thomas:
+And the benefit microservices goes away if the overhead with the communication swamps the idea that you can do things in parallel. And so you have to think about these things as to how do I make something as self-contained as possible, and then still a valid service or useful service. And that's interesting to think about, even if you're writing a big monolithic application, right? It's a structuring principle you can think about... And the same with the unit test in form design, thinking about microservices in form design. And you don't have to be writing microservices to benefit from that.
+
+Justice Ethan:
+And what about domain-driven design?
+
+Dave Thomas:
+I have zero opinion, I've never tried it, I've never even gone into it. It sounds like everybody wants to have a legacy, I guess. And so we're all trying to invent the next big thing. I don't think we're at the maturity point yet where we can actually do that. Right? So anything which is a prescriptive methodology to my mind is unlikely to be complete, and at worst could actually be dangerous. I'm not saying that Remainder design is dangerous or test-driven development is dangerous or anything else like that. But I have seen cases where teams have been ripped apart by trying to make them follow somebody's good idea. How's that for a non-committal answer?
+
+Justice Ethan:
+I like it.
+
+Dave Thomas:
+That's all I care about. Right? I'm just sucking up to you here.
+
+Justice Ethan:
+Oh, I'm touched.
+
+Dave Thomas:
+No, you just have such a sweet smile. And it's so nice you like to smile.
+
+Justice Ethan:
+You're going to make a brown man blush, Dave. Eric, do you want to talk about libraries and stuff?
+
+Eric:
+Yeah. So moving on, let's see, I just looked at this video. This was the EMPEX keynote from 2018. And we talked about... I don't know if it had a name yet, but component was the library. How did you get to that? Has that continued? What's the status of component?
+
+Justice Ethan:
+The idea there was I was getting concerned by the culture in the Elixir community of effectually writing everything in one big application. And that to some extent is part of the Erlang way of doing things. You don't necessarily have one. So take a step back. First of all, we have a problem. And that's the word application, because in Erlang, application means two totally separate things, and people don't differentiate. At one level, the application is the overall thing you deliver, right? Here is your web application, whatever it might be. But that web application may as well include 100 applications, where an application means a self-contained little chunk of Erlang or Elixir code, right? In Elixir terms, it's everything underneath the directory structure with a mixed or with access file in it. Right? So we have two levels of application, but people were viewing what they delivered, the application as one big thing.
+
+Justice Ethan:
+And we were really aggressively pursuing that. So Phoenix, for example, everything's all in one big app. And when you have child apps, they are still dependent on the environment in which they run. You can't take a child app out and put it in somewhere else without a lot of pain, and this is because of configuration and stuff like that. So, I wanted to come up with something where the unit of development was not the application, but was chunks of the application. And that would give the ability to at runtime decide the topology that you wanted. How you wanted all these different things to integrate together. You could choose to put them all into one big process or you could choose to have them running around the world and talking to each other. And it wouldn't make any difference either way.
+
+Justice Ethan:
+I started playing around with that, and I produced some libraries that gave you a kind of mini DSL to construct them. I deliberately hid all of the gen service stuff way down inside so that you didn't have write gen servers as much as you wrote components. And guess what? They were gen servers underneath the covers. And I wrote some stuff, I got myself a stack of raspberry pies, they were cute actually. And I managed them all, and I would deploy to this stack of pies so I could experiment with how to deploy multiple components to multiple processes in parallel safely and this kind of stuff. And I got a fairway into it. And it landed with the kind of noise made by a wet newspaper hitting grass, right? It was just like no one was interested.
+
+Justice Ethan:
+And part of the reason I think is that it wasn't the way we do things around here. And I think everybody was just too excited about, "Hey, look, I can write Rails of applications in Elixir." And so I put a fair amount of work into it, it wasn't generating any kind of attention. And without support or at least interest from the core, it wasn't going to go anywhere. So it's just sitting there. If someone wanted to run with it, then I would wish them well.
+
+Eric:
+And maybe they will. Which leads us to our next question. In our notes doc here, I pulled out a screenshot of the pinned repositories on your GitHub and they are all Elixir libraries that I assume that you've contributed to. Earmark, quick search, Jeeves, Component, which we just mentioned, mixed generator and mixed templates. First of all, I want to ask, how did you get involved with so much? And then I want to talk a little bit... I want to hear about your process, right? How do you plan a new library? A new application? What tools do you use? What's your process look like?
+
+Dave Thomas:
+Okay. Well, [inaudible 00:44:37]. Earmark is markdown processor. And whenever I get serious about a language, that's my kind of test, is I try to write a markdown interpreter or a processor [inaudible 00:44:49]. Because markdown is unbelievably ugly, and so you cannot rely on writing nice code in a language, right? You're going to have to find ways of handling all these weird exception cases and stuff. And so you're basically stress test in the language, or you're going use your understanding of the language. So I always write a markdown. And so I wrote Earmark as just an initial Hackett of a markdown parser, and then integrated it into some of the tools. And I think at that point, I handed it over to Rebel, and he is now maintaining that. And it's become part of X doc and a whole bunch of other things.
+
+Eric:
+How did writing a markdown parser in Elixir compared to other languages that you've written in [inaudible 00:45:34]?
+
+Dave Thomas:
+It was way better and way worse. The way better parts was I was amazed at how easy the parsing was using just pattern matching. And I got carried away doing that, so I did pretty much all of parsing using pattern matching, which mostly worked, but it's led to something. It was fairly brittle. So I spent a lot of time recovering from that enthusiasm. But in general, I was actually pleasantly surprised at how well it performed. And really it took me, I would imagine, a less time than the last time I did it.
+
+Eric:
+How many have you done this?
+
+Dave Thomas:
+Four. I think.
+
+Eric:
+And have you ever come up with a solution and a different language that was more elegant than Earmark?
+
+Dave Thomas:
+Well, I don't know about elegant. I mean, I wouldn't call Earmark elegant. I don't think that it's possible to create an elegant markdown parser. It's just it was not designed to be elegant. It was designed to be pragmatic. But it was also... There are things which I'm sure in retrospect they regret doing.
+
+Eric:
+Yeah. So you were, I think, about to tell us about Quick Starter.
+
+Dave Thomas:
+So Quick Starter was I got interested in property-based testing. And it was a property-based testing for Elixir, but I really didn't like the way it worked. I didn't feel it took advantage of things like streams. And also it was an interesting challenge because I wanted to write something that read relatively nicely. So like a high level DSL, and I didn't want to do too much hackery to make it work. So I spent a fair amount of time just experimenting, in particular, how to use a function to represent both the type and values of that type. I could say in my tests that I want to generate 1000 integers or 1000 integers between one and 10 or whatever it might be. Right? And have it just look natural.
+
+Dave Thomas:
+And so I came up with an ability to represent something that look both like a constant type and also a function call, which then shows they immediately broke by insisting that zero parameter functions had to have parentheses. But that's life. And that I was quite [inaudible 00:47:45], actually I think it still has or can do things that the camera, they call them, one, they built into Alexa now. I think it's still more featured than that, but I don't know. It just never took off.
+
+Eric:
+I know we don't necessarily have to go through all of these, just one-
+
+Dave Thomas:
+No. Its not, because tedious.
+
+Eric:
+... The more interesting thing that I'm curious about is your process, how do you deconstruct a problem? When you're starting from blank slate, how do you begin this process of developing a library? Especially when they're very abstract, like property-based testing or higher level Elixir components. That kind of thing.
+
+Dave Thomas:
+I think it's the way every open source project starts, and that's I have a need. So for example, when I was writing the component stuff, then I needed to be able to generate new components. And so there was a template that I'd have to create, and it wasn't the standard mix new template. And I was also looking at the fact that people who wrote other things also had to write their own template generators. So Phoenix, for example, has its own template generator. And that struck me as being really wasteful. So I thought rather than do another thing for component, let's see if I can parameterize it. So I came up with the template stuff where you have the ability to create templates, to find templates, which is what mixed template does, and then generate new applications based on those templates. And that's what the generator does.
+
+Eric:
+Yeah, I've actually used both of these in developing a virtualizer. I don't know if they're still there, but I definitely played with them both.
+
+Dave Thomas:
+Essentially, I like it. But again, it's just one of those things that surround you can use it if you want kind of thing.
+
+Justice Ethan:
+Yeah. I'm going to need to do a Phoenix new and I was scrounging around what they did, the copy. So this is probably easier to roll with and just copy pasting a lot of their code.
+
+Dave Thomas:
+Oh, I think... Yeah, because all you have to do is basically create a skeleton directory structure, and populate it with files, and those files can have magic variables in them, and it just copies and then updates those variables. So yeah, that's infinitely easier than doing it yourself. Because if you do it yourself, you've got to handle all the kind of the rollback stuff and things like that, which is not easy.
+
+Eric:
+I want to ask one more question on this point before we get to our final question, which is, you've been doing this for a long time now, when you have a client or some sort of project that you're working on that's from someone else, how do you like to receive your product specifications? Or what is the format that you prefer?
+
+Dave Thomas:
+I think it depends on the project. In the ideal world, if it is a project that is to be used by the human being, then I want to know what the pain that human being currently is feeling. Right? I want to understand what the actual need is. And I've come to that over time. Traditionally, what happens is the people at the frontline, maybe they're handling a service desk or something, right? And they're handling calls and they're finding themselves having to keep writing things on bits of paper. And then they say to their management, "I need something to replace this piece of paper." And so that goes up the chain up through the [inaudible 00:51:09] until it gets to the VP of customer service. Right?
+
+Dave Thomas:
+And then the VP of customer service has a meeting with the VP of software development, and they pass across this requirement. And then that goes back down through the VP to the directors, to the managers, through the architects, to the designers, to the coders, right? Which is like that telephone game, right? The chances of a requirement actually being correctly transferred through all of those layers is zero. So what I like to do if possible is to go and sit on that desk with headphones on, and listen to the calls and watch what they're doing. Because quite often, their actual pain points are not what's communicated.
+
+Dave Thomas:
+There was one case where there was a person I was looking at. This is actually to do with a debit card switching system. And they were handling people phoning up and saying, "I didn't meet that charge." And what they would have to do was to have to pull up on one system information on the transaction and then they would have to write down an 11 digit number, go to another system and enter the 11 digit number. And they wanted a way of basically recording that number somewhere else so they could actually just bring it in automatically.
+
+Dave Thomas:
+And I said, "No, that's not the answer. I mean, why are you having to remember an 11 digit number in the first place?" And so we just rejiggered the backends of it, so that number just disappeared. It wasn't relevant. And instead the two were just in together. So by doing in the some of the fancy consultancies, they call out, I work with all right? Where you'll just sit down with someone and you sit and you learn what they're doing for a little while. Not only does it give you some experience doing that, but it also gives you a really great contact. When you have a question like, "What do you think about doing this?" And you can bypass the 17 levels of management and just go straight to this person and say, "Look, here's a picture of what I'm thinking about. Does that work?" And they'll go, "Yeah. But look, that's way over to the side. And I don't really see that, I want to see it over here." And that kind of stuff. So that's the process that I much prefer doing.
+
+Eric:
+Yeah. I also prefer to be in the room with the end user, and it's so challenging sometimes to actually get that permission. And sometimes I think developers are actually just like professional, smart people, right? Your only job is just to understand what their problem is-
+
+Dave Thomas:
+Absolutely you're right.
+
+Eric:
+... And [inaudible 00:53:36] works for them.
+
+Dave Thomas:
+I mean, actually, you're exactly right. I wouldn't say smart people, I think our actual job is to be the Jack of all trades, Jill of all trades. Right? You need to be someone who can cross boundaries. I mean, at the very least, you need to be able to translate the analog real world into the digital pretend world. So you have to have that kind of a span. But you also have to understand how the company works, how the people work, right? So there's a whole bunch of separate things that you have to get good at. And I think that's what to me is the really exciting thing about the industry. It's not necessarily the ones and zeros, but it's the getting out there and learning how things work. And I love that part of it.
+
+Justice Ethan:
+All right. So to wrap up with this episode, we've been told there's another grenade that's ready to be loved. So why don't you write Elixir anymore?
+
+Dave Thomas:
+That's not a grenade, that's just personal question. And I'm not in any way saying anything is wrong, but it looks so has for me lost some of its shine. Partly, because I found the community to be very conservative. And partly that's because it's based in the Erlang community, and in the Erlang community that conservative was for a good reason. If you were writing software for a telephone exchange that handles emergency calls and everything else, then you don't want it to crash. And you don't want to sit there and do wild experiments on your code base. But that's not the kind of code we're writing anymore. And so this mythical of 99s or 79s, or whatever it is the code availability is A, just wrong, but B, is not the target. That's not what we're going for.
+
+Dave Thomas:
+And so I personally felt that people were paying way too much or giving too much respect to the old ways, and not thinking about the opportunities of what we actually really had. So what we really have is we have a pretty impressive interpreter that can operate out of the box in a global context. We have a relativity flawed model in GenServer, but it definitely points the way towards how we could look at doing things in the future.
+
+Dave Thomas:
+And we have a interest inside of tooling, which is both good and bad. It's good in that it's well-documented and it's reliable and it feels really solid to use. But it's bad because it's a kind of my way or the highway sort of tooling. And so it really doesn't encourage exploration and different ways of doing things. I'm also quite disappointed when Justice said, and maybe I've missed something subsequently, but he said, basically it looks that the language was feature frozen. And I think it's missing some really quite important things if it's to be called a proper functional language. For example, it needs this to motivate this. Pipelines, right? Everybody loves pipelines. What's not to love. Right? You can unwrap all of these nested function calls and write code that reads like a natural language that's really absolutely fantastic.
+
+Dave Thomas:
+Now, in Elixir, pipelines are a cheat, it's an operator of macro that takes these to arguments and substitutes the first argument in as the first parameter on the second one. Right? That's all it does. And then gives you a really nice syntactic pipeline. If you look at functional languages, so that's not how they do it. In a functional language, a pipeline is actually a genuine operator. It's executable code in the language itself. And it relies on the fact that in a functional language, your functions can be curried, which means that if you don't give them all of their arguments, then they are still functions just waiting for that additional argument to be given to them.
+
+Dave Thomas:
+And so what happens is that the pipeline operator is a function that basically used applies, which is right hand side, to that one extra operator. So by having currying, we have exactly the same ability to do pipelines. Okay? So big deal, you say, "Okay, this is exactly the same as we've got, but without all the extra hassle." But the difference is that in Elixir, our pipelines are exactly the same as an if statement. It's a block of code that gets executed, right? You cannot create a value, which is a pipeline value. You can do that in other languages because it's a full-fledged operator.
+
+Dave Thomas:
+Now, you may say, "Okay, who cares about that?" So part two of the thing is let's look at plug. All right? I really started to despair of the Elixir community when I had to look at plug. Because plug is possibly the least functional way of configuring software that I've ever seen. Right? Plug is a set of global variables. It's stores stuff up somewhere and is basically a big hash in the sky. And as it goes through, it builds this hash off of all the things you have to do. It has built into the source code, it is not a separate thing.
+
+Dave Thomas:
+I cannot, for example, create and manipulate my plugs as objects. But when you think about it, all plug is, is a pipeline. Literally, it takes a request in one end and spit something out in the other end, it's a pipeline. And yet, I could not treat it as a pipeline because pipelines can not be reified, they can't be made into something real. And then plug is a nice general purpose mechanism, which is totally ruined by insisting that it has to end in a connection. And so it's not a general purpose mechanism tool. If pipelines could be made into fully-fledged values, we wouldn't need plug, and we would actually have a nice general purpose way of doing that kind of thing.
+
+Dave Thomas:
+And then we get onto something like Broadway, which is again, a way of expressing a pipeline of operations. But we're not using pipelines. We're niching it all together using message passing and GenServers and whatever else. And that's scary as well. We don't need to do that, we just need to think about the fundamentals. And people in the Haskell community, I mean, they look at pipeline... Haskell doesn't have a pipeline operator, right? They look at that and say, "Well, yeah, if I need that, I'll write it. So half a line of code." So it's...
+
+Justice Ethan:
+Is this where you're going, is to Haskell?
+
+Dave Thomas:
+No, not to Haskell. I'm not going anywhere, particularly. It's just, I find Elixir frustrating. Honestly, I love what I could do with it, but I fell out of love for the fact that it seemed to be pretty much written in stone, and I didn't like the way it was going. I think Phoenix is a great achievement, but I don't think that we should be focusing on the browser. I think the browser is a minute portion of the amount of computing that we're actually doing nowadays. So Phoenix needs to be way more oriented towards the IOT protocols and handling that. Live View is great, but it's a distraction. And it's also, to be honest with you, I think it's kind of regressive moving stuff back up into the server like that. I mean, it's convenient for a programmer, but it's going back to the old 3270 days, select and pole. It's not where I want to see computing done.
+
+Dave Thomas:
+And related to all of that is the absolute religion of back pressure and flow control in Phoenix, in Broadway, and in fact just about everything, even in logging in Elixir. The idea is that it always has to be a pull model where the server basically handles things at the rate it wants to handle things. And so I'm just going to accept data. And that's fine if you're talking to web browsers with human beings, but if you're talking to cardiac monitors, then no, it's not. Right?
+
+Dave Thomas:
+The pull model that they're using basically throws away current data or crashes, in fact, if it can't handle data fast enough. But in the real world, you don't control the rate that data arrives. And so you need to have a different way of thinking about that kind of thing. So you need to be a push model, not a pull model. And you need to think about being able to set strategies for how you handle a situation where you can't handle things fast enough. And I would suggest that a very minimum default strategy is you don't throw away the newest data, you throw away the oldest data. Because otherwise you don't get to learn about that heart attack. "It was looking pretty good a minute ago, that's not really going to cut it."
+
+Dave Thomas:
+There's a whole bunch of areas where I just feel like people were not particularly receptive to discussion of that kind of thing. Simply because I think that there was a bit of insecurity. I think we have to be nice to the Erlang folks. And the Erlang people were pretty conservative. So whatever the reasons, it just wasn't fun anymore.
+
+Justice Ethan:
+Okay. This is so interesting. I've got a reflection and I think I have follow up question. And the reflection is, when you started talking about this, what I almost expected you to say... One thing that's come up a few times. We used to ask this question to people. We would ask, "When do you think Elixir and Phoenix will displace Ruby on Rails?
+
+Justice Ethan:
+And I stopped asking the question because I got discouraged by people's lack of ambition with trying to actually do that. Right? I always thought, "This is the direction web development should go, is if you're building a server side rendered application, Elixir and Phoenix should be the default place that you go instead of Ruby on Rails." But the pushback was always, "We don't need to do that and et cetera." And I thought it was a lack of ambition. What you're saying is something even deeper. And I'm wondering, I mean, are you going to fork Elixir? And where are you going go with this?
+
+Dave Thomas:
+Nowhere, at least not with Elixir.
+
+Justice Ethan:
+Where are you going to go from this?
+
+Dave Thomas:
+I don't know, to be honest with you. I mean, I didn't like to set out to... When I came across Elixir, that wasn't a, "Where am I going next?" That was a six year process, I think. I mean, at that time I'd been promoting Ruby since 1999, and I'd written books on Ruby, I'd contributed a whole bunch to the Ruby interpreter, et cetera. And in general, I really enjoyed working with the people in the community. As Rails came along, I started to feel uncomfortable, because I felt that people were forgetting that what we were writing is software, and thought that what they were writing is web applications. And so they were basically taking the fact that Rails gave them the skills and then just slapping bits and pieces into it to make it all work, which given that the Rail skills, and at least initially was remarkably badly designed, made it actually hard to write good code.
+
+Justice Ethan:
+The audience can't see Eric and I laughing.
+
+Eric:
+In agreement.
+
+Dave Thomas:
+I was looking around... I mean, since the 2000s, I had wanted to do something with functional languages to help promote functional languages. And yet, I couldn't, with good conscience, promote Haskell. So I was stuck. And I'd looked into Elixir when it was effectively of trying to do a Ruby thing on the Beam. And it wasn't there, and then a couple of years later I was talking to Cory Haines, and he said, "Oh, reveals it was Elixir thing." And I said, "Well, yeah, I looked at it a while back." He said, "No, go look at it again." So we were actually used teach on class together. So that evening I went and played with Elixir, and I felt the same way I felt when I first played with Ruby. I felt, "This is really cool." And so I didn't plan for it, I just bumped into it. And so I'm not planning for anything now, I'm certainly looking around. Believe it or not, I'm actually spending the majority of my time at the moment in JavaScript. Because JavaScript gives me... What are you laughing?
+
+Justice Ethan:
+Eric is having a trauma right now.
+
+Dave Thomas:
+Okay. So JavaScript has some interesting quirks. But it's also the assembly language of, I don't know, you can do an awful lot of really pretty cool programming. It doesn't enforce a paradigm. And it's really interesting to see what happens when you try to code and you throw away the idea of, "Okay, I'm doing this functionally or I'm doing this using objects and classes." And instead, you just think about, "Okay, so what does the code have to do? Or the code has to manipulate state, and what's the best way to do that?"
+
+Dave Thomas:
+And what I'm doing really is I'm writing something for myself. And I have been writing for a couple of years. But I'm running some process off and just rewriting and rewriting and trying to work out how best to express what I want in a language like JavaScript. Because once I've done it in JavaScript, then I understand the patterns that I want to look at, and I'll have a better idea of the higher level way of expressing those patterns.
+
+Justice Ethan:
+Wow. Dave Thomas, any final plugs asks from the audience before we let you go.
+
+Dave Thomas:
+Don't abandon the Elixir, if it makes you happy. That's what I'm saying. I mean, I think choose something that works for you. I don't write web apps for a living, and so I am not forced into making Phoenix versus PHP decision. And so my decision criteria are going to be very different to everybody else's, right? I'm explaining why I'm doing something different. That's nothing to say anybody else should do anything different at all. I think the ultimate thing... My son gave a talk in Austin that basically said, really the way to measure success is how happy you are. And I think that's true. And I think you do what makes you happy.
+
+Justice Ethan:
+Amen. Dave Thomas, Prag Dave, thank you so much for joining us here on Elixir Wizards, Dave.
+
+Dave Thomas:
+Always my pleasure.
+
+Justice Ethan:
+And we'll have you back on anytime. It's such an honor. That's it for this episode of Elixir Wizards. Thank you again to our guests, Dave Thomas and to my cohost, Eric Oestrich. Once again, I'm Justice Ethan. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails and ReactJS. Infrastructure projects using Kubernetes and mobile apps using React Native.
+
+Justice Ethan:
+We'd love to hear from you, if you have a project we could help you with. Don't forget to hit that like button and that subscribe button wherever you are listening. You can also find us on Instagram and Twitter and Facebook. So add us on all of those. You can find me personally @justiceethan and Eric @ericoestrich. And join us again next week on Elixir Wizards for more on system and application architecture.
+
