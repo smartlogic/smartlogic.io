@@ -14,29 +14,25 @@
 <body>
   <div class="wrapper">
     {% include header.html %}
+    {% include breadcrumbs-podcast.html %}
 
-<main class="main main-home" role="main">
-  <section class="section hero hero__main">
-    <div class="container">
-      <div class="hero__left">
-        <div class="hero__left-text">
-          <div class="head-text">
-            <h1>{{ page.title }}</h1>
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>{{ page.title }}</h1>
+            </div>
           </div>
-        </div>
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <div class="content-page-wrapper">
+    <div class="content-page-wrapper">
 
-    <section class="section content-block">
-      <!-- <div class="container"> -->
-      <!-- nuked the container to fix an unexpected flow issue -->
-
+      <section class="section content-block">
         {% include episode-embed.html embedUrl=page.embedUrl %}
-
         <h2>About this Episode</h2>
-
         <h3>
           Published {{ page.pubDateFriendly }} |
           Duration: {{ page.itunes.duration }} |
@@ -46,14 +42,10 @@
           | <a href="{{ site.data.elixir_wizards_transcripts[page.slug] }}">Transcript</a>
           {% endif %}
         </h3>
-
         <!-- description copy starts here - pulled from fireside -->
-
         {{ page.contentEncoded }}
-
         <!-- end copy from fireside -->
-      <!-- </div> -->
-    </section>
+      </section>
 
   </main>
   <footer class="footer">
