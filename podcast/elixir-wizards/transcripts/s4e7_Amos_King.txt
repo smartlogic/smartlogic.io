@@ -1,0 +1,759 @@
+﻿EW S4E7                Transcript
+EPISODE S4E7
+
+
+[0:00:05.0] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host today. I’m joined by my co-host, Eric Oestrich. Hi, Eric.
+
+
+[0:00:18.7] EO: Hello.
+
+
+[0:00:20.2] JE: This season, we're talking about system and application architecture. Today's guest is none other than Amos Lee King, the Elixir Outlaw. How are you, buddy?
+
+
+[0:00:29.8] AK: I feel like I just got invited into a boxing ring with that announcer right there. That's good.
+
+
+[0:00:35.8] JE: Well, this sometimes can get pretty violent.
+
+
+[0:00:39.3] AK: We'll try to keep that down. I don't want to have to hit anybody.
+
+
+[0:00:43.1] JE: Are you ready to rumble?
+
+
+[0:00:45.4] AK: Oh, just be careful how you say that. It’s copyrighted. It’s copyrighted.
+
+
+[0:00:51.4] JE: Is Amos ready to rumble? What does Adkron mean, Amos? Also, can you spell it for the guests?
+
+
+[0:00:59.0] AK: It’s A-D-K-R-O-N. This is pretty funny actually. I debated whenever you told me you were going to ask me. I’m like, “Why are you going to waste your time on that?” Then I thought it was very pertinent, because Eric is into MUDs. I would say I’m into MUDs, I’m going to say still. Yeah, like I MUDs. They're fun. I grew up playing MUDs back whenever the only multiplayer games had to be text, because you couldn't send anything else over that bitrate.
+
+
+I had to come up with a name, the first MUD I ever played. I was 11. I looked over at a clock and I rearranged the letters on the clock and I don't remember if I changed or added a few. That's Adkron. I’ve used it ever since.
+
+
+Yeah, you were hoping for something better, weren't you?
+
+
+[0:01:54.6] EO: I did.
+
+
+[0:01:56.0] JE: No, I think that's perfect. Also, this is not on our outline, but I’m curious how you guys came up with the name Elixir Outlaws?
+
+
+[0:02:02.4] AK: That actually is pretty good. A lot of people come to us and they're like, “Oh, you guys listened to Ruby Rogues back in the day, so that's where Elixir Outlaws came from.” I was like, “Well, why wouldn't we have something with alliteration if we were going to do that?” I loved the Ruby Rogues back in the day. I spent a lot of time listening to James Edward Gray talking there. Don't get me wrong. Mad respect for those guys, but that's not where it came from.
+
+
+Chris, Anna, and I were in Colorado for Elixir days. We were talking about having a podcast, maybe joining Johnny Winn on his podcast, Elixir Fountain. When we were there, just a lot of the conversations we were having, Johnny Winn actually called us outlaws, because of the things we talk about, and that we didn't talk about the same things as the other people in the, I guess, larger community. We were getting into nitty details and how to design stuff and maybe didn't necessarily agree with everybody in the larger community at the time, and so he called us outlaws. I don't know, four months later is when we started the podcast. It stuck.
+
+
+[0:03:16.9] JE: What were you talking about that was so transgressive and against the law?
+
+
+[0:03:21.7] AK: I don't remember. I don’t remember. I mean, I can tell you after we started the podcast, live view might be one of those. I know. None of us are really against live view. It was just funny. We would talk about things like, well, everybody's talking about live view, let's talk about something different kinda thing. That's a lot of it. It wasn't necessarily that we were like, “Oh, gosh. Everybody's stupid.”
+
+
+[0:03:46.1] JE: Though that wouldn’t be wrong, right?
+
+
+[0:03:48.7] AK: Stupid is a strong word, but probably would not be wrong.
+
+
+[0:03:53.0] JE: You don't strike me as an innocent though.
+
+
+[0:03:53.6] AK: I hope not.
+
+
+[0:03:56.7] EO: All right. I guess rolling forward a little bit from your MUD days, how did you get into programming? Were you formally trained? And –
+
+
+[0:04:06.0] AK: Yes and no. Okay, so my MUD days actually is probably what got me into wanting to program a little bit. I was like, “Man, I want to make one of these. Everybody's building one.” I didn't really have Internet, that we would call Internet today. My family weren't people that necessarily knew about the boards and stuff that you could get to and have that community and learn from. I don't even remember how I found out about MUDs.
+
+
+I taught myself to program. I originally found QBasic on my Windows 3.1.1 machine, I think, and it had all the documentation in it. I sat down and I read all of the documentation. Then I started making little games on there. That led into – in junior high, I got my first TI-85 calculator, graphing calculator, and started playing with programming in there. A lot of the kids were making little programs that did their math for them. I was making games and would sell it to people at school for 5 bucks. I’d transfer it to their TIs and then I would charge them a buck if they already had it, but I had improved the game somehow. I got paid for updates.
+
+
+A lot of people also got it for free. Then once you were transferring it around, like all software in that era, it just got pirated and everybody suddenly had it at school. It wasn't much of a money maker for me. Then, when I was a junior in high school, I actually wanted to be a trauma surgeon. I went to a semester in the summer. There was a program at St. Louis University for kids whose parents hadn't been to college, but those kids looked like they were going to go. When I told them that I wanted to be a doctor, they put me in a biology class and allowed me to dissect cadavers.
+
+
+One of them was a young man under 18. I was like, “Man. As a trauma surgeon, people are probably going to be dying around me a lot, and I don't think I ever want to be in a position to tell a parent that their kid just passed away, or is going to in a short period of time.” I didn't mean to take it morbid. I also wanted to have a family and learned through that whole thing that trauma surgeons are always on call and never around.
+
+
+I never thought about programming as an actual job, even though I did make some money off of it, it was just something I did for fun. Then I wanted to build roller coasters. When I got out of high school, I was going to go to University of Missouri Rolla for civil engineering and build roller coasters. I found out that that's a really hard field to get into. Before I even started school, I found that out.
+
+
+I was still looking, and still wanted to go to school, because I enjoyed learning, and thought, “Man, why don't I just turn this programming thing?” It was right around – I started college in ’99, so it was right around the Y2K bug. Programmers were making a ton of money and they were in high demand and I thought, “This could be work.” Then I started a career in that. It took me ’99 to 2006, because I also joined the Air National Guard and was gone to the Middle East and a few other places during that time. It took me seven years to graduate, but I was gone a lot too.
+
+
+I think that actually helped me get some focus toward the end of my university career and really sink in on those high-level classes. That has driven me since then to enjoy reading white papers, and a lot of those senior classes are based on – software design is what they called it, but it was more agile or waterfall and things, software processes. I started really getting into that stuff too and reading a ton, just reading all the time. I didn't realize how much I read though, because a lot of it was blogs, not books.
+
+
+[0:08:05.7] JE: I’m wondering what that first opportunity looked like.
+
+
+[0:08:09.5] AK: Which one?
+
+
+[0:08:11.9] JE: Like getting paid as an adult. What were you doing and how did you stumble into it?
+
+
+[0:08:19.0] AK: Oh, that takes us back to the story that we were talking about before we actually got on here. I was working in a donut shop called Donut King in college. This is the best job for a college student. I work from noon to 7:00 p.m. on weekends only, Saturday and Sunday. Nobody comes into the donut shop. Very few people and they're usually college students that are coming in after they got out of bed. At 7 p.m, you still have plenty of time to go party afterwards or whatever you want to do.
+
+
+I sat in there and did homework. There was a man who owned a company called USA Express and they transported people to and from the airport along Interstate 44 in Missouri. They'd had another student from the university build a system for their dispatcher and it had a bug in it and they needed some more work and he said, “You know, if you want you can come work for me part-time being a programmer.” I said, “Okay.”
+
+
+I still worked at the donut shop on the weekend and then I worked for him during the week and started working there. Then when I was working there, actually one of the people that they picked up was Wally Amos, Famous Amos Cookies, from Lambert Airport in St. Louis. He's a motivational speaker at the time.
+
+
+[0:09:41.5] JE: This was before the cookie company, or did he have a cookie company –
+
+
+[0:09:44.4] AK: No. This is way after the cookie company.
+
+
+[0:09:47.0] JE: Then he becomes [inaudible 0:09:47.2].
+
+
+[0:09:48.1] AK: I’m not that old. Yeah, he became that.
+
+
+[0:09:52.0] JE: Well, you’re talking about Windows 3 and I had to look when Windows 3 happened and it was before I was born.
+
+
+[0:09:57.4] AK: Oh, God.
+
+
+[0:09:58.4] JE: It’s just a few months. It wasn’t long before I was born. It was a few months before I was born. Yeah, I’m sorry. Famous Amos.
+
+
+[0:10:05.0] AK: I’m only 10 years older than you then. That's okay. I got to meet Famous Amos, because they were driving around. Apparently, they were talking about Amos in in the office and he's like, “Oh, I’ve got to meet him,” and they were going to pass the office. He came in and said hello. It was a five-minute meeting. It wasn't much of anything. I did tell him that his cookies were too hard for my liking. They're pretty good. If you wet them down with milk for a while and he's like, “Well, that's the best way to eat them anyway.”
+
+
+[0:10:33.3] JE: Sounds like a good sport.
+
+
+[0:10:34.3] EO: Maybe they were purposefully too hard, so that you have to use them with milk.
+
+
+[0:10:37.9] AK: Maybe. I think they probably last longer on a shelf life at that point too. That was my first, I guess, official programming gig.
+
+
+[0:10:47.5] JE: Do you remember how much you got paid?
+
+
+[0:10:47.9] AK: I had made some money here and there. I think $10 an hour maybe, because it wasn't for the project. They actually just had me become an employee. I worked there for, I don't know, about six or eight months, and then they sold to another company. I didn't stay on.
+
+
+[0:11:08.0] JE: I think it's a common theme with people in this industry, where they start out in a really low-paying role, is that right?
+
+
+[0:11:19.3] AK: Well, I had no experience, and I was a student. Yeah, they looked at me as an intern. I think that's generally true.
+
+
+[0:11:28.0] EO: One of my first internships, I guess, was working for a professor to re-up their Eclipse plug-in. I remember being super stoked for $10 hours an hour.
+
+
+[0:11:42.7] JE: I guess, I’ll just join the party here. My first programming job, I got paid 28 grand a year, which was actually less than the job I’d come from making 30.
+
+
+[0:11:52.8] AK: I got paid roughly that part-time in college, at a US geological survey, because my military experience, I started at a higher rate of pay than all the other student developers.
+
+
+[0:12:02.3] JE: Nice. By the way, thank you for your service.
+
+
+[0:12:05.0] AK: Oh, I loved it. I did it for 13 years. You got to love it. I did 12 and they told me every 18 months I was going to be gone for six. At that point, I had already been gone a lot and I had three kids and said, “I think I’m done.” They extended me a year in order to try talking me into stay in. I miss it sometimes, but I loved working in the military. I did electronics though. I fixed radios and satellite antennas and things like that, pulling out the soldering gun and the spectrum analyzer. I still try to do that a little bit with the nerve stuff. My spectrum analyzer skills are not near as good as they used to be. I can tell you that all that equipment and stuff and my soldering is not as good. If you don't use that, you lose it. I can solder things on really well. It's taking them off that's hard.
+
+
+[0:12:53.0] JE: For people like me who don't know anything, what is a spectrum analyzer?
+
+
+[0:12:57.8] AK: Now I have one that fits in this little bag that I can slide in my pocket, but the one that I had in the military was table-sized. I think – have you ever seen in a movie where you have a little ray tube on a big machine and it's got a sine wave going across it? That is a spectrum analyzer. What you can do with that is that's looking at the actual voltage. You can look at square waves, so digital is square waves on there and everything with – you can adjust timing and stuff and you hook these little probes onto different points on your motherboard in order to look at the signal going through, and you can trace the signal through the system. Depending on where you are in the system, if you see that the signal is not what you expect it to be, you can start to eliminate which part of the system probably has a problem and maybe find a capacitor, or resistor that's broke, or a chip that needs to be replaced.
+
+
+[0:13:54.2] JE: Okay. I’ve seen this being done before, a pavlok, but I just didn't know that's what it was. Cool.
+
+
+[0:13:59.5] EO: You can also use it to try to figure out what's going on in your electronics, so you can make them do different things.
+
+
+[0:14:04.1] JE: Cool. We're going to have to do a whole episode on nerve stuff, I think, with video.
+
+
+[0:14:10.5] AK: You should get Connor and Hunlith in here.
+
+
+[0:14:13.7] JE: Ooh. That would be really cool.
+
+
+[0:14:15.1] AK: Hunlith probably has some really fantastic spectrum analyzer skills. He's got an amazing workbench. Maybe you could just do a whole episode where he gives you a tour of his workbench. That would be amazing.
+
+
+[0:14:26.9] JE: I’ll tell you now Amos, next week we're doing a Council of Wizards live show. Wait, you're –
+
+
+[0:14:33.3] AK: Nice. No, I’m not invited. I saw that look in your face.
+
+
+[0:14:37.8] JE: Because we invited – who did we invite, Eric?
+
+
+[0:14:41.1] JE: We've got a few people coming. You guys were on the last one. You're on the last betweenasode.
+
+
+[0:14:45.8] JE: The betweenasode is now becoming the Council of Wizards and we're going to do some live shows every now and then. Where was I going with this? Oh, that we should do a whole live episode with just hardware-oriented people, where we can talk about this stuff and because it has video, so we get video, and that would be cool. I think it's a good idea.
+
+
+[0:15:02.7] AK: You could get [inaudible 0:15:02.4] to come in and video his home sprinkler system that he built using arms.
+
+
+[0:15:08.0] JE: That's a good idea. Yeah. In action.
+
+
+[0:15:10.5] AK: Yeah, because my sprinkler, I’m about to replace with whatever he built.
+
+
+[0:15:15.0] EO: Also, he just made it into a github org and all that.
+
+
+[0:15:18.0] JE: Really?
+
+
+[0:15:19.3] AK: Yeah. He'd probably be excited to come show you.
+
+
+[0:15:21.1] JE: That's cool.
+
+
+[0:15:22.0] AK: I’m about to replace mine, because at least I can work on that. I’m like an old person with a VCR. I have no idea how to even turn it on. It's obnoxious.
+
+
+[0:15:31.6] JE: Yeah, it's weird being in technology and not understanding technology. I have this problem all the time. My mom will be like, “Can you help me with Facebook?” I’m like, “No.” “Can you help me with Facebook?” What's your favorite underrated Elixir resource?
+
+
+[0:15:50.0] AK: That's hard.
+
+
+[0:15:50.9] JE: You can also pick your favorite overrated Elixir resource.
+
+
+[0:15:56.1] AK: Okay. I’m going to say it. I say it over and over again. Steve Bussey's book, I think is amazing if anybody's wanting to do Phoenix and find the real power of Phoenix. I believe it’s the real power of Phoenix is in its real-time stuff. I think that is a fantastic resource. I do believe that you should know a little bit of Elixir and Phoenix and a little OTP beforehand. I really like that.
+
+
+[0:16:18.4] EO: Is that just because you have a quote on the book?
+
+
+[0:16:22.1] AK: No. That's why I gave him that quote. It was pretty awesome that it's on the cover too. That's amazing. Well, the back cover and they didn’t put me on the front. I tried them to put – to get them to put Steve Bussey's name on the back and just my quote in the front, but it was it not going to work out. Next time. Next time.
+
+
+[0:16:40.0] JE: Have you written any books, Amos?
+
+
+[0:16:41.9] AK: I have not written any books.
+
+
+[0:16:42.9] JE: Wait, you're telling me you've got a blurb on a book, but you haven't written one?
+
+
+[0:16:46.9] AK: Is that called winning?
+
+
+[0:16:47.5] JE: Yeah, it’s called winning. When are they going to ask me for a blurb? You know what? When they ask me, I’m going to say no, just to spite them.
+
+
+[0:16:54.9] AK: I got a few of them on books. Here's what you do, you find somebody who's an author, or is making a book, and you offer to review their book as a technical reviewer. Once you're in, PragProg will send you an e-mail every time there's a new book and they're like, “You want to read this? You want to read this?”
+
+
+[0:17:13.3] JE: Do you know anyone that's currently writing a book?
+
+
+[0:17:15.7] AK: Yes.
+
+
+[0:17:16.7] JE: All right, just send it to me and I’ll hit them up.
+
+
+[0:17:20.1] AK: Yeah, I don't know that I can say it. Because then if they don't finish the book for some reason, then that's just, no – Writing a book is hard. That's why I’ve started four times. By the time I get done with the layout of the index I’m like, “No. I’m done.” Table of contents, not the index.
+
+
+[0:17:40.1] JE: Yeah – it'll be referred to as the highly anticipated new book from whoever. They'll have just such a higher bar –
+
+
+[0:17:48.5] EO: Is this Martin Gosby's elixir in action?
+
+
+[0:17:55.9] JE: Like in action? It definitely is.
+
+
+[0:17:59.6] EO: Justus and I are just like, jokes are always better explained. I keep trying to tell Keithley that, but he's not listening.
+
+
+[0:18:05.0] JE: No, they are better explained, because the explanation itself is a joke.
+
+
+[0:18:09.0] EO: Right.
+
+
+[0:18:13.3] JE: Then you could just keep going. It's reductio ad absurdum. It is the height of comedy. It's the opposite of sarcasm, which is the highest form of comedy, I think.
+
+
+[0:18:23.0] EO: Do you think it's –
+
+
+[0:18:24.2] JE: No, sarcasm is the lowest form of comedy. The opposite would be the highest form.
+
+
+[0:18:29.6] AK: I’m going to play that sound clip right there for my son, while he sleeps, just all night long on repeat. Sarcasm is the lowest form of comedy.
+
+
+[0:18:37.2] JE: Is he middle-school age?
+
+
+[0:18:39.2] EO: Yes.
+
+
+[0:18:41.9] JE: It’s highly disturbing to me that the culture has shifted so far in the direction of sarcasm being really the only form of comedy. It's so low and cheap and easy, that I just I hate it and I’ll tell anybody anytime your sarcasm is weak sauce.
+
+
+[0:18:55.9] AK: I think it destroys relationships on teams too. You can have a great relationship and it just takes somebody having a bad day, and one sarcastic comment. You can tear away a year's worth of growth in a friendship in moments.
+
+
+[0:19:13.7] JE: We got real serious there.
+
+
+[0:19:16.1] EO: Where do puns sit in this – puns are brilliant.
+
+
+[0:19:20.2] JE: Puns transcend joke. They're not even on the scale, because they're just so much higher than jokes, it's just – they are an entirely different form of art. They actually are artistic purity in its most distilled form.
+
+
+[0:19:36.4] EO: That's why those middle-aged kids that are all into sarcasm, every time you say a pun, they just roll their eyes and don't laugh. When you're a middle-teen kid, you don't get true art.
+
+
+[0:19:49.5] JE: Yeah, they don't get that you're kidding.
+
+
+[0:19:51.3] EO: Yeah. Not at all.
+
+
+[0:19:55.0] JE: Okay. Let’s knock it off. We're going to cut this whole episode. Oh, man. I loved being on your show, the live show that we did at Lone Star, actually. You're wearing the shirt. I thought I’d mention that.
+
+
+[0:20:10.8] AK: I wore it today, just because you guys were there.
+
+
+[0:20:14.5] JE: I heard that you and Eric paired on something last week. How did it go? What were you working on?
+
+
+[0:20:20.6] AK: I had a great time. I’m going to let Eric pronounce it, because I’ll screw it up. I thought like a kale lettuce or something. I don't know.
+
+
+[0:20:28.5] EO: Yeah. It's a Kalevala. It's just each syllable, or each two letters is its own syllable.
+
+
+[0:20:35.7] AK: Oh, I can do this now. Kalevala. All right, a MUD engine. I would call it an engine. We added some functionality to allow you to define some of the AI of the non-player characters in separate files from the player characters. Then that also allows you to reuse the AI with different characters. Even made me a character for a little bit.
+
+
+[0:21:00.8] JE: Really?
+
+
+[0:21:01.7] AK: Yeah. Yeah. There was an Amos villager.
+
+
+[0:21:04.4] JE: What happened to him?
+
+
+[0:21:05.9] AK: I think he only had 1 hit point. I don't know.
+
+
+[0:21:10.9] EO: I forget exactly. I think we just copy pasted it to show that, because Amos was asking about stuff and I just goes like, “Oh, yeah. You can define multiples.” Copy pasted one of the villagers and renamed it Amos. I was like, “And now you're in the game. Here you go.”
+
+
+[0:21:27.0] JE: Wait. Were you guys on the Slack channel talking back and forth? The reason I want to dig into this is because this is one thing that the Elixir community is great at, is just this off the cuff, let's help each other out. I’m pretty sure, wasn't Justin trading work with someone else, like his job work with someone else? Anyway.
+
+
+[0:21:49.1] AK: I have no idea.
+
+
+[0:21:50.3] JE: Yeah. I’m pretty sure Justin [inaudible 0:21:51.1] and a couple other people were basically trading their works, like their real work with each other.
+
+
+[0:21:58.5] EO: Oh, I can see that.
+
+
+[0:21:59.4] JE: Yeah, which is totally valid.
+
+
+[0:22:01.4] AK: I mean, as long as your company is okay with it. If they're not, as long as you can be very sneaky. I’m pushy, basically. I saw Eric tweeting about working on it, so I just messaged him. I was like, “Hey, my wife and daughters are gone, so I’m at home with just the boys, and they're teenagers, so we don't talk, and I’m going to have a lot of free time. Would you like to pair?”
+
+
+[0:22:30.7] JE: It was on the Elixir slide?
+
+
+[0:22:32.5] AK: Did I ping you on it?
+
+
+[0:22:33.2] EO: Basically on Twitter, or Twitter. Yeah.
+
+
+[0:22:36.2] JE: Okay. Yeah, the Elixir Slack for anyone listening is top-notch resource, and so is Twitter. It's going well. You're doing some AI stuff. We're going to talk a little bit about AI and –
+
+
+[0:22:46.3] AK: I don't know that I would say we did a lot of AI work.
+
+
+[0:22:50.6] EO: Yeah. The first half was just showing off the code base and answering questions and whatnot and then we – and also just BS-ing and whatnot. Then the last time, “Oh, I guess we should do something.” We said we were going to pair. Then that's what we worked on, because the behavior trees is what I ended up using for the simple AI for these characters. It's so verbose that the files that they're in just were hundreds of lines long. Part of the goal of a behavior tree is that you can compose them, so being able to reference specific parts of a tree and then merge them in is where, or where, yeah, where I wanted to head.
+
+
+[0:23:37.6] JE: I feel like there's a good segue in there somewhere.
+
+
+[0:23:40.7] EO: This season is about architecture and system layout and all that stuff. What does architecture mean to you, Amos?
+
+
+[0:23:49.8] AK: It's a well-balanced problem. See, Justus, I have to explain it. That was a pun based on the segue is well-balanced. Anyway, what does architecture mean to me? Well, there's architecture in the small and in a large, right? You have your entire system, or system of systems can be architected in how they communicate, but architecture gets all the way down into the function level on how you decide to design functions, and even name things, and how they interact. System architecture is huge. I think we would need to find something system architecture to talk about. I don't know what level of architecture you're thinking?
+
+
+[0:24:33.7] JE: Well, this is the question is what does it mean – because people interpret the question differently, right? In fact, we've had some really good answers in recent weeks. We just had Dave Thomas on the show and Dave said that architecture is a metaphor. He was actually taking it to mean specifically around the role of a software architect and what that person does.
+
+
+That was a completely unique take, compared to several other takes that we've had that are more around structure and things, like the changeability of things, and the design patterns and that kind of thing. I think part of this is what do people mean when they say that? What you're suggesting is that there's different levels of architecture and that you would have to know where it – what stratification you're looking at them?
+
+
+[0:25:21.2] AK: Yeah. I think there's very different conversations, if you're talking about how do we design a system of disparate things talking to each other, versus how do we design one of those things? To me, architecture is how you want to put things together and the trade-offs that you have to make in order to build anything.
+
+
+[0:25:45.6] JE: How does that differ from design?
+
+
+[0:25:49.1] AK: That's a tough question. I think that they're incorporated and it's really hard to separate them. At the same time, design to me is often the active of implementing an architecture. Yeah, you can design an architecture, but I look at it as civil engineers versus architects too. Is that an architect can draw whatever they want a building to look like. When it comes down to it, that engineer goes to do it and you may not be able to do it exactly that way, because if I build it – if I build this deck that's 60-feet out, no matter what type of material we put on it, it's going to be heavy enough that it's going to fall down. That's what the architect wanted, so how can we hide a post, or something like that to get as close to that ideal picture that the architecture came up with as possible.
+
+
+I think that’s where a little bit of that creative thinking and design comes in. I do believe that that comes in when you’re thinking about an architecture too. Design to me is more the creative part. Then architecture is well, I guess – now I said it's the total opposite of what I started, because I said architects do that creative beautiful drawing and then the engineer makes it happen if they can, and then called that design. I don't know. I’m mixing up my words. Let's just move on like I didn't say anything.
+
+
+[0:27:12.5] JE: No. I think talking is thinking out loud, right? Yeah. No one’s totally legit.
+
+
+[0:27:22.0] AK: You can leave it all in. I don't care. I’m stupid all the time. I think that's how I learn, right?
+
+
+[0:27:27.4] JE: You might be the expert that's stupid all the time.
+
+
+[0:27:29.1] AK: I like being the dumbest guy in the room.
+
+
+[0:27:31.1] JE: Ha, ha. Too bad sucker. Hilarious. Eric, do you have real questions?
+
+
+[0:27:39.7] EO: Yeah. Speaking of, I guess, feeling being stupid or whatever, there's something in here that's called TFD, type-first design. What is it and what are your opinions on it?
+
+
+[0:27:51.9] AK: Oh, I like typing in your show notes. That was fun. I look at this as it's a semi-link to the domain-driven design that you all talked about. A type-first development is sitting back and thinking of the types that you're going to be working with. When I’m talking about types, I mean, even at the function level. I need a function that takes in this type and this type and translates it to this other type.
+
+
+Type-first development would be like going through and writing specs first, spending some time writing some specs and thinking like, “Does this really do everything that I need?” It's more of a thinking exercise, just to get you going. Then I think you go from that to TDD.
+
+
+Now the tools in Elixir, you can't use Dialyzer without actually having the function body filled out, and let it tell you that yes, your types are correct. That would be really cool. Since we can't do that, you do end up having to implement before you can use a tool like Dialyzer to help you. Even if you're not using Dialyzer, just going through that exercise of thinking, it gets the brain going, and you can get really far with just writing some types down, and what the transitions of those types look like from one step to another. I think that it leads to a lot of very functional design when you start to think in those types first, because you think – you start to think, “Oh, well. I need this type to go from – I have a list of these types that need to go from here to there, so that means I need to create a function that goes from here to there.”
+
+
+Then what if I can just inject that function, so this type is a list and then a function that goes from – I don't know, let's say I have a list of users that goes from a list of users to the highest permission level, the permission levels of each user to ultimately the end of the function, the return of the function may be the highest authorization level of all the users in that list or something? I don't know. I’m just making up an example. It's probably not a great one, but all examples are flawed, terrible.
+
+
+[0:30:01.4] JE: Really awful.
+
+
+[0:30:02.3] EO: As the I guess, follow-up question, is this your announcement that you're starting to work in Haskell primarily?
+
+
+[0:30:08.0] AK: Hell, no. I find Haskell really interesting, but it hurts my brain to read it. Even after writing some and working in it a little bit. I shouldn't say working. I never got paid. Playing with it a little bit is probably a better term. No real big projects or anything. I can read it and understand it, but it hurts my head a lot. Then if you get into – I’m going to call them real Haskell programmers, like the people who do this for a living, then all of their Haskell I would say is not domain-driven design.
+
+
+You have functions that have A, is the name of the function – No. Actually, the function names are usually pretty good, but the arguments are XS-DA. You're like, “What the heck? I don't even know what goes in here.” They're like, “It's because it can be any of these 10 different things, so we didn't give it a name.” I’m like, “Okay. That's great. I can't follow.” The currying stuff, when you just have a big list of functions, but no inputs on one line. Sometimes it takes me a little bit to be like, “Okay, which order these actually called in and which ones are arguments to what?” Parenthesis actually really helped me and Haskell got rid of them for the most part. People don't like to use a lot of parenthesis in their Haskell around arguments to functions.
+
+
+[0:31:37.2] JE: I guess it's time to learn Haskell. It’s now come up in so many episodes of this show. It almost invariably comes up on the show.
+
+
+[0:31:44.0] AK: You should try it out. Try it out. It’s interesting.
+
+
+[0:31:46.9] EO: There's a good book that I have – I mean, I haven’t read it, but a friend has read it and has influence, tainted his Elixir, I guess. He said it's good. It's gigantic. It's a 1,500-page PDF or something obscene. I will find it and make sure that's in the show notes.
+
+
+[0:32:07.5] AK: You don't remember the name?
+
+
+[0:32:08.5] EO: I will in at the few minutes while Justus asks you a question and you answer and I search.
+
+
+[0:32:16.5] JE: Talk a little bit more about domain-driven design, because I still not really gotten a satisfactory explanation of what it even is.
+
+
+[0:32:24.0] AK: I have a hard time with a satisfactory explanation of what it is too. To me, most of what makes domain-driven design work is really just coming up with a common language with the other stakeholders in the project, and trying to fit your code within the domain of their speak and their problems. Then, as software evolves and your conversations with them evolve, you, even speaking about code, will use the same words and everything as they're using and it allows you to make that translation a little bit better.
+
+
+This is why I think it's good with types is because if you start using those words that you come up with in domain-driven design, as the names of your types, it can really help that transition and that talking back and forth. I’ve done type-first development with customers before, just because we could pick these names and I’d say, “Oh, well. We have this user come in and they become an admin,” or something like that.
+
+
+[0:33:31.4] JE: This is really interesting, because I do try to get the client on the same page as far as nomenclature with us as we go along. The worst part is that they often change what they want something to be called like that on the road. It’s like, “Oh, I’ve already had database tables and stuff, so you can call it whatever you want, but this is what it is.” Yeah, go ahead.
+
+
+[0:33:51.4] AK: How I deal with that frequently is you have a lot – I’m trying to come up with a good example. I’m not. Your software often has multiple users and multiple customers and they might call the same thing by different terms, depending on if they're a banker, or a car salesman and you're doing car loan system. They may use different terminology when they're talking about the loan, or the vehicle. One might call it a vehicle, one might call it a car.
+
+
+That's where I think you get the context. You have an overall context, which might be car loans, and then you have sub-context, which might be sales, and I don't know, interest rates. I don't know enough about that industry. I should've picked a different one. Anyway, so those are the contexts that you have. Your application is car loans, that's your core context, and your sub-context might be authentication, authorization, loan department, sales department, customer service, and all of these things to run a car sales thing are – every one of those individuals calls certain things that to you, they're the same thing, but to them they use different terms.
+
+
+That one section of your application can have a context module that goes through. When you're talking about one section, let's say the salesman calls it a vehicle, and so you would say – you would have a sales.getvehicle. Then let's say the loan department, maybe they deal with more than just vehicles, so they call them assets. Now you would have loans or loandepartment.getasset. They might be pulling from the same database table, or getasset might get complicated, because it might pull a house, it might pull a vehicle, but to them it's just an asset.
+
+
+[0:35:50.7] JE: This is great. I actually do this on one of our rails projects actually, which I know that sounds crazy. We've got services, and locations, and organizations and they're all just resources. You just getresources, right? That's how the client refers to it. I mean, sometimes they get more specific and they know. They know how it works. Sometimes they get more specific. When we're talking about it, it's always just resources. I like this. I mean, how did you develop this conception of domain-driven design?
+
+
+[0:36:21.6] AK: I think I was doing it this way for a long time before I heard the term. Then when people started talking about domain modeling and domain-driven design, I remember watching Rob Martin, I think, Elixir Hub. I’m going to say 2017. It's not Bob Martin. Not Uncle Bob, but Rob Martin talked about domain-driven design. I saw his talk. I didn't see it at the conference. I watched it online afterwards. I had seen other talks and read a little bit. Every time I looked into it, I was waiting for this big aha moment. I was like, “Well, that's just what I do. What are you doing different?”
+
+
+Then after a while, I was like, “Okay. It’s just how I do it.” I think that's how it really was was I was already trying to get some commonality between the clients, and column customers, and myself to get to a common terminology, because it made it a whole lot easier for my brain to then put that new functionality into an existing system, if that system used the same terms as the person I was talking to.
+
+
+[0:37:33.7] JE: Yeah. It does seem like a lot of these concepts come out of – it's not like you invent domain-driven design and then start practicing it. You've been practicing it and you come up with words to describe the practice. It’s a domain-driven design. Very cool. Very cool. Do you want to talk a little bit about your company? You’re the boss man.
+
+
+[0:37:53.7] AK: Sure. I don't know that I’d say that. We're tiny. We're tiny. I noticed that in your show notes, you said we do a lot of rescue projects. I don't like that term, because it says that we work with a lot of bad code and that's not necessarily true. I would say –
+
+
+[0:38:10.0] JE: I think it says that you're a hero and you rescue people.
+
+
+[0:38:13.7] AK: Sometimes it's really hard. A lot of it is more cultural often than code. I mean, the code is bad, usually because of cultural issues within the company. Pushing too hard, stories being very specific, not like, I’m having this problem, solve it for me, work with me to solve it, but I want you to add a second password field to the page to confirm the password. Really what their problem is is people keep forgetting their passwords. Maybe we should look at password reset first, because it's probably going to give you – a password reset functionality is going to give you more bang for your buck than a second password field.
+
+
+That's a lot of it, is the people who have been doing this for years aren't allowed to make those decisions and they get in this spot where they're always handed exactly what to do and then they just go jam it in. That often also comes with hurry up and do this, hurry up and do this. This is small. How easy is this? Just get it done.
+
+
+[0:39:21.8] JE: To be fair, I think a lot of times developers find it easier to just accept your marching orders than to push back and give suggestions on better ideas.
+
+
+[0:39:32.2] AK: I don't know that I feel the same way.
+
+
+[0:39:34.3] JE: Fair enough.
+
+
+[0:39:34.8] AK: I guess when I when I come in and I start talking to those people, these are the complaints that they give me. These are the exact things that they say, “Here are our problems.” We try to talk about it for years and new people come in and they try to talk about it and then they just get sucked up into this culture you just get burned down fighting and you’re like, “Whatever, I’m just going to do this.” I would say we do more team augmentation than rescue projects. I’ve been on some really cool, well-written projects that I’ve gotten helped out with.
+
+
+[0:40:03.2] EO: Let me jump in real quick.
+
+
+[0:40:04.3] AK: Just oh-my-God projects.
+
+
+[0:40:05.9] EO: Right. Let me jump in real quick. The reason I wrote that line of “helps rescue projects” was, I think at Lone Star, we were at the coffee place before the speakers dinner, that was the – maybe it was that specific project you're talking about. That's the I don’t know, some of the, I don’t know, tone of – the type of projects you do, it was what it sounded like. Yeah.
+
+
+[0:40:28.2] JE: Okay.
+
+
+[0:40:29.5] AK: No, it's fine. It's fine. That wording is – I feel bad for clients if I use that word, because it says your stuff is terrible and somebody needs to throw you a lifesaver. Sometimes that's true. Yeah, we go in –
+
+
+[0:40:48.6] JE: That is sometimes true.
+
+
+[0:40:50.9] AK: We typically go into existing teams though and just become part of the team, another program on the team, not an Agile coach, or I’ve heard software coach, or even I want to call it a software architect. I think that job actually is mostly terrible, unless you're in such a giant system of systems that you need some people that are sitting way up above trying to figure out how all this works together. That, the software architectural is mostly just developers working together day-to-day to make a product that they can easily add new features to, but keep the same level of quality.
+
+
+[0:41:33.2] JE: I want to defend the architect title, because Eric is an architect.
+
+
+[0:41:37.1] EO: I’m a technical architect, which was the closest thing to not a manager that described the thing that we were looking for my position to be. Plus and I’m not saying anybody who has an architect title doesn't know what they're talking about.
+
+
+[0:41:54.7] JE: I want to justify it, because the way I look at it – I think of Dan, our director of development operations is the same way, and I use them both in the same way, where I go to the architect when I’ve got a big piece of functionality I need to develop, and I have a concept of how I think it's going to go, and I need it validated. I need someone to say to me, “Yeah, that is a sane approach, because I have more experience than you and I can say yeah, that's a sane approach that you're about to take,” or ask questions and try to get me to a more sane approach, or just rip, demolish it and start over from scratch.
+
+
+Because I use Eric and Dan in that way all the time, and I’m very happy to call them an architect, if that is what they're doing, because in my mind it's like, yeah, there's a feature. It's big and they need to architect the broad strokes, but I’m going to go in and actually implement it.
+
+
+[0:42:44.8] AK: I think that's fair. I think what you'll find too as you go along is from project to project, even if you work with the same people, that it won't be the same person that you go to.
+
+
+[0:42:56.7] JE: That's right.
+
+
+[0:42:58.1] AK: That's where I often run into problems with the title, and in a lot of companies that I end up going into, the software architect – here's my quote, sits so far from the keyboard that they don't know how it works anymore. They architect these solutions and you're like, “That's not going to work.” I once worked on our product like that where they had a BPM. I think this was called business process modeling system. It's drawing with code. It's so terrible. I hated it, but they kept telling us we had to use this BPM and the software architects.
+
+
+This is how it is across the entire ecosystem. They probably said enterprise, is my guess. When it came down to it I was like, “I can't do that, because I have an XML file that comes in, that is hundreds of gigs in size, single file. You want me to push this XML file through this web services layer that I draw altogether? It's going to fall down.”
+
+
+[0:44:05.8] EO: Well hopefully, they're using the sax parser, right?
+
+
+[0:44:11.7] JE: What are you guys talking about? You started to lose me at XML, but now – what exactly?
+
+
+[0:44:18.7] AK: It’s not that important a story. The big thing is in that experience is that architect got so angry that things weren't going the way that his architecture was designed, that he ended up calling the people in who designed the BPM system, and paying them for extra help to come and show me how it could be done. They got there and they hand – I handed the XML to them and he was like, “Here's what he wants me to run through your system.” They're like, “You can't do that. It's too big.” I’m like “I know.”
+
+
+He paid them to come over from Germany and sit down with me. He paid them for two weeks, and in the first 10 minutes, they were like, “You can't do that.” Then they went and helped the other teams.
+
+
+[0:45:03.8] EO: You should have gotten the reverse offer somehow and got a free trip to Germany.
+
+
+[0:45:08.1] AK: That would have been awesome, but no. I run into architects like that. Sometimes I get a little bit of a bad taste in my mouth. At the same time, my thing is – nothing against the architect title, or someone who has been around long enough that maybe they are the person you should go to. If tomorrow, I don't know Eric's background, but if tomorrow Eric got put on to a prolog project doing machine learning, he may not have the actual experience to be an architect on that project.
+
+
+[0:45:43.2] JE: You're right. Eric would explode if you put him on that project.
+
+
+[0:45:49.2] AK: Would you have fun though, because that's really what's important, right? Would you have fun?
+
+
+[0:45:53.1] EO: Yeah, I’m not sure.
+
+
+[0:45:55.7] AK: Maybe, maybe not. I’m not against the architect position per se. I would rather just say, “You know what? Give that guy some more money. He knows what he's doing. He's been around a while.”
+
+
+[0:46:08.1] JE: I harp on it. I tell everybody. I’m like, “Raise your prices. Whatever it is, just raise your prices, because you can't go wrong with making more money.” It never goes wrong. It's never been a bad idea to make more money. Tell me about API architecture.
+
+
+[0:46:21.9] AK: This is the hot take– anger talk. All right, so I think this gets down to – this gets down to a lower level. I’m going to talk about one specific thing that drives me batty and I see it in open source projects. I see it in internal projects. I see it everywhere, is that you have an API that has a function, that has some switch. If that switch inside of that function is only got – it either works this way, or that way but not a third way, then somebody passes in a boolean as the switch. True or false?
+
+
+Do this and then it gets a true or false that really might mean they have permissions, or they don't have permissions, or something like that. This thing is going to behave differently depending on that. Can we never do that again? Booleans are a terrible, terrible switch. They contain no information outside of true or false, you don't know what it means. Then half the time in the code, somebody hardcodes it to true anyway and you're like, “What the hell does that mean?” In a database API, somebody will put true, will return you validation airs. But if you pass it false, it doesn't do validations and just puts it right in the data. No. Then pass in an atom that says validate, or don't validate. Please, just give it a name. Name that concept. I guess, that's domain-driven.
+
+
+[0:47:51.3] EO: Yeah. Instead of magic numbers, it's magic Booleans.
+
+
+[0:47:55.4] AK: Right. Magic numbers. Just as bad. Enums not like – there are too many things called enums. When I’m talking about enums right now, it's where you have a name given to a number. You have a list of names, and the first on the list is 012, because and you store that in your database or whatever. Those probably mostly come from days, like hardware.
+
+
+Wait, if you're doing embedded systems, you might end up having to do this. They do it to save memory and storage space. That kind of enum is terrible, terrible. If you can avoid it, never use them, especially if you end up in some system that's distributed and then you have to pass those enums around and then somebody else changes something in their codebase and they're like, “Well, 2 to us means that you're an admin. 3 means that you're a super admin. In your system, 2 means super admin, and 3 means regular user, and 4 is a salesman at the car lot.” This isn't going to work. Now you have other – Yeah, don’t use those.
+
+
+[0:49:00.7] EO: I’ll toss on don't use bitmasks either, for pretty much the same reason.
+
+
+[0:49:06.5] AK: Yeah. If you're doing hardware, you're going to have to. Yeah. Yeah. Don't. Don't. I’ve seen a lot of bitmasks used for authorization. It is terrible. Four years after it's been developed, everybody's like, “What does bit number 3 mean?” You’re like, “I don’t know, but half of our users have it set. What do we do?”
+
+
+[0:49:31.8] JE: I have to follow on one of my projects right now. In its defense though, everything else about that project is awesome.
+
+
+[0:49:38.9] AK: I understand how people – I completely understand how people get there too. Sometimes you need to do that for performance business.
+
+
+[0:49:45.5] JE: Tell me how, because almost anything that requires me to think more to understand it, I am like, “Eh, let's do the simpler thing.”
+
+
+[0:49:53.5] AK: Well, the problem is that often is that somebody didn't think enough upfront. They didn't go on those walks like they're supposed to. They didn't try to come up with types, like I think that they should sit and think about the repercussions to it, but it does come down to – like in that situation where you have a bitmask for authorization, is that maybe you originally were using some list of atoms and that list gets huge. People can have 15 different properties and you have a million users now and stepping through all of their individual permissions is actually starting to be a performance problem.
+
+
+When instead, I could XOR it with a known bitmask and come up with true, if this one bit is set, or these 3 bits. You can also start to get these really complex behaviors that are built up, that run quickly. I understand how people get there and I think that sometimes it might be necessary but often, it's done way early. Somebody's got some nice –
+
+
+[0:51:00.8] EO: Yeah, who's got the cuckoo clock?
+
+
+[0:51:03.2] JE: I live next to an army base. Yeah. That's 5 o’clock.
+
+
+[0:51:08.7] AK: It's revelry.
+
+
+[0:51:10.1] JE: Yup, end of day.
+
+
+[0:51:11.7] AK: I’m ready to stand at attention on the side of the road. That’s what you're supposed to do. You just stand there.
+
+
+[0:51:16.2] JE: Yesterday, they were dropping bombs all day and they were really, really loud and scary. Yeah. I have an improving ground right next door.
+
+
+[0:51:24.7] AK: Oh, nice. They drop a lot of bombs there.
+
+
+[0:51:26.8] JE: Lots of bombs. There’s no regularity to it. Sometimes you'll go for a whole week without any bombs. Then other times it'll be like, all day.
+
+
+[0:51:35.3] EO: Do they not do it at night though?
+
+
+[0:51:37.0] AK: No. No bombs at night. Although, you do get sketchy, like heat lightning from over there that night. It's very sketchy.
+
+
+[0:51:45.2] AK: Sketchy heat lightning. I live pretty close to Fort Leavenworth and then also close to Whiteman Air Force Base. Fort Leavenworth, we have the big Chinook double propeller helicopters and they will – I’m in Kansas City, but they will fly by my house all the time. I don't know where they're going. I think they're just out doing something, just flying around for practice, but they are super loud. Then we have the B-2 bombers that every once in a while you get to see the stealth bomber coming from Whiteman Air Force Base, because that's where they are and they’re way quiet.
+
+
+[0:52:20.5] JE: That’s awesome.
+
+
+[0:52:21.2] AK: They’re super quiet.
+
+
+[0:52:22.1] EO: We had a B-2 fly over Indianapolis for the 500 two years ago. I don’t know. It was super weird seeing this thing. It was flying overhead and that would just twist like this and fly away from and he's gone.
+
+
+[0:52:36.5] AK: Well, when they're low, they're not that quiet.
+
+
+[0:52:38.9] EO: Yeah, when they’re low to the ground.
+
+
+[0:52:40.2] AK: They fly so much higher than those helicopters that – so quiet.
+
+
+[0:52:44.5] EO: All right, so for our final question while we're in the roasting section, the hot takes, this is your chance. Do you have a hot take on Chris Keithley, your Elixir Outlaws co-host?
+
+
+[0:52:58.3] AK: I can't believe you'd put me in this position.
+
+
+[0:52:59.3] JE: Your compadre.
+
+
+[0:53:01.0] AK: This is terrible.
+
+
+[0:53:02.3] JE: Roast him, King. Roast him, King!
+
+
+[0:53:05.9] AK: All right, here's what I have to say about Keithley. He's really opinionated and I love talking to him.
+
+
+[0:53:12.3] JE: Me too.
+
+
+[0:53:13.9] AK: Sometimes he doesn't shut up. He can be opinionated at the point that I’m like, “Whoa, man. Calm down.” It's okay. I have it a few times. This is the best roast I can give is I’ve been at conferences and had people walk up to me and be like, “You need to talk to Keithley. This is what he said on your podcast.” I’m like, “You need to talk to Keithley. You got a problem with what he said? You think I can control him? Have you ever met Keithtley?” They’re – Mm-mm.
+
+
+[0:53:41.9] JE: Amos, thank you so much. Do you have any final plugs, asks for the audience where they can find you, that thing?
+
+
+[0:53:47.8] AK: We've been working on building up our blog at binarynoggin.com. Actually, we have a lot of posts that are more about thinking and learning, and those things than we do about technology. Check that out. I’m on Twitter and everything else @Adkron, since we figured out where that came from today. I already spelled it once, so we can move past. I’m on that everywhere. I’m loud and obnoxious and you can also find me of course, on Elixir Outlaws; the second-best Elixir podcast in the community. Well, you guys are full of magic. All I got is bullets.
+
+
+[0:54:20.0] JE: Thank you so much, Amos. I will second the plug for the Binary Noggin blog. It's really terrific. I really enjoyed that piece on thinking is greater than typing. It's a really, really top-notch blog and I think you're just getting started over there, so go follow Amos King at his blog and at Binary Noggin. Great company.
+
+
+That's it for this episode of Elixir Wizards. Thank you again to Amos King and my co-host, Eric Oestrich. Once again, I’m Justus Eapen. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps and Elixir rails, React infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you. If you have a project, we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can also find me personally @JustusEapen on Twitter or Instagram or wherever and Eric @EricOestrich. Join us again next week on Elixir Wizards for more system and application architecture. Mic drop.
+
+
+[END]
+        © 2020 Elixir Wizards
