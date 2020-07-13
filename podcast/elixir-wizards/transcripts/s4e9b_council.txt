@@ -1,0 +1,877 @@
+﻿EW S4E9b                Transcript
+EPISODE S4E9b  - Council of Wizards
+
+
+[ANNOUNCEMENTS]
+
+
+[0:00:05.2] EO: Just a quick note before we start the show, we’ve got two things to share that we want everyone to know about. First off if you hadn't heard, the Elixir Ecosystem Survey is out. I encourage everyone to fill it out. It's a community project and all the data will be made publicly available once collected. The survey is open through August 11th and the results will be revealed at ElixirConf. Get your response in before the cutoff, which again is the 11th of August. We'll drop a link in the show notes.
+
+
+Okay, and secondly, we've added transcripts to all the episodes in season four. We expect there may be some errors as the transcribers are not Elixir specialists, but the good news is that our website where the podcasts are hosted is a public GitHub repo. If you spot any typos or inaccuracies, just submit a pull request and we’ll happily update them. We'll put a link to the repo in the show notes as well.
+
+
+All right, that's it for special announcements. Now here's the show.
+
+
+[INTRO]
+
+
+[0:00:53.2] JE: Welcome to a special edition of Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host today. I’m joined by my co-host, Eric Oestrich.
+
+
+Today’s episode is very special, because it is the second half of our special Council of Wizards, a live show that we recorded with a number of guests earlier in the summer. In today's episode, you'll hear our conversations with Chris Bell and Desmond Bowe from ElixirTalk. Then Emily Maxie and Dan Lindeman from Very. Hope you enjoy the show.
+
+
+[CONVERSATION WITH CHRIS and DESMOND]
+
+
+[0:01:37.0] JE: We were just catching up with Chris about coronavirus coping. How are you doing, Desmond?
+
+
+[0:01:41.5] DB: They finally reopened the beaches here in LA, so that's been a big change for us.
+
+
+[0:01:45.9] JE: Are you making it out there? Going to get some sun, some [inaudible 0:01:48.7]?
+
+
+[0:01:49.6] DB: I was just surfing yesterday. I was at the beach over the weekend. There weren't a ton of people out, but there were more people than I've seen in months just in one space. It was a little unusual.
+
+
+[0:02:01.0] JE: What's your favorite beach to surf at around LA?
+
+
+[0:02:03.5] DB: I usually go to Venice Breakwater, which is where I live. My favorite spot is up at Sunset, just north a little bit. Nice rolling waves, better for a longboard.
+
+
+[0:02:10.9] JE: I learned how to surf in the very small break at San Clemente, but I've also surfed at Newport Beach, Huntington Beach, just wherever my cousins take me when I'm out there. I love it.
+
+
+[0:02:20.6] DB: Fun. Nice.
+
+
+[0:02:21.7] JE: I have also surfed in Columbia, which is a terrible surf, but a lot of fun. Very cold water. LA sounds nice, man. I would love to be getting sun right now. It is just a dreary day here in Maryland. How's it in Indianapolis, Eric?
+
+
+[0:02:36.0] EO: I think it's also dreary. Let me check. I'm in the basement, so – a room with no lights. I guess it has – wonder ground is saying it's cloudy. That's I think what it was when I came downstairs.
+
+
+[0:02:49.7] JE: This is a pretty special segment of the show, because we've got two of the major podcasts in the ecosystem just colliding right now. It was actually, I think y'all that gave us the idea to even do this live stream, because we heard that you were sad that you hadn’t been on the show –
+
+
+[0:03:08.2] CB: Yeah. The backstory there is I told Todd. I was like, “Well, how come everyone else has been on the show, but us?” I was just wondering if there was some anti-elixir tool sentiment or something.
+
+
+[0:03:18.1] EO: Is there a beef? Yeah, do we have beef?
+
+
+[0:03:24.0] CB: Can we stir to the drama in the elixir community or something? I don't know.
+
+
+[0:03:28.5] JE: Yeah. I think it's okay. I think it's totally okay. This show is a safe space for you to start being with anyone you want. Yeah, we definitely encourage roasting of your colleagues. That happened earlier on this show. Who was that we had on? Well okay, so we got an episode coming out with Amos King, so everyone can look forward to Chris Keithley getting roasted by Amos. Desmond’s like, “Yeah, we’ve been waiting for that,” that elixir beef we've all been waiting for.
+
+
+[0:03:57.9] EO: We don't have a good excuse, guys.
+
+
+[0:03:59.3] JE: I think Desmond and I talked about it in one of the conferences, but it just didn't materialize.
+
+
+[0:04:03.2] EO: Yeah. I told Todd to keep the beef going at ElixirConf last year, right at the closing ceremony or whatever, you had said that I would be on ElixirTalk and then it never happened.
+
+
+[0:04:12.6] DB: That's true. I actually prefer like, when we were coming online, I'm like, “Oh, shit. I remember that conversation.” What can we say? Busy podcast hosts and all that. You know how it is, right?
+
+
+[0:04:25.6] JE: Yeah, podcasting is very hectic. Super stressful. Tons of pressure.
+
+
+[0:04:33.0] CB: Definitely.
+
+
+[0:04:34.2] JE: I mean, the amount of prep that we did for this show is just unreasonable. So much time. I'm joking. Yeah, but it's cool to have a mashup. I think that I'd love to talk about doing more. We get all the personalities together, especially during this time where people are very isolated. I think it's nice to just have these voices in your ear and all this in lots of podcast right now.
+
+
+[0:04:54.4] CB: What have you been listening to?
+
+
+[0:04:55.8] JE: Oh, boy. I listen to the news a lot, podcasts. Yeah, I don't listen to a lot of technical podcasts, I'll be honest. I was in a lot of news podcasts and philosophy podcasts mostly.
+
+
+[0:05:06.6] CB: Nice.
+
+
+[0:05:07.7] JE: What about you guys? I'm also a huge audible person. I don't know about you guys, if you consider listening to books reading books.
+
+
+[0:05:13.5] CB: I've read a lot of books. I'm going to be that awful podcast host that says I don't actually listen to any podcasts right now.
+
+
+[0:05:21.0] JE: That’s okay.
+
+
+[0:05:22.7] CB: I have listened to a lot of the other podcasts in the elixir ecosystem especially. I just fell out of love of listening to a technical podcast at the moment for some reason. I think I go through waves and then I don't know, I’ve just been reading a lot of product startup books. That's where I’ve spending a lot of my time. And a lot of sci-fi, because we're living in this dystopian future, so you've got to read some good sci-fi to get along with that.
+
+
+[0:05:46.8] DB: I find it hard to read. I mean, after a day of looking at a computer screen, my eyes have had enough. I've been trying to have hobbies that don't involve looking at stuff, or being on the computer, which is tough, because everything is on the computer. You want to get into sound production, that's on the computer. You want to get into 3D modeling, that's on the computer. Everything else is, I don't know. Where I go is solitary. I'll get into pottery, or glass blowing, or I have a truck that I'm working on.
+[0:06:12.4] JE: I was going to say you could 3D model in the real world with clay and sculpture. Yeah.
+
+
+[0:06:19.6] CB: Yeah, totally.
+
+
+[0:06:21.2] EO: A big block of marble and just start chipping away.
+
+
+[0:06:23.8] DB: That sounds quite fun though. Yeah.
+
+
+[0:06:25.6] JE: You should do that. I would be so pumped to just get on Twitch one day and see Desmond chipping away.
+
+
+[0:06:34.2] CB: Very long time projects. Yeah.
+
+
+[0:06:36.0] DB: I want to practice on something not so expensive first.
+
+
+[0:06:39.2] JE: Here's an interesting fact. I have a friend that was in the import-export business and he was telling me that the reason that Italian marble is the preferred marble is just because of a trade agreement between Italy in the United States, because it would be much cheaper to get Indian marble. There’s I guess, a ton of marble that you can get out of India, but there's some trade agreement or something makes it possible. There you go. You can move to India. If you go to India, actually here's another tidbit, which is if you go to India, marble flooring is normal. You'll just walk into an apartment that costs $200 a month or something and three bedrooms and all marble floor and you're like, “What? What am I doing here? Why don't we have marble floors in the United States?”
+
+
+[0:07:14.8] DB: I was in Italy a couple years ago and we were in this old medieval town called Verona. These towns have marble sidewalks, just huge chunks of marble, because [inaudible 0:07:25.4] mountains are nearby, so they had all the stuff. You're still thinking, how the hell did people drag these heavy blocks of stone down off the mountain into this town with oxes and wagons hundreds of years ago, chisel them out and they were like, “No, let's just sidewalks.” Sure. Houses, sure, whatever. Like streets, yeah, just make it all marble. Why not? It's a different attitude, I guess. I couldn't imagine having sidewalks of marble in the United States.
+
+
+[0:07:50.3] EO: I’ve been messing up my hair and I can go, “Aliens.”
+
+
+[0:07:55.8] CB: I was going to say, are we move it into that realm? I was going to bring up Stonehenge or something, but yeah. I don't know. Talking about big blocks.
+
+
+[0:08:03.5] JE: Yeah, levers and pulleys.
+
+
+[0:08:05.3] CB: Can we pivot in this whole podcast into a conspiracy theory podcast is that what's happening here.
+
+
+[0:08:09.9] EO: My wife and father-in-law would very much appreciate a pivot into conspiracy.
+
+
+[0:08:17.1] CB: I love that.
+
+
+[0:08:17.5] JE: Conspiracy theories around Phoenix. Why can't we get Chris McCord of the show?
+
+
+[0:08:23.4] CB: Oh, wow. Well, he has been on ElixirTalk a couple of times ago, so I just wanted to drop that in. He is a wonderful guest. Actually, I would say with the release of 1.5, you should just hammer him and try and get him on the show. It sounds like he's got a lot to talk about at the moment. Yeah.
+
+
+[0:08:44.0] JE: Very cool. Thank you for the tip. It's actually really good. Go ahead. Sorry.
+
+
+[0:08:47.7] DB: What if you pretend he's on the show and have someone else pretend to be him? You can't see who it is.
+
+
+[0:08:54.5] CB: That's true. Impersonate personalities. I love it.
+
+
+[0:09:00.0] EO: Who can do a good Chris McCord, or does it just have to be so obvious and we just – Would you be our Chris McCord, Desmond?
+
+
+[0:09:08.1] DB: Well, it'd be fun to have like, I don't know what kind of episode you’d call it, where it's like, yeah, I think you’d take phoenix a different direction. We're going to be going with Ruby. You can't tell if you're being told or not.
+
+
+[0:09:20.2] JE: Oh, yeah. We'll plan an April Fool's episode for next year. Nobody's listening to this, so they won't be expecting it. I did want to ask you guys, because that's a great tip and I wanted to ask you guys if you – what you've learned, because you've been podcasting a little bit longer than we have. What have you learned? Do you have any tips, tricks, like what tooling do you use, anything that helps your process and makes the show better?
+
+
+[0:09:43.1] CB: I’ll just say that one of the things I've learned is people are a lot friendlier and a lot more willing to give you their time than I ever expected. We actually kicked off and one of the first episodes of ElixirTalk, we've had Jose on the show. Desmond and I were like three episodes in and we were like, “Oh, let's just reach out to Jose and see what happens.” Then he ended up being like, “Yeah. I'll come on your podcast with zero listeners.”
+
+
+[0:10:05.3] DB: That's not how it happened. George Guimarães. That’s how it was, because we knew George from the first EMPEX. Right after we started the podcast, he e-mailed us. Just like, “Hey, guys. Awesome that you have this thing. Do you want Jose?” We were like, “Uh, sure.”
+
+
+[0:10:20.7] CB: Actually, doing EMPEX has helped us a bit there probably with some connections and some leverage. I'm probably just completely or not remembering things correctly, but yeah.
+
+
+[0:10:28.9] JE: What you're saying is we should start a conference?
+
+
+[0:10:31.1] CB: Exactly. Exactly. We need more elixir conferences. I love the regional conference vibe.
+
+
+[0:10:36.8] DB: I don't know if we still have it now at this point, but at Lone Star we announced the pop-up conf that we'll do at your company. But for obvious reasons, no one's reached to us.
+
+
+[0:10:48.0] CB: It could be a natural pop-up conf now. That’s right as well. I don't know. Desmond and I have a pretty simple process with the podcast and in general. I don't think we're as organized and as coordinators, some people organizing podcasts. I'm thinking probably folks are pretty good. We don't always have guests lined up, so sometimes it's just the two of us talking about random things. Honestly, I've really enjoyed when we have guests on the show and just digging into some topics. It’s just, people were really willing to give you their time and there's just so many interesting characters in the elixir ecosystems. I love that.
+
+
+[0:11:20.7] JE: Is there anyone that you've had on that you – either we haven't had on or you think that we need to have on?
+
+
+[0:11:27.1] CB: Desmond, can you think about some great personalities we had on?
+
+
+[0:11:30.8] DB: Who's been a good guest?
+
+
+[0:11:32.5] EO: Chris McCord.
+
+
+[0:11:33.4] CB: Chris McCord. Great. Yeah.
+
+
+[0:11:36.1] DB: I think Dave Lucia had our most listens ever, which no offense Dave, but surprised me.
+
+
+[0:11:44.0] JE: Dave and I have got a friendly Twitter DM thread going. We have had him on the show at least once, maybe twice.
+
+
+[0:11:51.0] EO: Yeah, he was on his own episode and then he was also on the Todcast.
+
+
+[0:11:56.0] CB: Ah, the Todcast.
+
+
+[0:11:57.1] EO: Which was funny, because that was I think Todd just started working at simple bed at the time. Dave was his boss. That was a –
+[0:12:05.5] JE: Great appointment.
+
+
+[0:12:06.9] DB: I have a question. Why is Todd the one name celebrity around the community?
+
+
+[0:12:11.3] EO: Because he's everybody's friend. Yeah.
+
+
+[0:12:16.1] JE: Because he’s nice to everybody and everybody likes him.
+
+
+[0:12:19.4] DB: Everywhere we go someone’s like, “Oh, I was talking to Todd the other day.” It’s like, we're just going on first name basis with this guy.”
+
+
+[0:12:24.6] JE: The really sad thing is that if there's some other person in the elixir community named Todd, because he'll just never be able to be the Todd.
+
+
+[0:12:32.5] CB: He’s going to go work on Rust. Doesn’t belong here.
+
+
+[0:12:37.5] DB: I mean, as far as making a successful podcast and I don't know how successful our podcast is, because again, we don't listen to podcast ourselves. We really weren’t that much out of. We just enjoy hanging out. I think it's two things, I might be off by one here. The first is not trying to seem that smarter interesting, because I think that can get old very quickly when people are listening to you and because listeners of our podcast know we are wrong constantly and make mistakes constantly and screw things up. I think people dig that.
+
+
+I'm sure some people are like, “Why don't you practice a little more, so it's a little more polished?” I think it makes for a much better connection with the audience. I think that served us pretty well. The other thing is having good enough chemistry with your hosts, if you have a co-host, that they can be like, “Stop what you're saying.” Give me the look online and be like, “It’s time to move on. It’s time to do something else.” You have that dynamism.
+
+
+[0:13:28.2] JE: We'll give you guys the inside sauce. Is that a thing? Anyway, I'll give you guys the scoop on what Eric and I do. While we're in the show, we are back channeling on Slack the whole time. Yeah, he'll tell me. He's like, “You need to stop.” I need to regularly indeed.
+
+
+[0:13:44.1] CB: I don’t think I could do that. Also, I have a really clicky keyboard, and so does Desmond, so that would be pretty horrendous for noise for us. Yeah.
+
+
+[0:13:53.0] EO: Since obviously, except for this live stream, I've been muting myself as I type as well. We always keep ourselves muted and then the guests typically just leaves themselves wide open. That's partially to prevent us typing and butting in and whatnot. Yeah. That's our production tip, I guess.
+
+
+[0:14:09.0] CB: Nice. Desmond has an airport near him, which is why you probably hear these planes flying over. Often in our episodes, you hear the planes flying and goes off, but it has that charm.
+
+
+[0:14:17.8] DB: I usually edit those out.
+
+
+[0:14:18.9] CB: You do.
+
+
+[0:14:19.6] DB: I try not to talk over them, because then I can't edit it out.
+
+
+[0:14:22.8] JE: You do your own editing?
+
+
+[0:14:25.1] DB: Yeah. In a previous life, I was a musician and recorded a bunch of albums and played a bunch of shows. I came to this knowing how to edit music and how to work on that. Actually, so this is interesting. Here's another thing I learned. It doesn't matter how you edit stuff. Our early episodes, I was going through second-by-second, adjusting the gaps in-between our talks, fading in, fading out, doing crossfades and tweaking the compression and everything. Then I did this for months. Then I met someone that was like, “Oh, yeah. I listened to your podcast on this app that cuts out silences and moves it through at 2X speeds.” Then I thought, “Gosh, all my nice sound edits are just being lost in this crummy program.” Then I gave up. I was like, “Whatever. It sounds pretty good.”
+
+
+[0:15:04.8] JE: No, it's funny that you say that, because I actually prefer less production in the podcasts that I listen to. I really like it when it just starts and it's just straight through. When there's a lot of crossfades and these musical interludes and everything I'm like – I want to feel like I'm listening to NPR or something. I want to feel like I’m listening to a conversation, or a lecture, or whatever I'm listening.
+
+
+[0:15:25.4] CB: I honestly had no idea that Desmond spent that much time and effort on editing. Thank you, Desmond.
+
+
+[0:15:31.1] DB: You’re welcome, Chris.
+
+
+[0:15:33.3] JE: I think the principle applies to podcast hosts. In our case, Eric does 80% of the work and I do 20%. I think that that's probably happening behind the scenes for you guys too.
+
+
+[0:15:43.3] CB: Yeah, definitely. Yup.
+
+
+[0:15:47.0] EO: Yeah, probably.
+
+
+[0:15:49.5] JE: What a good guess. Indeed. Definitely.
+
+
+[0:15:51.9] CB: I don’t want to stale you guys, but yes.
+
+
+[0:15:54.2] DB: It’s also nice, because Chris is British. I don't know if people have picked up on this, but he's got a distinctive voice, which matters a lot in this field. I look funny, but Chris sounds nice.
+
+
+[0:16:05.9] CB: I have a face for radio. I'm happy to be doing the voice thing.
+
+
+[0:16:10.2] JE: We really are mirror images of one another on these shows. Except for, it's like New York and LA versus Indianapolis and Baltimore. Slightly different tiers of cities. What else do you guys have going on? I mean, we could definitely talk about podcasting all day, probably a whole show on it. I think that would actually be at least interesting for me, but I'm definitely curious, what other projects do you have going on? Elixir land. What do you think is going to come out of this? How are we going to shake out as a community when this whole coronavirus quandary is completed?
+
+
+[0:16:41.8] CB: Yeah. I'm really hopeful that conferences can carry on and we can get back to that ElixirConf for the bigger conferences and the regional conferences. I'm a co-organizer at EMPEX along with Desmond and we just had to post by in the New York Conference back in March. We made that decision actually early, but and obviously it paid off there. We're really hoping that we can get that conference going again in October or November of this year. Just so we can get things back to some normality that we used to have.
+
+
+To tell you the truth, I love conferences not because of the talks, although I love watching the talk content, but it's just great to hang out with the community. It's one of my favorite things to be doing. As much as I love doing all this virtual stuff, we had actually a great Elixir NYC meetup in the last week, where we did Zoom breakout rooms and this whole thing to bring a social vibe, but it's just not the same, right? It just doesn't have the same ability to socialize with people and have these really great four-way track conversations with people. I'm really hoping that we can get back to that. I'm really looking forward to the time where we can go back to conferences. Hopefully, ElixirConf or something like that in the near future.
+
+
+[0:17:44.5] JE: Yeah, when EMPEX is back, we'd love to have you on just to talk about EMPEX, plug it, get people to –
+
+
+[0:17:48.8] CB: Yeah. We'd love to. Yeah, it's our fifth year of doing EMPEX this year as well, which is crazy. Desmond set up and helped us all come together and was one of the founders of EMPEX. Thinking that that was five years ago at this point is scary. I don't know where the time has gone. But yeah, it feels really cool to have been doing something for half a decade at this point, to try and make it sound more dramatic by saying decade. Yeah.
+
+
+[0:18:13.9] JE: Desmond, what about you? I mean, what's your – Obviously, you want EMPEX to continue. Do you have other projects that you've picked up? When one project gets postponed, I'm sure that you have time that you want to fill.
+
+
+[0:18:23.3] DB: Lately, I've been dialing a lot of that back. I mean, we recently had EMPEX sailing in February, so that was the thing. Chris and I, we’re working on a few projects in the autumn that didn't fully come together and we've been taking a setback for the podcast the last couple of months.
+
+
+I've really been focused on the startup that I'm at, paid off. We are developing intelligence to help people pay off student loans. For many years and when I started EMPEX, I was consulting. When you're in that lifestyle of going from project to project promoting things and trying to meet people, it's a lot easier to build side projects and work on these community events. I found that now that I'm at a product company, I really want to apply myself to the product company.
+
+
+I mean, we're pretty early stage. There's four of us at the company. We're hiring, if anyone's interested in working on student loans and elixir app, please reach out to me. I find that that takes up all of my energy. I mean, I still organize Elixir LA, the meetup. That's fun, because it's very local and it's a lot more tangible.
+
+
+[0:19:20.5] JE: Have you all gone digital as a part of that?
+
+
+[0:19:22.6] DB: We haven't. We probably should, particularly in LA, because the city is so spread out that if you're on one side of town, you're not going to drive across town to go to a meet-up and fight traffic for an hour, hour and a half.
+
+
+It's tough, because people, we talk about this a lot. There's community here, it's just very diffused. It can feel like the community is small, but it's really not. If you were able to get everyone together, it would seem much larger. I think one answer to that is have more teleconferencing, have better ways for people to dial in. I think that is going to be a big boon to meetups in general out of this, even if it is better being in person. I'm glad that meetup got sold, so now something can replace it, or it can actually become a better product.
+
+
+[0:20:01.1] JE: We've got to replace meetup. It is just –
+
+
+[0:20:02.9] CB: A 100%.
+
+
+[0:20:04.3] JE: It’s exorbitant failure. Yeah, I've done several, like multiple meetup groups and it's just a nightmare. Yeah, the costs managing everything and the complete lack of support. Yeah.
+
+
+[0:20:14.8] DB: I could've envision three products that are like meetup, but way awesomer. The problem is everyone's on meetup. I mean, I've talked to other organizers, they got their lists on there and they're reluctant to move off. We're stuck with it.
+
+
+[0:20:26.0] EO: Yeah. I guess, one benefit if you do get off meetup and whatnot, then your attendance ratio – a lot of these meetups, at least in Baltimore have 800 people and 20 of them would show up.
+
+
+[0:20:39.4] JE: Even RSVPs are like, you expect half of your RSVPs to show up.
+
+
+[0:20:43.3] CB: It's really hard with free events, having organized past free events and meetups on a regular basis. We see with the Elixir MIC1, the thing that gets the drawer is the big name talks or something like super high P that people can be like, “Whoa! They're talking about GraphQL.” Well, one week we had Robert Verdean come along, just because he was in town and we had a huge draw on that month. Other than that, I think it's really hard to build this regular audience, especially I think in the city as well in New York, it's like a Wednesday night, you're going to go hang out with friends or something and go for a drink, rather than wanting to go to a tech meetup a lot of the time.
+
+
+Yeah, I don't know. I'm hopeful about more virtual events. I think they work really, really well. The Elixir MIC1 this week, we had people dialing in from Brazil and Colombia, all around the world. It was really awesome. I think that's a really great feature.
+
+
+[0:21:31.2] JE: I think we have a lot to talk about between community building and podcasting and elixir, which we've barely even touched on this time. We are out of time on this segment though. I want to give you guys a chance to do any shameless self-promotion, plugs, asks for the audience.
+
+
+[0:21:44.6] CB: Desmond, do you want to start?
+
+
+[0:21:45.7] DB: I already pitched my company. If you want to come work for us, work with me, please let me know.
+
+
+[0:21:49.4] JE: Pay it off, right?
+
+
+[0:21:50.9] DB: Pay it off. That's right. We're an API-first B2B company building intelligent student loan software that saves people a shitload of money it turns out, because student loans are terrible. Come help us solve a problem.
+
+
+[0:22:03.4] CB: Yeah. I think we'd be remiss not to plug our own podcast on this segment as well. If you have not listened to ElixirTalk yet, well what are you doing? You should come over, check it out. It's a great podcast. We've actually got an episode that we’re dropping on Tuesday?
+
+
+[0:22:17.9] DB: Tuesday.
+
+
+[0:22:18.6] CB: With Jose Valim, to announce a brand new project, super high P. Come and get involved. You should definitely check that out. Then on a personal note for me, I am going to be looking for some more elixir consulting work. I am stepping out of a role that I've had for a while at an early stage startup and I'm going to be doing a lot more consulting in the community. If any folks need help, wants some experience elixir help, I have been doing it for quite a while at this point. I love elixir. I love talking about elixir as you might expect. Yeah, you can get in touch with me at Twitter. I'm in twitter.com/CJBell_.
+
+
+[0:22:57.7] JE: All right. Thank you so much for coming on the show, you guys. We’ll definitely want to be having you on again soon.
+
+
+All right, and coming up next is our conversation with Emily Maxie and Dan Lindeman from Very. Let's jump back in.
+
+
+[CONVERSATION WITH EMILY and DAN]
+
+
+[0:23:12.7] JE: Is it Dan or Daniel?
+
+
+[0:23:14.8] DL: Dan.
+
+
+[0:23:15.5] JE: Dan. Sorry, Dan. My middle name is Daniel and my whole family calls me Danny.
+
+
+[0:23:20.8] DL: I have one aunt that calls me Danny and then my brothers if we’re yelling.
+
+
+[0:23:25.6] JE: Yeah. People when you’re Dan, they just decide what they want to do. Different generation, they’ll call you Daniel, they'll call you Danny if they think that you're tight. They call you Dan if they think that you're a blunt instrument.
+
+
+[0:23:36.1] DL: Yeah. At Very, we have several Daniels that go by Daniel. I think a lot of the times at work, people will default to saying Daniel. Then five minutes they're like, “Oh, no. That's Dan.” It fits. It’s better. Makes it work.
+
+
+[0:23:47.1] JE: I guess my question was going to be that are you guys all ready for remote, some of your remote, obviously a remote for a quarantine?
+
+
+[0:23:53.1] DL: Yeah. We are full remote and have been so since even before I joined. Yeah, the office was formerly in Chattanooga, so there are several Chattanoogans. Even then, there were several remote employees. Yeah, I've been working from here for my entire tenure with Very.
+
+
+[0:24:07.9] JE: Emily, you being in Chattanooga, would you normally go into the office, or is this –
+
+
+[0:24:12.4] EM: We had an office until December of 2018 and then just decided it was used by maybe seven employees out of 50. It was nice to have a home base, but it was just not worth it. Honestly, I love working from home. This has been obviously very disruptive for a lot of people, but I think our team has been disrupted the least, at least professionally. This is a different story.
+
+
+[0:24:43.0] DL: I mean, when I was looking around the fact that Very was fully remote was one of the biggest draws. I remember meeting Jeff, our director of engineering at beer city code and I kept looking at Very’s job page, because it's very, very interesting, but I always talking it over with my partner. Well dude, do you know Chattanooga? Is that thing? Then the spot changed to remote. I applied I think the day that they changed on the website. Yeah
+
+
+[0:25:08.8] EM: The rest is history.
+
+
+[0:25:10.3] DL: That's it.
+
+
+[0:25:11.7] JE: Maybe we're coming in a little bit of late with this kind of question, but I'm sure there's still people out there that are new to working remote and still getting their, I guess, feet wet. It's not the right saying. What works for you? What are the strategies that you've adopted over time? Maybe what's the most difficult lesson to learn, so that you can help someone leapfrog that challenge?
+
+
+[0:25:30.9] EM: I think for me, it's interesting to talk to people who are just going remote and they're like, “Oh, my goodness. Are you on Zoom calls all day?” No. We have a few meetings, but I'm not on Zoom all the time. I'm getting work done.
+
+
+I think that that desire to pack your day full of meetings I think is a trick that is easy to get in that trap, especially if your manager is not used to not being able to see you and things like that. For us, we really protect our time and try and give everyone heads down focus times. That's a big thing, I think.
+
+
+[0:26:10.3] DL: Yeah. I would mention too to people who are working from home because of the COVID pandemic. I’ve been working from home for almost three years and I'm going to parrot something I heard Scott Hanselman say, which is right now, this is not normal working remote. You are trying to get work done from your home during a pandemic. The stress of the whole situation from different people differently. I mean, even a result. I've been used to this. I know this. You know this nice home office that's so far away from distractions at the home.
+
+
+Even for me, there are challenges, there are new things. Even with my partner working from home, I now haven’t opened with this plan. It's interesting. It's difficult for remote workers. I mean, setting real physical boundaries and all kinds of reminders, like lighting and things like saying goodbye, as if I'm going to work every morning as I walk upstairs, it's like, “Bye. See you later.” [inaudible 0:26:59.1] when we would head out and drive to the office.
+
+
+[0:27:02.5] JE: This is really interesting. Eric and I, SmartLogic was mostly in Baltimore. Eric was our one full-time remote employee. Then about a year ago, I went full-time remote and I worked on and off remote my whole career almost. Then we brought on someone else that was full remote. We are slowly started moving to this full remote world before COVID happened.
+Then COVID happened and I will say the biggest change in my work has been after a meeting, people will just want to stay on and chit chat. I’m like, “No.” I don't have time for this human interaction. I have work to do. No, I'm just kidding. I've actually enjoyed it. I've enjoyed that being normalized a little bit, wherein when half the team was in the office, I don't think it had occurred to them that like, “Hey, maybe Justus and Eric would like to just kick it for 5-10 minutes after a call.” Yeah, that's been the biggest change I've noticed.
+
+
+[0:27:53.2] DL: Yeah. I remember when I went for my first remote company, I'm a very outgoing and social person and always at events. I describe myself as a conference junkie. You can imagine how the pandemic is taking a toll on that personality, right?
+
+
+I remember my friends and family asking, “Are you sure that you can work from home without all the people and such?” It has been nice, because you do get a little bit do want to leave the house and go out and do things after work. I think it probably improve my social life, because I don't get over-socialized too much at work and I can save some of that up and say, “Hey, what are we up to?” Obviously, currently a little bit different, but that was a fun difference.
+
+
+[0:28:34.2] JE: It's a little bit easier to be present with someone when you haven't been with someone for a long time.
+
+
+[0:28:39.6] DL: For sure.
+
+
+[0:28:41.5] EO: One of the recent things we've started that it hasn't been used too much, but we do a spring cleaning thing for our projects this Wednesday. We made a discord for just the company. It's like, don't text chat there. It's only there for audio. Just join and then you can hear people. Most of us have mechanical keyboards, so you just hear, "Chk chk chk chk." You hear someone go, “Oh, damn it.” Yeah. That was pretty fun. I enjoyed the – at least that day. We haven't done too much yet, but it's a nice way to still keep some semblance of an office, I guess, in these times.
+
+
+[0:29:17.7] DL: Yeah. Eric, do you think that there would be – there's rainy mood where you could just hear rain sound effects, so be like a clacky mood?
+
+
+[0:29:24.2] EO: There is and I know this because my wife, she found a playlist somewhere that's got a bunch of ocean waves and rain and one of them is mechanical keyboard.
+
+
+[0:29:33.0] DL: Okay. Well, I’m out here [inaudible 0:29:34.6].
+
+
+[0:29:35.7] JE: That would drive me nuts.
+
+
+[0:29:37.6] EM: Yeah. Me too.
+
+
+[0:29:38.7] EO: There’s weird specific stuff. There's one that's like you're in a library. You just hear soft voices and you hear doors closing and the vent going off. It's a bizarre set of things.
+
+
+[0:29:51.0] JE: They should call that madness inducing. Maybe it's just because, I don't know, maybe is it Grand Rapids, Michigan?
+
+
+[0:29:58.7] DL: Yeah, Grand Rapids.
+
+
+[0:29:59.7] JE: Or in Chattanooga. I mean, I don't know how spacious these places are. I've never been to other city, but I'm out in the woods, and so the rain today was the thing, the birds every day are the thing. My dog thumping its tail under the wall is the thing. I feel these are soothing noise. If doors are opening, it freaks me out.
+
+
+[0:30:20.5] DL: Yeah. At least Grand Rapids is the second biggest metropolitan area in Michigan, so normal city sounds-ish, but I'm – a little the north side of the city, next to a big park by a river.
+
+
+[0:30:31.9] JE: Sounds lovely. Chattanooga is on a river too.
+
+
+[0:30:34.0] EM: It is. Yeah. I'm a bit outside of the city, but I have a lot of green space in my backyard, which is nice.
+
+
+[0:30:41.1] JE: Have you done anything home office improvements, tweaks during this time?
+
+
+[0:30:44.8] EM: Not during this time. I haven't, except for lighting because on days like today, I'll turn mine off. It's just like this two-faced thing based on where I sit. Anyway, yeah. That's one thing. We really pride ourselves in being the best practitioners of remote work. Every person who comes to work at Very gets a bonus when they join to outfit their office. Then every year, we get a stipend to be able to make improvements to our office and stuff like that. As soon as January came, I bought some bookshelves and really organized stuff.
+
+
+[0:31:22.5] JE: We got some questions coming in from the chat. I do want to dive a little bit more to this question of maybe not during this time, but what were some big wins in developing a home office work arrangement for you? Maybe dual monitors is an obvious one, but anything else?
+
+
+[0:31:35.3] EM: A door that closes from the rest of the house.
+
+
+[0:31:40.2] JE: Oh, okay.
+
+
+[0:31:41.1] EM: I don't know what people do when they don't have a room that they can just close off from the rest of the house. I think I would really struggle.
+
+
+[0:31:49.5] DL: Yeah. I think for me, because we do – Very is an IOT consultancy and there's a lot of little gadgets and things. In office or a cooperative working space, you don't get the ability to spread out and make a mess, but I get a lot of creative juices going when I'm just spreading out at a desk and I've got different components all set up and thing, wires are everywhere. Yeah, it's just really spaced. I mean, I thought it would be – There are definitely challenges to having a company that does a lot of hardware and being all remote for each other and having the same lab you might have, but everybody has their rendition of a lab, some basic kit; soldering iron, things like that.
+
+
+Yeah, that's the one thing that I really like is being able to spread out and not being worried about taking up too much space, or making too much noise. That often said, that I'm the reason of [inaudible 0:32:34.3], which is why I work remote. You don't have to be another [inaudible 0:32:39.8]. Yeah, definitely not speak to that.
+
+
+[0:32:43.7] EO: All right. The question we've got in the chat here is how do you get new co-workers to get to know each other when they join a remote company?
+
+
+[0:32:51.2] EM: That's a great question. I think part of it just has to do with the way that we work. We're an adult consultancy and we have daily stand-ups for each project. Even the parts of the organization I'm in marketing, that are not doing development work, we still have stand-up, some different check-ins and things like that. We also always have for every meeting, video has to be on. I think that makes a big difference, so you get that that face to face. There are other social things that we do. We do remote game nights and remote happy hours, things like that.
+
+
+[0:33:30.5] DL: There's an entire team of people that work for us called the remote commission, whose job it is to think about what should we be doing to provide them a consistent, coherent onboarding experience for the different teams. I mean, as an engineer, you're probably on just one and only one project. As a project manager, we have two clients that you're working with and your daily looks a little bit different. They're the ones who are focusing and recently take everybody's input. They're really thinking about it.
+
+
+It's like any integrated initiative, right? If you don't have somebody thinking about it, well then it's just not going to happen. That's our approach to it, which was elect a group of people to primarily think about that and they have regular meetings. Yeah, there’s fitness challenges. Yeah. I mean, all kinds of stuff, right?
+
+
+[0:34:12.6] EM: Yeah.
+
+
+[0:34:13.3] JE: I'm curious how game night goes, because we’re talking about doing this at SmartLogic, but we haven't pulled the trigger yet. If you have any tips, like I'm still trying to visualize, do I get my own board? Does someone have the board with the camera pointed at it?
+
+
+[0:34:26.4] EM: We piloted it with a remote trivia night, where trying to have it be like if you go to a bar and you have a trivia night; your table against another table. Split people out into teams and then have each of those teams have their own video chat and then the master video chat. We started doing it before Zoom had their breakout rooms. We had a Zoom video and a Slack video and all of these different things. I've got a blog post about it on the very blog that I can share with you, because it's a lot of fun. It takes decent amount of work to coordinate, but it’s a lot of fun.
+
+
+[0:35:04.2] EO: The idea that's popped up is jackbox, I think is what it’s called.
+
+
+[0:35:08.3] DL: One of my friends do that.
+
+
+[0:35:10.8] JE: Did I miss something?
+
+
+[0:35:11.2] EO: I've never played it. I've seen people play it, the one YouTube thing I watched. They post that every now and then. I think it's a one-person screen shares and then everyone has it remotely on their phone. Even if it was in person, it would be the same way, but it's just a trivia thing. Then hilarity ensues.
+
+
+[0:35:30.3] EM: Yeah. My friends and I played it when we would go on cabin trips, or beach trips, stuff like that in person. Moving it to remote has been easy, but you have it on TV if you're doing it in person. They have different games from jockbox, that's the name of the company. One of them is a trivia murder party, which is like murder themed trivia, not questions about murder, but it's hard to explain. It's very fun. 
+
+
+One of them, you're trying to guess how many people surveyed responded to a certain question. How many people prefer grape jelly to strawberry jelly, or something like that. You try and guess. Everyone's on their own device answering things. It's a lot of fun. You should look into that.
+
+
+[0:36:14.4] DL: Was that how all the food battle started?
+
+
+[0:36:16.2] EM: I don't think so.
+
+
+[0:36:17.4] DL: Okay. All right. Cool. Yeah, another one, I actually just got tweeted at by somebody that works at Code Names, because my friends thought an online version of code names, but isn't the officially endorsed one and mentioned it on a popular tweet. Then they were like, “How about you try the official one?” I feel a little on blast, but that's been really fun from friends.
+
+
+[0:36:36.1] EM: There's also unofficial cards against humanity, but probably not for work. If you join with your friends.
+
+
+[0:36:44.3] JE: I think I might be the only person in America that's disturbed by this whole true crime fascination the whole world is possessed by right now. That sounds like a lot of fun and we definitely going to have to try it. We are about to close out the segment, but we'd love to give you guys a couple minutes to talk about Very, or any personal projects, any shameless self-promotion, plugs, asks for the audience, now's a good time. Floor is yours.
+
+
+[0:37:06.5] DL: Yeah. Our engineering team is fully onboard with elixir and we found it an incredible niche filler. As an IT consultancy, you basically take full sack and then you extend the stack out even further. The fact that elixir fits in in firmware and it can talk nicely with nips and see library, the fact that I can talk nicely, but that it can be mixed embedded as a web app on a NURBS project, like a little Phoenix app for configuring things. The fact that it's just as useful for any other regular API or back-ends, good way to fill in a lot of slots that were not used to fill and otherwise if you're doing the multi-development gives us things like an over-the-air firmware updates, which is not baked into, or at least is still being worked on for a lot of other frameworks and a lot of other ways to handle firmware.
+
+
+Yeah, we have found it to be incredible for giving you productivity forward and that's why we’re really working with and on NURBS and NURBS hub. The power that it gives us, the ability to make something very, very quickly, in some cases for our clients has been very surprising, because often from the clients that we get there is the Internet of Things, right? They either are good at things, or they're good at Internet, or they have an idea that they want full-bore the whole way.
+
+
+The fact that we can use it on either half or all the way through, we can use elixir and have a familiar normal set up to go up and do things has been a huge boon to entire engineering department. I think that's why I was excited to join you all today and yeah, it's really cool.
+
+
+[0:38:31.9] EM: You can learn more about Very at verypossible.com.
+
+
+[0:38:35.4] JE: That was a very excellent plug.
+
+
+[0:38:37.1] EO: All right. Very puns just unstoppable in every meeting.
+
+
+[0:38:40.4] EM: I think when people first start, they get real excited about them. Then once you've been here a while, you're like, “Oh, my God. Not again.” That's been my experience at least.
+
+
+[0:38:53.7] DL: Yeah. Making things is hard. Yeah, my favorites still are calling something very good. It’s the quality that we could produce. Whatever that quality is, it's very good. You can make your own individual assessments. That's the only one that doesn't get old for me, but –
+
+
+[0:39:10.1] JE: Oh, my God. This is [inaudible 0:39:11.2].
+
+
+[0:39:13.9] DL: Which I think they’re excellent personally.
+
+
+[0:39:16.2] JE: I love it. I love it. I'm definitely the pun proponent at SmartLogic. Yeah, I get fired regularly for it.
+
+
+[0:39:24.7] EO: I can't confirm this.
+
+
+[CONVERSATION WITH ALAN]
+
+
+[0:39:26.7] JE: Up next is a conversation with none other than Alan Voss. We are dropping this in as a bonus, because Alan runs a series of bot-programming challenges. We thought it would be awesome to have him on the show to promote a recent event that he hosted. Please enjoy the show.
+
+
+Connect 4 is a solve the game. You could just program the winning algorithm.
+
+
+[0:39:57.2] AV: Of course. If you go first, you should if you do it right, never lose.
+
+
+[0:40:02.2] JE: Yeah. You can program it such that you will never lose. If it's playing itself, it'll tie out, right?
+
+
+[0:40:07.0] AV: Sure. Sure, sure, sure.
+
+
+[0:40:09.0] JE: I think maybe, it might have contributed to me feeling so excited about elixir that since obviously doubled down on the language to the point that we have an awesome podcast.
+
+
+[0:40:19.1] EO: What you're saying is that Connect 4 demo led to this live stream.
+
+
+[0:40:24.2] AV: In ways. Yes.
+
+
+[0:40:26.0] JE: Yeah, I think there's a strong argument you made. Everyone should check out that blog post, because there's photographic evidence of our win in that blog post. Now, which leads us to the real story here, which is normally we have a segment at the end where you can plug what you want to plug, but let's talk about it now. What's coming down the pipe as far as bot competitions?
+
+
+[0:40:44.9] AV: Yeah. I have another one coming two weeks from yesterday, June 4th. Maybe Justus and Eric can include this in the show notes, but definitely have a link to that for anybody who’d like to join us. All are welcome. Hopefully, I'll be ready for more and more attendees this time. Completely ready. Yeah, we're going to do another game night.
+
+
+Now as for what the game is, I'm keeping it a mystery, except for I'm going to release the name of the game, not the repo, but the name of the game approximately one week before. People will at least be able to think about it a little bit. This game is more complicated than Connect 4 by quite a bit, but I think it will be really, really fun.
+
+
+I think this will be our fifth or sixth game night at the Kansas City Elixir Group. We've done, let me see if I can list them off. We've done Connect 4, we did Battleship, although we called it trademark free naval warfare or something like that to not I get sued by somebody. Then we did a Blackjack. We did a capture the flag. That was really fun. That was one of my favorites we did last time. That was back in October. If you search Twitter, you can probably find a video of the results of that.
+
+
+Shawn Cribs did the scenic and I did all the backend logic. Then we had quite a few attendees at that one and quite a few submissions. This time I'm hoping, I'm not sure I'm going to pull this off, but I'm hoping that I'm going to be able to make this a double elimination tournament, instead of accumulative everybody plays everybody. First, I think that'll be less resources and second, I think it'll be more fun to watch, because maybe we can bet on who wins in each quartile bracket or something like that, that could be entertaining. Yeah, we're going to do another one and we'd love to have people. I would love to have both of you and everybody listening.
+
+
+[0:42:30.7] JE: It won't be any of the games that you just mentioned. We're not playing – not Battleship or Connect 4?
+
+
+[0:42:35.0] AV: Correct. Correct. We are not playing any –
+
+
+[0:42:38.2] EO: Like going to be trademark free banker, whatever. Monopoly.
+
+
+[0:42:44.2] EM: It will be a game that probably most people will have played. I'm guessing, you probably won't have played it since you were a teenager, but it's a teenager level game. At least that's what I got interest to it.
+
+
+[0:42:57.1] JE: Okay. What's that game where you have little cars with faces on it and you have to guess who?
+
+
+[0:43:01.7] AV: Oh, guess who? Yeah. Yeah. I wonder how that would go. That would be fun. We'll go over that for the next one.
+
+
+[0:43:09.9] EO: Yeah. Just text-based guessing. Just describe the person's face, match keywords.
+
+
+[0:43:15.7] AV: Then your bot would have to actually answer questions from the other bots. That could be interesting. At least if you have a set number of 30 cards or whatever, at least it wouldn't be impossible. That could be. That's an interesting idea. I like it. But no. That's not this one. That is not this one.
+
+
+[0:43:31.7] JE: We've got some comments coming in from the chat. I'm going to skip the one that's complimenting my boat rack in the back there. We have a question about open AI’s code generation, which I'm vaguely familiar with, but I'm not technically familiar with. Adkron says, “Alan, I'm driving across the country, but got on just so I could hear this.” I'm pretty sure Adkron is Amos King.
+
+
+[0:43:55.1] AV: Yes, exactly. That is Mr. Amos.
+
+
+[0:43:57.4] JE: He got on just for you. Absolutely away. Absolutely away. He’s going to doubly eliminate Justus, which is patently false and absolutely not going to happen. I would like to see you try, Amos. Then he wants to know if it's risk.
+
+
+[0:44:15.2] AV: It is not risk. Although, that was one of the games that I considered and then I thought, “Man, that is way too complicated of a game to do an hour and a half.”
+
+
+[0:44:24.7] JE: I would love to do it. If you ever do risk, I am in. Risk is probably my favorite game. I could just sit there and play for hours.
+
+
+[0:44:30.5] EO: Got to do bot risk legacy, so the world state alters between games.
+
+
+[0:44:37.6] AV: I'm not familiar with that at all. I've definitely played tons of risk, but I am not familiar exactly what you're talking about, Eric.
+
+
+[0:44:43.9] EO: Risk legacy is you play 15 games of risk. After the first one, you don't do this all once. It's meant to be played over time, but play your first game, whoever wins writes their name on the board and places a sticker on it. The game is forever altered. You get to name a continent, whatever you want. I think when I won, I name the Europe Oceania or whatever. You get to name continents and you rip cards and you actually change the games.
+
+
+The game that I have in my board game shelf is completely unique and is based on the 15 games that we played as a group. Once you've done your 15, you can keep playing it and whatnot. It's pretty fun. There's secrets. When you open the box, there's four sealed things that's like, “Don't open this until these events happen. When someone nukes a thing, then you can pop open this box and whatnot.” It's pretty fun.
+
+
+[0:45:35.8] AV: Wow. That sounds significantly more complicated than the regular game. I'm guessing I’ve played 500 hours of risk in my life. Our good buddies, Andy and Chris, they just absolutely adore it and we actually have an annual game that we play in the spring, that we didn’t this spring for obvious reasons. I guess, we could have done it online, so no excuses, no excuses. Yeah, it's a fantastic game.
+
+
+I know a lot of people are Access and Allies snobs and look down upon risk and there's too much luck in risk and there's significantly more strategy in Access and Allies, but I'll take eight double six roles as the defender any day as one of my favorite things on earth.
+
+
+[0:46:11.4] JE: If you're going to be a strategy snob, you have to just go all the way to chess and call it a day. Or Go. I don't know if Go is as strategic as chess, because Go is more intuitive, if that makes sense.
+
+
+[0:46:22.8] AV: That's fair.
+
+
+[0:46:23.8] EO: You can stick with the World War II theme and go to advanced squadron leader, which is tiny little chits and you've replayed battles and whatnot. The rulebook is this thick.
+
+
+[0:46:34.6] JE: Adkron says, “Diplomacy is the best risk like a game.” Yeah, diplomacy is cool. I'm also a risk – risk is of this category of games, risk is my favorite. I mean, chess is a different world, I think.
+
+
+[0:46:45.7] AV: I think  risk lends itself to more my personality. I'm significantly more extroverted than as are some of the people that I'm on the call with. As an extrovert, I think risk is great, because I can interact actively with people and trash talk like nobody's business. I don't have to constantly be thinking on exactly what I need to be doing. I enjoy that from a people dynamic standpoint. Whenever I start getting into those games that are crazy detailed with super tiny pieces, I start by rolling a lot after about an hour and I'm just over it. Anyway.
+
+
+[0:47:16.8] EO: You consider yourself a merry trash player? That's the name the boardgame community has picked for. You're just rolling a bucket of dice and yelling at each other and having fun is –
+
+
+[0:47:27.3] AV: Sounds good to be. I’ll take that title.
+
+
+[0:47:29.4] JE: Sounds like the whole point.
+
+
+[0:47:31.8] AV: Yeah. I mean, the guy who wants to play taboo and pictionary and that thing. Not oh, gosh, what's that one? Ticket to Ride, which is oh, my gosh. That's just so involved to me. Anyway, that's what makes the world beautiful is that it takes all kinds.
+
+
+[0:47:47.1] JE: Well, we didn't say it but I was thinking earlier that the hardest hit in this coronavirus is extroverts.
+
+
+[0:47:51.5] AV: Totally. I've had to really adjust my life a lot from that perspective. I have two children, so I'm not running around gallivanting or anything. It certainly helped to occasionally go to the neighborhood bar, sing a song of karaoke and have a beer. Those days seem to be gone, but not forever, hopefully. Hopefully not forever. It's a different world. Agreed. I miss it.
+
+
+I don't even know what ElixirConf looks like this year, but they've already cancelled Strange Loop, at least the live version. Does that mean we're going to be Zooming ElixirConf? I don't know. As of right now, it hasn't been announced as such, but that'll be an interesting question, because I know tons and tons of conferences are going away. As Mr. MC of ElixirConf, I would think you might have a heads up if that were changing.
+
+
+[0:48:36.4] JE: You know, I don't have any inside information to give you. I know that Jim was asking on Twitter not long ago, who would be in to attend ElixirConf if it went forward. I don't know if we got a definitive answer for that. I'm going to look it up right now.
+
+
+[0:48:50.3] EO: Yeah, they keep announcing sponsorships. Something is going to happen, I have to imagine.
+
+
+[0:48:56.5] AV: Yeah, it's tricky. Everybody's predictions in this matter, even as high as the CDCs are – this is an extremely uncertain time. As for the capability of us to get together with 540 people to do a conference, I don't know. I'm sure a lot of people, even if it was live wouldn't come, just because of the circumstances. I've gone to four ElixirConfs in a row, so this will make me very sad. That's the case.
+
+
+[0:49:20.2] JE: Would you go if they had it?
+
+
+[0:49:21.7] AV: I'm still considering that. I'm probably on the fence on that one. I'm not quite sure. Technically, that would be before stay at home efforts at our company have been lifted. There's a potential that my company might not want me to go, so I'd have to ask. September 1st is the earliest day the people in San Francisco at post mates will be returning to the office, so that’s –
+
+
+[0:49:41.4] JE: But you’re not in San Francisco.
+
+
+[0:49:42.9] AV: I am not. I am not, but we're all trying to be unified as a company and have that –
+
+
+[0:49:49.3] JE: Well, I will go if they have it for sure. I will drive across the country. I've got plans on Southwest Points, but yeah, I would totally go.
+
+
+[0:49:56.2] AV: Even if it's just me, I'm seeing I can't –
+
+
+[0:50:01.2] EO: You, Jim Frees and Tigers.
+
+
+[0:50:04.7] JE: Yeah. It’s like, well we could socially distance. I mean, it would be cool. I'm a big proponent of outdoor stuff. I just think of new things outdoors. It’s good.
+
+
+[0:50:12.3] AV: Well, there's plenty of room on that gigantic campus of a place we went to last year. That was a massive location, so maybe that would be possible.
+
+
+[0:50:21.8] JE: Do you think Eric Tolson will pair with me again on game night?
+
+
+[0:50:25.1] AV: He is already RSVP'd. Yes.
+
+
+[0:50:27.5] JE: I wonder if he has a partner.
+
+
+[0:50:28.5] AV: I'm sure he would love to have a reunion with you, Justus.
+
+
+[0:50:31.7] JE: That would make me so happy, especially if we won again. We would just – you would never hear the end of it.
+
+
+[0:50:40.6] AV: I’m sure.
+
+
+[0:50:41.3] JE: What else you have going on? You have any cool side projects, elixir things that you're working on that you want to share?
+
+
+[0:50:45.0] EO: It looks like Eric is in the stream. We have an ETolson that said, “If you want.”
+
+
+[0:50:49.9] AV: Okay. There you go.
+
+
+[0:50:51.8] JE: I want, which he’s watching, so you can hear that what I posted –
+
+
+[0:50:55.8] AV: SmartLogic podcast matchmaking. That's awesome. Any side projects. Well, the current side project is this one. I mean, I've been working on this for probably averaging an hour and a half to two hours a day in the evenings after the kids go to bed, to try to get this for the last month and a half even. This takes quite a bit of love and dedication. Other side projects, none at the moment.
+
+
+I think if I were to pick up another elixir side project, it would probably utilize Raspberry Pi and NURBS stuff to do some interactions with my stereo system that is proprietary and uses some IP protocol to do communication, because the controller for it is dying. I probably have to do some Wireshark sniffing to learn the protocols. That's been something that's been in the back pocket someday. Is that the best use of my time? No. I probably should replace the amplifier, but I hate replacing things that worked just fine. That might be something I’d do next, but I don't know exactly.
+
+
+[0:51:52.4] JE: I think that you turn all your game bot frameworks into a book probably.
+
+
+[0:51:56.2] AV: Well, what I have thought, not necessarily about a book, but I've definitely thought about trying to make them live viewing all of them and make them comparable to code names, or a code names phenomenon that you guys were talking about previously. Make it so that people can play online during corona, because I have programmed all the logic for it, so why wouldn't we do that? That might be something that I talked to some of my fellow elixir folks about slapping a front-end on this.
+[0:52:22.0] EO: There's actually someone local to Indie did a risk-like game that I think he just switched to live view, so maybe that's of interest to you.
+
+
+[0:52:30.3] AV: Yeah. I'm going to attempt to live you the one that I'm working on right now. I've never done it before, so this will be my first crack at it. I mean, I can HTML. I can make Geocities looking sites all day long. The most unattractive things you can ever imagine, but I might do something like that to at least make it so that it doesn't have to be done in the terminal, because the Connect 4 that I did was all using Ansi Unicode characters that looked like game pieces for red and blue. It made it so that you could do it in the terminal, but it was at least a little awkward from a user interface standpoint.
+
+
+[0:53:01.8] EO: The people watching, I've got the – it's called Sengoku Elixir. Sengoku-elixir.herokuapp.com, so you can – I think this is all live view, but yeah, anyways.
+
+
+[0:53:11.7] JE: Well, we're about done on time here, Alan, but I want to give you another chance just to close out, get the final word on a plug and ask for the audience, shameless self-promotion for anything you like. The floor is yours.
+
+
+[0:53:23.8] AV: All right. The only self-promotion that I'd like to do is that Postmates is hiring and we are doing very well during this pandemic. Yeah, delivery is very much in demand. If you are interested in working at a company that definitely has quite a few elixir programmers, the exact counts was probably somewhere around seven or eight, so about a 150. There's a core group of extremely smart engineers. You'd learn a ton from us. We'd love to have you. Reach out on LinkedIn or whatever and we'd be happy to talk to you about opportunities. That's the only plug I need to make. Oh, and please come to our game night.
+
+
+[0:53:58.5] JE: June 4th, Kansas City Elixir Group, game bot night on Eventbrite. I posted the link in the Twitch chat and will probably tweet out a bunch of links and stuff like that afterwards. Alan Voss, everybody. Thank you so much for coming on the show.
+
+
+[0:54:10.4] AV: Thanks for having me, guys. It was a pleasure.
+
+
+[END OF EPISODE]
+
+
+[0:54:12.8] JE: Elixir Wizards is a SmartLogic podcast. This has been an episode of our Council of Wizards livestream. We're always looking to take on new projects here at SmartLogic, building web apps in Elixir, Rails, React, infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with. Don't forget to like and subscribe on your favorite podcast player. If you listen to this on Twitch, subscribe to us there. If you're watching this on YouTube, subscribe to us on YouTube and hit that like button, because it's good for the algorithm. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally @JustusEapen. That’s @JustusEapen and Eric @EricOestrich.
+
+
+Join us again next week on Elixir Wizards for more system and application architecture, or the next time we host a live stream Council of Wizards.
+
+
+[END]
+        © 2020 Elixir Wizards
