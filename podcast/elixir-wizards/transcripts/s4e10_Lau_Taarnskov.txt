@@ -1,0 +1,420 @@
+﻿EW S4E10                Transcript
+EPISODE S4E10 - Lau Taarnskov
+
+
+[INTRO]
+
+
+[0:00:04] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen, and I’ll be your host today. I'm joined by my co-host, Eric Oestrich.
+
+
+Today on season four of Elixir Wizards, we are talking about system and application architecture with our special guest, Lau Taarnskov.
+
+
+[INTERVIEW]
+
+
+[0:00:26] JE: How are you doing, Lau?
+
+
+[0:00:27] LT: Pretty good. Thank you, Justus.
+
+
+[0:00:29] JE: Super glad to have you on the show. We wanted to open up with kind of a hot button issue. What are TLAs and what's your hot take on them?
+
+
+[0:00:36] LT: They can be three-letter abbreviations or two-letter abbreviations. Basically, it’s a lot of syllables and not that much information, and you have a lot of people inventing new ones kind of on the fly. I think maybe it’s a thing. I moved to the US a year ago and I think it maybe is a thing that's more common here than certain other places.
+
+
+In some cases, like the very well-knowns make sense. But if anything, it’s like if you spell them out, you might find some information that you don't really think about or you just use the letters. Or some people say like ATM machine. Or also another thing, we’re kind of getting into time zones. They say like TST or PDT or something like that. If you actually said the whole thing, you might realize, “Oh, this does make sense. It doesn’t make sense to say ATM machine.” 
+
+
+In general, I was – I’ve been thinking about communication being explicit and I think it's kind of relevant also to programming, communicating well.
+
+
+[0:01:40] JE: So we don't want to get into TMI before [inaudible 0:01:45] because we’re definitely talking about – Thank you. We’re going to be talking about time zones here shortly. This is a great thing. I would love to talk. We could talk about three-letter abbreviations because we have some government clients, and they love their three-letter abbreviations, their TLAs, which is hilarious. So we can get into that. But we would also get to know you a little bit better, Lau. Can you talk a little bit about how you got started in this world of programming and computer science? What were your beginnings like?
+
+
+[0:02:13] LT: It goes back a long time. When I was a child, I started programming in basic and I’ve been just playing with computers, playing video games, and I started doing basic. I even once rented a book from the library where you can type in the code, like the basic codes in the adventure game. I started doing HTML in the ‘90s like just view source and figuring out, “Oh, you can add GIFs now, they’re animated,” and all that stuff.”
+
+
+Then I started doing a server-side programming with PHP, and then I started also studying business and computer science at Copenhagen Business School. Meanwhile, I also started working on – I had a classmate from high school started a e-commerce business, and this was done in PHP. The business grew, and I made a new system then in a new language, because a [inaudible 0:03:09] classmate was making this new framework for Ruby, and I’ve been looking at, “Oh, should I do PHP?” It was kind of there were certain things I didn’t like too much about it. Should I start using Python or should I start using Ruby?
+
+
+I saw this framework. That was pretty cool, so I started using that, and that turned out to be – at the time, it didn't have a name but it turned out to be called Rails, so I thought it was great. Ruby was great and Rails was great. It was interesting to see how it grew from nothing to being very widely used. So I used that, Ruby, since like 2003 and this was – I also learned things about computer science in university. But all alongside, I’d been programming, running e-commerce software for various businesses. I built a e-commerce platform in PHP and then in Ruby.
+
+
+Then after a while of Ruby, I was never totally happy with this. I wasn’t thinking, like, this is the perfect thing and then I heard something about – I looked into Erlang a little bit. Then when I found out about Elixir, I thought this is great. I’ve been using Elixir since 2014. I’ve been doing some open source with it and yeah.
+
+
+[0:04:25] EO: So you were class mates with DHH?
+
+
+[0:04:27] LT: Yeah.
+
+
+[0:04:29] EO: That’s amazing.
+
+
+[0:04:30] JE: Do we know what PHP stands for?
+
+
+[0:04:32] LT: It’s a self-referential –
+
+
+[0:04:34] EO: Prehypertext Processor or something. I don’t know.
+
+
+[0:04:38] LT: Yeah.
+
+
+[0:04:39] JE: That just occurred to me because we’re talking about TLAs and PHPs. So is DHH.
+
+
+[0:04:45] EO: Personal homepage tools apparently.
+
+
+[0:04:48] JE: Wow! Really?
+
+
+[0:04:51] EO: Or now it’s PHP Hypertext Preprocessor but anyways.
+
+
+[0:04:54] LT: Yeah. It’s like PHP and then AHP, and it’s kind of self-referential.
+
+
+[0:04:59] JE: Wow, okay. Programmers are weird, man. It’s like DML. Anyway, but I’m not going to get into that.
+
+
+[0:05:05] EO: It’s all about those recursive TLAs. All right. So what were some of the I guess – So either when you're originally getting into programming or when you're getting into Elixir, what were some of the resources that you found most useful getting started?
+
+
+[0:05:21] LT: One thing that was really good was that you could read the source code, so just the source code of Elixir and all the projects. I also read different books. One book is the Dave Thomas book. Another one was – I also like Saša Juric’s book, whatever the titles are in those.
+
+
+[0:05:44] JE: We can look them up and link to them in the show notes..
+
+
+[0:05:45] EO: Elixir in Action is Saša’s, and I think Programming Elixir is the Dave Thomas book.
+
+
+[0:05:52] LT: All right, yeah. Elixir in Action by Saša Juric and Dave Thomas’ –
+
+
+[0:05:59] JE: Programming Elixir.
+
+
+[0:06:00] LT: Dave Thomas’ Programming Elixir.
+
+
+[0:06:03] JE: I think you’re right about that.
+
+
+[0:06:04] LT: Yeah. But then there are also other books. One is Chris McCord’s book about macros. I'm not sure. It’s been a while, so I’m not sure exactly when I was just starting with Elixir. I’m not sure exactly what I was reading at the time. Now, there’s a lot more books, but one thing definitely that I think is good is that just the source code and documentation is good. I think for me it was easier to read than – let’s say you want to look at the source code of Ruby. It was mostly written in a different language, whereas most of Elixir is written in Elixir, at least in a standard library, and that was helpful.
+
+
+[0:06:49] JE: Maybe you could dive into that a little bit, because you contributed a fair amount to Elixir, and we’ll talk about your contributions as well. But I'm curious, like, if I was super new to the language or super new to programming and I heard someone say that Elixir was written in Elixir, I would wonder how that was possible and what that means. So could you maybe explain to the naïve among us what that means?
+
+
+[0:07:14] LT: Yes. There is part of it that – certain constructs. For instance, if you have – I believe ‘if else’ is written in Elixir as a macro, that if it didn't exist, you could write it yourself using Elixir macros. There are certain parts of the language that is not written in Elixir because that's not possible, as far as, like, you need something to – It’s based on Erlang. It needs to interact with Erlang.
+
+
+I don’t know all the details. I haven't written a programming language from scratch myself, but a lot of the constructs are made in macros or just plain Elixir code. That means some of the stuff I contributed are functions in the standard library and structs in the standard library that you could write yourself. They didn’t use to exist, that you could have something similar in a third-party library or just on a vocation in the file. It just happens to be that these things are available in a standard library, so it’s there for everyone.
+
+
+This goes for a lot of the modules you have in Elixir. They are not special, except that they’re just there and they’re the same for everyone. But you could provide something equivalent yourself. Also, there are some books that I believe go into this. Books and tutorials that touch on this. I don’t have any particular. I don’t have to – I mean, maybe that about the books and tutorials go into that. I don’t have any specific ones to that but –
+
+
+[0:08:48] EO: So, I guess moving on to – so you sort of mentioned this. You started with – I think you said Calends in one of our emails. I think that’s sort of what it’s called. Then it became Calendar and then Tzdata. So how did you end up being the other time guy that's not Timex in Elixir?
+
+
+[0:09:08] LT: When I started, I saw that there was no library that did time zones, at least correctly, because one thing about time zones is that they change. So one thing is they change so that the offset is different in the summer and the winter in many places around the world. In that way, they change maybe twice a year, typically. But also, the rules change, right? That’s important because if it's announced that in a certain place, starting next year, in a certain time, the rules are different. So maybe people stop having daylight saving time. There was no library that did that in Elixir.
+
+
+Another thing was I had experience with how date and time was handled in Ruby or PHP, Java, JavaScript, and in various databases. I was not happy, especially with Ruby, with how it was handled and I thought it was very confusing. You have date, and you have time, and daytime, and they're kind of the same but different. At one point, at least one was there. Then you had to require it. [inaudible 0:10:19]. It was just not very clear and a lot of things just didn't work so well. There is a lot of magic going on and it was hard to figure out what really we’re dealing with.
+
+
+There are two things. One thing, the main thing I wanted was something that I would want to work with. Because I like the language a lot, I wanted to have something that worked well. Since I was seeing myself working with this language, I wanted that part to work well. I thought it was an interesting problem, so I decided to work on it. You can say one difficult part of it is actually getting a time zone library to work because you have this – all this information is published in clear text and plaintext files by – now, it’s by IANA. It's been called the Olson database or the Eggert database or Tzdata, tz database. It’s had many names, but basically it's available and provided by the same organization that handles domain names on the Internet. You can make some software that parses those files and figures out how the time zone rules are for a certain place and a certain time.
+
+
+I started doing that and with the goal of having some solution that had the types that I would like and also would work with time zones. So then I released this library called Calendar. At first, it was called Calends. Then I thought, “Oh, maybe I should call it Calendar instead because it’s more straightforward.” Then I extracted the time zone part of it to be a separate package. Then starting from there, both Calendar and Timex were using the Tzdata package for doing the times and calculations.
+
+
+Then for Elixir 1.3, two civilian contacted me and Paul Schoenfelder that made Timex, and we worked to get input on getting certain structs into the language so that you had structs where they would work well with different libraries. So you had one struct. Let’s say you have a date, for instance. It’s a certain kind of struct. It works in one library and also another library because it’s in the standard library and also was used with – there would also be added certain functions to the standard library itself that could use those structs.
+
+
+Then there were functions added to these structs, and the structs are basically – They look very much like the ones there in Calendar. So in Calend, you have date and time and NaiveDateTime and datetime. We can go into why they're called that but basically those are made to be – In JavaScript, for instance, you only have one type. We have date. But it’s not just a date. It also has some other stuff in it, so it’s kind of a thing – this is also some of the stuff I’ve written about on my blog where programmers have a certain way of talking about things that are different from people that don't do programming.
+
+
+You have one word and it means different things in different contexts, depending on the language. So in databases, you have – a date is a year, a month, and a day of the month. This is the case if you ask the average person in the street and also if you have a MySQL database. That's just a very simple thing. But then, if you ask JavaScript, it also adds some other extra things, like a time zone and microseconds. That can be confusing because if you want to communicate that something happened, let's say someone’s birthday, and then you add this complexity of having a time zone in microseconds. That can cause bugs and confusion, because you’re kind of saying this person was born in this time zone, on this particular microsecond, and that’s kind of misrepresenting the data you actually have. It’s another topic that I think is interesting about having the right amount of data and having correct data.
+
+
+There's also this old saying of garbage in garbage out, talking about having good correct data. If you have data that’s incorrect and you work on it in your software, then what you’re going to have coming out is probably not going to be so good. This is the reason why there are different types that can do different things. One cool thing that was added for the standard library, that is not in Calendar, is this idea that they came up with was having precision. So you can have – if you parse a datetime with a certain amount of decimals, let’s say it has – It’s like 10 seconds .123. In a lot of languages, you would have like .123000. But here, the amount of decimals we have is there.
+
+
+I think that can be very useful that you don't suddenly automatically just invent some zeros. You kind of represent what you had coming in. So when someone asked you what was actually recorded, that can come out again, and that you didn't change it along the way.
+
+
+[0:15:45] EO: Yea. I think that mostly pops up, at least for me, in echo when you have to like – Anytime you take a datetime or timestamp or whatever and you pass it through, it’s like, “Oh.” You didn't want usecs so truncated. I always thought that was a cool addition, so it's cool to hear how it came about.
+
+
+[0:16:04] LT: Yeah, cool.
+
+
+[0:16:05] JE: Can you walk us – Maybe just go way back to the beginning, because I’d love to hear how you got started, when this problem initially occurred to you, how did you deconstruct the problem?
+
+
+[0:16:15] LT: I mean, first of it, I think I remember when I started doing it. I started to write down certain things like going to write down this is what I want to come out of it. This is the problems I have. This is the goals. These are the goals I have for it. I remember thinking that I wasn't exactly sure. It was like hard to put down. So some of the ideas I have about it today or I had about it like a year after I started are probably different than what I had in the beginning. So I think this is also relevant to software development and doing projects in general and probably – like there are certain things where you just have to start exploring and you have to start doing certain things to know, and you learn more along the way.
+
+
+But definitely, there's one thing I know I started with was just I wanted time zones to be a part of it, and one thing was – For Calends, the first type was daytime that had a time zone, and then few others were added shortly after. I wanted it to be not an extra burden to have the correct time zone. If you – I think a lot of things. When you do programming, you tend to in some cases take the shortest path, the easiest path just because there is always something else you can do. If you have something you know that works and something that's simple, you’re likely to choose that path.
+
+
+In general, choosing something that’s simple is a good idea, and this is another concept, another thing that I've been thinking about more lately is when you talk about simple and simplicity and simplistic, I'm not a native English speaker, but as far as I know, the word simplistic is not just like a fancier way of saying simple. It's when you oversimplify things. So if certain things, and this is the case, especially for things that have to do with date and time, time zones have a certain complexity to them.
+
+
+One example of that is leap seconds, for instance. They don’t come up that often. But when they do, one thing that I think is kind of unfortunate is that certain businesses will just shut down when there's a leap second. Depending on where you are in the world, when the leap second happens, I believe in Asia because usually a leap second is on UTC midnight, they have to shut down stock markets because they don't trust their computers to work, right? Imagine that you have all this technology, you have this society, people talking about, “Oh, we’re going to have self-driving cars and self-flying whatever,” and you can’t even handle leap seconds, which was a concept introduced in the early ‘70s.
+
+
+Everyone knows when they happen. It shouldn't be that hard to do. But because the way people decide to ignore it, it doesn't work right. so you can have –  when we talk about complexity. When we talk about inherent complexity, the problem it has, that’s kind of the minimum complexity that you need in your solution if you want to solve all these problems, right? Then you can choose to ignore it. Then once you hit that, like, real-world complexity, your solution just stops working.
+
+
+This is like – in this case, maybe it's worth it. Maybe that's a good solution because people will just do like a cost-benefit analysis and say, “Yeah, this is fine. It’s not a big deal to shut down once in a while, and then we don't have to spend so much time looking at this problem.” But coming back to this thing of having this daytime type that always has time zones in it, the idea is to make it as just as easy to have. Let’s say you’re doing something with New York time, let’s say. You could just say, “I don't want to have the time zone there. It’s easier to just do UTC, or it's easier to do just not have a time zone there at all.” The idea is that if you create a new daytime struct, it's just as easy to do UTC as it is to have New York time.
+
+
+That’s kind of a choice to have, for the perspective of the user of the library, to have it be easy and accessible to kind of – To have it be easy to do the right thing for that problem.
+
+
+[0:20:28] EO: One very important question that I have, do you hate time zones more than your average developer, because you’ve had to parse and write an entire library that a language uses?
+
+
+[0:20:40] LT: Yeah. This is a good question. Yeah, I actually don't hate them and I think also they are necessary. There are certain things you could do to make it easier, if people didn't change the rules all the time. There are some places where they will announce that, “Oh. Next week, we’re not going to change away from daylight saving time anyway, even though we said we would.” That was the existing rules. Sometimes, it's, “Oh, actually yesterday we didn't do it, so we didn’t get like that much out of time.” That’s a thing that could be easier for people to deal with if they didn't change with such a short notice.
+
+
+Another thing is daylight saving time, which I think you could do away with. Then people could instead decide to, at a certain date, change the schedule, right? So you could always be, “Okay. Starting whatever the last Sunday of March, we are all going to go to work. We’ll go to school one hour earlier,” which is the same thing. One thing that I think is kind of funny is when people talk about having permanent daylight saving time because that doesn't make as much sense. It’s just kind of a number. I could see that being if you kept doing that, you would have some kind of inflation where eventually, four would be the equivalent of the three and two, or the other way around. It’s just like that’s a thing that you could probably do without.
+
+
+But if you think about it, they’re necessary. If I think they're annoying, not that much. I think it's possible to handle them and, I mean, it would be easier, sure, if you didn’t have to. But I don't think it's that bad.
+
+
+[0:22:24] JE: Do you have any tips for anyone who is working with time in Elixir?
+
+
+[0:22:30] LT: That's very good question. Yeah, so one thing is that everyone that use [inaudible 0:22:35] I would recommend to use UTC daytimes for the timestamps, so inserted that and updated that. By default, they’re NaiveDateTime and I would recommend everyone to have UTC daytime for that. On my blog, there’s a link to how you can do that. Also, another thing is now with the newest version of Elixir and also the one that's coming out in October, there's a lot of things you can do with date and time in just the standard library.
+
+
+Depending on what you're doing, you might not need to pull in a third-party library to do day and time stuff, so I would just look at the functions that are in the standard library now because it's been growing since version 1.3, and there's a lot of stuff you can do now without having extra dependencies.
+
+
+[0:23:27] JE: Thank you so much, Lau. Before we close out, we've got to share another edition of Pattern Matching with Todd. Friend of the podcast. Todd Resudek is asking members of the Elixir community five questions to help us all get to know each other better. Hope you enjoy it.
+
+
+[END OF INTERVIEW]
+
+
+[0:23:41] TR: Welcome to another installment of Pattern Matching with Todd, where I ask your favorite members of the Elixir community the same five questions in order to get to know them better. My guest today is a big star of the functional programming community and one of my programming idols. Welcome Brooklyn Zelenka.
+
+
+[0:23:56] BZ: Hi. Thanks for having me.
+
+
+[0:23:58] TR: Thanks for joining me, Brooklyn. Let’s just jump in to question number one. Where were you born?
+
+
+[0:24:04] BZ: So I was born in a small town. Actually, we were living outside of the small town, but Welland Ontario, Canada.
+
+
+[0:24:11] TR: Okay. So Welland based on my research is over by Niagara Falls area, or that’s the closest landmark?
+
+
+[0:24:17] BZ: Yup, very close. Yes.
+
+
+[0:24:19] TR: Okay. So you live there. Then have you lived anywhere else?
+
+
+[0:24:24] BZ: Yeah. Growing up, I moved around quite a lot. I don't actually remember Welland at all. We moved around a fair bit. The main highlights are Calgary, which is often described as being like Texas North, lots of oil and beef, and Timmins which is pretty much – It’s 800 km north of Toronto, so middle of the woods, but it’s claim to fame is it’s where Shania Twain’s from.
+
+
+[0:24:49] TR: Okay. I looked at Timmins on the map and it looks like it's even quite a bit north of Sudbury, which I thought was a very out-of-the-way place, so Timmins much be an extremely out-of-the-way place.
+
+
+[0:25:02] BZ: Yeah, it is. I’m surprised you even know Sudbury. So I’ve done the drive back and forth, Timmins to Sudbury, a few times. About four hours. Yeah, you’re driving to Timmins and you see a sign, Welcome to Timmins, and you’re still in the middle of the woods, and there’s nothing. You drive another 20 minutes and you see a house. It’s very out-of-the-way, yeah.
+
+
+[0:25:20] TR: I'm guessing a lot of Canada is that way.
+
+
+[0:25:23] BZ: Yeah, yeah. I mean, most of the population is in big cities, especially I think of Vancouver, Toronto, Montreal. But, yeah, quite a bit of it is, there’s just so much space, right?
+
+
+[0:25:34] TR: Yeah. How did you end up in all these unusual places? Are your parents in an interesting line of work? Running from the law?
+
+
+[0:25:43] BZ: Mainly, we were living just outside of Calgary for a while, and then my parents split up, and so I moved to Ontario with my mother. Then her new husband works for Ontario Power Generation, so like the electricity company. He would get placed in different cities.
+
+
+[0:26:03] TR: All right. That makes sense.
+
+
+[0:26:05] BZ: Then I moved to Vancouver in ‘06. Just on my own, part with university. I also lived in – I did the digital nomad thing for a while. I lived in Japan for a year, South America, so I kind of traveled around but really Vancouver is home.
+
+
+[0:26:23] TR: What part of Japan?
+
+
+[0:26:24] BZ: Kind of all over, nothing north of Tokyo. I spent most of my time in Tokyo, Osaka, and Fukuoka but was moving on average every 10 days, so living out of Airbnbs.
+
+
+[0:26:34] TR: Wow!
+
+
+[0:26:35] BZ: Yeah.
+
+
+[0:26:37] TR: Well, we've got a lot of Elixir friends in Fukuoka and in that area, so shout out to all of them, including Zaki sensei. You know Zaki?
+
+
+[0:26:46] BZ: I don’t, no.
+
+
+[0:26:48] TR: Pelamis project, the GPU project. No? Fukuoka? No? Okay. All right, never mind then. That’s very cool. Let’s move on. Have you had any careers before programming?
+
+
+[0:27:01] BZ: Yeah. I don’t have anything that I would call, like, a career. I had a long series of jobs. I guess the main ones I worked in the kitchen, managed a kitchen for a little bit, learned some really good knife skills. I managed a retail store. I was an Apple genius, graphic designer. I studied classical music in university, so I have done a little bit of film composing, obviously been a music instructor, flute blog researcher. I was on a land survey crew, and I've done tool repair at Home Depot. So kind of a nice spread there.
+
+
+[0:27:32] TR: Wow! Okay, let's go back to the classical music instructor. Is that what you studied in university?
+
+
+[0:27:38] BZ: It is, yeah.
+
+
+[0:27:39] TR: Like any particular instruments?
+
+
+0:27:41] BZ: Yes. My main instrument was the flute, but we had to take piano as well. So I did crash piano, but I was mainly studying theory and composition, which is, I say this in a lot of podcasts, surprisingly similar to computer science, the kind of math you pick up. So it’s a lot of – Especially at the upper levels, you do some linear algebra, a little bit of [inaudible 0:28:01] theory. We don't learn them as pure mathematical disciplines, but you end up pulling a lot of the concepts out.
+
+
+[0:28:10] TR: Yeah. I’m not super surprised by that. I've known a lot of really good programmers that had a formal instruction in music, and so I always thought there was two reasons for that. One being like the mathematics, the pattern matching, and being able to pick out patterns, or communicate in like a different language, I guess, than your normal spoken language. Then second, like there's not very many jobs in being a musician, so a lot of them are having to find a plan B I guess.
+
+
+[0:28:39] BZ: Yes. This is the main thing. Out of my cohorts of theory and comp students, as far as I’m aware, one is now a professor of music and the rest are programmers.
+
+
+[0:28:51] TR: Makes perfect sense. I think there's probably other disciplines that would lend themselves to programming, but there's enough jobs in there that those people haven't switched yet.
+
+
+[0:29:02] BZ: Exactly, yeah.
+
+
+[0:29:03] TR: Well, that’s great. I think like one of the things I always have admired about your talks is how well-designed your slides are.
+
+
+[0:29:10] BZ: Thank you.
+
+
+[0:29:11] TR: I always tell people it’s not fair that somebody can have such a great, smart, left brain talk, with such a great right brain design on it. It doesn't seem like one person should be able to possess both of those things.
+
+
+[0:29:24] BZ: Thank you. Yeah, I think that's the limited experience as a graphic designer coming through. Plus, pro tip in Keynote, the magic move, slide transition. It seems to really impress people but it’s just one button
+
+
+[0:29:37] TR: Pro tip. You’ve spoken in a lot of places. I was trying to research all the conference talks you’ve given in the last couple years, and it was overwhelming. I can't really even enumerate them. What are the highlights? I know – I think you spoke at FOSDEM maybe this year, Stockholm? You were at Stockholm, and I know you were in San Francisco.
+
+
+[0:29:59] BZ: Yes.
+
+
+[0:30:00] TR: What are some of the other highlights I guess?
+
+
+[0:30:02] BZ: Well, let me pull up a quick list here. I hare a – I use Notist, N-O-T-I-S.com, to hold my slides. Sorry. N-O-T-I.S-T. I have about 30 or 40 talks on here. I really enjoyed the San Francisco talk at Code BEAM. That was a fun talk to put together. I’ve had some good discussions from it as well. Yeah, I was in Sweden. I talked at a program. I’m not sure the pronunciation of this but at Oredev. I gave a couple talks there. I was in Amsterdam in the fall. I gave a talk in Osaka at the Ethereum Developer Conference. Having previously lived in Osaka, that was very nice to be back for.
+
+
+I guess some other highlights, I really enjoyed Kraków for Lambda Days last year. I had no idea what to expect from Kraków, but beautiful city, really nice people. If you get the chance, I would definitely recommend.
+
+
+[0:30:54] TR: Excellent. Well, shout out to Poland and Kraków specifically. If you were not a programmer, what do you think you’d be doing?
+
+
+[0:31:03] BZ: The short answer is I have no idea. I sort of fell into programming by accident, and it's been the last, not quite decade, but close. At one point, I had almost like a fork in the road where I could go back to school and ideally become an immigration lawyer, or try out this whole programming thing and went the programming direction, so maybe an immigration lawyer? But that's a lot of training.
+
+
+[0:31:27] TR: Yeah, it's a lot of work I guess. I don't know what it's like in Canada but it's probably even a whole another ball of wax in the US.
+
+
+[0:31:35] BZ: Yeah.
+
+
+[0:31:35] TR: All right. Well, let's close that can of worms. So moving on, what's the genre of the last song or the last album you listened to?
+
+
+[0:31:43] BZ: Yes. So almost certainly some progressive rock. I definitely like the ‘70s. My co-founder, Horace, always makes fun of me. I listen to a lot of Rush. He's about a decade older than I am [inaudible 0:31:55] as well. Maybe small-town Canada makes up the decade difference. Rush, Queen, Yes, all of those. Fantastic.
+
+
+[0:32:05] TR: Yeah. When I see old-school progressive rock, I think of Yes as like the quintessential example of prog rock, early Genesis, like when Peter Gabriel was still in it, that sort of thing.
+
+
+[0:32:16] BZ: Yeah, Gentle Giants.
+
+
+[0:32:18] TR: How did you get into that?
+
+
+[0:32:20] BZ: Growing up, I had a old record player. My dad didn't believe that these CDs were going to catch on, so I had the radio and a handful of old records from the ‘70s and ‘80s, and that was my main exposure to music beyond classical. I had Dark Side of the Moon, Queens’ A Day at the Races, a few of those classic albums, and kind of from there.
+
+
+[0:32:44] TR: That’s pretty good stuff that you had there.
+
+
+[0:32:46] BZ: Yeah. At the time, it was very annoying that that's all I had. But now, it kind of gives me hipster red, so –
+
+
+[0:32:52] TR: Yeah. No, musically that's good. I think the best record we had at my house was the album from Saturday Night Fever.
+
+
+[0:32:59] BZ: Oh, nice. Yes.
+
+
+[0:33:00] TR: Which was an okay album, but it was far and away the best album that would rock my ass. My parents are not known for their musical taste. All right. So is there a movie or some TV show that you're going to watch every single time you come across it on TV?
+
+
+[0:33:16] BZ: Yeah. I mean, there's a few. I have a couple that I rewatch or just for comfort. One of them is Amadeus, the 1984 classic, probably my classical music background. I’m loving movie, great music. Back to the Future I watch a fair bit. Then in terms of series, I’ve rewatched Mad Men like four or five times now just because there's a lot of it, and I can leave it on in the background while doing other things.
+
+
+[0:33:41] TR: Really?
+
+
+[0:33:42] BZ: Yeah.
+
+
+[0:33:43] TR: Okay, interesting. Yeah, the Amadeus one is maybe that’s obvious because of your classical music. But Mad Men, interesting. I tried to watch the first episode of that. I could not get into it.
+
+
+[0:33:55] BZ: It's a bit in the slow burn. I got introduced to it right when the show is wrapping up and people were fairly excited about it. I sort of binge-watched the first several seasons and didn't really get the points until maybe season three. Then it started to click, like, “Oh, this is actually less about the characters and more about things like identity, and what limits are for a person in their job,” like obviously the whole ‘60s thing as well. It’s interesting. Go back and explore that history that they bring in as well and sort of the major events from the time.
+
+
+But the really interesting thing for me was the identity piece because they're making almost like a philosophical argument about it. Seven seasons of that, but you have to really get to know the characters. But that’s when it really clicked for me.
+
+
+[0:34:43] TR: Okay, cool. All right. Wrapping up, what project are you most excited about working on next? Or maybe what are you working on now that you're looking forward to keep working on and finishing up?
+
+
+[0:34:55] BZ: I have a few things. I mean, most of my time, the vast majority of my time right now, I have a startup, so that consumes – it’s all-consuming, right? With that one, we're working on, probably a less popular idea in this crowd, but getting near the backend in DevOps entirely and doing everything in the front-end, storage, database, everything.
+
+
+That said, other projects that I have kind of on the back burner right now. I mean, I do need to go back, and I have some old stuff in Witchcraft that need to get updated or changed. It takes a while to compile right now, but my next project that I’m excited about, I want to take some of the ideas. As of right now, I imported a bunch of stuff from Haskell into Elixir, and I want to import some ideas from Elixir into Haskell. So I want to write an opinionated web framework where we have some of the bits of that, Haskell shop at Vision. We have parts of that already and a user-friendly sort of Elixir of Haskell and some of that Elixir is related to Erlang. I want to do the same for a Haskell-like language, but that's a big project.
+
+
+[0:35:59] TR: Hopefully, you can enlist some help on that or give yourself plenty of time to complete it. It sounds like it might take a minute. All right. Well, great. Thanks for answering my questions today, Brooklyn, and thanks for joining me on Pattern Matching.
+
+
+[0:36:14] BZ: Yeah. Thank you so much for having me.
+
+
+[0:36:16] JE: Well, we will have all those links for the audience in the show notes. Thank you so much, Lau Taarnskov, for coming on the show. Elixir Wizards, the SmartLogic podcast here at SmartLogic. We’re always looking to take on new projects, building web apps in Elixir, Rails, React. Infrastructure projects using Kubernetes and mobile apps using React Native. We’d love to hear from you. If you have a project we can help you with, don't forget to like us and subscribe on your favorite podcast player. You can find me and Eric on Instagram and twitter and Facebook. You can find me @justuseapen and Eric @ericoestrich. Join us again next week on Elixir Wizards for more on system and application architecture.
+
+
+[END]
+        © 2020 Elixir Wizards
