@@ -39,10 +39,10 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
 
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         event-type: rss-data-updated
-        branch: main
