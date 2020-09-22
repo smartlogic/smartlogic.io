@@ -1,0 +1,491 @@
+﻿EW S4E19                Transcript
+EPISODE S4E19
+
+
+
+
+[00:00:03] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host today, joined by my co-host, Eric Oestrich. How are you, Eric?
+
+
+[00:00:17] EO: Doing good.
+
+
+[00:00:18] JE: This season, we're talking about system and application architecture. Today, we're joined by a special guest, Lizzie Paquette. How are you, Lizzie?
+
+
+[00:00:24] LP: Hello. I’m good.
+
+
+[00:00:25] JE: Lizzie, you're joining us from San Francisco. You work over at Brex. Brex is a big contributor to the Elixir community. How does it feel to get to be at a company that shows up at all the conferences, that participates in so much of the open source world?
+
+
+[00:00:40] LP: Yeah. I think it's been really great. I’ve loved being exposed to the Elixir community through Brex. I didn't know Elixir before I got there, but Elixir is actually Brex's first language. So we don't have any old legacy code or anything. I would say, about 85% of our code is in Elixir now. Yeah, so I think I’ve really, as Brex, has grown, I’ve grown with Brex and I’ve definitely leaned into the Elixir community. I think it's been such a lovely experience meeting the people involved, like Eric Meadows Jonssön works pretty closely with us. And just seeing what's out there in this language that I hadn't met before I started at Brex.
+
+
+[00:01:21] JE: Cool. We'll talk a little bit more about Brex. We always like to leave time at the end of the show to plug companies, or whatnot. We do like to start with you as an individual and where you got started in programming. Were you formally trained? Did you come through the conventional path, or some other means?
+
+
+[00:01:39] LP: Yeah. I would say, I mostly formally trained, but I did get a late start. I was mostly — in school, I was studying pure math and neuroscience originally. I had actually taken a class in Java in high school and I hated it.
+
+
+[00:01:56] JE: You hated Java?
+
+
+[00:01:57] LP: I hated Java. I hated programming. The whole concept of it was just so alien to me and I said, “You know what? That's not for me. I’m never going to touch that again.”
+
+
+[00:02:07] EO: I can see Java turning someone off.
+
+
+[00:02:10] JE: Totally normal response to Java. Go on though.
+
+
+[00:02:15] LP: Yeah. Then I delayed taking any other computer courses, until pretty late in my college career, my junior year. When I finally took one, I really ended up liking it and I caught the bug and then just stuck with it ever since. I went on to get a second degree in computer engineering. Yeah, and I just started coding that way.
+
+
+[00:02:36] JE: Was there much overlap between the pure math stuff and moving into computer science?
+
+
+[00:02:42] LP: Yeah. I was lucky, the school I went to taught computer science in a really old-fashioned way. They did one semester in imperative programming. It was in C. Then the second one in functional programming. The functional programming part was really mappy and we were actually writing a lot of proofs based on our code. And there was an interweave thing of math and code. I just really loved that. I thought it was so elegant. In functional programming, you could write really short, crisp code. Then going in and writing that, it was provably correct. Just really satisfied this taste I had for wanting nice, elegant code, I guess. From there, I went on to work in compilers, because compilers were where I could find functional programming, but that's really where I got my start.
+
+
+[00:03:36] EO: Yeah. I guess, what did you do with compilers?
+
+
+[00:03:39] LP: I thought I would go the academia route for a while. I worked on a Haskell-to-hardware compiler when I was at Columbia. Haskell to system Verilog. That was super cool and definitely a new area for me going into the FPGA area.
+
+
+[00:04:01] JE: What is that?
+
+
+[00:04:04] LP: It's a programmable chip. If your system Verilog you're writing logic, circuit logic. And then you can go and take that logic that you wrote and program at FPGA to act like a actual printed chip.
+
+
+[00:04:17] EO: Is this based on the search? Is this Clash Lang?
+
+
+[00:04:21] LP: No. Clash is actually our competitor on that project though. Yeah, Clash is very similar. I think we were using a different intermediate representation that gave us different benefits. For example, we were better at dealing with abnormal memory storage.
+
+
+[00:04:38] JE: I guess, take us a little bit further in the story. You get the second degree in computer engineering. Did you get employed in tech immediately after that? What was your first role programming?
+
+
+[00:04:52] LP: Yeah. I did actually go straight out of school to programming. The way I found Brex is actually a very interesting story. I was in — I was being a teaching assistant for the compilers’ class. Then a company came in, they were called Page Draw at the time. They were a very cool company, essentially taking a sketch design. You would layout your website with all the boxes as you wanted and then converting those designs into React and JavaScript code. The way they marketed it, to me at least, was as a compiler. I was like, “Oh, my gosh. So cool. I never thought I would find a small company doing compiler work.”
+
+
+From there, I reached out to them and I was like, “Wow, I love your product,” and I signed up to work with them. Interestingly, about eight months down the line when it came time for me to start working there, they seized operations. Essentially, they got spooked by Framer X that was doing a similar thing. They were like, “Oh, but we're all going to Brex. Do you want to come?” That is how I ended up going to Brex.
+
+
+[00:06:09] JE: You did get to work at this Page Draw company?
+
+
+[00:06:12] LP: No. I in-flight changed.
+
+
+[00:06:14] JE: In-flight changed.
+
+
+[00:06:15] LP: Essentially, the week I was supposed to join, Page Draw stopped and I switched to work at Brex.
+
+
+[00:06:23] JE: Wow. Brex has been your entire career in tech up to this point?
+
+
+[00:06:27] LP: Yeah, essentially.
+
+
+[00:06:29] JE: Wow. I guess, I’m just curious. How long into Brex's existence was it when you started there?
+
+
+[00:06:35] LP: Yeah. I think it was pretty early. Brex was about 30 people when I started. I think they had been around for just less than a year-ish, depending on when you say they start. I’ve been there, working at Brex for about two years now. And they're at 500 people. Things have really changed while I’ve been there.
+
+
+[00:06:55] JE: Yeah. Real rocket ship startup. That's awesome. I guess, let's segue into that part of the conversation though. What is your role over Brex and how has it evolved over time?
+
+
+[00:07:07] LP: Yeah. I work on a team at Brex called the systems team. We own mostly frameworks, libraries, generic services. You can think of our events, our asynchronous events service, search, our notifications platform that sends out text push SMS. And then, more things that affect everybody's service, like the messaging between services.
+
+
+[00:07:35] JE: Has that been where you've been the whole time? Have you moved around at all?
+
+
+[00:07:40] LP: Actually, I’ve been a fixture of this team, but this team has changed quite a bit. I guess originally, we didn't have teams. We were just one team called ‘Core.’ I lived there for a while. Since then, our team has evolved from owning everything that no one else owned. Everything that wasn't product-specific, to becoming more focused and being like, “Okay, we really want to own frameworks and be a platform-esque team.”
+
+
+[00:08:08] EO: Brex, as we've mentioned, is pretty big. Does Brex contribute back any at all to community projects, open source, anything like that?
+
+
+[00:08:16] LP: Yeah. We contribute — sort of, when it has been useful to us. We want to get more involved. One project that I’ve been working on recently is — we have forked the protobuf-elixir compiler made by Tony612. Protobuf is like JSON. It's a structured messaging format. When you use that Protobuf, it's nice because it's language agnostic, so lots of different languages accept protobuf and they know how to communicate via protobufs. But one hang up is that in Elixir, the compiler that turns protobuf into Elixir structs is kind of new. It's just maintained by Tony. One hang up is the — some of the structs, when they're converted into Elixir, they're not really easy to use. So you can think of there's a stretch Google timestamp, which is a very standard strap in protobufs.
+
+
+In Elixir, it doesn't match well with the date-time struct that we typically use and pass around to keep — to record times. One thing we added is making a natural casting between the two, via field options in the protobuf. You add this extension onto your field and then you get the proper Elixir struct that you wanted and you can treat these structs, instead of being such foreign entities that you have to put through some conversion. You just get the struct you want straight out of the compiler. It's also been nice that even though I didn't end up working at that compiler startup, I’ve still been able to do some compiler work at Brex.
+
+
+[00:10:00] JE: This is a little bit off-script, but we go off-script all the time on the show, so it's not a big deal. I’m curious, because you've done so much work in compilers and for a lot of people in the industry who've come through non-traditional, or non-conventional backgrounds, it seems really daunting to get into compilers and what that even means. Do you have any, I guess, tips for someone who maybe had that background and was interested in diving a little bit deeper, like how they should think about approaching compilers?
+
+
+[00:10:29] LP: Yeah, that's a great question. Whenever I try to tell my mom about what a compiler is, I’ll say, it's a translator between two languages. Just typically, the language you're translating from is a language that people understand and the language you're translating to is a language that the computer understands. But it doesn't always have to be in that direction. I think if someone wanted to get into compilers, so a tiny project that people sometimes do is they take a little snippet of the language, like the most basic thing you can find, even just like a math language, a add, multiply, divide, and then just see if you can be able to write a little portion of that. Maybe a math sentence and get the computer to tell you a result, I think that is the start of a the minimum viable product of what a compiler is. Yeah, as far as books or anything, I don't know. I don't remember any one particular resource.
+
+
+[00:11:31] JE: That's fine. What about for Elixir, do you have any resources that you like to recommend for Elixir, especially underrated resources?
+
+
+[00:11:39] LP: Yeah. I love — and this is also showing my other background, but I love the syntactic reference for Elixir. It's just a one-page, one-pager on the web. You can find it if you search ‘Elixir syntactic reference.’ It tells you all of the things that the weird syntax in Elixir, that you sort of mix. Like, there’s three different ways to write keyword lists and the Elixir syntactic reference lists that all out for you and makes it super clear, all the syntactic sugar that exists in Elixir. I think that's my go-to when I’m a little confused on what something might do, I just look it up in the reference.
+
+
+I also like the Metaprogramming Elixir book by Chris McCord. Macros are in a similar vein. That's actually one of my recommendations is; if you want to get into compilers, you can start with macros, because they are modifying the Elixir abstract syntax tree. Which is one of the initial steps of a compiler is turning the program into a tree. I think macros are very powerful, sometimes dangerous tool — that Elixir has kindly exposed to us.
+
+
+[00:12:45] EO: Speaking of macros, you gave a talk at Code BEAM this year all about macros. Do you want to briefly mention that and then I guess, does Brex use them at all and how is that gone?
+
+
+[00:12:56] LP: Sure. At the beginning, Brex was really macro-happy. We had a lot of macros. Everything from our struct and schema definitions, to how we were doing our client-server wiring and testing, just in every area we had a macro. Some macros we had even were just macros of convenience that didn't do anything, except import and alias modules and they were really silly macros. We were so excited about this tool that we can put them in everywhere we could. Now that we — to honestly, our detriment, right?. Some people who joined Brex, they would complain that they had to learn in Elixir and then they had to learn this Brex version of Elixir with all the macros.
+
+
+Since then, we've really cleaned up our act and been a lot more careful about the macros we add and what really is a good use case, versus what is a frivolous use case. And that's only going to introduce confusion.
+
+
+[00:13:58] JE: I’m the worst offender.
+
+
+[00:14:01] LP: Some rules I would give is that if your macros are enforcing best practices, reducing boilerplate and just in general, saying there's one way to do one thing, that's good. You don't want to introduce too much choice. If you're introducing a macro that gives you multiple ways of doing things, now there's not a clear best practice and maybe it also isn't enforcing any particular best practice, I would say you probably don't need that macro.
+
+
+Then there's some macros that you add, because it makes the ergonomics of the language better. I would say, those you have to be careful with too. Sometimes they can just make people confused, especially when they try to go look it up and they find that it's not in the Elixir hex docs. I’d say, for any macro you add, you really need to have it well-documented and then evangelized. You're like, “This is the way we're doing it in this code base.”
+
+
+[00:14:54] JE: I wonder if there's some way to have an internal Elixir documentation that mirrors the official documentation with all of your internal docs appended, if that makes sense. That would be a cool thing to do.
+
+
+[00:15:08] LP: That would be cool. Yeah. I know you can with XDocs, you can generate your own docs that look a lot like the other two docs. Yeah, it's tough when people don't know, should I search in the Elixir doc? Should I search into Brex docs? It's also a little tough right now with XDocs, it's hard if you have multiple libraries. We have many, many libraries. We wish we could have them all in one searchable place. Right now, we have a XDoc per library. Now you also have to know which library to look in.
+
+
+[00:15:40] JE: Okay. We'd love to call out little things that people who are looking for open source opportunities could do. I feel this doc compilation project is a good idea.
+
+
+[00:15:50] LP: Yeah. Yeah, if you ask me.
+
+
+[00:15:52] JE: Probably a good way to get a job at Brex, if you build it and then apply. I want to circle back to a question about professional development, like growth. How do you think about developing your own skill set now that you're out of school and have to drive yourself to be motivated and to develop your skill set? And also, for people on your team if you lead any more junior developers?
+
+
+[00:16:15] LP: Yeah. I think starting at Brex, I had a lot of professional development to do, because I was coming from more of a specialist area. Then I was put into this startup as a general-purpose software engineer. So just learning all the tools and the tricks of the trade, I did a lot of watching and reading. At Brex, we write a lot of design docs, so I feel I learned a lot from watching other people write design docs and seeing what feedback people were giving on those docs.
+
+
+I think, now that I am in a more senior position, I guide other engineers on my team, I think I definitely am working on giving precise feedback. I think you have to be a little careful about giving too much feedback all at once, so working on giving feedback in a way that grows, lets people focus on one thing at a time, I think is really good. Yeah, just also expanding to other areas. I think one way to grow scope is to increase the vagueness of your problems. I’ve been working on problems and projects that are a bit more amorphous. You're like, “Okay. Well, I don't even know exactly what the problem is,” but then you go into your brainstorming mode and you pull people in and you're like, I think having a good network at work of people to talk to and brainstorm with is really good.
+
+
+[00:17:40] EO: We also have a note in here for something called Code 2040. What is that and I guess, how are you involved?
+
+
+[00:17:47] LP: Yeah. I’d love to talk about Code 2040. Code 2040 is a program for black and Latinx programmers. They have a few different programs. One is a program for people going into their first internship and another one that I did is their early career accelerator program. I think Code 2040 does really great work in giving their participants the insider knowledge that they may not have gotten elsewhere. That people normally get after a few years of industry experience. How to — managing up, how to set expectations? They also do really good work with the companies they work with, making sure those companies are providing an inclusive environment.
+
+
+Yeah, I was in this early career accelerator program and I also served as a mentor for their college program, where people are going into their first internship. I highly recommend it. I think it's a great way to get involved and to meet the future programmers of the world.
+
+
+[00:18:48] JE: Let's talk a little bit about architecture. First, we'd like to ask this question to all — I think, nearly everybody that's been on this season has gotten this question. And we've got a lot of interesting answers. It is, what is the difference in your view between architecture and design?
+
+
+[00:19:05] LP: That's an interesting question. I listened to some of the other episodes on the season and I was surprised at the range of answers. It seems very philosophical. To me, I would say, architecture is really in the schematic. It's — what are the entities? How are they communicating with each other? What are the technologies you're using? Really rigorous and cut and dry. 
+
+
+Design, when I hear the term design, I think it's a lot more broad and it's very context-dependent. When I think of design, the question I ask is, “How do I want it to work?” Then I answer that question based on the area that I’m working on and it's less tied to the particular technologies I use.
+
+
+[00:19:52] JE: Do you have any opinions on — the other question we like to ask everybody, because it seems Elixir-focused in the context of contexts, is do you have any opinions on domain-driven design?
+
+
+[00:20:03] LP: Yeah. I think I’m really lucky working in this. Most of the things I build are for other engineers in this tech-for-tech space. I think, I’m lucky that my domain of implementation really matches the place I’m also building for. And so I don't have to think too hard about, okay, what are these engineers going to want? Because I have a natural compassion and empathy for their plight. I think as you get into other areas that are a little more far from tech, like education, or healthcare, I think it is just really necessary that you bring in those domain experts, because it's hard to have that empathy at a distance and you can just find out so much more. Even if they're not telling you your whole design, but you can just find out so much more by reaching out.
+
+
+[00:20:53] JE: Do you want to talk a little bit about your process, especially at the very beginning when you have a new feature requirement, especially with something like Brex, where like you said, it's tech for tech, which means that it's very abstract? There's not some external industry, or something necessary that you're applying it to. When you get a new feature, how do you think about breaking it down, deconstructing it? What's your process?
+
+
+[00:21:16] LP: First, I definitely like to look at what's happened before. I think this is also my personal nerdiness area, is that I to look at — “What were the decisions made before that led the code to be the way it is that we now have to change it?” I think a lot of insight can come from looking at those previous decisions and seeing what decisions you want to maintain and you think where it went good and then what actually went to mistakes.
+
+
+Then in my process, I think it comes from my math background and also Brex’s culture, where I like to really write down everything I’m going to do before I do it. We have a pretty heavy design doc culture at Brex and I’ll write down pretty heavily, what's my architecture, what's the endpoints I’m going to have, what will they look like, the tables, depending on the area. How will someone use it and interface with it and have that all laid out before? Some people might think that's a little heavy-handed, but for me, I think it catches a lot of bugs before you get to implementation. You need fewer iterations if you do a good design process.
+
+
+[00:22:27] EO: Yeah. That sounds very thorough. Have you done a blog post on what an example of this might look like that we could share to just see in more detail?
+
+
+[00:22:36] LP: Yeah. I think, I haven't written one, but we have one from Brex on how we designed our rewards service. That might be a good doc to look at. I’ll send you guys the link.
+
+
+[00:22:47] JE: We're always looking things up as we go through this conversation and adding them. Maybe we will find it, but I’m not finding it right now. Yeah, I love this idea of forensic exploration at the beginning of a feature, especially when you're — when we inherit a lot of code from other developers and that forensic exploration of how you got to where you currently are really, really makes it easier to decide how to architect whatever is coming up. How would you describe Brex's architecture? I mean, you don't have to get into IP or anything, but just broadly speaking, do you guys have a set of patterns that you're using, or thinking about microservices, microlith, did some buzzword apply here?
+
+
+[00:23:31] LP: Yeah. I would say we have a microservice architecture. We started out as I guess, maybe a microlith, like a microservices, but our database was altogether in one big database. So it wasn't quite broken up, as individually as we wanted to. Yeah, we've been definitely moving towards making each service even more isolated and individual, so that we can deploy them on their own.
+
+
+[00:23:57] JE: Is a microlith a bunch of services and one of them is interacting with the database, or is it a bunch of services all interacting with your database?
+
+
+[00:24:08] LP: At first it was. It was a bunch of services, but then all interacting with one database. Not nearly as isolated as we wanted. Yeah, essentially yeah, a monolith with a nice service on doc.
+
+
+[00:24:22] JE: That just sounds terrifying. How do you manage reads and writes. Gone how — like the evolution, how did it play out?
+
+
+[00:24:29] LP: Yeah. We've been working on — the database isolation part is just a slog of going through and pulling each table out, putting it in its own database. There's nothing very enlightening there. For the microservices, we have been messing around with how we have them talk to each other. Starting out in all Elixir, they could talk to each other however they wanted and we actually had this set of macros in this library called ‘Micro’ that would allow us to have an abstraction on how they talk to each other and we could plug and play different transport layers.
+
+
+We started out with RabbitMQ and we had messaging cues for different services to talk to each other. That worked pretty well for a while. We were having some issues where our cues would get overloaded, especially if a message was wrong. A bad message in some way, it would replay over and over. We decided to move. We moved to just service-to-service communication and we did that with the protocol GRPC. Still, we were just doing elixir-to-elixir and we were doing this thing where we were encoding into using Erlang binary to term. We call it ‘Erlpack.’ I think it's from Discord. It's just a way to serialize Elixir into a string.
+
+
+Now that we are expanding our outlook at Brex to have more languages, we need a way that we can talk between services that will work for multiple languages, so that's why we're moving to protobuf and that's what inspired all the protobuf-elixir changes that we've been making.
+
+
+[00:26:06] EO: What extra languages is Brex thinking of taking on then? If you're one of the few Elixir-only startups?
+
+
+[00:26:16] LP: Yeah. We have some services in Go. A lot of our infrastructure is in Go. Sometimes, Go has just been a better fit. Then we were also thinking about Kotlin a little bit.
+
+
+[00:26:28] EO: Get back to Java.
+
+
+[00:26:32] LP: I mean, we'll see how it goes. Some of them are still in experimental phases. We also have some legacy Python services. We at least don't want to be blocked by all these two services can't talk to each other, because they don't have a way to interface.
+
+
+[00:26:47] JE: We have a question here about chaos engineering. Is that one of ours, or that you write —
+
+
+[00:26:53] EO: That was added by me. Yeah. I added that while you were talking about microservices. This might be a bit of a surprise. Brex sounds like it might be big enough that I don't know if you've heard of chaos engineering. If you have, do you all employ that?
+
+
+[00:27:11] JE: Also, can you explain it to me?
+
+
+[00:27:13] EO: Sure. For the audience, chaos engineering is if you've heard of Chaos Monkey from Netflix, it's just a — there's a Wikipedia page. There's also a one-page site that talks about — you’d had mentioned in your design docs, dealing with retries and fault tolerance, and whatnot. This is specifically set up so you will have a scheduled — “I’m going to delete something in production.” And you have to say, “This is how much I expect it to explode out,” and you tell people that it's going to happen. That you know are going to be influenced and whatnot and then they can know that they're working in, etc. It's a lot of purposefully creating fires. I guess, it's the forest service will do controlled burns, so that you don't have a massive fire, which —
+
+
+[00:28:05] JE: I feel like this is my entire life. I didn’t know there's a word for it.
+
+
+[00:28:11] LP: Yeah. I would say, periodically we have done things like that. We've either hired some firms, or we actually had our observability team, which owns the whole logging just in general, being able to observe and monitor your code. They actually went in and. in secret, placed some embers to see how our systems would react. And also, how our people would react and how they would debug. We do it from time to time, but I would say not quite as full scale. Definitely though our — yeah, I think that's the answer I’m willing to give.
+
+
+[00:28:50] JE: Oh, my gosh. We work in the best industry. It's just full of weird stuff. Does Brex use umbrella applications at all?
+
+
+[00:28:58] LP: We started with an umbrella. We have since moved outside of an umbrella. We have some apps in the umbrella, some outside of the umbrella, and we're in this split state. I would say, we suffered originally because of our umbrella app choice. We were experiencing these very slow compile times. With the umbrella, we were shipping all the source code with every service, every pod. We also had this weird problem, where, in our build system, the umbrella would compile, but then each app individually, like sometimes they would fail. We had this lack of consistency and those broken builds would then fly under the radar and we'd deploy broken codes.
+
+
+Yeah, we definitely suffered a bit. Switching to being outside of the umbrella, there's also some pain points. For example, with this protobuf-elixir library, if I want to make a change and then have all the apps now on this new change, I have to go through and update every single app outside of the umbrella individually. And sometimes that's 50 apps. It updates every mix lock and every mix ESS. That is also quite painful. I think in either world, I’m not too happy. I’m wondering if anyone else has had any good ideas.
+
+
+[00:30:19] JE: We've had a couple people this season mention umbrellas in a positive light. I don't know when this episode is coming out in the context with those episodes, but I can say that we have confirmed positive experiences with umbrellas.
+
+
+[00:30:33] EO: Yeah. We had a listener send in an email saying that they were pretty happy with it. I know at least one other person, Mark Erickson who's on an Elixir Mix and now thinking on Elixir, or whatever. Yeah, Thinking Elixir uses it at his jobs. The episode that came out today by accident, or yesterday by accident, so people can guess when we're recording this. Johanna Larsson uses it and has good experiences from it. She talks a bit about it in that.
+
+
+She pointed out that most of the issues around umbrella apps were people were using it wrong and not at the correct abstraction, I guess — of it. I don't know. You just needed better tooling. Yeah.
+
+
+[00:31:19] JE: I remembered what I was going to ask Lizzie, which is, all these issues that you ran into early on, if you were going to start all over, like rebuild Brex from the ground up, would you go with the microservice architecture again, or how would you do it differently?
+
+
+[00:31:32] LP: Yeah. I think I would go with the microservice architecture. I wouldn't try to do that fun plug and play transport. I would just write all of our services with GRPC and Protobuf from the start. We gave ourselves too much flexibility and optionality and it ended up biting us in the butt, I think.
+
+
+Yeah, it's tough, because no one wants to write microservices from the very beginning. It just feels like you can get up and running so much faster if you have everything in one place. It's hard to look back and be super critical. Yeah, I think at least as we've matured, we're making better decisions now.
+
+
+[00:32:13] JE: We already talked about macros a little bit and libraries. You already mentioned Protobuf, but I think there's one that you didn't get to mention. Brex.result.
+
+
+[00:32:23] LP: Yeah, so Brex.result is a — it was one of my first projects, a very Haskell-inspired library.
+
+
+[00:32:29] JE: Oh, got the name drop in here. Okay, that's good.
+
+
+[00:32:33] LP: In Elixir, you have this tuple pattern that comes up a lot, the okay and error tuples. If there was only a way to pass them — people have done it before, but Brex.result is the one we use. A way to pass the tuples along. If it's an okay tuple, continue and do whatever calculation you want to do on your result. And if it's an error, just propagate the error all the way down. It works like the Ether Monad in Haskell. Essentially, yeah, it's just propagating errors. But it makes it so you don't have to continually bind and then do a case, or a width. You can just have a stream of pipes, so you can streamline your code a little bit.
+
+
+[00:33:19] JE: Wow. We even fit monads into the episode. Wow. This has been great, super-duper. I feel like we just hit some hat-trick. I want to give you the last few minutes of the episode to make any plugs, asks for the audience, a shameless self-promotion, or shameless else promotion, whatever you want. The time is yours.
+
+
+[00:33:40] LP: I don't have that much to plug. I think we've talked a little bit about yeah, that fork with Protobuf-Elixir we're maintaining. Brex.result is our open source. It's open source, so you can go find it on our Brex GitHub. Then yeah, I also just — the recording of my macro talk is on YouTube. If you want to hear more from me, yeah, that's it.
+
+
+[00:34:02] JE: You can find links to all of that in the show notes. Lizzie Paquette, thank you so much for coming on the show.
+
+
+[00:34:08] LP: Yes. Thank you.
+
+
+[END OF CONVERSATION]
+
+
+[00:34:10] JE: Before we close out, we've got to share another edition of pattern matching with Todd. Friend of the podcast, Todd Resudek is asking members of the Elixir community five questions to help us all get to know each other better. Hope you enjoy it.
+
+
+[CONVERSATION WITH SOPHIE]
+
+
+[00:34:23] TR: Thank you for joining me for another installment of Pattern Matching with Todd, where I ask your favorite Elixir personalities five questions in an attempt to get to know them better. My guest today is well known for her great articles on Elixir School, taking time from her work at GitHub, Welcome Sophie DeBenedetto.
+
+
+[00:34:40] SD: Hey, Todd. Thanks for having me.
+
+
+[00:34:42] TR: Thanks for joining me today. Let's jump right into the five questions, because I’m really interested in these. Where were you born?
+
+
+[00:34:48] SD: I was born here in New York and now I live in Brooklyn. Been in Brooklyn with my partner for about — we've been in Brooklyn for almost eight years. Living also with our dog, who if anyone has seen any of my talks, you've seen pictures of my dog. He is actually genuinely very photogenic. I’m not just one of those people that wants you to look at their dog. I have a good reason to want you to look at my dog. Yeah, camping out in Brooklyn.
+
+
+[00:35:15] TR: Cool. Yeah, I remember the Big Elixir, your partner had made some really, really nice illustrations of your dog for your slides. That was pretty amazing. Kudos to her for that.
+
+
+[00:35:25] SD: Thanks. I’ll pass that along. She'll be pleased.
+
+
+[00:35:28] TR: Before we move on, I’ve lived in New York City. I know a lot of people that live in New York City, but I can't think of the last time I talked to somebody who was born in New York City. What area were you born in?
+
+
+[00:35:40] SD: I was born in — I mean, I certainly don't remember this part of my life, but my family was on the upper west side. Around the time that I was born, we lived in Riverdale in the Bronx for a while. Mostly, I grew up in Westchester, though we had moved out of the city. Then my folks moved back to the Bronx. Then they moved back to Westchester and now I’m in Brooklyn, they're mostly in Westchester. Although full disclosure, we're recording this mid-pandemic and we've been at my family's place in Westchester about an hour outside of the city. Very lucky to have a little bit of space to spread out in, backyard for the dog. I certainly miss Brooklyn a whole lot.
+
+
+[00:36:18] TR: Yeah. Well, glad that you're being safe in Westchester. There's a lot worse places you could be hanging out right now, I suppose.
+
+
+[00:36:26] SD: Yeah, very true.
+
+
+[00:36:27] TR: Have you had any careers before you were a programmer?
+
+
+[00:36:30] SD: Yeah, absolutely. I’m one of those career change programmers. I’ve been writing code for a living for about five years now. Before that, I did a lot of different things. I was a babysitter and a nanny. I cleaned apartments. Then around the time that I started learning how to code, I was primarily working in standardized test prep. I tutored the LSAT, which is the Law School Admissions Test, because once upon a time, I was going to be a lawyer when I grew up.
+
+
+Luckily, I panicked two weeks before I was supposed to start law school and I was just like, “Oh, my God. What am I doing? This is not actually what I want.” Pulled out at the very last minute. Not a very popular decision amongst parents and family members. Everybody was like, “What the heck are you doing?” Eventually, I made my way to programming. I started getting interested in it, because of a friend of mine actually who went through a programming boot camp, the Flatiron School. It really just opened my eyes to it.
+
+
+I always thought of it as something that I could never learn. I don't really know why. I think that's BS, obviously looking back at it. I just counted it out for myself. I was never a math and science person. I have a liberal arts degree and all that. Seeing other people that I knew go through that process made me realize that it was something that could be possible. Then once I started exploring it and once I started learning, I just became obsessed. I think that's something that I’m sure will resonate with people. You just, a little problem sneaks its way into your brain and you absolutely do not want to put it down until you've figured out this bug, or made this connection, or shipped this thing.
+
+
+I also went through a programming bootcamp, the Flatiron School. When I graduated, I started teaching there. I’ve also worked on their engineering team. It absolutely changed my life. I feel so lucky that I found that place. I fell in love with it. Found this incredible community of people. So dedicated to teaching and learning and really just never looked back.
+
+
+[00:38:23] JE: Okay. All right, I don't want to skip over this. This is really interesting. Most of the programmers that I’ve interviewed so far, I feel like almost all of them were like, “Oh, yeah. I’ve always been a programmer. I knew I wanted to be a programmer since I was a kid. Started working as a programmer when I was 18, or maybe even less.” It's really nice to talk to another person who didn't know they were going to be a programmer right out of the womb. Presumably, you went to undergrad. Just maybe, where did you go and what did you study?
+
+
+[00:38:52] TR: I studied history. I went to Barnard College, which is the Women's College of Columbia, so uptown Manhattan. On the one hand, I had an incredible college experience. Did the whole made lifelong friends and grew up as a person living on their own, especially in New York City, which is a very interesting experience, to say the least. Of course, I learned stuff. I’m absolutely not going to sit here and denigrate my education, but I studied history. I graduated with a Liberal Arts degree. I was a little bit adrift, I think, when I graduated. Didn't really know what I was going to do with this degree. There was nothing that really spoke to me at that point in my life and that's I think why I stumbled my way towards law school. It wasn't so much that I felt drawn passionately to a career in law, although I continue to watch so much Law and Order.
+
+
+[00:39:41] TR:  We'll get to that.
+
+
+[00:39:42] SD: We’ll get to that. It was more just like, “Yeah, what am I going to be when I grow up?” I guess, can — has go back to school and learn more stuff and then you get a job as a lawyer. That's a thing that you can do. I don't know. Luckily, I snapped out of it. I couldn't make myself go through this process when I knew that it wasn't what I was really passionate about. That was a hard decision to make, because I didn't have some other idea of what it was going to be for me. I almost feel like it was just luck, or chance that I found my way to programming. I feel like I said earlier, so lucky that I did, because I feel I was meant to be a programmer.
+
+
+[00:40:18] TR:  Oh, that's really awesome. Probably good that you snapped out of it before you spent all the money on law school.
+
+
+[00:40:24] SD: Oh, God. Yeah. Didn't get my deposit back, but that's a lot better than paying for many years of law school.
+
+
+[00:40:30] TR: I know at least one programmer that went to a boot camp who went all the way through pharmacy school, and not a cheap pharmacy school either. An expensive pharmacy school. Yeah. Thankfully, his parents didn't kill him. I’m sure they wanted to.
+
+
+[00:40:46] SD: Yup, been there.
+
+
+[00:40:47] JE: Yeah. Oh, that's good. Did you have lawyers in your family?
+
+
+[00:40:50] SD: No. No lawyers in my family. I think my parents would have just been very proud to have a lawyer in the family and it didn't shake out that way. Of course, my family is proud of me and happy for me now, but it's the thing where they have absolutely no idea what I do all day and I still have — just talking to my uncle I think recently. Just before I started GitHub and I was trying to explain to him like, “Oh, yeah. I got a new job. It's great.” I ended up just saying, “Oh, yeah. Microsoft. It's Microsoft.” He was like, shook his head a little bit, “Yeah, that's great, but you could have really been somebody.”
+
+
+[00:41:21] TR: Oh, man. Yikes.
+
+
+[00:41:25] SD: It's fine. I don't take it personally.
+
+
+[00:41:27] TR: Okay. Wow. I mean, it's good that they have high expectations of you, I suppose. Could be the other way around. All right, thanks for sharing that. Let's shift gears. Third question is what's the genre of the last song, or album you listened to? Don’t look down at your Spotify. What is on there right now?
+
+
+[00:41:46] SD: Like everyone, I’m working from home at the moment with my partner, who also works from home full-time. Lately, I’ve just been not listening to my own music, but just hearing her from two rooms over singing along to Celine Dion, and that she has her headphones on, so I’m not even hearing the music. I’m just hearing her sing all the parts, even the instrumental parts of all of Celine Dion. I don't recommend it [inaudible 00:42:14].
+
+
+[00:42:14] TR: Okay. All right, I didn't want to — I wasn't sure if it was cool or not, but that sounds really, really horrible.
+
+
+[00:42:21] SD: It’s not good. Yeah.
+
+
+[00:42:23] TR: Okay. If you do listen to music, maybe just give me an example.
+
+
+[00:42:27] SD: I don't know. I guess I have a pretty eclectic taste in music. I have actually really enjoyed — Spotify did a — what did they do? Playlist for your astrological sign. I’m not overly into astrology, but I thought, “All right, I’ll listen to it.” I absolutely loved it and it was cool just to have different things come to my attention that I would have never listened to otherwise. If you haven't checked out the Spotify astrology recommendations, maybe give it a listen.
+
+
+[00:42:53] TR: All right, listeners out there. Figure out what your astrology sign is and then go on Spotify and find a playlist. All right, so let's get back to your TV preferences. Is there a movie or a tv show that you're going to — even if you're watching something else and then you flip through the channels, that you're going to stop and just start watching that every time?
+
+
+[00:43:15] SD: Yeah, absolutely. As I mentioned earlier, I’ve been a big fan, basically my entire life of Law and Order, which is possible because I feel it's been on air for basically my entire life and the reruns are on. 
+
+
+I don't know. I don't understand how so many channels can all be airing Law and Order reruns at the same time, but it's great. Because if you're really crazy like me, you can even use the commercial breaks to watch two episodes of Law and Order at once. You've seen them enough times so it's fine if you miss something.
+
+
+I just love it. It's so formulaic, especially the old ones really remind me of the New York that doesn't exist anymore, the New York of the 90s, or 20 years ago. It's been a great comfort to me in these uncertain times.
+
+
+[00:43:54] TR: Okay. I’ve never seen the show. What's the formula?
+
+
+[00:43:57] SD: Oh, my gosh. It's just like the original crime procedural. The first half hour is two detectives solving a crime. Then the second half hour is the plucky assistant district attorney prosecuting the crime. It's interesting. It goes back and forth between being really campy and then just a little bit more serious, but it's good. It's a classic.
+
+
+[00:44:20] TR: Okay. I don't know why I’ve never watched it before, I guess. I think before that, they had Hill Street Blues.
+
+
+[00:44:27] SD: Yeah. That was probably a little bit more of that.
+
+
+[00:44:30] SD: Perry Mason. Maybe for our parents. Same a deal. Matlock. We want to shift the demographic to an older crowd. Thank you for joining us today. All right, last question. What project are you most excited about working on next, or maybe you're currently working on it and you're looking forward to picking it back up?
+
+
+[00:44:51] SD: Like I imagine many people who are listening, I’m very excited about the latest release of Phoenix. Played around a little bit with live dashboard and telemetry. I went on a pretty big telemetry kick over the past couple of weeks and did something of a deep dive trying to understand how it works under the hood. I was actually really surprised by how — shouldn't have been surprised, but I was really surprised by how simple and elegant it was, because a lot of the language that I’ve heard people use when they talk about Elixir and Erlang's telemetry offering is telemetry events are published and you're subscribing to telemetry events. I just naturally assumed pub-sub would come into play there, but it's not pub-sub, it's an ETS table and it's just really cool how it all comes together.
+
+
+I did some writing about that over at Elixir School. Certainly, I would love anyone and everyone to check that out. As always, we're always open to contributions over there. I’m just excited to keep getting my hands dirty with Phoenix, with LiveView, with live dashboard. Not working with Elixir professionally right now, sadly, but hopefully some side project opportunities will arise. Yeah, you keep working on that stuff.
+
+
+[00:45:57] TR: Cool. Yeah, I think there's a common thread, I guess. A lot of people are really excited about the stuff that's happening both in Telemetry and in LiveView. I think a lot of us owe you a debt for all your writings that you've done this year on Elixir School for that. I know when I was getting started in January, there wasn't — I mean, there's still not a lot of resources, but your blog posts were definitely some of the most helpful, just in getting started with the LiveView experience. Thank you for that.
+
+
+[00:46:26] SD: Awesome. Yeah. Happy to hear that. You or others should write new stuff, because it's changing constantly. There were two releases in the past couple of weeks and definitely, the more content, the better off that we will all be.
+
+
+[00:46:39] TR: Yeah. That's a good idea. I think a lot of the people I’ve talked to were all trying to solve the same problem for the first time. A year from now, there will be nine people that have all solved it. The next wave of people getting into LiveView maybe have a little easier time getting started. Maybe one of us should take it upon ourselves to start documenting all this stuff for the sake of the others. One, two, three, knot it.
+
+
+All right. Well, thank you very much for joining me today, Sophie. It was good to get to know you a little bit better.
+
+
+[00:47:09] SD: Yeah, thanks for having me. This was really fun.
+
+
+[00:47:11] TR: All right. Thank you.
+
+
+[END OF EPISODE]
+
+
+[00:47:13] JE: That's it for this episode of Elixir Wizards. Thank you again to Lizzie Paquette and my co-host, Eric Osetrich. Once again, I am Justus Eapen. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails and React infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you, if you have a project we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. Leave those reviews. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally @JustusEapen and Eric @EricOestrich. Join us again next week on Elixir Wizards for more on system and application architecture.
+
+
+[END]
+        © 2020 Elixir Wizards
