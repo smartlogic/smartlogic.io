@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Volo City Case Study | SmartLogic</title>
+  <meta name="description" content="SmartLogic developed a standalone microservice API for Volo City's new offering, VoloPass, a new subscription option that gives more flexibility to players and team leaders."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  
+  
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Global site tag (gtag.js) - Google Ads: 743722644 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-743722644"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-743722644');
+  </script>
+</header>
+
+    
+<div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    > <a href="/case-studies/">Case studies</a>
+  
+
+  
+    > Volo City
+  
+
+</div>
+
+
+    <main class="main" role="main">
+  <section class="section hero hero-no-img">
+    <div class="container">
+      <div class="hero__left">
+        <div class="hero__left-text">
+          <div class="head-text">
+            <h1>Volo City</h1>
+          </div>
+        </div>
+        <div class="hero__left-desc">
+          <p>SmartLogic developed a standalone microservice API for Volo City's new offering, VoloPass, a new subscription option that gives more flexibility to players and team leaders.</p>
+        </div>
+      </div>
+      <div class="hero__right">
+        <div class="hero__right-img">
+          <img src="/images/logo/logos-featured-clients/volo.png" alt="Volo Logo">
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="content-page-wrapper">
+    <section class="section content-block">
+      <div class="container">
+
+        <p>Volo is a social sports platform; they run recreational sports leagues for young adults across the country. Now in eight cities, Volo started off in Baltimore, and also helps to run youth leagues; a portion of every adult sale goes to support their nonprofit arm, <a target="_blank" href="http://www.volocityfoundation.org/">Volo City Kids Foundation</a>, and they incentivize players to volunteer with the youth leagues.</p>
+
+        <p>Volo’s typical transaction is anchored around leagues and an eight-week season; players sign up and pay a fixed all-inclusive fee for their participation, which covers the costs for referees, t-shirts, and anything else needed for the season.</p>
+
+        <h2>The Business Need</h2>
+
+        <p>A pain point for both team leaders and players is how to manage substitutions when someone on a team can’t make a game. In the current model, it’s up to the team captain to reach out to their network to find a substitute player, which can be both time consuming and stressful. Additionally, for some players, signing up for a full league season isn’t manageable; for people like parents with young children and professionals with busy schedules or frequent travel, a regular weekly time commitment may simply not be feasible.</p>
+
+        <p>Fortunately for these team leaders and busy potential players, Volo has a new solution in the works: VoloPass, an option for players to subscribe to a pass that will allow them to sign up to play in games where a sub is needed, on an ad hoc basis. Team captains will be able to choose when to open up sub slots, giving them the flexibility to reach beyond their individual networks when a sub is needed for their team. Pass holders will then be able to browse available sub slots when they do happen to be free, whether in their home city or in a city they may be visiting, opening up play to participants who need more flexibility in scheduling.</p>
+
+        <figure><img src="/images/contents/bocce.jpg" alt="Bocce balls on a field"></figure>
+
+        <h2>What We Built</h2>
+
+        <p>Volo reached out to SmartLogic to build the infrastructure to support this new feature; their internal development team is relatively small, and they did not have the staff to build it themselves on their desired timeline. Volo had previously engaged SmartLogic for a code audit, in the summer of 2019, prior to acquiring the codebase of a piece of software that they had been using internally, and Volo’s founder Giovanni Marcantoni was familiar with SmartLogic from the Baltimore entrepreneurial community.</p>
+
+        <p>Volo’s existing codebase is a NodeJS monolith with MongoDB and GraphQL on the database side. For a number of reasons including performance optimization and future scale, the API we built for them is a standalone microservice built in <a href="/technologies/elixir-phoenix">Elixir Phoenix</a> with a PostgreSQL database. This development project focused exclusively on building the API to support the new membership model, and included Stripe integration for payments as well as the data handling for the marketplace for team substitutes.</p>
+
+        <p>Our team used the Absinthe GraphQL framework and built an updated driver to communicate with Volo’s MongoDB instance; internally, the API uses Ecto, a database wrapper and secure query generator for Elixir. Our team also implemented a data loader interface in Absinthe as part of the API development.</p>
+
+        <p>One of the project challenges was demonstrating the new API’s capabilities to business stakeholders at Volo. The project was split into two pieces in part to help manage costs during the pandemic; the internal development team at Volo was tasked with building the front end, but their timeline was offset from our development team’s. In order to more easily demonstrate the API’s functionality to stakeholders at Volo before the front end had been built, our team created a small interactive API documentation app using React and GraphQL so that the business users could see the data loading and transformation in real time and manipulate it themselves directly.</p>
+
+        <h2>Working with SmartLogic</h2>
+
+        <p>Volo’s Director of Technology, Matt Rubin, has worked with a number of custom software development shops in the past, both overseas and state-side, and was very impressed with the quality and formal structure that our team provided. One of the biggest problems Volo has encountered in the past with other dev shops is an inadequate discovery phase; it’s easy for a vendor to underquote and get the client in trouble down the line by going over budget later. They were impressed by the effort our team put in to understand the business up front during discovery as well as the ultimate accuracy of our quote. Matt also appreciated the consistency we provided with our regular meeting cadence and found it easy to develop a rapport with our team, as the same software developers were working on the project throughout.</p>
+
+        <blockquote>I was floored by the level of professionalism we got working with SmartLogic; we’ve worked with a number of dev shops both overseas and state-side, and SmartLogic is the best shop we’ve worked with.</blockquote><cite>— Matt Rubin, Director of Technology, Volo</cite>
+
+        <h2>Outcomes</h2>
+
+        <p>A core part of Volo’s business is creating opportunities for interaction and social collision — increasing the chances of people meeting whose paths might not normally cross. Players in a league meet and interact, and players who volunteer meet and connect with neighborhood kids. The pass membership and substitution opportunities provide yet another pathway for people to meet and connect across a variety of social boundaries, at home and on the road.</p>
+
+        <p>Though the API development at this point is complete, Volo has not yet been able to test the new functionality at scale due to the global pandemic. The service is currently in beta testing with a small pool of users, and Volo is aiming to release the service more widely in Spring 2021. The API SmartLogic built will support a recurring revenue stream for Volo and provide usability improvements for their existing customers while also expanding their potential customer base.</p>
+
+      </div>
+    </section>
+
+</div>
+
+
+</main>
+<!-- add a feature block that links to another case study // should update later -->
+<footer class="footer">
+  <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic-black.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <li class="footer__right-menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+            <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</footer>
+
+
+  </div>
+  <script src="/javascript/main.js"></script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-466947-1', 'auto');
+  ga('send', 'pageview');
+</script>
+  <script type="text/javascript">
+  var _mfq = _mfq || [];
+  (function () {
+    var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
+    mf.src = "//cdn.mouseflow.com/projects/f772f1a9-a985-4ff9-b78e-4d94fa5f10d2.js";
+    document.getElementsByTagName("head")[0].appendChild(mf);
+  })();
+</script>
+  <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/3df423f51248435e7c3bf413b/896b841e62f524e4d59ea7648.js");</script>
+
+</body>
+</html>
