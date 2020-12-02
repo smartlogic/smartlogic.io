@@ -1,0 +1,915 @@
+﻿EW S5E1                Transcript
+EPISODE S5E1
+
+
+[EPISODE]
+
+
+[00:00:07] CK: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Chris Keathley and I’ll be your host. I’m joined today by my co-host, the wondrous, Amos King, and nebulous Anna Neyzberg. Say hi, everybody.
+
+
+[00:00:24] AN: Hello.
+
+
+[00:00:26] CK: This season's theme is adopting Elixir. We're joined today by special guest, Justus, Eric and Sundi. Say hello, everybody.
+
+
+[00:00:34] SM: Hello.
+
+
+[00:00:35] JE: Hey, everybody.
+
+
+[00:00:36] AK: Welcome to the show.
+
+
+[00:00:37] CK: Yeah. We're so glad you guys could be here.
+
+
+[00:00:39] SM: Thanks for having us.
+
+
+[00:00:41] JE: It's really a pleasure. Been looking forward to this moment my entire life.
+
+
+[00:00:46] SM: I’m sure you have. It’s a good moment.
+
+
+[00:00:49] CK: I love this idea. I thought it would be fun, as someone who has been on the other side of the podcast game. I thought it'd be fun to give all y'all a chance to talk through your own ideas. Because often when you're doing this, you're sitting and listening to the guests, you want to give the guests time to speak. You don't get to always get into all of your feelings about a topic, because you're trying to respectful of their time and everything. Now, the floor is yours. It's open. It's open for whatever you want to say.
+
+
+That's what we're really creating here today, is a moment to get all the takes and all the feelings and all that stuff you just have to hold back during a normal episode. Now you get to cut loose.
+
+
+[00:01:29] JE: This was your idea?
+
+
+[00:01:32] CK: Yes. Wait. No, it wasn't my idea.
+
+
+[00:01:36] JE: I came up with it.
+
+
+[00:01:37] CK: No, no.
+
+
+[00:01:39] JE: Oh, man. This is a good idea then.
+
+
+[00:01:43] AK: Chris?
+
+
+[00:01:43] CK: All of a sudden. All of a sudden, it's a good idea.
+
+
+[00:01:46] AK: Chris told me about it and then I was pairing with Eric and I told Eric about it. You're last to know, Justus.
+
+
+[00:01:52] SM: Wait. I didn't know about it. Y’all don't tell me anything either, so it's fine.
+
+
+[00:01:57] CK: No, we've talked about this. I’m just an ideas man. I don't make anything happen. I think the idea is – I mean, we wanted to go into this new – y'all are having starting a new season, you're approaching a new topic for this season. Topic like I said is going to be adopting Elixir. I am curious to dig into it and find out how did you adopt Elixir? How did y'all get into this whole thing?
+
+
+[00:02:26] EO: We might have covered this a few times in different episodes, or whatever, but the original, we had a co-worker, Travis, who used to work here and has since left. He was interested in in Elixir and functional programming and we had a small project. It was two weeks long. If Elixir turned out to be junk, then we could rewrite it in Rails real quick and it would be fine.
+
+
+Luckily, I think that thing is still chugging along four years later without anyone doing anything to it on some Heroku app somewhere. It went well and that caught my interest after he showed it off and I think change sets, were the original thing that I was most intrigued by, coming from a Rails callback land and all the pain that comes with that sometimes.
+
+
+We did another project that went most of the way and then petered out for various reasons the startups will. That was our first time using channels, I think, and doing a chat app and all the fun stuff that you do with that. Yeah, and then after that, I think we had – Dan likes to say we've started 22 new applications and only one of them has been Elixir since we've made the jump, which is always – I don't know.
+
+
+[00:03:51] JE: Only one of them was not Elixir.
+
+
+[00:03:53] EO: Correct. Yeah. Yeah, and then that was because we thought we were going to hand it off to a team that knows Rails and then we just ended up being their whole team the whole time, so we could have just done an Elixir and did fine.
+
+
+[00:04:05] JE: I basically learned Elixir as part of that process, because I joined the team, probably the month that Travis – maybe the month after. It was definitely within a couple of months of Travis bringing Elixir into the fold here at SmartLogic. Sundi, I actually don't know how you – I guess –
+
+
+[00:04:24] SM: Oh, yes. Yes, apparently before this call started, he thought I was the Elixir community guru and then I knew everybody and then I mentioned, I had never actually met everyone here yet. It all came out. Yeah, it was at Cava, the back-end was Elixir, front-end was React. I knew React going in, but not Elixir and they said, “No. No worries. We'll teach you.”
+
+
+Spent about two months just getting ramped up on it and then they sent me to Lonestar Elixir in 2019. It's when I met Justus and Eric and took my first course with Bruce Tate. It's fun from there. I got really excited about the community after that conference and started getting more involved with DC Elixir. I was always into meetups and I really wanted to help that meetup grow in our area in the DC area. I had a more active role in that. Just from that, just got more into writing.
+
+
+As I wrote it more, I just loved it more. I mean, I was coming from JavaScript and we've talked about this a little bit on the show, but it just didn't click for me the way Elixir does. I always say, Elixir to me reads like English. If you really write good Elixir code, you can show it to someone who can't program at all and they'll know what's going on, if you really write it well. That's always been my take. That's been my journey in the Elixir world.
+
+
+[00:05:42] AN: It's awesome.
+
+
+[00:05:43] AK: Where did you all start out in your careers as a developer? What was your first foray into software?
+
+
+[00:05:52] EO: Professionally, was actually this job. Non-professionally was the – my math teacher taught me a Basic on the TI-83 and then English class was never the same as I hit a calculator and made RPGs.
+
+
+[00:06:11] AK: Perfect.
+
+
+[00:06:12] AN: What about the rest of y’all?
+
+
+[00:06:13] CK: Someone in college had an underground market of games you could buy from him that were all TI-89 and TI-83 games all in basic. I remember, I think I paid him five bucks for asteroids or something like that, just to learn – you just had these and you just did wire – he had the whole thing, where he could – it's the whatever, the headphone jack was, because here's the thing, anything can be a serial port if you try hard and believe in yourself. He just had the little headphone jack, he wired it up and send it over to me. It made a lot of material science classes a lot more bearable.
+
+
+[00:06:47] AN: That's hilarious.
+
+
+[00:06:49] SM: Yeah, a lot of people were into the calculator stuff. I feel like, if I had to predict that this was the path I was going to go down, I don't know that I could have. I was very heavy on the art side, on the English side. I really liked writing and drawing and all of that stuff and I was really bad at math. I just really didn't think this was going to happen, but I think it was my first job internship, I guess. I was a computer science major. I don't know. That just happened.
+
+
+[00:07:15] AN: What made you decide to do that?
+
+
+[00:07:18] SM: It's mostly that my parents just wanted me to and I didn't know what I wanted to major in. I went to a state school, so I figured if I wanted to change my mind, it would be easy. I did in fact change my mind. I actually graduated with an art degree, but I was coding the whole time. I was doing coding to make art and coding in internships and all that stuff outside of school and then in school painting. It worked out.
+
+
+[00:07:43] AN: That's awesome.
+
+
+[00:07:44] SM: Yeah. I always call it my great hack of college. I had a lot of free time.
+
+
+[00:07:50] AN: That's awesome.
+
+
+[00:07:50] EO: Well, see. My hack of college was taking computer science, because I had a lot of free time too.
+
+
+[00:07:57] JE: Was computer science an easy – I didn't study computer science in college, but it sounds like you're saying it's an easy major, but it sounded to me like –
+
+
+[00:08:04] CK: I think he was just bragging. [Inaudible 00:08:09].
+
+
+[00:08:08] AN: You could say that’s a humble brag.
+
+
+[00:08:12] EO: My friend was constantly – he was an art major and he never had free time, so that was my takeaway. Also, you could get a degree to the college I went to without actually programming, which is interesting.
+
+
+[00:08:24] AN: That's interesting. 
+
+
+[00:08:27] JE: That’s surprising.
+
+
+[00:08:28] AN: How does that work?
+
+
+[00:08:30] EO: Whatever, they did the CAS and CIS degrees, so what? Computer information systems were taking the same courses.
+
+
+[00:08:37] CK: It's like college level A plus.
+
+
+[00:08:39] EO: Yeah. You could weasel your way through and write term papers, instead of programming for most of the courses and still get a bachelor's in CS.
+
+
+[00:08:50] JE: Isn't it easier just to write the code?
+
+
+[00:08:52] AK: See, that's my topic. I would so much rather just written code for every exam, so [inaudible 00:08:58].
+
+
+[00:09:00] AN: Writing code on paper was really hard.
+
+
+[00:09:04] SM: Really confusing. You didn't have to do that, Eric?
+
+
+[00:09:07] EO: I totally had to do that.
+
+
+[00:09:09] AN: Keathley, did you get a computer science degree?
+
+
+[00:09:11] CK: No. I got an electrical engineering degree.
+
+
+[00:09:13] AN: Yeah, that's what I thought. Okay.
+
+
+[00:09:14] CK: I had 2C actual “CS classes.” It was basically intro to C++ is what it really was. Yeah, one of our tests was literally you to write code, semantically correct and syntactically correct C++ with a piece of paper. It was obscene.
+
+
+[00:09:32] AK: That's what always got me. There would be a bunch of little red circles at the end of the lines. You forgot your semicolons on every one of these –
+
+
+[00:09:38] SM: Brackets don't match. That’s enough on an editor.
+
+
+[00:09:42] AN: Right, where there's something helping you. Oh, my God.
+
+
+[00:09:45] CK: At least, it wasn't handwritten lisp.
+
+
+[00:09:47] AK: Well, that would have been better. It would have been something.
+
+
+[00:09:49] CK: I would have never made it.
+
+
+[00:09:50] SM: Then C++. Yes.
+
+
+[00:09:52] JE: Did all of you do, except for Sundi, because you used art, but it sounds like you did –
+
+
+[00:09:57] SM: I was a computer science major for two years. Then it was really, really hard for me, so I switched. After my first boss, my first ever job he told me, “If you're really struggling that much, you really don't have to graduate with a CS degree to do this job.” That was the first time anyone had told that to me.
+
+
+I went home. I told my dad. He was like, “Well, what are you going to do?” I said, “Art.” He was like, “Hmm.” I said, “But my boss said I could be a front-end engineer.” Then my dad took that – he took a night. He took a day, maybe, 24 hours. He looked it up online and he said, “Yeah, front-end engineers look like they have a salary range of this to this. Okay, you can do that.” I was good. I didn't have a choice. I had retaken calculus too many times to continue anyway, so there was really no choice there.
+
+
+[00:10:40] AN: Oh, man. I did not get a CS degree. I got a degree in political science and chemistry.
+
+
+[00:10:45] JE: Oh, really. I also studied poli-sci and econ and philosophy.
+
+
+[00:10:51] SM: That's so accurate. I was going to ask you, Justus what you do –
+
+
+[00:10:54] EO: I’m so surprised.
+
+
+[00:10:56] CK: Yeah. I would have never guessed, actually.
+
+
+[00:10:59] JE: I mean, if you just listen to the show, you might not know. I did not finish. I was kicked out for being too radical. It was funny, because while I was in college, I was making money writing people's papers and making WordPress sites and stuff like that. It was like a natural transition to have to go and then make money in fake startup land.
+
+
+[00:11:25] CK: I’m just curious as what radical thinking [inaudible 00:11:28]. Philosophy and political science.
+
+
+[00:11:33] JE: Well, okay. I’m not going to get into the radical part. I will tell, at West Virginia, I went to state school too. I went to west Virginia University. They had what's called a multi-disciplinary study, so you could make your own major out of three minors. Oxford had a program for political science, economics and philosophy. I was obsessed with that stuff, even in high school, or even before that probably. I knew. I was like, “Oh, this will make college so easy for me if I can take these.”
+
+
+I actually did it even worse. I’ll tell you guys, if you go to a lot of schools have this thing called the interstate common market or something like that. Basically, it's a rule where if you declare a major that's not offered in your home state, you can get in-state tuition at an out-of-state school. At West Virginia, you could declare a major, but take whatever credits you wanted.
+
+
+I took credits for the major I wanted, but declared some made-up major, like sports physiology, or journalism, or some nonsense like that, in order to get in-state tuition. Then what I did was I helped all my friends. I helped all my friends do the same thing. Anyone that was from Pennsylvania, New Jersey in this interstate common market thing. I helped them save money and then their parents would give me a part of their savings, because the difference was huge. You're going for 35 grand a year to 15 grand a year. It was like, “Oh, yeah. I’ll give you $1,500 to do that for me.”
+
+
+[00:12:48] AN: I wish the listeners could see our faces right now.
+
+
+[00:12:51] AK: I love that that the school is like, “You can't just have that major because you said you want that major.” You're like, “I didn't say it. I declared it.”
+
+
+[00:13:00] JE: That's exactly, you would declare a major and you would go to your advisor and your advisor will be like, “Well, in order to do that major, you're going to need to take these classes.” You go to register for classes completely separately. I was interested in all these philosophy and econ and poli-sci courses. Just dodging for the life of me anything math related. Yeah, it worked out great, until I don't know.
+
+
+[00:13:19] SM: Until you got kicked out.
+
+
+[00:13:20] JE: Yeah. Until the second semester of sophomore year. Different story. One day, I’d love to – If this podcast ever gets big, I would love to do an exposure on that. It'll be a fun story, by the way. Not today.
+
+
+[00:13:31] CK: I thought I was a rebel, because I audited typography.
+
+
+[00:13:34] JE: What does that mean? What’s that even mean?
+
+
+[00:13:36] CK: I just sat in on a typography class.
+
+
+[00:13:38] SM: Auditing a class is not illegal, Keathley.
+
+
+[00:13:41] CK: No, I know. I just did it though. [Inaudible 00:13:43].
+
+
+[00:13:44] JE: It's really hard to write other people's papers without auditing.
+
+
+[00:13:46] CK: They don't freaking take attendance. You just show up. I don't know.
+
+
+[00:13:49] AN: Yes. I went to a big state school, so all the UC's, the classes are 500 people. Nobody [inaudible 00:13:56].
+
+
+[00:13:57] JE: Which school is that, Anna?
+
+
+[00:13:58] AN: UC San Diego.
+
+
+[00:14:00] JE: Nice. Sundi, what state school did you go to?
+
+
+[00:14:03] SM: University of Maryland, College Park.
+
+
+[00:14:04] JE: Oh, man. You guys went to good ones. West Virginia University best known for burning couches.
+
+
+[00:14:12] CK: The best. At best at burning couches, right?
+
+
+[00:14:15] JE: Best at and best known.
+
+
+[00:14:18] CK: Listen, there’s no such thing as bad press.
+
+
+[00:14:23] SM: I went to WVU last year to help out with the electrical engineering robotics competition thing with [inaudible 00:14:29] stuff I do. I was sincerely impressed by everything I saw. I don't know. They seemed really impressive to me.
+
+
+[00:14:38] JE: I mean, one thing I learned about state universities is just they have so many resources that they can provide amazing facilities and amazing programs in whatever they're good at. West Virginia had a really good petroleum engineering program and a very good business program and a pretty good poli-sci program. Yeah. I mean, there's definitely benefits to just going to a big school for no other reason that they offer a lot of resources.
+
+
+[00:15:01] SM: Did you see yourself programming while you're there?
+
+
+[00:15:05] JE: No. My dad was a tech guy growing up, and so I thought it was nerdy and boring. I don't know about you guys if you had technical parents, but my dad growing up, I’d want to go online and play games on cartoonnetwork.com or whatever and you'd have to download the newest flash version. I’m like, “Dad, how do I install flash?” Because I’m six. He's like, “I don't know. Figure it out.” I’m like, “All right. Well, you're very helpful IT.” He was literally the chief information officer of the county that I lived in. He knows stuff and he would just pretend.
+
+
+[00:15:34] EO: I have a quote for you from a friend. My friend's father works as a handyman. I think his grandfather or something asked like, “Why is your house always in state of fixing up, or whatever? You never finish a project.” Then his single response was, “The cobbler's son has no shoes. He doesn’t want to do it.”
+
+
+[00:15:54] JE: That's so funny.
+
+
+[00:15:55] AN: That's really funny.
+
+
+[00:15:57] CK: I’m super curious. SmartLogic itself is you basically have one champion, who just says, “I want to do Elixir.” Then just makes it happen. That's super interesting. There's a bunch of things that I want to dive into there. One is as a consultancy, anytime you stake your consultancy on a tech, there's an inherent risk there. I’m super interested to see how that all went. Beyond that too, I want to circle back to the comment you made earlier, something about that Elixir reads to you like English. That's super. I super want to delve into that at some point. I want to come back around to that as well.
+
+
+Just because I think that's an interesting take. That's a very different take than I think a lot of people have when they look at the language, especially if you've got a number of programming years under your belt or whatever. That's super interesting to me too. I want to circle back to both of those. We'll start with the SmartLogic thing, because I think that's interesting.
+
+
+[00:16:54] AN: Well, and I want to add to your SmartLogic question, in addition to just adopting a tech and putting time into it. Were folks just all psyched, or was there any – Was it hard to get other folks at SmartLogic psyched about learning and picking up new tech, or what was that process like? I’m curious about that in addition to Keathley's question.
+
+
+[00:17:12] EO: As far as that went, I think it was just Travis was the only one excited. I remember being down on Elixir, because I was like, “Uh, functional programming. It's just going to be like parens and everywhere and it's going to be super academic. No, thank you.”
+
+
+I think it was up until we did that project and then he had, was either – there was a lunch talk or two of intro to Elixir, walking through the project, like how did it go retrospective type thing. I think that was where – that was the day that caught my eye and started looking more into it. I think that was just – I got interested. A few others got interested and then that was how we spurred that off, I think.
+
+
+[00:17:55] AN: Were you already getting a lot of Elixir work, or was that like, what came first?
+
+
+[00:17:59] EO: We became interested and made Elixir happen for clients. Because we had a few that came in and said, “I just have this idea. Make it.” We said, “Okay, we're going to use Elixir.” They go, “I don't know what that is. Sure.” As long as it works, that's all we care.
+
+
+[00:18:14] AK: What were the size of the clients that were allowing you to do that? Because in my experience, bigger clients have a tendency to say, “Heck, no. Here's what you're using.” Little clients are like, “I don't care.” I was wondering about your experience if you had been able to sell it to bigger clients or not.
+
+
+[00:18:35] EO: The very first project, I’m not entirely certain. I think they're on the website, but I’m not super sure. I’ll leave it vague, but they're a very big company. This was like a slide in the door, behind the in the back door, because it was just some HR tiny little app that they just needed to help. It's like, schedule people working on different things.
+
+
+The next app was a small startup. There was three people, four people, I think. Just ideas people. They were totally self-funded, because it was just – Yeah, and they just didn't care.
+
+
+[00:19:10] AN: That’s cool.
+
+
+[00:19:12] CK: As you're starting to take on more clients, as you're starting to – or not even take on more clients. That's wrong how I say it, but as you're starting to build Elixir applications for more clients, and this gets back to my earlier question about, I think it's awesome that anyone in the world has said, “I think Elixir is super easy to read.” Because I agree with that, but I’m also not able to emotionally distance myself at this point from the way I feel about this.
+
+
+What does that onboard look like? You get people excited. Obviously, if you're excited about something, you're more apt to learn it. What do you do as a company who thinks that this is the way to go and how do you start training people? How do you get your staff excited about? What does that look like? What are the resources that you're going to to be able to do that?
+
+
+[00:19:59] SM: I can speak a little bit to my onboarding process at Cava, not knowing the language. Like I said, I knew one of the languages. I knew React. I knew JavaScript. I remember my first few weeks, I was given, I think, it's really productive in a first week of onboarding to assign somebody something real to do, something small, but real. Tangible, so they get a feel for the process and how to work with the team and they don't just feel they're sitting in onboarding meetings for the full week and give them a small win, essentially. That's what I got.
+
+
+I think I literally just had to add a button to a page on the app. I did it in React and I got familiar with the code base and how everything runs. I actually had to run the back-end server, run the IX session to run it locally. Then that's how I got familiar with the IX session. I didn't know what I was doing. I was just doing that to get to the React part. I solved one little bug in React and then I was on my way and then we started delving into Elixir once I was comfortable with the team and the setup and how the daily stand-ups and the dynamic worked, so that I could not learn everything new all at once. Yeah, I don't know. Justus, how was your first learning Elixir? What did it look like to you when you first saw it?
+
+
+[00:21:11] JE: I don't even remember what the specific project was, so I could not give away any proprietary details. I just remember being put on a project and asked to build some features and having to learn it. The one thing that does stand out as being a turning point in my learning Elixir would be a few weeks in pattern matching, just clicking in my head and becoming this amazing superpower that I wish I had in all my programming languages.
+
+
+I think that that was the hurdle that once you leap it of understanding what it is and why it's valuable. When I say pattern matching, I don't just mean in the context of a variable assignment, or whatever. I also mean function declarations and all the features in Elixir that are related to that. That for me was the hurdle that once I lept it, the beauty of the language became super apparent to me.
+
+
+[00:22:03] SM: I had that moment too with pattern matching. I don't remember what it was, but I remember it happening.
+
+
+[00:22:07] JE: I’m surprised people don't talk about it anymore, because so many people come from the Ruby community and outside of pattern matching, there's so many similarities. It seems like the first thing that's a real big paradigm shift that changes your ability to be productive and write beautiful code.
+
+
+[00:22:24] SM: Yeah. I think, maybe Chris to your point about the way it looks to me that makes it easier to read is, I mean, if you think about a JavaScript function, it's a function to do something. Then you have to defensively program against. It's not null. The thing that you're reading from that object that's not null, it also can't be null.
+
+
+Then you have to do a few checks and a few other things. At some point, your if statement looks pretty nasty. I call it the nasty if. You've got several. Then there are ways to clean that up, of course. My natural disposition is always to write it terribly and then fix it. Write down what comes to my head and edit it later. That helps me think through the way I’m going to write it.
+
+
+When you look at it that way and then you seeing like, the arrow functions were confusing to me, because all of a sudden, there were so many things that were gone. I didn't know what any of the symbols meant, just by looking at it. Now it's muscle memory. For somebody who's trying to get used to coding in general, to see a lot of symbols and not know what they mean, how do that that's returning implicitly without a return? There were just so many things you had to know to know how it was working.
+
+
+It was just really hard to look at and read without really knowing it. This is when I was of course, learning JavaScript. Then when I was learning Elixir, I didn't feel there were hidden things that were happening. I didn't feel there was magic happening. I could see what was going on and I could follow the code and I really liked – I think, Justus, what did you call it? Pattern matching of the functional definitions.
+
+
+[00:24:01] JE: Function declarations. There's a real name for that, isn't there?
+
+
+[00:24:05] AK: Clause, but yes.
+
+
+[00:24:07] JE: Function clause.
+
+
+[00:24:09] CK: Clause.
+
+
+[00:24:10] JE: Like talons claws?
+
+
+[00:24:12] AK: Yeah, yeah. Like those you might find upon a kestrel.
+
+
+[00:24:17] EO: Speaking of DND.
+
+
+[00:24:17] CK: Whoa. [Inaudible 00:24:18] reference.
+
+
+[00:24:21] SM: Yeah. Once you start looking at it that way and you see, I had to explain to so many people at first who weren't Elixir writers, or devs and they were like, “Why would you write this function declaration twice, three times? Why don't you just handle it all in one place?” I was like, “Why would you handle it all in one place? It's harder to follow. This way, you can log each one and see which one gets called if you're confused.” I don't know.
+
+
+Also, a lot of it has to do with naming things properly. It's possible to write bad Elixir code, where it's hard for people to follow it. That's obviously possible. That's possible in every language. In Elixir, when you write a function definition and you really do a good job of creating and following a convention, I think it's easy to follow and swap things in and out and really trace the code down. I think it's much easier just seeing it.
+
+
+[00:25:16] AK: With that being easier to read, is it also when you start on something new, are you able to get to code faster than you were with JavaScript? Or are you getting the code faster with JavaScript, but happier with the Elixir that's coming out?
+
+
+[00:25:34] SM: I think they’re a different situations. I remember one time, there was one moment at Cava where our product manager wrote the most beautiful ticket, the most technical ticket and there was really good acceptance criteria and there was a nice to have at the bottom of the ticket. I remember looking at the nice to have and being like, I know how to write this in Elixir. I know exactly what I need to do. I know how to write this fallback case. That was the nice to have. I just went for it and it went – it was clear. I can't say I ever had that moment in JavaScript. I don't know, maybe I didn't try hard enough. I didn't stay in those long enough. Yeah.
+
+
+[00:26:14] AN: I’ve been writing a lot of JavaScript these days and it's just – 
+
+
+[00:26:18] SM: Try to throw it a bone.
+
+
+[00:26:21] CK: I think there is something to the idea too and I’ve experienced this so many times where there's something – I’ve tried to work on a grand unified field theory thing for Elixir and my happiness with it, but there is something – my ability to solve a certain subset of problems is just easier. It's just like, I’d have to really stop and think. I was going to just see. I’d have to really stop and think about what I’m going to, how I’m going to go about, or java, or anything like that. Then I’m like, “I’ll just do this.” Part of this familiarity for sure, but part of it's, there's just the runtime and everything else.
+
+
+[00:26:53] SM: Yeah. I will say that the time that this really shone through for me what you're talking about right now is I spent the entire summer job searching. I landed working at SmartLogic in August, but I spent the whole summer job searching. Every time I had to do the dreaded code interview, they would give it to me and they'd ask me this. I mean, I was looking for both JavaScript and Elixir jobs. My preference was Elixir, but Elixir market this summer was really hard.
+
+
+I remember, every time I got a JavaScript code challenge, I would look at it and I’d be like, “I know how to do this in Elixir, but I have no idea how to tackle this to JavaScript.” They would take me so much longer. I don't know. It was rough. I now know that I need to do both to in order to not lose one or the other over time you're going to lose whatever you're not using. That was definitely hard. I will say that while I was writing Elixir at Cava, I very rarely did JavaScript. That's definitely why that was harder for me this summer.
+
+
+[00:27:47] AN: Keathley can relate. You can ask him about trying to write a UI widget not too long ago.
+
+
+[00:27:52] CK: Oh, yeah. It took me all day. It took me all day. I made a modal though. That modal both appeared. Nailed it. You mentioned something about having good conventions. As we're talking about teams starting to bring Elixir into their stack and level up the people who are your employees and level up everybody who's working with you, are there conventions that you all have adopted as a company that you found to be really useful?
+
+
+I know that at one point, I remember, I think one of y'all was talking about name changes you've made to the Phoenix, the standard Phoenix directories and stuff that you're like, “This should just be everything.” That's the idea. There's those tactical conventions that you've placed inside your own projects. Is there stuff like that that you have?
+
+
+[00:28:42] EO: Yeah. Anytime we start a new Phoenix project, I guess as of March-ish, this was the case, we would do a Phoenix new and then I would immediately – I have a suite of things that I would run through and just clean it up. I would move the app web to just be web and then update all the references for that. I think there was again, at this point I can't remember another. I’m mixing in some Rails things, because for some reason, I want to say drop spring boot, but that's obviously not here.
+
+
+[00:29:17] CK: Just habit. Force of habit.
+
+
+[00:29:20] EO: Now so now we have a called stein example. This is an application that uses a library that is pretty close to the phx, gen, auth, whatever the that package is. It's devised super light. It just comes with common things that looking up an e-mail and verifying its password and making sure that if the e-mail isn't found, it does the decrypt, no opt whatever, so that’s to try and prevent timing attacks and all that.
+
+
+It also sets up like, it comes with user auth. It comes with password resets and all that junk that the first week of a project is the first thing you do every ways, knock all the time and eventually, after the sixth time with doing this like, “I’m so done with this. Let's just copy paste and replace names.” That's what that project is now. It's been, I guess, codified in terms of what we do for a new project. Now we can just clone the repo, delete.git, rename. There's four different git reps and sets that we can do and we have a new project that's off to the races to start dropping in stuff.
+
+
+[00:30:34] AN: Nice. I’d imagine that's also really helpful for onboarding new folks and getting them started. Is that true?
+
+
+[00:30:41] EO: Yes. This also bundles in our deployment. It comes with Roku. It comes with a Docker compose and then normal deployment. It tries to set up everything you possibly need. We need to bump up its readme, so that you can come with a better readme. I guess, yes. Hopefully, having something more standardized across projects means that you can move around them easier.
+
+
+[00:31:14] CK: After – Oh, go ahead.
+
+
+[00:31:15] AN: No, go ahead, Keathley. It’s fine.
+
+
+[00:31:17] CK: I was thinking a bit about, so it sounds like you at this point are mostly – everybody's learning via mentorship and just common knowledge around the company and then whatever resources you get your hands on. Through the course of that and just you're working with other new teams, or new products is like, do you feel there's resources that I guess, are missing, or things that you would wish you could point people to?
+
+
+[00:31:46] SM: I always thought that there was never a really good intro to Elixir resource out there when I was brand new. I had a five weeks lead time before my Cava job started. I remember thinking, “Well, I know there's Christmas in here, but it's five whole weeks, so maybe I’ll look into it and I just didn't see a lot of resources. Almost every book, read the first page and it's like, this is an intermediate book, or you have to have some familiarity with Elixir concepts. I’ve always wished that there was something like that out there.
+
+
+With the meetup, we did a few this year. I’m like, intro to Elixir and we advertised outside of the Elixir community, to see more people would show up and how they will like it. Justus, we did talk a lot about pattern matching. My strategy for that was like, I just said, “These are the shiny things that I love about Elixir.” It was half a pitch and half function, or not functional. Yeah, no functional. I don't know. Yeah, it was half a pitch and half functional, because I was like, these are the things that I like about it. This is why I think it's great to work in and here are the fun things you get to work with if you get to use it. I think that fits really well into the hour that meetups usually take.
+
+
+[00:32:55] AN: I think I would agree with you, Sundi. I think putting together intro resources, especially for folks that are new to the language and the paradigm in the ecosystem is really hard and it's really hard to find good resources. Definitely experience. Sorry Justus. I totally cut you off.
+
+
+[00:33:07] JE: No worries. I’ll third that assertion, because I agree that there need to be more introductory resources. I will give people who are listening a hack, which I learned in my very first job programming. My very first job programming was the first employee at a company called Pavlok, which you can look up. It's amazing. I did not know what I was doing building Rails APIs. What I would do is I would call my good friend, Johnny Boursiquot, who's now the big dog in the local Go community. He would just help me.
+
+
+I would basically pay him out of pocket a lot of the times to consult with me, but he often just helped me for free and helped me get a lot of stuff over the hump. I will reassure anybody who thinks that that sounds a little bit unusual, by letting them know that I know. I won't name names, even though I probably already named names in the past on the show, about people who work at one company, who trade open source work to do work on the company work. You know what I’m talking about?
+
+
+Everybody here knows, because they've all heard the stories at conferences. There's that thing, where you can reach out to people and get help, especially when you're just getting started and people definitely want to help folks who help themselves. Not just asking for free work, nobody likes the guy on StackOverflow who asks for full-on solution to a problem. The community is super-duper helpful.
+
+
+The other, I think hack would be starting a podcast made it really easy for us to know all of the people in the community. I mean, if I wanted to reach out to Renee Foring to talk about some issue I’m having in credo, he would be there like that. Or if I needed to talk to Frank about Nerves, anyone, they're always available. I’m not saying go start a podcast, but I am saying that when you get involved in the community, you get more avenues of soliciting help.
+
+
+[00:34:56] CK: That's definitely been my experience as well. Also, don't start a podcast, because apparently, no one listens to them according to that –
+
+
+[00:35:01] AN: Yeah. That survey.
+
+
+[00:35:02] CK: That survey. Yeah. No. I mean, that's totally been my experience of it. There's a reason that we can get certain fixes into certain libraries quickly, because we know these people who work on those things. If you have problems, you can just hit those people up, which is really useful.
+
+
+[00:35:19] AN: I would also say, for folks that are getting started who don't have those resources. People in the community, I found generally, which is one thing that attracted me to the community, however long ago. It's been a while now, but people generally are really nice and really helpful. [Inaudible 00:35:33].
+
+
+[00:35:34] JE: You could reach out to anyone on this call, except for me.
+
+
+[00:35:39] AK: Because he's going to be in Florida. He's out.
+
+
+[00:35:42] AN: He's going to be in Miami.
+
+
+[00:35:43] JE: I’m going to be on the beach. Yeah, sorry.
+
+
+[00:35:44] EO: He's going to be living in his bathtub at whatever place.
+
+
+[00:35:50] JE: Wait, let me just plug my good friends here, because both Eric and Sundi were nominated, these influential technologist lists in DC and Baltimore respectively. Eric doesn't even live in Baltimore and he made this list of influential technologists. I’m over here jumping into bathtubs on camera in front of a 1,000 and nobody – people are just like, “Who?”
+
+
+[00:36:12] AK: They don't have influential bathtub diving awards.
+
+
+[00:36:17] SM: If they did, it would be.
+
+
+[00:36:19] AN: I think, you had to be one of the highlights of ElixirConf. I knew people who didn't know anything about ElixirConf, other than the fact that you hosted the whole thing from your bathtub. This is how legends are born. Come on.
+
+
+[00:36:34] JE: It's only going to get worse. The rumors around that are only going to get worse. Two years from now, people are going to ask me about how weird that was. Anyway, but congratulations really to Eric and Sundi, because they actually deserve it.
+
+
+[00:36:46] SM: I feel there was a question about onboarding new people. We've said that their intro to Elixir resources are hard to find. I don't want anyone listening to think that there's a barrier to entry. I know, I’ve actually – while doing interview circuit this summer, I ran into a lot of companies that really wanted to move to Elixir and wouldn't, or couldn't, or didn't, or any of the negative reasons.
+
+
+One that I heard a lot was just that they didn't know – their team didn't know Elixir yet, or only one person on the team had a passion for the language and there's only one, basically. I think we've proven here that it can start with one. I think that generally, if companies want to invest in themselves and their people, that putting good time in for training and whatnot is really not a waste.
+
+
+There are lots of trainings out there to put entire teams through to get them somewhere and developer happiness is a real thing. We move faster when we're really enjoying what we're doing and we're working with something that doesn't roadblock us every five seconds. I think we've all been in one of those languages at some point. I ran into a lot of these companies and it was the reason that I was really excited that we were going to be talking about adopting Elixir this season, because I want to hear everyone's stories. I want to hear how companies onboarded people and why they decided to go for the unknown “language” that no one's heard of, the niche language. I’m really excited to have those conversations with more people, because I think it's really important for more people to hear it, so that they can maybe make the decision themselves.
+
+
+[00:38:22] AN: Totally. I didn't mean to imply – Yeah, that statement was not to discourage anybody from trying to join, or learn. I was just saying that there are a couple really good intro resources. To your point, there are really good resources out there. I think it's just harder to put those resources together, so I really appreciate the ones that you find.
+
+
+[00:38:40] AK: Well, a lot of the beginning Elixir resources maybe don't necessarily have you knowing Elixir, but they expect you to know another programming language, which again, is like another barrier to entry. You either have resources that say you need to know some Elixir, like the basics, or you have something that says you need to know some other programming language. There's nothing out there that starts out at that really basic level of this is what an integer is.
+
+
+[00:39:06] AN: Except for ElixirBridge.
+
+
+[00:39:07] AK: Except for ElixirBridge. Yeah.
+
+
+[00:39:09] AN: I’m just kidding.
+
+
+[00:39:10] AK: How would about that, Anna?
+
+
+[00:39:11] AN: I don't know.
+
+
+[00:39:12] JE: Does Elixir bridge actually start at that level of granularity? Is the curriculum online and is it open source?
+
+
+[00:39:19] AN: It's online and open source. Yes. We're actually in the process. Just a month ago, we started doing a revamp, because we took a break because we were pretty burnt out. I mean, Matt Mills, my co-founder for Elixir bridge. We're revamping it, so that it's up to date, etc. That's the intention. That's why we started it was like, inspiration from RailsBridge to help bring people into the community who were new to programming in general. There wasn't anything at the time when we started it four years ago, five years ago.
+
+
+[00:39:47] JE: Very cool.
+
+
+[00:39:48] AN: Just the idea. Just the point being like, I understand how hard it is having done it. I really appreciate it when I find other people who have put the time and effort into it.
+
+
+[00:39:56] CK: This is an opportunity for when I put that spin on it. I think there is still a gap between here's the cool things you can build with Elixir and here's the thing running in production. That to me feels like the remaining missing piece of it. I think it's hard to take some of these ideas and then go apply them in production and then see them come to fruition, especially if you want to actually get all of it.
+
+
+If you want to live the dream, it's harder. It's just it is. It just is naturally harder to deploy and manage a stateful Elixir system, assuming that you want to do that, which I think that's a draw for some people. There's not a lot of resources on just how to do that. Definitely not written resources, people have given talks on it and whatever. There's not like a here's all the steps you're going to need to go through.
+
+
+The ones that do give you some information are like, we assume you have a Kubernetes already. It's like, okay, I can just go get one of those, just to deploy my weekend hobby project on. I mean, it's just naturally harder. You can't just windmill slam a random single-threaded interpreted language into a docker container and throw it up on Heroku, if you want to – You can do that and you certainly can do that with Elixir, but I think a lot of people want the like, “I want all of it. I want the whole world,” which is just naturally harder.
+
+
+[00:41:24] JE: You should probably take a break for anyone who's traumatized over the Kubernetes comments.
+
+
+[00:41:29] CK: Oh, yeah. Sorry.
+
+
+[00:41:29] EO: He didn't say terraform. Oh, I did. Oops.
+
+
+[00:41:32] CK: Oh, no.
+
+
+[00:41:39] EO: Do we really need a break?
+
+
+[00:41:40] JE: No, I was joking.
+
+
+[00:41:42] AN: Oh, okay.
+
+
+[00:41:43] CK: Oh, is this going to become #hateskates? Because I’m in.
+
+
+[00:41:49] JE: We have yet to get a really robust hashtag started. I think that we should go for it. I mean, why not?
+
+
+[00:41:56] CK: I need to see if our most recent is available.
+
+
+[00:42:00] AK: Our big most recent client is on Kubernetes.
+
+
+[00:42:02] CK: It's the future.
+
+
+[00:42:04] AK: There's a devops team and all we say is – I remember when we were starting this project, I was like – we are under the assumption that I’m just going to make a docker file. When it starts, it's going to load our binary and be off to the races and I’m not doing anything else.
+
+
+[00:42:20] CK: Yeah. I mean, that's the thing is you need a devoops team who can run –
+
+
+[00:42:24] AN: Devoops?
+
+
+[00:42:25] CK: Yeah, devoops. You need a devoops team who can run your Kubernetes for you. Or you need to pay someone else's devoops team to run your Kubernetes for you and then you're fine. You got to get a Kubernetes in there and then you're good to go.
+
+
+[00:42:36] AN: You need to get a devoops team first.
+
+
+[00:42:38] CK: Yeah, your devoops team. Got to get that going. Devoops, the promise of devops was so good. I’m sorry. I was going to do this for a second. The promise of devops, it was like agile. It was capital Agile was going to be so good. We had a whole manifesto. Devops had a book with weird prose in it that taught us all about talking to people and learning from everybody and had a Phoenix involved. It was so good and the promise was so good.
+
+
+The walls that were between dev and ops were torn down and dev and ops were finally communicating again. Then ops was like,  “You know what would be good here is a wall?” Then they made a new wall, but this time they made it out of YAML and Go and then they called it Kubernetes.
+
+
+[00:43:15] JE: I feel I’m probably contractually obligated to say that I love Kubernetes. We do plug on Kubernetes apps on every episode of the show. Yeah, SmartLogic, we love you.
+
+
+[00:43:27] CK: SmartLogic is a technology podcast, which will deploy to Kubernetes for you.
+
+
+[00:43:33] JE: And enjoy it.
+
+
+[00:43:34] CK: And love it.
+
+
+[00:43:35] AN: And love it.
+
+
+[00:43:36] CK: Love every –
+
+
+[00:43:37] AK: Mile, the whole time.
+
+
+[00:43:39] AN: All the YAMLs and the Gos.
+
+
+[00:43:43] CK: You need to get YAMLs, so that you can generate –
+
+
+[00:43:44] AN: No Gos? Just Elixir. No Gos.
+
+
+[00:43:47] JE: Has anyone done a version of Kubernetes, or some competitor that is not based in Go?
+
+
+[00:43:53] CK: Yeah, not based in Go. Yeah, I don't know. Not aware. I think Tristan talked about it doing it in Erlang as a control plane thing, but I don't know if anything ever came to fruition of that. Obviously, nomad exists, but that's still all Go. Anyway –
+
+
+[00:44:07] JE: [Inaudible 00:44:07].
+
+
+[00:44:08] CK: Yeah, that'd be fun. It'd be cool. Kubernetes is a great futuristic technology that will certainly change the world.
+
+
+[00:44:15] AK: Let’s not start the adopting Kubernetes podcast.
+
+
+[00:44:18] CK: No, I was trying to stay on brand.
+
+
+[00:44:21] AK: You all mentioned multiple times about a single person making the difference in getting to Elixir. What are the main first steps that that single person can take to be successful in your eyes?
+
+
+[00:44:35] JE: Well, they can use emacs and just be smarter than everyone else generally.
+
+
+[00:44:38] CK: Oh, snap. Yes. Agreed. 
+
+
+[00:44:42] AK: I just got done with the FP meetup group and they're talking about monads.
+
+
+[00:44:47] JE: If you don't know what a moan ad is, go listen to our episode with Brooklyn Zelenka, because that was the single best auditory explanation of the monad of all time. No, seriously. I mean, Travis was just a very, very smart person. I think that that –
+
+
+[00:45:05] EO: Yeah. He ended up as a side project, started writing a lisp interpreter in Elixir and going through all that what goes with that. I think, if you want to see a 700-line con, there's one in there.
+
+
+[00:45:23] CK: Nice. Oh, yeah. That's my jam.
+
+
+[00:45:27] AK: I’m super excited about that.
+
+
+[00:45:29] SM: I can't say that I was here for when we presented Elixir. Travis was way before my time. I can tell some listeners what maybe not to do is just walk into the room saying that Elixir is the best and you can't use anything else. I think I think there's a particular way to approach it. You are advocating for a language for your team to be using – your whole team will be using and you love it.
+
+
+We've all worked with that one person who loves that one language and thinks everybody needs to come in and change the whole company around it. A lot of people for a long time when I was advocating for Elixir, thought that I had become that for Elixir. They looked more into it, or I was motivated to make them intro to Elixir talks for the meetups. They heard it and they were like, “Okay. No, no, no. I see the appeal. I see why you're saying this.” It's not that far out. It's not that far-fetched. I think there's a balance there. You have to show your passion for it, but I think you really have to show the viability of it.
+
+
+My more serious hot take was that I don't think Elixir apps really crash in production as much as other languages. I don't know that I have lived on this planet enough to say that with confidence, but that has been my experience, so that's the serious one and then the more fun one is I always like to walk into a room and say that I didn't write a single if statement in 2019. As a developer, nobody understands that, unless they know what I’m talking about Elixir-wise.
+
+
+[00:46:51] EO: I will also add, specific for SmartLogic in order to convince your team to take over a new language and framework and all that, I want to say we had 12 people at that time. The smallness of the company also helps and that a single person has that much more say when you're that small.
+
+
+[00:47:10] AN: How big is SmartLogic now? I might miss them.
+
+
+[00:47:13] SM: 20 as of yesterday.
+
+
+[00:47:15] AN: Nice.
+
+
+[00:47:16] AK: Congratulations on the new hire.
+
+
+[00:47:18] JE: Thank you. Yeah. This year has been crazy growth for SmartLogic. I think the first several years I was here, we were fluctuating from nine to 12 employees. This year, we just exploded. I don't know why. I mean, what's unique about 2020?
+
+
+[00:47:38] CK: Yeah. No. Who knows? Who could do, you’d say?
+
+
+[00:47:40] AK: Yeah. It’s pretty much just business as usual around here.
+
+
+[00:47:44] CK: I mean, I sit around and I work at my house and I never leave, so it's just the same as far as I’m concerned. Nothing has changed in the exterior world. The people you've hired this year as you've grown, are they – I mean, are they coming to do Elixir, or did do any of the other technologies that you all champion?
+
+
+[00:48:01] JE: Actually, Kubernetes was one of our hires. A couple of those are designers as we've provided more design.
+
+
+[00:48:08] EO: We've hired, if you've bumped Melvin into it, we've hired four developers –
+
+
+[00:48:14] JE: With Elixir experience.
+
+
+[00:48:15] EO: Yeah. Joel is in the indie hackers group, or in the Indie Elixir group and he's wants to do Elixir, but was primarily Rails. Sundi obviously. Melvin has been around the Elixir space. Then our latest has Rails experience.
+
+
+[00:48:34] AK: Yeah, so that's interesting. Then once you go down that path and you do pick these certain sets of technologies, especially in a more niche area. You do start to reap the benefits of that, because you now are getting people who either are very passionate about the language and thus, just know stuff about it. Or you've got people who have actual real experience with it.
+
+
+The training part of it, you're starting to arbitrage, essentially, as you start to bring more people in. I mean, we've definitely experienced that at a Bleacher Report. It was a place to come and do Elixir. A lot of you were there. It became very telling to me when all of a sudden, you couldn't count on Ruby knowledge as a given anymore at Bleacher Report. We turned a corner, where all of a sudden, people were being asked to work on Ruby's definitely. I’ve literally never written a line of Ruby before. I don't know why you're asking me to do this, or why you expect me to know how to do this. I know how to do Elixir. We turned that corner at some point.
+
+
+[00:49:32] AN: That's pretty impressive.
+
+
+[00:49:34] EO: I’ll say, along similar lines, I guess. Melvin went to Turing and they do Rails there. When he was exiting that and starting to look for jobs, one of the hacks he did was to specifically learn Elixir and look for Elixir jobs, because there is way less people looking for those. Then it was easier to get your foot in the door and not just be one of a thousand resumes at a Rails job. That's a nice line.
+
+
+[00:50:02] AN: Yeah, that's fair.
+
+
+[00:50:03] SM: I will say though that looking for – while looking for Elixir jobs this summer, I noticed for the job market, well also, the 2020 summer job market was a different job market than anyone will hopefully ever see again. It was mostly senior Elixir engineering roles and I was just waiting. I love it when recruiters are like, “Oh, you need 10 years of experience in this language.” I’m like, “That's longer than it's existed for.” I really want to have that moment one day.
+
+
+Anyways, I saw a lot of requests for senior engineers for Elixir specifically. I was like, “How can you ask that for such a young language?” I saw it quite often. What I really didn't see was a lot of people hiring for junior engineers for Elixir. I mean, I wasn't looking for that, because that wasn't my level, but I just was really shocked. I mean, maybe not shocked, but sad to see that there wasn't that option. I guess to be fair, people who are junior level, maybe know other languages, like the languages that they learn in college, or the languages they're teaching in the code boot camps and whatnot. I wish there was something we could do to bridge that gap for junior engineers.
+
+
+When I took Bruce Tate's LiveView class over the summer with all of my free time, we did have in that class, there was one guy whose first programming language was Elixir and he learned it with Bruce. I could not tell that he had only started programming eight months ago. He was great. He contributed a lot of great thought to when we're passing the keyboard around and programming together, like mob programming, I think it's called when it's more than two people. It was great. I really couldn't tell. He picked it up so well and some of that is the developer, but I think part of that is the language.
+
+
+[00:51:45] AN: Yeah. I think the paradigms in the language definitely help leverage people's skills, etc. I think, I’m curious also what you all – do you all ever get questions from clients about hiring, etc., when you're working in Elixir, or clients ever worried about being able to hire Elixir developers? Because I’ve definitely run into that in the past when choosing tech to work on.
+
+
+[00:52:05] EO: It's come up a little bit. We had one project that we started. Then I don't know if we helped them hire, but it also turned out that they hired an ex-SmartLogic employee. I don't remember how that happened.
+
+
+That comes up a little bit. We also have not necessarily another project we have the main team is in node and Mongo and we came on saying like, “We can help your – Your node app was slow and we can help pull stuff into Elixir, where it's really good at doing all this.” They haven't really looked into the Elixir side yet, so the goal of what we were hoping didn't really happen, but they also haven't had an issue with running the application, I guess.
+
+
+[00:52:52] AN: Yeah, that’s fair. I was just curious to see.
+
+
+[00:52:54] SM: Yeah. I will say as a note, if there are any companies listening, and/or somebody who's thinking about starting a company, you don't have to hire Elixir devs either. You can just hire good developers who are willing and excited to pick up a new language and maybe particularly, they're excited to learn Elixir. I think that provides a lot of really good opportunities to have really good developers. I did run into some of those jobs over the summer too, where people were like, “Oh, we don't care if you don't know this language or that language. We just want to know that you're a good fit for our team and that you learn quickly and work well with us.” I really appreciated those interviews, because I really just felt they invested in their people and that's always good to see. 
+
+
+[00:53:36] CK: Anything else you all want to wrap up with before we close out for today? Any other advice, any other social media plugs, whatever? What you got?
+
+
+[00:53:49] EO: Why is Wallaby called Wallaby when there's also a Wallaby JS.
+
+
+[00:53:53] CK: We were first. We were first. We were first. You can go and look, we were first. They ripped us off due to our extraordinary amount of popularity. That's what I have to say about that.
+
+
+[00:54:06] AN: Good job, Keathley.
+
+
+[00:54:08] SM: I think the only note, or plug I will say is just if you enjoyed this and you want to hear more adoption stories adopting Elixir stories, tune into season five of this podcast.
+
+
+[00:54:21] CK: We're going to have a lot of great guests this podcast. This season it's going to be awesome, so I totally agree with that.
+
+
+[00:54:26] EO: Make sure that you come check us out at our podcast called Elixir Outlaws.
+
+
+[00:54:34] AN: We don't know what we're talking about this season, so it'll be a surprise.
+
+
+[00:54:38] JE: You guys have seasons?
+
+
+[00:54:41] SM: Yeah, we have seasons either.
+
+
+[00:54:44] AK: It's just a running dialogue of –
+
+
+[00:54:46] AN: If you all want to hear us listen to Keathley's jokes, tune in.
+
+
+[00:54:51] CK: Who doesn't? Let's be honest.
+
+
+[00:54:53] JE: If you're listening at this point, we want to hear from the audience for I guess, all of our podcasts probably, but definitely, Elixir Wizards want to hear from the audience and hear what they thought of this and ideas for future episodes, future seasons. We really love hearing from the audience. It really means a lot. It makes me cry. Not completely irregularly.
+
+
+I am rather sensitive. I know. It doesn't look that way, but no, it's really touching when people reach out. Please do reach out and follow us on all the socials, insta, Twitter. I’m @JustusEapen everywhere. Chris, I’ll let you give the real outro.
+
+
+[00:55:29] CK: Yeah, don't forget to like and subscribe. Leave us a comment on iTunes. It helps people find the show when you leave us a review. We really do appreciate it. That's it for this episode of Elixir Wizards. Thank you again to our guests, Eric, Justus and Sundi. We appreciate you for being on the show.
+
+
+Don't forget, Elixir wizards is a SmartLogic podcast. Here at SmartLogic, we are always looking to take on new projects, building web apps in Elixir, Rails and React. Infrastructure projects including yes, Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project we can help you with.
+
+
+[END OF EPISODE]
+
+
+[00:56:07] JE: I got to admit, this is probably much more challenging for us to swap roles, because I don't know, with script and all that.
+
+
+[00:56:14] CK: You mean, it's more challenging in the sense that us coming on your show is more challenging?
+
+
+[00:56:19] JE: Well, it would be really hard for me to pretend to be you, because you're funny. I imagine [inaudible 00:56:25].
+
+
+[00:56:26] CK: Nailed it.
+
+
+[00:56:27] JE: It's probably also hard for you to pretend to be us, because we're organized.
+
+
+[00:56:31] CK: Yeah, exactly.
+
+
+[00:56:32] AN: There you go.
+
+
+[00:56:33] CK: Anna’s like, “I’m organized.”
+
+
+[00:56:35] AK: Definitely hard to be organized.
+
+
+[00:56:38] AN: We're not.
+
+
+[END]
+        © 2020 Elixir Wizards
