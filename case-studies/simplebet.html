@@ -1,0 +1,79 @@
+---
+title: Simplebet Case Study
+description: Simplebet brought SmartLogic in to help design and stand up the cloud infrastructure for their new sports betting platform.
+body-class: case-study
+breadcrumb: Simplebet
+---
+<main class="main" role="main">
+  <section class="section hero hero-no-img">
+    <div class="container">
+      <div class="hero__left">
+        <div class="hero__left-text">
+          <div class="head-text">
+            <h1>Simplebet</h1>
+          </div>
+        </div>
+        <div class="hero__left-desc">
+          <p>Simplebet brought SmartLogic in to help design and stand up the cloud infrastructure for their new sports betting platform.</p>
+        </div>
+      </div>
+      <div class="hero__right">
+        <div class="hero__right-img">
+          <img src="/images/logo/logos-featured-clients/simplebet.svg" alt="Simplebet Logo">
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="content-page-wrapper">
+    <section class="section content-block">
+      <div class="container">
+
+        <h2>Background</h2>
+
+        <p><a target="_blank" href="https://simplebet.io/">Simplebet</a> is a modern sports betting startup; they use real-time data ingestion, machine learning, and automation to enable play-by-play microbetting during live sporting events. Their latest product launch is a <a target="_blank" href="https://www.cnbc.com/2020/09/03/simplebet-launches-micro-market-sports-betting-product-with-fanduel.html">partnership with FanDuel</a>; the app allows fans to bet on any drive or play in real time during an NFL game.</p>
+
+
+        <p>Dave Lucia, Simplebet’s VP of Engineering, reached out to SmartLogic in the summer of 2019 after listening to an episode of our podcast, <a href="/podcast">Elixir Wizards</a>, as he was looking to hire a <a target="_blank" href="https://en.wikipedia.org/wiki/Site_Reliability_Engineering">site reliability engineering</a> (SRE) team but was having trouble hiring quickly enough. Simplebet was aiming to launch a new product offering in early 2020 and they needed to move their platform infrastructure to the cloud. They brought SmartLogic in to lead this transition and work with their incoming SRE team to migrate to the cloud and establish new infrastructure patterns for their platform in order to make the migration happen on their desired timeline.</p>
+
+        <!-- put tweet from Dave in here -->
+        <p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Well, we&#39;ve been waiting to announce this for a while. We have a launch coming up with <a href="https://twitter.com/FanDuel?ref_src=twsrc%5Etfw">@FanDuel</a>!<a href="https://t.co/ACR8C77lKr">https://t.co/ACR8C77lKr</a></p>&mdash; Dave Lucia (@davydog187) <a href="https://twitter.com/davydog187/status/1301555686682353666?ref_src=twsrc%5Etfw">September 3, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p><br/>
+
+        <p><br/>The SmartLogic team has been working with <a target="software-development/devops-consulting">DevOps</a> and server-side concerns for over a decade — since before the public launch of AWS. From building cloud infrastructure for our clients’ teams to manage, to architecting and maintaining the servers, CI pipelines, and deployment scripts for the applications we maintain, our team has experience with a variety of DevOps configurations and best practices. We’ve helped a number of teams grow and manage scale through <a target="_blank" href="https://technical.ly/baltimore/2019/12/16/smartlogic-manage-scale-devops-support-cloud-aws/">well-reasoned scalable DevOps architecture</a>, so it was a natural fit for our team to step in to assist Simplebet with standing up their DevOps infrastructure.
+
+
+        <h2>Modern DevOps Infrastructure</h2>
+
+        <p>Simplebet’s mission is to make every moment of a sports game a bettable opportunity. Rather than a single user-facing app, they have built a data ingestion and processing platform that makes this real-time betting possible. As such, their cloud infrastructure needed to meet high speed and volume requirements, and needed to smoothly manage all of the disparate components and applications that make up their platform.</p>
+
+        <p>In the cloud architecture we helped Simplebet stand up, GitHub is used for code version control. Branches that are ready for deployment are dynamically passed through <a target="_blank" href="https://circleci.com/">CircleCI</a>, a continuous integration service, for automated code testing and subsequent deployment to development, testing, and production environments via dynamically updated <a target="_blank" href="https://www.docker.com/">Docker images</a>.</p>
+
+        <p>To support Simplebet’s high-volume real-time data ingestion and processing, the Docker images are managed inside a <a target="_blank" href="https://kubernetes.io/">Kubernetes</a> cluster. Kubernetes (K8s) is a cloud-based cluster computing and container orchestration system; K8s seamlessly handles massive concurrency and is a crucial component for the high volume data processing required by the Simplebet platform. Deployment of the Kubernetes resources is managed with <a target="_blank" href="https://helm.sh/">Helm</a>, a K8s package manager and cluster resource management tool.</p>
+
+        <p>While cluster computing is amazing for handling high-volume throughput, it does bring with it some unique challenges. This deployment involves a complex infrastructure of services with many secrets and configuration variables to manage. To ensure consistent configuration and rotation of secrets, we used <a target="_blank" href="https://www.vaultproject.io/">Vault</a>, and to ensure the reliability needed in this environment, we used <a target="_blank" href="https://www.consul.io/">Consul</a> as its backing.</p>
+
+        <p>The deployed cloud resources are provisioned and managed by <a target="_blank" href="https://www.terraform.io/">Terraform</a>, a code-as-infrastructure tool that allows DevOps engineers to manage resources with declarative configuration files. Terraform makes it easier to use and reason about cloud infrastructure, and makes it easier not just to deploy but also to maintain cloud systems over time. Our goal with this project, as with any piece of DevOps infrastructure we touch, is to make sure that the architecture is reliable, performant, and scalable; and that deployment processes are repeatable and yield consistent results.</p>
+
+
+        <h2>A Solid Foundation for Growth</h2>
+        <p>Over time as Simplebet hired and onboarded their SRE team, our developers worked together with their internal team to develop and document Simplebet’s new cloud infrastructure, eventually handing the project over entirely to the internal team.</p>
+
+        <p><iframe src="https://player.fireside.fm/v2/IAs5ixts+KDEDJSet?theme=dark" width="960" height="200" frameborder="0" scrolling="no"></iframe></p>
+
+        <p>Additionally, while the majority of the work we did for Simplebet was DevOps consulting, we also helped their team with some of their Elixir development, sharing our expertise on Elixir configuration and deployment with release generation.</p>
+
+
+        <blockquote>The foundation and patterns SmartLogic made will influence our infrastructure for the foreseeable future.</blockquote><cite>—  Dave Lucia, VP of Engineering, Simplebet</cite>
+
+        <p>Ultimately we were able to support Simplebet during a critical time of growth, helping them to scale their infrastructure while they were still hiring their internal SRE team. By the end of the engagement, the Simplebet team could go from merge to production in under five minutes due to the infrastructure that SmartLogic helped put in place, a major accomplishment for such a complex platform. The modern continuous integration and deployment infrastructure is supporting Simplebet as they continue to grow their platform and offerings.</p>
+
+      </div>
+    </section>
+
+</div>
+
+
+</main>
+<!-- add a feature block that links to another case study // should update later -->
+<footer class="footer">
+  {% include footer-common.html %}
+</footer>
