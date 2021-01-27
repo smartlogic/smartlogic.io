@@ -1,0 +1,521 @@
+﻿EW S5E9                Transcript
+
+
+EPISODE S5E9
+
+
+[EPISODE]
+
+
+[00:00:07] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host. I’m joined by my captivating co-host, Sundi Mying and our praetor-natural guest producer, Rose Burt, who is subbing in for Eric today. Eric’s out. We miss him very much. We have Rose and she’s amazing and we’re very glad to have you, Rose.
+
+
+This season's theme is adopting Elixir. We're joined today by a special, special guest. I’m really excited for this one; from DockYard, Brian Cardarella. Brian, thank you for coming on the show.
+
+
+[00:00:41] BC: Formerly of DockYard.
+
+
+[00:00:43] JE: Formerly of DockYard.
+
+
+[00:00:44] BC: Well, I guess, I still own the company. I left at the end of last year.
+
+
+[00:00:49] JE: Right, right. Maybe we'll jump into a little bit of that, but I want to rag on you a little bit to start the show off and say – you e-mailed me pretty much every single day, since February 2019, just asking to be on the show. Finally, it ran out of other guests. No, totally kidding.
+
+
+[00:01:05] BC: I did e-mail to ask to be on the show, but it was only once a week.
+
+
+[00:01:09] JE: One, we're really, really glad you did, but only once a week. That's hilarious. He just nudged me. He's like, “Hey, man. I really want to talk about this subject today.” We're going to get to the subject of our conversation today. First, why did you want to come on the show and why are we not talking about Ember?
+
+
+[00:01:26] BC: I’ll address the second question first. We're not talking about Ember, because there really isn't anything to talk about. I mean, if this was a few years ago, I would be very interested to talk about Ember. I think, we can discuss the failings of single-page applications as a whole first, which isn't really Ember's failing. Okay, so I describe as someone who ran a consultancy and had to go in and sell these services to companies. I bought into single-page applications, because I think on paper, it made a lot of sense. When it came down to the cost of single-page applications is where a lot of companies started to be lost.
+
+
+My history and the web is a lot of people around my age, they came up through Ruby on Rails. I mean, it was a paradigm shift and really an ideological shift in how web applications were being built. There's also a cultural shift, for better or worse. I mean, this is where the whole rockstar developer junk started. I don't know if it started there, but it definitely latched on to it.
+
+
+The value proposition of Rails at the time, the thing that made it so attractive over the offerings at that time, building out your web application in Java, or PHP, or something else is that they could legitimately go in and defend the position of that. We can build this same application half the time for half the cost. That's how rails really took off. You had the rise of all these startups and venture capitalists, looking to basically get their applications out into the market early to validate their ideas.
+
+
+If you had a framework and a technology that allow you to get it out faster, that was going to win. That's really how in my mind, how Rails was so successful. Now fast forward a decade and here I was sitting in the room of trying to sell Ember and again, I won't make this part Ember's fault. This is the concept of single-page applications. Now I’m having to tell them like, we can build the same application in twice the time and twice the cost.
+
+
+There is some value of over what the interactions and the edge case optimizations that single-page applications can bring over server rendered applications. Now, especially when you start to find people creating more complexity in jQuery, looking for sanity and this is where the SPAs stepped in and said, “Hey, let us normalize this space quite a bit.” The return on investment for building out these single-page applications really started to not be worth it. Except, if you were a very, very lucrative company, or if you had some very well-technically minded people that could take over the application afterwards.
+
+
+DockYard is still selling Ember services and I don't want to sink them on it. I mean, I came out publicly probably about two years ago and just said that we weren't – I wasn't and at the time, I directed DockYard to no longer really go out and sell itself as an Ember consultancy. It's not really advertising itself that way anymore, but just due to DockYard's reputation in the Ember space, there's still residual leads that come in from time to time in relationships that exist.
+Ember as a technology, I actually think of all the single-page application frameworks out there, it's the best technology that's there. Ember's failing in my mind, has always been marketing. How it really tried to boil the ocean in terms of they need to own everything. The other frameworks, I mean, it's even debatable if the other SPA frameworks are frameworks, in the same sense that Ember –
+
+
+[00:05:11] JE: Is React considered an SPA framework, because it's –
+
+
+[00:05:13] SM: Library. They're always calling it a library.
+
+
+[00:05:17] BC: Yeah, it's a rendering engine, essentially. Then there's other pieces out in the React ecosystem that you could piece together to bring this front-end full-stack competency, or something similar to what Ember has that's turnkey. In fact, I think it’s – maybe it's Angular CLI that forked the Ember CLI project.
+
+
+The Ember team, they want to do everything themselves. They're a small team. They weren't backed, they didn't have the same financial backing that Angular or React did, and so they were constantly falling behind. I think that they had the smartest people doing these things and they bit off more than they can chew. When you're working in a bleeding-edge space, where JavaScript client-side applications are, but you're not offering bleeding-edge solutions, you're just going to fall farther and farther behind, to the point where eventually, Ember made its motto that all the best solutions will eventually end up in Ember.
+
+
+Their idea was that okay, we're going to see what everyone else is doing and then we're going to pick and choose what's going to end up there. I think that for some people, that sounded good and I bought into that marketing as well. When I started to think about it, it's difficult. Yes, well, it's difficult to go out and sell that as a value proposition to companies, because they're going into the single-page application space. Already, they're taking on some risk that this is better than server-rendered applications.
+
+
+This notion that you're going to sell a risk-averse, single-page application framework was contradictory. I mean, there's all sorts of different things that occurred with Ember. DockYard, we were doing work for Netflix for two years on their studio applications. There's two Netflixes. There's Netflix Inc., which is the application you go to for netflix.com. There's Netflix Studios, which is the entity responsible for all the original content production. They're the ones that have the studio down in LA.
+
+
+The apps that DockYard was building for them were all Ember-based. That relationship came to an end beginning of 2020, Q1, Q2-ish, because they wanted to get rid of Ember. They wanted to move away from Ember. There are very few really noteworthy names that are still in Ember at this point. There's some that would be more considered legacy. They've been around for a while. LinkedIn is the biggest one, but they also employ almost the entire Ember core team.
+
+
+[00:07:41] JE: Well, I knew you'd have a fascinating take on it. I think we all agree that one of the technology commandments is to be language agnostic, which is why we named the podcast Elixir Wizards. The first part of your answer, which was moving out as a result of being focused on cost effectiveness for your clients, probably has something to do with why you went into Elixir.
+
+
+[00:08:04] BC: Not necessarily. I think that Elixir has a good story, because of Erlang in that area.
+
+
+[00:08:10] JE: In the cost efficacy area?
+
+
+[00:08:12] BC: You're saying that Elixir is not cost-effective?
+
+
+[00:08:15] JE: I’m saying that it is, from a development velocity and efficiency standpoint. You can build a lot.
+
+
+[00:08:21] SM: It might be interesting to rewind a decade or so and get into, for people who don't know the story, how did you make this transition from Ember to Elixir, or was it parallel? Or did you go after it, because of some reason?
+
+
+[00:08:36] BC: It wasn't really a transition from Ember to Elixir. I’d say, that was more a transition from Ruby to Elixir, because we were searching for a different back-end solution. DockYard started really in the summer of 2009. It had a different name at the time. It was called Dirty Water Development. I’m from Boston and the song by The Standells. Love that dirty water, about the trails river for the red – it's always sung at a Red Sox games. The pipeline in the gulf blew up and then the Gulf of Mexico was full of oil –
+
+
+[00:09:10] JE: Deep water horizon?
+
+
+[00:09:11] BC: Yeah. That was three months after I called my consultancy, Dirty Water Development and everyone's like, “What is this Dirty Water Development?” They didn't have any context, or they were drawing the wrong conclusion. I’m a sailor. I had to find a different name and I really wanted to call it Shipyard, because hey, we're shipping software. There's a there's a beer called Shipyard too. They have shipyard.com. My whole thing is like, I really want the domain names – I think the domain name is important to own as part of the naming process.
+
+
+I mean, this is a little bit of a tangent, but docker.com ended up being owned by a naval architect who lived in Gloucester, Massachusetts. He was selling, basically, plans for building out barges. He was an MIT graduate. I didn't really talk to him at all. From what I gathered, he was pretty much an independent naval architect that was selling into commercial space.
+
+
+His website hadn't been updated in about five or six years. I started to look into him. I tried to contact him on the website. No response. When I started to look into him, it turned out he was in his late 80s. It's like, “Uh-oh. He may not be around anymore.” I was trying to find his family to contact him to see if there was an estate that owned the domain name. This is the only time that's ever worked out for me. Just after two or three weeks, I’m like, “I have to have this domain name.” After two or three weeks, I contacted the GoDaddy service that will go and try to purchase the domain name for you and it worked.”
+
+
+I guess, he got contacted quite a bit by people looking to purchase the domain name, just to squat it and then sell it. I guess, the message got through that I was a legitimate buyer, and so he was willing to sell it to me. It was towards the end of 2009 or beginning of 2010. All that to say, it started as a Ruby on Rails consultancy. I was of the mind that Rails was over its peak, in terms of adoption. This is where node started to really eat into a lot of the Rails space.
+
+
+[00:11:20] JE: I remember being in Boston and I think that you were organizing the Ruby conference in Boston for a few years.
+
+
+[00:11:26] BC: I ran Boston RB, which is the meetup group. There was a Ruby conference that I ran called Wicked Good Ruby. That was my first time running a conference. For those that run conference events, I have a lot of sympathy for them, because it is a thankless job. It was really, really difficult. You put a lot of money on the line. It is a lot of risk there. There's something about the developer community that they complain. I was going to say that they whine. I’ll say bitch and whine. They bitch and whine about pricing.
+
+
+You go to any other industry conference and yeah, the cost of tickets are hundreds, sometimes thousands of dollars. You have people complaining in software that the ticket is above $50. I get it. Maybe you can't afford it. The same time, the person running the conference can't go into massive debt. You're not going to have a conference if that happened.
+
+
+That's why the stuff that happened with Jim for ElixirConf this year with everyone complaining of – not everyone, but there was some people that were complaining about the nature of how he was releasing the videos, I thought was just horseshit. Jim has put himself out there. He's the one that puts these conferences together. It's his money that's on the line. It's his well-being that's on the line. He's got to make it back somehow, or else there’s not going to be an ElixirConf.
+
+
+[00:12:42] JE: It's a lot of work, just from having seen Jim at work. I really appreciate you chiming in on that, because he puts in a ton of work. He loves the community. He means nothing, but love and generosity to me. He's been such a great person in the community. Yeah.
+
+
+[00:12:59] BC: I mean, part of that too is messaging. People can understand, I think especially on the Internet, we're not face to face with people. Sometimes, it's easier for you to start diving into conspiracy theory about like, “Oh, Jim’s going to make a ton of money off these videos.” No, no. He'll be lucky if he makes his money back.
+
+
+[00:13:16] JE: Yeah. Developers are unforgiving.
+
+
+[00:13:18] SM: Yeah, there's definitely something to be said about empathy over the Internet and teams even who work remotely and who don't see each other every day, or in person. There's just a little bit of a disconnect. That's something we definitely saw a lot in 2020 more than any other time and we have to work through.
+
+
+[00:13:34] BC: DockYard went fully remote in 2016. We were pretty prepared for this. It was a smooth transition for DockYard. It would have been helpful for Docker to share his experiences early on and how it managed certain aspects, especially around HR type stuff and team building and community. I was of the mind that Rails had peaked in terms of being “cool” around 2010-2011.
+
+
+[00:14:04] JE: That's early.
+
+
+[00:14:05] BC: Yeah. The team was small too. It was maybe single digits at the time. I said, we're going to no longer pursue Rails. I mean, because we're just playing catch-up. I knew I wanted DockYard to be. I wanted DockYard to be a leader in a technology space. It was coming around at the wrong time for Rails. We were literally two streets away from thoughtbot. Thoughtbot was probably one of the largest Rails consultancies in the world at the time. I can't think of another one that was larger.
+
+
+I think they were still around that time, they were probably, what their numbers are now like, around a 100 people. It was crazy. Because the only way they really compete – I can't compete on expertise, or reputation in Rails. I have to compete on price, which is never where you want to be. That's part of the reason why I went towards Ember. I put a lot of trust in Yehuda coming from the Rails core team, the Ruby world. I saw him speak in Boston on – It was before he even announced the name of Ember. He was working for a company called Strobe, whose whole business model, I think, was around the framework called sprout core.
+
+
+Sprout core was from what I recall, a manifestation of the Coco Framework out of Apple. Strobe had some former Apple people. They were working with Apple. Sprout core was a web-based version of Coco. All the lessons on how to build GUIs on Mac OS were put into this framework. I think, iCloud, you go to icloud.com, it's still built on sprout core.
+
+
+Yehuda was brought in to create sprout core 2.0. I don't know the reason why. Maybe because he saw an opportunity, but he decided to fork it instead and create – well, at the time, he was calling it Amber, with an A. I think that there was another framework of technology called Amber, and so he went with Ember.
+
+
+We went towards Ember, started to build up a reputation in that space. I was butting heads with the Ember core team quite a bit on a bunch of stuff. I was never going to be on the inside baseball track.
+
+
+[00:16:08] JE: Were they technical disagreements?
+
+
+[00:16:10] BC: I think, really around marketing, like messaging. The Ember core team had a bad reputation early on on selling you on where they want to be. It would take them years to get there. By the time that they get there, it was just, you've heard about this technology for a while now and it wasn't exciting anymore. I had this moment where I saw when React Native was released. The way they released it was they didn't tell anybody that it was coming out.
+
+
+It was the React conference, one that Facebook ran, or runs the official one. They announced it. It was like, blew the doors off everybody. That's the way that Apple releases products too. I understand, Ember, the core team's desire to bring in a lot of ideas, a lot of concepts and perspectives on how the technology should be built, because then they have a consensus on okay, this is the best way to do it, but that takes a lot of time. It's designed by committee to a certain extent. It's their framework. It's their technology. They can do it as they like, but I really think that the adoption of Ember was just decimated, because of how they presented ideas in the direction they want to take it. They would get up there during their keynote speak and say, “We have the original templating engine.”
+
+
+[00:17:27] JE: Oh, handlebars?
+
+
+[00:17:28] BC: Well, it was handlebars, but they were going to – I think it was called eight – Well, I think the new rendering engine at the time was HTML bars. It was revolutionary, but it just took too long to come out. By the time it came out, other frameworks had surpassed it. It's difficult to work on adoption around those constraints.
+
+
+[00:17:48] RB: I guess, in a direct comparison, you feel very strongly about Elixir adoption, obviously, since you're here and you asked to be here to talk about it. What are some things that you think that Elixir might be doing better, or are there things that you think you're seeing the same mistakes, or things that are happening that are working?
+
+
+[00:18:05] BC: I can answer that in a couple different ways. My personal experience and then I ran the Elixir ecosystem survey. Part of the purpose of that survey was to solicit answers to those very questions. I have some data from that survey. The data is available, so anyone can take a look at it, but it's in a PostgresSQL data dump file, so it's not very user-friendly at the moment. Anyway, I’m happy to share all that stuff.
+
+
+[00:18:29] JE: We were literally just talking about that before the call. That's so funny.
+
+
+[00:18:33] BC: I’m not good at data visualization. Thankfully, Hugo, formerly a platformer tech, was the one that took it upon himself to convert the data. It was on Typeform. The data dump from Typeform was horrible. It was a CSV file that had every answer was its own column. Well, not every question. There were multiple choice answers. Every multiple-choice answer, every answer in a multiple choice had its own column. The data model that it dumped out was – I mean, it was only usable in the sense that eventually, Hugo was able to get it over to a PostgresSQL data model.
+
+
+Now that we're there, we're hoping for this year that we can build a Live View application around that for the actual survey. Then when we're done, press a button and then, ta-da, data visualization. That'd be great.
+
+
+My own personal take on Elixir, on why I really like it and the strengths that are there, things that help with adoption are number one, that I think, it starts and stops with Jose. I mean, this is my fourth technology community I’ve been in at this point. I think that he is probably the best leader that I – technology leader that I’ve seen. DHH, he's a very good technology leader as well.
+
+
+[00:19:54] JE: You can say it.
+
+
+[00:19:56] BC: Yeah. Saying, DHH is very good at marketing. He can go out and sell anything. I think, that's a really important thing that's really unique. No one else has that. It's not a knock on Jose about that. It's just that it's difficult to go and compete with that type of ability.
+
+
+[00:20:12] JE: He's a huge personality.
+
+
+[00:20:14] RB: Yeah. I remember early on in Rails, he was getting interviews on TV shows and stuff talking about it. He was just so big.
+
+
+[00:20:20] JE: Professional race car driver and photographer and all that.
+
+
+[00:20:23] BC: He's done pretty well in the race car world, from what I understand.
+
+
+[00:20:26] JE: Oh, yeah. Didn't he drive Le Mans, or something crazy like that? I thought he drove Le Mans, or something insane, like really good. I don't know.
+
+
+[00:20:32] BC: Yeah. I don't follow it too much, but I know that he's a legitimate race car driver. He's pretty legit. Jose is really good about handing off responsibility. That's something that I want to contrast with the thing that I had problems within the Ember space. Whereas, the Ember core team wanted to own everything, because they felt that they needed to control the messaging and control the technology.
+
+
+Jose is more about like, I don't have time to do this, or I don't want to do this. You should do it. Not to say that he's just trying to throw things off, but he doesn't need to own everything. I think, Jose is starting to mentor people and trying to bring them up to his level. Now, hopefully creating more Joses. I think the joke for a while was there must be multiple Joses, because he's just so prolific in how quickly he can answer – He's super active in GitHub, super active across all these projects.
+
+
+[00:21:19] SM: He cloned himself [inaudible 00:21:21].
+
+
+[00:21:21] BC: Yeah, exactly. He cloned himself. That's hopefully, what he's finding. He's finding someone that is passionate about a particular sector of literature that he wants to see improved and he's working with them in order to guide them on where it should be. I think, that's incredible, powerful thing.
+
+
+Now, whether that helps Elixir’s adoption or not, yes, I think that's going to be helpful, but is it going to be helpful in time, is the big question? Technology, generally has in my mind, a limit on how easy it will be to get other people to buy into it. Software engineers, especially the new and shiny thing. If the new and shiny thing has solutions to all their problems right away, they're going to gravitate towards it.
+
+
+Or, if the new shiny thing is backed by a Facebook, or a Google, or a Microsoft, they tend to go with the names sometimes. I actually prefer the opposite. I like technologies that are not backed by these big companies. They're ones that I can contribute back to. I don't have to go through a deliberation process, by determining whether or not this feature request is in Microsoft's best interest.
+
+
+[00:22:32] JE: Yeah. I was listening to Matt Mullenweg talk about this, that at the end of the day, open source is going to win every market. I don't really believe that, but who am I?
+
+
+[00:22:42] BC: Not on mobile. It’s not going to work on mobile.
+
+
+[00:22:44] JE: Yeah, not on mobile. Not in operating systems.
+
+
+[00:22:46] RB: It makes it more accessible, is what you're saying here.
+
+
+[00:22:49] JE: I don't know what Mullenweg was saying. What I’m saying is I just don't think that – I don't think that bears fruit. Operating systems have not converged toward Linux.
+
+
+[00:22:58] BC: The whole the whole word of win, I have a problem with, because it's binary. Either you win or you lose. I don't think that open source is going to win or lose. It's going to be an important aspect of software development. There's going to be the closed systems of iOS and Android. Whatever else comes out in the future that are going to be huge markets. Then, there's going to be the web, which for the most part, unless WebAssembly somehow changes this, but remain open source.
+
+
+[00:23:31] JE: We're going to talk a little bit about WebAssembly.
+
+
+[00:23:33] BC: Yeah, we can get into that a bit.
+
+
+[00:23:35] JE: I want to tie back to this narrative of DockYard and especially – I want to hear the story. Who brought up Elixir at DockYard?
+[00:23:42] BC: It was me.
+
+
+[00:23:43] JE: It was you.
+
+
+[00:23:44] BC: To go back a bit, I had first heard about Elixir, because Jose was on the Rails core team. I was paying a lot of attention to Rails, but I did not go out and try it. I think, actually, the version that he had released – actually, I don't know if he releases from – It was very early on. It was very early Elixir and he's doing this. I have to credit a friend of mine, who I haven't spoken to in a while, only because he moved away. Johnny Boursiquot.
+
+
+[00:24:08] JE: I’m good friends with Johnny. I love Johnny.
+
+
+[00:24:10] BC: Yeah. Johnny’s awesome. He's doing Go now, I believe. He's somehow involved with Go.
+
+
+[00:24:15] JE: He lives down there.
+
+
+[00:24:16] BC: Yup. He used to live up here in Boston. Actually, I don’t remember if it was a conference. I used to run these retreats called Rails Camp. He came to a few of those. I don't recall if it was at a Rails Camp, or a conference. He was playing around with Elixir. I respect Johnny’s opinion on technology. That got me to start poking around in it.
+
+
+I don't remember what the delta was between that and when Dave released the first version of the pragprog book, but I went through the pragprog book in probably a week. I came in and I was like, “All right. We need to start doing this.” This is legitimate. I had other things that added into that over time. I always had a lot of respect for Erlang. When I worked down in DC, one of my co-workers was really into Erlang. He really liked it, but I just could not wrap my mind around the prologue syntax. I just started. Every statement ends with a period. I was like, “What's going on here?”
+
+
+When I started to push Elixir at DockYard, I don't think Phoenix is 1.0 yet. It was definitely pre-1.0. It was coming up on 1.0. What I was finding to my delight was that it was easy to transition Rails engineers over to Phoenix. Especially when the old application layout was. Chris copied the Rails project layout. It was that 1.3 of Phoenix, or something that changed.
+Because it was so similar, it was an easy transition. I bought the pragprog book for a lot of people at the company, I bought the digital version and had pretty much the entire Rails team within a month converted over to Phoenix.
+
+
+[00:25:58] JE: You mean you taught them? You clients, right? You've got stuff that's going on that you're maintaining.
+
+
+[00:26:05] BC: Yeah, we had clients. It's easy to say like, “Oh, Brian knows what he's doing after the facts, because DockYard's done well.” At the time, I was probably breaking every single business rule in existence, because I was pretty much taking an existing company that was doing okay at the time. I think, we were probably 7 to 8 million-dollar revenue annually at the time. I was like, “All right. Let's sync this ship and head off in a new direction, because I like this other technology.”
+
+
+It was an easy transition, because Phoenix worked out better as an API back-end for Ember than Rails did. For a single-page application framework, especially when you get into page transitions, if your application response time was faster, shorter, then the application experience was better. We were seeing that. It was then a matter of okay, now we have to go and convince clients to do this.
+
+
+I mean, my marketing path was always in blogging, content generation. I don't remember if I did this for Ember, or if it was for Elixir. Maybe I did it for both, but I think I spent a month where I blogged every single day about different things I was learning, or discovering, or thoughts I had in Elixir. The nice thing is that when a technology community is starting to get – start to hit the ground, which where Elixir was at the time, you don't have to do a lot to get a lot of attention. This was probably 2014 or so.
+
+
+Yeah, I have to look back. I used to write these annual reviews of DockYard, lessons learned, like here's what happened this year type of blog posts that were pretty lengthy and sometimes not great for me to go back and read years later, because there were just really obvious things that I could have done differently. It was good to reflect upon these things.
+
+
+I think in one of them, I declared that DockYard was no longer a Rails consultancy and Docker is now going to be a Elixir consultancy. There was a running joke for a while that whatever new technology came out, Docker was now that type of consultancy. For a while, there was a time when almost every single month, there was a new JavaScript framework being announced on Hacker News. I would always tweet out from a Docker account. Docker is now an X consultancy, now just as a stupid meme.
+
+
+I was legitimately saying that DockYard is moving over to being a Elixir consultancy. The timing of that worked out for us. I was unaware of this, but Chris McCord had left the consultancy he was at and he was, I think, just doing training in Phoenix. He was traveling around the country and doing Phoenix training, or Elixir training in general and trying to get Phoenix to 1.0. Somebody brought it to my attention that he was either available, or maybe even looking for a position.
+
+
+I’m not above saying this, but I think that part of growing a consultancy is sometimes, buying legitimacy. We went out and I made a deal with Chris and how that relationship could work, what restrictions DockYard had upon the growth and features that go into the Phoenix. Just so everyone knows, DockYard has no say on what goes into Phoenix. I can make recommendations to Chris on certain things and say, “Hey, it'd be nice if it had this,” but DockYard has no way of saying, “This must happen in Phoenix.”
+
+
+That's part of the contract that Chris has with DockYard. That was really important. As a software engineer, I understand his reason for that. DockYard has no IP claim upon Phoenix. We were essentially just funding Chris’s effort to work independent on Phoenix and that's what he was looking for. The relationship worked out. When Chris came to DockYard, I mean, whatever visibility DockYard had in the Elixir space just went tenfold, a 100 fold, whatever it is, because it's of course, the creator of one of the reasons everyone is interested in Elixir is at this company. I would like to think that in most cases, if a company is thinking about hiring a consultancy that DockYard is part of those conversations. That's really what we're looking to do.
+
+
+[00:30:04] SM: I guess, fast forwarding to today, you've talked about it a little bit at the beginning, but what are your strong opinions on how companies could go about adopting Elixir today? Because that is what we're hoping.
+
+
+[00:30:17] BC: I’ll go into what came out of the survey and what we've seen selling Elixir into spaces, is that you're dealing with two types of clients sometimes. Clients that are looking to create something from scratch, or clients that are looking to rebuild what they currently have. In both cases, they may be looking to okay, what's on the horizon? What's the new technology that can really offer a benefit that what we're currently doing is not offering?
+
+
+In order to have that conversation with those clients, you have to justify that the technology that you're suggesting that they build this in, offers an order of magnitude improvement of what they're currently doing, because they have a existing competency, a team in whatever their current platform and technology is. They know where the rough spots are. They know how to get that technology out the door. Early on, Phoenix's and Elixirs value prop was comparing it to Rails like, “Oh, we have microsecond response times.”
+
+
+I think, that was from an engineer's perspective, that was compelling, because like, wow, that's really fast and I’m not going to have to really worry about some scalability issues down the line. From a business stakeholders in a company, that's not a really compelling argument. The compelling arguments are really going to be around capabilities. Does Elixir have all the capabilities in its ecosystem that the current technology that we're on, or we're familiar with can do? Yes, it has fast response times, but if we want to implement this type of functionality, are we going to be hitting roadblocks, because we have to build this from scratch?
+
+
+Hiring is probably the biggest problem that I saw reflected in the survey. They're definitely in the double-digit responses, going down that like, why we didn't adopt lecture path. That articulated that didn't want to implement the technology, that they wouldn't be able to go and hire people for. This is a chicken or egg problem, unfortunately, in technology spaces sometimes. I think that any efforts that are underway, in order to further education in Elixir and Phoenix and nerves and everything else are really important.
+
+
+Whatever type of red flags people are seeing towards education, or learning Elixir have to be dealt with. One of the biggest things that I’ve seen that people – I’m like, “All right. Full stop. I don't know if I can learn Elixir.” Is they fear the term functional programming. They come from an imperative programming, or object-oriented programming mindset and they have this preconceived notion that functional programming is the landscape of the intellectuals, the academics.
+
+
+In my experience, that's simply not true. I think it attracts a lot of those people, but it is – I actually think, easier to learn functional programming than it is object-oriented programming. Some of the concepts that are out there around OOP, made it seductive. Especially at the time when OOP started taking off, because you had all sorts of problems around memory restriction on machine, and so you can't really do mem copy on every single function call and expect it to play well with a few, like tens of megabytes of RAM or hundreds of megabytes of RAM. That's no longer an issue.
+
+
+When you had reference by memory on an object-oriented programming, that was a big reason why it took off. Some of the concepts around like, okay, we can compare real-world things over to object origin. We have a dog model and we have a cat model. They both inherit from the animal class. Those type of things, I don't know if we can make direct comparisons with gen servers and all that in Elixir, but I think that there needs to be some boogeyman killing of the functional programming fear that exists, that's out there.
+
+
+[00:34:06] JE: Object-oriented programming has this allure of that it's intuitive. In fact, functional programming is more intuitive, because it more accurately resembles the underlying primitives of what's happening on the machine. We try to anthropomorphize it by making object-oriented.
+
+
+[00:34:23] SM: I was just going to make a comment about this hiring thing, that we do see it a lot and obviously, you saw it in your survey. We've also seen a number of people on the show this season, saying that hiring in Elixir gave them a competitive advantage in that they were hiring really great engineers, not necessarily because they were programming in Elixir, but because their passion for programming was just so unique, because they wanted to program in Elixir. It's interesting to see that.
+
+
+[00:34:50] BC: I tell people that if they're willing to hire right now in Elixir and they're willing to put in the work to find people, they're going to find excellent people. The issue though is that most of the Elixir community is very heavily weighted towards senior. Sometimes, engineering teams don't have the budget to hire all senior engineers. There's not even, sometimes the work that are necessitate senior engineers. There needs to be more seating the ground with junior engineers, mid-level engineers.
+
+
+I think in their current pandemic world, that's even more difficult. One thing that DockYard has always struggled with is how – early on, DockYard had a good reputation for bringing on juniors, mentoring them, getting them leveled up. Since the company went remote in 2016, we made an active decision to no longer pursue and train juniors, just because we didn't have a good way to go about doing that in a remote environment. Part of it is a trust issue. I think that we would be more willing to trust senior engineers in the remote environment than junior engineers.
+
+
+It stopped at our QBR meetings, where we just said, okay, we don't have a good solution for this yet. Let's punt on it. Let's punt on it. A lot of stuff that Bruce Tate is doing right now with it rocks.io, I think, his education, I guess you call it a platform, or a product at this point, I think that's really important. Getting more people at those entry level is interesting. I mean, it's also, like I said, chicken or egg. The reason sometimes those people go get into it at junior level is because their company moved over to Elixir. It's slowly trending in the right direction, whether or not it's trending in the right direction at the right speed is debatable, but I think beyond just hiring, there's also the issue of the missing pieces in Elixir land.
+
+
+I mean, we can talk about this from a trend perspective. I think, the trend in software engineering over the past couple years has been around strong types, type systems and programming languages. If Jose is listening, he's going to probably shaking his fist, because I always bring up type systems in programming languages and he immediately e-mails me and says, “We're working on it. We're working on it.” I know. I bring it up, because it's on my mind. I don't want to undermine the core team’s efforts. Just that lacking limits some of the tooling around the language.
+
+
+[00:37:06] JE: I’m so curious if whether or not that trend towards static typing is going to be a persistent.
+
+
+[00:37:13] BC: Well, I mean, there's something to be said that technology trends are – they come and go. I think that with static typing, then you get static analysis. You have the ability for your editor to be smarter about how you're writing your applications. It allows for I think, less mistakes to be made in the long run. When JavaScript community moved over to typescript, there was a huge performance boost that they saw, because less time was spent going in having to squash these esoteric bugs that were coming out, because the type system, they were able to bubble those to the surface during the initial programming of it.
+From a value perspective, that aspect, I think, is very valuable. I do think that, yes, you're right, that trends come and go in technology. Just to say we want to type system, just because everyone else has one is not a good reason for it.
+
+
+[00:38:02] JE: This is the, I think, maybe the fundamental quirks of the question, which is if it's an optional type system, is it a real type system?
+
+
+[00:38:08] BC: You're never going to have a full type system in Elixir, because you can't go all the way down into the Erlang on it. I mean, the best you can hope for is what gleam has, which is its compile time in the gleam code type system. Where something like Elm has done very well, is really leaned into their type system into all aspects of it. If you were to release a Elm package, I believe it will actually ensure that your version bump adheres to the contracts that you've set out in the types.
+
+
+If you do a minor version bump, it's going to actually run through and do a static analysis on the package to ensure that okay, yes, this is a legitimate minor bump. That's not going to break backwards compatibility. I think, those type of things are helpful. Outside of type system, there are machine learning type areas that Elixir is not in pure number crunching that I think that Erlang in general has a bad reputation for, that I know that there's efforts underway to deal with that.
+
+
+There are higher level concerns, so a CMS built in Elixir, or Phoenix that people look to be integrating. I saw the survey results authentication. I know that there's the Phoenix Genothen, whatever they're calling it now, the task. This brings me to a good point, something I want to call out that I am super guilty of. I think that the electric community needs to stop doing this. I have seen and I have done this several times that someone will ask like, “How do I do X in Elixir?” They're coming from Ruby, they're coming from somewhere else and they're used to just dropping in a package and they configure the package and it does what they need. Then in Elixir, they come to try to do that and someone says, or I mean, there's a record of me saying it, you don't need a package. Elixir is easy enough to just write it from scratch. I think that there is absolutely some value to that at a certain level, but there's people coming from a particular experience and background that that is just a full-stop for them.
+
+
+[00:40:05] JE: Say it louder for the people in the back, Brian, that we need to make the thing accessible to every level of development.
+
+
+[00:40:11] SM: I also have a hot take on how to make the Slack a little more accessible. I was talking to Justus the other day, I really think we need to allow for custom emojis. I know, I’m very biased in this, but the Elixir lang Slack does not allow for custom emojis. I just think it completely voids it of personality. It's so hard for me to communicate with people in there. I don't talk in there, because there are no emojis. I know that's probably just a me thing. Anyways.
+
+
+[00:40:35] BC: The idea of what successful adoption is, also has to be framed correctly in Elixir world. I think, it actually was this podcast. It was at yeah, Lone Star. It was the speaker room and I came in at the wrong time. I think, Justus, you told me to speak up on something. It was talking about adoption. The question put to me was, how does Elixir beat Java? How does it beat – that's a defeatist way to look at it, because it's not going to be Java. It's just not going to happen. Java is too big. C is too big.
+
+
+I think, Ruby and Python are probably the two most likely realistic targets, in terms of okay, can we get up to this level? Do I even jump on some client calls with DockYard still now? Then and if it's a client doing something particularly interesting, I ask them to write use case, case studies on what they've done. Jose started to publish some on Elixir lang, which is great, but we need more. We need more companies out there talking about their success stories with Elixir.
+
+
+I gave a talk in New Orleans. Brian was running that conference. I think it was on this topic, adoption of Elixir. I put up some quotes for companies. I was trying to get backgrounds. I found two examples of companies that did not want to talk about using Elixir, because they thought it was so much of a competitive advantage that they didn't want their competitors to know that they were using Elixir. At the time, I was like, “Wow.” That's such a compelling data point. The more I thought about it, the more it just annoyed me. I mean, they had this – that's not going to sink their company.
+
+
+[00:42:21] JE: That’s how they think in the valley.
+
+
+[00:42:22] RB: I know. I know. I know.
+
+
+[00:42:24] JE: They've been overtaken by that mentality.
+
+
+[00:42:27] RB: Yeah. Those are the type of companies we probably need going out and saying like, “We had this major success story with Elixir. We had this major success story with Phoenix.” We're just not getting it on a certain level. If you're listening to this podcast and your company has not written a case study yet, don't even worry about whether or not you think that it's going to be this groundbreaking case study. Just go out and add to the conversation. That's what we need. We need more. We need more.
+
+
+I’m very thankful for the work that Bleacher Report has done on popularizing Phoenix and Elixir, but we can't keep telling that same Bleach Report story over and over again. Because at some point, those out there that have heard it before that haven't adopted Elixir, they'll they call us out and say like, “Okay. That story is five-years-old at this point. What's happened since then?”
+
+
+[00:43:14] JE: We do a ton of case studies at SmartLogic, and so I wanted to give Rose the chance to acquaint us with any.
+
+
+[00:43:20] RB: I’m really curious. It's been six or so months since you presented the survey. I was wondering if there are any metrics you've seen that have changed in that time. Maybe additionally, what was something that you were really surprised about when you saw that metric? It could be separate things.
+
+
+[00:43:34] BC: We haven't gathered any more data, so I can't say whether or not the metrics have changed. Jose has been teasing something on Twitter for a little bit now. He's going to present it at Lambda Days in February. If you want to know what Jose is working on, go sign up to watch Lambda Days in February and watch Jose's talk. I think it's going to blow your mind.
+
+
+It does address one of my concerns around adoption in Elixir. That's the only thing I can say concretely that I think that has moved. I won't be able to answer that question really, until we run the next survey, to see whether the chains have moved back and forth, one way or the other. I mean, the area that I think surprised me, I knew it was going to be bad, but it was really bad was the diversity answers in Elixir.
+
+
+[00:44:18] RB: 2%, I think, for the women in Elixir, but I don't remember about the other metrics.
+
+
+[00:44:22] BC: It wasn't good. The good thing that has come from that, and I don't know if she wants me to announce her name or not, so I won't. Someone has reached out to me that is passionate about this part of it. She wants to get involved more. I will reiterate some of what I said during the presenting of the data. I can't help but think that the data is skewed a bit, in the sense that my ability to outreach in certain communities is limited by who I am and what I am. I made efforts to reach out to Elixir Bridge. From what I can understand, they're not in existence anymore.
+
+
+[00:44:57] JE: Oh, wow. I didn't know that.
+
+
+[00:44:59] BC: I mean, maybe I’m speaking out of turn, but I didn't get any response from Elixir Bridge. I reached out to the person that I believed was running Elixir Bridge and no response. It was difficult for me to get this, the survey into the hands of those that could probably have boosted those numbers a bit. I also think it's important not to play a numbers game with a survey. The goal isn't to increase the survey numbers, or pad those numbers. The goal is to get accurate representation of what that currently is.
+
+
+The survey should be used as to either track success or failure in that space. In order for us to do that accurately, we need accurate numbers. While I know that gender diversity in Elixir is not great, I hope that it's not as bad as the survey reflects. Maybe it is. Maybe after this next one, we'll see something that maybe it's going to be the same. I don't know. I know that it's an area that – not that the responses need to be improved, just the outreach and adoption in that space needs to be improved.
+
+
+[00:46:06] JE: I have to ask you about Lumen. I’m curious, if you could do quickly just the elevator pitch. More importantly, I want to know about the status of when am I going to be using Lumen?
+
+
+[00:46:18] BC: Okay. For those that may not be aware, I’ll just give the pitch on what Lumen is. Lumen is, it compiles Erlang bytecode and VM into WebAssembly. It will allow us to run fully-compiled, fully run the unprotected processes in the browser. Why do we want this? There's a couple of reasons.
+
+
+Number one, I really don't like writing JavaScript. I didn't even bother to go learn typescript. I just don't want to do it. After doing Elixir for a number of years, I see the massive productivity boost in functional programming, not having to go through the call stack, to find some crazy function that was renamed somewhere along the way.
+
+
+I think, when you when you want to hack something together in JavaScript, it's fine. I’m really impressed with how much people have been able to take how far a language that was written in a week has been taken over the years. Just the developer experience in JavaScript, I don't like. I also think that there is some value to the actor model when you start to think about how does it – how can you use it to build out graphical user interfaces, which is basically what the web is.
+
+
+My part of the keynote at ElixirConf a year and a half ago, pontificated like, okay, what if we can map the supervisor tree against the DOM tree? I’ve thought about that a bit more and that idea has evolved and it's still a what if. It's not actualized yet. Especially when you start to get into the idea that every DOM node can be linked back to a process in a Elixir application, then you can basically manage client-side events as messages being passed up in a normal gen server.
+
+
+Then you'll be able to hopefully manage and build out applications. I’m trying to sell people on this and I don't even know if I’m sold on it yet, because we have to get Lumen to the point where we can build it to determine whether or not this actually has value.
+
+
+The other side of Lumen is that it's going to conform to the wazzy spec. If you're unfamiliar with the wazzy spec, is a sub-committee on the WebAssembly specification, that allows you to basically, anything that you can compile into WebAssembly can be compiled into wazzy. The whole point is to be able to compile into wazzy, which is to be run on an operating system command line.
+
+
+One of the big limiting factors of the nerves project right now is that you have to compile the entire Erlang VM and it has to run on these Raspberry Pis. That really limits nerves as a technology into the IoT space, because you have vast majority of IoT companies that are working on 1 to 2 megabytes of memory for their IoT hardware. Nerves right away, I think, it's compiled as what, 10 megabytes or something like that. Don't quote me on the number, but I know that it's bigger than what some of these IoT companies are comfortable with.
+
+
+If we can get Lumen to actually compile to a footprint – I think, we're currently around 250K. If you just compile it without any application code, it's around quarter of a megabyte. That's without major optimizations, compilation optimizations, I know that Paul wants to work on. We're well within that area that you'll be able to be used as a viable IoT compilation target.
+
+
+[00:49:37] JE: That seems completely unrelated.
+
+
+[00:49:39] BC: It is unrelated.
+
+
+[00:49:40] JE: How far am I from writing an app without JavaScript in Elixir?
+
+
+[00:49:44] BC: Yeah. That's going to come last. Point one is that command line compilation and that's currently here, in the sense that you can create a little command line apps right now with Lumen. The next is the wazzy compilation. WebAssembly is coming last, only because we're really waiting on certain things to move forward in the WebAssembly specification. We're blocked on certain things. We have workarounds, but my concern is that the workarounds are not going to give us the application experience and runtime experience that we want.
+
+
+For example, processes. The whole value of the bean is that you're supposed to have these super cheap processes that start really fast, that are tiny in scope, each have their own garbage collection and then they go away instantly. If Paul, or Luke, or Hans are listening to this, they're probably saying, “No, that's not correct. That's correct.” I know that there's an issue with that currently, in the sense that the browser vendors want to leverage their own threading system for it.
+
+
+The browser, the JavaScript will run in the main thread and then they have – They're like, “Oh, we already have processes. They're called web workers.” No. These are really large and you can't instantiate them as the same way. We can't have a one-to-one for Erlang processes over to web workers. The thing that's happening right now is that, I think that we can create a pool of potential processes per web worker and distribute them, but there's some message passing limitations.
+I’ll have to say, the progress is still being made. We have weekly stand-ups. We publish the videos of all of our stand-ups every single week. There's a Lumen Twitter account, Get Lumen. You can follow the progress as it happens. Progress has been slower than we would like, primarily due to this past year. Paul left DockYard at the beginning of the year. He went to another company and he's been, I think, 20% time on Lumen.
+
+
+Luke and Hans have been somewhat, I would say, below 20% time on Lumen, because I know that there are times that they were fully billable at DockYard. It's really a matter of having the funding and the time. 20% time is nice to have, but the same time, if you get to work for one full week on Lumen, that's worth five weeks of 20% time.
+
+
+[00:52:01] JE: Yeah. Every developer knows exactly what you're talking about in terms of getting real blocks of heads down time. Before we go, I just want to ask one close-out question, because so much of this conversation has been about language capabilities. I mean, Lumen is about expanding language capabilities. Adoption is largely bottlenecked by language capabilities. I think, you mentioned that language capabilities are the difference between us beating a language like Python, for example. We don't have the capability to do the matrix computation, that thing.
+
+
+I want you to plug Jason’s project too, if you get a chance. I’m curious, what do you think is the – if there was a low-hanging fruit that you're not personally working on, like a Lumen what is it and how can people contribute to the community and help with making Elixir adoptable?
+
+
+[00:52:43] BC: I think, if someone were to do a Live View-based CMS.
+
+
+[00:52:47] JE: That's an amazing answer. That's the best answer, I think, I’ve ever gotten this question about how can people contribute. That's amazing.
+
+
+[00:52:52] BC: I want to do it. I don't have the time to do it. I want DockYard to do it. DockYard doesn't have the time to do it. I want a Live View-based CMS.
+
+
+[00:52:59] SM: That's amazing. I can't believe no one said those words in that combination yet.
+
+
+[00:53:05] JE: The conclusion is incredible. Well, we like to give you the floor for the last minute or so, just to plug anything that you want for the audience, any asks for the audience, where people can find you, if you want to be found, if not. The time is yours.
+
+
+[00:53:19] BC: I don't want to be found. I routinely delete all my social media. I have a cron job that will delete all my tweets every so often.
+
+
+[00:53:28] JE: Yeah. I’ve got one of those in my head. Good enough every other week or so.
+
+
+[00:53:32] BC: I take joy in closing social media accounts that I discovered that I opened a wall a while ago. I have a Facebook account, but I only have it open. I don't have any friends on it and I bought a Jeep Wrangler last year. I am a member of the local Jeep Wrangler social group. It drives me crazy that all these groups are using Facebook for it. I wish they would use Disqus or something like that. I can only connect with some of these people through that Facebook account, so unfortunately.
+
+
+[00:54:01] JE: Wow.
+
+
+[00:54:01] RB: Oh, what about Slack, if somebody were to reach out to you?
+
+
+[00:54:03] BC: I’m on Slack. Yeah. BCardarella. I mean, anywhere if you type in whatever slash BCardarella, that's usually where – I probably shouldn't tell people that, because they may try to get nuance off here or something. I mean, that's where I am. I’m BCardarella on Slack. I’m on there periodically. People can DM me. I respond generally. I usually have my Slack open.
+
+
+[00:54:24] JE: Wow. Brian, thank you so much for coming on the show. You're really a great person to look up to in the community and someone I’m glad to know. We're really glad to have you in the community contributing so much.
+
+
+That's it for this episode of Elixir Wizards. Thank you again to our guest, Brian Cardarella and my co-host, Sundi Myint, and my producer, Rose Burt. Once again, I am Justus Eapen. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects building web apps in Elixir, Rails and React, infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you, if you have a project we could help you with.
+Don't forget to like and subscribe on your favorite podcast player. You can also find us on the socials, so add us on all of those and join us again next week on Elixir Wizards for more on adopting Elixir.
+
+
+[END]
+        © 2021 Elixir Wizards
