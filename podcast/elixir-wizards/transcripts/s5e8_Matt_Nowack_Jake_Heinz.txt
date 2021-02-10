@@ -1,0 +1,459 @@
+﻿EW S5E8                Transcript
+EPISODE 8
+
+
+[INTRODUCTION]
+
+
+[00:00:07] JE: Hold it right there. Before we get into today's show, I have a quick announcement for you. Here at SmartLogic, we are currently hiring. Specifically, we're looking for a senior software project manager. A project manager should be someone with expertise in agile project management and they should have a track record of delivering projects on time and on budget to satisfied clients. If this sounds like you or someone that you know, we'd love to hear from you. Head on over to smartlogic.io/jobs to learn more and apply. 
+
+
+Okay. Now back to the show. Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I'll be your host. I'm joined by my spectral co-host, Sundi Myint, and my extraordinary producer, Eric Oestrich. This season's theme is adopting Elixir, and today we're joined by a couple of special guests from Discord, Matt Nowack and Jake Heinz. How are you all doing today?
+
+
+[00:01:12] MN: Doing good. Thank you.
+
+
+[00:01:13] JK: Great. Hectic day, but doing good.
+
+
+[00:01:16] JE: So we usually open up these conversations with some personal questions, but I'm going to skip that because I want to hear from Matt why we need to stop using Mnesia in Elixir land. If you could just take it away on that note. 
+
+
+[00:01:29] MN: Yeah. So I think this is sort of my warning for all Elixir engineers. Mnesia is built in and it seems like a good idea. You reach for it. You go, “I need a database. I'm going to use this thing.” But time and time again we have tried to use Mnesia and it does not scale and it is a painful thing to rip out later. So I think this is my one warning to the elixir community. Think twice about using Mnesia.
+
+
+[00:01:55] JE: Where did the Mnesia hurt you, Matt?
+
+
+[00:01:58] MN: Yeah. I think we've used it in a couple of services. Jake, we've had I think two or three different services that we've tried to run with Mnesia both locally and distributed and we have just hit massive scaling limits where server startup time is four, five hours while Mnesia is just sitting there thinking and giving you no feedback as to what it's doing. And our only recourse is to just completely gut it and use a different storage solution.
+
+
+[00:02:23] JH: Yeah. As the person who introduced Mnesia in both of those places, I'm kind of like eternally feeling bad about it. But yeah, I think the thing is that like when you get too many writes, Mnesia just gets into a pathological case where it just can't sync anymore. So we have stuff where nodes would take hours to start up. We have clusters where you have to actually turn off and on everything to solve these issues. And there wasn't really any easy out. So kind of we were like, “Well, we need a very small subset of Mnesia's functionality.” So we wrote a thing called Horde that is just distributed ETS with kind of a lot of optimizations for our use case. And so far it's worked really well. We went from like node recovery time of many hours to like it starts up faster than we can like react to sync that full dataset like a couple seconds. 
+
+
+[00:03:12] JE: Horde. This sounds familiar. Did we use this on something? I feel like – 
+
+
+[00:03:17] JH: Not open source yet. 
+
+
+[00:03:17] JE: It's not open source. Is there another Horde? 
+
+
+[00:03:19] JH: It's basically Syn, which is a Erlang library, but with distribution and charting. 
+
+
+[00:03:26] JE: Is it getting open sourced? 
+
+
+[00:03:28] JH: I don’t know. Like it could. It's not that much code.
+
+
+[00:03:32] MN: Yeah. We could open source it. But I will say as much as you shouldn't use Mnesia, do you use ETS. ETS is great. 
+
+
+[00:03:38] JH: ETS is great. 
+
+
+[00:03:39] SM: So Matt, would you say that you want the Elixir community to forget about Mnesia?
+
+
+[00:03:43] MN: I mean that is the internal joke that we have. Anytime a non-Elixir engineer hears Mnesia and we say it's a data store, they're just like, “You've got to be kidding us.” 
+
+
+[00:03:54] JE: It’s a data store you should never use. 
+
+
+[00:03:57] MN: It tries to warn you about how terrible it is.
+
+
+[00:04:00] JE: I mean, to be fair, can you conceive of a situation where and it would be a good solution?
+
+
+[00:04:05] MN: If you have a small-ish dataset, let's say phone numbers that you're trying to keep in sync between a couple of phone switches, pretty good. And I think that's what they built it for. So if you've got that exact use case, feel free. But if you've got any data set that's going to like grow over time, that's a time bomb that you're putting in your infrastructure.
+
+
+[00:04:23] JH: Yeah, it's also such a bespoke database with just strange usability concerns, I think. But kind of like the reason why we picked it is because there weren’t any really good database drivers in Elixir and we were like, “Well, here's a built-in database. Surely, this can't be that bad.” It wasn't for the first three years. To be fair, we did get a significant amount of mileage out of it, but we eventually I think hit like a ceiling and we were like, “Well, we can't use this anymore without significantly understanding this really complex piece of machinery.” And what we need is just a key value store that's distributed. So why don't we just write that rather than trying to understand the beast as Mnesia? 
+
+
+So I'm sure in some world, in some parallel universe, people at WhatsApp have gone and optimized Mnesia, but like we're just not really that interested in doing that given – And I don't think it's like not in-house. I think it's just like here's a really complicated thing. We can change it for something simple that we can understand all the failure modes of. And Horde is like several hundred lines of code, which I think speaks to kind of the power of OTP and Elixir in general that you can build a distributed key value store in such little code. 
+
+
+[00:05:35] SM: I think it's pretty clear to our audience that you're both very knowledgeable about this subject. So I'm wondering if you can maybe shift gears into talking about yourselves a little, your pathway into programming. How you got into Elixir? And maybe what you're up to at Discord.
+
+
+[00:05:50] JH: Yeah. I'm Jake. I've been programming since I was uh 12. I started out doing game programming reverse engineering web development, and it wasn't actually until I joined Discord that I got into Elixir, which is a funny story because I actually applied to Discord as a front and engineer because I didn't know elixir and I was like, “They seem to use that a lot,” and I know React better than I know Elixir. But I very quickly like pivot over to backend. And I think within a couple months of joining I wrote like our distributed present service, which for the most part has been like untouched besides ripping out Mnesia. So that was my first mistake, was early on using Mnesia. But then I just kind of gained an understanding of language and got a lot of thrilling opportunities to use Elixir and BEAM and OTP kind of in anger as we kind of experience explosive growth at Discord.
+
+
+[00:06:41] JE: Set the stage for me. How long ago was it that you joined and got started on the present service?
+
+
+[00:06:46] JH: Yeah. So that was five years ago actually. I joined Discord when we were wee tiny. I think I am the first back engineer at Discord besides our CTO, Stanislav, who's just an incredible software engineer. I learned so much from him, but he doesn't have time to code anymore. 
+
+
+[00:07:02] JE: Matt, what about you? 
+
+
+[00:07:03] SM: Yeah, I was going to ask the same thing. 
+
+
+[00:07:05] MN: Well, see. So I got into programming when I was about 10. My uncle came to live with us for a brief stint. And he was a programmer for laser cutters, the LTV Steel. And for a 10 year old boy being told that you can make computers cut steel with lasers, I was sold. So I've been in love with programming ever since. 
+
+
+I also did not write any elixir until I came to work for Discord. I was trained in C and C++ and did some PHP and kicked around a lot of OOP languages. And now Discord is where I learned Elixir on the job from Jake and from Stan and from Steve Cohen. So a lot of great people – Who spend a lot of time and energy you know helping me learn the ropes. And the language itself is once you understand kind of the mental model, it's very consistent. It's very ergonomic, lots of great tooling. So I found it to be my favorite language to programming.
+
+
+[00:08:00] JE: Jake, when you were just getting started there five years ago, was this present service? They spun you up on the first thing in Elixir at Discord or had they built –
+
+
+[00:08:12] JH: No. We had a lot of things ready. So when Discord originally launched, we didn't have a friends list. You could just join Discord servers to talk with your communities. And we wanted a way to let people talk if they did not share a mutual Discord server, because that's basically what it was. In order to direct message someone, you had to share a server with them. There was no like, “Oh, I could just get your Discord tag and friend you.” So we wanted to build out that feature, which required like a service to tell when your friends were online or not. So that's kind of how that was built and then we launched Friends so you could DM people who aren't in servers. 
+
+
+So that was that project. But we already had a significant amount of code in Elixir. Back then it was also much simpler. And we kind of ended up through multiple projects actually splitting some services into different services with discrete concerns. And so now I think we run like I think 20 different Elixir services that build up the distribution of Discord.
+
+
+[00:09:09] JE: Everyone that listens to the show is going to know, first of all, what Discord is, although I think that we should still give like a basic understanding chat server. So I use Discord sort of with Eric, but not – I think it's originally for gamers. So maybe you could give a little bit of background on that. But if you could also just kind of set the stage especially early on, I'm really curious. Like you're adding this service, but what was the sort of – I don't know how much you can get into about the architecture, but what did it look like for you jumping in to an Elixir role that early on in the world of Elixir and also pretty early on at Discord, I imagine. Like when did Discord launch, 2014? 
+
+
+[00:09:48] JH: 2015. 
+
+
+[00:09:49] JE: So that year. Okay. 
+
+
+[00:09:50] JH: Yup. It was our first year that I had joined.
+
+
+[00:09:52] JE: So what were you getting yourself into? Like what did it look like from an architectural standpoint?
+
+
+[00:09:58] JH: So I didn't really know what I was getting myself into, but I was like this seems like a fun project. So why not? And luckily I had Stan's great mentorship to kind of like validate my ideas and make sure I wasn’t doing anything too crazy. I think the biggest thing that you have to wrap yourself around is like when you're learning Elixir, at least for distributed systems, you're learning two things. You're learning OTP and then you're learning also the language, right? So how do I write code in Elixir? Which is a functional programming language, right? 
+
+
+So coming from a background of Python, C++ as well, I was like, “Well, this is totally new and also really cool.” But obviously a lot of kind of patterns and stuff that I'm used to writing don't really fall into this language, right? So I kind of had to rethink a little bit about how I would structure programs and logic and stuff like that. And then also then you have to pick up OTP to understand stuff like gen servers, monitors, distribution, ETS and even Mnesia, which is kind of included in that tool belt as well. 
+
+
+So it was kind of like a pretty steep learning curve. But I don't think that that's typical of people who use Elixir who can kind of use more off-the-shelf components like Phoenix and kind of that wonderful ecosystem that was not mature enough at 2015, but also I don't think would have specifically met our needs. So kind of we had to drop down to that low-level abstractions.
+
+
+[00:11:21] JE: And Sorry, Sundi, but I have specific questions here that I'm curious about. So, Matt, then you're joining a little bit later, like a few years down the road. And I imagine the learning curve problem was even worse for you because there's more stuff going on at Discord that you're kind of bumping into. I mean what I'm getting at is in a complicated production environment, what are you learning as someone new jumping right into that hotness? 
+
+
+[00:11:48] MN: So when I started in 2018 we were just getting to the point of hitting some of the inherent limits with things like distribution and having millions and millions of distributed links between things. One of the first projects I worked on is now an open source project called Zen Monitor, which replaced sort of distributed monitoring through the systems. Luckily, for me, and I think the way that I approached it was we had broken – By the time I had joined, we had broken kind of one monolithic Discord service into a couple of different services. One for the servers, one for the sessions, one for presences. And so I took the kind of a block and tackle approach of I need to figure out how just distribution between two of these things work, but I'm not going to try to open up the entire black box here and try to figure out how all of guilds work or how all of sessions works. I'm just going to do one thing at a time. 
+
+
+And over time as I worked on more and more features, there are some services that I know really well. I've read every line of code and there are some services where they're stable, they're kind of just sitting over there and I said, “I'll go just kind of just in time learn that thing.” 
+
+
+[00:13:04] SM: Do you have a favorite project that you worked on?
+
+
+[00:13:06] MN: I think my favorite project that I worked on was a project internally called G250k, which was scaling out our servers to support up to 250,000 people, which required a lot of really deeply understanding how guilds work, deeply understanding the workflow of the product. That's really how I think I gained much more mastery in the Elixir services that we have at discord, and was a lot of fun problems from profiling things, to building new data structures, to ultimately building a data structure in Rust as a NIF and plugging it into BEAM and learning how to do that as well. So that was probably the project that I think kind of forced me to grow the most as an engineer in a compressed amount of time. I think we delivered that in about three-ish months. So that was probably the one that I've had the most fun personally on.
+
+
+[00:13:57] JE: So this is a question for both of you, but staying on this learning curve of Elixir question. What were early aha moments for you when you're learning Elixir? Jake, you want to start?
+
+
+[00:14:10] JH: Yeah. So I think some of the aha moments were like pattern matching. I was like, “Whoa! This is really cool.” So my gen server, I can just define a bunch of function heads. I can use pattern matching to match out messages. I was like, “That's really cool.” And then all the other constructs that kind of came with it, right? Like immutability has ended up being huge for us, because we use it a lot in kind of the way we ended up writing our code. We took advantage of immutability. G250k, that project that Matt talked about, one of the things we needed to do was compute like delta differences between data structures to sink down specific portions of regions. 
+
+
+So if you use Discord, there's kind of a member list of design, right? And if you join a large server, that member list can actually have like hundreds of thousands of people in it. But obviously keeping that in sync with the client would kind of be like a really difficult problem to scale with, because basically before that we were sending like – If you were in a server with say, 5,000 people and they were changing what games they were playing and what songs they were listening to on Spotify going online and offline, the client was just getting pummeled with events and it would just immediately use up way too much CPU. 
+
+
+So we needed to figure out a way to kind of go and say like, “Let's just sync the visible region, which is like the top 100.” And then as you're scrolling down, we will go ahead and incrementally sync other regions and keep them up-to-date live. So Matt wrote most of the code here, but it was kind of like this crazy idea we had. And I think the thing about Elixir that made it really, really easy to do was like you could just reason about data in such a stable way, right? Where you can say like, “I know that this preve object, since the language is immutable, is definitely going to be the state before we updated the state,” and there's no exception to that, right? 
+
+
+And I think that that was like, “Wow! That's really cool.” And I guess like since this is a thing that like in C++ right you'd be like, “Well, maybe I should try to avoid these like immutability clones.” But in Elixir just like, “Well, you don't really have any choice unless you drop down to using a NIF,” which we eventually did in certain places. But it ended up being like, “Well, that's really cool. That's just something we get for free, and that's something that the interpreter is really well-optimized at doing.” So I was like, “That's pretty cool.” And then you get into process monitoring and you're like, “Whoa! That's also really cool.” 
+
+
+I've actually ended up as I've moved into like Rust, re-implementing a lot of the things that just come naturally in Elixir and OTP, like process monitoring, message passing and stuff like. So it's been super cool. I don't know if that specifically answers your question though.
+
+
+[00:16:45] JE: Well, now I'm curious. Matt, if you could talk a little bit about that specific project that Jake was just bringing up, but also if you can kind of address this question of when you're just getting started learning Elixir, what are the big force multipliers that stand out as like, “Oh, I'm way more productive once I learn this thing.”
+
+
+[00:17:00] MN: Yeah. So I think the first kind of biggest aha like moment for me and where I said, “Oh my goodness! I'm going to be so much more productive,” is I came from a background of still doing massively parallel distributed systems, but all written in Python. And I was constantly worrying about race conditions and, “Oh! Well, what if I check this variable but then something else comes and messes with it before I'm going to you know add a number to it?” 
+
+
+And when I finally sort of internalized the guarantees of how processes work and truly came to understand and know and count on the fact that like, “I can change the state and my process might get de-scheduled. Some other process might make forward progress and it's going to come back and I don't need to worry about anybody else having messed with this.” It made this like parallel programming so much easier, so much faster, so much simpler. Really made it – I could focus on just the algorithm I cared about. 
+
+
+And to Jake's point of trying to calculate deltas for the member list updates, which was Jake's really good idea, and I had the pleasure of implementing it. He's right. There were times where I would go, “Oh, I need to know what the member list looked like just before I did this update.” And it's like, “Well, that costs nothing, because it's right there. Just don't shadow the variable.” And you've got it, because you can't mutate anything. These are immutable data structures. So if you want the data structure before you just put something into it, you've got it, and that costs you nothing, or you're already going to pay that cost. So no need to worry about trying to keep two copies around or tucking some away somewhere. So yeah, that's another – And I try to write my functions as pure as possible, try to isolate my side effects as much as possible. And that's great for testing, but also just reasoning about code of like what this code is going to do. So those things are real force multipliers.
+
+
+[00:18:55] SM: Yeah. I've always advocated for like these pure functions, these simple functions that I always say read like English when they're pretty clean. Eric made the point to me the other day that any language can do that, but I do think it is particularly nice in Elixir. That is my personal opinion. But I wanted to ask. So both of you when you got started you had these really good kind of track processes to get to know Elixir. And I was wondering what's the process now for when people get on the team, they're going to be trained up. How do you guys go about that? What are some hang-ups for new devs and maybe what are some of the hardest concepts that they go through? 
+
+
+[00:19:31] MN: Yeah. So I can talk about this. We do really believe in kind of just like learning by doing to a certain extent. So as new people come on board, there's not a quarantine period where like go sit in a corner for two months and read Elixir documentation then come back and you can work on code. we're going to give you things. But when you're new, you're going to get paired with someone who understands Elixir that can kind of guide you through the code.  You're going to be given problems that are a little bit simpler to solve that don't require as much figuring out, “I'm going to try to push off building a supervision tree until later. I'm going to say, “Hey, we've got a process. It's already running. You don't need to worry about that part. I just want to change how this function works. Let's learn about that functional programming.” 
+
+
+And then within Discord both for new people and for people who are just interested, because we have some engineers who spend the majority of their time. I spend the majority of my time writing elixir, but we do not like cordon off the elixir codebase. So we'll have people who spend the majority of their time writing Typescript who want to plumb some feature through one of our services. They'll come and do it. 
+
+
+So we have book clubs where we will read like the BEAM book together and we'll go through and talk about core concepts. So there's a lot of educational stuff that we have internally to sort of get people up to speed with how it works and then review the code and pairing code together.
+
+
+[00:20:53] JE: Jake, do you have anything to add to the sort of training question of bringing new people up to speed?
+
+
+[00:20:58] JH: No. I think Matt's captured it exactly the way I would said it, if not better. 
+
+
+[00:21:03] JE: Rock and roll. My next question is really around open source. You have a huge collection of contributions apparently to the Elixir community. Just looking at the Discord GitHub, I mean 186 repositories. Four of the top six are Elixir. Which, if any of these, do you all contribute to? Talk a little bit about the culture of open source contribution at Discord especially as it pertains to Elixir.
+
+
+[00:21:29] JH: So I think the thing is that like we need to strike a balance between like stuff that's useful to us versus stuff that we think is kind of useful to people generally, right? And if it's a cool thing that we might find broadly useful that doesn't give us some super-secret sauce competitive advantage, which I think a lot of our stuff is, like we just open source it if we have time. 
+
+
+As far as management goes, there's no real pushback to open source. They're just like, “Yeah, if it makes sense and it's not critical to our business in a proprietary way. Like it improves supervision tree for like processes that's not like proprietary to building a chat app, but it's something cool that the ecosystem might want. So we'll just open source it.”
+
+
+I think the one thing that we kind of suck at though is like open sourcing something and then not just like kind of leaving it there. But to be honest, a lot of the software that we wrote, like the Semaphore. We haven't touched it in like years, but that's just because it's done. Like some software is just complete. And that's good. Like it served its purpose.
+
+
+[00:22:31] JE: I love this idea that some software is complete. I've never heard of it before. Matt, do you want to add to this? Are any of these repositories that I'm looking at, are you contributing to them actively or are any of them kind of your babies?
+
+
+[00:22:45] MN: Yeah. So the Zen Monitor project that i first worked on is open source and that's sort of one of the things that I still love and you know try to keep up. X hash ring is a consistent hash ring implementation that we open source. I just did a big, big rewrite and version bump up to a new major version on that. I believe very strongly in open source. I think one of the things that's really great about building on top of the BEAM ecosystem is that like all of Elixir is open source. All of BEAM is open source. I can pull down the BEAM code and read the Cc code when I'm trying to better understand what's going.
+
+
+So I think so much of how we've been able to build Discord, so much of that is because we can leverage open source projects. So I think it's meaningful to contribute back to the community things that, as Jake said, are kind of broadly useful and aren't sort of the secret sauce. So yeah – And I want to spend more time you know making sure that we keep those things maintained and that they have best in breed documentation, test coverage, easy to use and can help other Elixir engineers on their journey as well.
+
+
+[00:23:50] SM: That's awesome. Jumping over back to like the Discord code, are there any really amazing claims that you can blow us away on with performance claims for metrics and such? Maybe, Jake? 
+
+
+[00:24:01] JH: I actually think Matt is probably more prepared for this, because we did have to get some authorization to discuss metrics.
+
+
+[00:24:08] MN: Yes. And I did have to pull some metrics, and I discussed them with Jake briefly yesterday. So we do have a few that our managers are like, “Yeah, go ahead and share those.” So one thing that we think is pretty neat is that right now, at the scale that we work at, whether we're at peak traffic or trough traffic, we are always running north of 200 million gen servers concurrently. Our gen servers have ridiculous uptime and message throughput. Some of our larger gen servers will process 500 messages per second every second of every hour of every day and they will stay up for weeks, if not months. We have an in-house deployment system where we hand off OTP processes from one physical server to another using nothing but Vanilla OTP messages and a bunch of code that we've written, and that has zero impact for the user when that's happening and your session is getting handed off or your server is getting handed off. You don't know that that's happening. And we do that multiple times a week. And no one knows that's happening. And that's all because of the power of BEAM and OTP. 
+
+
+[00:25:13] JE: I think it's maybe safe to say that Discord has got like the most impressive data requirements of any production Elixir app. I mean I know it's a little bit like of a grand claim, but I feel like it's probably the case that you guys are dealing with just more. 
+
+
+[00:25:29] MN: It's quite possible. Maybe WhatsApp might – Although I think WhatsApp is mostly Erlang.
+
+
+[00:25:34] JH: They're mostly Erlang. 
+
+
+[00:25:35] MN: Yeah. So probably Elixir-wise, we're probably one of the bigger.
+
+
+[00:25:38] JE: We really appreciate the prep of bringing some like specific claims that you can make and kind of brag about it. Is there anything else that you guys want to brag about while we're just on the topic of showing off how much work you guys are able to accomplish on a box?
+
+
+[00:25:51] MN: I think one of the things that really blows me away being not just somebody who's writing software, but somebody who's operating a massive system at scale, is the amount of introspection that comes out of the box that we get to use, but then also kind of introspective tools that we've been able to build so we can know dig down when somebody says that their server is having troubles. We can turn on stethoscopes, which are like little listener processes that will very carefully monitor a single guild and produce a report for us so that we can see exactly what's going on. What's taking time? What's getting slow?
+
+
+[00:26:28] JE: So speaking of introspection, Jake, you had mentioned logging as a thing that you'd like to rant about on this show. And so what is the take on logging?
+
+
+[00:26:40] JH: I mean – So here's the thing. There's logger, there's lager, there's like Erlang logger as well. Honestly, it's kind of a cluster, and I don't think we even have logging correct at Discord. For context, Matt deployed something today that started spitting out a lot of log lines and that just completely killed the logger. And so our on-call engineers are actually right now kind of switching the engines of our system and invoking that handoff system to kind of fix ourselves out of that state. 
+
+
+[00:27:08] JE: Wow! Thank you for spilling that hot tea on our show. Matt, would you like to respond to these allegations? 
+
+
+[00:27:17] MN: I mean it's a hot take, but it is true. I did knock over the logger. And I agree with Jake, that it does remind me a lot of – And BEAM has this kind of like 40-year history and it feels like they have taken a few swings at this problem and just keep putting more and more layers. And it feels like getting logging to just kind of work reliably and in a way that can't just be thundering herd or blow up the logger feels more difficult than it needs to be as evidenced by me destroying the logger just an hour ago. 
+
+
+[00:27:53] JH: And it's funny, because like literally 15 minutes before that I was like, “I don't trust the logger. I'm pretty sure it's going to break.” And then like the on-call is like, “The logger is breaking,” and I'm like, “That feels really good to be right in seven minutes.” 
+
+
+[00:28:08] SM: What do you think is a solution? What do you think has to be changed about logging in Elixir as a follow-up?
+
+
+[00:28:15] JH: I think that it's moving in the right direction and I think we're behind the times, by the way, on kind of late at state of the art of logging. For like a logger has – I think Elixir now has their own logging facilities. But the way that it interrupts between kind of the underlying Erlang side of logger, which also kind of like there's a lot of stuff, there's SaaS logging, and there's error logger as well, which some of our dependencies use. It's really hard to grok, I think, and there's just so many different knobs that you need to tune. And there's different failure modes you have to consider, because the way logging works is roughly it's a process that's trying to buffer messages and spill them out somewhere. And if you burst in log velocity and you're in memory constrained environment, you actually might kill yourself or your node rather trying to hit – Like buffer all those messages. So there's a lot of stuff around back pressure, discarding log messages and just tweaking it correctly. And I think we've tried to tweak it again and again, but we keep ending up in different scenarios. And that might be due to kind of our lack of understanding about how walking works, but it is a super complicated beast. Because when you come from something like Python logging or even logging in language like Rust, like that's I think much simpler than the different ways that logs can be emitted kind of in this ecosystem. I don't think it's entirely Elixir's fault either. Or if it's Elixir's fault at all, I think like Matt said, there's a long history and lots of software that kind of needs to – This to be compatible with. And that lends itself to kind of a complicated architecture here. 
+
+
+So we will one day find the sweet spot of where kind of logging works for us and we're not overly discarding lines where we don't accidentally trip the system into failure state because we are suddenly logging too many errors, or in this case like timing metrics. So yeah, I think we will get there. But there's also stuff like – Well, I gave this recommendation to Matt and PR today if like just use ETS, use a counter. Make sure like you're not emitting logs too quickly, because that's really easy to reason about and we know that that's foolproof. So logging is a very like giant black box that, honestly, I just don't understand. We've had engineers come and try to like sit down and try to understand it for a month. 
+
+
+The other strange black box in Erlang is the Erlang memory allocator. Oh, I could go on about the Erlang memory allocator. And the 100 different options that have like 10 letter acronyms describing what they do, there're so many knobs. It's like the cockpit of 747 and you're just like which ones are relevant? What do they mean? What does this mean? My memory allocations are weird. 
+
+
+And I remember sitting down with a co-worker, and I don't know if anyone watches It’s Always Sunny in Philadelphia, but I felt like uh searching for Pepe Silvia. Just like connecting dots and lines trying to figure out how everything worked. Things were reported bytes in some places, bits and some other places, words in some places. It's really just – It is a strange and hard to grok piece of technology.
+
+
+[00:31:21] MN: I think I was working with another engineer the other day and we were pulling some memory stats using some system info. And the documentation literally just says, “After you've read the Erd's alec page, what this huge tuple is will just be evident.” It's like, “Well, that's fantastic documentation. Thank you so much, Erlang docs.” 
+
+
+[00:31:42] JE: Oh, yeah. The Erlang memory allocator, is something that we've had to learn to master, because it has caused production issues. 
+
+
+[00:31:54] JH: In that, if you don't tune it correctly and you're operating at a certain velocity or a certain number of gen servers or a certain number of kind of just heaps that it's managing, you can run into limitations in trying to allocate memory for the operating system. So you have to start using stuff like super carriers. But then you end up with situations where you use fragment super carrier and you have to tune stuff. And there’s just a lot of knobs that we ended up figuring out like of the hundred knobs that exist, which are like the four important ones that actually matter. And that was a pretty long process. And then validating that those changes were actually good was also a pretty long process as well.
+
+
+[00:32:29] MN: And we have also run into the opposite situation I think when we were using Go for a few services of having too few knobs where there's just a single knob you can turn and we couldn't – There was no setting for it that seemed to make it work right. 
+
+
+[00:32:43] JH: Yeah. I mean it's good to have control, but there's a lot of earnings that you kind of have to do. Just mastery over time, I think. But every time I have to go back into the memory allocator, I'm just like, “Oh boy! There's this really long –” Like I would love anyone listening to this to look at the Erd’s Aloc documentation. It is a lengthy read.
+
+
+[00:33:07] JE: Okay, before we scare anyone off from using Elixir, why don't we talk some trash on some other languages? First of all, one question I have is I'm sure you guys are spinning up new projects, new kind of services all the time. A, are you still spending them up in Elixir kind of by default? If not, what other languages are coming into the conversation? And also why is Go gone? 
+
+
+[00:33:28] JH: I can answer this, Matt, unless you want to. 
+
+
+[00:33:31] MN: No. Go ahead, Jake. 
+
+
+[00:33:32] JH: So at Discord we have kind of this philosophy that we use the language that makes the most sense to solve the problem that we're trying to solve. And in cases where we want to build a real-time distributed system, we lean for Elixir and BEAM, because there's just nothing better than that. I remember we had blogged about this and people are like, “Why don't you just use Node.js or Go Lang?” And it's like you don't understand what you're missing when you're using those languages, right? 
+
+
+Matt said this earlier, like kind of you just get used to these constructs of things just working and it removes such a huge burden of thought that you have to like consider when you're writing distributed programs. So like people ask like, “Hey, could you have written Discord in C++?” Probably, sure, but like there would have probably been like 10X to head count and we probably would not have been able to – For the first, like I think three years of the company, have like four infrastructure engineers who owned all these components amidst rapid growth. So despite the memory allocator being a bit daunting, like I don't think there is any other language or runtime or ecosystem that we could have accomplished this task in with kind of the effort that we put into it, right? It has been compounding leverage, right? 
+
+
+And like I said earlier, picking the best language for the job makes sense. So we probably would not like make a web server that's serving API requests from a database using Elixir. We would probably go use Python for that just because Python kind of has a lot more support for various database drivers. So one of our primary backing stores is Cassandra and ScyllaDB, and the drivers in Python are just so much better than the drivers in Elixir because there's just more maturity, right? And it's something that like Datastacks as a company is offering and supporting in the open source, whereas Xandra for Elixir, it misses a lot of features. 
+
+
+And so that's kind of like the decision. I would say like more new things are written in Rust than they are Elixir nowadays as we're trying to – We have like really well understood software that's not distributed programs. For example, we are working on services that sit in front of our data stores that kind of augment certain parts where the database is lacking. So they do like read throttling. They do telemetry. They do coalescing of reads. So when a bunch of people load the same Discord channel at the same time, because in a large server someone posts an announcement. We want to go ahead and try to make sure that the upstream data store doesn't get upset serving the exact same queries to each other. So we use this coalescing system that we built in Rust to handle that. And Rust makes a lot of sense there, because it is a super-fast language and super low level, but also like hopefully pretty free of undefined behavior, segmentations, faults and stuff like that. So yeah, I guess like we use Elixir where it makes sense. 
+
+
+To answer the Go question though, Go is I think generally just not a pleasure to use in terms of a programming language. Like it very much is reminiscent of like C, plus a garbage collector, plus some other things and Go routines. But when you look at Go routines and you compare them to like BEAM processes, like there's just so many things that you can't do with them. Like BEAM process, you can just kill them. Cool. Great. You've got the repel. You've got all these tools to debug BEAM processes and you've got these guarantees. Like no one's going to go mess with your memory and your BEAM process because they literally can't. 
+
+
+In Go Lang, like you can spawn a Go routine, but it can share memory. And you can be fraught with like dealing with locks making sure you unlock the locks. And the language then obviously doesn't have like stuff that more modern languages have like REEI or Generic. So you end up writing a lot more code to accomplish a lot less, and that's not something I like. 
+
+
+[00:37:29] EO: Yeah. I've heard Go routines as described as like BEAM processes, but super low levels. So like you can rewrite the same thing as what a BEAM process is, but it would require a whole bunch. [] 
+
+
+[00:37:42] JH: Yeah, that's a fair assessment. And also stuff like Go’s heap is global, whereas in BEAM, heaps per process. So instead of having large garbage collection, you can just do small garbage collection on the per process level, which really helps maintain a soft real-time system. So we wrote this service in Go and garbage collection pauses ended up being like our number one issue with it, where every two minutes compulsory, like it would just go from, I think, like 15 milliseconds P95 to 300 milliseconds P95 while it was garbage collecting. 
+
+
+And then for some weird reason, like all of the Go nodes in the service decided that we will sync up our garbage collection windows. So that like of 20 nodes, all of them would just start GC-ing at the exact same time. And there was like no staggering behind that, and I think that's just because like eventually you go day nights like going off and you see enough bursts of traffic that like they just sync up their clocks and they're just like, “We're going to GC every two minutes.” And so every two minutes let’s go to a slow down very slightly and you'd see like spikes in our graphs and it was just very upsetting. We wrote that in Rust. There's no spikes in Discord anymore from that service. There's still spikes in Discord.
+
+
+[00:38:58] EO: So I have a quick question for – If everything's getting rewritten in Rust, as I think you're supposed to do, when are we going to get a native Rust app for the desktop?
+
+
+[00:39:10] JH: Oh, I don't think that's ever going to happen. Ultimately, like there's a lot of contention around like, “Well, we're an electron app. We ship HTML.” It ends up you can build stuff a lot faster with HTML and Javascript than you can say GTK or QT or Winforms, whatever. I don't even know what people use to build desktop apps. It’s state of the art right now. 
+
+
+And also that you can kind of get them in the browser for free, which is super important, right? But I don't think that like something being written in, say, HTML is bad, right? Like there are apps like VS Code. I don't feel like VS Code is HTML and JavaScript, because it just performs so well and it's a seamless and good experience. And I think that that is like the true realization of like what is a good electron app. And I think that there are other electron apps within the chat space that kind of give it a really bad name. I won't name any names. 
+
+
+[00:40:06] JE: Well, look. I'm not going to say anything nice about electron apps and I honestly don't think we should even have this conversation. No. We're running out of time, and I want to make sure that you've got all the time that you need to plug Discord or whatever you all are working on personally. Shameless self-promotion, we encourage it. So please, y'all have the floor to close out. And also if you have any specific pieces of advice that you could give to listeners who are maybe developers, who are working on getting Elixir adopted in their companies or maybe opportunities to use Elixir, if you have any tips or advice for them and you want to include it in this wrap up, now would be a good time.
+
+
+[00:40:43] MN: Sure. I'll start, because Jake's been talking for a while. 
+
+
+[00:40:46] JH: Thanks, Matt. 
+
+
+[00:40:47] MN: So I think a big tip that I would have for Elixir developers either getting started or trying to get adoption in their companies is take the time to understand like the philosophy of OTP. I think a lot of people can come into Elixir through Phoenix or through Nerves, through things that might sort of hide the underlying beauty of OTP. But I would argue, like if you're going to sell this, if you're going to deal with the problems that you're going to hit, if you're going to build really neat technology that's going to make your managers and the people that you're reporting to excited and happy, I think OTP is that secret sauce. That is the secret weapon. And the more you understand it and the more you realize that it's really just a handful of key ideas, that will give you a tremendous amount of leverage to build all kinds of cool things and solve all kinds of problems that you didn't even realize Elixir could solve. Yeah, I think that's sort of my advice.
+
+
+[00:41:50] JH: Yeah. Like I said, we couldn't have built Discord without it. And I think that speaks a lot for a language in a runtime in an ecosystem, right? I don't really have experience in kind of evangelizing Elixir. Like when I joined Discord our CTO was like, “Let's try out Elixir,” and he had already built a lot of stuff in it. And I was like, “This is really cool. It seems like it's actually really, really cool,” because I was used to using stuff like Twisted back then in Python, or GEvent, which we still do use. I was just like, “This is fundamentally so much better.” For the task specifically of building a real-time chat infrastructure system. I'm not yet sold on Elixir for like HTTP/web, but also I've not – Phoenix and that wonderful ecosystem, I've kind of not paid much attention to. 
+
+
+[00:42:34] MN: One other thing I'll say is that if you're thinking about Elixir and you're like, “Well, okay, it's got all these powerful features, but there must be some horrible tradeoff.” Like it must be super weird to write or super ugly. I think one of the things that I consistently am amazed with is how beautiful like the standard library is. How, for almost anything that you want to do, there is one clear concise way to do it. The standard library is very well thought out. And I think the syntax of the language I think grows. I mean it's Ruby-esque. I think it already starts off pretty great. But as you learn it and use it more and more, it becomes this thing that just feels very natural. 
+
+
+I find that I write so much – When I was writing Python, I would write so much additional if statements and precondition checks all over the place. And now I'm just handling with pattern matching and I'm saying, “That's the function there that handles when it's a negative number or when it's a zero.” Also, if this sounds interesting to you, if you want to join us at Discord and solve hard problems like this, you can go to discord.com/jobs and look at all of the open positions for using Elixir at scale at Discord.
+
+
+[00:43:45] JE: Hey, thank you for joining us on Elixir Wizards. Before we close out the show, we'd like to share another quick mini feature interview with you. It's a brief segment where we showcase somebody from the community that's working at a company using Elixir in production. And we'll learn about how they're using Elixir. Hope you enjoy it. 
+
+
+[00:44:06] SM: Hello and welcome to our new mini features segment of Elixir Wizards. My name is Sundi Myint, and today we're speaking with Arthi Radakrishnan, software engineer at community.com. Welcome to the podcast.
+
+
+[00:44:17] AR: Thank you. Thanks for having me.
+
+
+[00:44:19] SM: Awesome. Thank you for being here. So we're huge Elixir fans on this podcast, if our listeners couldn't tell. So if you could give us your background in Elixir and maybe your background programming, how you got started, that would be a great place to start.
+
+
+[00:44:34] AR: Absolutely. So I've been programming a while largely in Python and Ruby actually, and when I joined my most recent gig at community.com, I had an opportunity to really learn Elixir here. So it's been really cool because it's been both an introduction to a new company and to Elixir as well, and it's been awesome.
+
+
+[00:44:55] SM: How long have you been at Community at this point?
+
+
+[00:44:57] AR: I joined in march of last year right before all of the pandemic fun times. So that was a really interesting time to join a company, but luckily the company is so focused on remote-first as well. So it felt like a very seamless transition after my two days in an office.
+
+
+[00:45:19] SM: Yeah. That's an interesting thing we haven't really talked about too much on this show so far, is that we noticed that a lot of Elixir people have transitioned to remote pretty well, and that could be a generalization amongst software engineers in general. But I wonder if it's because there are like maybe so few of us and we're like all spread out. I wonder what that is. We'll have to dig into that at some point.
+
+
+[00:45:40] AR: Yeah, totally.
+
+
+[00:45:41] SM: So could you give us like a little background on community.com and what the elevator pitch for what your company is?
+
+
+[00:45:48] AR: Yeah, absolutely. And all caveat, it might sound a little corny up front, but bear with me as I kind of suss out some of the details. So it's really a platform for people to directly text their fan bases in order to keep in touch with their fans. And we really do this all without any algorithms, without ads. And truly the big emphasis here is trying to create really sincere connections between people and their fan bases. 
+
+
+So this way, like people really get to know their fan base in a way that they haven't been able to with so many other platforms and social media options. I think it's also really cool because we've got folks who are clients on the platform across tons of different categories. Just recently last year we got Barack Obama on the platform. So that was really cool. We've also got some other really interesting folks. We've got music artists, Megan Thee Stallion is on it, Mr. Beast, the YouTuber. And, oh, we also have one of the founders of BLM, Patrisse Cullors, and I think a couple other BLM founders as well. So, really, like spanning tons of categories. Super interesting.
+
+
+[00:46:58] SM: Yeah. Now that you mentioned it, I feel like one of the artists I follow had some kind of like sign up for this thing and I'll text you occasionally thing. And I was just like, “Sure,” and I gave it a try. That might have been the year. I saw him three times. So I guess it worked because I went to a free concert [inaudible 00:47:12].
+
+
+[00:47:13] AR: Yeah. If you've ever seen on social media some of the text me at this number, a lot of the times that's us, community.com.
+
+
+[00:47:21] SM: Yeah. That makes a lot of sense. And just with a little bit of Elixir background, it makes a lot of sense why you guys would be using that. So can you speak a little to how you're using Elixir to facilitate that process?
+
+
+[00:47:33] AR: Yeah, absolutely. So we're at the tail end of some of our monolith to microservice transition. And so we've got about 50 something microservices running in production and over 90% of them are in Elixir. So that's really cool. And what other things can I say here? 
+
+
+So we've got some of the cool features about how we've built the system is that we use event sourcing a lot. So event sourcing on Rabbit, and this is of course to communicate between some of the services in the system. And it's also really our source of truth for what's happening in the system. That's been really cool to learn about and really cool to ding into. 
+
+
+A lot of cool features come out of that. Some of our ability to replay events, query events, really understand what's happening in the system across so many different services. Yeah. 
+
+
+[00:48:22] SM: Sweet. And for folks who might not know what Rabbit is, can you explain a little bit about what that is?
+
+
+[00:48:28] AR: Yeah. So we've got rabbit as our messaging system to facilitate some of the communication between the different services. We don't host Rabbit ourselves. And really, it’s a messaging queue.
+
+
+[00:48:41] SM: Awesome. Thank you. So when you are – Well, I guess the first question is what kind of size is your engineering team? Or is it made up of a lot of Elixir engineers? Is it a mix of full stack? What does that look like?
+
+
+[00:48:56] AR: Yeah, sure. So let's see, the full product and engineering team is maybe about 50 people, and of those 50 we've got about 30 backend, 30 and some change backend engineers. And so many of our services are in Elixir. I think we do primarily work in Elixir. We do have a few other services in Go and a few other things going on in terms of the backend engineering team, but we do have a split between frontend, backend, really focusing on Elixir on the backend.
+
+
+[00:49:28] SM: Sweet. So when you're hiring an Elixir, do you find that there are any perks to hiring for Elixir engineers specifically or are there any challenges?
+
+
+[00:49:37] AR: Yeah, definitely. I think it's really cool because we've got a lot of people who are really experienced Elixir devs. So there are a number of folks at Community who are like really involved and invested in the Elixir community. We have people who host their local Elixir meetups. And we've got one of the core team members, Andrea Leopardi on the team. So we've got a lot of folks who are really plugged into the Elixir community, but we're always looking for folks who are really just solid, good engineers and good people. And like myself, I didn't know Elixir prior to joining. So it's been a really cool opportunity to learn, and I think that's one of the real opportunities that we offer too. Like if you're interested in learning Elixir, if you want to dig into this stuff, then let us know.
+
+
+[00:50:20] SM: Yeah. On the job is like the most fun way. Often times you see that. It just facilitates learning so much more than if you were just doing a side project. What was your onboarding process look like? Like how did you get on-boarded onto Elixir? 
+
+
+[00:50:32] AR: Yeah, so our onboarding  process. Oh my goodness! It has been so rapidly evolving. The team has grown tremendously since I joined, which was less than a year ago even. But I think it's cool that it's been such a like evolving process. But it is really a very fast-paced one. But, for me, the thing that has been the most helpful for onboarding and learning Elixir and everything has really been pair programming. So I think it's really cool. We spend a lot of time pairing and our development process is even such that everyone really gets an opportunity to design features, new services. So starting from like when we get product definitions, we really have like a process to design some of these features up until implementation. 
+
+
+So after some of the architecture gets designed, there's an opportunity for feedback from the rest of the team. This is another really great way that we do onboarding as well, because for a team our size and our age, we have pretty great documentation. So all of these things are there to – All these things, all these resources are really there to help with some of the onboarding. 
+
+
+[00:51:39] SM: We are always here for plugs on documentation. Yes. Yes. Yes. Awesome. And so our last question is just a fun one. If you weren't a software engineer, what would you be?
+
+
+[00:51:49] AR: Ooh! I would probably be somewhere growing and cooking a lot of my own food. I really enjoy cooking. So, yeah.
+
+
+[00:51:58] SM: Me too. That is a fun one, definitely. So, thank you again to Arthi Radhakrishnan from community.com for joining us today. And to all of our listeners, if you or your company are using Elixir in an interesting way and want to come on the show for a mini feature, we'd love to have you. Reach out to us at podcast@smartlogic.io with your company's name and how you're using Elixir. 
+
+
+[00:52:18] JE: Thank you both, Jake, Matt. Thank you so much for coming on the episode. That's it for this episode of Elixir Wizards. Thank you again to our guests, Matt Nowack and Jake Heinz from Discord. Thank you to my co-host, Sundi Myint, and my producer, Eric Oestrich. And once again, I am Justus Eapen. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic we’re always looking to take on new projects, building WebApps in Elixir, Rails and React. Infrastructure projects using Kubernetes, and mobile apps using React Native. 
+
+
+We’d love to hear from you if you have a project we could help you with. Don’t forget to like and subscribe on your favorite podcast player. You can also find us on Instgram and Twitter and Facebook. So add us on all of those. You can also find me personally @JustusEapen. Eric @EricOestrich, and Sundi @Sundikin. And join us again next week on Elixir Wizards for more on adopting Elixir.
+
+
+[END]
+        © 2021 Elixir Wizards
