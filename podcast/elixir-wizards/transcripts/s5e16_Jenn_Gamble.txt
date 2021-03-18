@@ -1,0 +1,448 @@
+﻿EW S5E16                Transcript
+S5 EPISODE 16
+
+
+[EPISODE]
+
+
+[00:00:06] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host. I’m joined by my co-host, Sundi Myint.
+
+
+[00:00:18] SM: Hello.
+
+
+[00:00:20] JE: And my producer, Eric Oestrich.
+
+
+[00:00:22] EO: Hello.
+
+
+[00:00:23] JE: This season's theme is adopting Elixir. Today, we're joined by special guest, Jenn Gamble from Very. How are you, Jenn?
+
+
+[00:00:30] JG: I'm great. Hi. Thanks for having me.
+
+
+[00:00:33] JE: Super glad to have you. I have been dying to have you on the show since I heard your keynote at ElixirConf 2020. I was, I think, probably sitting in a hot tub in Mexico on the coast –
+
+
+[00:00:44] JG: Oh, yes. You were hosting in a pretty cool location. I remember.
+
+
+[00:00:49] JE: Yeah. You gave an excellent introduction to machine learning, I think, for Elixir developers. We just had the announcement in the last couple months, of a new machine learning library from Jose Valim, that is setting up the community to become a much bigger player in the machine learning community. We're going to talk about that today. I want you to start off just by telling us about Very and your role there and what work you're doing.
+
+
+[00:01:19] JG: Yeah. Very is an IoT engineering firm. We build products for our customers. Many of the products have machine learning and/or IoT hardware, firmware, physical device components to them. I lead the data science practice at Very. I pretty much have at least some high-level hand in all of our projects that have a machine learning component to them.
+
+
+[00:01:47] JE: How big is the data science team over at Very?
+
+
+[00:01:50] JG: We're still relatively small, actually. Plug, we're hiring right now. We'll be growing a lot this year. Right now, official data scientists, we only have about five, but we have a number of software engineers, who are also, they can swing around some scikit-learn models and whatnot. A number of data engineers as well. Small, but mighty and growing quickly.
+
+
+[00:02:15] SM: Can you speak to what the language markup looks for a data science team? Maybe traditionally and maybe something that you're doing different, or are you just following the traditional path?
+
+
+[00:02:25] JG: Yeah. I think that a few years ago, data science was probably split, relatively equally between Python and R, were the two most popular languages. Python has been really taking off in the past number of years. A lot of the exploding popularity of Python as a language overall is because of its use in machine learning and data science and their popularity. That's only really for the model training part of it, because most of the most popular machine learning model, open source libraries are in Python.
+
+
+For example, the project that I spoke about at ElixirConf has an Elixir back-end. It's an IoT project, like an industrial IoT product. We have a PLC on an industrial line. Elixir is on some firmware on a device, talking to the PLC and then streaming the data up to the cloud, a whole bunch of AWS resources and infrastructure up there, with an Elixir back-end, and then also a bunch of Python and databases and things like that in the back-end as well. Then React front-end. We're a multi-language system.
+
+
+[00:03:39] JE: You mentioned a couple of terms already, scikit-learn models, etc., that we're going to get around to defining. Before we do that, we do like to just learn a little bit about you. I think this conversation around the traditional machine learning stack leads to the question, which is how did you learn machine learning and data science and if those things mean something different, maybe?
+
+
+[00:04:00] JG: I definitely come from a more academic background. It's relatively common in the field of data science right now, for people to have come from maybe getting a masters, or a PhD and some type of mathematical, or analytical field. I did the same thing. My undergrad was math. My masters was statistics. My PhD was in electrical engineering. The lab that I was in during my PhD had a lot of people doing things that are now under the umbrella of machine learning, so natural language processing, computer vision, things like this.
+
+
+I actually remember a moment that I had, this was probably in my maybe third year of my PhD. One of my officemates had a textbook on their desk, that was called something like, Machine Learning: A Probabilistic Perspective. I'm like, “What is this machine learning that everybody's talking about?” I hear the word used a lot these days. I don't really know what it means. I opened the book and started leafing through and looking at the different subjects and content. I was like, “Oh, I know this stuff. This is a bunch of regression and classification and statistics and neural networks.” I didn't even realize that the things that I had already been learning were actually machine learning.
+
+
+I fell into data science a little bit. The first company that I came out to Silicon Valley to work for after grad school, the reason that I came to work for them is because the methods, the specific mathematical methods that they were using were very related to things that I had studied in grad school. It seemed like a good fit. I thought, “I've never worked in industry. I was previously heading for this academic career. I'd like to go see what it's all about.” Then once I started working on these real-world applications, I got more and more addicted to this fast feedback loop like, “Oh, look. They're using our stuff. We're making an impact, building something with real users, versus this more abstract academic setting that I had previously been in.”
+
+
+[00:06:06] SM: You mentioned this academic background. It's really fascinating to me, because we come across so many different people from so many different slices of life, so many diverse backgrounds. I actually personally don't know that I've come across a lot of people from the academia space. When you were going through and you were like, “I'm going to go for my masters. I'm going to go for my PhD,” did you have a vision for your five-year plan, your 10-year plan? Did it include having a doctor in front of your name? What did you see yourself doing and how is it different?
+
+
+[00:06:38] JG: I've always taken, I guess, the somewhat naive approach of whatever I thought looked most interesting at the time, and gone and done that. Made some lucky choices and ended up being hireable, or in hot job markets, or this type of thing. Making the transition from – they sound like the same thing, but from math, to statistics, to electrical engineering, and then to data science, I think it's been really valuable for me to have to relearn a slightly new field a number of times, where the stuff that I previously know has been relevant, but there's new terminology, new language, new preconceptions and assumptions and all of that. I'm really into, I feel every three, four or five years, I start to get bored and want to branch into a new field in some way.
+
+
+[00:07:27] JE: I want to know a little bit more about the narrative there. Were you in school the whole time? Did you take breaks and work in the industry? Or did you go straight from your PhD and the industry? What was getting that first job like?
+
+
+[00:07:39] JG: Yeah. I had a break. For two years in between my masters and my PhD, I worked full-time, but it was still at a university. It was at a part research, part statistical consulting type of role. I was still publishing papers and helping out people in the medicine and dentistry department with the statistics on their research projects and stuff like this.
+
+
+Then it actually hadn't even really occurred to me to go into industry, until I was in my PhD. Because in electrical engineering, it's much more common for people to go work in industry, as opposed to mathematicians, mostly stay in academia. All of my co-workers, like my labmates, they were going off to work at whatever different big tech company, computer vision labs and whatnot. I was like, “I've never tried this. Maybe I should actually go see if I like industry. I had never even done an internship, or literally anything in industry at all, until I finished my PhD.”
+
+
+[00:08:40] JE: You didn't have a job in high school waiting tables, or something like that?
+
+
+[00:08:43] JG: Oh, no. I did, just not in computer science. I worked two full-time jobs in the summers in between school and undergrad. I was always working part-time, definitely. Until my PhD, when I had whatever research, or teaching assistantships and that type of thing. Yeah. Also, in terms of computer science and software engineering, in my masters I used R a lot. Then in my PhD, it was all MATLAB. I didn't even start using Python heavily until I came to industry, either.
+
+
+[00:09:15] JE: Okay. You grew up on MATLAB and R.
+
+
+[00:09:18] JG: Mm-hmm.
+
+
+[00:09:19] JE: This is what I was picturing, when Sundi was asking about traditional stack, I was expecting the MATLAB, the R response. Now, I'm hearing about Julia all the time, but I don't know if they really use those in universities. Doesn't Wolfram Alpha have their own programming language now, or is that MATLAB?
+
+
+[00:09:36] JG: It’s different than MATLAB. I know they do have their own language. In industry, in data science, Python is definitely the most popular one these days. Well, and also Scala to some extent. Although, a lot of people are using Pi Spark, which is essentially, a Python wrapper around Scala, when they want to be doing the stuff in a more distributed “big data” way.
+
+
+[00:10:05] JE: I just want to echo the whole story, so we've got the frame, which is you've got a stats and math background. You went into the PhD. At that point, you're learning electrical engineering? Am I getting this right?
+
+
+[00:10:17] JG: It was in an electrical engineering department, but I was really doing more math and statistics. A lot of the stuff I was learning is now what we call machine learning and data science. It was a lot about how to look for patterns in data, how to understand high-dimensional datasets and how to process data and make predictions and things like that.
+
+
+[00:10:37] JE: Okay. High-dimensional data set. Someone put a tag on that, because we're going to have to come back to it. Now, I think we need to start talking about, okay, what are the broad concepts that someone coming in – Also, this came to mind to me earlier, which is that, I mean, you're a director, you probably work with people a lot. I've noticed that the people who worked really well with people and have great personalities and tech, almost universally have had that experience of working while in school, the part-time job thing.
+
+
+[00:11:04] JG: Yeah, interesting. That's somewhat not surprising. Yeah.
+
+
+[00:11:07] JE: It’s like a realistic perspective on the world.
+
+
+[00:11:10] JG: Everyone should work in service industry, at least once in their life, right?
+
+
+[00:11:14] JE: Yeah, absolutely. I just want to make sure, did we hit all the biographical things that we wanted to hit, Sundi?
+
+
+[00:11:18] SM: Yeah. I just also want to echo this. It's interesting that you mentioned that you had a lot of colleagues who were leaving academia for industry. I also didn't study electrical engineering, but half of my life is electrical engineering related, in terms of all of my volunteer activities. I come across a hard divide. People are either in academia space, or an industry. Bridging the gap is super difficult. It's always interesting for me to hear that somebody is moved from one to the other. I'm definitely curious to see how that pattern progresses over time. It's very interesting.
+
+
+[00:11:54] JG: I think now that data science is becoming more mature as a field, there are much faster paths into it now, than there were five, six, seven, eight years ago. There's masters of data science programs at many, many universities now. Whereas in 2012, 13, 14, 15, most of the people entering the field of data science had gained those skills accidentally, through some other analytical work that they had been doing.
+
+
+[00:12:21] SM: That's actually an interesting point, too, that I'm curious about. Every data scientist I know, or have worked with, has eventually gone off to get their masters. That's not necessarily a requirement for a lot of engineers. Is that something that every data scientist knows is on their path? Or does that give you an edge in some way?
+
+
+[00:12:42] JG: I would say that, probably the reason is, the mathematics behind a lot of the modeling is harder to learn on the job, I think. It's something that you usually have to go into deeper study, like more formal, longer-term programs to learn that type of thing. Having said that, I think that you can be a really effective data scientist in many of the roles out there, without necessarily totally understanding everything that's going on under the hood, mathematically, for every model.
+
+
+A lot of the hardest parts about data science are more about how to frame the problem and how to process the data and how to set up the pipelines. They really come down to software engineering problems. I think, really strong software engineers can – I've seen them bridge that gap really effectively, without necessarily getting super deep on the mathematical modeling side of it.
+
+
+[00:13:36] EO: You keep using this term ‘model’. I know almost nothing about –
+
+
+[00:13:40] JG: Not this in Elixir model.
+
+
+[00:13:43] EO: Yeah. I know almost nothing about machine learning. What is, I guess, the difference, since you mentioned it, what is the difference between an Elixir model and a data science model, or machine learning, I guess, model?
+
+
+[00:13:56] JG: Yeah. The way that we use the word ‘model’ in data science is really something that has been trained through a process; a model training process, you could call it. It's an output of that process. Now, the model can receive inputs and give outputs, where those outputs are like predictions. I really like the way, this woman, her name is Cassie Kozyrkov. She's the Chief Decision Sciences Officer, or Chief Decision Scientist, or something like this at Google. She has a lot of content online, explaining machine learning and walking through different machine learning concepts.
+
+
+She has a way of talking about machine learning. I like the analogy that she uses, where she compares it to typical software and regular code, is still trying to take some inputs and produce some outputs. Typically, you will tell the computer program how to do that. You define some rules. You have some logic in there, so that it knows how to go from inputs to outputs. By contrast, what machine learning does is it's trying to build a system that also knows how to go from inputs to outputs, go without you explicitly telling it how to do that.
+
+
+What instead you need to do is provide it with a whole bunch of examples. You need to give it this dataset, this training data set, which is a whole bunch of matched input-output pairs. Then, this is what we call often, when we talk about data, training data, especially, we're talking about having this whole big historical data set of input-output pairs that we can then use. We can provide this to a model training process. Then at the output of that, we have this trained model, which you can give it new inputs, and it can tell you what the output should be.
+
+
+Having seen enough examples of for this input, here's the output. For this input, here's the output. For this input, here's the output. All these different match pairs. Then for new inputs that maybe it's never seen those exact examples before, it's able to predict what the output should be. When we talk about models, we typically mean a trained model, which has gone through some type of offline model training process, which depends on some input, training data.
+
+
+Then when we're thinking about using a machine learning model, particularly in a production system, we have new data flowing through. This is the new inputs. Then we want to be able to ping that trained model and get this output. That's typically called inference. I guess, the four key terms, maybe here is data, models, training and inference. The process for getting a model is training. Then the process for using a trained model is inference.
+
+
+[00:16:54] JE: To give an example of this, I just followed an Instagram account called Deep Tom Cruise. It's this guy who's a really good Tom Cruise impressionist already, but then he deep fakes Tom Cruise's face over his face. Using this example, I guess the training data is all the video ever of Tom Cruise, and then some mapping of Tom Cruise's face onto this guy's face. I guess, one way to think about it, a model is a mathematical formula with weights that acts as a function, that takes an input and gives an output.
+
+
+[00:17:32] JG: Yeah. They can be very heavy and complicated, like a neural network, for example, could be something where there's thousands and thousands of nodes. Then edges between a bunch of the nodes, like layers of nodes, and edges between them. Each edge has a different weight. Then there's some functions that are combining all of those. You're right that it is a function typically. It can be a very complicated function, or sequence of functions.
+
+
+[00:17:57] JE: a function of functions. Go ahead, Sundi.
+
+
+[00:18:00] SM: When you were talking about the way that the data gets matched, it was reminding me a little bit of pattern-matching I feel that’s not exactly what you were trying to say. I guess, is there some parallel example that you can draw from pattern-matching to what you were describing just now?
+
+
+[00:18:20] JG: Typically, with pattern-matching, you have some type of similarity function that you’re trying to optimize against. When you have instance one and instance two and you’re trying to compare them, you have some measurements that you’re taking and then you’re seeing like, okay, how similar are these to each other? You’re trying to give some number that judges similarity.
+
+
+That is a very applicable notion in machine learning. A lot of the mathematics underneath the model training process is often, trying to – it’s doing an optimization. It’s trying to do some – determining the weights, for example, of one of these functions, like a neural network. It’s doing an optimization process to determine exactly how those work. In terms of the broader setup of the entire system, the part that I am most interested in, that I feel is where the real art comes in to data science is the part that I call analytically framing the problem, where in many cases, you have maybe some ambiguous business problem that you’re trying to solve, and then you have a bunch of data that’s available to you.
+
+
+You need to decide, what are the predictions? What are the outputs that we’re even trying to get our machine learning system to do? Maybe a common example is something like, Netflix recommender system. When you were giving your Twitter example, I’m assuming that this account was recommended to you somewhere. You saw it pop-up inside a feed.
+
+
+[00:19:52] JE: Yeah. They know I love Tom Cruise.
+
+
+[00:19:55] JG: Right, right. Exactly. In that example, the inputs to the algorithm are probably a whole bunch of information about you. Then also, there have been a whole bunch of information about other people, who Twitter judges to be like you in certain ways. The way that you’re currently interacting with the system and how much you were using it. There’s probably hundreds or thousands of variables that Twitter has about you and about every user and about your similarity to those other users.
+
+
+Then, when it sees other people liking certain accounts, then it thinks that you’re similar to those other people, then new input is Justus at this time, on this day, looking at the screen. Then the output is, what are these three recommended people to follow that we want to circus to him?
+
+
+[00:20:48] JE: I just want to echo, first of all, some of the broad concepts that we already covered and I want to get an example of model in particular. We’re talking about models, which are, I think, in my words, a function that’s been trained to give you an output that predicts something useful. You’ve mentioned weights. I want to talk about weights in the context of a model. Then you’ve mentioned intuitive algorithms, or classes of algorithm, which is one is a training algorithm and the other is an optimization algorithm. One is a subset of the other.
+
+
+[00:21:18] JG: Often, optimization is a technique that's used as part of a training process. There's a whole bunch of – there's a ton of different machine learning models, and then each of them has different training processes and different optimization. Yeah.
+
+
+[00:21:31] JE: Let's get there. Before we get there, I think for people who are completely math illiterate, which I think is going to be a small portion of the audience, very small, would be what is the simplest example of a model, maybe from geometry, or something that you can think of? What would be the weights in that circumstance?
+
+
+[00:21:48] JG: Yes. You could think of trying to predict someone's weight, given their height. If you think about taking a bunch of people from the world and then you draw X axis, Y axis, you have a little plot. Each person, you draw them on the plot by finding their height and weight on the two axes and put the dot for them, the place where it's their height and their weight. You get all the people and you can see there's a lot of noise. It's not like everyone follows exactly a straight line, so that every single person who is 6 foot, one and a half is going to be the exact same weight. There's a lot of variability from person-to-person.
+
+
+There's still a general trend of people who are taller tend to be heavier. You could take a linear regression is one of the most simple models. It's used usually as an example of like, well, let's start with something really simple. Let's do a linear regression. That really just means, you have all the data and you fit it as best you can with a straight line. That then, any new person who comes in, you just take their height, and you see where their height matches on that line and that's your guess for their weight. For most people, you can be pretty off. There's going to be a big error.
+
+
+[00:23:07] JE: This is the line of best fit, which we all learned in high school.
+
+
+[00:23:11] JG: Exactly, exactly.
+
+
+[00:23:11] JE: Like, they graph it on a scatterplot. I think we understand that concept. I'm a little bit surprised, you didn't go – I mean, now that I think about it, this is a statistical example. You could say that the Pythagorean Theorem is a model.
+
+
+[00:23:23] JG: Yeah. This is, I guess, where we get into the notion of model as an overloaded term in general, because the word, the true definition of the word is really an abstract representation of something. I think that the way you guys use it in Elixir a lot is when you have stuff that you're storing in a database, or you have these entities and then each entity has a bunch of attributes, or characteristics about it. The here is the entity and here are its attributes, that is the model for that object or entity. Is that close to the way that you guys use the word model? Almost?
+
+
+[00:24:01] JE: Yeah, I think so. I mean, Elixir land is a little different than other lands in computer science. Yes. When I think of a model in the very abstract sense, it is a schematic of information regarding a specific concept, or abstraction. Yeah, that's what I broadly mean. Then when I think about in the math sense, I was thinking, okay, the Pythagorean Theorem is the model of how to determine the legs of a right-angled triangle, which it's funny. I'm pulling this out of ninth grade math, so if I'm getting it all wrong –
+
+
+[00:24:31] SM: I can't believe you remember it, Justus. All of these words sound familiar, but I’ve blocked them out.
+
+
+[00:24:37] JE: Yeah. I probably don't really remember it. I was traumatized in 10th and 11th grade math. I'm just pulling from ninth grade. That's what I initially conceived of. Then when you go to linear regression, I then think about, “Okay. Well, this is a statistical model, which is the base default level of data science.” Is that right?
+
+
+[00:24:57] JG: Although, I think you're still right. Pythagorean Theorem, you can still use it as a model. What it is mapping is relationships between, like if you give it angles and sides, then it should be able to give you other links and things like this.
+
+
+[00:25:14] JE: The other word that probably everybody listening knows is quadratic equation, which I think is roughly mapping to a very simple linear regression. If you could maybe, sometimes we get too deep, I don't know. Audience, you can yell at me on the Slack channel if you want. Please, get deep. Pretend that that's about the level that I'm at and I'm genuinely interested in one of them.
+
+
+[00:25:35] JG: Yeah. When you're talking about mathematical objects, like true, perfect right-angled triangles, then when you apply Pythagorean Theorem to those, it works out perfectly. You just say, “Okay, it's the right angle. Here's A. Here's B. Solve for C.” You just get the answer and it's correct.
+
+
+Then, if you were to go take a bunch of objects in the world that looked like right-angled triangles and you were to measure two of the sides and try and use Pythagorean Theorem to predict the length of this third side, you would be pretty close to right and most of the time, depends how finely you're measuring it and how perfect of a right-angled triangle it is. This is really the same notion, is that depending on how accurately your model captures what's truly going on with the measurements that you're taking, then you're going to be able to predict the other characteristics that you care about with a lot of accuracy, or maybe with not that much accuracy, in the example of trying to predict someone's weight, given their height.
+
+
+[00:26:39] SM: That large data set you're talking about, does that have to do with the high-dimensional data set you were talking about earlier? Or is that definition more a complicated? 
+
+
+[00:26:47] JG: Yeah, exactly. If you're thinking about the height versus weight example and then you say, “Okay, I want to start getting more accurate in how to predict somebody's weight, what other things do I need to know about them?” Maybe you could add in gender as another characteristic. Maybe you could add in BMI. Maybe you could add in something about muscle mass, or –
+
+
+[00:27:09] SM: BMI would give it away, right?
+
+
+[00:27:10] JG: Lifestyle characteristic.
+
+
+[00:27:11] EO: Yeah, I was about to –
+
+
+[00:27:12] JG: Yeah, yeah. Right. I'm not going by the proper – BMI definition tells you. Yeah, you're right. Okay, something that is not – this is actually a good point, because it happens sometimes in data science, where people who don't actually understand the definitions of the fields that they're using, include a variable that's actually correlated, or exactly defined by the output that they're trying to predict. They think that they're getting really good predictions, but actually, their input data has information that is –
+
+
+[00:27:41] JE: Cheating.
+
+
+[00:27:42] JG: Yeah, totally cheating.
+
+
+[00:27:43] JE: It's like, if you're trying to predict the price of a house and you knew what the price per square foot was.
+
+
+[00:27:48] JG: Exactly, and you knew how many square feet it was.
+
+
+[00:27:51] JE: Right. Okay. Okay, so what you're getting into is multi-dimensional, N dimensional data sets. I think, then you have to talk about the role of matrices in all this and compare it. What you just did was you said, okay, well given height and weight, I have a two-dimensional data set. Adding additional variables that would give you additional dimensions. Now you're dealing with a matrix of data, like a table of data, right? You can go even further than that and get three-dimensional matrices, or input.
+
+
+[00:28:22] JG: Yeah.
+
+
+[00:28:25] JE: N dimensional matrices. Can you talk about what is the path, the grappling with such a problem, and being useful once you've learned something?
+
+
+[00:28:35] JG: Yeah. I mean, when you really get under the hood, the majority of machine learning methods boil down to some form of linear algebra, most of the time. There's an optimization happening over matrices, for most of the machine learning that's happening. There's two questions.
+
+
+One is do you want to understand what's going on? If you're someone who's interested in machine learning and interested in data science, then do you want to understand what's going on under the hood and be getting into how the optimization is performed and how the weights are computed? Given this input data set, how do you actually get a trained model? What does that trained model mean, and all of this type of thing?
+
+
+Then, there's a completely related, but separate side of it, which is if you have a good understanding of the categories of models and the types of modeling approaches that are possible, then how do you construct, or architect a machine learning solution to a problem? To be able to do that effectively, you don't necessarily have to be really in the weeds on how exactly each machine learning model is doing the optimization that it's doing, and how the model is getting trained.
+
+
+You really have to understand what data is relevant for the problem. If you're trying to solve the weight-height problem, knowing some stuff about human physiology and what other variables you could go get about people would be much more effective, than just throwing someone's height into a fancier model to try and get a more accurate prediction about their weight.
+
+
+[00:30:09] SM: Now that we've laid down, I was going to say, base model. Hmm. I wonder why I was going to say that. Now that we've layered down a foundation for machine learning, can you speak a little bit as to how it fits in with IoT and maybe how you're using it at Very, for IoT?
+
+
+[00:30:27] JG: Yeah. The use of machine learning in general, I think, the situation when it's most helpful is a situation where you want to be making some statements and predictions. You would have a hard time writing down the rules to get a computer to tell it what to do. You do have a ton of examples. You do have a ton of those – some historical data with a bunch of input output pairs. Think of the way that Google puts this annotation on pictures. It would be really difficult for a human to write down the list of rules of things to look for in an image, to determine whether it was a cat or not.
+
+
+If you show the algorithms millions and millions and millions of pictures, and you have them labeled as containing a cat and not containing a cat, then the algorithms can learn and you can show it a new picture and it can tell you if it has a cat or not. When we get to IoT, the thing that is really helpful is that you're actually starting to gather data, not only through software. You're starting to gather data from devices that are out in the world. You can start to have interfaces with users, not only through software, but also through IoT devices. It opens up this space of the ways to gather data and the ways to interact with users through connected devices and not only through screens and software.
+
+
+[00:31:52] JE: I want to return to this question of understanding the underlying model and the algorithms that led to that model, and being able to use them. Being able to intuit what the outcome would be or can be. One thing that we talked about on our recent episode was most people, computer science think that it's very good for you to know computer science fundamentals, how memory operates on your board, all the ones and zeros, assembly, C, etc. My argument was like, well, it's actually better to learn the abstractions all the way up the stack, without really understanding what's going on underneath of it, so that you can do something interesting. I guess, I'm just curious. Is there something comparable to that in data science? Is there a way to start building up an intuition around what the most fundamental abstractions are, without actually understanding numerically what they're doing?
+
+
+[00:32:54] JG: My answer is a little bit of a cop out, because it's the correct abstractions depend on what it is you're trying to do. If you're trying to solve a business problem, like if you're a developer and you're working on a software product, and you think that maybe the product would benefit from having some machine learning in there, that there could be some predictions that could be made that would improve the system. Then knowing the specific details of what's going on under the hood in every algorithm is probably not essential for you to be able to answer that question. Knowing what types of problems can machine learning solve?
+
+
+First question you can ask is the thing that we want to make predictions about, do we have historical data available that we would be able to use for training? Do we have a bunch of times, where this is already known what the output was for some given inputs that we can throw into a model training process, so that then in the future when we only have the inputs and we want to make the predictions, get the outputs, we're able to do that.
+
+
+A lot of the time, people think that, “Oh, if you just dump all of the data and the machine learning is going to figure out the correlations and it’ll understand the right thing to do.” If it's a situation where you haven't actually observed the things that you want to be able to predict, if you've never observed them in the past, then you have nothing to train on. All you can do is look at historical data and say, “Okay. This is what normally happens.” Then this is what's called unsupervised learning, when you don't have any labels on the data, you just have a bunch of data. Then you can say, “This is what the data typically looks like.” You can do things, like anomaly detection, or clustering.
+
+
+You can say, these look like really weird cases. This looks different from what I've seen in the past, or it looks this group is similar to that group. You don't have any labels of group one, group two, group three, or output values, and so you can't follow that same type of predictive modeling approach that I was talking about before, with the input-output pairs.
+
+
+[00:34:57] JE: The other question I wanted to ask was around, because so far, what you’ve mentioned is you've got a number of algorithmic tools, I guess, you could call it. Linear regression is an algorithmic tool to training algorithm, right?
+
+
+[00:35:09] JG: Yeah.
+
+
+[00:35:10] JE: Then, you've also got these things that are like, you said, putting the problem into an analytical framework, I assume that means for example, human beings have two eyes, generally speaking. It’s one way to check if a human being versus a spider is to say, “Okay. Well, if it has eight eyes, it's not a human being.” Is inserting that knowledge rule, I guess you would call it, or abstract principle, possible, common, something that you do regularly?
+
+
+[00:35:37] JG: Yeah. Definitely, there's a lot of places in machine learning systems, where it makes sense to insert subject matter expertise and a priori knowledge into the way that you're setting up the system.
+
+
+[00:35:50] JE: A priori knowledge. I like that. That’s what I was talking about. We always have smart people on the show.
+
+
+[00:35:58] JG: When it comes to this analytical framing of the problem, it's really saying, what is the data that we can use as input data and what are the predictive statements that we want to be able to make? In this human versus spider example, it's like, are we trying to label something as a human? Are we trying to count how many eyes it has? Are we trying to figure out how big of a picture it is? Are we trying to identify whether it has a face or not?
+
+
+Each of these is actually a slightly different problem. The statement that you're making is either a probability, or like a yes, no, or classified in one of these five groups. Depending on the way that you choose to set up the problem that way, the way that you're going to prepare the historical data, the labels that you're going to need to have on it, then the way that you can use those outputs is going to be completely different.
+
+
+This is the part that I refer to as more the art of data science, is how do you even set up the problem most effectively, to solve the problem that you want to solve for the users that you want to be using those outputs?
+
+
+[00:37:00] JE: Eric is reminding me that we should define priori, which basically means things known before the fact, right?
+
+
+[00:37:07] JG: Correct. Correct. Exactly. My nerd tendencies come out strong sometimes, accidentally.
+
+
+[00:37:12] SM: I always say that there are five people at SmartLogic who add to my vocabulary every week. I'm all for it.
+
+
+[00:37:20] JE: Which is a quarter of the team. That's pretty good, I think.
+
+
+[00:37:22] SM: Yeah.
+
+
+[00:37:23] JE: Sundi, you have something you wanted to ask?
+
+
+[00:37:25] SM: Yeah. I wanted to take us in a little bit, or change gears a little bit. We're talking about where data science – where the traditional path was, or is, how you got into it. I'm curious, what you might think is the future of data science and potentially, even is NX, this new project from Jose, a part of that? Can you foresee that? What are your initial reactions to NX?
+
+
+[00:37:49] JG: Yeah. Future of data science. The field is growing so fast right now. There's a lot of sub-disciplines that are starting to form. The term ‘data scientist’ has become almost so generic, that it's meaningless at this point, because it could mean 50 different things, depending on the company where you are and this specific role you have. I know, I mentioned earlier that data scientists are so deep in Python land right now. I love having data scientists work really closely with software engineers.
+
+
+When I've been working on my most recent project that I was mentioning with the Elixir back-end, I was working really closely with the Elixir developers, especially on the data pipeline side of things. I think that overall, data science has not been as software engineering--minded in our development practices, as I would like to see. This is one of the reasons that I joined Very, is because I know that Very is extremely opinionated about agile software development practices, and helping to include machine learning in that agile loop and also include hardware in that agile loop.
+
+
+The places where I see Elixir, particularly, playing the greatest role in these types of machine learning systems, so far, the experiences I've had have been more on the data pipeline side. Like helping to take the data from the source that it's arriving from, especially if it's coming off of queues and this type of thing, being able to do the step of really scalable streaming processing and maybe even include some of the transformations, calculations. We call it feature engineering, a lot of the time. That can happen in the Elixir back-end as it's processing the data. It can be computing extra fields that the machine learning models need.
+
+
+Then also, before when I was speaking about inference, where we're actually pinging the models and needing to get those predictions back, then Elixir can act as the inference pipeline. Now with NX, it sounds like, I was mentioning before that all machine learning is really linear algebra, when you get down to it under the hood, like most of it is. It sounds like it's starting to make those linear algebra calculations and computations really, really effective in Elixir. I would imagine that the next step after that is to start to build machine learning libraries on top of that fundamental capability.
+
+
+One caution I would give is that data scientist on average, are not going to be as good software engineers, as definitely as an average Elixir developer is, let's say. We might be a little slow too. We're slower learning new languages. We're slowing picking things like that up sometimes. 
+
+
+[00:40:47] JE: The thing that comes to mind is I just heard about in last year, they accomplished for the first time in a lab, room temperature super conduction. The way they did this was basically, about squeezing an atom in a diamond vise. The guy was like, “Yeah, I think we can commercialize this in five to 10 years.” Which is groundbreaking. At the same time, it's not like we all have diamond vices lying around.
+
+
+I imagine that data scientists from academia come into the software world and they're like, “Okay. We have the computational equivalent of a diamond vise. It’s able to give us really good predictions.” The software engineer is like, “Yeah. Well, I need to deliver that to someone's house.” That's just a digression. I wanted to ask you, because we're talking about NX. Basically, what my understanding NX is that it allows you to deal with multi-dimensional data and do numerical computation on that data. The word that comes up in this context is tensor. Maybe you could define what a tensor is for us, and maybe compare that with, is a vector the smaller version of a tensor?
+
+
+[00:41:49] JG: Yeah. There's the mathematical definition of the tensor, which is a little bit confusing, and maybe I won't go into that side of it. There's a package called TensorFlow in Python, which is a very popular deep learning package. The way that they use the word tensor, really is the same as you were using the word matrix before. This is essentially like a table of numbers. You can think of it like an Excel spreadsheet, rows and columns. A vector is typically like a one-dimensional matrix. You could think of it as a list of numbers.
+
+
+There's only say, a table with only one column in it and a whole bunch of rows, or only one row and a whole bunch of columns. That would be a vector. A matrix is a table with a bunch of rows and a bunch of columns. Then there are these mathematical objects called tensors. In the context that it's used in most machine learning settings, we're probably talking about vectors or matrices. You can also think about multi-dimensional matrices, like a cube or something like that.
+
+
+[00:42:54] JE: A vector is a single-dimensional set. A tensor is a multi-dimensional set. Is that –
+
+
+[00:43:01] JG: Yeah, that's a fair summary, I think.
+
+
+[00:43:03] JE: Okay.  Okay. Sundi, do we have one more? I honestly want to do this all day.
+
+
+[00:43:09] SM: He does. He does, especially when we get into math. For all he says about being traumatized by 10th and 11th grade math, Justus is here to talk about math all day, every day.
+
+
+[00:43:18] JE: [Inaudible 00:43:18]. Her name was [inaudible 00:43:19], which is hard to spell, so I won't try. She traumatized – two years in a row. It was like, “How do I get the same teacher two years in a row?” Completely ruin the math for me. I feel like a dummy now, because of it. It's an honor to talk to you. Sundi, go ahead.
+
+
+[00:43:35] SM: Yeah. I think the last big thing is when we were researching to chat with you, we realized that it maybe is not an everyday thing for somebody to keynote ElixirConf with the talk about machine learning. Can you speak a little to how you decided to do that and how that came about?
+
+
+[00:43:51] JG: I work pretty closely with Justin Schneck, who is pretty –
+
+
+[00:43:55] JE: Justin’s neck? Sorry, just kidding. I love Justin.
+
+
+[00:43:59] JG: Is this his nickname that I need to start, like mention of?
+
+
+[00:44:02] JE: I don’t know. I hope he's okay with it. I'm so sorry, Justin, if I wasn’t supposed to say that. I love you.
+
+
+[00:44:07] JG: Yeah. We work at the same company. He knew that I had been working on this product that had a pretty heavy Elixir back-end and it was a machine learning product. He was like, “Have you thought about applying to talk at ElixirConf?” I was like, “You know I'm not an Elixir developer, right? I mean, I know some of the basic terms. Now, I've been working with Elixir developers a lot. I can talk all day about machine learning.” He's like, “Just apply. Just give it a try. Then I did.” They said, “Would you like to keynote?” I was like, “Oh. Thanks for the recommendation, Justin. I guess.”
+
+
+Yeah. It was really fun. Then I was thinking really about my co-workers. When I talk to them about machine learning and what do I want to be conveying about machine learning for my software developer co-workers. That's why in my ElixirConf talk, I added this little section in the middle, called how data scientists think about data. Some of the stuff I was talking about today about the inputs and outputs and whatnot. If you want maybe a more clear and visually illustrated version of that, you can check out – go Google Jenn Gamble, ElixirConf 2020, or whatever on YouTube and you'll see a better description than what I gave verbally.
+
+
+[00:45:14] EO: We'll have the link as well.
+
+
+[00:45:16] SM: It's still amazing to have you here, definitely. Again, thank you so much. The ElixirConf conversation is just so interesting, because we actually – we’re predicting here on Elixir Wizards in 2021, that the rest of 2021 will be pretty heavily machine learning-focused for the rest of the year. We're seeing that as a trend. People are talking about it more, partially because of NX, partially just because the community is trending in that way. We really were excited to have you on to talk about this. Thank you.
+
+
+[00:45:43] JG: Thank you so much.
+
+
+[00:45:45] JE: We didn't even get into genetic algorithms, which is what the most recent book, or maybe not the most recent book, but definitely the book with a lot of the hype is getting.
+
+
+[00:45:54] JG: Next time.
+
+
+[00:45:55] JE: Next time. There will be a next time. Before we let you go, we like to give the guests the last few minutes to make any final plugs, or asks for the audience, where people can find you, support you etc. The floor is yours.
+
+
+[00:46:06] JG: Probably, my biggest plug is that we're hiring right now at Very. Not only in data science and machine learning, but Elixir, Python, Ruby. A lot of different back-end. If you're a designer and you're listening to this podcast, if you're a product manager, yeah, we're hiring all across the board right now. Definitely check us out and we can nerd out more on these topics.
+
+
+[00:46:30] JE: That's it for this episode of Elixir Wizards. Thank you again to our guest, Jenn Gamble, from Very for joining us today. Thank you to my co-host, Sundi Myint. Thank you to my producer, Eric Oestrich and our executive producer, Rose Burt.
+
+
+Elixir Wizards is a SmartLogic production. We get production and promotion assistance from Michelle McFadden and Senay Daniel. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails and React, infrastructure projects using Kubernetes and mobile apps using React Native and Lord willing, one day, machine learning projects using Elixir.
+We'd love to hear from you, if you have a project we could help you with. Don't forget to like and subscribe and leave a review on your favorite podcast player. Follows SmartLogic. That's @SmartLogic on Twitter for news and episode announcements. We also have a new Discord channel. If you'd like to join us over there, look for the link on the podcast page, or head over to smr.tl/wizards-discord for invite link. Don't forget to join us again next week for more on adopting Elixir.
+
+
+[END]
+        © 2021 Elixir Wizards
