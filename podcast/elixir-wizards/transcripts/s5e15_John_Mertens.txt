@@ -1,0 +1,477 @@
+﻿EW S5E15                Show Notes
+S5 EPISODE 15
+
+
+[INTRODUCTION]
+
+
+[00:00:06] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic; a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host today. I’m joined by my co-host and acting producer, Sundi Myint. Hey, Sundi. She’s giving me peace signs.
+
+
+This season's theme is adopting Elixir. We're joined today by a special guest, John Mertens, from Change.org. John, welcome to the show.
+
+
+[00:00:30] JM: Hello. Thank you. Thank you very much.
+
+
+[00:00:33] JE: We're really excited to have you on, because everybody knows about change.org. Can you tell us about who you are, what's your role over there and what is change.org?
+
+
+[00:00:42] JM: The short version of who Change is, is if you signed an online petition in the last 10 years, odds are you did it with us. Overall, Change is a platform for digital activism. What we're looking for is a world in which no one is powerless, and that creating change is a part of everyday life. That's specifically in my role, I’m a director of engineering for our communications and integrity squad, or group. This is an interesting week. This is my sixth year Changeaversary with Change. I've been here for a minute now.
+
+
+[00:01:15] JE: Wow. That's a lot.
+
+
+[00:01:15] SM: Congratulations.
+
+
+[00:01:17] JE: Yeah, huge milestone. Six years.
+
+
+[00:01:19] SM: Also, Changeaversary. I love that.
+
+
+[00:01:22] JM: Yeah. We've got our terms. All of my froleagues and my Changeaversary. I actually gave a demo this morning and that was essentially the presentation I gave during my interview six years ago. That was all about stuff I'd done in the past. I was like, “Most of you don't know this, because I'm just old man Mertens around here. Here's ways to do —.” That was fun.
+
+
+[00:01:41] SM: Amazing. You're a longtime listener, first time caller, as you self-described yourself. Can you speak a little bit as to why you wanted to come on the show today?
+
+
+[00:01:52] JM: In the, let's call it, I don't know, summer of 2017, I was at home on parental leave. Shout out to Change. Amazing parental leave policy. And while my infant son slept, I learned about Elixir. In doing that, I was listening to podcasts and doing some just simple crud app things. So when I came back off of parental leave at the, basically the end of 2017, I had this new thing in my head. We are, at that point, almost exclusively a Ruby and JavaScript outfit. When I came back from parental leave, I just had this like, I now have a new hammer that has some very good use cases and let me find a nail to use this on.
+
+
+Because I know, the way that I work, I will not get that deep into a thing, unless I make it my daily, this is the thing I work on every day. Roughly at that time, there had been a company decision to move away from a big vendor software thing that we were doing and bring it in-house. I would not shut up about Elixir. It basically advocated for us to start using Elixir on this new system and that was in spring of 2018 and we've had great success with it, had a good relationship with José, and the formerly PlataformaTec now Dashbit crew.
+
+
+When I hear that, your guys’s season about adopting Elixir, I was like, “This is literally something I know about. Let's talk about this.” Change has a fun story about it. When I can combine the things of using, not just great tech, which, I do love Elixir. Whatever the phase, you do the honeymoon and then it's not as exciting, then you'd like back to the rekindle, I'm very much in that world. And so I just want to do more of it.
+
+
+Yeah, so when I heard about you guys talking about adopting Elixir, then I was wanting to be like, we had this really good story. I love to use this amazing new tech to do essentially good in the world, like use these skills for good and that's something I thought might be interesting here.
+
+
+[00:03:55] JE: Okay. Well, take us back to if you can remember what introduced you to Elixir, if you remember how you found it, what your first project was. Those are the questions I'm up again to mind right now.
+
+
+[00:04:09] JM: The first time I really heard about Elixir properly was from The Byte Ship Podcast years ago.
+
+
+[00:04:16] JE: The orange website?
+
+
+[00:04:18] JM: Hacker News.
+
+
+[00:04:20] JE: Oh, yeah. Okay. I was like, “Is there an orange website that I don't know about?” Yeah.
+
+
+[00:04:25] JM: I used, for someone who builds stuff on the internet, I go to three websites and I'm not — I go to Twitter and I go to Hacker News.
+
+
+[00:04:34] JE: It’s the blue one? It’s the one we call with questions.
+
+
+[00:04:36] SM: Oh, that’s actually how you remember it. I thought you were just making fun of it, or that's your nickname for it?
+
+
+[00:04:44] JM: No. I also don't like to give Paul Graham any credit anywhere. I just don't.
+
+
+[00:04:48] JE: Yeah. What is Paul Graham doing for —
+
+
+[00:04:50] JM: I don’t read the comments. I'm surprised when people do. I'm just like, I'm here for the headlines and then that's me.
+
+
+[00:04:56] SM: Okay. Okay. Cool.
+
+
+[00:04:57] JE: You find Elixir on Hacker News.
+
+
+[00:04:59] JM: That's why I know what Nim is, because I'll see that come up for —
+
+
+[00:05:03] JE: What is Nim?
+
+
+[00:05:03] JM: It's another language.
+
+
+[00:05:05] JE: Wait. What’s it called?
+
+
+[00:05:06] JM: Pony.
+
+
+[00:05:07] JE: I've actually written some code in Pony. There's a Grox.io course on Pony, I think. Okay, Sundi admonished me a little bit. We're going to frustrate the audience here and go way back in time. I want to know when you were a budding technologist. How did you get into programming? Were you formally trained, etc., etc.?
+
+
+[00:05:25] JM: Probably, formally trained is the right word. I am from a tiny town in rural Iowa, in America. Iowa used to be a really strong education state. When I was in first grade, we had access to Logo, the programming, the computer languages on these cartridges that you put in and you make the turtle go round the screen. We did that in first grade and I was just like, “This is amazing.” I figured out how to do the stuff that the teacher didn't know how to do and made the screens flash and draw a million shapes all at once. It was amazing.
+
+
+Then, there wasn’t really a lot of programming availability until, I don't know, in high school, we got a 486 PC at home and I convinced my incredibly honest mother to go buy a government discounted version of Visual Basic 3, I think. I used that. I was in Windows all the time. I made fun little games and stuff, program calculators and things like that at school for math classes. Did have a 1,000 GeoCities webpages; was the intro into web development.
+
+
+Then I went to university for computer science. I always joke that, like, “I got that degree” — then 15 years later, I used it. I was under the impression that I was going to go and code all day and that's what I wanted to do, because I was really addicted to coding, psyllium. Then I was just like, “Oh, big O notation. That's fine.” This is a fine thing. There's just stuff that was just like, “Okay, that's cool. I want to know how to make more different apps and VB or something.” Or I do something in C++ and be like, “Where's the website? I don't get a website out of this.” It was just not really the line.
+
+
+I would do side jobs, as my classic MO was to arrive somewhere for one particular job, and then pitch them while I was working there to go work on a different job. I would enter as an IT tech, fix it person. Then I would say, “Oh, this problem, you know what? I know this thing called ASP. I can make your work order system on the internet.” Somebody would be like, “Yes, you work for me now.” I would switch from installing Windows on machines to now I'm just blagging my way into doing this.
+
+
+This is where I have read an article about in this case, ASP. Then I was like, “Yeah. No, I can figure it out.” Then went and hurriedly learned it. Through that I'm familiar with ASP, it's an old-school web page scripting language. I mean, it's one of Microsoft's first things.
+
+
+[00:07:56] JE: Is a .Net or is there difference between ASP and [inaudible 00:07:58]?
+
+
+[00:07:58] JM: This is free .Net.
+
+
+[00:08:00] JE: Is ASP .Net related to ASP?
+
+
+[00:08:02] JM: I believe so. I think it's the next iteration when they brought everything into the DotNet architecture.
+
+
+[00:08:08] SM: This is, funnily enough, the second time I'm talking about this today.
+
+
+[00:08:13] JE: Did this come up in the I triple O, I believe —.
+
+
+[00:08:16] SM: — No, no. I was pairing with one of our other SmartLogic engineers, Joel. He mentioned it. I don't remember why it came up, but he just said it.
+
+
+[00:08:24] JE: I think, yeah. Him and John probably have similar pedigrees. This is the both traditional and non-traditional background. So many people have responded to this question of like, “Yeah, I was in middle school building websites on GeoCities and Angelfire.” That's very normal. Then also going into the computer science degree and being a little bit — do you ask about big O notation at Change.org job interviews? Does that come up in the job interview process?
+
+
+[00:08:50] JM: I'm not a fan of that at all.
+
+
+[00:08:52] JE: No? Okay, cool. I'm just giving you good opportunities to recruit in our podcast.
+
+
+[00:08:59] JM: We have done a lot of work on making the hiring process at Change much more sane and humane. We do have a straightforward, an Elixir take home assignment that is a timebox, specifically to not bias towards people that have a lot of free time and just be like, we will shorten our on-site interviews to give you the time to go and work on this other app. App is a big word. It’s a very small problem to solve in Elixir.
+
+
+But I'll jump back to the thread on the other experiences with this. It was like, people that aren't familiar with ASP it’s also very similar to early PHP. That was the other big one that I started months apart. Those two were very similar. It was sort of a different syntax, as far as I knew. Was at a different place and said, “Oh, I'm in the IT thing. Let me actually make your internet webpage.” I did that and so —
+
+
+[00:09:48] SM: We're curious, because this is a fun one that comes up every once in a while, what your first job was. Was it a programming job, or did you do one of the more traditional ‘high school kid gets a job,’ insert here?
+
+
+[00:10:04] JM: I learned at an early age that I mean, I probably could do a lot of manual labor, but I was not a fan of it. I'm a very traditional lazy programmer. While my friends would be getting up at stupid o'clock in the morning and detasseling corn. Which is a fine job, making summer money. I was like, I'm going to go and be an IT intern at the prison and go work there. I mean, that wasn’t my first job, but I was like, “Where can I sit in front of a computer? Because that's where I'll be better at this.” It was also way better paying. That's been another thing. Truism through this is to be like — is there a way that I could get more money and do less movement of my body? That's —
+
+
+[00:10:54] JE: — Oh, man.
+
+
+[00:10:54] SM: So you woke up every day for a summer and went to the local prison?
+
+
+[00:10:59] JM: Yeah. It was a medium security correctional facility in a drug treatment program. It's a small town. I knew a lot of people that work there.
+
+
+[00:11:06] SM: What was the job, IT, in terms of managing their systems, or —
+
+
+[00:11:12] JM: It would mostly be troubleshooting computers, like “This thing is not loading.” A lot of my job was teaching people about RAM, or I would sit and there'd be somebody who'd been at this job for 40 years. Computers were newer, spreadsheets were newer. This is mid-90s. I would teach them offhandedly, we got a few minutes like, “Hey, it looks like you could use a formula in the spreadsheet that you're working on.” I would teach them about formulas and just be a deity among them at that point, which, they are helpful. I was like, “Cool. Now you got more time to do whatever you want and we don't have to tell your boss that you're faster now.”
+
+
+I did do a whole operation, where I had to — my sister worked inside the prison and her Windows NT, the people that were familiar with that, had some weird paging configuration, where it only had two megs of disk to use for RAM overflow. This is a 4-megabyte RAM system. She would turn it on, and then an hour later and finish booting up. There was an adversarial IT tech that I was sidestepping around to go through this. I had to make a disk from an exactly same computer. This whole sort of hacking operation in the prison. It meant that my sister and her colleagues suddenly had a computer that only took a minute to boot, instead of an hour and they could actually get work done on it.
+
+
+[00:12:27] SM: There was also drama involved. You could have made a whole TV show out of it.
+
+
+[00:12:32] JM: I was that intern. I was like, I know that my position here is to be a pawn and you guys can blame me about stuff, because I'm going to leave. And the power struggle was between two different institutions on the same campus.
+
+
+[00:12:43] SM: Amazing.
+
+
+[00:12:44] JE: Yeah. I love this idea of a goal just being to move as little as possible of your body. That's a good career goal. The less your job requires of your body, the better the job. I think I was telling Sundi my dream job is a job where I can just read and talk.
+
+
+[00:13:01] SM: Yeah. That was something that you've said on this podcast.
+
+
+[00:13:05] JE: If I can just never move my hands, or my feet at all and just completely be reliant on eyes and mouth, and then one day maybe neural link and just —
+
+
+[00:13:15] SM: Think the things.
+
+
+[00:13:17] JE: Think the things. That is the dream job.
+
+
+[00:13:21] JM: I don't want to give the wrong impression. I do actually enjoy physical activity and using my body and training it, but I don't —
+
+
+[00:13:27] JE: Oh, I don’t.
+
+
+[00:13:29] JM: I feel my value to a company shouldn't be attached to that. Or we should be inversely paying more for that, because it's harder to do.
+
+
+[00:13:35] JE: I'd be okay if we didn't have bodies. I want to be like, just a disembodied spirit.
+
+
+[00:13:39] JM: Like a gel.
+
+
+[00:13:40] JE: Yeah. Not even a gel. I just want to be an ethereal, like hyper-plasma. Anyway, so you got into programming this way. Your first job was at a prison. That's pretty awesome. We don't think we definitely heard that before. You read about Elixir on the orange website. What, you build a home project? You set up your alarm system using Nerves to the chagrin of your wife? What is the first project?
+
+
+[00:14:05] JM: Nerves is still on my list. At the time? Well, I just moved out of a Nob Hill neighborhood in San Francisco. Anyone that's familiar with there, knows that there's a bunch of — that's where the cable cars go. Both main lines go — were outside of our apartment. My partner and our daughter had, who was, I believe, three at the time, had made this game where they charted out all the different cable card numbers. Each of them has a number, and so they were spotting them and being like, “Oh, I saw number 42 or whatever.” Then they usually would check it off on the big chart.
+
+
+My toy app was to make a web app that you could see a cable car and be like, “Oh, I got this one.” On their website, there's just a table that has the number and the history of that car. I made it as a browsing thing, then you could also take a photo and say like, “Oh, I spotted this,” and — Cable Car Spotting is what it's called.
+
+
+[00:14:56] JE: You made an app to solve the trolley problem?
+
+
+[00:15:01] JM: It's the trolley witness problem.
+
+
+[00:15:04] JE: That's actually pretty awesome. This is your child. How do they enjoy this project that you built?
+
+
+[00:15:10] JM: Like many of our together tech projects, I was a little bit more excited than she. Mostly, because we had just moved down to the Nob Hill neighborhood, and there's no cable cars out there. It had to be like, Let's go back to the old hood and look for cable cars.”
+
+
+[00:15:23] JE: She's like, “Dad, we're not going to see any.”
+
+
+[00:15:25] JM: Yeah. It's 50% done. I think I've also done some of the similar — not really a clone Slack, but make a chat app, or some bot that can sit inside a chat app, that thing. The funny thing is in all of the Elixir, with regards to Phoenix, I'm still very much a noob. Because the first three applications that we built were all part of one bigger thing. It did have Phoenix in it, but it was the easiest piece that — someone else built it. My whole world has been generically called data processing demons built in Elixir.
+
+
+[00:16:03] SM: Actually, it's funny that you say that, because we don't hear that as often. That's actually how I started in Elixir too. Was, I didn't use a lot of Phoenix. I still feel a little like an Elixir, or a Phoenix noob and every — we talked about this in the last episode, but whenever I try to find resources on Phoenix, I am now in LiveView land and I can't actually find things, but that's a me problem. I understand that.
+
+
+Yeah. We're interested in — you've got this cable car project. You've got a few of these things. How does that rope in to change.org and change.org’s usage of Elixir? Were you the person to pitch it? Or did somebody else bring it on? How did that come about?
+
+
+[00:16:46] JM: I had been dropping hints generally to my previous boss about, like, “Hey, look at this thing, Elixir that I learned about.” The article where — there’s a Discord that had the multi-million connections. Now, the article is old enough that I'm forgetting all the details, but it's the one that be like, “Oh, yeah. We just kept pushing it and got millions of connections to one server.” He thought that was interesting. It was interesting. I'll just dive into adopting real quick, because the advice that I'd seen on adopting Elixir generally had been, “you take a small thing that's less, not that important, maybe convert it and then try to build momentum with that.” I think that's a viable strategy.
+
+
+What happened in our case was once I heard about this new project and the shape of it was like, imagine a big queue of millions of messages that need processed. At the end of it, there's a third-party API call. We need to do this as fast as possible without knocking out other systems. And I think I just watched Jose's lambda days talk on Flow when that got released. I was like, “This sounds exactly it.” I showed my former boss this. He was mostly convinced, but where I was going with the small problem is that, instead of a small, well-known system that — it doesn't get a lot of use, you could convert that over. This was essentially a greenfield replacement of a business-critical service that we're bringing in-house.
+
+
+Now that we're a year out of contracts and things, I can say this is our entire email infrastructure. So when I introduce myself to people and say I work at Change, the two main reactions are, “Never heard of it,” or, “Oh, my God. You guys send me a lot of emails.” I say, “Yes, that is now the problem that I'm solving.” We used to use Salesforce Marketing Cloud to send, at that time was roughly 600 million emails a month.
+
+
+Now we've switched over to a gen stage-based multi-application system that sends over a billion emails every month. It processes that many messages. It's more than that, that we process, but that's how many emails go out of it. This was a system where something would happen on a site. This summer, we had this justice for George Floyd petition. 50 million people signed it. That petition starter writes an update about it and sends, “Here's progress on the campaign.” They hit post. That shows up on the site, but it also now triggers an email to 50 million people.
+
+
+That shows up as effectively one message in a queue that our Elixir system pulls in, runs a query on a third-party, like a Redshift systems, big data warehouse, pulls out a bunch of information and then that in queues 15 million new messages. Then we just churn through those as fast as possible, check if they've unsubscribed, this or that, is the petition still active? All these different parameters and pass it through. And then we build up the actual HTML in plain text version of the emails. Use batching to put this all together and then ship them off to the service that actually does the sending for us, our MTA.
+
+
+That's the simple version of the system. Because of gen-stage underneath, it just hums and does all this — it's such a good win. Now we aren’t paying some other company a ton of money to do this. We're doing it in-house. We control our data. We can do our own analysis on things. It's a much better position to be in.
+
+
+[00:20:17] JE: This was the very first mission critical thing you're building over at Change in Elixir. Have you inspired other parts of the team to move over? Or is this still the Elixir core and this is just what you're charting along on, or where has Elixir gotten to at Change?
+
+
+[00:20:37] JM: I’m in a position at the company now, where I can say things and they might become policy. I keep telling people that Elixir is our default back-end technology. We love Ruby, but some of the things we're doing, she can't handle. We have lots of systems in Ruby. We have a couple of JavaScript in the back-end. Then now, we have — I think the last time I looked, we have 22 Elixir repos in our organization. At least one open-source, one that we took over and then probably have 50 engineers in the company at the moment and at least 14 of them are competent Elixir developers.
+
+
+It's grown. It's outside of my team. We always talk about how that happens, but that communication system was the first step and then it expanded from there into additions to the communication system. We have a good pattern for handling messages off an event bus. We have systems for part built for receiving web hooks from external vendors, that stuff. Now we're just like, all of our whole — you guys have roll out flags, and we have a whole souped up roll up flag system that we just converted from a JavaScript file in our front-end, now into a full-fledged Elixir app. No problems at all. It’s been great. It is taking over, partially because I keep saying things like that, that we're taking over and it's happening. It is definitely the future of what our back-end technology at Change is.
+
+
+[00:22:02] SM: You are manifesting the future that you want to be in, essentially. You're saying you did it the opposite from the way a lot of people either do it, or give advice on how to adopt Elixir. You guys did a full write or rewrite? Was it a rewrite?
+
+
+[00:22:21] JM: It was a takeover. We deleted a bunch of code. I mean, it could fall into rewrite, but we didn't own the thing that we were rewriting.
+
+
+[00:22:29] SM: Okay. You wrote for the first time, the big, the main, the mission-critical piece of code in Elixir. Then the smaller side things are now falling into place in Elixir, 22 or so repos?
+
+
+[00:22:40] JM: Yeah.
+
+
+[00:22:41] SM: Interesting. Interesting. How's the response to the Elixir takeover, as you're calling it? How has that response been at Change?
+
+
+[00:22:49] JM: We try to be pragmatic at Change and generally try to put data around what we're talking about. One of the things that we've been getting, especially when our legacy systems were our default would be to build a new system in Ruby on Rails. If we can show that we could essentially do the same thing, but faster. It's the easiest pitch is to be like, “Hey, it's faster rails.” That's not really — hundreds of caveats. No one can see me waving my hands around as like, “It’s not a real –” it's a high-level comparison.
+
+
+Then we started doing things like, we have an event bus, or a big event log that we're building out. One of the patterns, mostly I’m saying this because I think it’s interesting, that we found is that — so we have — people who aren't familiar. It's our style is, events are happening at sources of truth and they're emitting events onto a message bus that's petition created, or signature created. And like that. We have certain services that now can listen on those buses and the way they pull it out as it comes off of there and goes into an SQSQueue. Then that data gets processed and aggregated in a specific application. Then the results are exposed through an API.
+
+
+[00:24:04] JE: What is an SQSQueue?
+
+
+[00:24:06] JM: Simple queuing service. I'm saying the letter S, the letter Q, the letter S, and then Q-U-E-U-E. SQSQueue. From Amazon, if people are familiar with a durable, high-availability, at least once delivery queue, pretty solid. Empowers a bunch of the stuff we do. Happily enough, Broadway plugs right into it essentially out of the box. We now have this pattern, where we can say, all right, we'll build an app and it will ingest a bunch of data off the queue via Broadway. And be back pressure-driven and pull these events.
+
+
+Say, somebody shares a petition, and we find out about that. A petition, shared event gets put on the bus. We have a service that listens for that event, and then we'll aggregate it. It's like, I read about user, or by petition and things like that. It just listens to the — uses Broadway to connect to that pipeline, and just pulls out messages and aggregates them in its database. Then there's a Phoenix API built on the other end that essentially serves up those aggregations to front-end apps that want it.
+
+
+That Broadway in, Phoenix out combination is really great for these event-driven architecture setups, because we're able to just pull off with — we set them up and they sit there and run and do their job. No problems.
+
+
+[00:25:25] JE: Every season we do this show, we have some unexpected themes that come up. This season has been the unexpected season of the event-driven architecture. I mean, so many people have mentioned it. I'm just curious for you, when you got the Change, was that already the way things were generally working, or have you driven toward that architectural scheme over the course of your career there?
+
+
+[00:25:49] JM: It definitely was not the case when I got here. Change was in a fun position of the monorail. We call it the monolithic Rails app in the center. The change code base has been around since 2007, or that repo has. It had been the process of breaking that up into different services — was happening. But we were still cheating, because there would be — now it's three different apps, but they're all communicating with each other via a database in the middle. That's a vision of separation there. It's just code in every place. 
+
+
+The idea was do that and now we're in the process of breaking those out. Part of that was to get us — that gets so complicated. If you have one service that stores where petitions live, and another service that stores where the signatures are, if you want to know how many people signed a petition, who are we asking? Where does that live? We have these cheating mechanisms where it would to get updated on the same — in two places. That has led us to a better — it just basically calls a bunch of kludgy process in order to move this data around. There has been a movement over the last year and a half to get us over into this better ETA architecture.
+
+
+My team has been helping the team that's responsible for it get to that first layer of it. The MVP of it exists and we are currently using it. Two systems are using it, but it's not throughout the whole company. That is part of the engineering vision.
+
+
+[00:27:16] JE: The reason I'm curious about this is because we had an architecture season a while back. It seemed like a lot of people were disillusioned with the microservice architecture idea. To me, this event-driven architecture, it sounds like microservices, because there are services, but it doesn't seem microservice-oriented. It seems like it's oriented around an event bus, which is funny, because that actually is monolithic, if you think about it. I guess, what I'm saying is, it seems like one viable option for scaling these services that have grown very rapidly out of a monolith is this event-driven architecture and you're proving it.
+
+
+[00:27:56] JM: Yeah. I think that the other thing that it brings in, and there are — Martin Fowler has a good talk about the different styles of EDA, because I mean, I've spent years in startups, in places where I'm the only engineer. And I'm very much a product-focused engineer. What I think a lot of this architecture gets us to is that we can unlock features really well. Say, you want to add another thing to a specific service, or because of a piece of data. Let me give you an example.
+
+
+Right now, I didn't mention the first Phoenix app that we built that was part of this original system. Its only job was to listen to the web hook that our email provider would bring in that said, “Oh, we delivered this message to so and so and this person clicked on this message and this one was opened,” and all that. And all the email stats come in in big batches, and we just process through them. For our analytics, we are hooked up to a kinesis firehose and it goes into a big Redshift database. It's all Amazon, Amazon all the way through.
+
+
+That means that that's the only place that that open data exists. Now in this conversion to an EDA architecture, we can now — that service receiving the web hooks, all that actually needs to do is emit an event that says, this one got open, this one got clicked, this one got open, this one got delivered, this one got bounced. Then different services that care about that, like our service cares about it, because we'll go and unsubscribe somebody, if they click the unsubscribe button.
+
+
+If there's another team that's working on, they think about if you've ever started a petition on change.org, you have a starter dashboard and it shows you people have visited the petition. When you send an update, we don't tell you anything about it. If we wanted to unlock the feature that said, “Hey, here's a time graph of all the opens of your update,” the only way they can do that now is to go ask the data warehouse, which is not a thing that you do on a production user-facing system.
+
+
+With a EDA architecture, that team just needs to set up something where they can listen for that event in their own service, aggregate it, do whatever they want, so it fits their use case and then display it to the user. It's a stream going by and you can just tap into it and take what you want out of it and that's fine. Then we could have a different analytics system that's sitting there and listening to it, and maybe writing backups to S3, or something the whole time. They can all just pull off that same log, essentially that stream and put it out there.
+
+
+[00:30:13] JE: This is one of the most compelling cases that I've heard made for event-driven architect — I mean, I think I might be sold.
+
+
+[00:30:21] SM: This is the perfect business case for it, too.
+
+
+[00:30:24] JM: Yeah. Elixir does it really well, as the pitch on that. I would also recommend to anybody that's listening — and this may sound a little weird, like the fundamental tome that I was talking about is the — it’s called tThe Log. There was an article by Jay Krebs maybe, from LinkedIn. It's on the LinkedIn engineering posts, if you look for The Log. It is fantastic and it — it's very high-level, like, “This is why this should work,” but it's essentially the same thing that I'm seeing right now.
+
+
+Then the end of his essentially makes the case for Kafka. If we wanted, I think our long horizon and that's where we'd like to get, but we don't have the capacity at the moment to more into that kind of investment, because that's the system I think we'd eventually want to get to as a immutable log.
+
+
+[00:31:08] JE: You were saying that you have about 15 Elixir engineers over there. When you're hiring people, are you looking for intermediate to senior Elixir engineers? Are you bringing on Rails developers and teaching them Elixir? Do you train Elixir, or teach it in any way?
+
+
+[00:31:23] JM: When we put out a job description that's Elixir specific, it has worked out so far that the level we're hiring for is a senior or staff level engineer. The candidates that we get are generally people who have been in the industry for a while, have experience in this, potentially Elixir experience. They are very self-selected. They're less beginners in that group. It's less of people new to programming, but more of people on our staff who needed to train in order to come over to Elixir. I think, if I remember right, we've hired now three people that had previous Elixir experience. They're all great. They're my favorite people. No. Not really. I like them. I like them a lot.
+
+
+[00:32:07] JE: Yeah, we're not including that. We keep that —
+
+
+[00:32:08] JM: It’s one of these things where it's like, I've been saying this for years. Then someone else comes and we talk about Elixir. It's like, hard connection.
+
+
+[00:32:14] JE: You are my favorite children. That’s so funny.
+
+
+[00:32:18] JM: That means that there's — I had to train myself. Everybody else did too, or we brought them over, usually from a Ruby or JavaScript background. It's not a thing that we’ve perfected. One thing that we've established is an Elixir community of practice that meets regularly. It's morphed now. It's losing its educational component and I'd like to bring that back. It started as a book club. Now, there's enough people, enough critical mass that we can actually — last week, we're talking about which protobuf library to use or something. Things like that. That isn't a way to expose it. We also make sure that PR reviews that come in, we'll get the Elixir COP tag on them. Or if we've got one person in each pack, which in our organization, a collection of squads, you can think of 10 to 15 people.
+
+
+[00:33:06] JE: You call groups of people, packs?
+
+
+[00:33:07] JM: It comes from the Spotify setup, but they use tribes and we were less excited about using that, so we call it packs. 
+
+
+[00:33:13] SM: I thought they used squads. I thought it was the Spotify squad model.
+
+
+[00:33:17] JM: The next level up. Squads, I think.
+
+
+[00:33:20] JE: There is no escaping the problematic metaphor. We're just trapped into it.
+
+
+[00:33:24] JM: Yeah, because we have squads too. Then it was the next tier up. In there, if we can get one person on there that knows Elixir pretty well, then they can help lead on that. It's now a thing where I would love to have more time to spend on — let's bring in some new people and then I can just run an Elixir class. I mostly now run a — this is how our email infrastructure works and that just coupled with Elixir.
+
+
+Also, I mentioned a pre-call about a demo I did today and we have weekly demos. A lot of them will slant towards Elixir as an exposure, “Here's how these things work.” To the point now where someone has made a bingo emoji in our Slack channel. That the first time, whoever mentions Elixir first, everyone runs in and puts the bingo in there.
+
+
+[00:34:07] JE: What happens if you're the last one?
+
+
+[00:34:10] JM: It's mostly just call it. It's the old comment first, is what it is.
+
+
+[00:34:14] JE: Very cool. Very cool. Well, and also if you want to do a training, SmartLogic would be happy to do a little mini-conference at Change. That'd be fun for us.
+
+
+[00:34:23] JM: That's interesting. That is something I've been looking around in my capacity now and trying to figure out how to do that. I think, the other thing I didn't mention is when we first started, one of the main concerns about adopting Elixir was that we wouldn't be able to do it ourselves, or training anybody. It was three noobs starting on it. We hit PlatformerTec at the time and said, “Do you guys have any consultants that we could work with for a while?” They said, “No, we are booked up at the moment. But we're going to try this new thing that we haven't told anybody about yet, called the Elixir developer subscription.”
+
+
+I was like, “Cool, let's sign up for that.” It was a way to get one-on-one direct interaction with a consultant. The email support and a video call a month or something like that. We signed up for that and then it was very affordable at the time. The next email I got was like, “Great, you're in the program. It's all set up. Your consultant is José Valim.” I was like, “Sweet. Now we got José on the horn.” He was answering all of our early questions and that was a really beneficial relationship.
+
+
+To the point where if you ever hear José talking about Broadway, he talks about companies he worked with in order to develop Broadway. And we were definitely one of those companies, because the SQS producer, like, that they built is identical to our inbuilt one, which I took that from some blog post that I still cannot find where it originally was. I still have that in there. Then the batching that Broadway does is a problem that we had been trying to solve in our — one of our services to batch up people who will receive the same email in the same language and send them off efficiently.
+
+
+It's funny that our — we don't use Broadway in the first two services that we talked to them about and where Broadway essentially, partially came out of. I have a very old tech ticket now, that says to go back and fix that.
+
+
+[00:36:12] SM: You've mentioned something a few times that I don't know that we've actually formally said so far in the last 40 minutes or so. You're the director of engineering, correct?
+
+
+[00:36:22] JM: I am now.
+
+
+[00:36:23] SM: Yeah. That's what I was going to get to, is that you've mentioned it a few times that it sounds like it's a newer position. How new is that? How did you get there? How did that factor into the way Elixir is shaping around your engineering department now?
+
+
+[00:36:38] JM: I've been in this role, in the director role for just over a year now. I had been a principal engineer before that, and that's on our org chart, they're the same level. It was a lateral move over to fill in and expand my skills. What got me to the level before that was — the IC side of that was, fortunately, because we took a multi-million dollar system and built it in-house for a fraction of the cost and did it on time and on budget.
+
+
+In a new technology that's efficient, and we don't have any of the problems. You can imagine a system where we need to look up information on 50 million users as fast as possible, potentially taking over, or knocking down a database or something. With the backpressure that comes from gen stage, we don't do that. There's this whole class of problems that we don't even deal with. I think that a lot of people saw the light in terms of what Elixir could do for us, and the cost savings and efficiency there and came on board to it.
+
+
+Now, I mean, I know how to work systems, so I can push in the right places to make this become the thing that everyone wants to do. I'm not proud of that. It's me just acknowledging the system as it is and trying to use it for good.
+
+
+[00:37:51] SM: Speaking about Change and making change, you list a blog post in your LinkedIn. It's right at the bottom of the things you're doing at Change in your LinkedIn profile, about bringing engineers user interviews. Then I also noticed that you wrote it. I figured, if you wrote it and you linked it, you must feel strongly about it and I'd like to know more.
+
+
+[00:38:12] JM: Yeah. That's funny, because I will caveat that LinkedIn is a time capsule from the time that the person last looked for a job. Okay, so the part of my background that we didn't touch on is that I left the country when George W. Bush got re-elected and did not live in America for about six to eight years. I came back to work for a non-profit in San Francisco called Code for America. In that, I was a fellow for a year and part of that had intense month training, all around user-centered design and doing user interviews and understanding user needs, because we are going to be injected into a Philadelphia city government and try to help them become more open and efficient and participatory.
+
+
+I got this very strong user-centered — ‘I asked the user what they want’ mentality. Then when I had my own specific tech startup that I was a CTO for a few years before Change, in that same thing, I was always on the calls, talking to users and trying to understand their needs. Then when I came to Change, one of the first things we did was try to understand how our decision-makers, who are the people that companies, or whatever, that respond to petitions, that are getting petitioned, there's a whole section for them to log in and respond.
+
+
+We went on a listening tour and went to a bunch of Silicon Valley startups, a couple government offices, went to the UK and went to government offices there, in their standards board with Spain, because they were really big in Spain. Talked to some government entities and corporations there. Basically, did a ton of user interviews and to try to understand the problems. I was talking to other engineers about this, because it's one of those things like, you get exposure to that. Flash-forward six months, you're in the terminal writing the code for this feature, then you have all these micro-decisions that you're making, there'll be one that's like, “Oh, you know what? Sherry at the mayor's office told me that this was a problem for them, or that she likes to do it this way.”
+
+
+I would hear that from a few people and be like, “Cool. Now my micro-decisions that I'm making in this setup are going to be influenced by that.” I mean, it helps build empathy with users as well. Our current things that my group is in charge of include an internal system, where campaigners that work for Change can set up to mass emails. Part of that, I went and sat next to a couple of campaigners on multiple occasions and just watched them do this in the old system, before we had built the new system and learned other pain points.
+
+
+Those are usually, two years ago. We’re implementing a feature now that I'm like, “All right. Kim, show me this two years ago” and this is what they do. It just allows that you don't get off in these silos and not understanding what that user actually wants, or what their pain points are. That happens like, we all work in the same company. We're all in Slack together. Unless I sat down next to them and watch them go through the flow, I wouldn't have picked it up.
+
+
+[00:41:02] SM: I was just going to say that just reminds me that there's this level of human interaction that engineers don't often get. It's a certain amount of empathy that we can gain when building code for real people when we talk to the people who are using it, we don't often get that opportunity, but it is usually very valuable when we do.
+
+
+[00:41:22] JM: Yeah. I see this in my — I used to do agency work and building websites for hotel chains and things. I would go and sit with them and be like, “Oh, now I understand what you're trying to get.” We have the ability to do this at Change. My team has less exposure to these user interviews right now, but there is a regular cadence and people are invited to them regularly. My advice to people is go to them. Even if you haven't been trained on this, just take the notes. Just take copious notes and just listen and be quiet. Just shut up and listen.
+
+
+[00:41:54] JE: Timeless advice. John Mertens. This has been a really great conversation. I want to give you the final moments to make any plugs, or asks for the audience, anything, shameless self-promotion, if you like. The floor is yours.
+
+
+[00:42:08] JM: Come work at Change. Go to change.org/careers. Then we also have links from there. We have a link tree of all of our Elixir-related content that people might find interesting.
+
+
+[00:42:21] JE: Rock and Roll. That's it for this episode of Elixir Wizards. Thank you again to our guest, John Mertens, for joining us today. Elixir Wizards is a SmartLogic production. Today's hosts include myself and my co-host and acting producer, Sundi Myint. Our regular producer is Eric Oestrich and our executive producer is Rose Burt. We get production and promotion assistance from Michelle McFadden and Semay Daniel.
+
+
+Here at SmartLogic, we're always looking to take on new projects building web apps in Elixir, Rails and React, infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with. Don't forget to like and subscribe and leave a review on your favorite podcast player. Follow SmartLogic. That's @SmartLogic on Twitter for news and episode announcements.
+
+
+We also have a new Discord channel, if you'd like to join us there and look for the link on the podcast page, or head over to smr.tl/wizards-discord for the invite link. Don't forget to join us again next week for more on adopting the Elixir.
+
+
+[END]
+        © 2021 Elixir Wizards
