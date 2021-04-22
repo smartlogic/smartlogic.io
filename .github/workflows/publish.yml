@@ -36,3 +36,9 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./_site
+
+    - name: Update Deployment
+      run: |
+        echo $DEPLOY_PRIVATE_KEY > ./.id_rsa
+        chmod 600 ./id_rsa
+        ssh deploy@site.smartlogic.io -i ./id_rsa -C "cd sites/smartlogic.io && git pull origin gh-pages"
