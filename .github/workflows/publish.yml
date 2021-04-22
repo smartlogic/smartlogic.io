@@ -38,11 +38,12 @@ jobs:
         publish_dir: ./_site
 
     - name: Update Deployment
+      shell: bash
+      env:
+        DEPLOY_PRIVATE_KEY: ${{secrets.DEPLOY_PRIVATE_KEY}}
       run: |
         echo $DEPLOY_PRIVATE_KEY > ./id_rsa
         chmod 600 ./id_rsa
-        cat ./id_rsa
-        exit 0
         ssh deploy@161.35.119.31 -i ./id_rsa \
           -o IdentitiesOnly=yes \
           -o StrictHostKeyChecking=no \
