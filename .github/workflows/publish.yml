@@ -22,17 +22,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install -yqq git build-essential
 
-    - uses: actions/cache@v2
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
-
     - name: Setup ruby
       run: |
         gem install bundler
-        bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
 
     - name: Generate site
