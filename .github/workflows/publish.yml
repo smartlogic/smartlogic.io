@@ -37,15 +37,18 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./_site
 
+    - name: Setup SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+        name: id_rsa
+
     - name: Update Deployment
       shell: bash
       env:
-        DEPLOY_PRIVATE_KEY: ${{secrets.DEPLOY_PRIVATE_KEY}}
+        DEPLOY_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
       run: |
-        echo $DEPLOY_PRIVATE_KEY > ./id_rsa
-        chmod 600 ./id_rsa
-        cat ./id_rsa
-        ssh deploy@161.35.119.31 -i ./id_rsa \
+        ssh deploy@161.35.119.31 \
           -o IdentitiesOnly=yes \
           -o StrictHostKeyChecking=no \
           -o UserKnownHostsFile=/dev/null \
