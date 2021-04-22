@@ -41,4 +41,8 @@ jobs:
       run: |
         echo $DEPLOY_PRIVATE_KEY > ./id_rsa
         chmod 600 ./id_rsa
-        ssh deploy@site.smartlogic.io -i ./id_rsa -C "cd sites/smartlogic.io && git pull origin gh-pages"
+        ssh deploy@161.35.119.31 -i ./id_rsa \
+          -o IdentitiesOnly=yes \
+          -o StrictHostKeyChecking=no \
+          -o UserKnownHostsFile=/dev/null \
+          -C "cd sites/smartlogic.io && git pull origin gh-pages"
