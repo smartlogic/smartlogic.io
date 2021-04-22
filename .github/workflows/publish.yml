@@ -22,9 +22,17 @@ jobs:
         sudo apt-get update
         sudo apt-get install -yqq git build-essential
 
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+
     - name: Setup ruby
       run: |
         gem install bundler
+        bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
 
     - name: Generate site
@@ -45,9 +53,6 @@ jobs:
         known_hosts: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
 
     - name: Update Deployment
-      shell: bash
-      env:
-        DEPLOY_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
       run: |
         ssh deploy@161.35.119.31 \
           -o IdentitiesOnly=yes \
