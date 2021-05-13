@@ -1,0 +1,588 @@
+﻿EW S6E2                Transcript
+EPISODE 2
+
+
+[INTRODUCTION]
+
+
+[00:00:08] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen, and I'll be your host. I'm joined by my very cherished cohost, Sundi Myint.
+
+
+[00:00:22] SM: Hello there.
+
+
+[00:00:23] JE: And my nearly perfect producer, Eric Oestrich.
+
+
+[00:00:26] EO: Howdy.
+
+
+[00:00:28] JE: This season's theme is beam magic, beam magic. And we are joined by a special guest a very special person, Eric Person.
+
+
+[00:00:39] EP: Hey, everybody. Thanks so much for having me.
+
+
+[00:00:42] JE: Eric, we put the most important question right at the top. Did you ever find out a virtual box was stealing passwords?
+
+
+[00:00:50] EP: No, never found out. But you do catch it every now and then when you find these backups that are prompting you for your admin password. And you can just tell the boxes just a little bit off. And so you know something's going on there. I just ran into this with another piece of software called Tunnelblick, a VPN. And so it makes you a little nervous when you see that. 
+
+
+[00:01:08] JE: But do you do it anyway? 
+
+
+[00:01:09] EP: I do it anyway.
+
+
+[00:01:12] SM: We found that, and then I was looking at it. I said, “Wait, Eric, isn't this the thing you just told me to install?” Oh, the timing of it was great.
+
+
+[00:01:21] JE: Yeah, Eric and I were talking about how all of our passwords are the same, and it's all it's always monkey, just M-O-N-K-E-Y, and that's how the word monkey became like a top 10 password. It just developers all using the same password. Anyway, it's not true. That's a joke. Didn't go. 
+
+
+Eric, how did you get into programming? We like to start right at the top and just learn a little bit about you. So what was your background in programming? 
+
+
+[00:01:45] EP: Yeah, actually, my mom was a computer scientist. And so I kind of had a little natural progression there just learning from her. And then it just sounded like a pretty cool thing to get into. So I think at some point in middle school to like a lot of people started picking up Basic just a bit because you wanted to program games. And then throughout high school and then to college, yeah, went for computer science, just loved it. Thought I was going to stick around and actually go for a master's degree in it and just keep studying and studying. And then once I got a taste for the industry, I was hooked and really just wanted to go be a software developer.
+
+
+[00:02:19] JE: Do you have any funny stories about your mom being a computer scientist growing up?
+
+
+[00:02:22] EP: She taught at the university I ended up attending. We never overlapped there. But that was always kind of interesting. We kind of had a lineage. My brother went to the same university. So we had this nice long legacy of Persons there.
+
+
+[00:02:35] JE: Oh my gosh! We're going to have so many person puns today. So I can just imagine, like mom at the dinner table, like making Lambda calculus jokes and stuff like that. Yeah, okay, I'm getting reprimanded for the person puns. Did you remember what your first programming job was?
+
+
+[00:02:53] EP: I do. Yeah, I grew up in Nebraska. And there was a company there called Design Data, kind of a generic name. But the software they made was pretty cool. It was called STS-2. It was a kind of architectural software. So building the structure of buildings, the actual beams, and then everything, the concrete that went into it. So that was really pretty cool software. I did not know what I was doing whatsoever. So I didn't contribute all that much. But it was a pretty cool job to start with.
+
+
+[00:03:22] JE: You were working on beams before it was cool? 
+
+
+[00:03:25] EP: Yeah, yeah, way before it was cool.
+
+
+[00:03:29] JE: Well, Sundi, there's a terrific segue for you.
+
+
+[00:03:32] SM: Absolutely. So why don't we talk about The BEAM? Can you tell us who Corvus is and how you all use Elixir? And The BEAM?
+
+
+[00:03:43] EP: Yeah, definitely. So Corvus is the company I work for. It's Corvus Insurance. We are a commercial insurance company. And we focus on cyber insurance. And what we use The BEAM and Elixir for is to build our software application that connects our brokers, our underwriters, so our own employees, with our policyholders. It's basically just how everyone gets their job done within the company.
+
+
+[00:04:08] SM: So is everything that you're doing running on The BEAM? Do you have other technologies that you're using? Or are you sort of – Can you just describe the architecture?
+
+
+[00:04:19] EP: Yeah, we are pretty all in on The BEAM. So that is what powers the vast majority of our software. We do have a data science component. And our data scientists like most love Python, and so they use a lot of Python, and they particularly use that in Amazon Lambda. But the rest of us all run BEAM and we run it containers, and then we just kind of communicate with them over queues in the Amazon environment.
+
+
+[00:04:43] JE: Well, that kind of answers the architecture question a little bit, but do you want to maybe elaborate just if there's kind of more context that you could give. I think a lot of people are probably, I don't know, surprised, infuriated. I feel like there're reactions to Lambda every time it comes up. So maybe we just talk a little bit more about the broad architecture there and if there's any other quirks that might trigger me.
+
+
+[00:05:09] EP: Yeah. I mean, containers have gotten pretty popular these days. So that's nothing too special. We are looking forward to trying to move on to something like Amazon Fargate, where it gets much more of the serverless so we don't have to manage the underlying servers or anything like that. Right now, we kind of host those ourselves. And so we're looking forward to that. Lambdas are really great and really painful at the same time. They're very easy to spin up. They're easy to communicate with. But you kind of feel like once you want to start doing more advanced things like WebSockets, for instance, that's not really what Lambdas are really meant for. 
+
+
+But thankfully, we've got The BEAM over here. We've got a really great option for that. So Lambdas, we kind of treat them more as like a background process or a queue processor type things where they're easy, launch it, let it run, and then you don't need it for a while afterwards. So yeah, it ends up working out really well, especially for the data scientist, because Lambdas were kind of born with Python. And that's what they use. So it's definitely been really fantastic for them to get going.
+
+
+[00:06:04] JE: What's your role at Corvus?
+
+
+[00:06:07] EP: I'm the VP of Engineering at Corvus.
+
+
+[00:06:09] JE: How did you get into that part of the company, or the managerial position? I imagine you've got reports and everything.
+
+
+[00:06:16] EP: Yeah, I started as the first engineer at Corvus. And so I brought Elixir with me. We also use Elm on the frontend. So I brought both of those languages with me. But there wasn't a line of code or anything written when I started. And so those are definitely the languages I thought were really fantastic and that would allow us to build some really great software. So we brought those in. And yeah, have been using them ever since. And I know the team really loves it. I love that it makes hiring easier, because there's a lot of people who really want to work in Elixir and work on BEAM technologies. And so being able to advertise that we have that is really great.
+
+
+[00:06:48] SM: I'm actually curious, since you're kind of in this position of having hired some folks in Elixir and whatnot. Have you had this experience of Elixir devs kind of coming on and immediately understanding what the BEAM was all about and what it was? Or was it more like Elixir developers knew that their language had something to do with The BEAM, but they didn't necessarily know what that meant or like how that worked?
+
+
+[00:07:13] EP: I think most people definitely know it and understand it really well, and especially the whole kind of OTP packages. I think everyone's really excited to work in those. And they're just looking for any opportunity to get in there and start building GenServers that doing what they can. Yeah, so it's definitely a lot of fun. We found a lot of great uses for those. It's exciting. And, yeah, I know the team loves it.
+
+
+[00:07:35] SM: So they know what OTP is. They know GenServers. They've maybe built one before. So it sounds like they’re pretty experienced kind of group of people. Do they know Elixir already before they came in to Corvus?
+
+
+[00:07:45] EP: Not every engineer does. But definitely those who do are excited about it definitely know those things. They are the ones reading books about it. And just yeah, akin to have a job where they get to work on it.
+
+
+[00:07:57] JE: You're doing a really good job selling Corvus right now. You're going to get a lot of applications, which hopefully that's something that you desire. I'm curious, how did you discover Elixir?
+
+
+[00:08:09] EP: Yeah, so I really wanted to learn functional programming. I had kind of grown up on .NET and C#. I've done a little bit of Ruby and of course, JavaScript. But I really wanted to get into functional, and I kept reading about Clojure. And so I kept trying to use Clojure, and I would read books and I would try and I kept kind of falling down because Clojure – And I think by design never really put all of the packages together. So if you want to build a web application using Clojure, it's really kind of up to you even as this new Clojure developer to identify which packages you need to combine them to actually get a full web framework up and running. And I just kept failing, because I didn't know enough to be able to do that. 
+
+
+So I started reading about some others. I discovered Elixir, and then especially Phoenix, and there was batteries included, here's how you get a website web application up and running. And it just took off from there. It was so much easier. It really gave me the option to do what I wanted to do, which was just learn functional programming. So it took away all of the pain out of that and I got to really focus on, “Okay, how does this language work? And what's fascinating about it?” So once I got into it, then definitely just bought every book I could, read it, loved it. All the OTP stuff is so fascinating. So once I did that, I was hooked.
+
+
+[00:09:23] JE: I guess I'm curious because you were talking about how you've done a really good job of your team understanding the underlying OTP BEAM mechanics. I'm curious, when you were learning, what were some of the harder concepts to grasp? I think we all moved through the sort of hierarchy of Elixir, using OTP in the context of Elixir and then trying to understand like what The BEAM actually is at the bottom level. Tell me if I got that right, and what the sticking points are along the way.
+
+
+[00:09:53] EP: Yeah, so I think my progression, so once you kind of get into the GenServers, I think what took me a while to understand is that is how you store in mutate state within Elixir and within The BEAM. That really hadn't clicked for a while until I finally – I think it was Saša Jurić’s book that actually kind of really brought that to light for me of exactly how that was going to work.
+
+
+[00:10:14] JE: Could you say that again? How do you store and mutate state?
+
+
+[00:10:18] EP: Processes within OTP? Yeah.
+
+
+[00:10:21] JE: Okay. Okay, so just grasping every – They don't say everything's a process. I'm thinking [inaudible 00:10:27] say everything's an object. But everything is a process in Elixir, right? So that was like the hardest thing for you to grok. And like what was the sort of tipping point for you to be able to understand what you were using there and what the dynamic was?
+
+
+[00:10:42] EP: Just reading about all the examples of how that's used. So kind of examples, if you were going to build your own ETS framework. So how do you store that state? Well, you do that by creating a new process, and that holds that piece of data for you. And then here's how you access it by sending a message to that process. So, after seeing that enough, it finally clicked like, “Okay, that is how you hold state like that.” When you want to change it, you send it a message, and it finally started to click. Because when I think of process, originally, it was very much in kind of the operating system like this is just a progression of something happening. So once I got to that.
+
+
+[00:11:19] JE: And I do want to correct something, everything is not a process in Elixir. But I'm curious, because actually, this is I think a problem a lot of people get into where they get a little overzealous when they first realize how easy it is to spin up a new process. Do you want to talk about how you manage that temptation?
+
+
+[00:11:33] EP: Yeah, I know that is a very common temptation. Task.start is very easy to call and just send something off to the background. Yeah, when building an application, while that's nice to do, there are a lot of reasons why that kind of can cause you pain. And some of those are just what happens when the thing in that task fails? So if you're using a framework, like Phoenix, when something fails, you get notified. The crash report comes out. It gets logged. You get to track that. When you start using task.start, those things just become unattached, and they go off, and you have no idea what's happening. So you have to start adding in a lot of your own handling of that. 
+
+
+So you have to make sure you log when things go wrong. You lose even something as simple as the request ID with Phoenix. So when a new request, like an HTTP request comes in, it attaches that request ID to it. So if you do test.start, you lose that. So even if you are logging, it makes it hard to line up those logs. So yeah, test.start is great, but it's definitely something that you need to be a little more careful with. And if you need that extra speed, and you really truly need it, go for it. In a lot of cases, you're just not going to need that. And it's just going to introduce more issues that are going to make things more complex for you.
+
+
+[00:12:44] JE: So is this a case you think to kind of default to synchronous, synchronous execution, and then really only abstract things out into their own processes when they become problematic?
+
+
+[00:12:56] EP: Yeah, definitely, you need some reason to do it. Either it's slow, or it's causing some kind of bottleneck. Or once you have a problem, then you can start using these to solve those problems.
+
+
+[00:13:07] JE: Mm-hmm. Now, when I asked about the biggest hurdles to understanding sort of OTP world, you said processes. I'm curious, when you get into the distinction between The BEAM and what's the language is running on The BEAM – and this will kind of lead us to like a conversation around languages too, I think. Can you talk about that learning curve, and if there any sort of specific hurdles there that you found, like once you understood it, everything kind of clicked into place? 
+
+
+[00:13:35] EP: Yeah. I know, for me, after learning Elixir, I felt like I had a good idea. But I kind of wanted to do what you're talking about there and make sure I really understood it. So I started reading a lot more about Erlang and just saw what the real differences were in that they really are just two different languages, but they are on this top of the same thing, right? On top of OTP, on top of The BEAM. 
+
+
+And so just kind of getting to see that translation between here's how a GenServer works in Elixir and here's how one works in Erlang definitely really helped to understand that these OTP things are the fundamental building blocks of The BEAM and the language on top of whatever you're using, whether it's Gleam now, or Elixir, or Erlang, like just allow you access to those. And then that's where you're actually building your application.
+
+
+[00:14:20] SM: Do you have a favorite part of The BEAM that you utilize often?
+
+
+[00:14:24] EP: That's a good question. What I really love is just how easy it is to build kind of features and tools that in other languages and other environments you might be out-buying something. So I think about something like background job processing. Now, I know there's I think Rescue is the common one in Ruby, and I know there's even Oban now in Elixir. 
+
+
+But building that yourself with OTP is pretty simple and straightforward. You have these processes that can be long running, you can start them, they can read two messages, they can save that state whenever you need to do. So it turns out it's actually pretty simple to run that, and then this provision tree makes it really easy to start that when your application boots up. And so I really love just how simple those are to get started. And so you don't need to run out and find the right package and twiddle and tweak with that. You can just set up a couple processes, couple GenServers, and you're good to go.
+
+
+[00:15:18] SM: Actually, we thought it would be fun to ask what you wished Elixir or The BEAM could do. But kind of on the tail end of what your favorite part are, or what your favorite parts are, do you have something that you don't like about The BEAM or Elixir that you wish would be a little different? It's like a variation on that question.
+
+
+[00:15:36] EP: Yeah, and I don't want to be mean to Elixir here or anything. 
+
+
+[00:15:39] SM: No. [inaudible 00:15:39] criticism. 
+
+
+[00:15:42] EP: I’m definitely a type guy. I like having types. I think they empower you to do refactoring so much more easily. I think they allow you to – There's this phrase that I think is kind of getting more common, make impossible state impossible, are making possible state unrepresentable. When you have really strong types, you can empower that yourself and let the compiler check that you are making impossible state unrepresentable. So I really liked that a lot. If Elixir could add that, it has specs, and dialyzer, and those are really nice, but they don't quite enforce the same level as a kind of true compiler. So we use Elm at Corvus, and we get a lot of benefits from that. I don't use Haskell. So I can only understand what other people have said. But I hear that Haskell is very similar in that it really gives you that strict typing that I know I like a lot.
+
+
+[00:16:32] JE: We’ve had so many strong opinions on this. And now I'm wondering who we need to pair — 
+
+
+[00:16:35] SM: On both sides. 
+
+
+[00:16:35] JE: Yeah. Who do we want to pair him with for the grand debate? One other thing I wanted to kind of mention, you brought it up when you were talking about Clojure and how the packages aren't really there to spin up a web app like from scratch. And we actually just had on – this is tough act to follow. We just had on Robert Virding. And we asked him what the difference was between the Elixir and the Erlang communities. And he said the exact same thing, which is the Erlang community isn't built in such a way where you just get all of the packages in one place that you need to like rapidly spin up a web app. And I hear this. I've heard this about multiple communities. And I don't really understand why you wouldn't do that. Maybe you got some insight there. I know it’s an off-topic question. But –
+
+
+[00:17:23] EP: No. I wish I did. And yeah, that is what kind of drove me away from Clojure. I really wanted to learn Lisp especially. And so I was so disappointed that I couldn't do that because of that. I think it's by design that I'm certainly not one to say why that is the case or what the thoughts are. I know those Clojure guys, Rich Hickey and Stuart Halloway, and like they do talks all the time. And you can go watch and read and listen to why they make those types of decisions. It's not the way I like it, or the way I would have done it. But they're really smart guys. They know what they're doing. And so they've got their reasons for sure. 
+
+
+[00:17:57] EO: So if you're a fan of Lisp, we actually do have good news. You can do Lisp-flavored Erlang. 
+
+
+[00:18:04] EP: I had seen that. Yeah, it's exciting. Yeah, I just think Lisp is so cool, because of just how simple it is, that people talk about how it's already the abstract syntax tree, which is, I think, neat, and it just really kind of – Yeah, it's just so much fun to just kind of see your code be the data, just be exactly in the shape that it already needs to be. I think it's fascinating.
+
+
+[00:18:28] SM: I wonder if maybe since we kind of mentioned Robert Virding just a second ago, he wrote a blog post a little while ago, the Erlang Rationale, and there was a quote in there that we found pretty interesting. Maybe a little controversial, based on what he said in the last episode, but also what you're saying now. He said something along the lines of I have nothing against type checkers like Dialyzer, which does other useful checks as well. But I still see no need to include types in the language. So it's coming from a founder. Curious, what are your thoughts as somebody who likes types?
+
+
+[00:19:04] EP: I know there are those people out there. And I don't think they're wrong by any means. But I know that personally, I really appreciate them. I know the area where I find the most useful is definitely in refactoring. And when people start learning Elm, which is one of these extremely statically typed languages, that's always their first reaction is, “Wow! I just refactored 300 lines of code, and it compiled and it ran perfectly.” And then that's just the sensation you get after you do this. And it's really nice, it's really rewarding to feel like you are very confident that you did it properly. Of course, tests and those kinds of things help with this. But just treating the compiler as a really fast test runner is also really useful.
+
+
+[00:19:46] JE: Do you think it might be like a personality type thing where – I mean, I'm being dead serious. I think that people who prefer dynamic types are like chaotic and just want to be able to do whatever they want to be able to do. I mean, it's like Paul Graham, hacker, which this book I mention all the time, Hackers and Painters. You just want to be able to slap paint on the canvas versus a type – A static type person is more of an engineering kind of mindset. 
+
+
+[00:20:12] EP: Yeah, there's got to be something like that. I'm sure there's a one question you can ask everybody and you can figure out pretty easily what they like or not. But yeah, it's definitely just some kind of mindset. For me it was getting to experience those types, like really sold me on it. I think a lot of people use the Javas and the C sharps where it does feel like the types just kind of get in your way, and you don't really feel the value. But then once you learn this, make impossible stay impossible idea, I think you can really start to set up the types and model your data in a way that really helps. And that's where the type checker comes in handy.
+
+
+[00:20:46] SM: Justus, I think you're onto something, modeling a personality test after — if you like types, or you don't like types, or what language are you into? Or VS Code or VIM? Who needs the Myers Briggs when you have the real questions in life?
+
+
+[00:21:03] JE: I mean, there definitely does seem to be like a Haskell person. Like there's a Rust person. There's a Haskell person. They're just like adjacent to one another, but they're on the other side of the world from the guy who's like a devout Ruby or even an Elixir guy. Anyway, that's just me spit-balling here. 
+
+
+We're going to change gears here, but I’ve got one more kind of set of questions I want to go into on The BEAM, because he wrote this amazing blog post two years ago where you just go through parsing Erie to Erlang abstract forms. And I was hoping that you could kind of give us a TLDR on the blog post. And also just kind of just take us through some of the big concepts here. I'll just let you go from there.
+
+
+[00:21:51] EP: Yeah, so I mentioned, one of the reasons I want to get into Clojure is I really want to learn Lisp. And when I looked at Lisp-Flavored Erlang, nothing about it stood out as interesting enough for me to really want to kind of dive deep into. It doesn't seem like it has that big of a community. I'm sure there are quite a few people out there using it. So I just decided, “You know what? Why don't I try to build my own Lisp on The BEAM?” And if I'm building that myself, then that means, because I like types, I'm going to figure out some way to add some types in here. 
+
+
+I think I had just read about Gleam not too long before this and saw, “Okay, somebody else is thinking about types. And it's definitely possible to make this work. So I want to try it myself.” So yeah, so I wrote a series of these articles. I definitely don't have a language that anyone can use or would want to use. But it was just a lot of fun to learn about what it takes to build a programming language, because Lisp tends to be one of the simpler possible languages you can make. It seems like a really great place to start. 
+
+
+If you look at the parser for Elixir, it is significantly more complicated than what you're going to find for a Lisp. So I just wanted to kind of document what I had found. And so hopefully, maybe somebody else finds it, and it's useful to them. But then also just as a good reference documentation, knowing that this would take me years to try to build so I can come back to this and refresh my memory whenever need be.
+
+
+[00:23:13] JE: So I want to dive into this just a little bit, because I think some of the concepts here are fascinating. So first of all, you've got this language. It parses down into this abstract form. Can you kind of just tell us what an abstract form is from a high-level so that people will know what the word means?
+
+
+[00:23:29] EP: Yeah, so what you end up getting down into are Erlang terms or Elixir terms. So you're talking tuples and symbols and strings. So you're converting the actual syntax of the language into these terms, and then the actual BEAM and the kind of Erlang ecosystem can take that at many different kind of levels. So there's also something called I think it's Core Erlang, which has its own abstract form, and also kind of a textual form. So depending on where you want to compile down to, the Erlang and BEAM world can take over from there. So I chose the abstract form, the Erlang abstract form. I believe that's also what Elixir uses, but there are just multiple levels in there in which you can get your code to run. 
+
+
+[00:24:15] JE: And both of these are interpreted by The BEAM?
+
+
+[00:24:17] EP: Correct.
+
+
+[00:24:17] JE: Okay. Okay. 
+
+
+[00:24:19] EP: So this one just made the most sense to me. It's very easy to just read yourself. You can see the function names in there and you can see where the parameters go. And it's pretty simple. It almost looks like a Lisp itself in there. And so, yeah, translating code into that I thought was pretty straightforward and not too bad.
+
+
+[00:24:35] JE: What was the hardest part of this project for you?
+
+
+[00:24:40] EP: Getting the right tools to start with, so parsing the actual code. So I'm using the Erlang tools, the scanner and the Elixir, and using those to actually break up the code into the right pieces so that it can be translated, was definitely the trickiest part. Those aren't incredibly well documented. So I was actually looking at Lisp-flavored Erlang and looking at their parser, and what they had built, and trying to glean what I could from there. And so that was definitely the hardest part. Once you get it into – Once it's been parsed, now you're just kind of using code to manipulate it. So I was writing in Elixir to build the compiler. So just once I had it parsed, it was pretty straightforward and felt very natural there. But getting to that point was the most difficult.
+
+
+[00:25:29] JE: I just want to point out, I'm definitely right about as being bad at naming things, because we all struggle every single day with a thing called YAML. Like why do we do this to ourselves? I don’t know. All right, well, okay, so now that I've insulted literally everybody in the industry, let's – 
+
+
+[00:25:45] SM: Amazing. Well, I mean, like on that point, it seems like the naming of things is hard and maybe a little bit magical. So why don't we move into the magic part of our episode? We've heard a lot of opinions about programming magic, or “Oh, this just worked like magic.” And then some people like that. Some people don't. And so we wanted to talk about BEAM magic, and maybe what your thoughts are about how much magic is the right amount? Have you kind of seen that with the things you work with? Just any thoughts? Opinions?
+
+
+[00:26:23] EP: Yeah, I love the level of magic that's on Elixir. And I think that level is pretty darn small. I really like that when you open up somebody else's project, whether it's a package or an application, and you know that it's an Elixir mix project, you know, “Okay, I'm going to open application.ex. And that is going to tell me everything that's launched from here. And then I can open up those modules and I can see exactly what happens there.” So some of this is definitely just age and experiencing more things. And so that clicks really well with me. 
+
+
+When I think about the Ruby on Rails projects that I've done, I couldn't tell you how those start and how they start triggering and invoking the different controllers. And all of that was very magical. And for the most part, it doesn't impact you that much. But every now and then you run into an issue and you need to dig into the internals and really get in there. And it can be really hard to trace. And so with Elixir, and with mixed projects, that's so straightforward and so simple, that I really enjoyed that. That it's not even hiding anything and it's not magical. You can just see, “Here's the top. Here's how it executes. And here's where I need to get to.”
+
+
+[00:27:39] SM: Are you somebody who uses the generators? I’m just curious.
+
+
+[00:27:42] EP: Yeah, definitely. And those, put it all in the right place, but at least it tends – You have to add just that little bit of plumbing to make sure it works. And that's just enough to know how it gets there. I feel like the most magical thing in Phoenix is probably the router itself. It's really great, though, that the code is readable and you can look. There's always the use statement at the top or something that brings in all the macros. And you can trace that back to where it is, and see what kind of code is getting included in there. And so it's still not that magical. I think it's really easy to trace. And so maybe that's what the negative magic is when you just can't figure out where it's coming from or how it's happening. So I feel like you really don't get that in Elixir.
+
+
+[00:28:27] JE: I feel like there's this weird tendency to disregard things that we don't understand as magic and that we say in a derogatory way. And yet there is some level of abstraction beyond the understanding of all of us, right? Like, there's nobody that has like the full stack in their head, right? So why is this? Why do we demean this thing that we use so readily and have built entire careers on top of? Is it really because it's useful to have full understanding? Or is it more because we are afraid of not understanding?
+
+
+[00:29:02] EP: That's a good question. Yeah, I think that's definitely some of it is not knowing. And I know for me, it's when you have that one problem, that really deep problem, and you just have no idea where to go, and you just kind of feel helpless and you feel lost. And then that's where you can definitely start feeling, “Oh, this magic, it's really killing me right now. I wish I actually could just see how this happened. I wish it was just a function call here,” whatever it might be. Yeah, I know. That's definitely where I felt it.
+
+
+[00:29:31] JE: Let me ask you this. I feel like when that happens to me, it's almost never at the language level. Like, if there's a bug in a Ruby library or something that I'm using, I feel pretty good about jumping into that library and figuring out what's going wrong. It's when it says something like C lang header [inaudible 00:29:48] or something like that, where I'm like, “What does that mean?” You know what I mean? Is that the right way of looking at it? Is that your experience too?
+
+
+[00:29:57] EP: Yeah, I think so. In Ruby, in particular, method missing, that was just the catch all for everything. And that made life kind of miserable if you needed to dig in. Some people don't seem to mind it, and that's great. I was not one of those people. Yeah. So I think that really hits it.
+
+
+[00:30:10] SM: Yeah. So at that point, it's not even magic. It's just like a lack of under – or a lack of information.
+
+
+[00:30:17] EP: Yeah, and when it works, it is magic, and it's really fantastic. And I love Ruby on Rails. It was my first love in web applications. And it was amazing. And the magic was great. So I don't want to say magic is bad by any means. But I really think something like Elixir strikes this really great balance where you get to feel that magic, but you still have the – You can still dig into it when you need to.
+
+
+[00:30:44] JE: Do you want to tell us about some of the magical parts of Elm?
+
+
+[00:30:49] EP: Yeah, definitely. So Elm I think also doesn't have a lot of magic. It does have a framework. So when we talk about Elm, we talk about both the language itself and the kind of application architecture and the application framework. So Elm is kind of an overloaded term, but just like Erlang might be once you're – That can cover The BEAM and OTP, and all sorts of stuff. So the Elm architecture is – I'm going say it the best way to write front end user interfaces ever, unless if you need any sort of dynamic content, if you need to make HTTP, AJAX type requests, using Elm is just awesome. 
+
+
+So the kind of the magic that you get out of that is that unidirectional data flow. So you've got your state of the entire application is contained in one data structure. And then the view of the application is rendered as a function based off of that data. And then when you need to change things, you kind of fire messages that change that data, then the view re renders. And so you just have this really nice data flow so that you can kind of debug it really easily. You know exactly how everything is going to work. You don't have to worry about side effects. So if I click a button here, that that might accidentally trigger something over there. It's just all incredibly straightforward, easy to debug. The typing system, I think really helps you out here. So yeah, I'm a big fan of Elm. 
+
+
+[00:32:20] JE: And you're using it at Corvus. So you've kind of seen how it scales in terms of as your application grows more complex and you have more developers working on it. Can you talk a little bit about that experience?
+
+
+[00:32:32] EP: Yeah, that was definitely something I was concerned about to start with. But it has not become an issue. Just because, one, most people are working on different pages. And so the way you can just architect the files, your Elm modules, is to break them up by page. So even if you have 10 teams, they might all be working on different pages. And so they're going to be far enough away from each other that you're not dealing with Git conflicts and you're not dealing with trying to implement the same thing. So you've got pretty good separation just from that.
+
+
+[00:33:05] JE: And then I could follow up by asking you the same question about Elixir. This is actually something that’s come up in several of the Slack groups that I'm in, people who are more used to building Greenfield Elixir apps are asking what are some of the challenges with a growing Elixir application? And there're a couple canonical answers everyone gives. You can go through those if you want. But please.
+
+
+[00:33:29] EP: Yeah, let's see if this is the same one context. Phoenix context, just explode.
+
+
+[00:33:33] JE: Oh, no. 
+
+
+[00:33:34] EP: Oh, okay. Yeah, great. This is definitely what we found, that Chris McCord did a nice talk about context. And this is in some earlier Phoenix days, maybe 1.2, or something like that, and how to use those contexts and what they were for and how you can architect your application using these. And I think everybody loved it, bought into it right away. Everyone started using contexts. And those can pretty quickly spiral out of control. We're talking multi-thousand line modules. And that is definitely what happened to us. And so we really wanted to build them in the way that he talked about in which you're not building one context per schema or one database table. 
+
+
+You're trying to build it around more business logic and grouping those things together. And that's what we tried to do. And that's what really made them grow really long. And so there's nothing just inherently wrong with a really big file. But what it just causes is it makes it really hard to find the functions that you're looking for. And so if you know, “Okay, I've got a function somewhere in which I fetch a list of these types of models,” and then you're scanning a multi 1000 line file trying to find that, that's not too much fun. So you just end up writing it, and you might start duplicating things pretty quickly. So that is the biggest thing we ran into.
+
+
+[00:34:51] JE: So then what sort of heuristics do you use to decide when to either split a context, start a new one?
+
+
+[00:35:00] EP: Yeah. So we've just been trying to build more specific context. So again, we're trying to avoid the build them around a single schema or a single model. And so we're trying that. And that's working out well. So now we've got some that are very small, just a couple of functions. But naming them properly really helps a lot. So going back to, “Are we good at naming or not? You find out pretty quickly when you start doing this. If they're discoverable, you have a new engineer start, are they able to find these when they need them? Does it make intuitive sense to go look up that code?
+
+
+[00:35:33] JE: And if you're not organizing around something in the database, are you organizing around features or functions? Or, like I guess, how do you think about – Because at that point, there's no boundaries? Right? There's no like rules anymore.
+
+
+[00:35:48] SM: Yeah. If you have like an example, like everyone uses, like, users or something? I don't know. If you have an example of how you use context that would actually be really interesting.
+
+
+[00:35:56] EP: Yeah, we do try to find some kind of logical grouping with them. So yeah, as you said, Sundi, the kind of accounts is a pretty typical one where that might mean you have user records in there. But you might also have session records. And you might have forgot password tokens, and all those sorts of things in there. So you kind of group those under accounts. And there is no great way to decide, “Okay, does this new schema also belong in that context or not?” 
+
+
+So I think that's where then you just have to keep kind of asking this question, or at least that's the one I ask is, is this helping me find this code in the future? Is this where I'm going to think to look? And so that's definitely been my heuristic. So it's not so much just about file length. Although, if you start getting to a couple of thousand lines, it's probably worth asking yourself, “Are there better ways to do this?” Because that's not easier to navigate than something poorly named?
+
+
+[00:36:47] JE: Is this where we talk about service-oriented architecture? 
+
+
+[00:36:52] EP: Yeah, definitely. 
+
+
+[00:36:53] JE: Okay. No. Because I remember a few years ago, there was a big move in Ruby land or like using service objects and this kind of thing. And I actually really liked that architecture style, because it's just like one thing, per class. And I don't really know why we don't do it. I guess, because we just got really good, like model architecture. Anyway, but I could see this happening all over again in the Elixir world. And we actually just had a conversation with Chris Keithley on his podcast about contexts. And his argument is basically that they're becoming like the APIs are not clear enough and useful enough. Yeah, it's a whole conversation, and it will be ongoing. So I don't know if you want to add anything else to help the audience make good decisions around code style and design choices around contexts. 
+
+
+[00:37:48] EP: Yeah, I think, keep experimenting, keep trying new things and see what works in your code base. I know we've gone through a lot where we write some context functions that just return queries, the actual Ecto.Query, and not the actual results. And so we can share those a little bit more easily. So we've tried a number of different approaches, and some of those stick a lot better than others, and some work really well. So we try to get rid of the ones we don't like. And yeah, just keep those ones that seem to really resonate with people.
+
+
+[00:38:17] JE: Have you had any challenges with compile times as your application has grown?
+
+
+[00:38:21] EP: A little bit. Actually, I think it was Elixir 1.11 was supposed to speed up compile times. And I know that actually hurt ours a little bit. I think we have a few of those leaf nodes that just somehow are dependent on everything, or just require to be compiled every single time anything within the application is going to be compiled. Yeah, for some reason, with Elixir 1.11, that seemed to get a little bit worse. But I know they're continuing to work on it. And there's a lot of documentation out there that can help you go out and actually find what is causing the slowdown. 
+
+
+So we were able to speed ours back up quite a bit by doing things like in our specs, instead of using a struct in the spec where you can use kind of the .t style. So we've been using that to get our specs to work and then that relieves a dependency that used to enforce an extra compilation. So that's been helping us a lot.
+
+
+[00:39:15] EO: Yeah, I'm just toss in, I believe, mix xref is a tool you can use to see what things are required to compile a file. And that can help speed things up as well. 
+
+
+[00:39:28] EP: Yeah, doing that dependency tracing can definitely help.
+
+
+[00:39:32] JE: I've got a couple more here that I really – So first one, I wanted to – Alright, let's do the data science question, which is you got a data science team. You got Python running on Lambdas. Nx just came out. Axon just came out. Livebook just came out. There's probably some other buzzwords I'm missing. Can you talk about, has this gotten to Corvus yet in any meaningful sense? Have people been playing with these tools? What your outlook there? 
+
+
+[00:39:58] EP: Yeah, everything experimental so far. We do have some Elixir devs who are extremely excited about it, who love data science and want to help the team. And so we know that there's more than likely going to be a place for it. At this moment, we don't have it yet. But we are definitely keeping a close eye on it and watching, because we're all excited about it.
+
+
+[00:40:19] SM: How do you work in new technologies into your like regular day-to-day? When Jose releases a new cool thing? How do you work it in?
+
+
+[00:40:27] EP: Yeah, we like to get buy-in from the team as much as possible. So if somebody is about to introduce something, usually we ask them to talk about the problem. What is the context? What's the reason for wanting to introduce this new thing? And so we share that with the rest of the team. We write up documentation on it. We try to explain, “Here's where the problem is. Here's why this new thing is going to really help us and be great for the team. It's going to speed this up, or it's going to make this way simpler.” 
+
+
+And that's usually all it takes. People buy-in pretty quickly. If there's a good coherent argument there, everyone gets it the thumbs up and it's in pretty quickly. So yeah, we love to focus on those problems. And not to say that we don't ever introduce anything or want to introduce anything, but we do hold a fairly high bar of making sure we really have a problem first before we start introducing things just because that helps sell it to the rest of the team. If you introduce something without that, then no one's going to be quite sure how or when to use it.
+
+
+[00:41:25] JE: I want to ask some fun questions now, because in stalking you online, discovered that you've got some of the coolest like side projects of anyone that we've ever had on the show. One was a card counting application. Do you want to talk about what that is? And just – 
+
+
+[00:41:47] SM: The history, the technology, whole thing?
+
+
+[00:41:51] EP: Oh wow! Yeah, I hope you're okay with this podcast going a lot longer than you were prepared for. Yeah, I love the game of blackjack. It is a casino game. It's gambling game. And it is special because it's – As they will say, it's the only game with a memory. So as you're playing the game, the odds change throughout the game. So it starts with a deck, a multiple decks of cards, right? They deal it out to all the people sitting at the table, and you're all playing against the dealer. And there are different odds depending on the cards that you have and what the dealer has. And so if you are able to track the cards that have come out – so in a very basic way, you're not remembering, “Oh, the king of diamonds came out, and then it was the jack of clubs.” 
+
+
+You're remembering just that high cards have come out and low cards have come out. And so this is how counting cards works. And when the count is in the right place, when it's a good count, that means your odds as a player or above the 50% threshold, and they can get way up there. And so you want to bet a lot of money because your odds of winning are really high. And so theoretically, you can actually make money doing this. And supposedly some people still do. But when card counting was invented, the casinos didn't know about it. So the odds were even better. And so a lot of people could actually make money doing it. 
+
+
+So it all started with a book by Jim Thorpe was his name. He talked about some they use some of the earliest computers. I think we're talking like early 1960s. He used that to devise a card counting strategy, which was pretty cool. And it's basically still in use today. So yeah, anyways, that's card counting. So I built an application to help you train as a card counter. So it just deals you games as quickly as possible. You keep track of the count. You learn how to bet and when not to bet. And, yeah, ultimately try to make yourself a good card counter, because it sounds very simple in practice. And then when you sit down at a live casino table and there're lights going off and drinks around and everything's happening, it becomes much more challenging. So this was trying to make myself and anyone else who wanted to join a better card counter.
+
+
+[00:43:52] JE: I don't know. Should we even ask about this remote meeting application you built? Because that's such a cool – that's such a cool – But yeah, you also – It looks like you maybe built a remote meeting app that's like a side project or company?
+
+
+[00:44:05] EP: Yeah, more of a hardware device with a little bit of a software component. 
+
+
+[00:44:09] SM: Nerves?
+
+
+[00:44:10] EP: Yes, using Nerves. Yeah, it was very fun. So it's pretty simple in the end, but I work remotely. And until recently, most of our team was in an office. And when I went remote, it's hard to let people know that you've got something you want to say. There's just that little bit of latency on a remote call. And so by the time you start talking, somebody else in the room has already started talking. And so you quiet down and you wait for your turn again. And it can be really hard to say something when you need to say something. So I wanted some way in the room to notify people that, “Hey, I'd like to say something," but I want it to be not too invasive. I want them to just see it and know, “Okay, once we're done talking, we'll all turn and look at the TV so that Eric can say what he wanted to say.” 
+
+
+So it's really just a light that sits in the conference room. Yeah, it is powered by Nerves. There's a little Raspberry Pi in there. And so me at home, I click a button in the web application, and it just turns on the light in the room. And so it just notifies them that, “Yeah, I've got something I want to say.” So I built one and used it a little bit and then COVID hit. So it's just been sitting on a desk somewhere. And hopefully, we'll get to use it again in the not too distant future.
+
+
+[00:45:22] SM: Was that built only for you, the one remote person on the team? Or if you had several remote people, like I know before COVID, Justus and Eric were the remote kind of people in the SmartLogic office. I don't know. Like would they both have been able to say we both want to say something?
+
+
+[00:45:39] EP: Yeah, they'd still turn on the same light. But, definitely, anybody could be on there and trigger it. I guess even if you were sitting in the meeting and you just wanted to tell people you had something, you could do that too.
+
+
+[00:45:49] SM: So it was just like somebody on the line wants to say something. Not like Justus wants to say something or Eric wants to say something?
+
+
+[00:45:54] EP: Exactly. 
+
+
+[00:45:55] SM: Gotcha. 
+
+
+[00:45:57] EO: You got to have it. You got to have it so people can pick colors when they sign in, and they change it to whichever color they picked. And then you know. 
+
+
+[00:46:05] EP: L like it. Yeah, free ideas here. Okay.
+
+
+[00:46:08] SM: When we go back to the office. I mean, the universal we, not SmartLogic, because we won't.
+
+
+[00:46:15] JE: Wow! That's amazing. Yeah, we have so many fascinating people in the community and side projects definitely add to the complexity of a person. And yeah, when we found your website and these particular projects, we were like, “Whoa! We could do a whole episode just on –”
+
+
+[00:46:32] SM: We were all on different pages. It's like when we do our research kind of phase, we usually are like looking at the same thing. But we were all on a different side project trying to figure out what questions we wanted to ask you in the short amount of time that we had.
+
+
+[00:46:45] EP: Oh cool. I am proud that I have actually completed a couple of side projects. I know that's a big deal. I don't usually complete them. But I was happy to.
+
+
+[00:46:54] JE: Hey, thank you for joining us on Elixir Wizards. Before we close out the show, we'd like to share another quick mini-feature interview with you. It's a brief segment where we showcase somebody from the community that's working at a company using Elixir in production. And we'll learn about how they're using Elixir. Hope you enjoy it.
+
+
+[00:47:16] AH: Hello, and welcome to our new many features segment of elixir wizards. My name is Alex Housand. And today we're speaking with Stephanie Vizzi, a developer at SmartLogic. Welcome to the podcast. 
+
+
+[00:47:27] SV: Hi, thanks for having me. 
+
+
+[00:47:29] AH: Thanks for joining. So I did a little digging. I noticed on your LinkedIn that you got your start in romance languages, and you got a degree in romance languages. And I wanted to know how that led you into a career in programming and how you got started in programming. 
+
+
+[00:47:47] SV: Yeah, I have been on many different paths. But I have always like been into languages and foreign relations and travel and stuff like that. So I was doing that in college and was doing some nonprofit work after college, and lived abroad for a while too. But there was a turning point when I really wanted to go into a vocation. And part of my nonprofit work that I did was a lot of operational stuff. And this was like a time when a lot of big software projects were coming out for nonprofits. And we were living in a space before that time. So we were literally working in the world of Excel spreadsheets, right? 
+
+
+[00:48:34] AH: Data entry.
+
+
+[00:48:36] SV: And so, like Excel spreadsheets to like house inventory, which is like crazy, because you’re just like, “A person can come in and touch this and change our inventory for –”
+
+
+[00:48:47] AH: For everything. 
+
+
+[00:48:48] SV: Yeah, exactly. And like basing our shipping off of that. And it was just a lot of like make it work kind of stuff. But it was cool. And one of the things that it helped me understand, like as a precursor to wanting to go into tech and programming, was that I could do like detailed operative functions and stuff. And I liked it. And I really liked it when it worked well together and it was seamless and stuff. And this was a time also when it was real cool to use the Excel macros. And that was definitely a part of our process. And there's like you had to fix it when it broke and things change. They need updates. So that was kind of like my headspace before being like, “Oh, this might be like a good vocation for me.
+
+
+[00:49:39] AH: That's awesome. There's definitely something to be said about people who are really good at Excel. I don't think I'm one of them. But it really is a whole other world. So I have to say props, because I find it very confusing. 
+
+
+[00:49:54] SV: Yeah, I agree. I mean, this was – I’m going to date myself, but this was in like ’09-ish. So, this was before – I will just say that I never became a master. But I did learn from and was near masters, which was cool. I also worked with a woman who was like keyboard everything. And it was like my first intro into like never touching my mouth kind of stuff. So it was cool to be around those kinds of people in that environment. 
+
+
+[00:50:27] AH: Do you feel like you're kind of beginning in languages has been a career aid and moving into programming? Like do you feel like those are kind of transferable learning a spoken language to learning a programming one? 
+
+
+[00:50:44] SV: Definitely. I think that there are a lot of similarities. And like, it's no mistake they're called programming languages. Like you're ultimately trying to make a process happen or communicate a thing. And there's different ways of doing that. And so, sometimes you're learning like between a language to say you take an idiom or something, and you're like, “Oh, how do I say what's up in another language?” And so like there's just ways of doing that. And sometimes what's up or an equivalent doesn't exist in that language, but instead, they do something else, like a hand gesture, or whatever. 
+
+
+So, yeah, definitely your intent and sort of like as a person who communicates in the world, like understanding what you're trying to put out there as part of it, but realizing that like the medium with syntax or whatever might be different. Another thing that I've found to be true, also, is that when you're first starting out learning a language, especially as an adult, someone over 18, like it's so weird to be like I can’t speak my thoughts. I can't be funny. I can't be myself. I can't say what a need. 
+
+
+[00:51:56] AH: The disconnect between your brain to what you want to say, so hard. 
+
+
+[00:52:00] SV: Yeah. So I think that that's true. That translates also, as a person who started programming also later in life too where you're just get thrown in and then you're like, “Oh! Ah! I barely understand the outline of what this is. But I'm just going to go in and throw some words out there and put some stuff on the screen and see what happens.”
+
+
+[00:52:26] AH: Yeah. Yeah. Allows you to take risks. Probably. So kind of coming off of your foray into programming, how did you find yourself working in Elixir? 
+
+
+[00:52:35] SV: Actually, it was a while before I started working in elixir for SmartLogic. I started here as a JavaScript developer and was doing frontend for a long time, like maybe two plus years only. And so I got put on a project that was full stack Elixir Phoenix, and there was a more principal person on it. And I was sort of the apprentice-ish type person, the second. Yeah, and so it just kind of was like got thrown in to a project that we were starting out as like a Greenfield project. So that was cool. 
+
+
+And I think the very first thing I did I remember is we were trying to come up with some – We had an example app that was set up, and we were talking about like doing some accordion drop down stuff for an example. And I was like, “Alright, let me see if I can program this in Phoenix for tomorrow. See if I can make an accordion in Phoenix.” So I was like, “Okay, I kind of did it. That's cool.” So yeah. And from there, it's just kind of like step-by-step, making changes that we need. 
+
+
+[00:53:49] AH: What do you think are some perks of the language?
+
+
+[00:53:52] SV: Perks of the language, it has enough things built into it that make it easier, but not so many things where you are sort of burdened by the need to write in a certain way?
+
+
+[00:54:09] AH: Right. More freeing.
+
+
+[00:54:11] SV: Yeah, and there's not like a lot of caveats and stuff that came along as the language progressed that's like, “Oh, we need to think about that. And we need to think about this,” and kind of like, throwing things on the pile. And so if you just want to do something simple or you just want to do something one way that you have to put in all these arguments are put in all these extra things for like not this, but that, and overcorrected things. 
+
+
+[00:54:37] AH: Yeah. What do you think are some challenges then? 
+
+
+[00:54:41] SV: Challenges, for me, honestly, is the JavaScript parts of Phoenix. Just seems like it shouldn't work that way. But it does. 
+
+
+[00:54:57] AH: Do you find that there are some good resources for the challenges that you encounter on a day-to-day basis working in Elixir?
+
+
+[00:55:05] SV: I mean, to be honest, one of the best things about working in the language for this company is that there are just so many resources here in terms of people that know and are comfortable with the language and excel at it that I can really reach out to a person and be like, “Hey, this is what I'm working on. What's the best way to go about this?” And really have someone with that expertise to be like, “I think that like the best approach, the best pattern, things I've seen, is this.” And that's like really nice. 
+
+
+[00:55:38] AH: We spoke a bit to it, but not to gloss over it, can you just give a quick elevator pitch to what SmartLogic does?
+
+
+[00:55:45] SV: SmartLogic, we build web and mobile custom apps. We do a lot of soup to nuts, start to finish projects, which is nice, and providing solutions for clients who need the custom element to make their digital dreams come true.
+
+
+[00:56:01] AH: Do you think that onboarding folks to a company that uses Elixir has been more difficult? What are the challenges that you have seen in that? Elixir is still a fairly new language. And so probably still considered a bit more niche, right? A lot of people know JavaScript, a lot less people know Elixir. So have you onboard folks? 
+
+
+[00:56:24] SV: Yeah. Like I said, had never really done backend before I started in this. So I don't have a lot to compare it to. I will say that really getting my head around the concepts and the way things work and the interoperability of everything for me was nice. And I think not completely seamless, but was much smoother than I anticipated. So that I think speaks really well to the language in general and our experience in working with it. I've heard a lot that Ruby developers, Rails developers come to it very easily also. And so that's heartening as well. I think for other frontend people who are coming into the language, much as my experience was, I think that it just makes a lot of sense. And it's really easy to see how things work together and make sort of the changes and the customization and stuff that you need to. So, so far, so good. 
+
+
+[00:57:25] AH: Yeah. Does every project at SmartLogic use Elixir? 
+
+
+[00:57:31] SV: No, not every. I will say that the majority, if not all, of them that we start from scratch do have Elixir backends. And that's really what we aim for. Also, yeah, we do some things to that's like web and mobile. Maybe there's a companion app or a mobile app as well. And so they'll both run with an Elixir backend. 
+
+
+[00:57:56] AH: That's cool. And before we run out of time, a rather fun question, if you weren't a software engineer, what would you be? Would it have something to do with languages and travel? Or would it be totally out of left field? 
+
+
+[00:58:09] SV: Yeah, I mean, I still love languages and travel. And still like very much in that world. But like I said, I really wanted to start on a vocation that wasn't language-based. And this is going to sound so dumb, but I was like this close to going to like signing up for helicopters, pilot school. That would be so cool. Let's do it! Let’s just do something fun. 
+
+
+[00:58:41] AH: That would be awesome. 
+
+
+[00:58:43] SV: Yeah. So that was kind of like my other option that I was thinking about at the time. But I don't know how realistic and stuff that was. You needed a lot of hours to be a pilot. And like, basically, aerial photography now is null and void because of drones. So that was a big chunk. And I didn't want to go into the military. So in any case, yeah, like some vocation, right? Like some, like learning a trading tool probably would have been another – Some alternative out there.
+
+
+[00:59:21] AH: Well, there's still technically time. You can be a helicopter pilot for fun if you really want to. 
+
+
+[00:59:26] SV: That’s true. 
+
+
+[00:59:28] AH: I told my mom when I was five years old, I wanted to be a school bus driver. So, I'm not doing that now, but I still think it might be fun to drive a school bus.
+
+
+[00:59:37] SV: Yeah, get that license. You know what I mean? Like just be that volunteer bus driver. 
+
+
+[00:59:42] AH: Yeah, exactly. Might be kind fun. 
+
+
+[00:59:45] SV: Yeah. 
+
+
+[00:59:46] AH: Well, Stephanie, Steph, thank you so much for joining us today. And to all of our listeners, if you or your company are using Elixir in an interesting way and want to come on the show for a mini feature, we would love to have you. Reach out to us at podcast@smartlogic.io with your name, your company's name and how you're using Elixir.
+
+
+[01:00:07] JE: Wow! This has been a tremendous episode, Eric. We want to be respectful of your time, but we also always like to give the guests the final word, which is if you have any final plugs or shameless self-promotion or asks for the audience, anything you want, the floor is yours.
+
+
+[01:00:26] EP: Well, thank you so much for having me on. I really enjoyed it. Yeah, Covrus Insurance, we are hiring Elixir developers. If you're interested, if any of that sounded interesting, yeah, definitely apply, and we'd love to have you. But otherwise, yeah, thank you so much. This was a ton of fun. I really enjoyed it.
+
+
+[END]
+        © 2021 Elixir Wizards
