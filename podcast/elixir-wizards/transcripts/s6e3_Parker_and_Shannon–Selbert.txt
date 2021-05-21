@@ -1,0 +1,941 @@
+﻿EW S6E3                Transcript
+EPISODE 03
+
+
+[INTRODUCTION]
+
+
+[00:00:06] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host. I’m joined by my co-host, Sundi Myint, and my producer, Eric Oestrich.
+
+
+Today's episode is going to be fun. We've got Parker and Shannon Selbert from Sorentwo on the show today. They're calling in from their garage. They have umbrellas hanging behind them. Where y'all calling from, Selbert’s?
+
+
+[00:00:35] PS: It is outside of Chicago. It's due west of Chicago in a little – it’s not that little a suburb, but it’s –
+
+
+[00:00:40] SS: It’s an enclave.
+
+
+[00:00:41] PS: Yes, an enclave, called Wheaton.
+
+
+[00:00:43] SS: You can't tell that you're in Chicago. You certainly look like if you turn the camera around, you're on a beach. You succeeded there.
+
+
+[00:00:50] SM: That's great.
+
+
+[00:00:52] PS: Yeah. It looks like a patio in Austin.
+
+
+[00:00:54] SS: I like Sundi's reality. I'm taking it. We're on a beach. I'm in.
+
+
+[00:00:59] JE: There's two big reasons that we had to have you on the show. One is Parker, you developed Oban. It's a huge tool in Elixir community. We have to talk about it. The other thing is that you guys have this amazing dynamic duo thing going on. We've had Bruce and Maggie on the show before and the husband-wife combination, working together on a company, I think is one of the coolest things I've ever seen in my life. It's just awesome. I have to know how it's going. Those are the things we're going to cover today, but we want to start at the top and basically learn about your backgrounds, how you got into tech and how you guys came around to starting a company together.
+
+
+[00:01:38] PS: We've a lot of ground to cover to try to rival Bruce and Maggie and husband-wife duoship.
+
+
+[00:01:44] SS: I would like to mention I'm not going to try. I think they're fantastic.
+
+
+[00:01:48] JE: I don't think it's a competition. You guys can just go on right on top of each other, like a layer of cake or something. It will be great.
+
+
+[00:01:53] PS: That’s right.
+
+
+[00:01:54] SS: I got started in tech, I wrote my first program to win concert tickets to game a radio station contest. I was working at a telemarketing company in Utah. I was the night ops person running backups. Shout out to all the SCO Unix people from the 90s. I was there and decided to get myself some backstage passes to The Cure, using all the dialers and the AV equipment at the telemarketing company that I worked for.
+
+
+It was a little touch and go in the beginning, because the errors, I had to figure out which line they were on, try to remedy the situation and then run out into the dialer room and see which computer popped up with the telemarketing script, which told me that the radio station had answered, so that I could then hear what number caller I was to figure out if I had won the tickets or not. It was me in a second-hand pantsuit with a very, very tight dyed black bob, running in and out of a dialer room, trying to figure out which screen had answered and had won me the tickets.
+
+
+[00:03:06] JE: I'm just trying to parse the things that I don't know, because they're technology I've never heard of. The things that I don't know, because the 90s, and the things that I don't know because of telemarketing being completely out of my wheelhouse.
+
+
+[00:03:18] SS: Well, pantsuit is this one big thing.
+
+
+[00:03:22] JE: I don’t think that’s the part –
+
+
+[00:03:23] SS: No, that wasn't it? Okay.
+
+
+[00:03:24] SM: No, that was for me. That was me.
+
+
+[00:03:25] JE: That was definitely a part of it.
+
+
+[00:03:26] SS: Okay. We used to wear them. I don't know why. If you thought using the restroom at work was hard enough, so pantsuit really made it a bonus.
+
+
+[00:03:35] SM: Did you win?
+
+
+[00:03:36] SS: Oh, I did win. I did win backstage passes to The Cure. It did finally work out and I was part of working at a telemarketing company in the 90, was having access to a T1 was limited. That was a huge boon for me.
+
+
+[00:03:55] EO: Did work yell at you at all for using resources?
+
+
+[00:04:00] SS: At work. No.
+
+
+[00:04:01] PS: It's important to know that she was working at night.
+
+
+[00:04:02] SS: Parker assured me – Yes, I was a night op. I was running backups. I also think it's fair that I question sharing my actual story. Parker said, the statute of limitations is passed. I'm totally fine. Anyone listening to this, I'm retroactively sorry.
+
+
+[00:04:22] PS: Yeah. Okay. I'll go. I started programming in Perl. Actionscript a little bit and then Perl. When I moved to Chicago from Florida, I didn't have internet for about a month and I had the Perl camel book and I started. What I ended up using it for was to manage my very sizable, illegal music collection. I'm pretty sure, statute limitations ran out on that one too, so we're both safe.
+
+
+[00:04:45] SS: Yeah. I think you're good.
+
+
+[00:04:47] EO: It's just a great story. That's all it is, people listening.
+
+
+[00:04:51] SS: Right. We're on the run from our children.
+
+
+[00:04:54] JE: Oh, really? You all have children?
+
+
+[00:04:56] SS: We have three children.
+
+
+[00:04:57] JE: Oh, wow.
+
+
+[00:04:58] PS: - on the house, because there are three kids in there.
+
+
+[00:05:01] JE: Wow, that's awesome.
+
+
+[00:05:02] PS: It’s less noisy out here with the chickens and the birds and everything.
+
+
+[00:05:05] SS: They find you.
+
+
+[00:05:06] JE: Oh, my gosh. Are they old enough to know that you have a party garage?
+
+
+[00:05:10] SS: Oh, I love that you think we have young children. Absolutely. Our oldest is a junior. She's a stats major. She's a junior in college.
+
+
+[00:05:20] JE: Rock and roll. Very cool. I always get digressed by children, because I love them. Well, I think we had other people on the show. Am I right about this, Eric, that we've had other people in the show that got into programming by trying to cheat ticket lotteries and stuff? Because I feel like someone on the show was stealing Hamilton tickets.
+
+
+[00:05:37] EO: The only other one that I've know for sure is that Nokogiri started because Aaron Patterson wanted to get tickets to the Lord of the Rings midnight showing and accidentally bought the entire theater.
+
+
+[00:05:50] PS: Yes. In this case, though, Shannon did not get repeated charges to her credit card.
+
+
+[00:05:54] SS: I did not. I just had to run back and forth and hopefully grab the right headset with the DJ announcing my score.
+
+
+[00:06:03] JE: Let's talk about Oban. First of all, TLDR for the totally new Elixir developer, what is Oban?
+
+
+[00:06:10] SS: It's a persistent background job processor. It's written in Elixir, so shout out for that. It uses PostgresSQL. That's to make it simple. Similarly, everyone pretty much uses PostgresSQL. It's just a fantastic thing that works together. Oban keeps the data after all that’s processed. That's what I think is spectacular about it. It allows you to monitor the lifecycle of a job. The UI, aside from being really fun to scale, allows you to check the state of those jobs in specific.
+
+
+[00:06:45] PS: It's not the first time anybody's used PostgresSQL as a job queue. The differentiating factor is that it keeps jobs after they're processed and does everything with its life cycle, so that you can inspect exactly when something ran, how long ago it was, how long it took and that kind. The purpose is to make it a centralized business tool, part of your business logic, not something that you just fire and forget and wait for stuff to happen.
+
+
+[00:07:12] SS: Because it's important.
+
+
+[00:07:13] JE: For a developer coming to Elixir from let's say, Ruby, where they're familiar with background processing using Sidekiq, I'm wondering if you could maybe compare that just for the very – the most naive person. Then, for the person who's let's say, a little bit – if you've been around Elixir, you know about Oban. I guess, the question is, if I'm an Elixir developer just getting started, why would I go to Oban as opposed to trying to roll my own processes?
+
+
+[00:07:36] PS: I'll cover the first part about the Sidekiq transition.
+
+
+[00:07:39] SS: I'm fond of the person who wrote Kick, just to say that.
+
+
+[00:07:43] PS: Kick is an Elixir translation of Sidekiq, and something that worked and added a lot of the Sidekiq pro and enterprise features so that it would work with Ruby as this straddling of two languages. There are some similarities in coming from that. I know a lot of learnings that came from that.
+
+
+The big difference there that I made the marquee one is that psychic works in Redis and this works in PostgresSQL. Then, there are a lot of other differences after that, usually around this lifecycle notion and persistence, and the fact that I can insert a whole bunch of things logically at the same time and my jobs are one of those things. You can't do that with Sidekiq, or a Redis-based queue.
+
+
+[00:08:26] SM: Can you speak to the motivations behind why you wanted to make this and versus using something else that might have existed, or –
+
+
+[00:08:34] PS: Part of the motivation was around having this ability to actually inspect things afterwards and have that observability. To do things in a way that's a bit more native to how we tend to do things in Elixir. There's XQ and other things that bring the Sidekiq mentality over. They don't tend to have really great new eyes, or they don't have the same feature sets. Needed something that was a clean slate to be able to do this.
+
+
+[00:09:04] SS: It performs those complex tasks and looks beautiful while doing it.
+
+
+[00:09:08] JE: You guys are a great team. Do you share a GitHub account? Am I right about this?
+
+
+[00:09:13] SS: Not anymore.
+
+
+[00:09:15] PS: We share a Twitter account, but we have two different GitHub accounts.
+
+
+[00:09:18] SS: There was a time in the beginning that there just wasn't enough time. We did share Slack and GitHub. You wouldn't really know which one you were speaking with, depending on where we were.
+
+
+[00:09:28] SM: I did notice that in a few places, there was the handle Sorenone and Sorentwo, and I was wondering how you decided who was who.
+
+
+[00:09:36] PS: Well, the name of the business is Soren. At the time when we want to get the domain, Soren wasn't available, so we were looking for something else and there were two of us. We went with Sorentwo. Then it expanded out from there.
+
+
+[00:09:48] JE: Where's the name come from?
+
+
+[00:09:51] SS: Our son's middle name is Soren. I had been consulting alone. Parker had been working for a firm. When we had our son, our second child, we decided to go off on our own.
+
+
+[00:10:05] JE: It has nothing to do with the Danish philosopher? Is it Danish?
+
+
+[00:10:09] SS: Soren Kierkegaard? I believe he is Danish.
+
+
+[00:10:13] JE: It has nothing to do with him?
+
+
+[00:10:14] SS: I mean, it's a family name as well. I have Norwegian. My Mother's family is Norwegian. The er makes a great logo type, which is that O with the slash through it.
+
+
+[00:10:27] PS: O with a slash. It’s just too good.
+
+
+[00:10:28] SS: He loved it. It's a family name.
+
+
+[00:10:31] PS: It's like the Nollset, but it's a letter. Perfect.
+
+
+[00:10:33] JE: I can hear some Soren Kierkegaard fans right now, so –
+
+
+[00:10:37] SS: Heartbreaking.
+
+
+[00:10:39] JE: So crushed by this.
+
+
+[00:10:41] SS: I’m sorry. I’m sorry. For all the Danish people, it's a Norwegian, I'm sorry to break your heart.
+
+
+[00:10:49] SM: What was it like when you were first getting started? Were there any major challenges that you had to face?
+
+
+[00:10:54] PS: Yeah, I would say so. We started in 2008, which is when there was that really big financial depression, and didn't have many clients and didn't have much to show. It was definitely a struggle to build that up and to get, at least, some clientele and reputation.
+
+
+[00:11:15] SS: There's a huge positivity in your commodity being the knowledge that you can take in, and then transition into art, or craft, or product.
+
+
+[00:11:27] JE: 2008, this is when you started the company, because you weren't building the Oban, right?
+
+
+[00:11:32] PS: No. We proceed, just say by about four years. Yeah, that was when we started the company. Oban itself started two and a half years ago.
+
+
+[00:11:42] JE: What kind of technology you were using back in 2008?
+
+
+[00:11:45] PS: ActionScript and Rails.
+
+
+[00:11:49] JE: Rock and roll. We use some Rails sometimes. I use Rails sometimes.
+
+
+[00:11:53] EO: I want to say, SmartLogic around that time was also doing ActionScript as well, because when I first started, one of the other developers was a technical reviewer of the Adobe Flex book.
+
+
+[00:12:06] PS: Oh, yeah.
+
+
+[00:12:06] SS: Wow.
+
+
+[00:12:07] PS: Yeah. ActionScript, when they did three, they pretty much read through a bunch of Java books, and the old Java Gang of Four patterns book and then decided to just layer ActionScript 2 on top of it. That's what it became. We don't miss that at all.
+
+
+[00:12:24] SS: No. That's agreed.
+
+
+[00:12:26] JE: You both are working on this open source project together, you're married. Are there conversations at home like, “Honey, can you handle this process scheduling air that I'm getting?”
+
+
+[00:12:37] SS: I think, it's really when we decided to switch into more defined roles, because you really can't neglect support from the beginning. It builds an immense amount of trust. Features are great. People have a lot of feature requests. Features are exciting. Features are passionate. Those are the types of conversations we have. Then trying to figure out when to slate those. Defining our roles helped background process our own life, to give more balance to our personal lives.
+
+
+[00:13:13] JE: That’s a great metaphor. That's going to go really well.
+
+
+[00:13:16] SM: Yeah. I actually had a similar question. You probably just answered part of it. There's so much mixing of the lives here. It's already hard enough now that a lot of us are working from home. Are there any techniques you use to really separate home life from work life?
+
+
+[00:13:32] SS: To add to it, we've homeschooled our kids for the last year. They typically attend private school. We rushed back from Europe in February –
+
+
+[00:13:41] PS: Just to not answer that –
+
+
+[00:13:42] SS: Just to not answer that directly, but to just accentuate how important that became.
+
+
+[00:13:47] PS: You just put all life in a blender and then press the button.
+
+
+[00:13:49] SS: That's what happened. Treating somebody like a colleague, and maybe like you don't know them so deeply and personally, when you disagree is not something we're the best at, but it's something we've learned is to, if you're going to go to that side of being impolite and criticizing, or having those antagonistic reviews on requests in GitHub or anything, really in life, dinner, whatever, we've learned to err on the side of infamiliarity.
+
+
+[00:14:23] JE: Please tell me about a traumatic PR review.
+
+
+[00:14:28] PS: It's not even about PRs. It could just be about somebody asking for support. The hidden side of this is that at least, probably more than 50% of the time goes into support, just helping people in mass, or one on one, whether that's on Slack, or through GitHub issues, or through emails. We get a lot of emails. Sometimes, it's just somebody's asking for more attention than they probably should. I'm possibly too accommodating and Shannon's like, “No, you got to shut that down. No, that's too much.”
+
+
+[00:15:02] JE: Make him pay.
+
+
+[00:15:03] SS: At that point, he calls me business woman. “All right, business woman.” It's like, well, I've just done Latin root words for the morning for two people. I've made pizza dough.
+
+
+[00:15:14] JE: Latin root. You guys are doing a classical homeschooling type of thing?
+
+
+[00:15:19] SS: We are not classical homeschoolers. I have nothing against it.
+
+
+[00:15:22] PS: Classical anything.
+
+
+[00:15:23] SS: We didn't plan on doing this. Luckily, the school that our kids attended, they were very helpful with curriculum. It's a bridge when they could come back. We haven't been left to our own devices, which is best for our children, really.
+
+
+[00:15:38] JE: Wow. We've had a number of homeschoolers on the show.
+
+
+[00:15:41] SS: Yeah, and I love it. I don't feel that's been negative at all in our life for this last year. Everything has been an experiment. It's been magic. The magic is, is that it's complex and it's happening, but we won't realize it until it's finished.
+
+
+[00:15:57] SM: Can you take that exact definition and put it towards the code side of magic? I'm just so curious, because you said the exact slate of words.
+
+
+[00:16:06] SS: I feel that that's really the best part of the magic of Oban. It does take complex processes, things that you would normally have to manually manipulate. It does them beautifully behind the scenes and presents you with this – at least the pro version presents you with the UI right now, which is something that I'm very fond of, particularly. You're fond of a lot of the other more in-depth aspects.
+
+
+[00:16:32] PS: I think, the reason that so many of us are in Elixir in the first place, is that we are very pro magic. Compared to Erlang. We have used Gen server, whereas in Erlang, you had some Emacs macro that people had passed down for generations, that would fill in the entire Gen server template. Then you go and you override stuff that you want. That's just not very magical. It's really brute force. We have these expectations of things being beautiful, in a way. I think, a lot of beauty comes down to simplicity. Simplicity is magic, because of course, it's not really simple.
+
+
+[00:17:10] SS: But it's safe.
+
+
+[00:17:11] PS: You just don't have to think about it, because you have these safe, yeah.
+
+
+[00:17:14] SS: It’s safe.
+
+
+[00:17:15] PS: Safe defaults.
+
+
+[00:17:16] SS: It's safe. It's not necessarily the fastest, but it's the safest.
+
+
+[00:17:21] JE: More broadly speaking in terms of technology, generally what? How do you think about a philosophy of magic? I mean, the number one thing people say about Rails, for example, is there's too much magic. It's doing too much for me. I don't know what's happening under the hood. You're taking the opposite approach, which is, magic is great. Let's give it away for free. I actually tend to agree with you more than the other position. How do you think about it more broadly speaking, in terms of in technology, generally?
+
+
+[00:17:50] PS: I think, there's a big caveat. Having spent a lot of time with Rails, and then even trying to modify other things, or just even metaprogramming in Ruby, which is fighting the precedence of some hook you're going to evaluate to inject code. That's magic, that's uncontrollable magic. That's not the same thing as having a really nice, hygenic macro system, like Elixir bio from Clojure, where you can write something that is magical, but you can inspect it every step and see exactly what you're going to get. I guess, one of them is more like black magic based on strange Voodoo sacrifices and the other one is much more white magic. Something where there's no harm. It's just helping.
+
+
+[00:18:33] SS: Right. I don't want to go down the road of sounding like I'd prefer the lawnmower man over the safe, controlled, in-the-BEAM magic. I think that's a beautiful thing. I'd love to live in the BEAM, but I do not want the lawnmower man reality.
+
+
+[00:18:51] SM: We just started exploring the idea of BEAM magic. To talk about the good light magic and the black magic side of things is funny. There are actually people who feel very strongly about both magic that helps you under the seams. Then, there are people who are like, but it does too much for you and then you don't know it. Then, they're against it. It's funny, you have the duality of it.
+
+
+[00:19:19] PS: There's another part of it too, where I think, using magic can hide what something's really doing. Then people rely on it and they don't truly understand it. That's also a trade-off that we all have to make to even be able to do anything in the modern programming world.
+
+
+[00:19:36] JE: I'm clear, is Lawnmower Man a movie reference?
+
+
+[00:19:39] PS: It is a movie reference. Yes. Stephen King book, movie reference. Yeah.
+
+
+[00:19:43] SS: I do find it very scary. I'm sorry.
+
+
+[00:19:46] JE: I'll have to go watch it. I'm just discovering this now.
+
+
+[00:19:50] PS: A guy’s brain gets put into a computer system to make him smarter and ends up moving his entire spirit in there and becomes this all-powerful god-like creature. It's very strange.
+
+
+[00:20:01] JE: You ever read CS Lewis Space trilogy? Has some of that in there.
+
+
+[00:20:06] PS: I think we've got some Screwtape letters history, but no.
+
+
+[00:20:12] JE: Okay. Well, I promise you’re going to –
+
+
+[00:20:13] SS: I’m more on the Orson Scott Card range. Again, it dates me.
+
+
+[00:20:20] JE: No, I love Orson Scott Card. Ender's Game is great. Also, the fact that you know about Screwtape letters is going to definitely please some fans of the show. I think you might have just won back people who are Soren Kierkegaard fans.
+
+
+[00:20:32] PS: The all too critical intersection of people who listen to Elixir podcasts, but also love the Screwtape letters.
+
+
+[00:20:38] SS: And Soren Kierkegaard.
+
+
+[00:20:40] JE: Those people exist. Let me tell you.
+
+
+[00:20:42] SS: I'm sure they do. I don't want to offend anyone. I have nothing against Soren Kierkegaard at all. I'm a huge fan.
+
+
+[00:20:49] JE: Okay. We've talked a little bit about magic, broadly speaking, some of the benefits of Oban. Let's just talk about the BEAM. What has been your experience diving in? First of all, here's a question. Have you come to Erlang through Elixir, or did you already know Erlang before Elixir, or have some familiarity with it?
+
+
+[00:21:06] PS: This one’s actually funny. Years ago, as you might have noticed, there's a Scandinavian lien from Shannon’s side. She had learned of Erlang as being this Ericson, Swedish product, and had mentioned it.
+
+
+[00:21:21] SS: I had fondness for the idea.
+
+
+[00:21:23] PS: Yes, there was fondness for it.
+
+
+[00:21:23] SS: I was trying to direct us.
+
+
+[00:21:25] PS: This was a pretty long time ago. This would be 2012, 2011. Before Elixir had come about. I took it to heart and read Joe's book, John [inaudible 00:21:37] book, and really liked the ideas, but didn't have any application for them. It didn't fit. There was no framework I could use. I couldn't pitch work for it.
+
+
+[00:21:48] SS: I got it, maybe later.
+
+
+[00:21:52] PS: Then, once Elixir came out, that provided this much nicer past to jump in and start using the BEAM.
+
+
+[00:21:59] SM: What would you say is the best part of maintaining an open source project?
+
+
+[00:22:04] SS: Camaraderie. At least even just between the two of us, but in the whole open source community, I probably don't participate in that as much as I should. I recognize it. I feel it's very supportive, those contributions. I know it's there. The stability of it is great. It builds a lot of trust to have that code base there.
+
+
+[00:22:27] PS: I think, trust is probably the biggest part. Recently, we read Nadia Eghbal’s book, the one about maintaining open source projects. Then she talks about these different modes of open source and how a majority of projects are idioms. What it means, there are a lot of people that use them, but there are very few people that actually contribute to them.
+
+
+[00:22:46] SS: There's a lot of observers.
+
+
+[00:22:48] PS: Still lot of observers or users. Oban definitely fits into that picture, where there aren't that many people that contribute to it. That's okay. There's a lot of people with visibility on it and helping drive it.
+
+
+[00:22:59] SS: I'm often thinking people, even in just support back and forth via email. I'm thanking them for helping refine it. It's a huge help.
+
+
+[00:23:09] JE: You started in 2008. Were you married before or after?
+
+
+[00:23:12] SS: Before. Just an all-in full disclosure, he did read that book for me. I read Chris Pine’s book on Ruby for him. I feel like, I just need that said. We do cord each other with information. It's such an important part. I know that it is. It's tough spending time. We cord each other with information, because it's passionate, but it's also it's alive to us. It’s real. It's a craft.
+
+
+[00:23:38] SM: My boyfriend is also a developer. We can't talk about this stuff. We don't fight about anything, but we talk about code, we are at it. I really appreciate that you have this kind of relationship. I admire this.
+
+
+[00:23:53] SS: There's a right and a wrong answer to things.
+
+
+[00:23:56] JE: You're right and he's wrong.
+
+
+[00:23:59] SS: I'm not saying I withhold food.
+
+
+[00:24:05] JE: Eric, you worked with your wife to learn how to build websites and stuff like that, right?
+
+
+[00:24:10] EO: Yeah. She had a brief period of wanting to become a developer and did the Rails boot – Rails Bridge. She did one of those and spent about six months before a veterinary part-time job popped up. She's like, “I'm going to go do that.”
+
+
+[00:24:31] JE: I'm definitely not in a relationship, but I do sometimes send people snarky Docker memes. I get it, sharing books with your loved ones.
+
+
+[00:24:41] PS: Snarky Docker. I mean, you can move on to Kubernetes. That's just right for any parody you want to lay on it.
+
+
+[00:24:48] JE: Very good Kubernetes memes for sure. There are lots of good Kubernetes memes. Cool. All right. We talked a little bit about some of the cooler features of Oban, global concurrency lock. Eric, this was your question?
+
+
+[00:25:01] EO: Yeah. I think, I saw recently, you posted that probably last week or two weeks ago that you are able to get a global concurrency lock on handling batches, or something?
+
+
+[00:25:13] PS: One of the early adopters of relatively early adopters of Oban was cars.com, through what Chris McCord was doing with some Dockyard out there. They had this flow, where they were using Broadway to pull in jobs and batches, like the Broadway style of task ingestion. They wanted to just be able to use Oban to do stuff. There was this push for being able to extend it, so that we could do what ended up being called this chunk processor of being able to process 1,000 jobs all at once and digest them, or do something.
+
+
+The other part of that though, was they wanted to be able to have this concurrency, where the only one node out of say, five or 10, was doing it, and you need this global concurrency. It took a pretty long time to figure out a way where we could, because there's no monkey patching in Elixir. You can't just load something on and replace it. It all has to be totally extensible. That led to this notion of engines. There's what's called the basic engine and regular Oban. Then in pro, there's something called the smart action.
+
+
+This other global concurrency limits and rate limit stuff is only through pro. It uses essentially, a table; a different table of producers. It coordinates everything that it's doing through these producers. It's an advantage in a way that you're using PostgresSQL, because you have a centralized place. You're not trying to do this distributed consensus, like raft kind of thing, to share stuff. There's a very, very small performance hit from having to do this coordination, but it ends up being some graceful advisory locks and really small backups and jitter, and all of the nitty-gritty stuff that you would need to coordinate does. In the end, it really just made, we're using another table with some concurrency constraints around reading and writing to shred records.
+
+
+[00:27:16] JE: If I just spun up an app with Oban and I'm using it to handle some background processes, nothing major, what point am I going to start running into the level of complexity that would impel me to look at pro?
+
+
+[00:27:31] PS: We say pro like this umbrella term. We really mean, web, which is the dashboard and pro. Pro are these additional plugins and workers that coordinate things. There's also a web, which is just to get you to the dashboard, so you can see what's running and go through and filter things, or cancel things and do all that. 
+
+
+[00:27:50] SS: What you can do, you can do batch cancellations. That's a huge bonus.
+
+
+[00:27:56] PS: I think, so many of the people that start even if they're just kicking off the project, they really want to see what's happening. Instead of having their own little bespoke SQL scripts that they run to check errors and that stuff. I think, that's the most compelling thing when you're starting, before you have these more complex data flows that you want to do.
+
+
+[00:28:16] JE: You have a number of people go straight to pro, just for the dashboard?
+
+
+[00:28:20] PS: Yeah.
+
+
+[00:28:20] SS: Absolutely.
+
+
+[00:28:22] JE: Okay. Interesting. Very cool. Eric, do you want to talk some more about – because I think you have a lot of these cool feature questions. I don't want to –
+
+
+[00:28:30] EO: Yeah. I think, you mentioned canceling a job. How do you stop something that's already running? Do you just kill the process? Or is there something else going on?
+
+
+[00:28:41] SS: If you're in pro, it's as easy as checking a box.
+
+
+[00:28:45] PS: On the dashboard. On the dashboard.
+
+
+[00:28:46] SS: Yeah, if you're in the dashboard of the UI, which is where I love to play.
+
+
+[00:28:51] PS: Yeah. It comes down to actually killing a process. It's something that is pretty much impossible without the BEAM. Because somewhere else, that would be something running in a thread and you can't just interrupt a thread. The BEAM is the reason that you can kill the task.
+
+
+The other part though, is that there's the pub/sub side of it. All the communication for whether you're scaling, or stopping, or canceling, it all uses pub/sub to broadcast out. You don't have to cancel a job on the same node, where you're clicking on the dashboard, or whatever it happens to be.
+
+
+[00:29:24] JE: When is the Oban book coming out?
+
+
+[00:29:27] SM: I wish the audience could have seen the way you two just looked at each other.
+
+
+[00:29:32] SS: The Oban stand-up comedy tour is probably more likely.
+
+
+[00:29:38] PS: Shannon’s got a headline, “The comedy tour.”
+
+
+[00:29:40] JE: You guys should definitely give conference talks together. I would die.
+
+
+[00:29:44] SS: With our daughter being a junior and a stats major, she's learning R and Python. She absorbed so much in formation through video tutorials. If her professors’ listening, we do not help her. We mildly assist. As far as that's concerned, she really does seek out video tutorials for R and for Python. We've been keen to develop some tutorial videos that's slated. Instead of a book, I would say that’s something we've discussed and actually started planning for.
+
+
+[00:30:22] PS: It’s also planning to really overhaul the guides and get it –
+
+
+[00:30:25] SS: Documentation is –
+
+
+[00:30:27] PS: Once considered would be the official acto book would be, or on the Phoenix book, it's which is really a better guide story. Turns out, that takes a lot of time and it's really hard to go.
+
+
+[00:30:36] SS: It does. It takes far more work than you realize to make your documentation beautiful and not look like a dentistry textbook.
+
+
+[00:30:43] SM: It's interesting that you talk about, your daughter's at an age where she's learning programming. I was just thinking, that if my dad were out here trying to teach me Elixir, it would not work. Strong would not work.
+
+
+[00:30:57] JE: Oh, yeah. No way.
+
+
+[00:30:59] PS: We had no point have ever said that she should learn Elixir.
+
+
+[00:31:01] SS: Yeah. Rionne feels the same way. We're just old. I mean, she's nice. We're not old in a bad way. We don't understand.
+
+
+[00:31:10] JE: Wait. Just to clarify, though, you have empirical evidence that your daughter likes to learn technical stuff from videos? That's correct. The SmartLogic marketing department will hear that and I will not be alone in my advocating for video content. Okay, cool. All right, I’m just glad that that’s super-duper clear.
+
+
+[00:31:27] PS: Yes, absolutely.
+
+
+[00:31:29] SS: Everything from schoolwork to bake-up, I mean, they'll just sit and study together on a video call. Then exchange texts while they're on it. It's such a huge medium for just social, for learning, for education. I really feel a book is a fantastic idea. Time is a finite resource in our life. I think video content is what we're geared towards.
+
+
+[00:31:59] SM: I can totally see that. Especially this generation of learning is so different. If I had a Skillshare account, I'd probably be in there all the time. I definitely have learned how to do a lot of fun and crazy things just from YouTube. I did not think about teaching myself the harder things in college by YouTube, even though I was on YouTube all the time. Those two things didn't cross over in my head. Now they do. It's interesting that there's a shift in digital learning, especially in the past year. We're seeing more YouTube channels pop up. That's actually very interesting to hear about.
+
+
+[00:32:39] SS: Thank you for sharing that. That's really helpful to us as well.
+
+
+[00:32:43] PS: It's all actually very encouraging for this, for that idea.
+[00:32:47] JE: Oh, I'll definitely watch your Oban videos. For sure. The other day, actually, I went to spin up a nightly worker and I found one of Eric's videos on spinning up nightly workers, just with a bare bones Gen server implementation.
+
+
+[00:33:02] SM: Then, there was this joke about how Eric's time is so precious. Justus had to go find pre-recorded Eric to help him, instead of actually ask Eric.
+
+
+[00:33:11] JE: Eric in the past is almost as good as Eric in the now.
+
+
+[00:33:14] PS: That's okay. I can imagine Eric –
+
+
+[00:33:15] SS: That’s wonderful.
+
+
+[00:33:16] PS: Eric wanted to go look up how to start a nightly worker and then finding his own material on how to do that.
+
+
+[00:33:21] SS: I think we need the Eric time continuum.
+
+
+[00:33:26] EO: I've always said, one of the best reasons to write your own blog is so that you can read it six months later to see how to do the thing you wanted to do.
+
+
+[00:33:36] SS: I believe, Parker's quoted you on that, Eric.
+
+
+[00:33:38] PS: Or it was from the last year say, when Sean Connery says it, but I think it's very similar.
+
+
+[00:33:42] SS: That could be it.
+
+
+[00:33:44] JE: Y'all have been interacting with Elixir and Erlang for a long time. I'm curious if you have aspects of the BEAM that you find not great.
+
+
+[00:33:52] SS: Parker added me on the documentation pretty hardcore. I mean, he just dropped the mic on me.
+
+
+[00:33:57] PS: That's not the BEAM's fault.
+
+
+[00:33:58] SS: It is not. That's not the BEAM’s fault.
+
+
+[00:34:03] PS: I think if you had asked this six months ago, maybe actually, even a little longer ago, the two things I would have said would be raw performance, comparable to something, like Java with hotspot and all that. Then we got the JIT. Then after that, I probably would said something about numerical computation and how it's not a good fit for machine learning. Then we got NX. I think my primary complaints are addressed. They’re in their infancy, but addressed.
+
+
+[00:34:32] JE: Do you think that we're in a golden age of software engineering right now and that, basically from here, it's like the 50s when it comes to movies. Since then, they've just been downhill as this, do we have nothing to look forward to in software?
+
+
+[00:34:45] SS: So much is stable now. Open source builds on that stability and trust. It is pretty fabulous. 
+
+
+[00:34:54] PS: I'm going to say, I don't think we're there yet. Even having been a developer for over 20 years, I just want to upgrade Tailwind. That means I have to upgrade post-CSS, but that breaks my Webpack. Then I have to upgrade Webpack. Then I have to search through Tailwind, change logs and deprecation notices for six months, and I still didn't get it to work. After half an hour, I quit.
+
+
+[00:35:17] SS: There you go. It’s rant time. It’s coming down. It's raining.
+
+
+[00:35:20] JE: Wait. The real biggest problem is JavaScript?
+
+
+[00:35:22] PS: I think just dependencies in general. We're not using Perl, but everything's still just duct taped together. We don't have build systems like mixed for most things. Maybe Elixir is in a golden age, but I don't think computing in general is anywhere close to it.
+
+
+[00:35:41] SS: JavaScript is his trigger word. You found it. It dropped.
+
+
+[00:35:44] SM: I feel like a lot of people in the Elixir community will agree with you on that one.
+
+
+[00:35:48] JE: I think I can see Eric biting his tongue right now.
+
+
+[00:35:52] EO: Yeah. We can throw out all of NPM. I think the world would be better.
+
+
+[00:35:57] JE: Okay. What lies hidden in Oban that we don't have to think about, but also, maybe if you could just talk about a little-known features. People love to hear that.
+
+
+[00:36:05] SS: Horizontal scaling. Seamless horizontal scaling, or –
+
+
+[00:36:08] PS: I think that's a pretty big one. I don't know how hidden that is. We started this. It’s supposed to be twice a week. Must be twice a week that there's a tip series. Where I think I'm 27 now, so we post them to Twitter. It's a tip of not the week, but of the day to give you a little hint. We've been digging down into things. They're all the user facing things, little bits that people can tweak, or use to control. A lot of these hairy bits are the things that actually take time that are orchestrating the processes.
+
+
+[00:36:41] SS: Complex.
+
+
+[00:36:41] PS: The complexity is all orchestrating supervision trees and processes behind the scenes.
+
+
+[00:36:48] SS: Which is that clustering.
+
+
+[00:36:49] PS: It’s all time problems. It's either time to actually spend fixing it, or time to coordinate when things are doing something.
+
+
+[00:36:57] SS: It’s all one cron problem.
+
+
+[00:37:00] JE: Or time zones.
+
+
+[00:37:01] PS: Or time zones. Yeah. Which is still a cron problem.
+
+
+[00:37:03] SS: True. Totally a cron problem.
+
+
+[00:37:05] SM: Calculating time. Everything to do with time.
+
+
+[00:37:09] SS: There's our Latin root word of the day. Cron.
+
+
+[00:37:13] PS: Has an H and we don't.
+
+
+[00:37:15] SS: We omit the H.
+
+
+[00:37:16] JE: Cron’s Latin? Well, you learn something new every day.
+
+
+[00:37:21] SM: When you were setting up Oban Pro and you're setting it up as something you can work on, work on together, do you consider it a success? Is there any advice you'd give for someone else who's doing the same thing that you are?
+
+
+[00:37:32] SS: I do believe it's a success. You?
+
+
+[00:37:35] PS: Yeah. I think it’s totally a success. It's worked out very well. I think it's the only way that we would have been able to have time to actually work on the Oban, the Oban source version of it at all.
+
+
+[00:37:45] SS: Move your goalposts. That's a big thing we've learned. We had these huge goals, and we had these marketing ideals when we started. We were afraid to implement those changes, because it's a scary thing to try to discover whether or not people want to monetize an idea for you.
+
+
+[00:38:06] PS: Well, they're really –
+
+
+[00:38:08] SS: They're really willing to do it. The last year has really given us the courage and the time to do that. Commit the time. Do it.
+
+
+[00:38:19] PS: I think, something that we touched on briefly was about the amount of support, but it seems like, you're just writing code that happens to be closed source, but so much of it is really, don't sleep on the amount of time it takes to support people.
+
+
+[00:38:34] SS: Don't procrastinate. Do it.
+
+
+[00:38:35] PS: Even just support your own infrastructure.
+
+
+[00:38:37] SS: It pays off to support people well.
+
+
+[00:38:39] PS: It makes the community healthier. I really hope that we have other indie hacker, indie developer people in the community that put out something really high quality, that they can sustain long term. It's not just something that they do part time, or on the weekend, but really something that they can get behind and make a living on.
+
+
+[00:38:59] JE: Well, I know that it's an aspiration for a lot of people. I really hope that you continue to flourish and people continue to use Oban Pro. Hopefully, one day I'll get the chance too, and yeah. I've learned a lot today, actually, I'll put it that way. We do have to wrap up. We'd like to give the guests the last words. If you have any final plugs, asks for the audience, where people can find you, rants that we missed. The time is yours.
+
+
+[00:39:26] SS: I think Obon is controlled magic. That's my blurb.
+
+
+[00:39:29] PS: If you have a business that relies on Oban, there's a lot in web and pro that will possibly help your business out and you should really check it out. It helps support open source Oban, keeps it healthy, keeps us able to work on it, and keeps new features and stuff flowing into web and pro.
+
+
+[00:39:47] SS: Yeah. We're committed to supporting you as much as you support us. Thank you.
+
+
+[00:39:53] JE: Hey, thank you for joining us on Elixir Wizards. Before we close out the show, we'd like to share another quick mini-feature interview with you. It's a brief segment, where we showcase somebody from the community that's working at a company using Elixir in production. We'll learn about how they're using Elixir. Hope you enjoy it.
+
+
+[MINI-FEATURE SEGMENT]
+
+
+[00:40:14] AT: Hello, and welcome to our new mini-feature segment of Elixir Wizards. My name is Ali Towsend. Today, we're speaking with Joe Peck, a software engineer at Spreedly. Welcome to the podcast.
+
+
+[00:40:25] JP: Thanks. Great to be here.
+
+
+[00:40:27] AT: Thanks for joining. It's really nice to have you. Joe, how did you get started in software development? I saw that you said you are a long-time rubyist. Was that the first language you worked in?
+
+
+[00:40:38] JP: That was the first language, yeah, I worked in professionally. I graduated with a computer science degree from NC State. Then started a three-person startup in Raleigh, and have basically worked in other startups since then, usually bigger than the three people. Ruby's been my main language. Then the last year, a lot more Elixir.
+
+
+[00:41:00] AT: That's awesome. What were some challenges of going straight from college to a three-person startup? Was that a difficult transition? Were you preparing for a more corporate life? Or were you aiming to be in the startup world?
+
+
+[00:41:15] JP: I think the corporate life, a corporate job wouldn't be such a good fit for me, and I wouldn't be a good fit for that. Since I was fresh out of college, I didn't really know that I should be worried going into a three-person startup. It was a great chance to put on so many different hats and try so many different things. I learned a ton there, way more than in college.
+
+
+[00:41:35] AT: Yeah, absolutely. The preparedness that you get in college, really, it really doesn't prepare you for what a real job is like, I think.
+
+
+[00:41:45] JP: Yeah. It can't compare.
+
+
+[00:41:47] AT: Did you start working in Elixir when you move over to Spreedly?
+
+
+[00:41:50] JP: Not right away. About a year ago, almost exactly, I switched on with team, where we deal almost only with Elixir projects. I've used it before a little bit for side projects, or adventive code. Yeah, this is my first time using it professionally. I've definitely been learning a lot the last year.
+
+
+[00:42:09] AT: Yeah. What has been that transition like for you?
+
+
+[00:42:13] JP: It hasn't been too bad. I think Spreedly is a great place to make that transition. There's been a lot of experienced Elixirists, who I can lean on, or ask them questions. With the way we use Elixir is really – it's mainly from microservices. It's easier to wrap your head around what each repo is doing, or what each app is doing, and just figure it out.
+
+
+[00:42:35] AT: Talking about Spreedly, can you give us a brief elevator pitch for what Spreedly does?
+
+
+[00:42:41] JP: Spreedly makes it really easy to plug in a payment solution that will handle PCI compliance, storing credit cards. We can even do smart routing, where you pass us a list of the payment gateways, you have access to and will tell you which one has the best chance of success based on the card and recent data and the currency and things like that. Spreedly does online payments, basically.
+
+
+[00:43:09] AT: Cool. That is a great brief elevator pitch. You said that you're on a team that uses Elixir. Spreedly, does it use Elixir across the board?
+
+
+[00:43:18] JP: Not across the board. No. We’re mainly either Ruby or Elixir. Elixir is used for a lot of our newer microservices that float around these bigger Ruby and Rails apps. Yeah, we use it for our secondary system, which means that it doesn't have any pan data. That's just primary account number, like credit card data. Yeah, so we have to be real careful about that. I don't think any of that ever gets to the systems that use Elixir.
+
+
+[00:43:48] AT: Cool. How many teams are there?
+
+
+[00:43:51] JP: Whew, boy. It changes every half year, or a year or so. I think there's about five or six teams, engineering teams. I think I'm on the biggest one. We have seven engineers.
+
+
+[00:44:02] AT: Cool. Is Spreedly also based in North Carolina?
+
+
+[00:44:05] JP: Yeah. It's based in Durham, between Chapel Hill and Raleigh.
+
+
+[00:44:10] AT: I spent some time in the Raleigh area. It's a nice little part of the world.
+
+
+[00:44:14] JP: It definitely is. Yeah. It's great.
+
+
+[00:44:16] AT: How did you find Elixir personally? How did you come across it?
+
+
+[00:44:22] JP: The first time I knew about it was a job way back. We had a hackathon, where you could just build something. A co-worker of mine asked if I wanted to work on our Elixir app. This was probably 2014 or something. I'd never heard of it, so I tried it. It seemed really fast. It read pretty easily. It reads a lot closer to Ruby than how it acts. It can fool you. Then besides, since then, I've used for some personal things, and then here at Spreedly professionally, for bigger things.
+
+
+[00:44:59] AT: Which must be incredibly exciting when you get to transition over into using something that you enjoy working in.
+
+
+[00:45:06] JP: Yeah, yeah. I've been really lucky. I've used mainly Python, Ruby and Elixir at my work. There's all seem to be pretty good languages. It's not painful ones to learn.
+
+
+[00:45:17] AT: Do you have a favorite one?
+
+
+[00:45:20] JP: I still like Ruby a lot. Maybe just because I know it so well. I like Elixir a ton too. You can do some really cool stuff with pattern matching and recursion. Yeah, when you're using it the right way, it just seems really beautiful code. It's really easy to understand.
+
+
+[00:45:38] JP: Now just briefly, try to hire engineers that have previous Elixir experience, or when you come in, we will teach you.
+[00:45:47] JP: I think we try to hire people who have Elixir experience. There aren't many. It's hard enough to hire people with Ruby experience and there's a lot less Elixir people. We mainly focus on just bringing in good programmers who are a great culture fit. Then they can pick up Elixir once they get here. There's been a lot of people here who have learned it on the job and have gone on to do really good things with it.
+
+
+[00:46:12] AT: I think that's a good way for most companies to go about hiring, really any engineers, right? You want good people first.
+
+
+[00:46:20] JP: Yeah. People who can learn also. Then once they get there, they just learn it.
+
+
+[00:46:26] AT: What are the resources like that you have been able to use, to learn Elixir?
+
+
+[00:46:31] JP: For me personally, advent of code has been pretty good. Because you can see other people's solutions. You can see how much better they are and then realize, “Oh, I should have done this.” Besides that at Spreedly, we have an Elixir Slack channel and Spreedlings have gone to ElixirConf for a long time, remotely last year, I guess. Then also, we have a train and stipend for classes and conferences and books. Then, there’s some experienced Elixirists at Spreedly and they've been really helpful answering questions or explaining things.
+
+
+[00:47:06] AT: That's awesome. I'm guessing, you had a similar Elixir onboarding experience to that. Then just letting you learn the language as you've got to work in it in real time.
+
+
+[00:47:17] JP: Yeah, yeah. For me, that's definitely the learning style that's best. Actually, trying it out and seeing, “Oh, that doesn't work, or this works really well.”
+
+
+[00:47:27] AT: Yeah. You just said something, are employees at Spreedly called Spreedlings?
+
+
+[00:47:32] JP: Yeah, like seedlings.
+
+
+[00:47:34] AT: I love that.
+
+
+[00:47:35] JP: Yeah. That's one of the reasons I joined.
+
+
+[00:47:41] AT: I think that's great. It's pretty cute. Anything that really makes your job more fun, I think, is a great thing.
+
+
+[00:47:49] JP: Yeah. I agree a 100%.
+
+
+[00:47:51] AT: Speaking of fun, if you weren't a software engineer, what would you be?
+
+
+[00:47:57] JP: A small time farmer/hot sauce maker.
+
+
+[00:48:01] AT: I love that.
+
+
+[00:48:02] JP: Yeah, yeah. I mean, I've done that stuff. Really small, like just a garden, or selling hot sauce to a few people. If that could actually pay the bills, I'd be awesome.
+
+
+[00:48:13] AT: Would you grow all of the ingredients necessary to make your own hot sauce?
+
+
+[00:48:18] JP: I'd grow as many as I could, I think, Special peppers and stuff like that.
+
+
+[00:48:24] AT: I love that. Well, Joe, I would buy your hot sauce if you decided to become a hot sauce maker.
+
+
+[00:48:29] JP: Okay. I'll put you on the list then.
+
+
+[00:48:32] AT: Awesome. Well, thank you so much to Joe Peck for joining us today. To all of our listeners, if you or your company are using Elixir in an interesting way and want to come on the show for a mini-feature, we'd love to have you. Reach out to us at podcast@smartlogic.io with your name, your company's name and how you're using Elixir.
+
+
+[END OF EPISODE]
+
+
+[00:48:52] AT: I hope they do. That's it for this episode of Elixir Wizards. Thank you again to our guests, Shannon and Parker Selbert for joining us today. Elixir Wizards is a SmartLogic production. Today's hosts include myself, Justus Eapen and my cohost, Sundi Myint. Our producer is Eric Oestrich and our executive producer is Rose Burt. We get production and promotion assistance from Michelle McFadden and Ashley Stotts.
+
+
+Here at SmartLogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails, React, Kubernetes and React Native. If you need a piece of custom software, hit us up. Don't forget to like and subscribe and leave a review. Follow @SmartLogic on Twitter for news and episode announcements. You can also find us on the Elixir Wizards Discord. Just head on over to the podcast page to find the link. Don't forget to join us again next week for more on BEAM magic.
+
+
+[END]
+        © 2021 Elixir Wizards
