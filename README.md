@@ -15,7 +15,9 @@ Then open [https://127.0.0.1:4000](https://127.0.0.1:4000)
 
 - Commit your changes
 - Push to the `main` branch
-- Github Actions will take over and build the jeykll site and make a new commit to `gh-pages`, which is served via Github Pages on [smartlogic.io](http://smartlogic.io)
+- Github Actions will take over and build the jeykll site and make a new commit to `gh-pages`, which is served via a VPS on [smartlogic.io](http://smartlogic.io)
+
+If nginx needs to be updated, please see the [smartlogic-io-deploy](https://github.com/smartlogic/smartlogic-io-deploy) repo.
 
 # Checking Links
 
