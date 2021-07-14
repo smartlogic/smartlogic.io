@@ -47,3 +47,12 @@ git commit
 # Regular deployment
 git push origin main
 ```
+
+## Transcripts
+
+To add a new transcript for a podcast:
+
+- Put the transcript in the [podcast/elixir-wizards/transcripts](https://github.com/smartlogic/smartlogic.io/tree/main/podcast/elixir-wizards/transcripts) folder
+- Edit [_data/elixir_wizards_transcripts.yml](https://github.com/smartlogic/smartlogic.io/blob/main/_data/elixir_wizards_transcripts.yml)
+- The new episode slug (this will match the episode slug in fireside) will be a top level key
+- Underneath that key will include the language of the transcript, along with a direct link to the transcript path added earlier
