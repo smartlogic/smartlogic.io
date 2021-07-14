@@ -6,8 +6,17 @@ This repository is for hosting smartlogic.io on GitHub Pages.
 
 You can run the website locally via:
 
-- Run `bundle install`
-- Run `bundle exec jekyll serve`
+Install [asdf](https://asdf-vm.com/#/core-manage-asdf) and [asdf-ruby](https://github.com/asdf-vm/asdf-ruby)
+
+```bash
+cd smartlogic.io/
+
+# Make sure you have the correct version of ruby
+asdf install
+
+bundle install
+bundle exec jekyll serve
+```
 
 Then open [https://127.0.0.1:4000](https://127.0.0.1:4000)
 
@@ -25,3 +34,16 @@ Look for links that don't point anywhere
 
 - Run `jekyll build`
 - Run `rake link_check`
+
+# Manually updating the podcast
+
+If you need to trigger a podcast update outside of the RSS workflow, you can run the `podcast.rb` script
+
+```bash
+./_scripts/podcast.rb
+git add _data/
+git commit
+
+# Regular deployment
+git push origin main
+```
