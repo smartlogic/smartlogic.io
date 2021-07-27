@@ -1,0 +1,387 @@
+﻿EW S6E8                Transcript
+EPISODE 8
+
+
+[INTRODUCTION]
+
+
+[00:00:00] EO: Hi, everyone. We have a quick announcement before the show today. SmartLogic, the custom software shop behind this very podcast is hiring for a mid-level Rails, or Elixir developer. Our team is fully remote and this position is open to applications from anywhere in the United States. You can read the full job description and apply at smartlogic.io/jobs. Okay, now on to the show.
+
+
+[EPISODE]
+
+
+[00:00:27] AH: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Alex Housand, and I'll be your host today. I'm joined by my co-host, Sundi Myint. Hey, Sundi.
+
+
+[00:00:40] SM: Hey.
+
+
+[00:00:41] AH: And my producer, Eric Oestrich. What's up, Eric?
+
+
+[00:00:44] EO: Not much.
+
+
+[00:00:45] AH: Not much? Same here. This season's theme is BEAM Magic. We're joined today by special guest, Maxim Fedorov. Hi, Maxim.
+
+
+[00:00:53] MF: Good day.
+
+
+[00:00:54] AH: It's great to have you on. We've been wanting to chat with you for a while. To jump in, how did you get into programming? What was your path like?
+
+
+[00:01:03] MF: I think, it all started with a programmable calculator, produced, I think, in Soviet Union. If memory serves me well, that was Electronika MK-61 or something. I think, it’s got 105 steps to write a program, and 15 registers to store your data. I was likely to be 11-years-old. Even at that stage, I managed to make some sort of a calculator game. It wasn't a computer game. It’s a calculator game.
+
+
+Then in high school, I've got a research supervisor who provided me with access to a real PC. That's how I eventually made it to a computer science faculty at one of the best technical universities in Russia. I guess, six years that I spent their learning count and some sort of a formal training. I am a certified software developer.
+
+
+[00:02:01] AH: That's so funny about the calculators, because I have vivid memories of playing calculator games that friends had programmed in high school. We would pass around our calculators in class, which we weren't supposed to do, but it was still fun. That's so cool. How did you make your way as you said, as a certified software developer? How did you make your way into the cybersecurity field?
+
+
+[00:02:26] MF: I guess, it's less of a cybersecurity. More of a network security, and I guess, some basic cryptography knowledge. It's also really been my education, I think. They reinforced at a few places that I used to work. Interestingly, I can even remember the first serious project that been involved. It was a firewall, branded as a stop-sign firewall was designed for Windows 95, if anyone remembers. I had to learn a lot of things from networking guts, TCP things, to some public key infrastructure, because it had quite an interesting way to monitor SSL, TLS-secured connections.
+
+
+[00:03:07] SM: There's this interesting intersection of time and place that influences the computer engineering, or software development that we all get into as programmers. I'm curious, was there any influential factor in your studies, or something that pushed you towards the field that you entered in, like maybe your parents, or your college, or different factors? Because, I think, we've seen that a lot is the time in which you entered your studies and also, what's popular with your friends can really influence that path.
+
+
+[00:03:43] MF: Interesting. Actually, I never thought of that. I don't think there were any friends who influenced me to try that. I think, the thing that attracted me was the whole new world to explore and experiment with, you get a calculator, or a computer and then you press a button, you type a few words, or maybe do enter some line, and then the machine replies to you. It's like being an explorer.
+
+
+Now that I think more about it, I might have been littered with that logic, precision and determinism. If the machine doesn't do what I want, it's because it didn't make it crystal clear what I actually want. Everything has some logical explanation. Sometimes, it takes almost a detective work to figure out why the machine responded in a different way and did not what I wanted, but what it did. It's almost like a game of some sort, but it has some well-defined rules and specific win criteria. I think, many young boys are easily excited with some kind of a game like that. That, I think, what made me to learn how to program and be somewhat excited about that.
+
+
+[00:05:01] AH: I know that for me, when I went to college, and I didn't really know what I wanted to do, both of my parents told me, “You're a very good problem solver. You're pretty logical. This is something we think you would be good at, so you should explore it.” I think you're right. There's some puzzle aspects to it. How do all the pieces fit together? What piece am I missing to make everything work? It's a fun challenge. Sometimes it's frustrating. Most of the time, it's a fun challenge.
+
+
+[00:05:33] SM: It's funny, Alex, because my parents were like, “We just want you to be some kind of engineer. Just pick in engineering.”
+
+
+[00:05:40] MF: We can never go wrong with engineering.
+
+
+[00:05:43] AH: That is so true. Really, any of them. Sundi spotted a quote on your LinkedIn and that we wanted to talk to you about, because more recently, we've been doing some fun and crazy work with timezones. I'm going to let her take this question.
+
+
+[00:06:01] SM: Yeah. Somewhere on your LinkedIn, you had something. You specified 24/7/366 - dash on a leap year. You specified the leap year piece. I was just like, “This person has probably done something with timezones, and really hated it, so much to the point where they – or loved it. You never know. People have problems, or working through problems.” Do you have specific thoughts about time, time as a construct, time and programming?
+
+
+[00:06:30] MF: I guess, that's also a confirmation bias. Not really. I actually don't use LinkedIn. I don't use it often. I maybe update it once every couple of years. I think, I remember my line of thought as initially, I wanted to write a 24 by 7 by 365, because that's what's everywhere. Then I quickly realized, “Okay. But then, it means that every leap year, WhatsApp is down for the entire day, which isn't true.” I decided, “Okay, I'll better put 366.” If someone says, “Okay, you work one more day in the year than there is time for that,” I can say, “That's fine. We have that reliability.”
+
+
+[00:07:12] SM: That's really funny. That was actually the leading question there, or where we wanted to go with that is, can you talk about how you handle time on a communication app, where I'm assuming you actually – Not every application really has to worry about time zones, but I'm assuming that a communication application would have to.
+
+
+[00:07:30] MF: I would probably say that Erlang and OTP does most of the work for us. It has enough facilities to work with time. To be honest, sometimes I think it has too many facilities, especially when looking at the diagram that says, how the monotonic time works, how POS system time works, how the wall clock time works, and then how the BEAM time works, which is all different ways to understand the time.
+
+
+[00:07:56] AH: I find WhatsApp, fascinating. Part of the reason, I think, is because its use is so prevalent all over the world. More so, I would say outside of the United States is, that's my assumption. Why do you think that is? Hypothesize just in general. It’s always been very interesting to me. Anytime I go to Europe, I get WhatsApp. I redownload it, but I don't really use it at home. Do you have any thoughts on that?
+
+
+[00:08:21] MF: I do. First, I can definitely tell that it is just the best messaging application. That's just true. That's why I think it is used everywhere in the world. I think, one of the most contributing factor was the specific focus on simplicity, reliability, and security of the application that attracted many people. WhatsApp works everywhere and works reliably, even if you have a really cheap, a really simple KaiOS GeoPhone in India. It works just as good as if you have the newest modern iPhone. You can still use all of the features that you want to. It connects people around the world, and it does it ubiquitously. If you're using, I don't know, probably even the old phone with buttons, it may still work there.
+
+
+[00:09:14] AH: Yeah. I definitely think you're correct. The times I've used it, the seamless connection to people is delightful. The ease of communicating with people across country, continent, boundaries is much easier on something like WhatsApp, than it is just on iMessage. I personally found that. You spoke to this a minute ago, but how do you use Erlang at WhatsApp?
+
+
+[00:09:38] MF: Erlang still powers all messaging at WhatsApp. Every message you send, every call you offer, or every live location point that you send or share, it passes over one or more Erlang-powered machines. That probably concludes it.
+
+
+[00:09:56] AH: Were you at WhatsApp for the decision process of when Erlang was chosen?
+
+
+[00:10:02] MF: No. I joined later. In fact, I joined after the acquisition has already happened. I wasn't aware of that. To be honest, when I was interviewing at WhatsApp, I really didn't know much about WhatsApp, or Facebook, or the relation between the two. It's weird, but I wasn't a WhatsApp user at that time.
+
+
+[00:10:23] SM: That's fair. I mean, when you're interviewing somewhere, that doesn't necessarily mean you have to use the thing. Sometimes, I actually – I think, only once in my life have I worked at a company where people who weren't in the software industry, or just anybody on the street that I walked into, and I was like, “I work at this place.” They go, “Oh, I've heard of that place. I've been there for that product.”  That's fair. Are you a WhatsApp user now for yourself, or not just for testing?
+
+
+[00:10:49] MF: Oh, yes. Now, I am a really big user. It’s probably one of the first times in my life where I am one of the, I guess, the biggest and the most heavy user of the software that I'm working on.
+
+
+[00:11:01] MF: Yeah. It's always fun when you can really enjoy your work. It's very rewarding, but also, just interesting. Sometimes, you know you're really immersed in it when you can turn the developer part of your brain off and just use it as a user. That's always fun. You said, you weren't there when Erlang was picked. Do you know anything about the decision, though? Did you hear about the history, or why that was picked as the language to work on the app in?
+
+
+[00:11:30] MF: I wasn't there when it actually happened, but I think, I understand the rationale and the reasoning behind that choice. It's quite simple. Erlang is a tool that is built for the purpose, that telecommunications and signaling in telecom networks. Erlang is designed for real-time communications. Even the virtual machine that powers Erlang, that's called BEAM, it implements a very nice way to work with highly concurrent code, which is what we have when millions, or billions of users are sending messages concurrently to each other. The language and ecosystem fits well, the problem space we are working in.
+
+
+I actually remember Brian Acton saying, if we only had a single roadblock, or hurdle, we might have abandoned Erlang. Luckily, that has never happened. That, I think, explains how smooth was our experience with Erlang. I think, another reason, it's no secret that ejabberd XMPP Server was first chosen to power WhatsApp, for its ability to easily scale over multiple machines. While I think there is not a single line of code left since the original incarnation, I guess, that was also a good decision that allowed engineers to focus, which is the most important work for WhatsApp on what was important, instead of battling over language choices, or framework, or specific server implementation, or something like that.
+
+
+[00:13:00] SM: I do have to ask, just because we are in the Elixir Wizards. I'd be remiss if I didn't take this opportunity to ask. Have you explored Elixir at all for any small part of the application, or migrating some of the code over, or considered it? Any thoughts?
+
+
+[00:13:16] MF: Personally, as a developer, I obviously tried Elixir and I worked with it a little bit. As a company representative, I would say, that introducing a new language at this scale is a very serious choice, because it means a lot of investment. It also leads to fragmentation. Therefore, it has to be justified seriously. Therefore, even though we do have some amount of engineers that would be happy to work, because they have some prior Elixir experience, they will be happy to produce code and code their services in Elixir. We currently do not support and do not yet have any plans to introduce Elixir at this scale.
+
+
+[00:14:02] SM: Yeah, very understandable. It's something that we talked a lot in our season about adopting Elixir is how companies with larger code bases, that they might need to really change the way that their entire code is structured and their team is structured to accommodate new languages, any new language really. You don't want to, I think, Eric would attest to this. You don't want to just change it all for the hot new thing. Got to do what's right for the team. Alex, did you have something you wanted to add there?
+
+
+[00:14:32] AH: Well, I was going to say not to mention, there's the time and the burden of introducing a new language, and all of the odds and ends that come with trying to essentially, recreate what you've got. Then also, the time that has to be spent onboarding engineers to a new language if they're not familiar with it. That in and of itself is a huge undertaking. I mean, my first job in Elixir was learning on the job, which was great. It takes a lot to get you up to the point where you're very productive, working in that language.
+
+
+[00:15:10] MF: I was going to add, and if something goes wrong, but somehow this service already went to production, it takes even more to undo and remove the new framework, or the new language within your ecosystem that has been brought. It probably is 10X work compared to bringing new things in.
+
+
+[00:15:31] AH: Have you during your time at WhatsApp so far, experienced a large production outage?
+
+
+[00:15:38] MF: I guess, that depends on the definition of an outage on production. What do you mean by large? By WhatsApp scale, even 10 minutes outage, when users cannot connect is considered to be large. And yes, there have been at least a couple of cases when WhatsApp users were not able to send messages for some extended periods of time. By extended, I need more than five seconds.
+
+
+[00:16:08] AH: I imagine, a question I had written down was you gave a talk a few years ago about scaling as WhatsApp was growing. At the time, WhatsApp, I think, was at 1.5 billion. Now, it's upwards of 2. What has that scaling been like from 1.5 to 2? Has it been any different, any more challenging than scaling up to the 1.5 billion?
+
+
+[00:16:32] MF: Frankly, the safety margin put in the BEAM in OTP is so large that we were able to scale production deployment without any serious issues. What we are facing now is more of a challenge in developer experience. Erlang has not been built with large code bases in mind. It needs more modern tooling, better testing framework. That's, I guess, something that is on us to contribute, as we are probably one of the largest user of that language.
+
+
+[00:17:04] AH: Are there any internal plans for the WhatsApp engineering team to start those contributions?
+
+
+[00:17:09] MF: I will probably put it this way. There were previous mentions of WhatsApp fork of Erlang and WhatsApp fork of OTP and some dark magic associated with it. Probably, there were some talks about it five to seven years ago. No longer you hear there is talks, because WhatsApp has already contributed quite a number of improvements to OTP. Yes, we do plan to work with the community to contribute even more changes and improvements, and not necessarily to the language, but also to the ecosystem, to the infrastructure. We also support Erlang Ecosystem Foundation. Even though it has Erlang in its name, it's actually the BEAM Ecosystem Foundation, including all languages. That means Elixir and other languages as well.
+
+
+[00:18:01] SM: Yeah. I think we discovered earlier this season, we actually weren't sure, we didn't know how many languages run on the BEAM. I think, it's something like 35. Eric can correct me if I'm wrong, but I did not know that. I knew there had to be more than Elixir, but I didn't really think that it was in the 30s. Are you using pure Erlang on most of WhatsApp? Or sorry, did you just say that you are using some abstraction?
+
+
+[00:18:23] MF: We are using Erlang in its purity, I guess. We do have a number of core level libraries that we use throughout the entire WhatsApp, but it's Erlang as it is.
+
+
+[00:18:35] SM: Cool. Is there something very specifically that Erlang does that makes your job easier? It could be like something, a quality of the BEAM that makes it the perfect fit for WhatsApp, or something like that?
+
+
+[00:18:49] MF: I think, I already mentioned that Erlang and the BEAM, and I guess, you mean OTP in this case. Not just the BEAM itself, but the whole telecom platform. It's just a tool that is built for a purpose, and it just works. That's, I guess, one thing. I would probably say, that simplicity is the most important trait of Erlang as a language, open OTP as a platform, of BEAM as a VM.
+
+
+For me, it's clear that it's probably the hardest job in the world to produce simple, but very powerful abstractions. BEAM VM developers are very good at that. They allow us to build everything on top of that. Building on top is a breeze. That's actually why we see that many, 35 languages that are built and work on top of BEAM. That simplicity is an enabler. It just allows you to build anything on top.
+
+
+Building on top of complex and ever-changing API is always a serious challenge. OTP does a great job of retaining backwards compatibility, and sometimes even takes it to extreme. One example would be Erlang thrown format that I think, hasn't changed for 10 years or even more, that what actually allows us to smoothly transition over multiple versions of BEAM goal, maybe up and down in many cases.
+
+
+[00:20:14] EO: Speaking of going up, I guess, since you're on the pure Erlang, have you guys tried out OTP 24 and the JIT? I'm curious if that has some massive repercussions of the amount of servers and whatnot that something the size of WhatsApp requires?
+
+
+[00:20:33] MF: We actually announced that on an Earth Day that we saved a serious amount of machines by adopting the muscle JIT. I don't recall the exact numbers, but you can always refer to Twitter post made by Will Cathcart, who is the WhatsApp VP right now with Facebook.
+
+
+[00:20:54] SM: Do you have any feelings on drawbacks of the BEAM, or anything that are more difficult to learn, address, teach other people?
+
+
+[00:21:04] MF: I think, the most problematic part comes from lack of education at schools, when we just don't do a good job of teaching children, the functional approach and concurrency and so on. We always start with this simple basic program, or something similar, that goes an imperative way, like print this, print that, if this, then that, and so on. Therefore, it gets very difficult, even for a child and even more difficult for an adult to switch this perception and the way of thinking into more functional style to understand what is supervision, to understand what is the unit of supervision of how these things are wired, how it connects to this, how it connects to that.
+
+
+I guess, the problem is not in the BEAM itself, but in not enough materials that we supply. There is not enough understanding of why it is important to have things done in this specific way, or in that specific way. What are the alternatives? When new developers join, they have to literally relearn everything and understand everything from scratch. This is a big problem. It's a serious learning curve, or even I would say, a learning cliff. You just try banging your head against this wall, without really thinking, “Okay, how do I get this? How do I get that? How do I even run a loop of 10,000 steps?” It's just so unusual, when you first try it.
+
+
+This learning curve made it a very difficult entrance. Therefore, it means there are not many developers who are proficient with Erlang and functional languages in general. Therefore, it makes it difficult for big companies to hire more people to work on that. Therefore, it shrinks the ecosystem once again, and that leads to that vicious cycle when there is only a small circle of those who is aware of how it works. That's I guess, the problem, not even BEAM itself, but the ecosystem in general.
+
+
+[00:23:11] AH: I love the phrase ‘learning cliff’. I think that's awesome and delightful, and describes probably more things in life than learning curve does. I think, you spoke to something that I think about a lot, because in my college computer science program, the focus was object-oriented languages, and what have you, everything else related to that. I took an optional functional and logical programming class and loved it. I felt so in tune in that class, way more in tune than I did in any of my Java-related classes. I think, that was definitely a benefit of coming into a job that allows me to use Elixir. What are your thoughts on – I mean, you spoke to some, that there's a lack of learning of functional languages. What are your thoughts on object-oriented languages in general?
+
+
+[00:24:09] MF: They have their market niche as well. They're great for doing the job they are designed for. To be frank, I also started – I took a serious course on object-oriented programming, and then the domain-driven design later down the road. It has a lot of users as well. Not everything can be easily modeled in Erlang or Elixir, and not everything can be easily modeled through object-oriented programming. They are just different things.
+
+
+For telecommunications and when there is some message passing happening, yes, Erlang and similar languages are just shining. When you need to represent a very chaotic, or unstructured system, when there are some objects that are manipulating each other’s properties, then probably object-oriented language is a better fit.
+
+
+[00:25:02] SM: It makes me think a little bit of, you mentioned dark magic earlier. There's a whole section that we want to talk to you about magic. Magic in programming is the things that do things for you, versus the languages like Java, which maybe, you have to do more explicitly. Yes, that might be a lot of effort, but you might also know what you're doing more. Just curious what your thoughts are on Magic, and how much magic is too much magic? Do you find there to be a lot of magic in Erlang?
+
+
+[00:25:33] MF: I would probably quote Arthur Clarke here, who said, any advanced technology may be indistinguishable from magic. Literally saying, that if the technology is so advanced, that most people don't understand it, it feels like magic. My thinking here is that there is no magic. There are just great abstractions over specific problem domains. To be honest, I don't really observe any magic in Erlang, or BEAM itself. It is, in fact, the opposite. It doesn't do anything for you. It doesn't do anything that you may consider to be magic.
+
+
+Instead, it lets you think in your design space, obstructions, in what exactly you're trying to achieve, because it has these processes, just like things are running in the world. Those processes, they can send the messages. Imagine you are a person and imagine you are a process. You can send a message to me. You can say a word to me. Then I will hear it. I may selectively receive it and decide not to respond, or I can reply. I can send another message back to you. It's not magic. It's just a representation of our work, of our real world.
+
+
+Therefore, since I don't think there is any serious magic, I actually believe that it is the right amount of magic, which means, it's just not there. If there is no magic, then it is easy to understand, predict, and determine what is going to happen next. That's another nice trait of a functional language, because it has right now, immutable variable bindings. Slightly different in Elixir, but still very similar approach.
+
+
+Then, function will not have any side effects and you know what to expect from it. Is that magic or not? On one side, yes. Because the function always produces the same result, regardless of what's called it and how it works. It only depends on the argument’s input. On the other side, it's not magic at all. It's just how the language works. You can see that, and if you can understand that, there is no magic, which means it's just the right amount.
+
+
+[00:27:57] SM: You’re team no magic. Got it. It's funny, because when I was first learning Elixir, and I wasn't following certain things that were happening, I would have called some of the things that are happening on top of Erlang that are abstracting it out as potentially magic, because I wasn't following what was happening, because I'd have to dig into what it was doing on the Erlang side of things, which I never really got to understand, until maybe more this year. It's interesting to me to hear what you have to say, having worked on the magic layer has been peeled off more at the Erlang layer for you. That's cool.
+
+
+[00:28:30] AH: There's also to this, I guess, the more work that I do, the more that I experience, the more that I learn about, the more that some of that hidden magic, it's peeled away. I still have moments working and experiencing things as a customer, or as an end-user, where I think to myself, “Wow, that's incredible.” When you can work on something, and then peel off layers and take it apart and understand what's happening, it's very cool. It's a very enlightening experience to learn how everything is working together.
+
+
+[00:29:02] MF: Every time I have this, “Oh, that's how it works,” moments, I immediately realized, well, these guys definitely knew what they were doing. When they started Erlang, when they decided to write it the way it works, when they designed the language, designed the syntax, designed the design at all.
+
+
+[00:29:22] SM: We call those aha moments. Did you have a particular aha moment around Erlang when you were first learning it?
+
+
+[00:29:28] MF: When I was first learning it, aha moment was, eureka moment was oh, that's how I make it run 1,000 times. That's how I make a loop node.
+
+
+[00:29:38] AH: Which is something as somebody who works in Elixir, I don't know how to do. As somebody who wants to learn more about Erlang, what are some good starting resources that you think people should look into?
+
+
+[00:29:51] MF: I will probably start with a few books that are available. The one that's reasonably old, but still very actual is Fred Hebert’s book, Learn You Some Erlang. Maybe one more modern book, which is, I think, Adopting Erlang, which also has a few bits about Elixir as well. It's a great book in general.
+
+
+Of course, if you want to dive deeper, then you might want to look at Joe Armstrong thesis, which is just one of the best write-ups about Erlang itself, the design, the concurrency design, the supervision and everything else. In addition, if you really, really want to understand how the virtual machine works, there is the BEAM book by Eric Stenman, which is another great example of what’s a good Erlang ecosystem developer should know about the BEAM itself and the virtual machine and the ecosystem in general.
+
+
+[00:30:48] AH: I love that you mentioned a thesis paper. I'm the daughter of an academic, who's actually here with me right now. She's in my house. There's something very overwhelming about seeing thesis papers and dissertations. I love that you brought one up, because they can be really incredible, if you really can dive into them, but they can be long and hefty. Have you ever written a thesis paper? What was your college experience like, learning? College experiences are so different across the world, right? A very traditional four-year degree is what I have. What was your experience like?
+
+
+[00:31:22] SM: Also, where in the world did you go to college? Because you're not in the US, right? I don't think we actually covered where you currently are.
+
+
+[00:31:29] MF: Currently, I am in the US. Even though I thought, okay, that will be just a few years journey, then I'll get back to Australia. Yeah, I'm still here. I did learn in Russia, in Moscow State Technical University there. My thesis was also, well, reasonably long, not like Joe's thesis, which is a real book of 400 pages, or so. Mine was shorter. It was more about interestingly, there was a work on spam filtering algorithms, spam classification, email classification, some again, security-related things, some cryptography bits there as well. That's, again, explains a little bit of my networking security background.
+
+
+It was not as exciting read as Joe’s. I think by now, it's completely outdated and the algorithms presented there are no longer useful, because they have been superseded by many other papers, unlike Joe’s, which is still very valid, and it's still very nice and still readable and still stands. Maybe it will stand even when my children will be learning computer science.
+
+
+[00:32:43] SM: I also have this theory that the next generation of kids will all know programming to some extent. Just a little bit, because of just the way the world is right now. It should be an interesting time to see. I'm excited for it. I've also been personally really interested in this last question around WhatsApp. Do you have a favorite project that you worked on, or something that you contributed to in your time at WhatsApp?
+
+
+[00:33:07] MF: I would say, that I'm really proud of scaling WhatsApp server to accommodate the needs of all our users. Now, it's more than 2 billion. It's been my job, I think, my passion as well and my achievement too. I guess, it was a combination of performance tuning here actually, this is where I want to say, thanks to Lucas Larson and OTP team for bringing the [inaudible 00:33:31]. That was a great achievement.
+
+
+The second component to performance is scalability, which means ability to bring more computer power in. Now, it's achieved through resource and then service discovery with PG, process groups, which has now replaced PG2 in OTP as well. I'm proud to be the author. I guess, that's probably one of my favorite projects, which has been shared with the community.
+
+
+[00:34:00] AH: How long did that scaling work take?
+
+
+[00:34:04] MF: If you speak of just scaling, it's ongoing work. It's never done. It's always just 1% complete. We are bringing more features, bringing more users. Therefore, I can bring in more servers, or making existing servers more efficient. If you mean just PG itself, I took so many iterations trying to improve existing PG to that. By the time when they realize, “Okay, this no longer works,” I need to take a very different approach. Then, it took me probably just one month, or even less to write a very simplistic, and it turned to be the best implementations that I could ever make.
+
+
+[00:34:48] AH: And very successful and incredibly impactful, which is incredible. Does WhatsApp have any projections for when you'll hit the 3-billion user mark?
+
+
+[00:34:59] MF: That question is probably better to ask data scientists, which I am not.
+
+
+[00:35:05] AH: Those people talk about magic. Some wizardry going on in the data science world, running some fun functions. Sundi and I used to work together and all of the data scientists were women. We called them the data ladies. Shout out to the data ladies who taught us some things about data science.
+
+
+[00:35:23] SM: Most the SQL. All the SQL I know is because of our data ladies.
+
+
+[00:35:28] AH: I do want to ask you a fun question. Maybe not even a question. Earlier, before we were recording, you mentioned motorcycles. I am intrigued how you got into motorcycles. What's your preferred motorcycle style? I obviously don't ride motorcycles, because that was a weird question. My grandpa rode Harley's, I know that much. How did you get into it?
+
+
+[00:35:53] MF: I think, I always wanted to. Maybe this is just one of the dangerous things that every boy and every man wants to try eventually. In Australia, I've got a job with an office that was in one of the central districts, and there was absolutely no parking for a car. I lived slightly further away from the railway station, so it wasn't very comfortable to use any public transportation system or anything like that. I thought, okay, there are traffic jams. There is no parking space, so what do I do?
+
+
+Then I realized, okay, there are motorcycles. I can probably try one. I tried one. I loved it. I realized, okay, I can do more than just going back and forth to work and back. Then I realized, okay, that probably means I want to try some faster motorcycles, or maybe those that are more exciting to ride, to control. This is how I eventually got into a motorcycle trek riding. I never became a real sportsman there. Let's be honest, I am too old for that. I'm probably too cautious. That's why I'm still here, still alive.
+
+
+I did enjoy that. Now. At some point. It just happened that my favorite motorcycle was stolen. That's how it ended my motorcycling, I would say, years for some amount of time. Because that's another interesting story. As soon as my motorcycle gets stolen, I realized, “Oh, I have no transportation to get to work.” Getting out of motorcycle will take some long amount of time and the need to get to work tomorrow, not just tomorrow, but the day after tomorrow as well. I thought, okay, I saw a lot of people riding bicycles. That's how I get into the more dangerous sport, which is cycling, just cycling without any motors. It turned to be more dangerous, because every time I realized, “Okay, I am doing 60 kilometers per hour downhill and I don't have any protection, except for these tiny flimsy helmet on my head.”
+
+
+[00:37:57] AH: Well, and as a bicyclist up against a car, the car is going to win, every time. I'm so sorry, your motorcycle got stolen. That's so terrible.
+
+
+[00:38:07] MF: I've got another one. By that time, it didn’t truly matter.
+
+
+[00:38:11] SM: Yeah, I wanted to say that I also – I didn't have a motorcycle, but I had a moped in college and it was stolen. It was very, very, very sad. Also, had some funny stories that resulted in me having to deal with that years and years later. Anyways.
+
+
+[00:38:25] AH: I would also say, caution is a good thing, but you're never too old. You can do anything you want to, at any point in your life. Age is just a number, I believe is what people like to say. Also, caution is a good thing. Wear a helmet, all of that.
+
+
+[00:38:42] MF: Yeah. That's why I've got another motorcycle now.
+
+
+[00:38:45] AH: Maxim, do you have a final plugs, or asks for our listeners?
+
+
+[00:38:50] MF: I don't think I have any, other than to say thank you for listening. Thank you for having me. Thank you for having these conversations. That was a blast, I think. I enjoyed that a lot.
+
+
+[00:39:01] AH: That's so great to hear. It was great to have you.
+
+
+Before we close out the show, we'd like to share another quick mini-feature interview, a brief segment where we showcase someone from the community at a company using Elixir in production and how they're using elixir. Hope you enjoy it.
+
+
+[MINI-FEATURE SEGMENT]
+
+
+[00:39:17] AH: Hello, and welcome to the mini-feature segment of Elixir Wizards. My name is Alex Housand. Today, we're speaking with David Hardwick, VP of Engineering at STORD. Welcome to the podcast, David.
+
+
+[00:39:27] DH: Thank you, Alex.
+
+
+[00:39:28] AH: It's great to have you. Just to dive jump right in, how did you get started in programming?
+
+
+[00:39:35] DH: Oh. Well, I've been doing programming for in the space, I'd say, for about 25 years now. The first 15 years, I was doing consulting, custom application development, whatever the requirements were for that single customer. In the last 10 years, have been in product, been working with a lot of different languages. I'd say, for the last 12 years or now, I've been more in the coach role, engineering manager lead positions.
+
+
+Last company, I was the CTO at BetterCloud. We started from zero, folks; we grew to 300 people. About a 100 people within the technology, or over about seven and a half years. Pretty exciting. Then now, I'm at STORD. I've been here about two years, and the engineering team has gone from nine people to 50 in that time. Also, a lot of growth. It's been very challenging and enjoyable.
+
+
+[00:40:20] AH: Do you enjoy that growth period? Is that one of your favorite parts, coming into a company, they've small amounts of people and then growing it out to be a more fully fledgling team?
+
+
+[00:40:33] DH: Yeah. Depending on the rate of growth, that can be quite exhausting. It was a lot of work to find talented engineers these days. We do a lot of outreach. I personally do a lot of outreach myself on LinkedIn, to try to get candidates interested. It takes a lot of time to find great people. It is fun. When a company is growing, there are more opportunities for personal growth, or personal challenges. We get to see people's careers grow sometimes faster than they were expecting. That part is fun and it's exciting.
+
+
+[00:41:06] AH: Yeah, you said something, depending on the pace. Also, I think the direction of growth. You always want to have an end goal in mind when you're growing, not just filling and growing, because you can, I guess. How did you find your way into the Elixir space?
+
+
+[00:41:22] DH: Yeah. At the current company, we were at a stage where our MVP product, the first product for our customers, it was starting to buckle under the weight of its own tech debt. We just couldn't meet the needs of the customers as they started to ask for more complex integrations with our platform. It became clear that we needed to rebuild. That was an opportunity for us to also look at another language. We were doing Ruby on Rails on Heroku. I had a lot of experience with Google Cloud Platform, and so I wanted to move over to Google Cloud Platform.
+
+
+The CTO took it on his responsibility in terms of figuring out what would be that next language if we decide to choose another one. He looked at a number of different languages. After about two or so weeks of doing some proof of concepts and hands-on coding with a couple different languages, collaborating with some of the engineering team members, he decided on Elixir. He thought that it would provide us certain benefits, because my understanding is that one of the creator of elixir came from the Ruby on Rails community and instance. We had a lot of Ruby on Rails developers. There were certain developer affordances, that made that a slightly easier on ramp into that language.
+
+
+I'd also, would provide us opportunities, if we needed to do certain things that were native devices, or machinery within a warehouse that we could still work within the same language. They saw a lot of versatility there, and so off we went. We had one engineer that worked with it, never professionally. We got going. That's actually one of the highlights of my time so far here at STORD. In two and a half months, we built a system with nine engineers, starting at nine engineers, we grew a 138% the size of that engineering org in that same time frame. We built an Elixir application. We didn't have a UI, but that it could take orders in from ERP systems, send it over to warehouses. We could get the receipts from the warehouses. We did this for both inbound orders and outbound orders. We did it all in two and a half months. It was just shocking that we were able to move that fast and learn it that quickly and be that successful.
+
+
+[00:43:42] AH: Yeah. Two and a half months is speedy. Wow, that's pretty incredible, honestly. How do the engineers like working in Elixir? It's a smaller community space. I know, when I first started working in it, I had never heard of it before. Yeah. I mean, what's everybody's take on it?
+
+
+[00:43:59] DH: This is something that I like to pay attention to, just developer sentiment. Are they happy? Because if it's that hard to hire folks, obviously, you don't want to lose them, because they don't enjoy the environment, or the language that they're working with. There was even a time where we considered hey, if it's this hard to hire folks that have Elixir experience, should we go back to Ruby on Rails? It was really just a thought that the CEO had and something we had to consider at least.
+
+
+It was refreshing to see the engineers that were years on Ruby on Rails saying, “No, that's not what we should do. We should stay with Elixir.” They really enjoy it. I really don't hear a lot of complaints. Just a lot of more enjoyment and appreciate the learning. I think, it attracts people that have done it and want to keep doing it. There's folks that have done it not in a professional setting, but want to get into it. I think, it's actually been helpful for us to hire folks to code in Elixir, even if they don't have that experience, because they are excited about that opportunity to code in a functional language, to learn from some of the folks on the team.
+
+
+We actually had one of the folks from that set up elixirschool.com joined us recently. We have a lot of talented people on the team, and a really strong learning environment, that I'm really glad we made the choice.
+
+
+[00:45:22] AH: That's awesome. It's always nice to enjoy what you're doing. I'm sure for you as a VP of engineering, you want your engineers to be happy. It's delightful to know that they are. You spoke a minute ago about some of the things that your new Elixir application was able to do, and you mentioned ERP systems. Could you just take a step back and give us a quick elevator pitch for what STORD is?
+
+
+[00:45:45] DH: Yeah. STORD is building the cloud supply chain. What that means is we want companies that sell products to focus on that, delighting their customers, coming up with product ideas, selling it to them. They can sell it through multiple channels; e-commerce, direct with our sales team and through marketplaces, like Walmart, or Amazon. We integrate with those, all those platforms. We'll put all your orders in one place. We handle all of the inventory, all of the storage. We handle the shipping, whether or not it goes out of the warehouse on a box, in a parcel, a UPS or FedEx truck, or if it goes out on a freight truck, because you're ordering pallets of materials for your B2B customers in return. You just pay us what you use each month, and we take care of the rest, just like cloud computing.
+
+
+[00:46:39] AH: That's really cool. I know that there's a lot to that, that I'm sure we could speak about for a very long time about the ins and outs of shipping and warehouse storage, because I'm sure that's just a lot of moving pieces all at once. That's really cool. I think about that a lot whenever I order a package, about where is it coming from? I want to end on a fun question. If you were not a software engineer, what would you be?
+
+
+[00:47:05] DH: I would be a leadership coach. I say that because in my growth at my previous company, I was managing 12 engineers, 20 engineers, 40 engineers, etc. Some of the things I was doing when we were, say 12 engineers, versus when we were 40, we’re not as productive anymore. We got some feedback. I realized, that I was not having the impact that I wanted to have. I got an executive coach to help me, which I was very thankful for. I got a lot out of it and made a profound impact on my career. That's something that I wanted to study more on.
+
+
+I actually got approval from the company to get my coaching certificate, so I can fully understand the breadth of that domain and other behaviors that I probably needed to work on, not just the ones that we had time to work on with the coach that I had for the year that I had it. That's something that I would really like to pay it forward, because it had such a big impact. I think of it as personal financial training. We don't really have any of that in high school, or in college. It’s like, here's a credit card, here is money. We learn mistakes a lot of times, the hard way, I guess, in that particular area.
+
+
+I see the same thing happening, I think, with a lot of engineers that go into management, or they're not really provided much support. There's some folks that wind up going back. I would love to help them continue to go forward.
+
+
+[00:48:33] AH: I love that answer. I think it's important for people to remember that your managers are also people, and management doesn't necessarily come naturally. I think, looking deep with inside yourself and wanting to better that set of skills is a really lovely thing and wanting to pass it on. I think that's lovely. David, thank you so much for joining. It was delightful to talk to you.
+
+
+To all of our listeners, if you or your company are using Elixir and an interesting way and want to come on the show for a mini-feature, we would love to have you. Reach out to us at podcast@smartlogic.io with your name, your company's name and how you're using Elixir. That's it. That's it for this episode, you guys, of Elixir Wizards. Thank you again so much, Maxim Fedorov, for joining us. It's been really great to talk to you, learn more about WhatsApp and scalability and your journey into Erlang and the BEAM.
+
+
+Elixir Wizards is a SmartLogic production. Today's hosts include myself, Alex Housand, and my co-host, Sundi Myint. Our producer is Eric Oestrich and our executive producer is Rose Burt. We get production and promotion assistance from Michelle McFadden and Ashley Stotts. Here at SmartLogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails and React, Kubernetes and React Native. If you need a piece of custom software built, it is up.
+
+
+Don't forget to like, subscribe and leave a review. Follow @smartlogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord. Just head on over to the podcast page to find the link. Don't forget to join us again next week for more on BEAM Magic.
+
+
+[END]
+        © 2021 Elixir Wizards
