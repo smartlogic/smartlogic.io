@@ -37,10 +37,10 @@ Look for links that don't point anywhere
 
 # Manually updating the podcast
 
-If you need to trigger a podcast update outside of the RSS workflow, you can run the `podcast.rb` script. After updating the podcast in Fireside:
+If you need to trigger a podcast update outside of the RSS workflow, you can run the `podcasts.rb` script. After updating the podcast in Fireside:
 
 ```bash
-ruby ./_scripts/podcast.rb
+ruby ./_scripts/podcasts.rb
 git add _data/
 git commit
 
