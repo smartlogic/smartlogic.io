@@ -35,6 +35,10 @@ Look for links that don't point anywhere
 - Run `jekyll build`
 - Run `rake link_check`
 
+# Automatic updating of the podcast
+
+There is a Zapier flow that will trigger the podcast GitHub action when a new item appears in the Fireside RSS feed. This may take a few minutes due to the Zap polling speed and Fireside caching.
+
 # Manually updating the podcast
 
 If you need to trigger a podcast update outside of the RSS workflow, you can run the `podcasts.rb` script. After updating the podcast in Fireside:
