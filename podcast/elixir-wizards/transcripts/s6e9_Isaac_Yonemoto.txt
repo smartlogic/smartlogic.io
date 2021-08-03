@@ -1,0 +1,355 @@
+﻿EW S6E9                Transcript
+EPISODE 9
+
+
+[INTRODUCTION]
+
+
+[00:00:00] EO: Hi, everyone. We have a quick announcement before the show today. SmartLogic, the custom software shop behind this very podcast is hiring for a mid-level Rails, or Elixir developer. Our team is fully remote and this position is open to applications from anywhere in the United States. You can read the full job description and apply at smartlogic.io/jobs. Okay, now on to the show.
+
+
+[EPISODE]
+
+
+[00:00:29] AH: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Alex Housand and I'll be your host. I'm joined by my co-host, Sundi Myint. Hey, Sundi. What's up?
+
+
+[00:00:42] SM: Hello there.
+
+
+[00:00:43] AH: Unfortunately, our producer, Eric Oestrich is out today. Sundi is going to be our jack of all trades co-host and producer. The season is BEAM Magic. We're joined today by special guest, Isaac Yonemoto. Welcome, Isaac.
+
+
+[00:00:56] IY: Hey, guys. How's it going?
+
+
+[00:00:57] AH: Pretty good. How are you doing today, on this fine Wednesday?
+
+
+[00:01:00] IY: I'm doing okay. I just had to deal with one of our – Maybe I shouldn't say this. Just been dealing with some tricky stuff at work with connecting up with other SaaS’s.
+
+
+[00:01:17] AH: SaaS’s. Could you define that?
+
+
+[00:01:19] SM: Software as products here?
+
+
+[00:01:21] IY: Yeah. Software as a service product.
+
+
+[00:01:24] AH: Fun.
+
+
+[00:01:25] IY: Yeah. Sometimes the APIs don't quite do what you want them to do. That is the life of a developer. Yeah, exactly.
+
+
+[00:01:34] AH: All the time. You're like, “What's happening? What's not working?” No answers, either. It's just a black hole sometimes. That is a good segue, though, talking about work. It looks like you've got your start in I will say, more traditional sciences. How did you find your way into programming? What made you diverge?
+
+
+[00:01:58] IY: Yeah. I've been programming for a super long time. I don't know. I grew up in the DC area. You all are familiar with that. There's some TLAs and weird stuff going on. I went to an elementary school that I think was funded by some weird grant, and they were teaching us how to program. In first grade, we learned how to type. As soon as we learned how to type, we learned how to program.
+
+
+[00:02:23] SM: I remember learning how to type in first grade, but not how to program.
+
+
+[00:02:27] IY: This wasn't an era when typing was still considered to be secretarial work, and a women's job, which is – I mean, it's the tail end of that. There's maybe a few years before AOL came around. That transition in the DC area hadn't quite happened. It was a very ahead of itself. My dad was just a middle manager in the US government. He also had a part-time job in the Navy. One of his jobs in the Navy, he led a group that developed the first fully networked inventory system for the Navy.
+
+
+He called himself a technological midget. He liked to say, he was good at talking to geeks. I think, he appreciated that that was really – I was super lucky. I just had a bunch of – From the young age, people who were pushing me into tech. My neighbor was the NSF project administrator, who wound up getting the gravitational wave sensors up and running the Lego project. He was insistent to my dad that he get me a computer.
+
+
+I was lucky to have all these early influences, pushing me towards this stuff. Then I decided to become a chemist, because I liked to work with my hands. Did a whole PhD in that field. I was a Lyft driver for a year and a half after quitting science, which was also a pay upgrade. I made more money as a Lyft driver than as a scientist.
+
+
+Yeah. Then I decided that look, I can program, so why don't I try and figure out? I was in San Francisco. I was like, “Why don't I try and figure out the startup scene and try and get a job?” Started by doing some contracting work. Helped debug prototype computer chip. Did some theoretical computer science. Then, finally got a job as R&D at a startup and use that as an excuse to teach myself Elixir.
+
+
+[00:04:52] SM: That's a really interesting origin story from the perspective of you went all the way to PhD, and what, chemical engineering, or was it just bio? I don't know these words, biochemistry. I noticed on your Twitter profile, you said, you're going to get back to bio one day. In these two tracks, the multi-universe of the Isaac world, is there an ideal? Is there a spot you'd like to be in? Is there maybe a merging of the two that's peak Isaac?
+
+
+[00:05:21] IY: I think that we're seeing that biotech is not really embraced the – basically, the open source concepts that information should be free. It's still heavily encumbered by things like patents. I've always wanted to having been in the more computer tech side and seeing what that's done. I've always wanted to do that with biology. I tried as a biologist.
+
+
+I've got some crazy stories of, there was a Chinese lab that had just published the genome of some organism. They were like, “We're making this open access to everyone.” We used their interface and we're skeptical. I wrote a Ruby script to script the genome of this organism from their website, one HTML page at a time. Then we got it. Then the next day, they had shut down the website, and it was very clear that they were just open sourcing it just to say that they were open sourcing it.
+
+
+I mean, I've used computer tech in a quasi-professional way in various exploits over time, running simulations, enzymes and stuff like that. My dad always wanted me to do some combination of biology and programming. I never really thought that that was the right way to go. I still stand by that. I think that biology can learn a lot from how we've done things. Drug prices are really expensive. I think, if we had a commitment towards doing things without it, it can be a much better enterprise for everyone.
+
+
+[00:07:14] AH: Yeah. Even more with [inaudible 00:07:15]. With COVID, right? Yeah, they had to force them to be like, “Can you just make it available, so actually, more people can get vaccinated?”
+
+
+[00:07:26] IY: Yeah. I'm not sure that Moderna and BioNTech were. I think, they voluntarily said that they wouldn't make it. I mean, who knows what? I mean, so we're seeing little bits of this creep through. I mean, of course, when the polio vaccine came out, that was not patented. Partially, because we didn't have a concept of patenting vaccines back then. They were also like, this is important, so let's do it.
+
+
+[00:07:54] AH: Yeah. We want to help people. How did Elixir catch your eye, if you don't mind me asking? I mean, it's relatively niche. I've said that, probably on every single podcast episode, so I'm really sorry to everybody listening, but I'm saying it again. I still think it's true. It's pretty niche. How did you find it? What made you interested in it?
+
+
+[00:08:16] IY: That's a good question. I'm actually surprised that that I wound up on it myself. Basically, I've programmed in everything from C to Ruby, to Python, to Perl in dribbles over the course of many, many years.
+
+
+Probably, if all, Ruby was one that I liked the best. It did come to a head around 2000, I want to say 9 or 10, maybe a little bit later, when it basically became really difficult to install Ruby. You couldn't do it right. Maybe it's a little bit later. 2012, or 2013. You couldn't pull the correct Ruby package. There was a Ruby 1.8-2.1 debacle. I mean, it just wasn't no longer easy. I got sick and tired of it.
+
+
+Then I learned Julia, which really excited me, because I had a fairly strong math background and was interested in doing interesting math things. It got me through to contracting jobs that were very numerical in nature. They were shocked, because there was a 10,000-fold speed up. We could deploy our code to supercomputers, which was much more challenging for the systems that they were writing in, which is Mathetica. Also, our code looked exactly like what he had written in the book. It worked out really well. Back then, it was really hard to get Julia jobs.
+
+
+I had dipped my toe in the functional programming sphere. I guess, I just was Google searching one day like, “What can I learn next?” It was suggested, somehow, Elixir got suggested to me by the Oracle, the Google Oracle, or something like that. It looked like Ruby, and it was functional. I guess, that was the what got me into it. I mean, really, it's been the programming language that I have found the most enjoy in, even more than Ruby. Ruby was known to be the programming language that is joyful. I find that Elixir is even more so.
+
+
+It's not perfect. I've run across both in my code and other people's code’s extremely frustrating patterns that sometimes happen. I would say, at the 90% level, it's by far the best programming language experience that I've ever had. I'm unlikely to move off of it.
+
+
+[00:11:02] SM: What would you say your aha moment was with Elixir? Because I know, Alex and I have said plenty of times in the past that there was a moment where it clicked for us. You say that you find those joy in it. Did you have one? Is there a particular feature of Elixir that you really enjoy?
+
+
+[00:11:16] IY: I can't remember any specific aha moment that got to me. I mean, there just have been so many. None of them have been really earth-shattering. It's like, “Oh, and I can do this, too.” Yeah, of course, I can do this too. Those sorts of moments have just piled up. The discovery that somebody else had built something in the Elixir Standard Library, in fact is – This goes back to our testing, which you guys did last week, how Elixir has support for asynchronous testing. That's really fascinating to me.
+
+
+Whenever I start a project, I design it from the ground up to have 100% asynchronous tests. Might not necessarily be the case for something where you're building a web service, or something like that before my libraries, I always do. I always do a 100% asynchronous, because that's important to me. Because it guarantees that other people when they try to use your code, you're going to have something robust and something that will work.
+
+
+[00:12:22] AH: Yeah. I think in the previous episode we – well, it was about testing. We talked about, was there was there a moment where a lack of tests bit you and made you really find your appreciation for testing your code? Did you have a moment like that? Or was this something that was instilled within you early on?
+
+
+[00:12:46] IY: I think, I have an appreciation for Elixir and Elixir and Elixir’s ecosystem, because I've become better at testing. When I started off, I was not very good at testing at all. I didn't have a good concept of what sorts of tests you should write, when you should do TDD, when it's okay to not do TDD. I liked TDD, but I don't always do it. I think, I'm in between the two previous guests you had. Yeah. I mean, I don't think that there's any one thing in particular. Again, it's just a holistically – I feel like, it's made me a better programmer. I have a lot of appreciation for that.
+
+
+[00:13:28] AH: I would a 100% agree with that. I think, my first Elixir job, which was my job previous to this, I guess, two previous to this, made me a much better programmer, and was also the first job that I'd really had, where there was a very strong emphasis put on testing, I'd either been in startup world, where the pace you're moving out is just so fast. It's like, get it out the door, get it out the door, get that thing also out the door. Everything is just Higgledy Piggledy. Or my first job was at some – It was at a 20-year-old company with a pretty old legacy code base, with little, if no tests.
+
+
+It's hard to then at that point, prioritize going backwards and saying, “Oh, we need to write tests for this legacy code.” I think that Elixir has made me enjoy it. Yeah. I like the way you put that. It's made you a better programmer.
+
+
+[00:14:24] SM: Yeah. I definitely feel the same way about that, too. I definitely liked TD – I can't speak. I liked TDD a lot, but I also don't always do it. Time factor. I always find that when I don't do it, it took me longer to write the thing than it would have if I had wrote a failing test first.
+
+
+[00:14:44] IY: Yeah. It has a way of focusing you and getting you to write the minimum amount of code you need and then you're like, “Oh, I'm done?” I'm a person who will – not always, but will often overthink things. Just TDD is a great way to just put blinders on yourself. Many times, it makes you productive, because you don't obsess over all of the nitty-gritty, infinite possibilities.
+
+
+Sometimes, it will say, “You know what? I know this is a possibility. I'm going to wait for customer to complain about it.” Write yourself a little comment, this could break. Hey. Then, maybe that weird shape in the database will never occur. When it does, you push a patch and it's going to be okay.
+
+
+[00:15:35] SM: Yeah, absolutely. Switching gears real quick, want to do a little spotlight on you. You do a lot of Zig and Ziglar. Can you tell us what that is? What it's about? The elevator pitch?
+
+
+[00:15:46] IY: Yeah. I think, it was about two years ago, I discovered – Elixir is a high-level programming language. There are just some things you really don't want to do. I can't remember exactly what I wanted to do as a NIF. NIFs in the BEAM virtual machine are ways to interface with native code. Basically –
+
+
+[00:16:11] SM: What does it stand for?
+
+
+[00:16:12] IY: Natively Invoked Function. I'm guessing. Native Interface Function, maybe. The broader CS term that people typically use for it is FFI, Foreign Function Interface. It lets you write C code, and compile the C code, and then your Elixir code, or Erlang code will execute that C code, and then come back and then give the result back to whatever code was triggering that function.
+
+
+I remember looking at the NIF specification that Erlang provides, and the docs and just eyes glazing over. It’s like, hey, it is not something to do. Previously, I've done this in Julia. I'll say, it's considerably easier in Julia than it is in the BEAM and Erlang and Elixir. At some point, I must have learned about Zig, which is also a low-level programming language that seeks to be a replacement for C. In the community, it's often said that Rust is a replacement for C++ and Zig is a replacement for C. It's designed to address a lot of core problems in C. You can’t do things unsafely.
+
+
+For example, integer overflow is a problem in C. If you have an 8-bit integer, and you go past 256, you're going to have problems. That's one example of something that Zig will prevent you from doing, or going over the end of an array. If you have an array of 10 items, and then you index into 10, it'll yell at you. It'll crash the program. You don't do that.
+
+
+As I started exploring Zig, what I noticed was that there's actually quite a bit of similarities between Zig and Elixir. The way I think of programming Elixir is you have to remember that there are two different modes that Elixir is running in. There's the code that exists in your def and defp blocks. That's code that's running at runtime.
+Everything outside of def and defp is effectively a scripting language that you're using to build your program. There's two worlds of Elixir. There's the compile time world, which is a scripting language that is used to assemble a fully running BEAM program. Then, there's the actual program itself, which is at runtime.
+
+
+[00:18:54] SM: I've always thought about the difference there, being stuff in the EX files and stuff in EXS files. Are you saying, it's a separated a little more on the nitty-gritty side? Is there a little more specificity there? Okay.
+
+
+[00:19:07] IY: In an EX file, so ignoring the EX files, which I think are – I mean, they're a little bit of – Even inside of an EXS file, it's a little bit more complicated. In my mind, I don't fully – I don't actually completely understand how the interpreter works. Just for the compiler, I think of – so even everything outside of def module, and inside of the def module, and then everything that is outside of the defp and defs is a script that's used to assemble. You can assign variables inside the body of a def module. Then, what happens to that variable? It just disappears after. It doesn't exist after your asset has been compiled. In that sense, it's a scripting language. You can do crazy things.
+
+
+You can load a file, JSON parse it, and then find some field in the JSON, and then use that to set something at compile time. It took me a while to figure that out. I didn't fully appreciate that until maybe about a year, a year and a half into using Elixir. Elixir has this compile time, or comp time code, and there's runtime code. Zig also has code that you run at compile time and code that you run at runtime. You have to train yourself to see the difference between the two, because like Elixir, it can be a little bit murky as to what's running when. It's extremely powerful. The one thing Zig doesn't have that Elixir has is macros. It turns out, you can do a lot of very powerful things without macros, as long as you have compiled.
+
+
+Elixir, which has mixed EXS, there's a build.zig, which is a code file that you use, that provides instructions to the compiler on how to build your project. I think, that both of those concepts are really powerful and modern. In the old days of C, you would use make. Now people are using cmake, and it gets really complicated.
+
+
+Sometimes, C files are quite frankly inscrutable. People have these macros that are designed to inject code that's weird, and depending on if you're using Windows, or Linux, the entire function header can change, and it can get really messy. None of that in Zig. It's very clean, because everything is in one language that's easy to understand. Just as it is in Elixir, everything's in one language. Your build is in one language. Your compilation units are in the same language.
+
+
+[00:21:56] AH: What's it like to write, but then debug a NIF? How do you go about doing that, I guess?
+
+
+[00:22:05] IY: Yeah, it's hard. I don't have a good answer for that, except write tests. I mean, the approach that I take when I'm at least doing all of my Ziglar stuff, is I write just Elixir tests. To make that easy, I've made – so Zig also has tests. You can write these tests in-line. You write these little test blocks, and then it executes the code only when you're testing. What I've done is I've made those integrated into much like how we have doc tests in Elixir. If you're writing your in-line Zig code in Ziglar, and it sees this test block, it will take that and you can write in your Elixir test file. You might have doc test some module. You can do a Zig test, a module that contains your Zig code. It'll find all of the tests. It will find all the test blocks, and then turn those into a set of tests that you run that are marshaled by X unit.
+
+
+You have full, seamless integration between your tests that are of Zig code and your tests that are of Elixir code. As a guiding philosophy for Ziglar, one of the things that I've wanted to do was to provide a really tight integration service between the two languages. Between Elixir specifically, and Zig.
+
+
+A good example of that is if you return an error from a function inside of Zig, Zig has something called a error return trace. It's like throwing an exception, but there are some very key differences that exists, because Zig is a low-level language. In debug mode, you can generate a trace of which function which function was the first function that said, “I've got an error.” What I've done is I've integrated that with Elixir, so that when that error exits the NIF and comes back into BEAM land, it can find that stack trace, and it will append the Zig stack trace on top of the Elixir stack trace.
+
+
+When you see your error come out in your Elixir stack trace, it shows you all of the Elixir functions that you're calling and then what Zig functions you're calling, and then where that error came from.
+
+
+[00:24:26] SM: This is probably just because I've been doing a lot of Ecto stuff recently, but in my head, this sounds like when you join attributes together and you're seeing data attributed to one model, then you just attach it to another one that's vaguely related to and then you get to see all the information. That's really cool.
+
+
+[00:24:42] IY: Yes. This is a new feature. I guess, it's a little bit out of order, but so Zig was – and Ziglar were on version 0.7. Zig just released 0.8. I'm currently in the process of bumping Ziglar to 0.8. The merged error return and stack traces is something that's going to happen with the next release.
+
+
+[00:25:07] SM: If you had to break it down into a one sentence for each thing, Zig builds into Ziglar in what way? You described Zig is a low-level language? How would you describe Ziglar? 
+
+
+[00:25:20] IY: Yeah. Ziglar is a bridge between Elixir and Zig, which makes it super easy to build NIFs. There are a few things that I really care about. One of the things that I care about is I want to make code review easy. If you have something where you have not too much Zig code, so you're not necessarily pulling in outside libraries. They just have a little bit of stuff that needs to be high-performance, it's all in the same repo. What you do is you write your Zig code inside of a sigil Z block inside of your module. Then, that creates all the machinery that correctly assembles the NIF, and then compiles it into your program.
+
+
+Your Elixir module has Zig code sitting inside of it, inside of the sigil Z block, inside of a code block. You can have it be part of a single code review process, without having to say, poll a Zig library, or rustler, I think, uses cargo. You're pulling from the Rust repo, so if some change gets made over there, you have to go to as a separate repository manager. Then, okay, let's look over this code. I wanted to make it as simple as possible.
+
+
+[00:26:41] AH: That seamlessness is nice.
+
+
+[00:26:42] IY: Yes, exactly. Seamlessness was a high priority for what I was doing with Ziglar.
+
+
+[00:26:50] AH: I think this sounds very cool. I would say that I'm still wide-eyed and I don't really understand it. I now would like to actually know more about it. Maybe find me poking around in the docs sometime. I saw on your Twitter that you wrote your own disassembler? Is that true?
+
+
+[00:27:09] IY: Yeah. I think the thing is that once you start peeking at how deep the rabbit hole goes with the BEAM virtual machine, is like, you find other things that are interesting, and then you can keep going. All right, I've got two pet projects that I want to merge. Well, there's a domino effect. One led to the other to the other. Zig is capable of compile – One thing that is amazing about Zig is that it's really easy to cross-compile with Zig. this is a major problem with low-level programming languages. If I'm on a Linux machine, and I want to give you an executable that runs on – and you’re on a Mac, how am I going to do that?
+
+
+If it's a scripting language, or a high-level VM language, like Java, or Elixir, usually I can just send you the code and then it will run. If it's something that needs to be compiled to a single program, not necessarily so much. Go has this down, but there are even places where you can't do this so cleanly in Go. For sure, it's a nightmare with C. Zig solves this quite easily, so you can you can cross-compile Zig between architectures and between operating systems with no problems. Well, I mean, for the ones that are well supported. Moreover, you can use it to compile C.
+
+
+Quite a few people have found use of Zig as a drop-in cross-compiler for C programs. Hugo, which is a static site generator in Go, is one of the best ways to cross-compile it using Zig. Because it requires some amount of C, and that amount of C cannot easily be cross-compiled, even though it's in Go. I can’t remember where I was getting into this.
+
+
+[00:29:12] SM: All good. Maybe, while we're pause there actually, you just made me think of something. You've had a lot of experience with different languages. You mentioned earlier that it was harder to write NIFs in Elixir than it was in Julia. Was that something you said? I'm curious, is there anything missing from the BEAM that would have made it easier, or just in general? Is there anything that you feel is severely missing from the BEAM?
+
+
+[00:29:41] IY: No. The reason why it's easier to call C from Julia is one, because Julia cares highly about high-performance C, because they are working with scientific computing where every clock cycle counts. The priority for Elixir and the BEAM is different. We care about having robust and the high uptime systems. As a result, everything has to be interruptible. It's important for the BEAM to be able to run some code and yank it and say, “Hey, you've had your share, let's give some other task, like some – its fair share of time.”
+
+
+In order to accommodate that, there are a lot of things that the BEAM has to put in the way of executing low-level code. When you're writing a NIF, the other major difficulty for the BEAM is that we have a dynamic type system, right? We have box types. Every value that you have in Elixir, or Erlang, is surrounded – like low-level inside the VM, it's surrounded by – it's got a pointer and some metadata that says, “Hey, this is an atom, or this is a binary, or this is list, or whatever.” That has to be unboxed on the other side, when you jump into C, into C land.
+
+
+Julia just has some special ways of dealing with that, that they've addressed. What I do with Zig, with Ziglar, is I read the function header that you provide to Ziglar saying, “I want this function be mounted into my module.” It reads that. It figures out what the types are, and then does all that unboxing for you. You don't have to write that code. Then also, as a little gift, it'll also type spec it correctly. If you say I want unsigned 8-bit integer, the type spec will say zero to 255, or the correct values. Maybe dialyzer can catch you if you make a mistake.
+
+
+[00:32:10] SM: You have gotten into the age-old question, types are no types for Elixir. It's a fun debate. We have it every other episode.
+
+
+[00:32:22] IY: I guess, for me, part of Ziglar was, hey, let's find all of the hard parts where it's easy to make mistakes building a NIF. Where Julia has a macro, called C call that will smooth over all the edges for you. Do something similar in Elixir, where all of the hard parts are just done automatically, because you do not want to make those mistakes. It will do the right thing. If you pass 375 to something that can only go to 255, it'll say, argument error. I think, those things are important to handle magically, if we were all.
+
+
+[00:33:08] AH: You said pointer a minute ago, and I just had this scary flashback to one of my college computer science classes, learning about pointers in C. I was just like, “Oh, no. I'm back. No, take me away.”
+
+
+[00:33:22] SM: It can take you away, Alex.
+
+
+[00:33:24] AH: I know and I remember. I do remember being truly just like, this is going over my head right now. I wasn't ready. Maybe it's time to revisit it.
+
+
+[00:33:35] IY: Yeah. It's similar level stuff. I think, if you get yourself into a mindset where like, “I'm ready. I’m genuinely curious about how all this stuff works under the hood,” you'll be ready to learn pointers. I think, it's perfectly fine to not learn that in the beginning.
+
+
+[00:33:53] AH: Thank you. I also think there's something to – going back to you learning how to type in first grade, there's something to when you learn something and who is teaching it to you. That can be the really big difference in your overall experience.
+
+
+[00:34:07] IY: Definitely. I had a fantastic CS teacher in high school, who taught me pointers very effectively. I actually use one of our homework problems as one of my interview questions with him.
+
+
+[00:34:22] AH: Wow. Well, shout out to that teacher then. That’s incredible.
+
+
+[00:34:27] SM: Isaac, you did just briefly mentioned magic. Curious what your thoughts are on magic in the programming space in general, but maybe more related to the Elixir side of things, and what you've experienced having worked with a bunch of different languages. What is your opinion of magic in programming?
+
+
+[00:34:43] IY: Yeah. This is one of those things where I'm probably going to get myself in trouble. I have a love-hate relationship with magic. It seems like, all of the libraries that I write have some splash of magic associated with them. Ziglar, obviously, there's a lot of magic. You take this string in the middle of your module and you turn it into something that becomes a NIF. That's pretty crazy. There's a lot of macros, and there's a lot of magic going on there. I think, I like magic when one – It's got to be predictable. If you do something, it's got to make sense. You have to be able to look at it and just say, “Oh, I have an idea of how that works.”
+
+
+I remember when I was learning how to do databases in Ruby, with Active Record, it would pluralize your tables for you. That drove me up the wall. I could never learn Rails, because there was a lot of magic in Rails. I was doing most of my Ruby web stuff in Sinatra, which is a lot like Plug. It took me a long time to actually figure out Phoenix. I started with Plug and wrote a lot of stuff in plug and just never touched Phoenix. I was like, “Okay, fine. I got to do some Live View to make admin consults for this thing. I learned myself some Live View.
+
+
+I mean, there's still stuff that drives me in the wall. I don't understand Phoenix routes. I've been dragged kicking and screaming into that. It's fine. It's a little bit frustrating, because sometimes, it's easy to wind up creating compile loops, where I've seen some extremely large and long loops. Often, there's a Phoenix route involved in some Brownfield projects that I'm working on.
+
+
+[00:36:51] SM: Mix PHX routes, just the command saves my life so much, when I'm just not sure what's happening. If I don't know where to start at all, I'll go to the router. Or if I don't know what I'm looking at, I'll do mix PHX routes, and then I can see it all in front of me and I'm like, “Okay, okay. I have a starting point now.”
+
+
+[00:37:12] IY: Exactly. I mean, I actually did not learn to use mix PHX routes until a few months ago even. Then I was like, “Okay, okay, okay. Fine. All this router magic is worth it, because we get this one command that makes my life easier.” I still have reservations. I get it. I get why it’s there. The way that it does stuff is sometimes a little bit confusing. I'm going to get myself into trouble here, but I don't love – I don't remember what it's called. There's a factory library that we use, that I don't love. There's a little bit too much magic, especially when you start rewriting function names.
+
+
+That's, I think, the place where – These days, I've started making small changes here and there in code bases, where at least, if some macro creates a function, I'll leave some breadcrumb in your import statement, or in your use statement. There's some atom hat draws your eye to it and says, “Okay, when I searched for this function that doesn't exist, whose definition does not explicitly exist in the module, here's where it came from.” Then you can chase, you can go and chase it through that macro. Import at only has become – I've started sprinkling that everywhere. I've started to optimize for things like, being able to search with global search, and just little things like that have become a priority, because Elixir does give you a lot of space to use magic for very dangerous and/or frustrating things.
+
+
+On the other hand, when it's something like, you're using this magic to make things really safe and to make sure that errors don't happen, or to make something really painful, really convenient, I think, it's worth it. I'm glad that that magic exists. I think, we can wind up in danger sometimes, where we try to dry a little too soon, especially if we start using macros to start drying. I'm not super into using macros for drying anymore. I was in the past, but not anymore.
+
+
+[00:39:39] AH: I have in my head right now – I don't know the particular quote, but I'm just thinking about magic and wizardry and warlocks and witches and how – Anything powerful can be either good or bad. It just depends on who is wielding the power, right? I think, what you just said was very poignant. You can use magic to do really cool things, to really – great things that are also very understandable and clear and concise. Or you could do some funkiness, then you end up with a very confusing code base that's hard for people to walk through, hard for people to learn, makes code reviews harder. It's just all in how you use the power that you have.
+
+
+[00:40:24] SM: The quote isn't, with great power comes great responsibility is it?
+
+
+[00:40:29] AH: Well, that's from Spider-Man. I think, I'm more specifically thinking of like, are you going to be a Dumbledore? Or are you going to be a Voldemort? [Inaudible 00:40:40]. Weigh off the options.
+
+
+[00:40:45] IY: Maybe this dates me, but the reference that I'm thinking of is Disney's Fantasia with –
+
+
+[00:40:50] AH: I love Fantasia.
+
+
+[00:40:53] IY: With Mickey and the brooms that he keeps conjuring, he keeps spawning. He spawns all these brooms. All the brooms are getting out of control. That's what I –
+
+
+[00:41:05] AH: They end up with the giant broom.
+
+
+[00:41:08] IY: Yeah. [Inaudible 00:41:10].
+
+
+[00:41:12] AH: It's like the mama broom. The mom broom is really mad that he's been abusing all the baby brooms. Great. It’s a great movie. It's also very strange, but I thoroughly enjoy it also.
+
+
+[00:41:25] IY: There's something to the idea of macro is cloning code, and having that all code that stuck code is, all things that I think is app and you got to be careful, because if you overuse this. Use it in a frivolous way, you might get yourself in some trouble.
+
+
+[00:41:40] AH: Yeah. Just like Mickey Mouse. Well, Isaac, do you have any final plugs, or asks for the audience? Maybe social media, where to find information on your libraries, things like that?
+
+
+[00:41:55] IY: Yeah. You can find Ziglar on hex.pm. There's going to be an upcoming version soon. Maybe, hopefully, sooner than – I keep saying that, and then I keep winding it to have to do like, things for work. That’s life, right? Soon.
+
+
+There are actually two projects that I'm working on that I would like to try. Most of my projects up here to four have been fairly so low. I've been good about keeping them, and keeping working on them, which I know it can be tricky. I just refreshed one project that uses magic, that I use for work, which is a JSON schema parser. That I had started five years ago and never published a hex and finally, it was like, “Okay, it's time.” I published it and I like it now, because I'm happy with it.
+
+
+The projects that I'm looking for help on, and I think that other people might be interested in stuff like this, one of them is called a [inaudible 00:43:03]. This has to do with disassembly, as you were talking about, as you're asking about before. I got into Zig disassembly, or excuse me, BEAM disassembly. I'm interested in writing a Zig interpreter for it that can be run on the browser. If you think about that, there's some interesting things about testing. Like, maybe you could deploy some Elixir code on the front end, and then also have fully integrated tests in your code base, which I think would be really cool. It's very hypothetical. I don't know if that's going to be useful to anyone. It's interesting. I know that some people are interested in both Elixir on the front-end, and might be interested in some neat compiling stuff.
+
+
+The other thing that I'm working on is a static type checker for Elixir. I know we were talking about types very briefly earlier. I think that we can do a little bit better than dialyzer. I have some opinionated opinions about typing, and how we could do better in Elixir. I am currently, as my third in the stack project, working on type analysis in Elixir. I have an idea of how to use the disassembled BEAM code and run some fairly nice type analysis on those and help you write better programs.
+
+
+[00:44:42] AH: Here we are again, yet at the end, talking about types.
+
+
+[00:44:49] IY: It’ll never end. It'll never end.
+
+
+[00:44:50] AH: It'll never die. No.
+
+
+[00:44:52] IY: It’ll never die. Yeah, so the two projects there are called Mavis, which is the type engine. I don’t know if you guys get that pun, but I learned how to type from Mavis beacon. The other one is called Selectrics, which is that type analysis engine. Also, fun.
+
+
+[00:45:10] AH: Both of those sounds fantastic. Definitely something that I would be interested in. I'll keep my eyes out for the third on the rung. I get it. Life gets in the way sometimes. By some of the time, I mean, almost all of the time.
+
+
+[00:45:23] IY: Yeah, and I just moved halfway across the continent. That's been a huge time-suck.
+
+
+[00:45:30] AH: Yeah. Well, Isaac. I wish you luck on packing. Also, thank you so much for joining us today. It was really great to have you on and good to talk with you.
+
+
+That's it for this episode of Elixir Wizards. Elixir Wizards is a SmartLogic production. Today's hosts, include myself, Alex Housand, and my co-host/producer for today, Sundi Myint. We get production and promotion assistance from Michelle McFadden and Ashley Stotts. Here at SmartLogic, we build custom web and mobile software.
+
+
+We're always looking to take on new projects. We work in Elixir, Rails and React, Kubernetes and React Native. If you need a piece of custom software built, hit us up. Don't forget to like, subscribe and leave a review. Follow @smartlogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord. Just head on over to the podcast page to find the link. Don't forget to join us again next week for more on BEAM Magic.
+
+
+[END]
+        © 2021 Elixir Wizards
