@@ -1,0 +1,1107 @@
+﻿EW S6E12                Transcript
+EPISODE 12
+
+
+[INTRODUCTION]
+
+
+[00:00:00] EO: Hi, everyone. We have a quick announcement before the show today. SmartLogic, the custom software shop behind this very podcast is hiring for a mid-level Rails or Elixir developer. Our team is fully remote and this position is open to applications from anywhere in the United States. You can read the full job description and apply at smartlogic.io/jobs. Okay, now on to the show.
+
+
+[EPISODE]
+
+
+[00:00:26] AH: Welcome to Elixir Wizards, everybody, now that we've been talking for one minute and 34 seconds. Welcome. I am Alex Housand. Amos, it's great to meet you for the first time, virtually.
+
+
+[00:00:36] AK: You too. Hopefully, all this will get over with and we'll be able to meet in person one of these days.
+
+
+[00:00:40] AH: One day. One day soon, I hope. Sundi, thank you for joining me as my lovely co-host as usual.
+
+
+[00:00:47] SM: You’re welcome. It was a struggle to be here, but we made it through. We love computers.
+
+
+[00:00:52] AH: It wouldn't be a Thursday without a struggle. Thank you for the production assistance.
+
+
+[00:00:57] EO: Yup. Do what I can.
+
+
+[00:01:00] AH: I appreciate you, sir. I really, really do. Okay, I'm just going to dive on in. Amos, Missouri?
+
+
+[00:01:07] AK: Yes. Yes. Not Kansas.
+
+
+[00:01:09] AH: Not Kansas, but you're close.
+
+
+[00:01:13] AK: Yeah. Five minutes, maybe.
+
+
+[00:01:15] AH: There's a border right there. My question is, why is the Kansas City Airport the worst airport?
+
+
+[00:01:22] AK: Oh, worst airport, or best airport is the real question? If you get stuck in that airport, there is nothing to do. If you have to fly out of that airport, you can show up about 10 minutes before your flight, because it's so small, you don't have to run anywhere. The average time in line for them to check your ID and all that, what is that called? Security check, is less than two minutes. I'm getting old and senile. I can't remember the name of anything.
+
+
+[00:01:51] AH: It’s been a long time since we flew. I will say, the security element is great, but the space element of the airport is trash. If there's more than 10 people in that airport, it feels like you are trapped in a closet.
+
+
+[00:02:07] AK: They're building a new one.
+
+
+[00:02:09] AH: I heard.
+
+
+[00:02:10] AK: They already got rid of one terminal. There are international flights here, which is really funny from how small the airport is. They're wanting to add more of those and make it nice. People are on one side or the other of that, because they know that security is going to get worse. Around here, all the business owners want it to be a nice airport to draw more business. Everybody else is really sad, because they like showing up at the airport five minutes before their flight.
+
+
+[00:02:39] SM: At Reagan, we have this one terminal that feels like timeout. It's like, I don't know, Alex, if you've ever had to go to this one. It's 20A or something. It's the only terminal that has a letter after it. It's like, you go off to the side, it's off of – It feels like air-conditioning isn't on. Yeah. They got rid of it. I remember when they were building it, and we were just – It was terrible. You had to line up at the terminal and then get on a bus to get your plane, and then you walk onto the plane through steps and stuff.
+
+
+[00:03:06] AH: 33X.
+
+
+[00:03:07] SM: Yeah, that sounds right.
+
+
+[00:03:09] AH: For all of the teeny, tiny regional jets.
+
+
+[00:03:14] SM: Yeah, you're going to Ohio, or Ohio.
+
+
+[00:03:18] AH: Greenville, South Carolina. My dad called that terminal the great equalizer, because he was like, “Nobody's in first class if you're in 33X.” They're all shoving you onto the bus. It doesn't matter who you are. We did lose that element, but we did gain a new terminal.
+
+
+[00:03:34] SM: I haven't seen it. I haven't been to an airport in like, 3,000 years, but a one day.
+
+
+[00:03:38] AH: You're not missing much.
+
+
+[00:03:39] AK: You look surprisingly young for your age.
+
+
+[00:03:43] SM: Thank you. Thank you. Amos, speaking of travel, are you thinking about ElixirConf? Is that in the cards for you?
+
+
+[00:03:51] AK: I am going. Cross my fingers. I hope that they still have it. I'm probably not a very good masker. I'm going to admit this publicly. This is probably bad. Ever since I got my shot, I went through the whole COVID fear. Then COVID, okay, we got this. Now, I'm at COVID, I don't give a crap. I'm done. I just try to avoid people.
+
+
+[00:04:15] SM: I remember, when we were chatting earlier this year, and we were – I think, it was the day you got your vaccine and you were like, “I did this, so I could go to ElixirConf.”
+
+
+[00:04:24] AK: Yup.
+
+
+[00:04:28] SM: Texas, barbecue, Elixir folks. Very sounds like a great time, the way you said it.
+
+
+[00:04:35] AH: Barbecue in Texas, or barbecue in the Midwest? Where do your loyalties lie? I got to know.
+
+
+[00:04:42] SM: We're here with an outlaw.
+
+
+[00:04:43] AK: It's really more of venue. Single venue than regional. I mean, if I have to pick a regional barbecue sauce, I'm going to go southeast, like Carolina barbecue sauce, that mustardy base sauce. I love those. Yeah, mustard-based barbecue sauce and spicy barbecue sauces. I don't like barbecue sauces that tastes like brown sugar. That's really my only – there's some places here in Kansas City that are absolutely amazing, and I will eat at them every day. Then, there's other ones that could throw it all away. I feel the same way when I go to Texas, or anywhere else. Here's what I really want to know, do they have a pulled pork sandwich, is just going to be tender. I like sausage. Barbecue places that serve jalapeno sausages, I’m in.
+
+
+[00:05:29] AH: Okay. Okay, I feel like, that's probably more attainable in a Texas style barbecue joint.
+
+
+[00:05:33] AK: Oh, they've always got it here.
+
+
+[00:05:35] AH: Maybe I'm wrong.
+
+
+[00:05:37] AK: Has some sausages.
+
+
+[00:05:39] AH: I mean, the west wasn't one on salad, right?
+
+
+[00:05:42] AK: That’s true.
+
+
+[00:05:43] SM: Amos, let us know when that airport is finished, and maybe we'll show up.
+
+
+[00:05:48] AK: Come visit.
+
+
+[00:05:50] AH: Just for a barbecue.
+
+
+[00:05:51] SM: I mean, I think that would be fun. A barbecue tour of the US, taken by train, obviously.
+
+
+[00:05:56] AK: Come on. Bring it. You can work at my office. There's always space. I'll let you come in. Just sit down and start working.
+
+
+[00:06:03] AH: When there's Internet.
+
+
+[00:06:04] AK: When there's internet. Yeah, that's true. We have a really good Internet when there's Internet. We have gig up and gig down.
+
+
+[00:06:10] SM: Your office space. You kept that all through COVID? Are you guys back in the office? Or did you go fully remote? What's going on there?
+
+
+[00:06:18] AK: I am in the office. I'm in a co-working space. Everybody has their own office in there. You don't really see a lot of people. Most of COVID, nobody came into the office. When I realized that, I started coming in all the time, because it was the only one here. I was tired of working at home. I did spend the first three months at home. Then I spent the next six or eight months being the only one in the office.
+
+
+[00:06:42] AH: Was that lonely?
+
+
+[00:06:43] AK: It was lonely. I'm a people person. It was really lonely.
+
+
+[00:06:47] SM: You had so many conversations with Keithly and Anna on Elixir Outlaws. You were never alone.
+
+
+[00:06:53] AK: That’s true. It was once a week.
+
+
+[00:06:56] AH: Are we ever really alone?
+
+
+[00:06:59] EO: Yeah. You had the pope across the way.
+
+
+[00:07:02] AK: I do. No, the pope is in my office. Across the office on the other side of the building for me, they have a life-size cut out of teenage Justin Bieber. I got a cut out of the Pope and put a little sign up that say, “Hey, Biebs.” The lady there that's in that office, she's awesome. It was up for a year before she said anything. Then, the first thing she says to me is, “You know, I saw your Pope over there. I think the Pope and Biebs could get along, because he's a Christian.” I was like, “Hi, I’m Amos.” I didn't know where to go from there.
+
+
+[00:07:41] AH: Like, “Thank you? You’re probably right.”
+
+
+[00:07:44] SM: We've learned that your office has been open, that you've been there, that Bieber's across the street and the Pope's in house. What is your –
+
+
+[00:07:53] AK: We have no mask ordinance. No mask ordinance either.
+
+
+[00:07:57] SM: Do you want to maybe speak a little to, now that we know everything about your company, except for your company name and what you do, do you want to dive right in?
+
+
+[00:08:07] AK: Yeah. Sure. My company is called Binary Noggin. We build software for people all over, working with hugely different sized companies. Right now, we have clients. We have Ford as a client. Then we have a company called Billy that we're working with, that they are only three people in the company. Hugely different sizes. I got some fun people to work with. I get to work with Connor Rigby every day. He's so much fun to work with. He's always got some crazy side idea up his sleeve, too, with some hardware project. Got another developer, Chad Fennell, who I know nobody knows that name. He's awesome to work with.
+
+
+[00:08:47] SM: When everyone will know that name, you heard it here first.
+
+
+[00:08:50] AK: That's right.
+
+
+[00:08:51] AH: Big shout out to Chad. How did you come up with the name Binary Noggin? I mean, we all know what a noggin is, right?
+
+
+[00:09:01] AK: It's two heads. We do a lot of pair programming. Then also, just working side by side with our customers. We meet every single morning with our customers. We run retrospectives every week with our customers. It was just the two heads are better than one thing. My wife hated the name. She thought it sounded like a kids’ TV show.
+
+
+[00:09:22] SM: It could also be a great kids’ TV show.
+
+
+[00:09:24] AK: It would be. After a year or two, she's like, “I kind of love it.”
+
+
+[00:09:27] SM: I think, it's because of Catdog.
+
+
+[00:09:30] AK: Catdog.
+
+
+[00:09:31] SM: That got the same vibe.
+
+
+[00:09:33] AK: I think, there's a kid’s state – I think, it's a TV station called Noggin.
+
+
+[00:09:37] AH: You're right. There is.
+
+
+[00:09:40] AK: I think, that's why she thought it was a kid show.
+
+
+[00:09:42] AH: That's reasonable. Did she have any other ideas for the name? Or was she just like, “I don't like it”?
+
+
+[00:09:48] AK: I just came home and said, “I changed the company name.”
+
+
+[00:09:51] SM: What was it before?
+
+
+[00:09:53] AK: That was A King Software Development and Consulting. It was just me then.
+
+
+[00:09:58] SM: I think earlier in the season, someone said never name a company after yourself, because everybody wants that person to work with the clients.
+
+
+[00:10:06] EO: Yeah. That was Francesco.
+
+
+[00:10:07] SM: Yeah. On Erlang Solutions. Yeah.
+
+
+[00:10:10] AK: He's totally correct.
+
+
+[00:10:11] SM: I had never heard that before he said it, so I would have never thought of it.
+
+
+[00:10:13] AH: That makes sense.
+
+
+[00:10:14] AK: When I started, it was for side work anyway. It wasn't supposed to be a full-time.
+
+
+[00:10:19] SM: Yeah, that's true. Like most people, when they want to start off with side work to protect themselves, they create an LLC, so they're not liable for themselves being sued out of their whatever, whatever is legal, legal. I can't. I can't. I'm not giving legal advice.
+
+
+[00:10:35] AH: Jargon, jargon.
+
+
+[00:10:36] SM: Yeah. A lot of my friends who do side work will do an LLC of their names, like Sundi Myint LLC, or whatever, so that they can do the work without being personally liable. Then, that's usually what happens there. Yeah, that's fair.
+
+
+[00:10:50] AH: At what point did it stop being side work, and it became full-time?
+
+
+[00:10:54] AK: 2013. Actually, on my birthday. It was August 24th, so we're coming up on it again. I had switched jobs. A previous client from the old job, their project manager had left the company he was at, and he called me and said, “I loved working with you. You put together a good team. You work hard. You're honest. I want you to come work for me and put together a team.” I said, “I'm thinking of starting my own company.” He said, “That's fine. You can get five sub-contractors, five employees. I don't care. Just bring a whole team.”
+
+
+My first contract going out on my own was two years, five developers. We made it 18 months, and they lost a 3-million-dollar contract. Then they gave us — our contract, I think, so that we needed 10 days’ notice. They gave us six weeks’ notice. Then, they asked one of the other developers and myself, they spent the next six weeks trying to talk us into staying as employees, but the entrepreneur bug had bitten. I knew what I wanted to do. I also didn't want to work – I didn’t really want to work on a single project for a long time. Even though I'd been there two years, most of my contracts are a year or more. I said, no. The other guy is actually my brother-in-law, still works for them today.
+
+
+[00:12:14] SM: Amazing. How big are you now? You had five engineers at the time.
+
+
+[00:12:18] AK: After that, it went down to just me. They were all sub-contractors. Then over the years, I ran the company with cash-only. No loans, no investors, nothing. Then, the last two years, it's gone from two to 10, if you count the sub — I have two sub-contractors, and then there's eight of us in the company. COVID’s not been bad for me.
+
+
+[00:12:39] AH: I mean, I feel like, that's been the weird – there's been a weird thing where certain industries, like service industries have really suffered. Then, the tech industry is booming.
+
+
+[00:12:50] SM: As long as you're not in the intersection of tech and service, as Alex and I know.
+
+
+[00:12:55] AH: Yes. Like in food. Amos, what has it been like to be a CEO in COVID? Has it been harder?
+
+
+[00:13:03] AK: Well, at first, it was scary. I was planning on hiring. Right at the beginning, I was about to hire. Then I said, “Uh-oh. I don't know what's going to happen. We need to put the brakes on this.” Then I wish I had hired, because we would probably be at 14 now, I bet, because things picked up. I think, a lot of it too was people being at home. There's a lot of new startups. People being at home bored. Boredom makes creativity. I think, people had ideas for products, or they were like, “I'm at home. I’m just going to start this side business.” A lot of people want to make applications as their side business, that know nothing about it. There were a lot more job inquiries than I thought there would be.
+
+
+[00:13:44] SM: I think, everybody wanted to pick up some hobby. A lot of people capitalized on it. There were probably a lot of YouTube channels started in this time. I know, I thought about it personally. I was like, “I know I'm going to get into something creative. If I monetize on it, it's going to drain all of my energy.” I just pointedly went the art route for all my methods.
+
+
+[00:14:04] AK: That's cool, though. That's fun. Doing something different. My daughter's a digital graphic designer. See, I can’t even get words right today. Internet's down. I can't do anything. She's a graphic designer. Seeing her draw and watching all that come together as I, I don't know, I'm a little envious of her. Don't tell her.
+
+
+[00:14:25] SM: She listens to all of your podcasts and affiliated podcasts, correct?
+
+
+[00:14:29] AK: I don't think she listens to the affiliated ones. She does the transcripts for Elixir Outlaws.
+
+
+[00:14:35] AH: That is a good child.
+
+
+[00:14:39] AK: She gets paid. She's in her senior year of college. She does the transcripts. There's a lot of her university – college, university. I don't know, whatever it's called. It's college. There are non-developers who walk around and quote Keithly all the time now.
+
+
+[00:15:01] SM: Hold on. I need a second to recover.
+
+
+[00:15:03] AH: That’s really fabulous.
+
+
+[00:15:05] SM: Does he know this?
+
+
+[00:15:08] AK: Yes. It's funny. Some of the early episodes, I don't know, because they don’t know about foot marbles. Keithly had to do some – He had to do some PT. He had to pick up marbles with his feet, and they were covered in jelly or something. He talked about his marbles. All these college kids, we walk around, and they're like, “Put marbles,” and they just say it to each other. It’s weird. They're music students.
+
+
+[00:15:36] SM: Then we’ll see it on TikTok, and we'll know where it came from.
+
+
+[00:15:40] AH: You could make merch. You could just sell t-shirts that say, “Foot marbles.” People would buy those.
+
+
+[00:15:47] AK: That's a big, big foot on it.
+
+
+[00:15:49] AH: Yeah. Singular. One foot. Just one foot, though. Not feet.
+
+
+[00:15:53] AK: That's right. One big foot and two marbles.
+
+
+[00:15:56] AH: Man. PT. Wild. I'm over here and I'm clenching my toes, just thinking about how to pick up a marble, an invisible marble that I'm imagining right now.
+
+
+[00:16:08] AK: Especially if it's covered in jelly, or whatever, to make it harder.
+
+
+[00:16:13] SM: I sprained my ankle twice. I feel that was not any part of PT for me. Resistance bands.
+
+
+[00:16:20] AK: They even do PT. I sprained mine, and was on crutches for six months. They're like, “All right. Have a good day.”
+
+
+[00:16:26] SM: I went to PT, because they told me I could wear crutches for a week, then I was good. I listened to the doctor. I was back on my feet in a week. Then two months later, I was in PT, because apparently, that's to soon. Disclaimer, I'm not giving medical advice.
+
+
+[00:16:42] AH: We don’t give out legal advice. We do not give out financial advice. We certainly do not give out medical advice on this podcast. If your doctor says go to PT, maybe do it.
+
+
+[00:16:53] AK: I feel weird, Alex, with you calling me CEO, though, even though that, I guess, is my title.
+
+
+[00:17:00] SM: Some places have alternate titles. We don't subscribe. At SmartLogic to the C-suite.
+
+
+[00:17:05] AH: There's also something weird to thinking of yourself at the top of a hierarchy, I think, where you're like, “I don't know.”
+
+
+[00:17:13] AK: I mean, I feel more like, I write software every day. I work with clients every day. We're such a small company that I'm really wearing every hat. I don't know. I'm still a developer.
+
+
+[00:17:23] SM: Do you think there will be a day where you're not?
+
+
+[00:17:27] AK: I don't know. The idea of that makes me sad. I think, there probably is going to be a day whenever I'm at least not working full-time on client projects. It's really exhausting working full-time on client projects, trying to find projects, which I'm not good at. Then, furthering learning, just that play learning to, where you go write your own software, or even throw away things. I barely have time for that anymore. I push really hard on it. Now that my kids are getting older, that time is coming back, but I'm also getting older.
+
+
+[00:18:08] SM: It's never too late. After my brother and I went to college, my dad just went full-on hiking caveman mode. He just goes hiking every weekend. He travels now around the world to go hiking in crazy places. Iceland, Arizona, whatever.
+
+
+[00:18:22] AK: I think, that's going to be me. My youngest is 13. She'll turn 14 in November. I think, that my wife and I will be out and doing — we like to hike and bike and get going. I still love to write software. I'm sure that I'll be doing that. I'll work on internal tools if I have to, whatever.
+
+
+[00:18:41] SM: A couple times was interesting for my parents actually, now that I think about it, because you're just describing the empty nest situation. My parents, I've been gone for years and years and my brother was in college. He just graduated this past May. In January, I'm in DC and I went home for a few weeks beginning of the year for reasons. I just didn't want to be in the Capitol.
+
+
+I was home for three weeks and it was just the four of us, as a family together for three whole weeks, and we hadn't been like that since – When I graduated high school, I didn't go back after college. At one dinner, I said to my parents, “You remember when you guys were empty nesters?”
+
+
+[00:19:23] AH: Was that hard?
+
+
+[00:19:24] SM: Living at home with my family for three weeks?
+
+
+[00:19:26] AH: Yeah.
+
+
+[00:19:27] SM: I think, my cat made it okay.
+
+
+[00:19:30] AH: Okay. My threshold’s a week, or 10 days depending. With the parents.
+
+
+[00:19:35] SM: It was fine, I think. It was actually nice, because other people cooked. Usually, I cook and other people cooked, so we rotated cooking. That was great.
+
+
+[00:19:44] AH: As of today, my parents are empty nesters. They are moving my youngest brother into college. My mom did call me earlier and I missed her call and it was probably her calling to cry on the phone, because she's really sad about moving my brother into college. I am going to need to call her back.
+
+
+You could, if you're interested in doing this. My dad when he retires, he's also a software engineer. His dream in life is to learn how to retrofit RVs, whatever. Maybe, you and him could join up and you could both learn how to retrofit RVs, and you can come up with a retrofit RV company.
+
+
+[00:20:26] SM: Eric has some ways to go on the empty nesting situation, but he also looks interested right now.
+
+
+[00:20:32] AH: This is truly all he talks about.
+
+
+[00:20:33] AK: Eric, your kid is too young for you to think about empty nesting yet.
+
+
+[00:20:38] EO: We're not thinking of empty nesting, so much as getting a camping trailer to have a fun childhood for him. That's the current path.
+
+
+[00:20:48] AH: You're going to have feel like, you're going to need to do it sooner rather than later. Because at one point in my childhood, I think, I was probably 12 or 13, my mom said, “What if we rented an RV and I took you all out of school for a year. We travel around the country and I homeschooled you?” I said, “Absolutely not. You will not do that.”
+
+
+[00:21:06] SM: Yeah. Not 13, absolutely.
+
+
+[00:21:09] AH: I refuse to do this.
+
+
+[00:21:12] EO: Yeah. I was thinking more within the next six months to a year. I do remember as a kid, one of my friends, his parents had a camper that they would pop up, and we would do sleepovers in. There's like, I don’t know, preparation for that and yeah, I don't know. I'm ready. It's going to be fun.
+
+
+[00:21:35] AK: I moved out of the house and then my parents got an RV. They’re like, “Now that you're not putting the tent up.”
+
+
+[00:21:43] SM: Fun times.
+
+
+[00:21:44] AH: I don't ever want to own an RV, though. Sorry guys, if that's something in your future.
+
+
+[00:21:50] AK: This does sound like an Outlaws podcast. We're halfway through and haven't really talked about tech. This is awesome.
+
+
+[00:21:56] SM: We talked about ElixirConf, so we just snapped it in there.
+
+
+[00:22:02] AH: We could talk about the tech related in RVs.
+
+
+[00:22:05] SM: Wait. We talked to somebody who's doing that and they are using Nerves in it. I’m completely forgetting who that was.
+
+
+[00:22:10] AH: In their RV?
+
+
+[00:22:12] SM: They are retrofitting their stream, or something. Who was it?
+
+
+[00:22:15] AH: Oh, cool. Yeah.
+
+
+[00:22:16] SM: Eric, do you remember?
+
+
+[00:22:17] EO: Was it Connor?
+
+
+[00:22:18] SM: I talked to somebody. Somebody said they were putting Nerves in it.
+
+
+[00:22:22] AH: Air streamers are pretty cool.
+
+
+[00:22:25] SM: I hope I'm not making this up.
+
+
+[00:22:27] EO: We're going to get –
+
+
+[00:22:28] AK: If you're not, it sounds good.
+
+
+[00:22:30] EO: - a teardrop camper, I think. Our not pickup truck can pull it.
+
+
+[00:22:36] AH: You could get one of those Subaru pop-ups.
+
+
+[00:22:39] EO: Oh. Yeah, I’ve seen –
+
+
+[00:22:40] AH: They go on the top of your car. They go “Flup.”
+
+
+[00:22:44] AK: Have you seen the Tesla pickup truck camper?
+
+
+[00:22:47] AH: Is it ugly?
+
+
+[00:22:47] SM: That one looks like an alien.
+
+
+[00:22:50] AK: That Tesla pickup truck looks creepy already. Then somebody is creating a camper. You can get a camper for it that goes in the back. It's $50,000.
+
+
+[00:22:59] AH: I mean, pennies. Pennies. No.
+
+
+[00:23:02] SM: iHouse.
+
+
+[00:23:05] AK: Yeah. Right.
+
+
+[00:23:08] SM: You know what would be fun? I thought about this before, like an Elixir road trip. I'm not a road – I've never aspired to go on a road trip. If I did, I would want to go to Tennessee and see Bruce, and then go down to Louisiana and check out the Gig Elixir people. 
+
+
+[00:23:26] AK: Gig Elixir is person, Tennessee.
+
+
+[00:23:28] SM: I'm sorry. Not gig. Big – Oh, gosh.
+
+
+[00:23:31] AK: Big Elixir. Okay. There we go.
+
+
+[00:23:32] SM: I was like, I’m –
+
+
+[00:23:33] AK: I forgot who was –
+
+
+[00:23:34] AH: Louisiana.
+
+
+[00:23:38] AK: Keithly is also down the road from Bruce.
+
+
+[00:23:41] SM: I never remembered that Keithly lives in the state. He just lives in the Internet to me. He's in Tennessee? Is that what it is?
+
+
+[00:23:50] AK: It’s true. Yeah, he lives in the same town as Bruce. You can just go by and throw water balloons at his house.
+
+
+[00:23:56] SM: All right. That sounds good. I’ll hang out with Bruce, then I'll throw water balloons at Keithly. That's the plan.
+
+
+[00:24:01] AK: Perfect. Yeah. These are from Amos, and just hit him with the water balloon.
+
+
+[00:24:10] SM: Yeah. An Elixir road trip. Then, we've talked with people, I'm sure you have as well, all over the world, Elixir. Although, I was thinking recently, is it London or Paris? One of the Elixirs out in Europe, just sounds like a really cool place to go. I still have these airline credits, because I was trying to go to France to visit my brother, while he was in study abroad. Then, I had to canceled, because you know, the world. I was just thinking, “Oh, that would be fun to use them for an Elixir trip.” Not an official one, but to go to visit Elixirists all over the world. That would be so cool.
+
+
+[00:24:46] AK: You could bring water balloons and throw them at Jose in Poland.
+
+
+[00:24:51] SM: Yes. I would love to. Hi, Jose. Nice to meet you. I've never talked to you before in my life. Here's a water balloon.
+
+
+[00:24:57] AH: Can you imagine going through TSA, and they're like, “Why do you have all these water balloons with you?”
+
+
+[00:25:06] SM: Don't worry about it.
+
+
+[00:25:06] AK: They’re not filled up. It's fine. Less than two ounces of water.
+
+
+[00:25:10] AH: Right. Not a weapon. There's no water involved yet. Don't worry about it. I found out recently on my most recent flight that you can actually bring knitting needles with you on an airplane. You can bring embroidery stuff. Had no idea.
+
+
+[00:25:25] EO: I believe, that is per TSA agent. My wife has gotten it through and taken on flight. It's per –
+
+
+[00:25:35] AK: You can’t bring a little pocket knife, but you can bring a pair of knitting needles that are eight inches long.
+
+
+[00:25:43] SM: A fun fact about what you can bring on that always shocks people when I tell them, is you can always check your figure skates through. People always think of that as crazy. I am a figure skater, so I know that the blade is not sharp. It's not a knife blade. It's actually, half an inch across. It actually would be more blunt than anything.
+
+
+[00:26:05] AK: Tom Hanks used it as an axe.
+
+
+[00:26:10] SM: We could have a whole podcast episode about lies figure skating would be so –
+
+
+[00:26:15] AH: Not is. I was going to say, is hockey skates – God. Are hockey skates sharp then?
+
+
+[00:26:22] SM: They're both sharp, but only on certain edges. They're not razor thin blades, like knives are. That’s what people always think.
+
+
+[00:26:33] AH: Yeah. My fear going ice skating as a kid, because they always give you the shitty hockey skates, was that I was going to fall. Then somebody was going to, and just go, “Flup,” and cut off my fingers. Are you telling me this isn't possible?
+
+
+[00:26:44] SM: It's not possible. I'm not saying it won't hurt. I have been stepped on by blades before. Ice blades. It hurts, the same amount as a person stepping on your hand would hurt in a concentrated way. We should have done a content morning. It will not do – the lasting damage.
+
+
+[00:27:06] AH: Yeah, we could do a whole podcast episode about my injuries, which Sundi would not participant, because —
+
+
+[00:27:12] SM: I will not be here for that episode. Yeah. Actually, so the ElixirConf location is attached to an ice rink. I thought about it. I was like –
+
+
+[00:27:23] AH: The one in Austin? The weird conference center.
+
+
+[00:27:26] SM: That's why it's so cold. That’s why it’s so cold. The north center or whatever. It's attached to an ice rink.
+
+
+[00:27:32] AK: I’ll go skiing.
+
+
+[00:27:32] SM: I thought about that. I was like –
+
+
+[00:27:33] AK: Lets do it.
+
+
+[00:27:34] SM: I thought that'd be so fun. Then I just realized that I'm actually going back to figure skating now, and that if something happened to my skates while I was traveling, that would literally be the worst thing. I'm just going to leave them here.
+
+
+[00:27:48] AH: Maybe don't bring your own skates, but then have a sponsored ElixirConf skate night. Everybody will rent skates. Y'all do some laps, maybe put on some throwback tunes. Pop out a disco ball.
+
+
+[00:28:05] SM: In which case, I would bring my own skates. I can't wear rentals.
+
+
+[00:28:08] AH: I mean, if you don't want to lose your skates, then don’t –
+
+
+[00:28:10] SM: I’ll just tie them to me. I'll just tie them to me. It’s fine. I don't know. I can't think of an equivalent. I just don't know to explain this. You just can’t wear other skates after. You can't even wear somebody else's skates. Good skates. You have to wear the ones that you have. I don't know.
+
+
+[00:28:29] AH: Yeah. There’s point shoes.
+
+
+[00:28:31] SM: Yeah. Other disciplines. Anyway, so yes. I did think it would be fun, have an Elixir ice skating night. Of course, during COVID nobody really wants to do that. Even if they wanted to do that to begin with, but good, good stuff.
+
+
+[00:28:48] AH: I've been dying to get back to a roller rink, but –
+
+
+[00:28:51] AK: I miss society.
+
+
+[00:28:57] AH: I know. I really know it. Yeah. Oh, okay. Wait, I have a question about Missouri and Kansas.
+
+
+[00:29:04] AK: Okay. More tech questions. I got it. Let's do it.
+
+
+[00:29:07] AH: Yeah. Yes. How much do you love Dairy Queen?
+
+
+[00:29:12] AK: I haven't been to Dairy Queen in a really long time. My wife does not self-serve.
+
+
+[00:29:19] AH: Okay. Why?
+
+
+[00:29:20] AK: My wife doesn't like self-serve. Yeah. I grew up on Dairy Queen. There's this thing that isn't even at every Dairy Queen, I found out. I thought it was everywhere. We called it a kiddie cone. Do you know what a dip cone is? Yeah, okay. It's like that, but instead of being dipped in chocolate, they have this cereal. They roll it in this cereal and it's got rice –
+
+
+[00:29:51] SM: Milk Bar didn't create this?
+
+
+[00:29:52] AK: No. No. It's been around forever.
+
+
+[00:29:55] AH: Milk Bar stole it from Dairy Queen.
+
+
+[00:29:57] AK: If you look up kiddie cone online, you will find whole websites dedicated to which Dairy Queen serve kiddie cone.
+
+
+[00:30:07] SM: The show notes for this episode is going to be great.
+
+
+[00:30:09] AK: It’s awesome. It's so good.
+
+
+[00:30:10] AH: The love is real.
+
+
+[00:30:12] AK: The Dairy Queen in my hometown also had butterscotch dip cones, which none of the other dairy queens I ever found had. They were amazing. They look gross. It's like this big yellow cone, but it is amazing.
+
+
+[00:30:23] AH: Yeah. A bad color, but a delicious treat.
+
+
+[00:30:26] AK: I have no idea. I haven't been back to my hometown in probably 10 years.
+
+
+[00:30:30] AH: Where's your hometown?
+
+
+[00:30:32] AK: Carlinville, Illinois.
+
+
+[00:30:34] AH: Ooh. For some reason, it feels familiar.
+
+
+[00:30:38] AK: It's about 60 miles north of St. Louis. It’s got 5,000 people. I lived most of my childhood there. A little bit in Los Angeles, and a lot there.
+
+
+[00:30:46] AH: Illinois and Los Angeles. Very different places.
+
+
+[00:30:49] AK: Yeah. Yeah. Farm Town, Illinois and Los Angeles. I went to junior high in Los Angeles. That's where my dad lived and my mom lived when I –
+
+
+[00:30:57] SM: What an age to make that transition from Illinois to LA, junior high.
+
+
+[00:31:03] AK: It was my choice.
+
+
+[00:31:07] AH: Did you like both?
+
+
+[00:31:09] AK: I did. I did. For different reasons.
+
+
+[00:31:13] SM: Yeah. I can see that.
+
+
+[00:31:14] AK: It was great to have things at your fingertips. Although, we had a lot at our fingertips that we just never did. It's like there, but just don't go do it.
+
+
+[00:31:25] AH: Yeah. You’re just like, don't touch it. Yeah. Versus the make your own fun of farm town USA.
+
+
+[00:31:32] AK: That’s right. We just trekked to the woods all the time and rode our bikes everywhere.
+
+
+[00:31:39] AH: Yeah. Right. Got up to no good.
+
+
+[00:31:41] AK: Oh, yeah.
+
+
+[00:31:42] AH: What have you.
+
+
+[00:31:43] AK: I'm not sure what the statute of limitations are on a lot of that stuff.
+
+
+[00:31:50] SM: Generic, "Got up to no good.”
+
+
+[00:31:51] AK: That's right. That’s right.
+
+
+[00:31:55] SM: As I do, I want to ask you, I think we briefly talked about it. It was about this lady in episode two on your show, about a few knew about the origin story about our BEAM Magic theme.
+
+
+[00:32:08] AK: No.
+
+
+[00:32:10] SM: Okay. It was real late in that episode, because I think I did mention it. You're the inspiration. It was you.
+
+
+[00:32:17] AK: Uh-oh.
+
+
+[00:32:21] SM: Here we are at the finale. We're wrapping up BEAM Magic. I just wanted to tell you, you tweeted about how magic is really just not understanding a thing. Then once you understand the thing, it's not magic anymore.
+
+
+[00:32:36] AH: That's true.
+
+
+[00:32:37] SM: You tweeted that right in between seasons. Spoiler alert for people out there who want to influence the podcast, they just have to start tweeting in between our seasons, and then hashtag my [inaudible] status. We'll see.
+
+
+[00:32:48] AK: Just say random things on the Internet.
+
+
+[00:32:52] AH: Amos, do you remember what prompted that tweet?
+
+
+[00:32:55] SM: If you remember it at all?
+
+
+[00:32:57] AK: No. No, I don't. I hear a lot of people complain about Rails, or some other framework and all of the magic that's involved in it. To some people, you turn on your water, and it's magic. Where the water comes from, no idea. I turn this knob, water comes out. Then it disappears through a hole and everything happens below that hole is magic. If you look underneath the sink, there's a trap there. If you drop something, it's not gone. You can probably get it back, things like that. Those are magic to some people.
+
+
+The same thing with any technology, anything that when you don't understand how it works, and it just works, that's magic. The closest thing I can come up with to magic is, whenever something happens that is not expected, or you didn't have to type it in. That's really what every abstraction is, right? I pull these things up to functions and name them, so that I don't have to think about the internals and how they work.
+
+
+You look at a gen server, and what's happening in the background of that gen server. I have these callbacks, well, where are they being called? It all seems magical a little bit. You get a little understanding, because you have to do genserver.call, and you're like, “Oh, that's going to go to my handle call function.” It feels that's pretty straightforward, but there's a lot happening in that background. That can feel like magic. Anything with a callback, I think, often feels like magic, because of where this is happening.
+
+
+If you open it up and look around, it's all there. It's all right in front of you. Maybe you have to spend some time reading documentation, reading other pieces of code. Your understanding can get there to where that no longer seems like magic, but something else will. It all just depends on your level of comfort with whatever technology you're working with. Sometimes, you can get away with never knowing about that magic. I still get water. I don't have to run a water treatment plant to get clean water. I just get clean water.
+
+
+[00:35:15] SM: Similarly, do you think that a lot of Elixir developers consider the BEAM magic? Or do you think in your experience, a lot of them actually, try to dig into what it is.
+
+
+[00:35:27] AK: A little bit of both. The funny thing is, I see a lot of people that came from Rails and saying that they switched to Elixir, because they didn't like the magic in Rails. There's a lot of the same magic in Phoenix, and gen servers. Some of those people still don't dig in, but they feel it's more explicit. In some ways, certain things are more explicit, but not all of them. The whole tracing things from a router down is exactly the same as it was in Rails versus Phoenix. you have to – There are certain things that are just conventions. That's, I think, where the most things called magic are.
+
+
+I do find though, once a developer has to reach out and start to create their own supervision trees, like if they're not doing a Phoenix project, if they're working on a Nerves project, as soon as you have to start doing your own gen servers and supervisor trees, then people start to take in a lot and try to, I guess, understand the magic and see what's going on in the background.
+
+
+[00:36:34] AH: Have you ever thought about talking about this in front of, say, a conference, but simultaneously maybe wearing a wizard outfit?
+
+
+[00:36:47] AK: I would totally wear wizard outfit and talk about this. I'm just saying. Yeah, no problem. I would do that. I have not thought about talking about this in front of a conference. Usually, so this year, I'm speaking in ElixirConf, as long as it happens, I guess. One of my co-workers said, “You should give a talk on this.” I wrote down the title and never really expected it to get picked. Now I'm, “Oh, crap. That's not even what I'm passionate about.” It's cool, but it's not what I'm passionate about.
+
+
+[00:37:22] SM: Only 70% of us know how you feel. I wrote a title, it got accepted.
+
+
+[00:37:28] AK: Oh, no. That was actually my – the first Elixir-based conference I ever did was Elixir Days in Florida. I submitted a talk. It was more of a curiosity that I had, versus a skill that I had. I was like, “What if you wrote a whole app with no database? Just kept it in memory?” Just as an experiment, not because I think that's feasible in any way, whatsoever. Don't do that. I wrote this thing about the database is not your friend. Then they picked it. I was like, “Oh, crap. Now, I actually have to learn how to do this.”
+
+
+[00:38:11] SM: Your talk this ElixirConf is, I think I looked at the website, but I'm not recalling right now.
+
+
+[00:38:18] AK: I forget the title of it exactly. Brutal Acceptance Test Got You Down. It's about Wallaby, and how brittle that front-end test that run everything all the way down. They require timing. A lot of it is about the brittleness of a test suite. I’ll just give it away, and encapsulating functionality into named functions. Instead of saying, fill in this field, fill in this field, press login, fill in this field, fill in this field, fill in this field, and having that in 10 different tests.
+
+
+[00:38:56] EO: This feels awfully like capybara, or cucumber steps.
+
+
+[00:39:02] AK: Oh, probably. Probably very similar. Instead of making the cucumber step, say fill in, fill in, fill in, you change them. Or your Wallaby steps, you change them and actually, wrap them up into things like, login. Done. It'll do everything for you. That way, when you change login from taking your username and password to going through some different auth service, or you change the label from email to username, you don't have to change every single test. That's a lot of it. Then, there's some other things dealing with timing, timing sets.
+
+
+[00:39:43] SM: I was just saying, I feel there are a lot of testing talks this year, which is pretty cool. I think, when we had Jeffrey and Andrea on, the authors of Testing Elixir, they were both saying how they wish that there were more talks at conferences around testing. I think, we're seeing that this time around.
+
+
+[00:40:00] AK: Yeah. I like testing. The more you know.
+
+
+[00:40:04] AH: Testing more. Yeah. I do like the timing element of front-end test, like what you're talking about right now, is just making me feel a lot of, I don’t even know, angst of changing one thing and then running your test suite. Or like, something took one second too long, and so your whole test suite’s like, “Ooh, we timed out. Sorry. Don’t know what to tell you.”
+
+
+[00:40:31] AK: Then, that's the other thing you have to say. He said, “One second.” Most people don't think of testing in my test should not – a step shouldn't take a second. Well, it might if you're doing full integration tests. Sometimes you really need them.
+
+
+[00:40:45] EO: I believe, the answer to this is you just set your database layer to infinity timeout, right?
+
+
+[00:40:51] AK: That's true.
+
+
+[00:40:52] EO: I think, I saw that somewhere.
+
+
+[00:40:54] AK: Infinity timeouts all the way. The default timeout in Elixir for gen servers is, I guess, it's the same in Erlang, is way too long. How often do you want something to run for, what is it? I think, it's five seconds timeout, three seconds. I don't remember.
+
+
+[00:41:11] EO: I’m pretty sure it's five seconds.
+
+
+[00:41:12] AK: That's way too long. Yeah, I really want it to be a 100 milliseconds or less. Also, if you use the call timeout, you also have to deal with maybe the message comes back to you later. I usually like to put those timeouts actually inside of the gen server itself, and have the gen server check and say, “Hey, should I even send this back?” Or send back a cancel. Leave the default of five seconds and then just never actually use it.
+
+
+[00:41:40] AH: Don’t’ touch it. What made you fall in love with Elixir?
+
+
+[00:41:45] AK: My first introduction –
+
+
+[00:41:46] SM: Hard questions. No preparation.
+
+
+[00:41:48] AK: No. First introduction was actually, Erlang. I had been part of a team, I shouldn't say I write. I didn't write this. This is a team effort. We wrote chat software for the Navy. The server that we wrote was originally in Java. I don't even know if the Navy's using this, because they do a lot of experiments. It was originally in Java. Then, I was no longer on the team. The team got to dealing with Federation and stuff like that, because they wanted multiple servers. We did that in Java, but they wanted it to be better, and so they dug into Erlang.
+
+
+[00:42:34] EO: Did you get to use Corba? Is that the Java remote stuff? I don’t know. Ignore me.
+
+
+[00:42:42] AK: That was 2007 when I was writing all the Java, so I barely remember. I know, our front-end was the same thing that Eclipse is written on. I can't remember the name of it either, but I hated. It is frustrating. The GUI that Eclipse is built around was super frustrating. When they changed it, they used to have me come in and they'd ask me questions. I also helped them test it, and was still good friends with the team that was doing it. I got to see some Erlang. Got pretty interested in it. Read Joe's book from pragmatic press, and then played around with Erlang a little bit on the side. Never did find any work doing it. Even though the company I worked for at the time had, I think, two projects doing it.
+
+
+Then when Elixir came out, I was doing a lot of Ruby at the time, too. I'd seen Jose’s work before. I thought, “This is Erlang, but I can read it,” which is not – I'm not attacking Erlang. It was what I was used to. That's what got me into it. I don't know, the idea, everything now to me is networked. All of our phones talking to each other, front-end applications or distributed systems, whether people like to admit it or not. The BEAM is really good at it. I just kept digging in and really enjoying how the BEAM works, and how supervisors work and spinning up processes.
+
+
+I've written C and C++ in the past and tried to do parallel things and threads and did Java that way too. I didn't want to go back to that. I think, the actor model was just like, “Oh. Oh, now I can understand what's going on. No more mutexes.”
+
+
+[00:44:45] AH: I remember learning Java in college and thinking, “I don't like this.” Then learning C sharp in my first job and also thinking, “I don't like this.”
+
+
+[00:44:58] EO: It’s the same thing.
+
+
+[00:44:59] AH: Yes. Then my first Elixir job, I was like, “This is nice. I like this a lot.” Part of it was a feeling, where you're like, this is easier to work in. It's nicer. I don't know. Yeah. I never want to program in C sharp or Java ever again.
+
+
+[00:45:17] SM: It just actually occurred to me that a lot of the experiences that we have as developers, professional developers, who maybe took a course in college, we were either learning a language to pass a test, or learning language to get a thing done for work. There are plenty of us, obviously, like looked at other languages, because we were interested in it, and we were just like, “Oh, let me just tinker around.”
+
+
+I didn't personally have a lot of that drive when I was just out of college. That just totally changes the way that you see language, I think, and can totally flavor the way that you see it forevermore, until you can find a way to see it in your life.
+
+
+[00:45:59] AK: It changes the way you write other languages, too. That's the big thing that got me taking into languages, was watching how, like when I learned Ruby, the way I wrote Java completely changed. That blew my mind. Also, Sundi, I feel for you not wanting to do that when you first got out of college. When I first got out of college, drove a 100 miles each way to work. I slept in the office twice a week, and so I had a lot of free time, where I just listened to podcasts about programming. Because I'd listened to every song on the planet, I think, twice in the first six months of driving. It just created curiosity, because I would hear people talking in these podcasts about X language and some feature. I was like, “What the heck does that even mean?” I would go research it while I was sitting on a couch at 10:00 at night at my office.
+
+
+[00:46:53] SM: Yeah. I didn't discover podcasts until more recent years. I think, that would have been great for me back then, though. A passive way to hear about languages without the goal of taking a test, or getting a feature and by a certain deadline. That would have been great for me. I didn't have this commute. 20 minutes by bus. That was about it.
+
+
+[00:47:18] AH: What was your first job?
+
+
+[00:47:24] AK: It paid way more than anywhere where I lived.
+
+
+[00:47:28] EO: Did it pay a million dollars?
+
+
+[00:47:32] AK: I married somebody who was from the next town over from where I went to college. We built a house there. And so I just drove. I had a stepdaughter. I still have a stepdaughter. I didn't had a stepdaughter. I still have a stepdaughter. She's my baby. I love her. She's 21. Yeah, she's going into her last year of college. She's my best friend, other than my wife. She's amazing. I love her to death. Like any parent, though, she frustrates the heck out of me, too.
+
+
+We didn't want to move away from her dad, who was there. From 2007 to 2013, I drove a 100 miles each way. It was probably the best thing that – It was the best thing that ever happened in my career. When I first stopped driving, I missed it. The next weekend, I had not driven for a week and we got up in the morning and my wife's like, “You look restless. What do you want to do?” I was like, “We got to get in the car. We have to drive to St. Louis, because that's where I worked.” I was like, “I have to get out of here. I felt claustrophobic and closed in.”
+
+
+[00:48:43] AH: I need to sleep on a couch.
+
+
+[00:48:46] AK: Well, I didn't want to do that. That could go away. That literally is probably the best thing that happened in my career was having to drive. I would get off work. You know that problem that you don't want to put away, but ultimately, you're like, “I got to get home,” and you put it away. Well, I still had two hours in the car alone, thinking about that problem. I would get home.
+
+
+[00:49:13] SM: Do you think it's the drive that would give you the – Because usually, you have to put it away. Actually, put it away for it to come back for you to see the answer.
+
+
+[00:49:22] AK: Well, when I was driving, the thoughts are free-flowing and I’m not intentionally thinking about it. It's not like sitting at the keyboard and trying to figure it out, or at a whiteboard and trying to figure it out. There's a whole lot of other things going on. I'm thinking about like, what time am I going to be home? Do I need to stop at this rest area and pick up a soda at the soda machine? Where else can I spend my money on the way home? Dairy Queen. Can I go to Dairy Queen on the way home, because I definitely need a blizzard. There's a lot going on.
+
+
+You do put it away. When you're sitting there alone, I think, we all think about that problem in the back of our head. I had nobody else trying to talk to me. Then, I would get up in the morning and head back with that same problem in my head. I get to work and I had thought through every little minute detail. I would start telling people about, “Oh, well. I think, we can solve it this way.” They'd say, “Well, what about this?” I rarely had to sit back and think about whatever their question was, because I had already had that question while driving in the car.
+
+
+It was really unfair to them, because I spent four hours, six hours thinking about this problem, while they went home and tried to chase kids around and take kids to soccer practice and stuff like that. I was just driving in a car silent. It may be the worst thing that ever happened to my children. I don't know. I haven't talked to them about it. 
+
+
+[00:50:55] AH: As someone who grew up with a father who travelled for work, from the ages of eight to 18, it was fine. You didn't ruin their lives. They’re all right.
+
+
+[00:51:07] AK: Oh, good. All right. Good.
+
+
+[00:51:09] AH: Because if anything, it made the time that we had with him more special, and it was more valuable. We had less moments of, “I hate you, things like that.”
+
+
+[00:51:18] AK: I have five kids. I think, that really, the only time that they hated me was in their pubescent years.
+
+
+[00:51:25] SM: I was going to say, pre-teens.
+
+
+[00:51:26] AH: You didn’t say that your youngest is what, 13 turning 14?
+
+
+[00:51:30] AK: Mm-hmm.
+
+
+[00:51:31] AH: We're entering —
+
+
+[00:51:33] AK: I have a 14-year-old, two 15-year-olds and two 21-year-olds.
+
+
+[00:51:38] SM: That all sounds scary to me.
+
+
+[00:51:42] AH: Yeah. I mean, I would like to say that as a 15 and 16 and 17-year-old, I was an absolute nightmare.
+
+
+[00:51:48] SM: I am so happy, none of you knew me back then.
+
+
+[00:51:51] AH: I feel for you.
+
+
+[00:51:52] AK: I look at my son now, and I can empathize with going through puberty and you could not pay me to go back through that. I don't care how much money. There is no way. Because I didn't realize how bad it was, till I'm watching him go through it. I'm like, “Oh, I remember that. That sucks.”
+
+
+[00:52:13] AH: Yeah. Looking back at pictures of yourself in middle school. Absolutely not. Absolutely not.
+
+
+[00:52:19] SM: That’s out the window. We don't have to talk about it anymore.
+
+
+[00:52:24] AK: I look about the same I've been told, except for I had a mullet.
+
+
+[00:52:27] AH: I do. Yeah, I looked the same.
+
+
+[00:52:31] EO: I think, I had a – it wasn't a bowl cut, but it was as close to a bowl cut as you could get, without being that.
+
+
+[00:52:38] SM: Was your hair curly still?
+
+
+[00:52:43] EO: However long it was, was exactly the length right before it starts to curl. I didn't actually know I had super-duper curly hair, until I started letting it grow out.
+
+
+[00:52:56] SM: In the last year and a half, you've learned this.
+
+
+[00:52:58] AK: Bowl cut in junior high. You're probably a couple years younger than me then. Because that was fourth and fifth grade for me, was when bowl cuts were super popular. I have those pictures at home, too. They're scary.
+
+
+[00:53:12] SM: We did a recent SmartLogic Happy Hour, where we submitted baby photos and had to guess who was who, and that was real fun, because we mixed up some people. I think, I submitted a few where I had a bowl cut. I can't remember. They were all ridiculous facial expressions. Ridiculous. Got to love those old photos.
+
+
+[00:53:35] AK: You should do another live stream show, and just bring out baby photos of every guest that you have. They have to bring a baby photo.
+
+
+[00:53:44] AH: Okay. I love this idea.
+
+
+[00:53:46] SM: Absolutely.
+
+
+[00:53:47] AK: I'm in.
+
+
+[00:53:48] AH: I love this idea. I have a picture of me in eighth grade around the corner right now sitting on the floor, that I've been meaning to hang up on my Disney wall, as you so noted, Amos. Because it's of me and my friends in eighth grade riding Splash Mountain. We were like, “Let's be cool, and I'll make us do the same pose.” Of course.
+
+
+[00:54:07] SM: Is this when scared Alex appeared? This isn't. You scared Alex, apparently.
+
+
+[00:54:11] AH: No, no, no, no. Scared Alex did not appear until about 20 years of age. This was when I was 14, I guess. We're all doing the screen face, like hands on the side. I'm sure, we just thought we were so cool. We're all wearing matching t-shirts, because we're in eighth grade on a field trip.
+
+
+[00:54:30] AK: Nobody was cool. That's the thing. There are people who think that they were cool, but nobody was cool.
+
+
+[00:54:37] AH: If anybody takes anything away from this podcast episode, it's that none of us were cool.
+
+
+[00:54:42] SM: The rest is holding up a picture, I'm thinking as a baby photo. These cameras do not want to do this.
+
+
+[00:54:52] AK: Yeah, I saw it.
+
+
+[00:54:52] SM: Just super blown out. We will definitely have to do a baby Elixir Wizards live stream, featuring literally, everyone, because I want everyone’s baby photo.
+
+
+[00:55:03] AH: Baby Wizards. Yeah.
+
+
+[00:55:05] SM: Yeah. Baby Wizards. I already can see the branding on it. Yeah. I mean, you guys heard it here first. Live stream coming soon.
+
+
+[00:55:12] AH: I love this idea, so much. Amos, as we're wrapping up, do you have any plugs, or asks, requests for the audience? Anything at all? Advice.
+
+
+[00:55:26] AK: No. This is all my natural hair. I have no plugs. None, whatsoever. Uh-oh.
+
+
+[00:55:33] AH: Well, we know you don't have hair plugs.
+
+
+[00:55:35] AK: Perfect.
+
+
+[00:55:36] AH: But, do you have any final thoughts, or advice, or asks or anything for anybody?
+
+
+[00:55:41] AK: We're at Binary Noggin, looking for some work. If you'd like to work alongside Connor, you got some hardware projects, that would be awesome. You can get a hold of us, contact@binarynoggin.com. If you're bored, you can go listen to the second-best Elixir podcast, The Elixir Outlaws.
+
+
+[00:56:00] SM: We have the eyes emojis going on over here.
+
+
+[00:56:02] AH: You all heard it here first, folks. You all heard it here first. Eyes to the side emoji. Yeah, that's everybody right now. Amos, I know that the theme of this season started with you. Thank you for being our finale guest.
+
+
+[00:56:18] AK: Hey, thank you for having me. I'd love to come back. Maybe next time, we'll have better Internet, and I won't get cut off.
+
+
+[00:56:24] AH: Yeah. Babies, baby wizards. Baby wizards and internet.
+
+
+[00:56:29] AK: Babies. Perfect.
+
+
+[00:56:30] AH: That would be the goal. Well, I'm going to do a – I'll do it in Outlaw-ish style outro for us, I suppose, because it's our finale. You're here and you are an Outlaw. I think, today we're all outlaws.
+
+
+That's it for this episode and this season. Amos. Once again, thank you for joining us. Elixir Wizards is a SmartLogic production. Today's hosts include myself, as always, Sundi Myint, and our lovely producer, Eric Oestrich. We also get some production assistance from Michelle McFadden and Ashley Stotts. The executive producer is the fabulous Rose Burt.
+
+
+We at SmartLogic build custom web and mobile software and we are always looking to take on new projects. We work in Elixir, Rails and React, Kubernetes and React Native. If you need a piece of custom software, don't forget to hit like, subscribe and leave a review. You can follow @smartlogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord. Just head on over to the podcast page to find the link.
+
+
+Thank you, everyone for joining us during the Season 6 journey. We hope you've enjoyed the discussions about the theme, maybe you've learned something new, taken something away. Maybe you started doing your own research into the BEAM, or you’re picking up Erlang. Whatever you've taken away, it's been a blast having you all along. Stay tuned for news and announcements on season seven.
+
+
+[END]
+        © 2021 Elixir Wizards
