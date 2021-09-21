@@ -1,0 +1,147 @@
+Dan Ivovich:        Welcome to Smart Software with SmartLogic, a podcast where we talk about best practices in web and mobile software development with a focus on new and emerging technologies. My name is Dan Ivovich, and I'm your host today. I'm the Director of Development Operations at SmartLogic, a Baltimore-based consulting company that has been building custom web and mobile software applications since 2005. You may remember me as the guest from our first episode, but today I'm stepping into the hosting chair. Our first series covered Phoenix and Elixir in production, and today, we're joined by our usual hosts from SmartLogic, Justus Eapen-
+
+Justus Eapen:       Hi Dan.
+
+Dan Ivovich:        -and Eric Oestrich.
+
+Eric Oestrich:      Hi Dan.
+
+Dan Ivovich:        Today we'll be looking back on our first season of the podcast, so let's dive right in. So, Justus, are people using Elixir in production?
+
+Justus Eapen:       Some of us are.
+
+Dan Ivovich:        And Eric, what do you think was your biggest takeaway from season one?
+
+Eric Oestrich:      I think the biggest takeaway is probably that deployment is... We're still inching towards the right way of doing deployment, but it's good to see things like when Elixir 1.9 will have releases built in, so hopefully we'll be getting closer and closer to the dream world of just deploying it and being done.
+
+Dan Ivovich:        Cool. And Justus, we saw a lot of different applications running in production, a variety of different problems being solved, different deployments. What would you say is kind of the big advantage everyone's getting from using Elixir?
+
+Justus Eapen:       Yeah, that's a great question. The one thing that repeatedly came up from nearly every person that we interviewed on the podcast was the ease of use in terms of syntax being incredibly accessible for newer developers. Most of the people that we interviewed were coming from a Ruby on Rails background with maybe a couple of exceptions, and almost every single one of them made the connection between the ease of use with Ruby syntax and the ease of use with all the added performance benefits, and language-level features like pattern matching. Almost everybody made that connection, so yeah, I'd have to say that was the thing that people were calling out.
+
+Dan Ivovich:        And Eric, you're SmartLogic's kind of resident expert on the BEAM and OTP. How did that come up throughout your conversations?
+
+Eric Oestrich:      Kind of just how rock solid the BEAM is, and how... I found it kind of interesting. We asked what was an Elixir story that... A story where Elixir saved the day, and at least half the people were like, "Oh, I don't have one." So I guess that means it worked.
+
+Dan Ivovich:        Yeah. I mean, sometimes no news is good news, right?
+
+Eric Oestrich:      Yeah. Especially with production. Yeah, so I found that kind of interesting.
+
+Dan Ivovich:        Awesome. We talked a bit about Distillery and its kind of coming to the forefront in Elixir 1.9. So once people have these Distillery releases, what were you seeing as a common way that they were deployed?
+
+Justus Eapen:       Eric?
+
+Eric Oestrich:      The most common way that people were deploying these Distillery releases was just through Docker, and then if you took it a step further, Kubernetes. We even had Mesos in there, surprisingly. So yeah, Docker and Kubernetes, along with sticking it in AWS, so their container service or just like EC2 instances that's running Kubernetes was definitely the way that people are doing it currently. It's also nice to see just a plain Heroku, just to show that there is an easy way, and an easy way that's still very performant.
+
+Dan Ivovich:        Yeah, that's great. It's always nice to have Heroku as an option. You know, maybe it's not the best for all circumstances, but seeing it as something that's usable in some real-world environments is a nice feather to have in our cap, and a good tool to be able to fall back on if nothing else, or when you're just getting started.
+
+Eric Oestrich:      Yeah.
+
+Dan Ivovich:        That's great.
+
+Eric Oestrich:      It makes for a fantastic staging server.
+
+Dan Ivovich:        Justus, how about zero downtime deploys? Did people seem like they had good solutions around that?
+
+Justus Eapen:       The big response that we got to that question when we asked about zero downtime was that people were doing the same old thing that they would have done in the past, which was like using load balancers and rollover deployments to reduce downtime. And this is definitely not my area of expertise, so Eric, feel free to chime in on this, but there are features in OTP that are supposed to make that very easy to do, and almost no one that we spoke to was actually using it. So maybe that's an area for growth.
+
+Eric Oestrich:      Yeah. We phrased the question, "Are you able to get zero downtime deploys," and I thought it was interesting that everyone immediately jumped over to like, "Oh, we just do a rolling deploy, and the customer never sees a site is down message." So they skipped all the way over that, and just instantly went to hot upgrades, which is kind of amazing that that's even an option and that's kind of the default assumption. But yeah, that was just interesting to see that that's what happened.
+
+Dan Ivovich:        Mm-hmm (affirmative). So would you say the takeaway then is that it's great that it's there, and everyone's definitely thinking about it, but the reality is unless you're running a large phone switch system like Eric's saying, maybe you don't really need it.
+
+Eric Oestrich:      Yeah, you need a specific problem, which is extremely stateful in your application in order for it to kind of make sense. You should, if you're just doing Phoenix, if you don't have state, you should be able to just hot upgrade kind of however you want as often as you want, because you don't have to deal with transferring state, et cetera. But at the same time, you could just do a rolling deploy and get the same thing, and don't have to worry about any of the headaches that might come with it at all.
+
+Dan Ivovich:        Yeah. Well, so Eric, kind of while you're on a roll here, you're definitely our resident clustering expert. Did that come up at all in your conversations?
+
+Eric Oestrich:      Yeah. The common answer for this as well was, "No one deals with clustering." We're kind of still dealing with... I think most people are still dealing with the common issue of, "I just have a web API." It's just like a website that's stateless. Right? That's what HTTP is built for is those stateless communications, so then that means the server's also stateless. So then you don't necessarily need to cluster anything, because everything just goes straight to the database and back. I think if people did cluster, they primarily clustered it and just the Phoenix channels was on the same network. So you'd use libcluster, for either there's a Kubernetes strategies, probably the most common use there, or EPMD. You have a known pet state or pet cluster. Yeah, so then you just cluster it together and PG2 takes care of everything, and channels just works across it. So I think if you cluster, that's as far as you've gone so far.
+
+Dan Ivovich:        Justus, you've been involved in kind of a lot of different projects here at SmartLogic, and those environments are varied from client to client and technology to technology. I think one thing we're always kind of curious about is how Elixir's performing in comparison to others. What kind of vibe did you get from the people you spoke with around how Elixir performs compares to the rest of their environment?
+
+Justus Eapen:       Yeah. I guess I'll just make a few points here. One is that I was a little bit surprised that there weren't more specific benchmarks that people had made. And the reason I was surprised is because we went into it, Eric having done some benchmarks with his side projects, thinking other people would have done the same thing, but that wasn't really the case. So we didn't really get specific performance benchmarks that we expected to see. The best conversation that we had around performance was not on any of the one-on-one interviews that we did, but actually in the Lunchisode that we did at Lonestar ElixirConf, where we really had a lot of discussion about Elixir performance and why people don't really think about performance in a way that is analogous to the way that it plays out in the real world.
+
+Justus Eapen:       That being said, there is a subjective sense, and I'll just speak to my own subjective sense, since I work both in Ruby and in Elixir all the time. You know, the first time you run a test suite in Elixir, you can have like hundreds of tests that run in a matter of seconds, and that's a performance benefit for the developer that is incredible when you're coming from the Rails world. And then we had a lot of other personal stories from people sort of talking about the performance benefits, but they weren't able to objectively make claims about, but that their experience sort of saying like, "Yeah, this is way faster. We had way more connections, way more requests per second. It's just better." That being said, I was kind of disappointed that we didn't get more objective benchmarks from people, or maybe that there just haven't been as many benchmarks made.
+
+Justus Eapen:       And maybe at some point, Eric, you should talk about what you did with ExVenture, and we could do that on an episode. And if you want to hear about performance, go listen to the Lunchisode, because there's a lot of performance discussion there with people who would really know.
+
+Dan Ivovich:        So Eric, background tasks. As Rails developers, we've been through a lot of different versions of various things. I know it was something you were curious to dig into with some of the people who you were interviewing. What was the story around background task processing?
+
+Eric Oestrich:      Yeah. I think we had started our journey by immediately grabbing for something similar to Sidekiq, because that's what we know, right? I found it pretty awesome and amazing that other people kind of just didn't, and they went straight to the built-in primitives, which I think is... It was like, "That's great." We have GenServers, we have message passing, all this stuff. It's just there. So you can spin up... Instead of Sidekiq, you have jobs and workers. You could take that worker, and then instead of it being a thing that runs inside of something else, you could just make that the GenServer that you send a message to that then does whatever it needs to, and just tears through all the messages that it gets.
+
+Eric Oestrich:      And you can use something like Quantum, that if for some reason the worker got rebooted and lost some messages, you could just schedule a checkup. Be like, "Oh, have I missed anything?" And with those two things, either with a library or you could even just do Process.send_after. So you have a side process that's just checking every, I don't know, hour, saying like, "Hey, have I missed anything?" And just with two GenServers or one, you can get kind of all that in Sidekiq, and it's just built in, which is pretty great.
+
+Dan Ivovich:        Cool. So kind of speaking about libraries and things like Verk and EXQ and Quantum, Justus, I know you're always looking for cool solutions to cool problems. Any libraries stick out, or anything you heard of that you are super passionate to go dig into deeper now that it came up during conversation?
+
+Justus Eapen:       Yeah. I mean, the obvious ones came up a lot, like Phoenix, Ecto, Distillery for releases, Credo, TIMEX, THHPoison, some of the email-related ones like Bamboo. I think the ones that were mentioned in an episode that we recorded pretty early on that captured my attention just because they were sort of a brain bender or Brooklyn's functional libraries. One of them is called Witchcraft, and it's about monoids and that kind of thing, so that sort of led me down a little bit of a rabbit hole and gave me a lot to chew on, and gave me things that I need to learn about. So yeah, I think the beautiful thing about the Elixir ecosystem is that so much is already built into the language and that there doesn't need to be a lot of dependencies, and there's still room to grow. I'm working on a framework, so-
+
+Dan Ivovich:        Yeah. A little shameless plug there for yourself?
+
+Justus Eapen:       Right. Right. Virtuoso chatbot framework. Look it up on GitHub.
+
+Dan Ivovich:        Yeah. I think from my standpoint, as somebody who has to manage kind of the projects that we're doing here at SmartLogic and we're evaluating technologies, one of the things that I'm really drawn to with Elixir is its stability. We're talking about bringing community-supported projects into main in version 1.9, but we're still talking about no timeline to 2.0, because the language is stable. And there's only, I think, one planned language syntax depreciation for 2.0, and no timeline for that. And so that stability has a lot of value, as well as all of this kind of core functionality pieces that gives you the building blocks to build a lot on. And then there's still plenty of room for libraries to do cool and interesting things. And yeah, it's easy to focus on the main few that everyone tends to use, but there being room for the libraries you mentioned from Brooklyn and the things that we're doing ourselves to make our lives easier and to make reuse easier. Having those fundamentals to build on is really fantastic.
+
+Eric Oestrich:      I'll jump in, and as long as we're shamelessly plugging-
+
+Dan Ivovich:        Well, I was going to come to you next to give you a chance to shamelessly plug, but go ahead and start with your shameless plug for external libraries and code, Eric.
+
+Eric Oestrich:      Yeah. Since we do a lot of different projects as a consultancy, there's a lot of code that I've just been kind of copy and pasting around from the different side projects that I've done. I've kind of figured out what I like, and then would copy it into a project, and that's just kind of bad. So instead of copying it into each project, we're starting to just kind of dump it all into a single one that's called Stein. That's S-T-E-I-N. So it's the Stein that can hold all of our Elixir, right? Dumb puns. Yeah, so this contains kind of basic user auth stuff. Just the functions that deal with the user, right? So the way I've been trying to think of this is like Devise but without Devise.
+
+Justus Eapen:       Devise without the controllers and views.
+
+Eric Oestrich:      Yep. Yeah. So it'll handle dealing with password resets, dealing with verifying an email, but then kind of actually sending the emails up to you, actually make the views for password reset is all up to you. So this is just like the change sets type of thing, and the basic logic around like, "I have a token. Is this expired? No. Okay. Then go ahead and update."
+
+Justus Eapen:       Yeah, I think that's been one of the rewarding things for us as a consultancy, pulling in this new language, is that giving the team some professional development time to work on these side projects that you guys have, and kind of learn some best practices. And then take that code, make it open source, and then be able to pull it in for the benefit of all of our projects. Certainly something that's great to do, and I'm happy to see us gathering it all together into one releasable library.
+
+Dan Ivovich:        So Eric, kind of also in this same vein as far as third party integrations, you tend to lead that effort for us a lot. I know you have some strong opinions. Did you hear any strong opinions on how to handle some of these third party integrations during your conversations?
+
+Eric Oestrich:      I don't know if there's particularly strong opinions, but I was happy to see my opinions also confirmed in that for better or worse, there's not a lot of third party libraries out there to talk to these different APIs. So you end up just taking an HTTP client and hand-rolling your own, which I personally think is the way to go. Because then that way you integrate it exactly as you need it, and then it just doesn't come with a lot of the extra stuff that you need and what not. A lot of people were doing that and just writing their own HTTP clients to remote stuff, so yeah.
+
+Dan Ivovich:        I think that speaks volumes to the strength and the fundamentals in the language, and the power of the few libraries we have for talking HTTP, and how well they integrate into the software paradigms of Elixir.
+
+Eric Oestrich:      Yeah. And I guess rolling back to the libraries one as well, we have a new HTTP library from the core team of Elixir. I think two of them started building one called Mint, which sends messages to processes in order to be an HTTP client, so that's pretty cool. I look forward to being able to play around with that one.
+
+Dan Ivovich:        Great. Justus, any stories? We kind of mentioned this earlier. Sometimes the glowing recommendation of Elixir in production was that there were no issues with Elixir in production. But anything that you took away, just as far as Elixir saving the day?
+
+Justus Eapen:       Yeah. We mentioned it earlier that the way that it saves the day is by preventing the day from having to be saved. But I will say that there were a few good stories. I want to say Ryan from ClusterTruck shared how at one point there was an issue while he was on vacation, and because the language was so easy for other developers to pick up, his colleagues had a very easy time going in and debugging the issue and resolving the issue, even without his support. I think that was an interesting story. That was that episode, right Eric?
+
+Dan Ivovich:        That sounds familiar.
+
+Justus Eapen:       I'm pretty sure it was Ryan's episode.
+
+Eric Oestrich:      Yep.
+
+Justus Eapen:       Yeah. That was an interesting story. I think that Jay from CAVA had an interesting story as well, where they ran into some issues with a missing API key or something, so I'll let folks follow up on that one if they want to hear the crisis recounted.
+
+Dan Ivovich:        Yeah. I mean, I think we love to have those stories of, "Oh, the system handled. We got slash dotted," or, "We were on the front cover of the New York Times," or whatever, and "We didn't go down. Elixir scales so well." I mean, those stories are fun and entertaining. They don't happen to most people. What's way more common is your expert's on vacation and somebody needs to dive in and do something, and the language being approachable and kind of easy to read and easy for the team to maintain, I think is a really great story around saving the day in production. Because production's running no matter who's on vacation or who's in the office.
+
+Justus Eapen:       Right.
+
+Dan Ivovich:        So that's a great story for us to have.
+
+Eric Oestrich:      I think from Ryan's episode, we called it, "Elixir solves the one bus problem."
+
+Justus Eapen:       Yeah.
+
+Dan Ivovich:        All right, Eric. OTP. Any cool OTP features besides GenServers and supervisors people using out there?
+
+Eric Oestrich:      Unfortunately, no. That's all you need.
+
+Dan Ivovich:        Well, hey. That's all right. It's nice to have what you need. Nice to know there's more there if you ever end up needing it, right?
+
+Eric Oestrich:      Yep.
+
+Dan Ivovich:        Justus, Eric, I think it's been a great journey through these episodes. I think I've learned a lot just listening, and really happy that we were able to put this all together. I think one thing that we tried to use as we wrapped up every episode, and I'll use the same thing here, looking back on these eight episodes, if you could give one tip to developers out there who might be running Elixir in production or might be doing so soon, what would that tip be, kind of thinking back over your experience to this podcast and personally? Why don't we start with you, Eric?
+
+Eric Oestrich:      I'll echo the common answer of just have fun. Give it a go. It's less scary than it seems like it should be. You can always fall back to Heroku, which is dead simple, and then work your way up to the cooler Distillery and Kubernetes much later when you need it.
+
+Dan Ivovich:        Right. And you, Justus?
+
+Justus Eapen:       All I would add to that, because that is great advice, just to get started. And what I would add is that if you need help, there's a ton of community support, so go to the Elixir Slack channel, and you'll find me there. You'll find Eric there. You'll find a ton of folks that are willing to help you with any of the issues that you're running across, especially if those issues are deployment-related. So yeah, don't be afraid to ask for help. It's a really, really welcoming community.
+
+Dan Ivovich:        Fantastic. Well, Eric, Justus, thank you so much for joining me today. Any last words?
+
+Eric Oestrich:      Sure. Go check out the SmartLogic TV Twitch Stream, every Monday at noon Eastern. Come watch some Elixir development live.
+
+Justus Eapen:       Stay on the lookout for season two.
+
+Eric Oestrich:      All right.
+
+Dan Ivovich:        Once again, this has been Smart Software with SmartLogic, talking about Elixir in production. Thank you for joining us for our first season, and we hope to see you again soon.

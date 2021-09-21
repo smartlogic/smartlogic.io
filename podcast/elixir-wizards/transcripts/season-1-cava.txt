@@ -1,0 +1,133 @@
+Justus:             Welcome to Smart Software with SmartLogic our podcast where we talk about best practices in web and mobile software development with a focus on new and emerging technologies.
+
+Justus:             My name is Justus Eapen and I'm your host today. I'm a developer here at SmartLogic, a Baltimore based consulting company that has been building custom web and mobile software applications since 2005. I'm joined by my cohost Eric Oestrich and by our special guest Jay Ashe from Cava.
+
+Justus:             Hey Jay, how are you doing?
+
+Jay:                Doing well, thanks for having me.
+
+Justus:             Super glad to have you. Jay, do you want to give us a quick overview of Cava and how Cava is using Elixir?
+
+Jay:                Sure. So, Cava is a fast casual Mediterranean restaurant with 75 stores across the U S. Elixir and Phoenix in particular power Cava's online ordering system. So, order.cava.com and our iOS and Android apps. So, we have a REST and web sockets API built with Phoenix sitting behind our React and React Native apps. And then we use Phoenix templates for some of the back of house systems, inventory managing kind of thing.
+
+Eric:               Cool. So, can you explain to us like why you decided to pick Elixir for production?
+
+Jay:                Sure. So, we have used Elixir from the start of our online ordering as long as we've had online ordering, we've been using an Elixir/Phoenix app. Originally the app was built by Chris Bell and his team at Made by Many in New York. And, so when Cava took it over, that's when we took over this Elixir and Phoenix infrastructure. Chris, a great talk from ElixirConf for 2016 I think that goes into some of the architecture and the initial build. So, if you're interested in that and like how we use Elixir's language constructs to model some of our business logic, he does a great job of describing it there, but since it was delivered to us as a Phoenix project, that's what we've had in the entire time we've been in production.
+
+Justus:             And, we can link to that in the show notes.
+
+Eric:               Yeah, that was just, I was just finding that. All right. So, what are some of the high level advantages or disadvantages of Elixir from your perspective?
+
+Jay:                So, probably my favorite advantage of Elixir in production is that you get this kind of Ruby on Rails-esque productivity and developer experience, but it scales in a way that you might not see from Ruby on Rails. I think a good example of this is like web sockets and building real time experiences for the web. If you're doing it with an, I'm not a professional Rails developer, so you know you guys can take over if you want. But, from some of the research I've done, I mean Phoenix is well documented to do web sockets, high numbers of clients, high numbers of connections, really without blinking. And, one of the best ways to do it in Rails from what I've seen actually involves dropping into Erlang to handle some of the real time aspects of it. And, then you just start to build up this complex infrastructure and with Elixir, it all just kind of works and we have seen that in our production experience.
+
+Jay:                In terms of disadvantages, I think hiring and onboarding, depending on your mindset can be more difficult. Elixir's, a younger language, it's a little more niche. So, it's a lot harder to hire for that kind of experience. So, instead what you end up doing, at least in our experience as hiring for people who are interested in learning and then teaching them through the onboarding process how to be productive in Elixir. One thing that's worked really well for us in this space is that this past weekend was Lonestar Elixir in Texas and one of our new developers, she's been with Cava for maybe eight weeks at this point, got to go down and do Bruce Tate's training, the OTP sandbox training and that was like the perfect timing in her Elixir onboarding, to spend a full day, you know, getting kind of intensive onboarding and that fit really well with our onboarding process.
+
+Jay:                So, as the language and community gets bigger, that might be, these external trainings might be something that we can leverage a little more to make up for that.
+
+Justus:             That's awesome. We actually met them while we were down there and were really happy to have them join us for happy hour after the conference. Do we want to move on to some of these system level hosting type questions, Eric?
+
+Eric:               Yeah. So, our first one is what do you use to host these Elixir apps?
+
+Jay:                Our app is on Heroku, so everything just goes right to Heroku for production. Pretty straight forward for us.
+
+Eric:               Cool. So, is that just the like mix phx.server?
+
+Jay:                Yeah, so the Heroku build packs for Elixir, just runs mix phx.server to spin it up. So, we're not using, you know, distillery releases, anything like that. Right now our team is pretty small and this works pretty well for us. There's a certain aspect of set it and forget it with Heroku that we really like.
+
+Eric:               Yeah. If it works, why bother going more complicated.
+
+Jay:                Yeah. And, you know we might not be on Heroku forever, but for right now it lets us focus on building the app for our customers, especially with, you know, a smaller team.
+
+Eric:               Cool. Are you able to get zero downtime deploys?
+
+Jay:                Pretty close. The way Heroku works, it just waits until the new app is spun up before starting to push traffic to it. A lot of our app or parts of our app use Phoenix channels and the JavaScript side of Phoenix channels handles the reconnection when it loses a connection and it does so in a way that's pretty seamless for our customers or users. So, rarely if ever, have we seen an issue with downtime around deploys.
+
+Eric:               Do you cluster the application at all?
+
+Jay:                Not right now. Our load on our single Heroku node is not enough to justify clustering yet.
+
+Eric:               Okay. So, it's a single dyno right now?
+
+Jay:                It is a single dyno.
+
+Eric:               That's a pretty incredible like I cannot imagine doing that on a Rails app.
+
+Jay:                Yeah. That's my understanding is that, you know, it's something I don't even, I haven't even had to learn with Heroku is how to go multi node that way.
+
+Eric:               Yeah. It's like the first thing you do is, is you start with a at least a two x on Rails and then you go do I want like two, three. So, that's awesome. Do you have any information on like how this compares to other applications in any kind of, I don't know, I guess you might all be Elixir and Phoenix, but just in case.
+
+Jay:                Yeah, so we run a single application, a single Elixir and Phoenix application in production. So, in terms of at Cava, I don't have anything to benchmark it against. Comparisons to my previous experiences, my back end is Java, so I was doing a lot of Java micro service — Sorry, my background is Java. So, I was doing Java, microservice development Elixir and Phoenix are at least as performant if not more so.
+
+Justus:             So, maybe we want to talk a little bit about your background task processing. How are you solving that right now, Jay?
+
+Jay:                Yeah, a lot of our business logic operations can be done asynchronously. So, this is another benefit of Elixir is that there's a lot of complexity that we can kind of hide from the customer in terms of how long it takes to talk to certain integrations. So, we have a lot of these tasks. Anything possible is on GenServers. We have a few different cron jobs that we use Quantum for, stuff that runs every night. But, when in doubt, when we can, we just put something on the GenServer so that we can kind of take the load off of the thread that's processing the customer's interactions.
+
+Eric:               Awesome. So, we mentioned Quantum there. Are there any other libraries that you're using outside of the like Phoenix/Ecto staple?
+
+Jay:                Yeah, there are a few. Phoenix Swagger's one that we've been working with a lot lately. We use it for API documentation, so making sure that it lets you write swagger that in an Elixir domain specific language. So, it looks like Elixir but it compiles to Swagger, this API documentation format, and then it has a few different tools kind of bundled into it. One of them lets you host your documentation alongside your API, which is nice. And, then another one, it provides these test helpers so that you can run your tests against your documentation, run your controller tests really easily, just like a couple of lines of code to drop in to verify that the response that your controllers are returning matches what you're saying it does in your documentation, which is cool.
+
+Jay:                We're using ExRated for rate limiting calls to some external integrations, which I think is just an ets table under the hood, Timex and calendar for date/time support with time zones. You know we're across the US, East coast to West coast. We're in four different time zones, so we have to have that functionality implemented. Hopefully at some point we'll be able to take in and start using some of the more native support for time zones, but we're not quite there yet.
+
+Jay:                HTTPotion and HTTPoison for HTTP clients. I'm interested in trying Mint, the new kind of process lists architecture for HTTP clients, but you know, haven't gotten there yet. And, then Bamboo for transactional emails, order confirmations, that kind of thing because the writing the templates in the same format that we can for our Phoenix templates is a pretty nice.
+
+Eric:               Yeah, we use Bamboo as well. I guess. Rolling back a bit to Mint. Yeah, I'm interested in trying that one as well. And, there's also I guess, I dunno, side library or whatever, sidecar library, something like that called Mojito that is I think, supposed to look more like your typical HTTP client. So, like HTTPoison where it kind of comes with its own a worker pool and all that. So, that's another one to look out for, Mojito.
+
+Jay:                Cool.
+
+Eric:               So, do you use any third party services or have you had any troubles integrating them at all or anything like that?
+
+Jay:                So, we use SendGrid for email, Google for geo coding, Slack for some internal alerting of application health, LevelUp for payments. LevelUp is a provider that's big in the fast casual space. If you ever pay with the QR code at a restaurant, there's a good chance that LevelUp is powering that. And, they power our eCommerce payments as well. In terms of integrations that we've had trouble with, I mean nothing really. I listened to Dan's episode of this podcast a few days ago and he was talking about rolling SmartLogic, rolling your own API clients. And, I'm definitely on the same page as Dan there. I think that, you know, using the, the primitives, the language constructs rather than using someone else's thoughts of like, I dunno, a Slack integration or something like that I think works pretty well for us.
+
+Eric:               Yeah, I'll continue to echo that. I guess again. Yeah, I think it's massively solves any kind of integration pain you might have if you write it from scratch because then know exactly what it needs to do.
+
+Justus:             So, moving onto our last set of questions, Jay, do you have a story where Elixir has saved the day for you guys in production?
+
+Jay:                Yes. Yes and no. It started out saving the day, well, I'll just get into it, this actually was with an integration. So, one day at lunch our application started going down. Lunch is are our biggest time of the day. So, this is, you know, full panic mode, 500 errors, red lights flashing. So, you know, because lunch is our biggest load, we assumed it was load related and we really need to fix it because we want to keep, you know, making sure customers can order their bowls. None of our traditional resources, like you know, our Heroku was doing fine because Phoenix can totally handle our load. So, that was out. Our database was healthy. So, it didn't seem to be like we were looking at traditional metrics for load and it didn't seem to be related to that but so we, you know, we went to the logs, our logs were littered with like areas from an analytics integration, something we're no longer using.
+
+Jay:                But, we are sending a lot of our interactions when people log in and when people order to a third party so that our marketing team can make use of it. And, we are seeing these logs, these errors from that integration in the logs and, but it didn't seem relevant. One because we were seeing the errors when, not just during lunch, but we are also seeing them during other times of the day when our app was otherwise healthy. And, you know, because we thought that we could see the errors from other times of the day and it wasn't an integration that was a show stopper. We were like "let's just ignore those errors. They're probably irrelevant." That's foreshadowing. That definitely ended up being relevant. So, I spent some time looking at web sockets because I had started at Cava kind of recently, and there are some claims that maybe web sockets or our implementation of channels was at fault, but I was easily able to match the load of the number of clients that we had connected when I was running app locally, not even on the Heroku box, so that seemed like it was out.
+
+Jay:                So, at this point it's been going on every day for a few days at lunch. And, I was kind of getting annoyed at seeing this log, these logs from this analytics integration. And, the way the integration worked was it was on a GenServer because it was analytics, not stuff that we had to do synchronously. So, we were, you know, in the course of these client interactions, we are sending things to the GenServer, descend to the analytics integration, which meant that the clients weren't, the customers weren't seeing the failures to this other integration, which is how the Elixir and GenServers kind of saved the day. You know, this other thing in its own sandbox and its own silo was failing and that didn't take down the whole app until it did.
+
+Jay:                So, I ended up fixing the issue. It was a bad API key. I found the new one, I threw it in there, restarted it. I was sure that that was going to be irrelevant, but it would at least get it out of the logs. And, then I restarted the app and everything was healthy, which was arguably more confusing at the time because it seemed so irrelevant.
+
+Jay:                What we ended up finding out is that this was something I wasn't aware of at the time. Supervisors have a max restart capacity attached to them. So, basically says that if a process that you're supervising fails — what is it more than three times in five seconds, by default — OTP won't restart that process. So, what that meant was that if the process doesn't get restarted, any process that's calling that now-down process would also fail. And, so customers started getting impacted by the failures. But, we only saw it at lunch because that was the only time that our load was high enough to hit that max restart threshold of three failures in five seconds.
+
+Jay:                So, you know, a few takeaways here. Supervsion tree vented failures from time. This was something that had been happening for at least a week prior to when we started seeing these failures at lunch and they were completely hidden from the customers and unfortunately also hidden from us. Our supervision tree definitely needed some love, so we needed to, there's more we could do there. And, then we also do more in terms of like monitoring our resources, you know, CPU, database, those were like the traditional resources, but calls to an API are also a resource and when that's not healthy, your app might not be healthy too.
+
+Justus:             So, how long was service disrupted for your customers? At the end of the day?
+
+Jay:                I think it was like everyday at lunch for a week or something like that, which is definitely noticeable. You, you know, you start to feel the eyes on you when you're struggling every day at lunch and you're trying to sell lunch.
+
+Eric:               I guess one other thing that I want to mention about that process restart. There's also a chance iff your, if that process restarts too often the supervisor will restart and if that, so I don't think you hit this in that case, but if something reads, if the process restarts too much, it'll bubble up to the supervisor. If that supervisor then tries to restart a process that continues to crash, the supervisor itself will hit the restart the three and five seconds. And, so a bad process can eventually bubble all the way up to the your top of your application and then just kill the whole thing. So, that's something to be aware of and properly constructed supervision trees are definitely a savior in this case.
+
+Jay:                Yeah, definitely.
+
+Eric:               Cool. So, we kind of, I guess I already mentioned some cool OTP features, but what else is out there that you might be using?
+
+Jay:                Well, yeah, I mean we got into the big one for us is GenServers. Pretty much everywhere where we can, some places will model it by like a process per store. I was listening to the interview you did with Ryan Billingsley from ClusterTruck and he was talking about modeling like a process per truck. We are doing that. It's like a process per store in places where we can, which is great because it means failures with one store. Like if we're having trouble getting an order to the store won't affect any of the others, which is pretty cool. And, kind of an Elixir specific way to model that process. Other than that, I mean we're not multi-node so we're not using some of those features and we have supervision trees built up around our GenServers where we can, although as I just said, not every supervision tree is built exactly correctly.
+
+Eric:               But, now you know.
+
+Jay:                Now we know. Yeah.
+
+Eric:               So, I guess our last question, if you could give one tip to developers out there who are, or may be soon running Elixir in production, what would it be?
+
+Jay:                I touched on this earlier a little bit, but if you're a small team, definitely go for Elixir. Definitely give it a try. Your productivity, your developer experience will be great but don't sleep on Heroku. There are some really cool deployment tools out there in the Elixir ecosystem with Distillery 2.0 and some of the other innovations there, but the value you get from Heroku in terms of being able to set it and forget it and not have to worry about managing your releases and your infrastructure is, it's pretty great in my opinion.
+
+Jay:                So, definitely check that out. I think there's another tool and Elixir specific one called a Gigalixir. I don't know a ton about it, but it seems cool and if it has features that are focused a little more on the Elixir ecosystem, that might be a nice to use too.
+
+Eric:               Yeah. I know a friend at a local meetup who's used it and has spoken well of Gigalixir, so, yeah. Cool.
+
+Justus:             Awesome. That is a great piece of advice to part with. Before we let you go, do you want to, you know, plug, make any final plugs or requests to the audience, where can they find you to learn more about Cava or anything that you're working on?
+
+Eric:               Yeah, sure. So, I'm on Twitter. I'm @J-G-A-S-H-E on Twitter.
+
+Justus:             Rock and roll.
+
+Justus:             Well, everybody, that's been another episode of Smart Software with SmartLogic.
+
+Justus:             Thank you so much, Jay, for your time.
+
+Justus:             Eric Oestrich is my cohost.
+
+Justus:             I am Justice Eapen, and until next time it's been real.

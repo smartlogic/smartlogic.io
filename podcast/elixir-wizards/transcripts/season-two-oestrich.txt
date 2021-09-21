@@ -1,0 +1,344 @@
+[INTRODUCTION]
+
+
+[0:00:05.1] JE: Welcome to Smart Software with SmartLogic; a podcast where we talk about best practices and web and mobile software development, with a focus on new and emerging technologies. My name is Justus Eapen and I’m your host today. I’m a developer here at SmartLogic, both homebased, consulting company that has been building custom web and mobile applications since 2005.
+
+
+This season on Smart Software Season 2, we are focused on the inner workings of Elixir and the inner workings of popular Elixir libraries, or Elixir internals. Today, I have the pleasure of interviewing my colleague, Eric Oestrich who's responsible for the wildly successful Elixir MUD framework ExVenture. Eric, could you introduce yourself and tell us a little bit about your background, SmartLogic and how you got started with Elixir?
+
+
+[0:00:57.1] EO: I guess, I got started with Elixir after we had another co-worker that was interested in it. We did a small project that should it fail, we could rewrite in Ruby. It was a two-week project.
+
+
+[0:01:11.1] JE: Thank God, it succeed.
+
+
+[0:01:12.2] EO: Yeah. It succeeded well. Still running on some tiny Heroku dyno somewhere, as far as I know, without any intervention from us required. Then that went so well. We started our next big project in Elixir that was handed to me. The rest is history. Started learning Ecto, getting excited about pattern matching, all that fun stuff. Then about what, eight months later after that project started, more curious about OTP stuff and how to learn that. Yeah, I started poking that ranch to see how that was working, got something set up and then I got a listener going, which is what they call a listening protocol. ExVenture spun out of that and the grapevine came out of that, just all kinds of tiny libraries and applications and whatnot.
+
+
+I guess our company, we've been doing – I think we've only had one rails new since that first project, and that was mostly because we weren't sure that we should hoist Elixir on a possibly another team taking over since we weren't – that was within the first year at that point. It turns out, we were still that team and we probably should have just left with Elixir, but whatever.
+
+
+[0:02:37.9] JE: Before we move on to the other questions we have here, I want to hear a little bit about the success that you’ve had. Since starting with Elixir, you’ve spoken at a number of conferences. Can you talk a little bit about success of ExVenture and your speaking career, getting started here?
+
+
+[0:02:56.0] EO: That's all from ExVenture spun up as a way to learn Elixir internals, right? I push to places that you wouldn't take a client application. Someone is paying you consultancy rates, you don't want to just go charging into the wild and then being like, “I hope this works.” Yeah, it’s a nice little side project that has for better or worse, taken out of my life. Yeah, it's played around with specifically, the path that led me to speaking was really wanted to play around with the distribution, like Erlang distribution and figuring out how hard it was to take an application that was very set up to be a single node.
+
+
+I was using Elixir registry, which is in the docs, it says this was a single node, right? You have to restructure how you’re registering the global processes, how you're handling cash and whatnot, like figuring out how hard it was to get a single node, be two nodes, be three nodes, be however many nodes you want. That took about an evening, which is pretty great.
+
+
+Then it took a total of a week to have something set up that had a leader node that then span across a cluster, etc. Most of that was reading a wrapped paper and learning how it was doing in leader selection and then writing a library that did that. Within the first four hours, I had something that was working in someone now. That sounds really cool. I think that was –
+
+
+[0:04:29.8] JE: That was the subject of your first ElixirConf talk. You since spoken at The Big Elixir.
+
+
+[0:04:36.2] EO: Yeah. The Big Elixir was the same talk. Then the most recent one was Lonestar Elixir, which was about Prometheus metrics, which was the next big thing of New Relic went pay-only and they killed their server offering the free version, which is typically good enough for most of our clients. We just want to know when something happens and then we'll see the e-mail and within the next day or so, whatever the free window was, we would take a look at it and inspect it and whatnot.
+
+
+We've looked at Prometheus prior to New Relic doing this thing, and so we decided to swing back around to it that looked to be the best one, this within the last year. Being in Go is pretty nice and it were in Elixir. Being able to just download the binary and just run it is pretty great.
+
+
+[0:05:26.4] JE: It's interesting to me that the seasons of the podcasts that we're doing mirrors your own experience of learning Elixir. Initially, you got started by working on applications that you had to push into production, because of their client work and then you wanted to learn more, so you dove into internals of Elixir and OTP, in order to build your own libraries and framework. ExVenture has become extremely popular. You have 400 plus stars on github. Can you talk a little bit about ExVenture and your how you got started writing that library, what it is, what a MUD is, for people who don't know?
+
+
+[0:06:00.3] EO: Yeah. ExVenture as I like to say, it's not a MUD, it's a massively multiplayer online text game. It's like World of Warcraft, or EverQuest, except if you took all the graphics and then delete it. Everything is described through text. You wander around. You type in commands and then the game gives you the response in terms of an output. If I move to a new place, that will describe that place, tell you where you can go, what's in that room, who else might be in that room and whatnot.
+
+
+Go explore and the graphics are as strong as your imagination, right? If you have a pretty good imagination, if you like doing dungeons with dragons, tabletop stuff, then you can – this is also probably something you might be interested in.
+
+
+I've always wanted to mess around with those, try a few failed starts on Ruby. I could never figure out the concurrency model and which is funny. I was playing around with celluloid at that time, which I have now found out it's Erlang hoisted into Ruby, because it has it has supervision trees, it's got actor processes going –
+
+
+[0:07:11.0] JE: It’s not Erlang. It’s like a port –
+
+
+[0:07:13.0] EO: Yeah, yeah, yeah. It’s a port of the supervision tree and actor model.
+
+
+[0:07:18.7] JE: What is that quote that we like to reference all the time about any – sufficiently complex distributed system, duplicates all the features of [inaudible 0:07:25.6]?
+
+
+[0:07:26.9] EO: It’s Robert Virding’s one of the creator of Erlang’s first rule programming. Any sufficiently complicated concurrent program in another language contains an ad hoc and formally specified bug-ridden, slow implementation of half of Erlang.
+
+
+[0:07:40.0] JE: Which is what celluloid is.
+
+
+[0:07:41.3] EO: Yup. No disrespect to celluloid of course.
+
+
+[0:07:48.1] JE: No. I still use Ruby every day. I love Ruby. It's great. We're talking about Elixir and we’re talking ExVenture. ExVenture it's a massively multiplayer online text game, MUDS, or multi-user dungeons, which is shorthand for this whole genre of text-based games, is it fair to say they're having a renaissance?
+
+
+[0:08:10.9] EO: I would like to say so, given that I'm so heavily involved in it. Yeah, I think there's a number of games that have been stagnant for the last 10 to 15 years that are being rediscovered as the people who played these in the 90s up in college, like their kids are not grown up and they have free time again. They're starting to be more re-involved in the games that they're playing. Yeah, I think there's a decent amount of revival in the space. Yeah.
+
+
+[0:08:41.9] JE: Very cool. Now take me through the story of ExVenture from the top, maybe focusing on the biggest hurdles that you had to overcome as you were getting started, and then once it was in production. Tell me about the genesis of this, the difficulties that you faced.
+
+
+[0:08:59.8] EO: Yes. ExVenture started, I was at a Barnes & Noble. I think I had PD times, I was like, “Oh, just go out and work at a cafe or something.” I was figuring out how the ranches, cowboys, TCP acceptor. Figuring out how they're called protocols, how when a new connection comes, in ranch spins up a separate process that runs your module. Figuring out how that starts, which is actually you need to start it as a special process that then kicks into a gen server, which is a little wonky. I did a blog post on that. Then I was like, “Oh, this is a MUD server almost.” I've always been interested in that, like keep going for the next week or so.
+
+
+[0:09:42.2] JE: You built the thing and that's inspired –
+
+
+[0:09:43.6] EO: Yup. Then so after that, it was determined to adding simple login. Users became a thing.
+
+
+[0:09:53.8] JE: Did you use any libraries for authentication at this point, or did you just do that yourself?
+[0:09:57.7] EO: No, no. It was altered telnet at this point, so it's wildly insecure.
+
+
+[0:10:02.6] JE: Still?
+
+
+[0:10:03.3] EO: Not anymore.
+
+
+[0:10:03.9] JE: Okay, but in that point it was. Okay.
+
+
+[0:10:05.6] EO: Sending your passwords through clear text on telnet is the norm, for better or worse.
+
+
+[0:10:11.8] JE: I'm a total idiot. What is telnet?
+
+
+[0:10:13.7] EO: Telnet is the thing that existed before SSH. Almost exactly what you type is sent over the wire, no compression. Well yeah, no compression, no encryption, no nothing. What you type, everyone sees.
+
+
+[0:10:27.2] JE: This was an Internet protocol prior to SSH.
+
+
+[0:10:31.3] EO: Up until sometime in the mid-90s, I think.
+
+
+[0:10:34.2] JE: These things never go. Once they're made, they never go away, right? Because it's just a way – it's a protocol of communication. Okay. Then some creative TCP connector, you have an echo server built, you've got new clients, logins, then you start building game features. What does that look like to you?
+
+
+[0:10:50.9] EO: I think it started out as just being able to see who's online. Figuring out the Elixir registry. When you sign in, it registers your player process into the registry, so I have to type who. You could see who else is – you pull the whole list, remove yourself from it and then display it.
+
+
+[0:11:09.9] JE: Every user has their own process?
+
+
+[0:11:11.0] EO: Yup.
+
+
+[0:11:12.1] JE: Okay. Then you've got game features, like you're able to move?
+
+
+[0:11:18.4] EO: Yup.
+
+
+[0:11:19.3] JE: Well, how do those work?
+
+
+[0:11:20.8] EO: I guess, the next thing was probably doing the movement. That required a world to move in. I had a world supervisor that supervised zones. Zones are like a city type of thing. It's a wide area, in terms of game space. Then under that, it hosts all of the rooms inside that zone, as well as any NPCs, so non-player characters.
+
+
+[0:11:45.3] JE: Again, I'm a complete idiot. I don't know anything. What do you mean by supervisor? What is a supervisor?
+
+
+[0:11:51.4] EO: This is the Erlang supervisor. It's how everything is – typically every process is underneath the Erlang supervision tree. When your application boots, it has an application controller, which starts your main application supervisor, which then spins out all of its – all the supervisors under it. It could be a Phoenix application that runs underneath your Erlang application, that is then there's an endpoint, there's the Phoenix pub/sub, all that stuff is hanging underneath the Phoenix app.
+
+
+Then Ecto has its own supervisor. What the supervisor does is notice when a process dies, has a restart rules to it. If one process dies, it may just restart that process. If one process dies, it may restart all of them.
+
+
+[0:12:37.9] JE: How did you – as you're beginning to architect this and you're coming from a Rails background, or you don't have to think about that at all, how did you think about what are the questions that you ask yourself when you're deciding, “Do I spin up a new process to do this? Lay the supervision tree?” What questions do you ask yourself and how do you decide when it's the right time to spin up a new process, is it always during times like – Yeah.
+
+
+[0:13:02.0] EO: That's something that will change throughout your life as an Elixirist. I think at that point, everything should be a process, processes for as much as I possibly can, send messages around. That slowly changed throughout my careers and as an Elixir developer. It's whatever feels right, it’s probably right. I don’t know. It's like a really loose word. Loose a little bit.
+
+
+[0:13:29.0] JE: I guess, I'm just thinking, from my perspective as someone who's a lot more of a novice, I'm never thinking about my gosh, it’s been the process, unless it's something that's like a background task that's clearly okay, some kind of background task for this.
+
+
+[0:13:42.9] EO: Yeah. That can get you 95% of the way for just doing Phoenix, because Phoenix can serve the stateless Rails-like application without caring about any of the TP stuff, which is it's pretty great. When you start wanting a process is when you want stateful stuff, right? The TCP connection to the game is very stateful, because that cannot drop. If it drops, it's a new session, like you're logged out. There's no stateless things in the telnet connection. When someone connects, you want to process that is then somehow. That's a good time to do one background task. It’s a good time. If you're doing e-mails, the typical thing that you do with side kick of sending it through there, that's a good thing to boot out of your Phoenix process.
+
+
+If there's a complicated task that doesn't happen, that you can send a message to a gen server, which kicks off, maybe it fans out to a bunch of other processes and it bounces around and whatnot. A former text broad way should help with that as well for –
+
+
+[0:14:54.0] JE: What is broad way?
+
+
+[0:14:55.5] EO: Broad way was from, I think the Lonestar Elixir’s run it around that time. At least, it was announced. I didn't look too much into it, but it is a way – it's a way to do producer-consumer stuff, so the gen stage, but more managed for you. It does the supervision trees and whatnot for you, so you don't have to think too much about it.
+
+
+[0:15:20.3] JE: Maybe that's something we'll talk to Jose about in his episode of Season 2. I want to move on. At this point, we've talked about you got your commands, like move and stay, etc. We’ve talked a little bit about zones, worms in the world management. I'm sure that you also had some frontend things that you had it, but I do want to – I want to maybe back up a little bit, because at some point, you started extracting a framework for this application that you're building. What was that like? How did you know when it was time to do that? Tell us about some of the pieces that you've extracted from ExVenture that have become libraries under there?
+
+
+[0:15:56.0] EO: Yeah. The first thing that came out was from ElixirConf  talk going multi-node. I pulled out the raft library. That's called swable. It's a silly name. It doesn't matter which node is the leader, as long as one of them is. That's the whole point behind it. It's simple leader election as a callback set of stuff for it that if you're picked a leader, you'll get the module called, so you can do whatever you want when that happens. I think that’s the only thing that's been pulled directly out of ExVenture. There's been a few other things that have been pulled out of then gossip, now grapevine. I had a Elixir client for gossip.
+
+
+[0:16:38.1] JE: What is a grapevine and gossip?
+
+
+[0:16:39.4] EO: Yeah, so gossip was a chat network for a bunch of MUDs to span their communication networks across everyone.
+
+
+[0:16:47.2] JE: I can play one game and talk to a friend that’s playing another game.
+
+
+[0:16:49.9] EO: Yup. Yeah.
+
+
+[0:16:50.7] JE: Which had never been done before.
+
+
+[0:16:52.5] EO: It hasn’t  been done before, but it was through as typical in MUD land, up until recently, it's all insecure traffic between – It was called the inner MUD network, or the I3 network. There’s a few names for it. They had routers. You would connect up to a router and then they would connect between each other, so it's a little mesh network, which is very cool. It was through just standard TCP connections with no packets being sent back and forth, but there's no encryption on it, which is not good this day and age.
+
+
+[0:17:28.4] JE: With gossip, you've created encrypted – 
+
+
+[0:17:31.3] EO: Yeah. It uses secure WebSockets, WSS. It is from your server up to there, it's an encrypted tunnel. Then it's all in the same server and it gets blasted out through another encrypted tunnel back to the other server. At least, between each everyone, it's encrypted. Over the wire, it's decrypted.
+
+
+[0:17:52.6] JE: How many games are a part of the gossip network? Or is it still called gossip, or they changed it?
+
+
+[0:17:58.9] EO: It got rebranded to be called grapevine.
+
+
+[0:18:01.1] JE: Which is a better name for this.
+
+
+[0:18:03.0] EO: Yeah. There is a weird story. Gossip started and then I started grapevine, which was actually a consumer of gossip that had a superpower WebSocket, which was really cool to do, where it did update something on gossip. Then instantly, it's on grapevine through Phoenix pub/sub internally of grapevine and then it gets pushed out across the WebSocket over the grapevine and it has a little callback that does whatever. Redoing a synchronization like this.
+
+
+Anyways, so that was confusing to people at rightfully so. They got merged together. The grapevine name went out and now it's all – it’s just the same map. Grapevine was like a Xbox Live/Steam type thing, where you could eventually have achievements for the game. You could see each other's profiles and have a single place to who you are and see where you're playing and whatnot. It sends, also pulled in a web client so you can play these games on telnet without using telnet, or knowing that tree will be using telnet was pretty cool. Fair out the questions.
+
+
+[0:19:10.3] JE: No. It was about grapevine and I think you answered it. I want to back up a little bit now, because we’re on the last 10 minutes or so. I want to hear commands, or what was the first feature that you really build as far as game-specific feature in ExVenture. I want to know, because I've seen your implementation of commands evolved since you've initially built it. It makes heavy use of one of Elixir’s core language features, or just pattern matching. Can you talk a little bit about pattern matching and what it is, why it's valuable, why it's an application killer, as far as Ruby versus Elixir? Talk about that a little bit.
+
+
+[0:19:46.9] EO: The way that pattern matching works is at least I’ll have them set up. I have a newer implementation as well, so I mean, I would describe both of them. The V1, which is currently in ExVenture now, there is a known list of modules that are our command, right? Each one of those commands has a deaf parse on it with a single argument, I think to now for a context. The main point is the string that you type in is tasked directly into the first argument of these parse functions. It's literally pattern matching on the string, like move north. If that matches exactly through the pattern matching, then it catches that function and returns a tuple that explains what the hell to do into the run function down below.
+
+
+Yeah, it takes your string. Then I think it does an enum find across all the commands that it has the first – that's an ordered list roughly, like the ones you're more likely to do, or at the top of an ordered list and then the rest are just alphabetical. Movement is number one. Number two is probably global communication stuff and then rest are just down below. It loops across all of them, tries to find one. If it finds one, then that module will parse itself however it needs it, returns saying that's like, “Here's how you run me part.” If it’s found one, it runs it.
+
+
+The V2 is a new test library, or a new test server that I've been playing around with it, is heavily inspired through Phoenix. There's a command router. Some said of like, get post-put, those matches its command and then the string it's looking for with variables in it, the same parameter calling matches. That one’s actually a reg X.
+
+
+[0:21:35.7] JE: Why is that preferable to just dynamically loading up all the command modules and searching through them?
+
+
+[0:21:42.3] EO: The reason I went with I guess both approaches, the command router specifically, I wanted a way to the first version, everything is just under def run. I'm like, whatever the parse thing was with them and then state. That feels sloppy, I guess as it's gotten as big as it is, because everything is it's just def run. Def run this thing, that pattern matches 12 times the same module. It’s its own problem, but this way the V2, the command router, I wanted it, so that you would say, it looks a lot more like what a controller or Phoenix would be. It’s like the index for example would be date. If you just type in help, it'll call the module help.base. If you just type you want a specific topic, it'll call help.topic with whatever the parse parameters are. It feels more clean, I guess.
+
+
+[0:22:37.3] JE: Definitely easier to understand from a eligibility standpoint. Okay, now we are on our last set of questions here. I want to know about what features of OTP you've gotten to integrate into ExVenture, to all the libraries surrounding ExVenture. Talk about what are the features you've used, what you use them for.
+
+
+[0:22:57.5] EO: We’ve already about distributed Erlang. Before that, I'd done caching. That's the Erlang term storage GTS. Figuring that out, figuring how you can insert lookup, do easy caching and then – so you have distributed Erlang enters, they have to figure out process groups, so that's PG2. That's the way that each node can, or I guess you can do process groups locally too. It's each processes like, “Oh, I'm part of the world. I'm part of the processes that care about world leader selection.”
+
+
+[0:23:35.8] JE: How is this distinct from supervision trees?
+
+
+[0:23:38.3] EO: You host a PG2, or there is a single PG2 process, I think at least – yeah, I think there's a single one on each node. Then each process registers that it cares about a specific group. It's separate from that supervision.
+
+
+[0:23:54.1] JE: If I'm imagining a supervised retrieve, which is basically a monophyletic tree and then you got process groups that can expand across that?
+
+
+[0:24:03.3] EO: Yeah. Cross and up and down.
+
+
+[0:24:06.6] JE: If you've got the Tree of Life, you've got dogs and cats and treat them like trees, or parts of the tree, you got pet spans across. Okay. That's PG.
+
+
+[0:24:16.8] EO: Yeah, so PG2. If we're going with the pets example. You have a bunch of pet processes. Then onto the side, you might have a –
+
+
+[0:24:25.6] JE: You’ve got dogs on one side of the tree and cats on the other.
+
+
+[0:24:27.8] EO: Yeah. Then in the middle, you have a person who carries, like a pet owner, right? They would be able to say, “Hey, process groups. Tell me all of my pets. I don’t care where they are on the tree, but they have registered themselves to this group that I care about. Maybe you can send messages to all of them.” Can be used for pub/sub.
+
+
+[0:24:48.6] JE: A hierarchy independent bringing of the process. Okay, I got it. We've talked a little bit about ETS caching, we’ve talked about PG2 for a process grouping, we talked about Phoenix pub/sub, some of the Erlang distribution stuff that you've done. What else as far as RGP features?
+
+
+[0:25:05.1] EO: One of the cooler things was I played around with leks and yak.
+
+
+[0:25:09.1] JE: Leks and yak. Okay.
+
+
+[0:25:10.9] EO: It’s leks and yak are the before Erlang version of these. These are a way to write BNF grammar, count –
+
+
+[0:25:19.8] JE: BNF gram?
+
+
+[0:25:22.6] EO: I think it’s Backus-Naur form is what that’s called.
+
+
+[0:25:25.6] JE: Okay. I have no idea what you’re talking about.
+
+
+[0:25:27.5] EO: It doesn’t matter. It’s a way to tokenize a language. Think BNF is for parsing, instead of leksing. There's two stages, right? You leks everything. When you take a file, or a stream of characters and then you look at each character, you say like, “What the hell is this?” Then you give it a term and move on. It just tokenizes everything. It turns your just characters into known things. If there's a curly bracket, we’ll say like left curly bracket characters, right curly bracket.
+
+
+[0:26:03.0] JE: Is this related to the ASD, or –
+
+
+[0:26:05.4] EO: Sort of.
+
+
+[0:26:07.4] JE: More concept, but not related?
+
+
+[0:26:09.2] EO: Yeah. This is turning straight text into an ASD. There's a leksing and a parsing stage. Leks is the leksing and yak is the parsing.
+
+
+[0:26:18.2] JE: What we're using this for and –
+
+
+[0:26:19.7] EO: There's an internal definition language that is loosely HTML, as a way of can tag things as like, this is a person, this is an item, this is a room, whatever. Originally started as a way to semantically color things, so you would know that this piece of text is a person, this piece of text is an object, whatever. On the layout –
+
+
+[0:26:44.3] JE: It’s based on pattern matching, it's not smart in any way.
+
+
+[0:26:47.2] EO: Yeah. You would manually tag it as this is a  person, this is an item, etc. Later on, there's a way you could drop in the ID for an item and that filter out to the tag version of itself and its name. It's a little more complex than the original. Anyways, the reason I wanted semantic tagging was that it will color the text on the way out to the telnet streams.
+
+
+Because it's semantically tagged, then you can say like, “I want all the people names, anything that's tagged as a person to come out.” Maybe the default, I think is blue, any person is blue, but maybe I can't see blue, or I don't like the color blue, whatever, so you can change it to a different color. That lets the game easily know that instead of to say like, “Well, if I see the ASCII, or the RGB values like 0 to 55-0, then I know that that's a person.”
+
+
+[0:27:49.3] JE: Got it.
+
+
+[0:27:50.3] EO: Then it says it’s curly player, curly their name, clothes.
+
+
+[0:27:55.9] JE: You can do the more of this where you could turn those in the links that link out to the player?
+
+
+[0:27:59.8] EO: Yeah. That's the other thing, stuff that you can type. If you type in help, it'll show a bunch of topics that you can do and then actually you can just click on the topic, because it's wrapped in something the command tag, and so the game knows that a command tag is something you can click and this is what to do and whatnot.
+
+
+[0:28:19.8] JE: Wow. Well Eric, that is all of our questions for today and all of our time. I want to give you an opportunity for any plugs, or asks for the audience, your social media, where people can find you, where people find your libraries, how to get involve with the projects.
+
+
+[0:28:35.2] EO: Sure. You can find ExVenture at exventure.org. Grapevine is at grapevine.haus. Haus is the German spelling. All of this on my github, it’s just Oestrich, we’ll link that. Yeah, I’m Twitter @EricOestrich.
+
+
+[0:28:52.8] JE: This is our first time doing a podcast in person.
+
+
+[0:28:56.0] EO: Yeah.
+
+
+[0:28:56.7] JE: Together. Other than the lunch outside, of course. Thank you very much, Eric, for your time here. Once again, this has been an episode of Smart Software with SmartLogic Season 2, Elixir Internals. Join us for our next episode for more conversation on Elixir Internals. Thank you all very much and have a lovely rest of your day.
+
+
+[END]

@@ -1,0 +1,474 @@
+﻿EW S6E1                Transcript
+EPISODE 1
+
+
+[INTRODUCTION]
+
+
+[00:00:06] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host today. I'm joined by my cool as a cucumber co-host, Sundi Myint and my professional as a platypus producer, Eric Oestrich.
+
+
+[00:00:22] EO: Hello.
+
+
+[00:00:24] SM: Hello there.
+
+
+[00:00:26] JE: Okay. Really glad we're on to season six. This is the premiere, the pilot, the first episode of season six. We're very excited to be launching this. Today's guest is a luminary who needs no introduction. One of the inventors of Erlang, probably the best qualified person in the world to define the word BEAM, which is what we're talking about this season. Season seven is all about BEAM magic.
+
+
+We're taking a look at what gets handled under the hood with Elixir and other languages that run on the BEAM. Talking about how much magic is the right amounts. There are a lot of strongly held opinions about this, so we're really looking forward to this season. It's going to be exciting, dramatic, hot, hot, hot. I can't wait for it. Basically, we want to dig into what is hidden by programming languages and talk about how people find varying levels of functionality and abstraction, whether it's useful, problematic, magical, and of course, the BEAM, the virtual machine.
+
+
+Great. today, we've got Robert Virding on the show. How are you?
+
+
+[00:01:26] RV: Hi, I'm fine. By the way, what have you got against platypuses?
+
+
+[00:01:30] JE: What did I say? It was a professional as a – I'm implying that platypuses are extremely professional.
+
+
+[00:01:38] RV: Okay, okay. Yeah.
+
+
+[00:01:40] JE: I just see platypus as akin to penguins, where they just seem like they're buttoned up. Together. Platypuses are party in the front part. Party in the back, I guess. I don't know.
+
+
+[00:01:52] RV: I grew up in Australia. That's why I was wondering. Right. Okay. So that’s what.
+
+
+[00:01:55] JE: Oh, you're from Australia.
+
+
+[00:01:56] RV: Originally. Well, I'm Swedish, but I grew up in Australia, because my father was working there for a Swedish company.
+
+
+[00:02:02] JE: Swedish, by way of Australia. Where are you calling in from today?
+
+
+[00:02:05] RV: Stockholm. I live and work in Stockholm now.
+
+
+[00:02:09] JE: Very nice. Very nice. Well, I think we've had other folks on the show from Stockholm before. I cannot remember who it was. We definitely had stories about Stockholm.
+
+
+[00:02:18] SM: I think Twitch stream maybe.
+
+
+[00:02:20] EO: Johanna was previously from Stockholm. She might be in London now, but maybe moved back. I don’t know.
+
+
+[00:02:27] RV: Oh, yeah. Quite a few of us here in Stockholm. Yeah.
+
+
+[00:02:30] JE: Well, Robert. We wanted to open this conversation by asking the question, what is the Erlang Rationale?
+
+
+[00:02:39] RV: The document as a whole was that I was thinking around 2000 something, 4 or 5, whatever. I realized we'd never really said why. Why we were doing things. I talked to Joe about this as well, too, Joe Armstrong. He thought a bit and he said, “No, we haven't. Have we?” There was a book out a couple of editions of people using it, products, doing anything like this, but there's no real description or saying why it looked like it does. That's why I tried to put together in the rationale to say, why is it like it is. Try and explain a bit in a way, why it looks like it does, why it does some things and doesn't do some other things as well. That was the main goal for that.
+
+
+[00:03:19] JE: Could you maybe take us through some of the highlights of the rationale?
+
+
+[00:03:25] RV: Well, I mean, some things, I mean, why is a lot of concurrency there? Why do we have processes, because that's the type of thing we were doing. We wanted things to be able to handle errors, which means for example, processes should be isolated. Because if you have processes working together with things and one process crashes, it might rule the data for another process, which you can't do. they need to be isolated in some way. Things like this came up for.
+
+
+Then we decided, we would have processes and would have data. They wouldn't mix in some sense. They’re two different sizes, both of the same thing. Then we decided, well, we want to do – we want to build fault tolerant systems and things are going to go wrong. Of course, they always do. I mean, you might need to just accept the fact things are going to go wrong. How can you build systems that can handle errors? Can detect and can handle errors? That's why that came in for. Then, there are a lot of other things that came along as well in the language, what we're discussing about.
+
+
+I mean, some things we inherited from Prolog. I mean, the original system was written as an interpreter written in Prolog. We inherited things from that. I mean, some of the syntax comes from there. A bit of people complain about the semi-colons and the capital. A variable started with capital letters, they come from Prolog and the dot, and a lot of other things as well, too. Features are in there. It also described a few other things that was going on, how we ended up doing IO, for example. This front end for. If you run Erlang, or run Elixir as well for that matter, and press Ctrl+G in the browser, it pops up into a little thing and ask you to do a command if you try that. Then if you put a question mark, you can do various commands there, it's more front-end running multiple tasks at the same time in the same system and connecting remotes and remote shells and things like this as well.
+
+
+Try to explain these things, what was going on in our heads while we were doing it. I said, I'll talk to Joe about it and we realized that Joe, Mike and me, Mike Williams, the third guy in the original group, we'd thought so much about this, that we thought all this was self-evident. Of course, it looks like this. It could not look like anything else. That's why we never wrote it down, or never wrote down the reasons for this one. The descriptions of the course and never the reasons. That's why the rationale, okay.
+
+
+[00:05:39] SM: You mentioned Joe Armstrong a few times. For our audience who maybe isn't as familiar with the origin story of Erlang, can you speak a little to who is Joe Armstrong and how that the three of you got together?
+
+
+[00:05:52] RV: Yeah. Joe Armstrong, he was a colleague, and a friend of mine as well, too. He died last year, unfortunately. We had met at Ericsson. We were working for Ericsson at the time, had a small computer science lab and we started working. We were working there. Mike was one of the people who formed the lab. I came in a year or so later, and Joe came in a year after that. We met through the computer science lab working. We were looking at – the computer science lab was looking at things like, how we can introduce new technology into Ericsson. I think that was for it.
+
+
+Amongst other things, how can we make better program, the switches they were doing. I mean, they had some very successful switches with no problems there, but quite complex to keep up and how could can we improve that? That's what eventually became Erlang, amongst other things. We met through the computer science lab.
+
+
+[00:06:42] SM: We've heard a lot of the legend of Joe Armstrong. Is there any fun story that maybe hasn't come up yet in any talks yet that you want to share?
+
+
+[00:06:52] RV: I don’t know. We were always arguing. I mean, Joe, Mike and I were always arguing about things. I mean, it wasn't a very nice, smooth path, Erlang end up coming through. A lot of arguments going on. Classically, we sat in three rooms beside each other shouting at each other. We arrived at a very good end. I mean, I can say, they were positive arguments, or arguments of going somewhere, not just being –
+
+
+[00:07:16] SM: Debates, as we call them.
+
+
+[00:07:18] RV: We could call it debates. Yes. We can call it debates.
+
+
+[00:07:21] JE: You’re saying that you were all programmers?
+
+
+[00:07:23] RV: Yeah. We were. Yeah. We had a lot of fun there. I remember, Joe and I would often take long walks during lunch. We were out in the Stockholm suburb. We take a long walk there and discuss things, both work and personal things and private stuff. We have long walks for it. I mean, a lot of things went backwards and forwards when we're discussing. Sometimes things just ended up where they happen to be. In other words, we made choices. Meaningful for anyone interesting.
+
+
+There's a classic one. I mean, you can have a process ID and you can send messages to it. What happens if the process has died? We had a long discussion. What should happen if you send a message to a process that died? Should it just disappear, or should it get some signal back saying the process has died and discussions went backwards and forwards, backwards and forth? Finally, we end up saying, “Well, message has been thrown away.” You have to keep track of processes. This is not going to do that for you.
+
+
+That was a discussion that went a long time backwards and forwards. Other things this as well, too. Variable scoping. Do we have variable scoping? Or don't we have variable scoping? Etc., etc. It was a very productive — lots of discussions. We all were friends personally as well, too. The families were friends and things like this. I can just say one thing, his two children were born in the same years as my two eldest children. If there's any way – anything deep in it, but yes.
+
+
+[00:08:50] JE: I feel like there's a line of questioning there. I mean, did they become friends, or are they like cousins?
+
+
+[00:08:56] RV: The families were friends. I mean, we lived in different parts of Stockholm. It wasn’t that physically close anyway. We were friends. We met and things like this. We all still do. I mean, we still meet with Joe's wife and his children on occasions.
+
+
+[00:09:11] JE: Robert, I'm going to ask you to dig a little bit further back into your early career becoming a computer scientist. Can you talk a little bit about your training and maybe tell the narrative all the way up until the point of getting a job at Ericsson and putting yourself in that room with those two other guys?
+
+
+[00:09:29] RV: I'm self-taught. Basically, everything. I think I did a three-week course in lang, the whole progress that was much later. Otherwise, it's self-taught. I originally started taking a PhD in physics, theoretical physics, in Stockholm. They got their own computer. They weren't using the university's computer system. We're talking late '70s here. This is a long, long time ago.
+
+
+Seeing I was a PhD student, I had free access to that. A very helpful and friendly system administrator. I discovered a program, together with a few other colleagues as well too, at the same time. That's how I got into program. I bought a book on writing games in Basic. Also, this was a VAX/VMS. They ran Basic, so I implemented a few games. That was fun. I mean, you would rewrite the game that you run at one system.
+
+
+Then, one of the games was too big, so I couldn't do it in Basic on the system, so I had to do another language, of course. The last and best game, of course. I learned. I taught myself Fortran and a mixture of Fortran 77 and Fortran 4. All was running on the machine. It was there. That was quite fun, actually. Then, the physics department started getting knowledge of me of those alternate programming. I was teaching myself Pascal at the same time.
+
+
+I helped them convert a few programs from Fortran to Pascal for student use and things for the student programs, things like this and doing some – taking partners and steward student projects to doing – as writing assembler code. VAX assembler, Zed 8 assembler doing things. Yes, that was a lot of fun as well, too.
+
+
+That was more or less self-taught. As I said, I was doing projects for the physics department as well. Then we both realized, I wasn't going to become a physicist. I might as well just –Just in a friendly way, I left. One of my colleagues he had who was working, started working for Ericsson and he said there was a job – There was a place I could look, like if you try in one position at Ericsson I can look at. I looked at that and that's where I started working for Ericsson.
+
+
+That wasn't at the computer science lab. That was for a small team in Stockholm, managing Ericsson's VAX/VMS computers in the Stockholm area. That's what I was doing. That left me time to do other things. I started doing fun projects, from the well, five things I thought were from. My important Franz Lisp from Berkeley, Unix ti VMS. That I was probably the only user of it. That was quite fun, actually, because it taught me – It also taught me operating systems, because the Franz Lisp system used was very close and explicitly used the Unix system function. I had to rewrite those for VMS and stuff like. I think that's how the computer science lab brought it home with me, or found out about me and then I went to them after that.
+
+
+[00:12:07] JE: I'm sorry, Franz Lisp is the composer?
+
+
+[00:12:11] RV: Lisp. It was a Lisp of dialects. I think you can still find it. It's still around somewhere.
+
+
+[00:12:17] JE: There is a list.
+
+
+[00:12:18] EO: I had to Google it. Then Google auto-suggested to the correct thing, I think. There will be link to the Wikipedia.
+
+
+[00:12:27] RV: Franz Lisp. Franz Lisp and the compiler was called Lisp with a Zed in there, actually. It's the whole thing for it. It was a quite a fun system. It taught me quite a lot about operating systems and interfacing. I rewrote for a lot of the Unix system functions, calling it VMS system functions instead, in a reasonable way, so it ran. It wasn't fun doing it.
+
+
+[00:12:52] SM: Justus looks like he has five questions.
+
+
+[00:12:54] JE: Well, I do have one in particular. It's very perpendicular to this line, which is that if you're studying theoretical physics, I think that a lot of people are, especially if you're not a sophisticated computer scientist, you might be wondering about physical simulation. You're at the intersection of these two things, so what can you tell us about how far are we from simulating a universe on a –
+
+
+[00:13:16] RV: We need a bit more power. We need a bit more power there. They were doing symbolic simulations at the physics department. That's why they got the new computer, because they want to run the very large background jobs for it. I never really got into that. I got it while I left physics, but before I got that far doing that. That's why I was doing it. That's also why I started learning Lisp as well, too, because that's what they were using.
+
+
+[00:13:44] JE: Do you see it as a fruitful direction of inquiry?
+
+
+[00:13:52] RV: Yeah. Fine. I think, you just need to work at how far you can get. I mean, do a reasonable simulation. I mean, if you start looking at the real world, there's a lot of stuff in there. I mean, even if you really look in your brain, there's an awful lot of neurons running in your brain. If you try and simulate though, that's not a trivial thing to do. You can do it, of course. You can look at it. Other things and look in physics as well, too. You just have to understand what it is you're actually simulating, or what your simulation is showing you. I think that’s a difficult part. I've never really gone into that afterwards. Bit of AI and that’s about it. Yeah. I'm self-taught.
+
+
+[00:14:36] JE: Somehow, I expect that you're never having gone into the thing, it's still like an order of magnitude, more understanding than the average.
+
+
+[00:14:45] RV: Oh, I don’t know. Well, if you think something's fun and you've got time to put some effort into it, you’d pick up quite a lot. You just have to realize what's going on there and try and work out. Just try and get a feel for what the subject actually is. If nothing else to see, I mean, am I interested or not? I mean, until you look at things, you don't really know. Sometimes things sound very interesting, but we start looking at them and they're really boring.
+
+
+Sometimes you get things, they sound extremely boring, but when you start looking into it, they're actually very interesting. You just have to get in a bit to find out what's going on, and how to work with it. Well, I was very lucky with that. Both, I had time at the physics department before I left. Also, when it got to computer science lab at Ericsson, they were looking at new technology. That was one of the things I was supposed to be doing, which means you have to go in and look at new stuff along the way, which was what I was doing privately anyway. Yeah, that was good.
+
+
+[00:15:43] SM: Can we fast forward to when you first heard the word Erlang, where were you? What was going on?
+
+
+[00:15:52] RV: That was at the computer science lab in Ericsson. We've been doing other things. Erlang is the name of a Danish mathematician, was the name of a Danish mathematician, who did work on networking, network reliability and network capacity and things like this. He was a mathematician. From that point of view, working, using the name Erlang in a telecoms company was very relevant. We actually use the name before the language. The first time I remember we used it was we gave a talk at a logic programming conference in 86’, in Salt Lake City.
+
+
+There, we presented a system running telecoms, using concurrent logic, parallel logic. We call that system Erlang. We got the name first. We just inherit. We just kept using it when we got into the Erlang language. Somewhere around then, that’s the first time I heard about Erlang, when we started using it.
+
+
+[00:16:49] JE: It wasn't one of the three of you that proposed the name. It came from this project that you had –
+
+
+[00:16:53] RV: I can't. I honestly can't remember. I honestly can't remember where we got the name from in that sense. That's the first time I remember we actually using it. You can still find it in papers on that. We probably came earlier anyway. Some people say, it stands for Ericsson Language, but that, no, it was a mathematician. This was the '80s. You named your programming languages after a dead mathematician. So and so.
+
+
+[00:17:17] JE: Thank you for disabusing everyone in the audience of that false notion. If we want to define another term, and this is really important, because your definition will set the tone for the rest of the season. We want to know –
+
+
+[00:17:33] SM: No pressure.
+
+
+[00:17:34] RV: No.
+
+
+[00:17:38] JE: It'd be hilarious if you just made something up entirely. That would be really funny. Don't do that, though. What is the BEAM?
+
+
+[00:17:45] RV: Okay. The BEAM, it's a virtual machine to run Erlang. That's the simple answer. It says everything, it says nothing. It stands for Bogdan’s Erlang Abstract Machine. That was actually the second virtual machine of Erlang. The first one was called JAM, Joe's Abstract Machine. Literally, that was used. 
+
+
+He designed that. Mike Williams, he implemented it in C. Bogdan Hausman, he was another guy working at the lab and he was looking in making an improved and better virtual machine, a faster virtual machine. That's what the BEAM was. Originally, it generated C code, which was then compiled around. That had to be dropped off a while. That's what the BEAM stand – where the name comes from when it came around, sometime in ’92, ’93, I think. That's the first version to the BEAM. Probably, the only thing left is still – that's still the same as a name. It means, totally being rewritten. I don't know how many times internally. Extremely improved an awful lot over the last 20, 30, 25, 30 years.
+
+
+[00:18:50] JE: For people who are self-taught like yourself, perhaps, in development, because the whole notion of the virtual machine, when you start using something like Elixir, is abstracted away from you. What does it mean for it to be a virtual machine? What is happening that would be useful in the average developer?
+
+
+[00:19:09] RV: Yeah. It's a virtual machine, like any other processor, it has a set of instructions and a set of ways of handling data for. When you compile down your code, you compile down to those instructions; that machine instruction. Virtual machine, virtual in the sense that there's no real processor. There's no Erlang processor down there. There were actually attempt to make one, but never got that far. It's a virtual machine, so with the virtual set of instructions, handing of data and things like this. Then of course, you have to implement that machine in something. That machines implemented in C. Some sort of standard classic C. That's how you run it.
+
+
+When you compile your Erlang encode, or Elixir code of that matter, as well of course, you compile it down to the BEAM virtual machine instructions, which are then implemented, which are then emulate and run in the machine. It's an extremely specific machine for running Erlang. By the way, most of the time I say Erlang here, everything I'll say will apply for Elixir as well. Because for those who don't know, Elixir compiles down to our language, they compile down to be.
+
+
+[00:20:21] SM: I think that's a very important distinction to make upfront, because a lot of our audiences are Elixir developers, who maybe haven't dug too much in Erlang and understand the relationship between the two. Thank you for pointing that out.
+
+
+[00:20:33] RV: Yeah. That's nothing wrong. That's the right choice, to be honest. Yeah, so the BEAM runs Erlang. That's what it’s designed to do. It's very specific for running Erlang. The connection between the BEAM and Erlang is very tight. Elixir when that's compiled, it’s compiled down to Erlang code, which is then compiled down to BEAM code. That's why a lot of things in Elixir look like they do, because it's running on top of Erlang. It can't do very much else. Not if you want to do it efficiently in you.
+
+
+[00:21:03] EO: I think we ran into this yesterday while prepping a script. I actually found that there's two abstract format, possibly. There's the Erlang abstract format, which I think Elixir is in. Then there's also something called core Erlang.
+
+
+[00:21:18] RV: Well, the Erlang abstract syntax, that's what Erlang passes down to. That's what Elixir generates. [Inaudible 00:21:23] generates that as well for that matter. That’s then passed in the Erlang compiler to generate BEAM code. Core Erlang, it's more like an internal language in the compiler. You can write call yourself, you can generate call yourself. I've done it and other people do it as well, too, and then pass in the back-end of the compiler.
+
+
+It's mainly used as an internal language inside the compiler. Actually, it's a proper functional – it's a small, proper functional language. You can actually write it yourself, and you can print it out and get the compiler to generate it for you, and show what looks like and things like this as well, too. It’s just some things have been simplified. Well, made more standard function. For example, it has variable scoping, and things like this as well.
+
+
+[00:22:06] JE: You mentioned LFE. Do you want to define that and talk a little bit about it as well?
+
+
+[00:22:11] RV: Okay. Yeah. LFE, that’s Lisp-Flavored Erlang. I’m a Lisp – Okay, once you love the parentheses, and it never goes away. It was actually the first high-level language I learned. We never got into the Erlang syntax, which you’re probably lucky. I thought it would be fun to try and implement a Lisp on top of Erlang, in the sense that it would be a real Lisp, but it would be adapted to running on top of Erlang in the BEAM.
+
+
+In that sense, could interact with everything else running there. There's no problem calling Erlang code, or Elixir code, or being called for me the reason, having things written in both systems running in all three languages, or more running at the same time. It just works. That again, was a design decision. That means that it was a bit different from many Lisps. For example, there is no mutable data. Because Erlang does not have mutable data, and BEAM does not support mutable data. That's just the way it works. That's why you don't have mutable data in Elixir, because it's running on top of a system, which doesn't support it.
+
+
+[00:23:15] SM: That was a conscious decision you all made as one of those arguments back and forth, or was that a unanimous decision?
+
+
+[00:23:22] RV: It sort of happened. I think, well get probably. Well, I mean, we were running the first versions of Erlang were implemented, interpreter written in Prolog. Prolog has immutable data. They have logical variables, which are so halfway in between. Otherwise, it's immutable data. That's what we ended up getting and ended up having, if I put it this way.
+
+
+We kept that and we found that that was a perfectly good decision, design decision we made. There's no reason to change it. It made things like keeping processes isolated much easier. Because actually, processes can share data. Because the data is immutable, no process can ruin anything, anything for anything else. We kept that and thought that that was a quite a good choice. In many ways, it results in much cleaner code. For example, I know that if I pass data into a function, that function can never change that data. Nothing can change under my feet. None of my data can change under my feet, because it's immutable. If I'm passed data into a function that wants something, it’s going to modify it, it has to return the updated value to me. Now, I can throw that away, or I can keep it whatever, but I can't change things. That makes a lot of things much cleaner. It's easy to understand what's going on.
+
+
+[00:24:40] SM: This is getting to the good stuff, because we've talked about on this podcast a number of times, about how we feel that Elixir code renders to cleaner code writing. We've never really been able to pinpoint all the way down to maybe the origin story of why that feels that way. Now, we're talking to the literal creator of the underlying foundation. You say the same things. That's a really interesting point.
+
+
+[00:25:08] RV: It is. It is easier to write understandable systems, I think, if things don't change under you, if I can see exactly when things can change, or when things can't change. I think that's a very good idea. One of the things we had. I don't know if I mentioned the rationale, but one of the ideas we had from very early on, we want to try and keep things simple and explicit, and not have things happening behind you. That's why, for example, the only way processes communicate is by sending messages to each other.
+
+
+There are no backdoors at all, between processes. That's the only way they can do it. It's how they synchronize, that's how they pass data and things like this as well too. Again, because it's extremely explicit. That's what we felt with having immutable data, that was a very beneficial. Okay. I mean, I do a lot of training. I realized that's one of the problems new people come into this environment have, is the fact that they used to have – not used to having immutable data, It does take a bit of getting around first things.
+
+
+[00:26:11] JE: While we're on that topic, especially as it pertains to Erlang, what are the biggest hurdles you see to people who are learning Erlang? Maybe you can help us who are new to Erlang, leap some of those hurdles.
+
+
+[00:26:29] RV: Yeah. What I've seen is the functional side, that Erlang and Elixir for that matter, of course, because it's on top of it, it is a functional language. In many ways, the sequential languages ask typical functional languages. Anything, most things in another function languages apply to Erlang and Elixir as well. There are many ways if it's simpler, but therefore. I think getting used to that is a big step. Getting used to passing data into a function, getting value coming back for it, and not being very difficult to reference things outside that you haven't been given as arguments and stuff like that.
+
+
+Once you get used to it, it’s self-evident. It's clear. I look at my function. What can it work with? Its arguments. Anything else? No. Are there any global variables? No. Other module data? No. It's just that. Once you’re used to, it's fine. The other thing is concurrency. Thinking concurrently. I mean, okay. You're sitting running your operating system and you have processes and you can run things and I can run a couple of browsers and stuff like this for, so I can do things concurrently, but not at the level you can do it, you can do in the Erlang system on top of the thing.
+
+
+This very thing, we're splitting things up into small processes that are interacting with each other and communicating with each other. That I think is a very big step, once you start thinking about it. Now, I mean, a lot of times and tools, things like that will hide it for you. I mean, if you run Phoenix, you might have a 100,000 connections. Phoenix is quite happily, well, using underlying layers, quite happily starts up a couple of processes per connection for you. You don't see that, but it's doing it.
+
+
+That's fine, until you actually understand what's going on. I think that's the next step, a big step. You just think this is how you split your system up into lots of little processes interacting with each other. If you're going back to the telecoms, people when we're working, the idea was when you make a call, you will have a few processes are running the A side and a few processes running the B side, talking with each other. It's just a simple call. It’s to split things up. That takes some getting used to. As I said, I mean, typically when you're using libraries or packages, that will do that for you, like Phoenix, or Ector, things like these.
+
+
+[00:28:49] JE: Which brings us to the second half of our theme, which is magic.
+
+
+[00:28:57] SM: Doing things for you.
+
+
+[00:28:59] JE: What is magic in your view? Is it good? Is it bad? How do you evaluate it?
+
+
+[00:29:06] RV: Magic is fine, if you understand what is going on. I mean, for example, we're talking concurrency. I can run up one BEAM, one node, and I can run, literally run millions of processes on that. Then in some way, that's magic. I mean, you pick an operating system where you can run millions of process and you're going to find one. That might be magic. That allows you to do a lot of very fun things. At the same time, you have to understand what's going on, so you can use it in the right way. That's what I'm saying.
+
+
+That's both the magic side of it and the non-magic side of it. Understand, okay, if I can run all these processes, which is fantastic, I can have my system with a 100,000 connection, TCP connections coming into my browser, which is great. What restrictions does it gives me, for example? For example, these connections by default can't talk to each other. I can make them talk to each other, but I explicitly have to realize, this is going on and then use that feature for. 
+
+
+How can I share data? Well, I have to write something that shares data for me in some way. I just can't pass and send a reference to another process and have it access to data. It can't do that. I have a lot of these things that come in through. You have to understand. If you understand what's going on, you can use it in the right way. Then you can better understand the packages you're using to do things for you. Why they're good at some things, and they have limitations for doing other things as well. Then talking with web browsers. I mean, you can use Phoenix to do that. Will do a lot of all this stuff for you for setting up the system, for running multiple processes, bridge connecting, etc., etc., etc. Which is great.
+
+
+You have to understand that sometimes you hit the stage, if you don't understand what's going on underneath, you're not going to really get strange by why can't I just create some data here and another process can access it for me? In a real system, C or Java, or whatever I can do that, “Why can't I do it here?” That takes a bit of getting used to.
+
+
+[00:31:04] JE: This has already been one of the most educational episodes, I think we've done so far. I saw a number of questions. I think the most useful one will be, again, I think a lot of people getting into the Elixir land are from Ruby. They're people who are used to a different paradigm, object-oriented programming, and just totally different ecosystem. I try to give them an on-ramp to Elixir and Erlang. I'm wondering if you can maybe help by suggesting how a new developer in this ecosystem can get the best stylistic practices under their belt? Where do they look? What are the main things to keep in mind when you're writing Erlang and Elixir code?
+
+
+[00:31:52] RV: I think one of the things that should I say, is hit about Elixir since the very beginning, right? It is not Ruby on Rails. It might have taken a little bit of syntax from there, but it is actually – it is a different language for it. It is a different language, a different system. You can't just accept – get used to accept the fact that you cannot write your old Ruby code in Elixir and run it and hope it works. Or hope it does the same thing. That's the big psychological step to do that for.
+
+
+Get used to that and do it and understand – that means – it is this very much my opinion here. Even if you're using packages to do things for you, which is fine. That's good. You do need some understanding of what's going on underneath it. Maybe even just at a very simple level, so you can understand what's going on. It is not the same thing. You have to have a slight understanding what's going on. Not in the sense that you can't use the packages or anything, but it's a little bit, if you come to top-down, you don't understand what's going on underneath.
+
+
+In many cases, you can get quite far during that, because the packages you're using will handle all that for you. Eventually, hit the stage where it doesn't work anymore. I want to do something else. Suddenly, it’s behaving, from my point of view, very strangely. Now, I have to understand what’s coming. That's something you need to do. You need to understand that you have this problem proper this way. We should not make any different kinds of problems.
+
+
+[00:33:17] SM: When you mentioned Jose, it actually gave me a question. Where were you and what was your impression when you first heard the announcement for Elixir, a new programming language built on top of Erlang? Just curious what your thoughts were at that time.
+
+
+[00:33:31] RV: Okay. Being an old Erlang, my first question was why?
+
+
+[00:33:35] JE: How could you possibly improve on this?
+
+
+[00:33:38] RV: Why? Okay, now you're talking to me, you'd implement two extra languages, three languages on top of that already. I think doing it for the fun of doing it is perfectly a valid reason. I know he wasn't doing it for that reason. That was my question. Why? What was he trying to do? Why do this? Why introduce this way for? What different things will it give you to do that? In many ways, you can see diverged from the Erlang side quite a lot on not just the language one side, but the culture side, the community and things like this, how the community work and what they expected things was very different than the Erlang community those days.
+
+
+[00:34:18] SM: I'm actually curious what the community differences are now.
+
+
+[00:34:21] RV: They're probably coming less in some ways. I mean, a very example of difference, I mean, the mix tool came very early with Elixir. I don't know which version, but it's extremely early for it. That was just something that people that came to that community expected there to be a build tool. Whereas, in the Erlang side for 10, 15 years before we got it build tool. It’s just what you're expecting the type of systems you're building, where people come from on this type of thing. That meant a lot.
+
+
+That was one reason for doing it. If I remember rightly, he said he loved Erlang, but he wanted to fix the things he felt were missing. Not just build tools, but in the language itself and stuff like that as well. I think you can see a lot of difference in the community. For example, the number of packages you can find for doing things in Elixir. An enormous number off in Erlang, compared to what you can find in Erlang where there are much fewer. I think that's partially cultural and type of system is being used in.
+
+
+Again, that affects what you expect to happen and what you expect to be there, or we will be there, or won't be there. And how you feel if you can't find it. Classic one, I don't know if this is true or not. This is one of these generalizations you hear that people coming to Elixir, they said, “Okay, if I can pop up a browser window in one hour, I'm not interested.”
+
+
+[00:35:39] SM: That's a fair point. I’ve heard that from a few –
+
+
+[00:35:43] RV: Yeah. It’s one thing. I don't know if it's true or not. To do that, of course you can't — then you can't write in Elixir, then you expect these packages to be available for you to just plug them together and run things like that. That's a complete different style. Whereas, if you are running, working in a project that might take five years, a week or two, it doesn't really make much difference, again it's just different cultures, different expectations and stuff.
+
+
+[00:36:07] SM: Interesting. Was there a moment that you actually got to use Elixir, that you were intrigued by it, or was it a why the entire time that you heard it and you're like, why change it?
+
+
+[00:36:19] RV: You got an going to answer to the why, right? That was pretty clear, once you start looking at what has worked and things like this? Well, that's pretty clear. It didn't help me for the type of systems I was doing, but for this one. It didn't give me everything for it. Being an implementation person, of course, I look at the implementation and to see what's going on underneath that, and seeing how things are done and stuff like this, how it gets around various issues.
+
+
+I mean, a simple one, for example, is that you can – there are no user defined data types. That's it. The BEAM, the Erlang system, the BEAM does not provide user defined data types at all. They're just not there. There are things like that, that what the system provides, what users expect, what type of things they can do with it and stuff like this. That's just from my point of view. I wasn't looking at things like that.
+
+
+Of course, as I said, being an implementer, you start looking at the language itself. When I write it with, why can't I put the first thing on the line afterwards an indented two lines? I know why. I know why, by the way. I know the reason. I know the answer to this, but why can't I do that? I would want to do that. There’s a lot of other things like this. I know the reason for them. The things like this is when you start looking at the language from an implementers point of view.
+
+
+[00:37:34] SM: Along those lines with that thought process, can you tell us about your side project, Erlog?
+
+
+[00:37:38] RV: It was an experiment that to write a Prolog in Erlang. Again, write a standard Prolog and standard Erlang and not do anything strange, or anything like this, or write stuff in C and plug into the machine. Just write standard Erlang for it. That was an experiment doing that. It works quite well. It's not very fast. It is an interpreter, so it doesn't compile down. It does do a full subset of standard problem. It can handle the database in the right way and things like this as well, which is not that trivial to do in Erlang and to be honest. That was just more a fun project to do that. It's there. It works, but I haven’t worked for a bit. The other thing, I love this. Just getting back to that. That's why. It had to have on this one.
+
+
+[00:38:26] SM: Amazing. Well, that passion generates a lot of productivity for others.
+
+
+[00:38:31] RV: Yeah. Yeah. I don’t know, wondering bit about. It is a fun language and it’s old. I mean, what, it's 50, 60-years-old or something like this. Still very powerful and simple language. Awful lot of stuff in. It just works. As I said, I like implementing languages.
+
+
+[00:38:51] SM: For fun. Yeah. Speaking of fun things, this came up with code BEAM during one of the two can lounge chats, that I mean, it came up at your talk as well. The Erlang movie. We heard that you had thoughts about it, and we wanted to know what your thoughts are about it.
+
+
+[00:39:10] RV: The old one, the original, that I think – I can't remember exactly. I think that came about, because we were going to present Erlang at some trade show, or something like this. We just wanted something to show for. We made this movie. Ericsson had had a movie team. They helped us through that. Yeah, it became quite funny. It wasn't meant to be funny. We were quite serious when we were making this. About the the message we were sending across, we were actually quite serious with that. Then it became very, very weird stuff. Note one thing however, Joe and Mike just sit there talking. I'm the only one actually does some coding and fixes the bugs.
+
+
+[00:39:48] JE: Was that true to real life?
+
+
+[00:39:51] SM: Amazing.
+
+
+[00:39:53] RV: It does have a slight Monty Python feel to it, but yes. Yeah, then when Garrett Smith came up with the sequel, that is fantastic. I really loved that one. That is really good. That's really good. I like that. I think it was a bit nervous originally, how we how we would feel about this, but that was really fun. It is really fun.
+
+
+[00:40:14] JE: We like to give the guest the last word, but I want to ask one more question, which is about the future and what your aspirations are for the future of the community, for your work in the community.
+
+
+[00:40:26] RV: Yeah. Well, I'm still working. I work for Erlang solutions, okay. I mainly do training and things around that. Bit of consulting for it, too. I enjoy that. I plan to keep on going. I of course, hope the Erlang community will continue. I'm talking Erlang community, I mean, the whole community, all the languages running on top of the BEAM, in this case. For that to work, they have to collaborate more. We have the Erlang Ecosystem Foundation, which is doing a lot of this work. I think that's a very important thing to get these things together, to make it easier to use them all on top of the Erlang system. Just make it easy to pick packages from other languages and use those as well too.
+
+
+Why can't I run Phoenix from Erlang? Well, I know I can, but things like this for just wreck the whole stuff like this and going the other way. I think that will be something, which will be very useful to be able to do that. I think that's very important for the future to do that. I think that will make each of the languages more powerful for it. A while back, there was a tendency for them to skip. I think that would have been worse for both of them. Again, this is getting out to some people five years ago, talking to Elixir people and I say, “Well, can’t we just get rid of Erlang?” Well, you can't, because then you got rid of Elixir, of course. I think that's getting this realization that they work together, that they can improve each other and make it forward.
+
+
+Having a powerful Elixir community running Elixir, helps the Erlang community, which helps the Elixir community, etc., etc., etc. I mean, I know there have been discussions, can't we – whoever we happens to be here, write our own virtual machine? Of course, you can. It's just a bit of code to get the same level. Well, it's a few 1,000, 10s of 1,000 lines of code, but it's just for the sake of that.
+
+
+I mean, you get that level of coldness in the system, in the BEAM to get right around. That is an awful lot. I think they're putting an awful lot of really smart stuff in there continually. I think one thing that just get – one thing you note, if you look at it from the Erlang point of view, the Erlang language itself is very stable. It evolves, but very slowly. If you don't understand what's going on, you can get the impression, no work is being done. There's an awful lot of work being done with BEAM. Every new version of BEAM has something fantastic over the last one.
+
+
+Especially, I can just put a plug in, version to OTP 24 that's coming now soon. It's got some really good stuff in it. There's a JIT compiler built into the system now. There was the old hype, but now that’s built in it. That is really fantastic. I just have to say this. It works the other way. We are running this. The compiler still generates BEAM code, BEAM assembler. Then when it's loaded into the system, it's converted into assembler code at the load time, which means when I'm compiling my system, I don't have to worry about who's going to run it, because it runs on all of them, but the loader does it for us.
+
+
+It’s just so, so fantastic. I mean, there's a slight increase in code size, around 10%, which is very small. The efficiencies are 5 to 10 to 20 times faster for many things. It just goes wham, right. Again, that is something you as a user don't see. Let's see it in my code. It’s just there. There are a lot of things that happened – that have happened over the years in the BEAM that is they've been continuing internal improvements that are just happening. If you don't look, you don't see them. There's a lot of work going on there as well, too. I think that's really great.
+
+
+That I hope will continue. That of course, will benefit all the languages. Because again, Elixir doesn't have to think about it, because it just generates Erlang code, which just gets all the stuff for free. It's wonderful.
+
+
+[00:44:15] JE: Wow. Wow, this has been such a great conversation. Sorry, go ahead.
+
+
+[00:44:19] RV: There are a couple of good blogs describing that system now, that the new – the SM JIT, I think they call it. It's really great. It's very impressive, to be honest.
+
+
+[00:44:30] JE: Actually, my last section here is for – to offer you the opportunity to make any final plugs, or asks for the audience; anything that you want the listener to go do. Shameless self-promotion is encouraged, so feel free. Do you have anything else like that before we wrap up?
+
+
+[00:44:48] RV: Well, of course, being an old Lisper, don't be scared of parentheses. I know this is very different from the Elixir slide, where you remove parentheses. I’d say, put them all back again and put a couple more into it. It makes the syntax much easier. You'll not get used to that. I like that. I sincerely hope the Erlang system will keep going. I mean, the Erlang system and the Ecosystem Foundation, the whole lot here will keep going and keep working together to improve these things.
+
+
+That is for running Lua. I was looking, originally started out as an experiment to implement a language on top of the Erlang system. We did not have Erlang semantics. Explicitly was different with different memory management. It's got shared global, mutable data. Everything the Erlang system doesn't have, got that and a few other weird stuff as well, too. There was an implementation of that.
+
+
+That was quite fun to do. Now, it's actually seriously being used, which is slightly nerve racking. Again, if you want to answer things in Lua and you want to be able to plug them into efficiently and easily into the Erlang system, that's a way of doing it. I can say, it's being used for two places. I know, once in a bank. There are a series bank as well, too. They're no bank. It’s the OTP bank. I'm not kidding you about the name. It's the OTP bank. It's an Hungarian bank, one of the bigger ones in Eastern Europe, former Eastern Europe. They're using that internally for doing scripting.
+
+
+It's by a company called – I think, called Creative Assembly. They’re a gaming company. Which war game? Total War. The whole Total War series. They're not using it in the game inside itself, but they're using it to allow users to customize their environments in Lua, of course, to do that.
+
+
+[00:46:39] JE: Lua seems to have been become very popular among game developers in particular.
+
+
+[00:46:43] RV: It is. It was for World of Warcraft as well for customizing that, you'd write things in Lua as well too. It’s really spread there. It's quite nice language. To be honest, it's a nice language. As I say, it's very different. It's not functional. If you read what Lua is, it’s basically everything. Fix something and Lua does it for you.
+
+
+What I find is impressive, they managed to keep the language small. They make new stuff, but they're resisting making very big changes for it and keeping it small. It's a very powerful language as well, too. We've managed to pick a very nice little set of fundamental principles that are very powerful. That's why I like it. I like Lua as well. I can show up. I got my spaceships written in Lua as much.
+
+
+[00:47:29] JE: Your spaceships.
+
+
+[00:47:30] RV: It's a very simple little demo. One of the things with running Lua is that you're running this in Erlang, so you can start up multiple world systems. It's running spaceships and these spaceships customized. It is programmed in Lua, and it's an Erlang process. You're running 2,000 Erlang spaceships and each one's an Erlang process running, talking, customizing work, and that works fine. You could run more if you want to, as well too. The final push is that one benefit of running Lua and LuErl inside Erlang is the integration is very tight. You could run external Lua and talk with it. Of course, then the integration is much more difficult to do.
+
+
+[00:48:07] JE: Wow. Robert, I feel like we could do a three or four-hour long podcast with you. Maybe one day we will –
+
+
+[00:48:12] RV: Yeah, you have to turn me off.
+
+
+[00:48:14] JE: Hey. Well, no. We’d love to have you back. Next time, we will, I think, plan more time. It's conversations like this that humble me and remind me that we stand on the shoulders of giants, and that we wouldn't be able to do the work that we do without brilliant, brilliant people who have come before us and put in a ton of legwork. Thank you so much for everything that you've done.
+
+
+[00:48:35] RV: Okay. Thank you. That was that was a lot of fun. So yes.
+
+
+[00:48:39] JE: Oh, it's great.
+
+
+[00:48:40] RV: I just hope to get the sound working properly now. It's fine.
+
+
+[END OF EPISODE]
+
+
+[00:48:45] JE: That's it for this episode of Elixir Wizards. Thank you again to our guests, Robert Virding for joining us today. Elixir Wizards is a SmartLogic production. Today's hosts include myself, Justus Eapen, my co-host, Sundi Myint, and our producer is Eric Oestrich. Our executive producer is Rose Burt. We get production and promotion assistance from Michelle McFadden and Ashley Stotts.
+
+
+Here at SmartLogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails, React, Kubernetes and React Native. If you need a piece of custom software, hit us up. Don't forget to like, subscribe, leave a review, follow @SmartLogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord. Just head over to podcast page and find the link. Don't forget to join us again next week for more BEAM magic.
+
+
+[END]
+        © 2021 Elixir Wizards

@@ -1,0 +1,663 @@
+﻿EW S6E4                Transcript
+EPISODE 4
+
+
+[INTRODUCTION]
+
+
+[00:00:06] EO: Hi, everyone. We hope you’re enjoying our new season on BEAM magic. Before we get started on today’s episode, we want to let you know about a special event we have coming up. The first ever Elixir Wizards Conference is this June 16th and 17th. All online, two afternoons, a mix of talks, panels, and of course, the hallway track. As a podcast listener, you can get a discounted ticket by going to smr.tl/conf-podcast. We'll put that link in the show notes. Hope to see you then.
+
+
+[00:00:34] JE: Welcome to Elixir Wizards, the podcast brought to you by SmartLogic, a custom web and mobile development shop, based in Baltimore. My name is Justus Eapen and I'll be your host today. I'm joined by my ray of sunshine co-host, Sundi Myint.
+
+
+[00:00:49] SM: Hello.
+
+
+[00:00:51] JE: Hey, Sundi. And my erudite producer, Eric Oestrich.
+
+
+[00:00:56] EO: Hello.
+
+
+[00:00:58] JE: This season's theme is BEAM magic. We're joined today by special guest, Christopher Miller.
+
+
+[00:01:05] CM: Hello.
+
+
+[00:01:06] JE: Chris, I heard you just moved to Providence. Is that true?
+
+
+[00:01:11] CM: Yes. Yes. Just recently moved to Providence. Yup.
+
+
+[00:01:14] JE: Providence, Rhode Island?
+
+
+[00:01:15] CM: Indeed. Not New York. Providence, Rhode Island. Not Long Island.
+
+
+[00:01:20] JE: Oh, okay, okay. How's it going? How are you liking it so far?
+
+
+[00:01:23] CM: It's pretty cool. I just bought a house. I'm a first-time homeowner. Figuring out all those things. Rhode Island smells like the ocean. I’m fitting in here. It's really nice.
+
+
+[00:01:33] JE: Awesome. Yeah, I used to live in Boston and I had clients – I had to travel up to Providence to meet them. It's a really nice little town, city.
+
+
+[00:01:41] SM: Congrats on buying a house.
+
+
+[00:01:43] CM: Thank you. I'm actually originally from Baltimore. My mom's back at home chilling, where you all are.
+
+
+[00:01:50] JE: Well, yeah. SmartLogic is based out of Baltimore. We're all remote nowadays, though. I'm north of Baltimore in a town called Belair. Sundi?
+
+
+[00:01:57] SM: I'm in DC right off of Rock Creek Park.
+
+
+[00:02:00] JE: And Eric, you're in a totally different state.
+
+
+[00:02:03] EO: Yeah. I'm 550 miles away in Indianapolis.
+
+
+[00:02:08] JE: We're all over coming from all over to bring you Elixir Wizards. I wanted to jump off this episode by asking about your Twitter handle. Could you tell us what your Twitter handle is and why you chose that to be your handle?
+
+
+[00:02:24] CM: All right, so my Twitter handle is @blackeuler. I picked that when I graduated high school. Essentially, I was really into math and I was learning about different math things. I learned about this mathematician named Leonhard Euler. He's really interesting, not only because his birthday is the day before mine, but because he's one of the few mathematicians that have contributed to almost every area of mathematics, so algebra, number theory, analysis, even physics. He's done some things with eye stuff and even music theory. I was thinking, if I had to be someone when I grew up, I would love to be someone that's into everything, because that's what he was about.
+
+
+[00:03:08] JE: This was just out of high school?
+
+
+[00:03:10] CM: Yeah. I literally graduated high school, and two days after I made a Twitter and Instagram with that handle. Had it ever since.
+
+
+[00:03:19] SM: That's amazing. You have always been into math. That wasn't just a recent thing.
+
+
+[00:03:24] CM: Yes. Always been in the math, ever since middle and high school. My dad got his bachelor's degree from Carleton College in mathematics. When I was younger, he would be teaching me how to do linear equations and systems of equations on pieces of paper. That’s what I do for fun. Got my degree in mathematics. Now, I'm trying to apply mathematics programming.
+
+
+[00:03:46] SM: Can you speak more to that? Because actually, that is something that's come up maybe a few times on the show, this relationship between math and programming, but you are pointedly trying to do it. Do you have any thoughts on that off the top of your head?
+
+
+[00:03:59] CM: Yeah. I think, when I first got into programming, well, the second time I got into programming, I should say, I was trying to understand how do I go about solving these problems in a methodical way? Everyone told me, “Well, you just find the answer and it's there.” Now, I found these really cool things in programming language theory and type theory, where you can utilize a type system to actually write programs for you. It has to do with this thing called the Curry-Howard isomorphism. Essentially says, that your types in your programming language is the same thing as propositions and mathematics.
+
+
+The programs in your programming language is the same thing as proofs in mathematics. When you prove something in math, you're essentially writing a function in some programming language. When you state some statement, or some proposition, you're essentially writing a type spec in some programming language. You can utilize this Curry-Howard isomorphism to go back and forth between mathematics and programming. You can pull in all the power and hundreds of years of mathematics into your programs. That's what languages like Haskell with monads and monoids to try to do. I'm trying to figure out how to pull in the math process into the, I guess, not just the actual programming, but how you go about solving problems.
+
+
+[00:05:30] JE: What do you mean, you're trying to pull the math into the problem-solving process?
+
+
+[00:05:35] CM: In mathematics, you have a couple of ways you can go about proving propositions or statements. There's inductive proofs. There are all these different ways of contracting the right shape of answer for a given proof. It’s very easy to a degree. It’s like, if you want to prove something by contradiction, well, you have to take the statement, you trying to prove it and make a converse of that, like an opposite of that and prove that that's true. Then now, you've proved something by contradiction.
+
+
+Anything you're trying to prove by contradiction is getting the opposite of it, and then try to prove that that statement is true, which is can't be true. There are several problems solving things like that in math that I wish were in programming. If you are trying to take a list of things and collapse them down to some value, they'll probably reduce, or fold. That's related to monoids, this algebraic structure that exists. A monoid must exist when you do a fold if it works properly. I guess, what I'm trying to say is I'm trying to find the weird intersection between programming and math and problem solving and utilizing some of the well-established ways that we go about tackling proofs to teach people how to go about tackling algorithmic challenges, or programming problems.
+
+
+[00:06:55] JE: Do you know Brooklyn Zelenka?
+
+
+[00:06:58] CM: The name does not sound familiar.
+
+
+[00:07:00] JE: She was big in the Elixir community. I think she's writing some other language right now. Haskell. What is it, Eric? You would know.
+
+
+[00:07:07] EO: I think, she is mostly in Haskell now. She's right up your alley as well.
+
+
+[00:07:13] JE: Yeah, you two would have a lot to talk about. You mentioned this word monoid a couple times. I've heard the word monad. Actually, when we had Brooklyn on the show, she gave us a great, great crash course on monads. I would love to hear it again, if they are related.
+
+
+[00:07:28] CM: Yes. A monad is a monoid in the category of endofunctors. That's a buzz word that you hear in the Haskell community a lot. Essentially, all it means is that you have a – well, I'll start with a monoid. I'll define what a monoid is first. A monoid is an algebra. Algebra is just a collection of things and some operation on those things, okay. A monoid is some collection with an element that I'll call an identity element, and an operation that is associative. When you apply the identity element with this operation to any other element in your collection, you get back the other element.
+
+
+For example, addition and natural numbers. Zero would be the identity element. Addition is the operation, is associative. When you add zero to any other number, you get back the other number.
+
+
+[00:08:25] JE: Oh, boy. Oh, boy. We might just have to go totally off the rails here. You mentioned the word endofunctor, then you said – is that the buzzword that you were talking about?
+
+
+[00:08:37] CM: No. The whole entire saying is the buzzword. A monad is a monoid in the category of endofunctors. That whole thing is a buzz. It's often said in response to people asking what a monad is and it’s said as like, “Oh, it's so simple.” It is simple, but it has to be unrolled. I'm sorry.
+
+
+[00:08:58] SM: I do have to say, that I am actually following you for the most part and I wasn't expecting to. Clearly, you must be a good teacher. You have a voice that makes it easier to understand. Do you enjoy teaching math, because you have a YouTube channel, right?
+
+
+[00:09:17] CM: I do enjoy teaching. I've been doing it for as long as I can remember. Been tutoring since middle school. I tutor calc all through college. Right now, one of my big things is teaching people how to code. Literally, if someone says, “Oh, I want to go into tech. I want to do this.” It was like, “All right, how can I help you?” Now, just be teaching them programming and everything.
+
+
+I will say that I have an unfair advantage about the topic of monoids and monads, endofunctors, because I have a math degree, so it's a little less esoteric. One thing I've noticed when people do talk about math is, I don't know, they don't bring in fun examples. For example, we talked about functions and ranges and domains. None of that stuff makes sense. It's a bunch of words. If you start talking –
+
+
+[00:10:02] JE: Wait, wait. Functions, ranges?
+
+
+[00:10:06] SM: And domains.
+
+
+[00:10:07] CM: Yeah, the range of a function and domain of a function. For someone that doesn't really know anything about math, then you bring up these terms to talk about other things, it's like, I don't know what you're saying. One thing I did in college, though, when I was teaching just basic calculus, is I got a trash can out and I balled up some pieces of paper. I was like, “Okay, the domain of a function, it's all the pieces of paper we have to throw into that trash can. The range of a function is all of the pieces of paper that we have thrown and actually lands in the trash can. The function is going to be you, the student, throwing paper into the trash can.”
+
+
+[00:10:49] JE: The range is the paper. The domain is all the ones that you throw. The domain is all the possible inputs and the range is all of the actual inputs?
+
+
+[00:10:59] CM: It's all the mappings. The range is actually the paper that gets thrown into the trash can. It's where the function sends your domain. You can talk in the physical world about these things, and not in terms of numbers, because everyone says that math is about numbers. In fact, math is not about numbers. It's a lot of words.
+
+
+[00:11:19] SM: We had an earlier episode, where we said that math is – we're talking the difference is arithmetic and it's a logic-solving. It's logic. It's problem solving. Math is really more problem solving. It's interesting you say, no one ever uses the fun examples. I am very more aware now than I was in school, for example, that there are fun examples in math. It's just when you're studying for a calc exam and everything is numbers. It’s just, there's so much stress there. If somebody could have made it fun, I think it would have been better for me.
+
+
+[00:11:53] CM: Absolutely. That's what the YouTube channel is about.
+
+
+[00:11:57] JE: That's a great segue. Talk about your YouTube channel.
+
+
+[00:12:00] CM: Right. My YouTube channel, Coding Cave, it's not just mine, I should say. I do alongside with one of my friends from college, Andre. Started it because we were talking late one night for about two hours about how to get into the coding industry. Should you go to boot camp? Should you get a degree? Our girlfriends were like, “You guys should just start a YouTube channel.” Then we gave it more thought and was like, “Well, there's not a lot of black YouTubers talking about software stuff. Maybe we should do this.” Then we did.
+
+
+The first video that we came up with was about the abstraction of computation. We're just trying to make – talk about something interesting that's fine and easy to understand, with good examples. That's what came out of and took a long hiatus. It was like, we should start making more relevant hands-on things. We start taking looks at Elixir, made some Haskell videos and done a lot of Elm. We’re just trying to teach people how to code and also have fun and show people that there are – black software engineers do exist.
+
+
+[00:13:06] JE: Well, and you recently knocked it out of the park with an interview with Jose Valim.
+
+
+[00:13:13] CM: Yeah. That was a lot of fun. Our channel and context for another YouTube channel, we just decided to collab and do this interview with Jose and got to ask the actual language creator some questions. Really fun to do.
+
+
+[00:13:27] SM: What was one of your biggest takeaways, or a question that you maybe had that you got answered on that interview?
+
+
+[00:13:33] CM: He's a normal person. I don't know. I've seen some interviews with –
+
+
+[00:13:38] JE: He's an extraordinary person.
+
+
+[00:13:41] CM: He's done something extraordinary with Elixir. At the end of the day, he was just talking to us just like a normal person. He started this project. It was funny talking to him about the project he started and the project that he started just happens to be the language I use for work. At the end the day, it was a project that he started. He had a very specific idea and he just built it. I think, that was the biggest takeaway for me, is that anyone can go out and build a programming language, for instance, if they really have the inspiration and the drive.
+
+
+[00:14:15] JE: Very cool. Yeah, we love Jose. We can't wait to have him back on the show someday. I want to ask a fun question here. Putting aside Fisher Price text editors from certain evil corporate giants, what's the best text editor, Vim or Emacs? Why is it Vim?
+
+
+[00:14:32] SM: Well, Vim is my father's text editor. I actually just recently got into the code editor wars, maybe within the past year or so. Before then, I didn't have opinions and I just use VS code, because I didn't know any better. Then someone showed me the power of Emacs at a high school meetup in New York. I was like, “I still don't quite get it, but it looks a little cooler than VS code.” I downloaded the Spacemacs distro and was fooling around with that for a while. It's like, “Okay, I don't really like this.” Then someone told me to trial Doom, and I don't live with that and I've never used any code editor since. I can’t VS code.
+
+
+[00:15:14] JE: Doom?
+
+
+[00:15:16] CM: Doom Emacs. It's pretty nice. It's a configuration for Emacs, that just makes everything clean.
+
+
+[00:15:21] SM: Eric, is this what Joel uses? Another Smart Logic engineer.
+
+
+[00:15:25] EO: I don't know what specific version of Emacs he uses. Yeah, he's our –
+
+
+[00:15:30] SM: Our resident Emacs user. When you said Doom, Chris, I just pictured it in my head from various pairing sessions with Joel, where he’s showing his screen and I'm just like, “Why does the top of your screen say Doom?” Because it doesn't necessarily look like it's part of the window. It just looks his screen is labeled Doom and there's no context around it.
+
+
+[00:15:55] JE: Do we know why it's called Doom?
+
+
+[00:15:58] CM: I don't know why the creator decided to call it Doom. It started from his own personal configuration file. Then he just decided to roll the extension.
+
+
+[00:16:08] EO: There's a little quote here in the introduction. It is a story as old as time. "A stubborn, shell-dwelling and melodramatic Vimmer, envious of the features of modern text editors; spirals into despair before he succumbs to the dark side. This is his config." It's probably like, all of these Vim-ish things that go to Emacs are always like, there's evil mode, which is Vim in Emacs. Then I guess, Doom Emacs is similar. It’s just a twist on the editor wars, I guess.
+
+
+[00:16:42] JE: Well, I'm just glad that you don't use the text editor that won’t be named, although you've actually already mentioned it. Do you want to talk about what it was like for you getting started programming broadly? Because you studied math in college, but did you know how to program before that? Did you learn how to program in your math program?
+
+
+[00:17:01] CM: My dad actually taught me to program many, many months ago. It was a pastime, because he used to be a software engineer. He would code up in C, and he used Vim, so it’s my first experience with Vim. We would build up very simple “Hi, what's your name? How old are you? You can't drink yet.” Very simple things. Then I largely forgot about C and C++. It wasn't until my sophomore year of college, that a friend of mine was taking a Java class. I was just looking over her shoulder at it. I was like, “What is this?” I could read some of it, because of the C background and just like coding.
+
+
+I decided to take that same class the next semester and went through Java. I was just really confused all the time. I was like, “What's this static versus not static? Why is it telling me that I can't use this declaration? What does class mean?” I had a bunch of questions.
+
+
+[00:18:06] SM: You had feelings about it?
+
+
+[00:18:07] CM: Eventually got answered, but I didn't really understand all the moving parts and there was a lot for me to take in. Then I started taking more CS courses alongside my math courses and got more comfortable. At that point, I'm still just coding in Python and Java. I got a job, eventually, at a consulting company. They are using Java to build out insurance software. Then, this is the pivotal point at which I think I really started to code when we had to build out the front-end using Angular. I'm just wondering like, why is there so much repetition in all of this? I started asking around. I was like, how do we reduce repetition?
+
+
+Then, I was watching a YouTube video and found this video about Elm. It unlocked all this functional stuff that I had no idea existed. That's when I officially would call my coding journey to begin. Because once I went into the functional programming world, I just learned so many programming languages, got into programming language theory. Wild.
+
+
+[00:19:12] JE: What is programming language theory? Sorry, I just have to tell you what just happened here. You were talking about languages. I was like, “Oh, my gosh. This is a great opportunity to segue into programming language theory.” I’m like, “Sundi, you should take this opportunity.” She’s like, “Where? I don’t see it.”
+
+
+[00:19:26] SM: I don’t see the segue. What are you talking about? You said the words.
+
+
+[00:19:28] JE: Then you literally mentioned it. Yeah. You literally mentioned it. You made the segue for us. I hope we don't cut this out, because it's a little bit of fun, inside baseball. I'm having a lot of baseball metaphors today, huh?
+
+
+[00:19:38] SM: Isn’t that your first one?
+
+
+[00:19:40] JE: No. I said something about knocking it out of the park earlier. Something that only happens in baseball.
+
+
+[00:19:45] SM: All right. Well, we'll foridive you, Justus. Please tell us, Chris, about what do we just say?
+
+
+[00:19:50] CM: Programming language theory.
+
+
+[00:19:51] SM: Thank you.
+
+
+[00:19:52] CM: Yeah. What is that? We all know how to code, I presume here. We know what basic assignments are for leaves, etc., mapping and things like that. If you had to create a programming language, would you know how to?
+
+
+[00:20:06] JE: I take a lot of pride in my ability to hack things together. So, yeah.
+
+
+[00:20:13] CM: Yeah. You could probably hack one together and get something analogous to brain.
+
+
+[00:20:18] JE: It would just be a ton of – it'd be a ton of case statements.
+
+
+[00:20:22] CM: How do you construct a programming language that actually does something useful that's Turing complete, that has types, that is verified.
+
+
+[00:20:31] SM: Does it have to have types to be a complete –
+
+
+[00:20:33] CM: It doesn’t have to have types. No. Turing complete, it just essentially, it means that your programming language satisfies a Turing machine, that you can implement a Turing machine in your programming language. Or equivalently, means that your programming language is mathematically equivalent to the lambda calculus or something like that.
+
+
+[00:20:53] SM: I've heard about the Turing test for AI. That's my first time hearing Turing complete.
+
+
+[00:20:58] CM: Turing complete, it's the notion of what computation is.
+
+
+[00:21:04] JE: Can I ask you a question around that? Because I am a fan of Cal Newport, who you probably have heard of, if you're in the math and computer science world. After reading him, I got confused, or maybe the lines were blurred. I don’t want to say confused. The lines were blurred between computer science and math. I guess, I'm just wondering, where does applied math end and computer science begin?
+
+
+[00:21:30] CM: Going back to algebra, this thing about collection of things and operation on those things, the foundation of computer science is Boolean algebra, essentially, this Boolean logic. Computer science is math. It's not really, or it is one thing begin and the other. It's all the same thing. Programming, when you're programming, you are writing proofs to propositions. You are doing math just in a different way.
+
+
+[00:22:00] JE: Okay. Then, let's return to the programming language theory aspect of this, which is what – Okay, I need to build my own programming language. What are the constituent parts that I need to be considering? Or how do I deconstruct that problem?
+
+
+[00:22:13] CM: Exactly. The first thing that you have is a parser and that just reads your text and puts it into tokens for the compiler. Your next thing is a tokenizer. I'm going to skip a bunch of the things in the middle. I'm going to talk about the parser. It takes your text and puts it into this nice form for your compiler.
+
+
+Your compiler then takes this thing in a nice form and transforms it to machine code. The thing that you have to think about when creating your own programming language is, what are these nice things that your parser needs to transform into? In other words, what are these expressions? What do they mean? Those are the steps. You write a parser, you write a compiler that uses these expressions and get translated to machine code and you have a programming language. 
+
+
+Or you can write an interpreter that takes these expressions and translates them directly to their values, or interprets them. Now you have an interpreter, something like Python. Or you can have a transpiler that takes these expressions for maybe some other language and transforms it to some other language, like JavaScript, and that's what Elm does.
+
+
+[00:23:22] JE: Could we write a transpiler to take all the world's Java code and turn it into a language that wasn't terrible?
+
+
+[00:23:29] CM: Theoretically.
+
+
+[00:23:31] JE: All right, Justus. Go read it. Come back. Tell us how it went.
+
+
+[00:23:33] CM: Clojure, kind of something I thought.
+
+
+[00:23:36] EO: Yeah. I think you're still on the JVM, which is good. It's just going to have the semantics that Java has. I don't think you're getting away from it too, but to too far, at least.
+
+
+[00:23:46] CM: The semantics and syntax of Clojure in Java are completely different. It's just that, going back to the compiler thing, Clojure compiles down to the JVM, the Java machine code. The actual expressions that you're dealing with are nothing like what you see in Java. Although, our Java code can be imported into valid Clojure.
+
+
+[00:24:07] JE: All Java can be – did you say, converted or compiled?
+
+
+[00:24:10] CM: Imported into Clojure.
+
+
+[00:24:14] SM: Your dreams could come true, Justus.
+
+
+[00:24:17] EO: I guess, the Elixir way of thinking about it is if Elixir is Clojure.
+
+
+[00:24:24] JE: Erlang is Java.
+
+
+[00:24:25] EO: Erlang is Java. Yeah. You can use both and either.
+
+
+[00:24:29] JE: Which sounds like a segue into talking about the BEAM. Amazing how that works.
+
+
+[00:24:33] SM: Yeah. How do you like working in Elixir? Working with the BEAM? You clearly have a really good understanding of different languages. You get to experience the good parts and maybe talk a little bit about the things that you wish you could see too.
+
+
+[00:24:46] CM: I guess, I really like working in Elixir, because it's the one language I know how to actually get a web application up and running and in production. Things that I don't like about Elixir is I don't like it doesn't have types. I like the fact that it brings in this Lispy type of feeling to it with its metaprogramming. I know Jose brought that up when I interviewed him. He’s like, he got some inspiration from common Lisp, I believe. I really like that.
+
+
+I like the Ruby syntax that's almost built in. I like the abstractions they've done over Erlang, especially with the gen servers. It's really cool. Remember when one of my friends spun up a gen server and showed me how to do it, and then showed me the equivalent Erlang code forms. Cool. I really like the fact of concurrencies is just built into the language. It's very different from some of the other languages I had been exposed to prior to learning that Elixir existed, or BEAM languages in general.
+
+
+[00:25:50] SM: Can you remind me, your YouTube channel, I feel like when we were looking at it, there were a lot of Elm videos. Were there Elixir ones as well, or was it pretty math-based? You had some playlists.
+
+
+[00:25:59] CM: There are, I believe, two Elixir videos. One goes over a bug that we found in Elixir one time with the width macro. Then, the other one goes over the width macro as it's supposed to work.
+
+
+[00:26:15] JE: I'm curious how you came up with the name Coding Cave. Is it a reference to Plato's cave? Because that's what I was basically wondering.
+
+
+[00:26:22] CM: No, it's nothing that deep. I think it just sounded cool. I don't really think we had any deep thoughts about it, like I did with my Twitter handle.
+
+
+[00:26:32] SM: Everyone has career goals and personal goals. Starting a YouTube channel is a whole thing, or at least now it is. Maybe it wasn't when you started it. Do you have some high-level goals for what you'd like to achieve? Are you just hanging out with your buddy and making videos and talking about math, or programming?
+
+
+[00:26:52] CM: I think, we want to make videos that can teach people how to code, as well as videos that can get more, I guess, junior people to understand more complex things. It's funny saying that, because I am a more junior person. I guess, we want to give videos that talk about more advanced things, like using monoids in programming, or continuations and things like that, or talking about functional languages like Elixir and Elm.
+
+
+[00:27:21] SM: I will say that I think some – We've been chatting for 30 minutes and something I can already tell that you do very well is talking about high-level concepts, and breaking them down in a way that are fairly digestible. There are plenty of videos out there on how to make a web app in Elixir or something. It would be really interesting to hear content around thought processes, around how a programming language works. Even a video on what you were just talking about. If you had to build your own programming language, what would that look like? That would be fascinating content. 
+
+
+I'd love to learn more about how to think about approaching programming problems, versus just how to solve a particular problem. I think one of my breakthroughs in programming was when I learned how to write, or how to ask the right questions and I definitely can tell you'd be good at describing that, if you were interested in making that content.
+
+
+[00:28:15] CM: Yeah. That sounds like it would be something I'm into. Actually, one of the videos that I have in my back mind is writing Elm in Elm.
+
+
+[00:28:25] SM: Is that what we call meta-programming?
+
+
+[00:28:27] CM: It's called a meta-circular evaluator. When you write a language in the language that you're going to evaluate with the language you wrote.
+
+
+[00:28:35] JE: A meta-circular evaluator. Wow. These are big words. These are big words for me. When we say that there's magic in a language, I think that we mean that it's doing something unexplicable, or miraculous. I'm curious, what's your philosophical take on that from a programming language theory standpoint. Also, what's your experience with it?
+
+
+[00:28:57] CM: I guess, when I think magic around programming languages, that's where we're talking. I guess, I think about the magic behind Lisp macros and all the crazy things you can do with that. At the end of the day, everything on Lisp is just a list. Something about that is magical. I think it's magical how when you write in Haskell, sometimes it can just feel like English. You can write Haskell on a board, add, equals, X plus Y. That's valid Haskell. Add X, Y equals X plus Y. Sorry, that's valid Haskell.
+
+
+Other things that are magical; when I can abstract something in a language that I didn't think I could do, or I can't do on another language. I guess, that's something like concurrency in Elixir. It's very centrally abstracted. That it's very hard to abstract in other languages. The biggest piece of magic, though, at the end of the day, is how fast I can get something running, that can be pushed to prod. I do a lot of side projects for various people, or friends. I guess, I used to do them with Python, flask and node. Now, I do most everything in Elixir and Phoenix, because it's just — I can get authentication with POW very quickly. I can get all my database stuff rolled up. Something about that process is just very magical to me.
+
+
+[00:30:31] JE: It sounds like you have a very positive perspective on it, which is different from some of what we hear, which is like, “Oh, there's too much magic. I don't like not knowing what everything does.” Do you see that it can be a problem sometimes?
+
+
+[00:30:44] CM: Oh, for sure. Definitely. Because I was literally at work today, walking through a problem on something simple as migrations. There was a macro that we built to handle that data migrations. I didn't really understand what's going on. It was because the macro, I didn't know was there. Macros can be dangerous. Anything that is magical, I think there's a quote around there about it being sufficiently advanced technology. I think that on one side, I'm really honing on macros for whatever reason right now. Macros in any language can be really magical, because they allow you some expressivity that you don't get. With any magic, can come fear and danger. I guess, with any good magic, there's both Vim and Emacs, right?
+
+
+[00:31:39] SM: Amazing. You actually just said something that made me realize, we hadn't talked about it yet. We obviously found you from your Twitter and your YouTube channel, but you also mentioned that you work in Elixir, or your day job. Do you want to talk a little bit about your work and what you do there?
+
+
+[00:31:51] CM: Sure. I guess, I can do that. I am a software engineer at Corvus Insurance, a startup in Boston. We specifically are writing insurance and cyber and tech insurance and we use Elixir and Elm to build out our crowbar, which is our internal tool that underwriters used to actually get the insurance served.
+
+
+[00:32:14] SM: Did you learn the bulk of your Elixir there, or was it a before or after an adventure for you?
+
+
+[00:32:20] CM: Yeah. I actually heard about Corvus Insurance through the Elm Slack. At that time, I had no knowledge of the BEAM or any BEAM languages. I remember talking with Eric, who's the VP of engineering. He's like, “Yeah, we use Elixir here.” I was like, “I don't know what that is.” Of course, I didn't say that. 
+
+
+After I got off the phone with him for my initial phone screen, I was like, “I got to go learn what Elixir is.” That's what I first started diving into the BEAM and Erlang and all that jazz. It definitely was a little bit before and after learning Elixir for the job type of thing. Most of my practical Elixir knowledge came from Corvus, just learning on the job.
+
+
+[00:33:03] JE: You're also a fan of spoken languages.
+
+
+[00:33:07] SM: We noticed on your resume, I think, that you have two languages under your belt. Was that correct? Is it more? Is it less?
+
+
+[00:33:14] CM: No, that's correct. I would say, my strongest language other than English is probably Mandarin right now. In addition to that, I can speak German and my Spanish is weakening.
+
+
+[00:33:29] SM: Use it or lose it, right?
+
+
+[00:33:31] CM: Yes.
+
+
+[00:33:32] JE: [Inaudible 00:33:32].
+
+
+[00:33:35] SM: Do you happen to see – like we talked about the cross section of math and programming. I'm wondering if you see a cross-section of spoken languages and programming languages as well? I wonder if you ask the same, how would you create your own spoken language question, if there are any overlaps there?
+
+
+[00:33:51] CM: I do think that they have to be related in some way, shape or form. I haven't quite put to words how that relation exposes itself. I have noticed from comparing Mandarin to German, for instance, that there's an inherent reliance in German on grammatical structure. Maybe that could be parallel to strongly typed programming languages. There's this inherent reliance on the typing rules and on types.
+
+
+Whereas, a language like Mandarin, Chinese, you can get away with just putting things together in whichever way you please. Like in dynamically typed languages, like Lisp and Python. I don't have anything further than that with the relation of them. I do think that being good at programming and learning the language, share a lot of similarities, like memorizing new vocabulary, and understanding underlying structure.
+
+
+[00:34:55] JE: Can you talk a little bit about that language acquisition process in both programming languages and spoken languages? I'm curious if you've got strategies, or tactics that have helped you to learn – I mean, it sounds like you speak several languages, you write several programming languages. How do you learn to do this?
+
+
+[00:35:14] CM: For spoken languages, I have to say, you have to have a need for it. I guess, that's true for actual programming languages, too. You have to use it a lot, which is true for human languages. I guess, once you have a need for it and you're using it a lot, your brain just does the rest for spoken languages. Some languages that are more similar to others, like German and English may have an easier time, because they rely on the same underlying structure, which for German and English is that underlying grammar structure. For other languages, like Chinese, there's not going to be another language where a native English speaker to learn that, because it's completely foreign and different. 
+
+
+[00:36:01] JE: How is my Chinese I just [inaudible 00:36:03] earlier?
+
+
+[00:36:04] SM: I didn't recognize it as Mandarin. If that's Cantonese, then I don't know that.
+
+
+[00:36:10] JE: No. Well okay, how do you say I am a dinosaur in Mandarin? I’m pretty sure I've been walking around saying that to people in Japanese.
+
+
+[00:36:19] CM: I don't have the vocabulary for dinosaur. It would be something along the lines of [inaudible 00:36:24].
+
+
+[00:36:25] SM: Insert animal name here.
+
+
+[00:36:26] CM: Yeah. I don't actually know what that is.
+
+
+[00:36:29] JE: Okay. I spent a summer in China a while back. What you're saying is exactly right, as far as spoken languages are concerned. Immersion is the hack to learning languages. As soon as you leave, you forget everything. The only thing I've remembered is this phrase, “Wo lo kong long,” which I think means I am a dinosaur.
+
+
+[00:36:51] SM: What’s the dialect? Were you in a particular part of –
+
+
+[00:36:54] JE: Well, I might also just be butchering it now after much forgetfulness, because it's tonal, so I'm probably saying the wrong words entirely.
+
+
+[00:37:03] CM: Well, you're saying I something. I’m not sure with the kong was.
+
+
+[00:37:07] JE: [inaudible]. He’s like, “He’s so bad at this.” Hilarious. Hilarious.
+
+
+[00:37:15] SM: Well, it was definitely fun when we were researching for this episode to see that you're so into programming languages, but also spoken languages. I definitely was curious about that.
+
+
+[00:37:29] CM: I do have opinions on the key to learning a new programming language, though. I think at the end the day, after learning a couple of them, I think you just start with the function and how to do variable assignment, if that's even a thing. I've noticed in most languages that I know now is that I just need to refresh myself on what a function looks like and how to apply it in that language, and then I can figure out the rest of the language, because it just falls out almost naturally. Programming languages also reuse a lot of the same syntax. Once you learn a couple of different ones, you pretty much have all of them already.
+
+
+[00:38:10] JE: Okay. I'm going to post the Google translation for this.
+
+
+[00:38:14] SM: While you do that, I will say that's almost a hot take, Chris, I feel like, to say once you know one, you know them all. I can totally see that though.
+
+
+[00:38:23] CM: I mean, it breaks down when you're trying to learn APL or something.
+
+
+[00:38:27] JE: What is APL?
+
+
+[00:38:28] CM: A Programming Language. That is literally the name of the programming language.
+
+
+[00:38:33] JE: All right, you know what? Okay, okay. Someone's got to say it, that programmers are terrible at naming things. It's not that it's so hard to name things. It's that programmers are just bad at it. Okay. The hardest thing in computer science is name things. No, you're just bad at it. You keep naming things, freaking yet another markup language, a programming language. I'm so funny and unhelpful in my names. 
+
+
+[00:38:56] SM: Wait. Is yet another markup language –
+
+
+[00:38:58] JE: YAML. Yes.
+
+
+[00:39:00] SM: Oh, I did not put that together. 
+
+
+[00:39:02] JE: Chris, I just posted some Chinese in the chat. Can you check that out and pronounce it for me?
+
+
+[00:39:08] CM: [inaudible 00:39:08]. Oh. I guess, it is I want to see a dinosaur.
+
+
+[00:39:13] JE: Wo she kong long. I remember the thing. I walked around that big hole in Zhong Cheng. Just sit down on people. “Wo she kong long.”
+
+
+[00:39:23] CM: It’s very funny.
+
+
+[00:39:26] JE: They love it. They love Americans when you go out there and you just – I don't know. They're like, “Take a picture.” I’m like, “Yes. Don’t have a problem. Got it.”
+
+
+[00:39:32] CM: Yeah. I have lots. Actually, my final presentation that I gave at East China Normal University, the last slide was just all the pictures that I've taken in China, because they had never seen a foreigner before.
+
+
+[00:39:51] JE: Yeah. Oh, one day, we'll get to maybe get back to visiting other countries. I want to wrap up here with just, I want to talk about the BEAM. We know that you're getting into Elixir and the whole ecosystem might be new to you. I'm curious, are there things that you're getting to do in Elixir on the BEAM? Maybe you've played around with Gleam? Are there things that you've been getting into that you are excited about?
+
+
+[00:40:19] CM: I'm really thinking about this. I think I've been putting a lot of my time recently, and just learning how to use Elixir to build something. I guess, that really is exciting. I've made it past my point and other languages when it comes to actually building things. I think that's it. I haven't really dived into the BEAM. I've been preoccupied with other things after my class, and so I probably will get more into Elixir and the BEAM and Erlang. I'm taking a graduate course on [inaudible 00:40:56] right now. I've been really busy.
+
+
+[00:41:00] JE: Rock and Roll. Well, we'd like to give the guest the final word. This is your chance to plug anything you want, shamelessly self-promote, ask the audience to do ridiculous things, or not so ridiculous things. It's totally yours. The floor is yours.
+
+
+[00:41:18] CM: Well, if you haven't already checked out my interview with Jose Valim on Coding Cave, my YouTube channel, please go ahead and do that. You can follow me on Twitter if you're interested in more thoughts around programming language theory, monoids and monads. That's @BlackEuler. I think that's it.
+
+
+[00:41:39] JE: Awesome. Xiexie, Chris Miller. Xiexie.
+
+
+[00:41:43] CM: [inaudible 00:41:43].
+
+
+[00:41:45] JE: I love this.
+
+
+[MINI-FEATURE INTERVIEW]
+
+
+[00:41:46] JE: Hey, thank you for joining us on Elixir Wizards. Before we close out the show, we'd like to share another quick mini-feature interview with you. It's a brief segment, where we showcase somebody from the community that's working at a company using Elixir in production. We'll learn about how they're using Elixir. Hope you enjoy it.
+
+
+[00:42:08] AH: Hello, and welcome to the mini-feature segment of Elixir Wizards. My name is Alex Housand. Today, we're speaking with Sidney Leatherwood, Software Developer at Semsee. Welcome to the podcast, Sidney.
+
+
+[00:42:19] SL: Hey, thanks for having me.
+
+
+[00:42:21] AH: It's great to have you here. I have to say, your last name is pretty cool, as far as last names go.
+
+
+[00:42:26] SL: Yeah. I definitely hear that a lot. I’m quite fond of it myself.
+
+
+[00:42:30] AH: Never give that up. Just to dive right in, how did you find yourself being a software developer? What made you get into programming?
+
+
+[00:42:38] SL: I was never really scared of computers, but I was also never – I would never consider myself techie. As I got older, I had friends who were into programming and to developing. I would go to them for certain projects that I'd be working on, or for advice. Then eventually, one thing led to another and I was working on a project and I just decided to give it a shot, trying to build it myself. I was a Craigslist scraper. That was my first project. That was my first foray into development, that was using Ruby, and the Rails framework, and then I was hooked from there and I just wanted to learn more. I just dived deeper and kept peeling back the layers.
+
+
+[00:43:22] AH: That's awesome. Do you feel like using Elixir is similar to using Ruby?
+
+
+[00:43:27] SL: Yeah. I think the ease of use, the readability is definitely Ruby-like. I feel like, the biggest similarity though, was the frameworks between the Ruby Rails world and the Elixir Phoenix world. The area where I could leverage my Ruby chops the most was working with the MVC framework, that is Phoenix.
+
+
+[00:43:51] AH: Yeah. How did you find yourself working in Elixir? Was it a job change, or was it more personal project use?
+
+
+[00:43:58] SL: Yeah, it was a job change. I have a mentor. He exposed me to the concept of Elixir. I knew it existed. I knew that it was liked by rubyists, because of the similarities between the frameworks and such. I knew that was a thing, the Ruby developer that switches to Elixir.
+
+
+[00:44:19] AH: You mentioned that you have a mentor. What has that been like for you in your career?
+
+
+[00:44:26] SL: Oh, it was great. It was great. Because, well, this mentor was like, oh, my God. He's so intense. He was my best friend and I didn't know that he was as talented as he was in computer science. We moved out to Los Angeles together from Ann Arbor. He just pulled this skill set out of nowhere. I was just amazed. He was the one who got me into like, I was into WordPress sites and doing affiliate marketing and link wheel sites and this was an Amazon, was wild, wild west. Affiliate marketing was so lucrative for no reason.
+
+
+He got me into that. He really, really excelled and took off from there. I stopped there. This was 10 or so years ago. I stopped there and he continued on. When we got back to each other, wanting to connect on a technology level, he was like a Superman. He, for some reason was addicted to wanting to help me learn. He would spend so much time with me. I would code for 16 hours a day. He would wake up in the middle of the night if I texted him to answer questions. He'd call me. He was so excited that I was as excited as I was. He was just with the level of interest that he gave to me and my desire to learn. That was indispensable.
+
+
+I imagine, I could have done it without him, but I definitely wouldn't have stayed motivated. I was able to code for 16, 17,20 hours at a time, because I knew that when I finally was up against the wall and I couldn't solve a problem, that I had to pay out. That was awesome.
+
+
+[00:46:02] AH: That's incredible. I think we all want mentors like that, either a personal or professional-wise. We don't always get mentors that are that dedicated and interested in our own growth. That's amazing to hear that you've had somebody like that in your life.
+
+
+[00:46:19] SL: Exactly. I find myself trying to help others as well. I feel so inadequate, because I have this bar that he set. It’s just so high.
+
+
+[00:46:29] AH: How did you find yourself at Semsee?
+
+
+[00:46:31] SL: It was a much needed move. I'd been in Los Angeles for 10 years. I think that my current manager reached out to me and we had some conversations and I immediately was interested in everything that he was talking about. A big part of our application is robotic process automation. My first application was a scraper. That was the specific aspect of this company that I really liked. I really liked the idea of working professionally with RPA.
+
+
+Then we got to speaking and I learned a little bit about the stack and out was Elixir. I immediately like that didn't throw me off at all, because I was familiar with Elixir and my mentor have been pushing me to learn it just to learn it, because he was really excited about the pattern matching and the whole OTP concept. As soon as my manager, who wasn't my manager that obviously. As soon as he started talking about Elixir, I was in. I had been on Ruby, solely Ruby since I started developing. I was ready to try something different. He made it sound very exciting.
+
+
+[00:47:44] AH: Yeah. Could you give us a brief elevator pitch for what Semsee does, if you had to market it out?
+
+
+[00:47:51] SL: Yeah. It's like comparative rating. We're all familiar with the ability to go one of hundreds of websites and fill out one little short form and get quotes for car insurance, or homeowners insurance and the like. Semsee is a play on words. There's an acronym. It’s SEMCI. Semsee kind of. It's Single Entry Multiple Carrier Interface. It's this idea that was promised to insurance agents and agencies back in the day. It was this concept of hey, we're going to allow you to have one form to get multiple kinds of quotes from multiple carriers to do coverage comparisons with your clients and whatnot.
+
+
+It was a promise that never came to fruition, because the insurance industry just wasn't ready for it. They had lots of outdated technology. When technology caught up to when the ability to leverage technology to solve these insurance industry problems came around, these companies weren't – They weren't set up to be able to leverage that technology. This promise never came to fruition.
+
+
+What we have done is provided agencies and carriers with the data analytics and the workflow that you would need to make it through a single form to get quotes for multiple commercial lines of insurance. It's a challenge, because you could imagine, if you want car insurance and you have a Toyota Prius, you simply enter the car and the year, the VIN number. Maybe there's one has airbags, or one has leather seats, another dozen or something, but it's generally the same car.
+
+
+With commercial insurance, you might have a restaurant. Well, what kind of restaurant? Is it fast food? Is it dine-in? Is it takeout? Is a ghost type kitchen? Do you have grills on-premise? There's all kinds of different types of businesses, different types of codes that go with those businesses, different types of classification systems that people have come up with to classify these businesses. Different carriers. Different insurance providers use different classifications, and sometimes they have their own classifications. All these carriers are asking different questions. They might ask the same question in different ways. They might ask a question and the question might have other questions that depend on the answer to that question.
+
+
+You can see how, if you're trying to submit an application to 10 different carriers across three different types of lines, like business owner policies, workers comp policies, and commercial auto policies, you have a monumental task on your hands, as far as the workload, the form filling and all that. That's what we tackle is the whole data debacle that you have to work your way through in order to make something like this happen.
+
+
+Also, the process, this is a new process. What's the user interface like? How do you get a user interact with something like this? We're also discovering that as we go and we're tweaking our processes and our forms. That's what we do. That's where our value add is, I guess on the agency side. There's also a value add on the carrier, the insurance provider side, and we definitely offer a lot of value in a lot of extras that I didn't mention for the carrier side. Yeah, it's a pretty all-encompassing comparative quoting platform. I'm sorry, I know that wasn't an elevator pitch. That was –
+
+
+[00:51:28] AH: You know what? Nobody ever said that any type of insurance was going to be simple. There you have it. Could you speak to some of the perks and challenges that you've seen in hiring in Elixir?
+
+
+[00:51:42] SL: Yeah. From what I understand, I don't personally do the hiring, but from what I understand, the challenges, obviously, can be that there's not that many Elixir devs out there. Finding developers who are really motivated and interested in taking on something new and the challenges that come along with that, obviously, that is a big challenge.
+
+
+The perks I'd say, would be that when we do find people that already know Elixir, or have some exposure to it, it's typically because they've taken their own initiative and looked into the language themselves, or built personal projects with it. It doesn't tend to be people who have prior work experience with the language. That is a perk in the sense that those are the kinds of people that we're looking for are the ones who are self-motivated and inquisitive and always looking to learn new stuff and push the envelope of what technology is available to them.
+
+
+[00:52:37] AH: Yeah. One of the things I've always really enjoyed about Elixir is that I feel the online resources and documentation are pretty robust. Do you feel the same way?
+
+
+[00:52:48] SL: Yeah, definitely. I was a little left wanting a little bit coming from the Ruby community, because their developer community is so extensive. Once I learned how to leverage the assets that are there for the Elixir community online and learned my discovery flow, my information discovery flow, I guess, I really did start to appreciate the level of activity that there is in the Elixir community.
+
+
+[OUTRO]
+
+
+[00:53:15] JE: That's it for this episode of Elixir Wizards. Thank you again to our guest, Christopher Miller, for joining us today. Elixir Wizards is a SmartLogic production. Today's hosts include myself, Justus Eapen and my co-host, Sundi Myint. Our producer is Eric Oestrich and our Executive Producer is Rose Burt. We get production and promotion assistance from Michelle McFadden and Ashley Stotts.
+
+
+Here at SmartLogic, we build a custom web and mobile software. We're always looking to take on new projects in Elixir, Rails, React, Kubernetes and React Native. If you need a piece of custom software built, hit us up. Don't forget to like, subscribe and leave a review. Follow @SmartLogic on Twitter for news and episode announcements. You can also find Elixir Wizards on Discord. Just head over to the podcast page to find the link. Don't forget to check us out next week for more on BEAM magic.
+
+
+[END]
+        © 2021 Elixir Wizards
