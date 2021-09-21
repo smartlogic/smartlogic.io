@@ -1,0 +1,175 @@
+Justus Eapen:       Hey, everybody. Welcome to Smart Software with SmartLogic, a podcast where we talk about best practices in web and mobile software development with a focus on new and emerging technologies. My name is Justus Eapen and I'll be your host today. I'm a developer here at SmartLogic and we're a Baltimore based consulting company that has been building custom web and mobile software applications since 2005.
+
+Justus Eapen:       I'm joined today by my co-host and SmartLogic's resident elixir wizard, Eric Oestrich. Say hi, Eric.
+
+Eric Oestrich:      Hello.
+
+Justus Eapen:       And we're also joined with a special guest, Mr. Ryan Billingsley from ClusterTruck. Ryan, can you say hi?
+
+Ryan B.:            Hello.
+
+Justus Eapen:       Thanks, Ryan. Our first series here on the podcast is covering Phoenix and Elixir in production. I'm really excited for this episode. Ryan, do you think you could introduce yourself to the audience. Tell us a little bit about ClusterTruck, what you guys do and your background, how you've gotten started with Elixir and Phoenix?
+
+Ryan B.:            Yeah, of course. So I am a software engineer at ClusterTruck. ClusterTruck is a delivery only restaurant. So basically, how it works is we have kitchens in Indianapolis, Kansas City, Denver, and Columbus, Ohio. You can get on our website or get on our app and you order food, and we will bring that food right to your curb.
+
+Ryan B.:            But the biggest difference between us and say, Grubhub or DoorDash or some of those companies, is because we maintain the entire process. We use technology to determine when we should actually cook your food. We won't cook your food until a driver is within distance of our kitchen to pick it up when it's ready to go and it's hot, at it's hottest, so that by the time they get it to your curb, you're getting hot, fresh food, not food that's been sitting under a warming lamp for an hour. That's the gist of what the company does.
+
+Ryan B.:            As far as how I got to Elixir, I started as a Ruby developer years ago, and then I've gone many directions for a while. I've done JavaScript and Node and kind of everything in between, but I got to Elixir I think two years ago, was when I started really getting into the language. Dave Thomas, who's big both in the Ruby community but also in the Elixir community, had a book out. It was just talking about really enjoying his time in Elixir a lot. I checked it out, and I really enjoy it as well. I started using it in production in my past job and then ClusterTruck was looking for somebody who happens to have both Ruby and Elixir experience and some JavaScript experience, which I happen to be a weird mesh of having all three of those. So yeah, that's how I ended up where I'm at now.
+
+Justus Eapen:       And Ryan, could you tell us a little bit about the name ClusterTruck? Where does that come from?
+
+Ryan B.:            Yeah, so originally, the idea was our menu was basically divided up into food trucks, but they were virtual food trucks. So there'd be a pizza and wings food truck. There's a Mexican food, food truck. The idea was we're bringing all of these food trucks, that you might find scattered around the city, we're bringing them all virtually together into this one space, so you can... Our menu is kind of nuts. You can get a burger, Pad Thai, a burrito, some cookies, and a drink if you wanted to. It's very expansive of what we make. So, yeah.
+
+Eric Oestrich:      So what you're saying is that each fits the Elixir scheme pretty well because each truck is a process.
+
+Ryan B.:            That would be amazing if we ever decided to completely rewrite our infrastructure. I would push hard for a GenServer per food truck.
+
+Justus Eapen:       Which is a great segue into our next question, which is, can you give us a quick overview of the projects that you have in production right now?
+
+Ryan B.:            Yeah, so there's two main ones, one that was made before I arrived, and then the one I've been building for the past several months. So the first one, we use Phoenix's channels to provide real-time information about your order. Once your order is in our system, we'll let you know when it starts cooking. We'll let you know when it's with the driver and they're delivering it to you. We'll let you know when everything is complete. So all of that real-time communication is managed through Phoenix and through channels.
+
+Ryan B.:            Then the new thing, the thing that I have been working on, is our Slack app. So it's called ClusterTruck for Teams, and basically the idea is if you're in Slack with your team, you can start an order with a slash command, and it will give you all the information about who's on the order, if they've actually submitted their order or not, because sometimes people aren't sure if somebody got their order in. They want to make sure they get their food, so it'll tell you that. Then it'll give you the same status updates of it's cooking right now, it's being delivered. It does all that by just showing you emojis for the different states that your order can be in. But that whole thing runs in Elixir basically by itself and then has a HTTPoison wrapper around our actual Rails API that handles all the infrastructure for getting your order actually cooked. So those are our two big ones.
+
+Eric Oestrich:      Cool. So I guess could you tell us, was there any reason that led you to use Elixir for these projects?
+
+Ryan B.:            I just enjoy developing an Elixir. One of the really interesting things for me is when I learned Ruby, I didn't really learn Ruby. I got introduced to Rails and was very young, and the way that I kept looking for things was I would go on Stack Overflow and search for "How do you filter a list in Rails?" And it was always like, "Well, you don't do that in Rails, you do that in Ruby." Not getting the paradigms of those two things really, because it just ... the way that was always introduced to me was just Rails is always at the front.
+
+Ryan B.:            When I learned Elixir, I learned Elixir at its core. I didn't jump to Erlang because I figured I would get there at some point, but I didn't think it was as important to learn as much as just understanding how the actual Elixir language works. But when I started learning it, Advent of Code was going on, and so I just made the decision I was going to slog through every single day of Advent of Code with this language that I don't know very well, and just really hack on it. I just really grew to love some of the things that they've embraced. Even simple things like pattern matching, the way that it's handled, once you get to do it, when it's taken away from you, it's extremely disappointing. So it's like every time I drop back to Ruby, it's just like, "Why can't you just adopt this? Because this is so good."
+
+Ryan B.:            I enjoyed working with it, but then the other things are the performance that you get out of the box, the fault tolerance that you get out of the box, kind of the core tenets of using Elixir. Those aren't just bullet points for marketing. Those really are why you would use this language. It makes a world of difference in how you approach problems, and your whole mindset of what you have to think about as far as error handling and how am I going to run this thing asynchronously, or I need this thing to, if it dies just let it live. All of those things, there's a lot of freedom that comes with Elixir handling that for you and not having to deal with it. So really, out of the box, I just really enjoy that experience and it made a lot of sense for a brand new project that we were getting off the ground, to write it in something that was going to be enjoyable.
+
+Justus Eapen:       That is a great answer and I want to then, I guess, get you to add to that. Do you have a sense of any disadvantages of using Elixir? When would you definitely not want to use Elixir?
+
+Ryan B.:            That's tough. I mean, obviously, if you are coming into a company that's already established in some environment, it's always going to be hard to just try and get people to completely switch and embrace something that is different, because tooling won't be set up, you don't have any of that infrastructure that is around any new language that you want to introduce.
+
+Ryan B.:            I've been through this. Where I worked previously before ClusterTruck, I was kind of the person that was always introducing new things and forcing people to adopt new practices and I could get away with it because I was a senior engineer and that was part of my responsibility.
+
+Ryan B.:            So we went through that with Node, we went through it with Go, we went through it with Ruby, we went through it with Elixir. There's pain involved every single time you do that. If you're not already set up to do it, then you need a really good use case as to why this is going to make things better than say your Ruby API that you're running right now, but thankfully I came to a company that had already embraced Elixir, so it was not hard at all to get people on board.
+
+Justus Eapen:       I wanted to stay on this question for a minute because I heard you just mention that you were doing work in Node and Go. Maybe I'm wrong about this, but my impression is that the sort of new era of web development is moving beyond Ruby and Rails and sort of the old guard of web application technologies. And now moving towards more like Node, Go, and Elixir as being sort of the cutting edge, I'm curious what your thoughts on comparing those.
+
+Ryan B.:            I mean I know the prevailing narrative around Ruby is that it's on its way out. I still think Ruby has its place in the world. I don't think there is anything wrong with Ruby's language. I think what Ruby has always struggled with, whether it's real or perceived, is a performance issue and is a scaling issue. The things that, where Ruby never really was built to be a powerhouse in, is still places that I think they still have problems. There's some vision for, in the future, Ruby tackling those problems in an interesting way and I think that's something to keep an eye out for.
+
+Ryan B.:            There's still people writing applications in PHP, and it works for them and so I don't know. I think we're almost passed this idea of, "Oh, well that language is just going to die". I definitely don't think that Ruby is that popular, I think Elixir is far less popular than even Ruby is. Obviously, Node is huge because it allows a lot of people to take knowledge that they learned doing front end applications and sort of apply them to back end.
+
+Ryan B.:            There's still differences, very much, between front end development and back end development, that is not one to one, but I think that's alluring for people. I think when you can say, "I just want a JavaScript developer," and assume they will do everything, as a hiring manager, that is something that you want. One of the most popular languages in the world, C# is used by enterprise companies all over the place. These languages just keep going. People are still writing C++, making games in unity, or in Unreal, sorry.
+
+Eric Oestrich:      As long as ColdFusion is dead I think we're all happy.
+
+Justus Eapen:       Is ColdFusion dead? Are we not using ColdFusion anymore?
+
+Ryan B.:            Probably not. There's probably some guy out there who still loves it, who gets paid a ton of money because he's ...
+
+Eric Oestrich:      Yeah.
+
+Ryan B.:            ... thought leader.
+
+Justus Eapen:       My personal site's a ColdFusion site. No, I'm kidding, that would be awful. Let's move on. I want to talk about some of the system level architecture things. Can you talk a little about your hosting environment, where you're hosting your Elixir applications?
+
+Ryan B.:            Yeah. All of our infrastructure is on AWS. We use Salt to basically configure our entire environment. What's nice is... and this is all work that my co-workers, my boss Dan McFadden, and all the people who came before me, they set all this up. It's pretty genius, in that, we can take down the entire production environment, and then with one command, bring it all back up and configure it all. It's very-
+
+Eric Oestrich:      Now, have you tried that?
+
+Ryan B.:            Yes, we have. There was an incident, at some point, where somebody accidentally destroyed something in production and they had to actually recreate the environment in a matter of hours and it worked.
+
+Eric Oestrich:      Awesome.
+
+Ryan B.:            We actually just did a bunch of updates too, recently, and the way we did that, was to set up new environments and then do switch over. Thankfully we know that it actually works because that is always the thing, you do the backups, but if you never actually test them, then when time comes you're screwed. So, yeah. Then everything is deployed with Docker containers. The Elixir app that I work on is just built into a Docker container deployed with Salt out to one of our nodes that sits in AWS on an ECT server.
+
+Eric Oestrich:      Cool, how exactly does, I guess, Salt do the deployments? Is it similar to ... You mentioned you're from Ruby, is it similar to what Capistrano does?
+
+Ryan B.:            No, because what we're basically doing is ... So, we have a Jenkins build server, so when you commit and push the master, Jenkins will build the Docker image and publish that to our Docker repository. Then when you do a Salt deploy, you're basically saying, "I want this build number," which is linked to a tag for that Docker container. It'll pull down that Docker container on that server, and then start up a new container and bring down an old one if it needs to. It's just controlling what containers are running through Docker at any given time.
+
+Ryan B.:            Basically, there's just a big versions list that will say, APIs on this version, consumer is on this version, all that stuff. So then when we deploy it, it'll just go and look up those Docker containers. It's not using any of the, I don't know what, I guess cooler features of Elixir releases. Which I've done on side projects, we just didn't do it on this one, because the way that we needed to get it up, we just didn't have time to really mess with all that and make sure that everything was going to work the way that we wanted it to. This is just really doing a very simple build a container, run the actual Elixir script as the execution point for the Docker container, and starting it up.
+
+Eric Oestrich:      Cool. Yeah, definitely going with what you know is better than ... Yeah, what you know and what you know works. That's always good.
+
+Ryan B.:            Yeah. I did just do a side project that used Distillery, and actually used Distillery to both build in a Docker container, and then run the binaries that it compiled in a Docker container as well. It worked well, but I would rather cut my teeth on something that has zero customer impact than do it that way.
+
+Eric Oestrich:      Yeah, I have a similar side project that I like to toy around new things in, where if I accidentally take down production because my OpenSSL versions were different, then it's all well because no one was using it.
+
+Eric Oestrich:      Cool. I guess to continue with the deployment theme, you guys aren't using Kubernetes, the new buzz word?
+
+Ryan B.:            No. I've looked into it myself, personally, but that would involve a really big refactor of basically our whole deployment infrastructure. So, yeah, I don't know what that would be like, but I am interested in that. I've also-
+
+Eric Oestrich:      Lots of YAML.
+
+Ryan B.:            Yeah, lots of YAML. I've done some work with Docker Swarm as well, which is kind of in a similar vein. But, yeah, I think there's probably some things that we could gain from that, especially just being more dynamic in what nodes are running with what services on them, and being able to bring those up and down as we need, but, we really haven't had any issues with that. It would be more like if we needed cost-saving measures, to not run as many nodes as we run currently, but it hasn't been a problem for us, so we haven't really been forced to look into it.
+
+Eric Oestrich:      Cool. So when you do a deploy, are you able to get any kind of zero downtime deploy?
+
+Ryan B.:            No, but thankfully with our application, we run in such a way that there are actual fixed business hours. Our kitchens are only open for so long every single day. We have very nice big windows, where we can do deploys and nobody cares if it goes down, because they're not ordering food.
+
+Ryan B.:            Yeah, it's nice not to ... we don't really have to worry about that, but we've not had to look into it. I've read about it, but not felt the need to invest the time to start doing that kind of stuff.
+
+Eric Oestrich:      Yeah. Cool, so I guess the next thing would be, do you do any kind of clustering for these Elixir nodes?
+
+Ryan B.:            Yes. So I'm using libcluster and using their epmd strategy. So, basically, what happens is when we build the Docker containers and do the Salt deploy, Salt will set an environment variable that basically says this is what your node address is, and then when the Elixir application starts up, it just looks from that list of nodes that it can pull off and then it will connect to all of them through epmd. Then that keeps all of the nodes connected in one cluster.
+
+Ryan B.:            Then, once we have them connected, when we start a new order status process, we use a dynamic supervisor to start those, and so we're using Swarm to basically manage how those get deployed across the cluster. Swarm will start it on, let's say, node one and broadcast out to all the remaining nodes, "Hey, I'm bringing up this process. Here's the initial configuration, the initial state for it." So then, if node one dies, then node two through five could bring it up and get it started again. That's nice because we'll have a node go down every once in a while, but it keeps the updates going in Slack so that people aren't freaking out about where their food is. And people do freak out when they're hungry, so... Always a risk.
+
+Eric Oestrich:      Cool. So, how does Elixir compare to any of the previous environments that you've done in terms of response time, throughput, jobs per hour type of thing?
+
+Ryan B.:            It's hard to say on this project, but I mean just ... I guess anecdotally, it's much faster. I mean especially even on ... This doesn't have a huge Phoenix component to it, Phoenix is only ... Honestly, we could get away with not using it, but it's just in there for a couple of instances where they need to interact with an actual web UI. But for the most part, everything's happening through Slack. So Slack is really our bottleneck. Our bottleneck is not our process, it's theirs. Their response time from when you put in a slash command, because that has to bounce to their servers, where they do the lookup, and then bounce it back over to our servers, and then we have to send something back to them. We're just doing a lot of back and forth between Slack, and so that tends to be our big bottleneck.
+
+Ryan B.:            With my side project, it's just much faster. I've actually built this side project in Rails last year, I rebuilt it in Phoenix this year, and it's just much faster. I can actually get away with ... I think one of my favorite things is I write less JavaScript, because page loads are so fast that I don't need to do a lot of asynchronous page loading, I can just have somebody click a button and something happens. So you kind of get rid of that need to do it. I mean I still did write JavaScript because there was a real-time component to it, but it is nice to not have to worry about that as much. It kind of feels like the good old days of doing web work.
+
+Justus Eapen:       We'll see how long that lasts. Let's move on to some of the sort of lower level, more language level stuff. I'm curious how you're solving background task processing in your current applications.
+
+Ryan B.:            I guess the best comparison is, our Rails API is doing a bunch of Sidekiq workers. There's a bunch of jobs that kick off, they're all managed through Redis. So you've got Rails sitting over here, you've got all the Sidekiq processes, and you've got Redis. In Elixir, I don't run anything but the Elixir app. If we need to run something in the background, I just run it in a task, or I'll run it in its own GenServer. But I mean I think that, maybe, is one of the most beautiful things, especially this project.
+
+Ryan B.:            This is an umbrella app, and this umbrella app has, I think it's seven different applications that run in it. So all of those are getting started as part of this one supervision tree, and it's all just nicely managed, and I don't have to worry about that. The VM is taking care of, all of the work I would normally have to do outside of my own process, and I don't have to handle that. So it makes deployments a lot easier, it makes our dependencies are a lot less. All of those things are just a huge help. So yeah, it's just tasks and GenServers, which are tasks.
+
+Eric Oestrich:      Yeah. Cool. So we've heard a bit of the libraries you've been using so far like Phoenix and HTTPoison. Are there any other integral ones that you been using?
+
+Ryan B.:            I'm using Opus, which is basically like a pipeline framework, a lot. It's really like a pretty wrapper around reduce_while, where you can basically give it steps that you want to be a part of this process, this pipeline. So that will take in an initial state. Then every single step that you're giving it is doing some work on that state. Then at the end, you get whatever that result is. But along the way, you get things like retry logic, where you can specify how many times you want to retry a step. What kind of backup you want to do as you're retrying that step. You can put checks in. So if a check fails, you'll just halt the pipeline immediately. You can do side effects rather easily, so those are basically running those ...
+
+Ryan B.:            It's basically like running it in a task. But the way that it's laid out, what's nice is I can have any of the people who do Ruby development on our team popping to one of these pipelines and it's a well documented, here's what steps are going to happen in order for this thing to get processed. Before, when I initially wrote it, it was a lot of, "With this, with this, with this, with this. If that, with this." It was a little bit harder to figure out what the steps were and where the failure points were. I've gotten a lot of feedback from people on the team who they wouldn't consider themselves primarily Elixir devs that say that, that's really helpful for them, just to get an idea of what's going on in this.
+
+Ryan B.:            So Opus pipeline, it's a cool framework, a cool library that I've enjoyed a lot. But, yeah, besides that nothing that I don't think a lot of Elixir devs have to get kicked into. I still have to use Timex. I mean it's just ... we do a lot of stuff with timezones and that support is only just now starting to land in Elixir core. Even then, it's only supporting UTC databases, so we need that, the full timezone support that we get for that. Because we have kitchens in multiple timezones.
+
+Eric Oestrich:      That's fun.
+
+Ryan B.:            Yep.
+
+Eric Oestrich:      We've heard a bit about the integration with Slack. Do you guys integrate with anything else or is it just Slack?
+
+Ryan B.:            No. We integrate with Slack as our main one. We actually integrate with ourselves. So there's integration into our API. Then we also integrate ... we have another API wrapper around Segment that we use for event tracking. We have another API wrapper around Google Maps, so that we can get things like lat/long for your address. So when you're creating a new team, you give us address we need to convert that to latitude and longitude. So we use a Google Maps API in order to do that. Trying to think if there's one that I'm missing.
+
+Ryan B.:            One of the applications is basically a Phoenix channels consumer. We consume our own real-time service that's putting out wait times, because we'll let you know when you start an order there's a wait time of 15 to 20 minutes. In order to get that, we have a ... it's a WebSocket, yeah, application that's consuming that and pumping all that data back into the main application. So, yeah, we do a lot of integrations with other things. That was the chief reason why we did, or why I chose to do an umbrella app is just because I saw in the future, I could very easily grab the Segment app or grab the ClusterTruck app or any of those and pull them out of the umbrella and dump them into a new one, and they'll work. Yeah, it's very functional in that way.
+
+Ryan B.:            They could just all be in one application and just be under the lib directory and it would work just fine because we don't actually do separate releases per application, we deploy the umbrella as just one giant application. But I do like that ability of being able to lift those out and having clear boundaries between that and the Slack part of the application.
+
+Justus Eapen:       I would love to dive into the umbrella architecture a little bit more but I don't think today is the day. We want to move on to our last set of questions here. I'm curious, do you have a story, Ryan, of a time where Elixir saved the say in a production environment?
+
+Ryan B.:            I don't know that I have one where it specifically saved the day. I think the biggest testament I can give to Elixir is I was on vacation, and every time I go on vacation it seems to be the one time that this thing wants to break. But I was on vacation and I was off the grid for a period of time. So people from my team just jumped into it trying to figure out what was wrong and trying to fix the problem. All I heard when I came back was, "Wow, Elixir is really nice to get into and develop with. I was able to figure it out just like looking at it and it all made sense to me." To me, I feel like that's ... Being able to read the code and not have it be just a huge mystery of like what is ...
+
+Ryan B.:            The only thing I've ever had to explain to them is what a pipe operator is. Once you get what that is then you're just like, "Wow, this is really easy to read." It continues that tradition of using method names that make sense and it's telling you what it's going to do. I don't know. There's a lot of familiarity there where they're able to pick it up. That made me really happy to know that ... I've had problems with Go and other engineers in the past, where they're just like, "I don't understand what any of this means." And I'm like, "No, you wouldn't. You need to spend some time figuring out how Go works because it's much different than what you're used to." I love that about Elixir and I think that's a core language feature that they've put a lot of effort behind that I think has paid off.
+
+Eric Oestrich:      So what you're saying is Elixir solves the one bus problem.
+
+Ryan B.:            Yeah. Yeah.
+
+Eric Oestrich:      All right. Are there any cool features of OTP that you've gotten to use, either in your side project or in production?
+
+Ryan B.:            Nothing that's super groundbreaking. I do really enjoy when they introduced in ... I want to say it was OTP ... it was either 19 or 20, they added in a callback from GenServers that's handle_continue, that actually made it really easy when you're doing initialization of a GenServer to punt the initialization stuff that's going to take some time. Let the GenServer finish initializing and then handle it in this callback, which has been a huge help. We were before just doing a process send_after and then handling that callback when it would come through. But it's been nice to have.
+
+Ryan B.:            First of all, you don't have to worry about if the GenServer goes through initialization, gets that send_after command put in but then dies, restarts itself and then does it again and you haven't hit your timeout yet on the send_after. You can start stacking, we've had that problem before where messages start stacking up in the queue and then your GenServer doesn't know what's going on. So this is nice in that it really makes that whole idea of continued processing after this callback has completed and if that fails, then the GenServer's still up, it's still been initialized but then you can kind of recover from that a little bit easier. I've really enjoyed that feature and it's been nice to have.
+
+Eric Oestrich:      Yeah, I think there's also one slim edge case, where if you register your process as like a global ID and it restarts, there's a chance that someone else was already mid sending a message as your new one starts up and so you slip in between. That's the thing that I ran into before switching to handle_continue, which just seems so weird that, that could happen. But, again ...
+
+Ryan B.:            Yeah.
+
+Eric Oestrich:      All right. So our final question. If you could give one tip to developers out there who are or may be soon running Elixir in production, what would it be?
+
+Ryan B.:            Don't be nervous about it. We've served thousands of orders with this Elixir application that we've had so far. It handles everything like you think it would. There's a great community behind Elixir. There's a lot of Elixir forums, it's great. The documentation is fantastic. But just have confidence that it's going to do what it's been doing for you in development. I had that experience in huge batches with going into production and thinking, "Oh, I didn't know that, that was going to be a big deal." Largely for us, it's been a very painless process with putting this into production.
+
+Ryan B.:            I would just say, the other thing, I hear a lot of people say, "I wish I was doing Elixir, but I can't convince people to do it at my company." Find something small or even something internal if that's what it needs to be. But I think if you can show people, once it's up like, "See, this is real easy to get up and it runs really well. There's lots of tools that you can use to debug and manage deployments," and things like that. I think you'll bring people around. It's always going to be hard with that initial hurdle to get new technology up when people are used to whatever the old thing was.
+
+Justus Eapen:       That is a great note to tie it all up. Ryan Billingsley, thank you so much for your time. Do you want to say goodbye to the audience and let them know where they can find out more about you, more about ClusterTruck? Any plugs you want to make, now would be the time.
+
+Ryan B.:            Yeah, sure. You can find me on Twitter. I'm just @ryanbillingsley. B-I-L-L-I-N-G-S-L-E-Y. A lot of people forget the E. If you are in Denver, Columbus, Indy, or Kansas City, give ClusterTruck a try. You can go to our website clutertruck.com and see our delivery map, see our menu, get an idea of what we have. But I definitely recommend going and giving it a try. Every day I'm in the office I eat ClusterTruck, I love our food. So I stand behind our product.
+
+Ryan B.:            Then, also, just another shameless, personal plug but I do a podcast about video games. If you want to check out the Night Force Action Report, we will back in February talking about video games.
+
+Justus Eapen:       Awesome. Thank you so much, Ryan, for joining us today. Once again, this has been Smart Software with SmartLogic. Join us for our next episode as we continue our series exploring Elixir in production. And remember alchemists, keep on trucking, cluster trucking.

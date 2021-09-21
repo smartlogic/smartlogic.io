@@ -1,0 +1,147 @@
+Justus Eapen:       Hey everybody. Welcome to Smart Software with Smart Logic, a podcast where we talk about best practices in web and mobile software development with a focus on new and emerging technologies. My name is Justus Eapen and I'll be your host today. I'm a developer here at SmartLogic. We're a Baltimore-based consulting company that has been building custom web and mobile software applications since 2005.
+
+Justus Eapen:       Joining us is special guest, Brooklyn Zelenka, from the Special Projects and Decentralized Engineering Company, or SPADE. How are you doing today, Brooklyn?
+
+Brooklyn Z.:        I'm doing very well, thanks.
+
+Justus Eapen:       Great!
+
+Brooklyn Z.:        How are you doing?
+
+Justus Eapen:       I'm doing lovely! And we're also joined by one of my colleagues, the infamous Eric Ostrich. How are you doing today, Eric?
+
+Eric Oestrich:      Pretty good.
+
+Justus Eapen:       Awesome. So, we're going to jump right into it. Our first series is covering Phoenix and Elixir in production, and I want to hear from Brooklyn a little bit about your background, the company that you're working at, how you got started with Phoenix and Elixir, just give us the broad strokes.
+
+Brooklyn Z.:        Yeah, so I got started with Phoenix and Elixir years ago, maybe 2014, looked at Erlang prior to that, very interested in functional programming pretty much from the starting of my career, and started using Phoenix I believe just a few weeks after 1.0 was released in production. Did a bunch of client work with it was very happy with it and sort of spread Phoenix everywhere that I could, ended up teaching classes on it, workshops, doing corporate training, etcetera.
+
+Brooklyn Z.:        These days, the company I'm at we are doing more R&D into blockchain space, specifically working on the Ethereum Virtual Machine and some pieces around that especially on correctness. Yeah.
+
+Justus Eapen:       Very cool, and do you want to maybe give us a quick overview of some of the Elixir projects that you've put into production over the years.
+
+Brooklyn Z.:        Yeah. Absolutely. So for clients we've done [inaudible] all in Phoenix; we did something for a local company here called Introspective Consulting that was looking for essentially a dashboard. Notarize which is kind of neat, they have a system where you can get documents notarized, instead of having to drive to some distant strip mall and wait in line to get something stamped, you can just have a little video pop up and they can look at your documents and do everything real-time, so the real-time stuff there is in straight Elixir with maybe we used one or two pieces from Phoenix but not the full framework. Then I've also done a little bit of back end work for Uber well.
+
+Justus Eapen:       And do you maybe want to talk about Elixir a little bit and why you chose to use it on those projects?
+
+Brooklyn Z.:        Yeah. Elixir obviously, long history in telecom and real time. So all of these projects had some real time element in them. So you know, commenting in real time etcetera, much more performant than Rails, which is what most of these teams were coming from previously. You know, high up-time guarantees are nice to have but weren't a strong constraint in these projects, but still helpful. The developer experience is just fantastic. Everything just feels good, everything parallelizes very nicely, you don't get stuck into the same traps that people have been getting trapped in, especially with OO programming in the past especially 10 years, and of course, a lot of people are looking to learn something new and develop their careers and this is a nice easy step to do that. Elixir's is not the fastest language, it's not the safest, it doesn't have a strong type system, you know, all these different things, but it fits a really nice point in the design space. Being fun to use, very readable, performant enough and really designed for more industrial applications, something that's not going to go down.
+
+Justus Eapen:       And Eric, feel free to jump in here with any questions and thoughts that you have. So before we start the conversation we also sent you some of these questions that we would be asking and you sort of hit some bullet points there. I was curious if you could, because one of the number one benefits that we talk a lot about is the performance. But you're saying that it's not exactly the fastest. I'm wondering under what circumstances is it optimal to use a language like Elixir because of the performance. Or maybe a better question would be, when would the performance not be adequate?
+
+Brooklyn Z.:        Response times are good, but it is not really designed for fast turnaround, right? It's more designed for throughput. So you have these wide parallel systems. It runs I think 20 times slower than C, for example, and you have much faster languages in the functional programming realm as well, you know like Scala, Haskell, FSharp, OCaml, etcetera, especially OCaml, it just does very, very well. It's much faster than Ruby, Python you know-
+
+Eric Oestrich:      I was going to add that, we came from a Rails shop and so like seeing response times in like microseconds is like "sign me up."
+
+Brooklyn Z.:        Right, yeah. And it is great right? So for like a web use case. It's fantastic, right? It is slower than say Node, but the experience is so much better. The tooling is great, everything comes out of the box, the documentation is really full and rich. It just feels good to use and if you're doing this eight hours a day, sometimes more, you want to use something that you can really trust in and enjoy. Then, in addition, you get parallelized ability, you can do lots of things with load balancing, if you take the time to set up a supervision tree, though Phoenix kind of comes with a nice one out of the box. But you have nice uptime guarantees, you do have to watch for a thrash in the system but the server is not going to go down. And then you have the nice stories, it's fairly easy to sell to shareholders to stakeholders, WhatsApp [] with two billion connections or something wild like that. It really hits this nice point in the design space. Speed isn't everything. If speed was everything we'd all be running Fortran.
+
+Eric Oestrich:      Or assembly.
+
+Justus Eapen:       That's great.
+
+Eric Oestrich:      I also like that you point out that it's designed for 2019, I think that's a good-
+
+Brooklyn Z.:        Yeah UTF-8 support, we're gonna be doing a lot of stuff off the CLI, repl driven development is huge. Just being able to pop in really quickly test a couple things out, really important TDD tools built in by default. it's just all the best practices that we have from today and a lot of the Phoenix team comes from the Rails, previous Rail core team and they are taking a lot of their learnings with them, and you really see it.
+
+Justus Eapen:       Eric do you wanna maybe start asking some of the higher level questions, system level questions? I'm curious what Brooklyn's gonna tell us about her experience there.
+
+Eric Oestrich:      Sure, I guess the first place to start, what have you used to actually host these applications?
+
+Brooklyn Z.:        Pretty much across the board its been AWS and a little bit of Heroku. So typically doing a little demo or something quick. Heroku AWS for actual deployments both running directly on the server and then also Dockerized because Kubernetes is the new hotness.
+
+Eric Oestrich:      So for Heroku do you just use just a mixed PHX.serve or is there anything fancier?
+
+Brooklyn Z.:        Yeah, you do have to, it doesn't have support for Elixir straight out of the box. You do need to buildpack, which is getting a lot better over the years. At the beginning it was a little bit rougher and you just had to build the whole thing, it wasn't caching so it would take quite awhile to do each build. These days it's pretty straightforward. I even have, I believe open source on GitHub, I have a repo called up_run which I used as demos for when I taught classes. That gets hosted on Heroku so it has that buildpack configuration right in there. We can just copy paste that it's whatever, two, three lines.
+
+Eric Oestrich:      So you mentioned Docker, is that how you typically deploy? Do you use any kind of, from the Rails community we had Capistrano and then stuff like that, do you use anything like edeliver or is it just straight Kubernetes whatever goes on in that world?
+
+Brooklyn Z.:        Yeah, straight Kubernetes stuff and that's typically coming from requests from clients who Dockerize their entire infrastructure. Their DevOps team has bought into that whole way of doing things so you wrap it and serve it that way. It makes some things easier, some things harder; you have to get the ports all wired up. I hear a lot of the complaints from people in, on the BEAM in general with Docker saying well, you've already does these things. That's great, right? We have the automatic read charts and auto scaler, all of that nice stuff but it doesn't solve it in general. It solves it only for things on the BEAM. So if your database is sitting off to the side, yes you could have that supervised directly but Docker is becoming the industry standard so it's one less thing that you have to worry about as a developer and you can hand that off to a DevOps team if you have one. Which is great.
+
+Eric Oestrich:      Yeah, sort of going along with that, do you use anything like libcluster? I know there's Kubernetes built in options to do clustering, do you do any clustering or is it like each node is its own thing and its load balance like above?
+
+Brooklyn Z.:        So, load balanced above and then we explored doing clustering for some applications but it just didn't really fit for these more consumer apps right? Especially if your on AWS and you can just stick a load balancer in front of the whole thing, just serve requests it's just a very standard way [inaudible] when you. It's cool that Elixir can do all the stuff for you, it's great and it means that you have less overhead, widespread of tools to learn, but if you already have a team that knows these things and already has a way of doing it it's nice that you can still lean back on the way that people are used to doing things. Again this nice developer experience this DX.
+
+Eric Oestrich:      Alright, are you able to get any zero downtime deploys with your setup?
+
+Brooklyn Z.:        Yeah, have looked at them have done a couple tests just to see how does this work, is this interesting? It's very cool when it works, it's pretty, it's very flashy but it is a ton of work. Even in a simple case when you can kind of just use like the Distillery based thing and it works, that's great, but as soon as you have anything even slightly more complex it's just, so if you can do a rolling deploy, do it, and that's great. I was even talking to Robert Birding, one of the original creators of Erlang— I was asking him, how are your zero downtime deploys going? Your hot updates? He says ugh, it's such a pain even for him. 95% of the time just do a rolling deploy and it's just easier. If you're working for Ericksson and you can't have your network switch go down then absolutely it's worth the extra time. But if you don't have a nine nines of uptime SLA. A) if you you do maybe check that contract again and rewrite one. And 2) taking a second or two literally to do a rolling deploy, it's fine.
+
+Eric Oestrich:      Yeah. I was reading early on in my figuring out in my Elixir there's a book called Designing for Scalability with Erlang and OTP, and in it, it was like, you can do hot upgrades but, you're probably a small start up where no one cares if your down for a second.
+
+Brooklyn Z.:        Well, and even for some of these larger clients right? So doing an apps store app, right? Lonely Planet Trips. If that goes down for 50 milliseconds no one will really notice or they'll retry to upload or their comment will say oh, no that didn't go through please try again. And nobody will really see. It's not like it's happening once every hour it's happening what twice a year? Once a day?
+
+Eric Oestrich:      Yeah.
+
+Justus Eapen:       Eric, do you have any more questions on the sort of high-level systems stuff before we move on to any lower level architecture kind of tools?
+
+Eric Oestrich:      Yeah, I guess the last question would be how does this compare to, you mentioned you've done some Rails stuff, how does this compare in terms of response time, throughput, kinda anything about the two systems?
+
+Brooklyn Z.:        Yeah, I get asked this a lot. Especially when I'm teaching people are coming in from Rails and they've heard that Elixir is the better Ruby and Phoenix is the better Rails, and the trade off is yes, you have better throughput, much better response times, honestly easier testing — a huge number of benefits, but a smaller ecosystem. So there isn't a gem for everything.
+
+Eric Oestrich:      That's almost a benefit as well.
+
+Brooklyn Z.:        Yes, yeah. Exactly, it's mixed, it's a bit of both and also, being a bit of a younger ecosystem — though it's building up quite a bit more now, back in my day walking up hill both ways, there was a lot of stuff to be built out. Right? You'd write error handling libraries, you could do JSON parsing, all the basics and there's something exciting about that, being able to say, yeah we're the dev shop that built well-used library X. And it's a way to generate income and traffic as well.
+
+Brooklyn Z.:        Anyway, this Rails mutation that Phoenix has, it's the new Rails, also hurts because it works quite a bit differently. Especially Elixir vs. Ruby. The ability to create an object and that isn't what we have. Or they'll start doing "oh well I'm just going to use a visitor pattern." Whoa, stop. Pump the breaks this is a functional programing language. Use polymorphism, use recursion, find some simpler way of doing the as encoded directly in the function and doesn't rely on some conceptual map that you have in your head. Just do it directly, which is also why some of the open source work that I did was around specifically enhancing protocols and structs and you know, going that direction, this is Witchcraft and Algae. So that you can include things very directly you just have to write a configuration and then run it which is a very functional way of doing things just to prove to people we can take your preserve pattern and then encode it in the data structure and then run the data structure.
+
+Justus Eapen:       So Brooklyn, you just mentioned a couple of the open source libraries that you produced for the ecosystem. Our next few questions are more the language level, architectural level. Can you talk about some of the libraries that you're using, toys that you've built? Explore some of those? I think when we first met it was at the big ElixirConf and you were talking about your error handling libraries so maybe we could start there?
+
+Brooklyn Z.:        Yeah, for sure. Error handling library, Exceptional, really came out of just, from some real pain. We had to use an Erlang XML parsing library that was very under-documented. So we had all these different error states that could come out of this that were just a surprise. So there might be a different arity tuple right? Different size different length, arguments swapped around and the positionality of that was really painful.
+
+Brooklyn Z.:        We also had a couple people on the team with more Haskell background who wanted to have something that just sort of flowed so you didn't have to take the output, take them to a case and then check each version. They wanted to handle all their error handling at the very bottom and continue flowing optimistically through the rest in the middle.
+
+Brooklyn Z.:        So I took a weekend and wrote Exceptional which allows you to do just that. It lets you do a couple different styles of error handling and keeps you on the happy path. So you can act as if or write your code as if everything was the success case and then handle your errors later. Your errors are encouraged to be structs so that you can pull different keys out. If you're using this in Phoenix then if you eventually raise one of these structs — because exceptions are just structs with special keys — when you raise that, you can even give it a plug status so it can raise a 422 or a 501 or whatever HTTP code with a message for the user.
+
+Eric Oestrich:      That's cool.
+
+Brooklyn Z.:        Yeah, it's pretty great and then some ways of getting in and out of the more traditional systems, and that's probably the library, it took the least amount of time of this week that I've written and it's the one that I get the most fan mail about because it just solves a basic problem of I don't want to have to do error handling every 3 seconds. I just want to handle this later I want to push the possible error states up to the callers because it has more context. This is happening in a helper, it'll add more context about what's going on and then they can handle it more appropriately rather than raising and wrapping that in a catch, or in a rescue.
+
+Brooklyn Z.:        While we're in here, I guess I alluded to this other suite of tools that I'd written. I also bootstrapped up a lot of stuff from the Haskell and OCaml ecosystems as well, which a lot of people in Phoenix are more familiar with this style from specifically Elm. Which is again in Haskell-like. So, eithers and maybes, and results types, things like that. Then for anyone who has a Haskell background there's also state, monads, and riders, and what have you. I always found working with protocols to be a little bit painful, because the most common one, enum vs. enumerable, I have to remember that my new struct needs an enumerable protocol but then I'll be able to use the Enum module to make use of that. Why can't they just have the same name?
+
+Eric Oestrich:      I'm not sure I actually knew there was a difference.
+
+Brooklyn Z.:        Yeah, so enumerable is, they can't have a namespace collision, so enumerable is where you define it and then enum is where you actually use it. So for each one of these you'll need to define two modules, which other than "don't repeat yourself" is you have this cognitive overhead of having to remember all this extra stuff so I'm writing this library where you have to, you have one of these for, lots of different things for functions, for things that are mappable, or foldable, or traversable structures, or monoids so things that you can add together over and over and over again and not have to worry about, they're always appendable.
+
+Brooklyn Z.:        So that would have been a lot of this duplication, so wrapped that in a library to give it the same name and you can define properties on it so like this, you can always add more of the same thing onto it. Like doing numeric addition or string appending so you can define those properties in there as well, generate some test cases basically. Which then let us build Witchcraft which has the more classic, the things you hear from Haskellers about monads and what not and arrows and colmonads all those buzzwords and Algae which has the actual data structure so there's Algae for an algebraic data type which can be used for this style and also as a nice way to build a different syntax for building structs, that reads nicely in doing message structures as well.
+
+Justus Eapen:       I guess to add on, because you just went through several of the libraries that you've built and you're using most of these in, I imagine a Phoenix environment, like you're building on top of Phoenix applications yeah?
+
+Brooklyn Z.:        Oh, yeah. Yeah, absolutely because the primary use case because a lot of people hear that and go oh, that sounds way more complicated then it needs to be. The main use case for this is you have a map, enum.map, but I want that to be, I use a bunch of things in parallel, so we have an async map in Witchcraft where it works the same way and things just happen in parallel you don't have to wrap everything in a task on async. So, it's just keeping it a little bit cleaner, a little bit more about the semantics, rather than the operational I'll do this, then this, then this, kind of keeping the flow more. So using that in Phoenix because it totally has nothing to do with HTTP, nothing like that, you can actually use it in Phoenix or any Elixir project.
+
+Brooklyn Z.:        These are the basic building blocks really of FP and especially the one I didn't mention, Quark, which has all the classic functional combinators or classic functions in it that I was actually really surprised didn't come in the standard library. With arguments or having a constant function, having something where you can do querying, all of that stuff, was surprising to not have, so we added it in and it turns out to be very useful in lots of places. Even in Phoenix too.
+
+Justus Eapen:       Very, very cool. I'm going to give us a time check here, we've got a few minutes left so Eric if you want to take us through our last few questions and then we'll give Brooklyn that chance to tell the audience where they can find her and, you've got a ton of videos online, conference videos, you're a great contributor to the community so we'll plug some of that as well. Eric, do you want to take us through some of these closing out questions?
+
+Eric Oestrich:      Yeah, so for the last two questions: are there any cool features of OTP that you might be using? Any advanced supervisor stuff or anything like that?
+
+Brooklyn Z.:        Haven't used too much of the advanced OTP stuff other than playing around. For day to day stuff haven't found the need for it though it's nice to know that it's there. Really really like oh geeze, what's it called? I'm blanking, the flow library, GenStage. GenStage is very very [inaudible] but for most things you're just setting up the first version or an MVP of an app you probably won't need most of that stuff and the built-ins provision in Phoenix is sufficient and tweaking it is usually pretty straightforward. OTP, because people usually think of OTP as the Gen libraries but it's actually the entire platform, it's the virtual machine, the language itself, all this stuff.
+
+Brooklyn Z.:        So I will take this question a bit of a different direction. I love that Elixir has borrowed a lot of the cool stuff from a variety of different languages including macros, from lisps, so languages from homoiconic and you can build extensions to the language as much as you need or want. Two rules of macro club. One don't use macros. Two don't use macros. But if you're on a deadline and your writing a lot of boilerplate you can stick some of that in macros and clean it up and move very very quickly and then go back later and break it out.
+
+Justus Eapen:       Your talking to the SmartLogic macro king over here.
+
+Brooklyn Z.:        Amazing. Remote high five. Yeah, there are people who discover macros and then just go wild with them, so I mean, remember the two rules of macro club. But super super powerful and very easy to write parts of your application as a DSL so that it's very readable, your business logic, and do some domain driven design that way is very very nice. So, would recommend. And then having people poke around in as many of the dark corners of the standard library as possible. People immediately go to enum, look at the rest of it. There's a lot in there that people don't explore.
+
+Eric Oestrich:      Yeah, especially the SSH server.
+
+Brooklyn Z.:        Yes, yeah. Something that I usually do when teaching, we'll build up a fully peer-to-peer CLI chat client from scratch and it just blows peoples minds but it's one module. It's literally a GenServer and you're done.
+
+Eric Oestrich:      Yeah.
+
+Justus Eapen:       We can talk about that on the text podcast that Eric's about to start.
+
+Brooklyn Z.:        Awesome.
+
+Eric Oestrich:      I guess, our last question if there's one tip that you could give to developers who are or will be soon running Elixir in production what would it be?
+
+Brooklyn Z.:        Number one: has great developer experience, have fun, play, explore. You don't have to use all the features just because they're there which is what everyone does at first, there's this big toolbox with lots of things. Play around, but just use the stuff that you need and you'll be happier for not having introduced lots of moving pieces and, really do go spelunking into those tools on the side projects for sure.
+
+Justus Eapen:       Great, this has been an awesome episode. Brooklyn, thank you so much for joining us. Last thing before you go, where can the audience find you? How should they contact you? Why should they contact you or not?
+
+Brooklyn Z.:        So I am Expede pretty much everywhere on the internet that's E-X-P-E-D-E. Twitter, GitHub, etcetera. Email, pretty straightforward hello@brooklynzelenka.com drop me a line for pretty much anything. I'm usually fairly good at getting back to people unless it's a larger question, I have one person asking how can I use category theory and aspects of math in my day to day programing. I'm like, you know what, I'm gonna have to wait on that a little bit. But I usually get back to people faster than that even any questions about Elixir, my experience with it, other tools that they might find useful for plugging into their application. These days I'm working a lot in blockchain. People are curious about that. Always happy to talk about that as well.
+
+Eric Oestrich:      Justus is our blockchain fanatic.
+
+Justus Eapen:       I know, we almost had a blockchain conversation here instead of Elixir in Production, but we have a theme and we're sticking to it. Elixir in production. This has been a conversation with Brooklyn Zelenka everybody. Thank you so much for your time Brooklyn.
+
+Brooklyn Z.:        Thank you for having me.
+
+Justus Eapen:       Once again, this has been Smart Software with SmartLogic. Join us for our next episode as we continue our series exploring Elixir in production and remember alchemist keep on truckin'.

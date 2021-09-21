@@ -1,0 +1,453 @@
+﻿EW S6E6                 Transcript
+S6E6
+
+
+[INTRODUCTION]
+
+
+[00:00:00] EO: Hi everyone, we hope you're enjoying our new season on BEAM Magic. Before we get started on today's episode, we want to let you know about a special event we have coming up, the first ever Elixir Wizards Conference is this June 16th and 17th. All online, two afternoons, a mix of talks panels, and of course, the hallway track. As a podcast listener, you can get a discounted ticket by going to smr.tl/conf. podcast. We'll put that link in the show notes. Hope to see you then.
+
+
+[00:00:35] SM: Hello, everyone, and welcome to the show. Before we get started, I just have an important announcement here to make. Alex Hausand, our lovely cohost from the mini features, is getting a promotion today. Alex, do you want to tell us about your promotion?
+
+
+[00:00:49] AH: Hello, everyone. I would love to, Sundi. Thanks for the delightful introduction. So I will now be your podcast host along with Sundi. I'm super excited to take on this new journey and get to talk to more people and have more time with them. So thanks, everyone. Thanks for coming along the journey.
+
+
+[00:01:13] SM:  I’m very excited to move forward with the show with you, Alex. What are you excited about for the podcast, in life? 
+
+
+[00:01:21] AH: Hmm. So I'm excited to get to talk to people that I wouldn't necessarily have the opportunity to talk to. And in some ways, that's been kind of a benefit of the pandemic and working from home, is virtually we can connect to a lot of people.
+
+
+[00:01:35] SM: Yes, absolutely. I agree. The benefit of this podcast, we've gotten to chat with an Elixirist wrist for an hour every week and learn something new. So that's been a benefit for us. And that's going to be a benefit for all of our listeners right now as we get back into the show.
+
+
+[EPISODE]
+
+
+[00:01:52] AH: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Alex Housand, and I'll be your host. I'm joined by my cohost, Sundi Myint. Hey, Sundi. 
+
+
+[00:02:05] SM: Hey.
+
+
+[00:02:05] AH: And my producer, Eric Oestrich. What's up, Eric? 
+
+
+[00:02:09] EO: Not much. 
+
+
+[00:02:11] AH: This season's theme is BEAM Magic. And we're joined today by special guests, Jeffrey Matthias and Andrea Leopardi. Hey, guys. 
+
+
+[00:02:19] JM: Hey y’all. 
+
+
+[00:02:19] AL: Hey!
+
+
+[00:02:20] AH: How are you guys doing today?
+
+
+[00:02:21] JF: Doing pretty. Just came off of a long weekend, and diving back into work. But in general, just in a good space. 
+
+
+[00:02:29] AL: Been here. It's a nice long weekend. It’s a bit warm over here, a bit heat wave, but we’re managing.
+
+
+[00:02:36] AH: Definitely glad that you guys have gotten some rest. You probably need the recovery time having just spent how many years writing a book together.
+
+
+[00:02:44] AL: Less than 20.
+
+
+[00:02:47] JM: A little less than three. I think by this time, three years ago, we were talking about it or trying to figure out how to pitch the book, or maybe even possibly working on like the first samples of just how we could write. But took a little bit of time to get things going, but by the September, it will officially been three years since we actually started writing, like working directly on the book. And we're glad to be done.
+
+
+[00:03:07] AH: How did you go about pitching the book? Where did the idea come from? And then how do you go about finding publishers?
+
+
+[00:03:16] JM: I can speak to the where the idea come from first. I have been working in Elixir since, I don’t know, maybe like consistently, professionally since about 2016. And one of the things, I came from the Ruby world. I was pretty big on testing there. Just that's a big part of how I made my career. And I came into Elixir. And it looks like it was a really cool language. I liked everything I came across about it. But there just weren't a lot of conversations happening around testing. And everybody kind of had different ways to do it. It clearly had – Like with ExUnit, being part of the main library, core library. Like it clearly was considered to be a first-class citizen, but there just weren't a lot of people community-wise talking about it. And so I got the idea that I wanted to get enough experience under my belt that I'd be confident writing about it. The idea, if nothing else, is just to give people a starting point, a conversation, a place to have conversations. You don’t have to agree with everything, everything that said. But once there's a thing to argue about, then people will start talking about it more. 
+
+
+And so I had convinced my brother who had written a Docker, but for O'Reilly, that he wanted to jump in and do it with me. But then, three years ago, I was working with Andrea. I kind of mentioned to him that I was working on this. And he sounded really excited about the idea. And so I talked to my brother and I said, “Hey, I think there's an Elixir core team member who might be interested in writing with me.” And his response was then, “Stop talking to me. Like just go get him. If he's interested, like, go for it.” 
+
+
+And so Andrea and I have been working together for a few months at that point. It's hard to remember that now, because we've been working together pretty consistently since then. That's kind of how it kicked off, is I then came to him and said, “Hey, so do you want to write this? And he's, “I thought you said you were writing with your brother.” I said he told me, he said to go away. Like he told me that it would be silly not to work with you. And so Andrea said, “Yes.” Now Andrea, do you want to talk about how we then pitched the book? 
+
+
+[00:04:57] AL: Sure. So I think we kind of did a little bit of a try to figure out to which publisher to go with first things first. And then we approached PragProg, because they are the ones that have the biggest Elixir collection of like a book, the kind of complete set of books about Elixir. So we just – I think we had to write a few things here and there to get the book going. Yeah, go ahead, Jeffrey.
+
+
+[00:05:24] JM: You’re skipping an important thing. Yeah, you’re skipping an important thing. And the reason I'm bringing this up is, because if anybody's listening to this, I don't want them to be like, “I could follow this process. Step one, have an Elixir core team member as one of the authors. Step two, ask Jose Valim for an introduction to the publisher that he's written for. Step three, then produce a writing sample.” Yeah.
+
+
+[00:05:43] AL: Yeah. I'm not sure I should mention that, because usually you have to produce writing sample as the first things. Actually, PradProg has a whole process that you have to follow. So I’m not sure I should mention that [inaudible 00:05:53]. But I’m sure I should mention that like we were highly –
+
+
+[00:05:57] JM: We still had to write usable samples after that though. We just kind of reversed the first two steps.
+
+
+[00:06:02] AL: If that’s fine. I’ll just mention like the proper process kind of, which is like to put together –Like go on PragProg’s website. Follow their instructions on how to submit a proposal and stuff like that. 
+
+
+[00:06:12] JM: And they're really good at that. I mean, actively soliciting ideas and new book ideas from folks who haven't written before. So if anybody's interested, they should definitely go check it out. PragProg has it pretty well documented how to go through the process on their site.
+
+
+[00:06:26] AH: You've talked a little about how you came up with the story for the book. But in the process of writing, you were essentially beta testing, right? So you came out with beta versions of the book, and you'd send it to friends, or colleagues, or put it on forums, or wherever and people would read it and give you feedback. I'm curious, how did that feedback shape the content of the book? I definitely had seen some chatter about your book on various Elixir forums. And I even saw like, Jeffrey, you were interacting with some of the folks there. So I'm just curious, like how does that change the content or influence the content? Or does it not? 
+
+
+[00:07:01] AL: Jeff, do you want to go, or let me do this? 
+
+
+[00:07:03] JM: Sure. I’m happy either way. Yeah, so testing is something that we both know pretty well. We actually came in with very different styles, but we've been working together and then have been doing more and more so as time has moved on. And so we're largely set in how we suggest people test things. But that doesn't mean that we necessarily knew who our audience was or who we were speaking to. And so trying to figure that out was one of the biggest things. And one of the things that we got that we learned the most from the feedback is there's also like a halfway review where you get feedback from professionals who are giving you feedback on the technical content of the book, as well as the writing. 
+
+
+One of the biggest things we figured out was who our audience was. And it's basically anybody who is not already confident of how to test all the things, right? But there are plenty of people who are out there who are doing that. There are plenty of people who talk regularly on testing for published blogs. Like it turns out we're probably not going to sway their minds if we don't do the things the same way that we do. We probably are similar, but we're not the same. 
+
+
+And then the other thing is just writing style. We learned how to be a little bit more neutral on things. And then one thing that did come up during our midway review is one of our reviewers was actually furious. I had, in a rush, just kind of written stuff down in one of our first chapters. And didn't realize I was using without – I don't intentionally slip back into object-oriented terms on how I was just describing code organization and got some pretty strong feedback about that. So that was probably one of the places where direct feedback shaped the book the most. But the biggest thing I think was just hearing what people are struggling with, and getting questions like that and learning to be okay. It was harder when we first started getting feedback. But now it's a lot better and a lot easier to deal with learning to be okay with people not liking what we're writing and not necessarily agreeing with us.
+
+
+[00:08:46] AL: One thing I can add is that one thing that I loved about the reviews is that every comment is useful. There's no comments that are not useful, because a lot of them point out stuff that's wrong, or that can be explained better. And they just make the content better. Some of them just forced you to address them kind of eagerly, right? Like you see this comment, like I'd actually don't have an answer for these comment, or like I don't know what to do about this. But I'm going to write that in the book, right? I'm going to write – Like if you're wondering about why are we doing this, I don't know. Or like we don't like these, right? But we just kind of use those comments as like questions that you're going to get if you don't write it down in the book, right? I think that was a really good way that for me that like the comments from rear shaped the book. So they were really all used a lot going through those.
+
+
+[00:09:36] JM: And almost all of it was really like coming from a very constructive place to where people are just trying to help us succeed. And that was pretty great. That I think also just helps you build the energy to keep going. 
+
+
+[00:09:46] AH: Kind of just like in a code review I guess, right? All comments can be useful. So Andrea, you were based in Italy. And Jeffrey, I'm guessing you're not based in Italy. 
+
+
+[00:09:57] JM: I’m in Denver? Yeah. 
+
+
+[00:09:58] AL: From the accent. 
+
+
+[00:09:59] AH: So what was the process like writing a book together? Working together? Working across continents? Across many time zones? How do you make that process as effective as it can be?
+
+
+[00:10:12] AL: So Jeffrey and I worked together for a long time. So we had like a fair amount of overlap during work hours. I think he starts, and my 4pm is 8am, more or less. And I usually bring my day, I carry my day over to like maybe seven, because I've worked with US-based companies for a while. We have few hours overlap every day where we can chat. So it was not so bad. And when going about the book, we tried to split up the work as much as we could. Kind of produce content separately, and then maybe get reviews from each other on the chapters and kind of tried to make their voices more uniform and stuff like that, so that we try to –Kind of what you would do again in like this asynchronous remote environments a lot of us work now, right? Where you produce stuff, maybe not necessarily together with other people, but then you review it. Then you work asynchronously on it so much that kind of becomes a uniform. I would say it was not so bad.
+
+
+[00:11:12] JM: Yeah, I think the big thing is that we kind of agree ahead of time what content belonged in each chapter. And then we split the chapters out. But that way, we knew that we were kind of covering stuff. So for example, Andrea wrote the integration test chapter of the book, and probably would not have included much on the XVCR if I hadn't pushed for that. But I think it can be a useful tool in the right set of circumstances. And we wanted to make sure people knew about that. So like that was my voice in a chapter that he wrote as an example. 
+
+
+[00:11:41] AH: Well, I mean, you're spoke to it already, that this asynchronous remote working environment, we've all found ways to adapt. I think it probably helps that you had already worked together. You kind of know each other's work styles. But yeah, Sundi, do you want to ask a question? 
+
+
+[00:11:55] SM: Yeah. So you mentioned having like chapters kind of pre-determined and content pre-determined. I'm curious how you decided like what methodologies to go with, because you both have mentioned that you don't necessarily test the same way? Or that you maybe have different styles of testing? Can you speak a little bit to your styles of testing, but also how you kind of came to that agreement on how to have a unified message in your book?
+
+
+[00:12:21] JM: So I think one of the biggest differences between how we test is actually not obvious from looking at anything we write. And that's that I write my tests first. And Andrea I think rarely does that. I'm sure there are situations where he does. But yeah, come on, what about a bug? I see you shaking your head. 
+
+
+[00:12:36] MK: I've never written bugs. So I'm not sure. I just don't –
+
+
+[00:12:44] JM: Oh, my mistake, my mistake. So that's one of the biggest differences. And that we actually had a big discussion about before we wrote the book and ultimately decided that this wasn't a book about test-driven development or not testing development. It was focused on the testing, like the actual structure of the test themselves. And so I conceded that what we would need to do with our samples was actually show the code that we were trying to test. Talk about what it was doing, and then go and look at how to test it. So it actually plays out backwards of how I typically – In fact, how all my code samples were written. But it doesn't really matter, because at the end of the day, if I can look at your tests, and I can't tell if you wrote your tests before or after, then they're good enough, right? So that was one of the big things. 
+
+
+And then the other one is that I think I'm just a little bit more uptight on like a level of just how lockdown things should be to prevent regressions versus Andrea. And he's conceit, like at least was when we first started working together. And he's come towards that. And I've learned to like relax a little bit as well. So effectively, our work style, because we've worked together, has adapted. Like the way we write tests at work has adapted a bit in response to us both kind of pulling on each other, or pushing at each other in certain places. It was working together helped us kind of figure out where our common ground was.
+
+
+[00:13:56] AL: But a lot of the content of the book too is, I think, shaped by our experiences in what it is that people's test in Elixir. The stuff, the topics that we decided to talk about in the book, and the ones that we decided that maybe didn't belong in this book were shaped a lot by years of working with Elixir, where you write some kind of tests. You test Phoenix applications. You test ecto code. You test OTP things. Like those are all things that we’ve, I think, all done working in Elixir. And so that was I think what we drew from to decide the table of contents, I think, or to have an idea of what we’re going to talk about.
+
+
+[00:14:34] JM: And admittedly, that actually means that the stuff that deals with UI is less heavily covered in less detail. To be honest, yeah, the two of us are predominantly backend API developers. And so it's not that we don't have the skills. But at least I don't nerd out about testing HTML in the same way that I do. I get really excited about testing just about every other part of the application stack.
+
+
+[00:14:58] AH: More recently, as In the past couple of days, HBO had a little incident where an intern sent an integration email, not in the test environment. So I was going to ask you, have you ever sent an integration email to everyone? But to turn that around, do you both have any good stories? Examples of a time when writing a test could have prevented a bug regression, an email, say?
+
+
+[00:15:26] JM: I think this is right before Andrea joined us at community. But the company we both work at right now makes it so that celebrities or anybody with a fan following can stay in touch with their audience via text messaging. And one of our very first people out the door. And in fact, we only had for about five months period or something like that, we only had a few clients. Metallica, Ashton Kutcher, and a guy named Gary Vaynerchuk. Those were our first ones. But one day, I was in the car with my family. We were taking the kids home from swimming lessons. And Ashton Kutcher wished me a happy birthday. And I was like, “Oh, crap! Today is not my birthday,” and jumped on Slack from the car. And sure enough, everybody had gotten it. And we realized that there was a basic test case where our code, if we had actually thrown effectively, probably could have been something along the lines of property-based testing. If we had thrown enough crap at – As in like that input at the way that we were filtering things, we would have realized there were scenarios in which it broke. It couldn't match the right filters. And it just grabbed everybody out of the audience instead of being able to target people with a specific birthday, or a specific location, etc. And it came down to malformed queries. 
+
+
+And so this was in our earliest days, where we were scrambling to get out the door, and we've done this. But the fact is, is that we thought we had gotten pretty solid test covers the whole way, right? So there's nothing like finding out that. And we actually revised the entire way we handled filters and handle failures because of that. But Andrea, do you have any others? 
+
+
+[00:16:57] AL: I don't have any stories that I can think of. But I want to say maybe something not controversial, but that I really care about, which is that I love that email that went out. Because that email – I mean, first of all, it’s funny. But of course, but I really love about it, that it tells me that HBO is doing integration testing so close to production that like, probably, I hope that some of these more can screw up like so bad that like thousands and I don't know how many people get an email like that, right? So I'm a big, big, big fan of not obsessing over automated tests at everything. I like to end-to-end testing. I like QAing. I like testing in production. For a lot of things, I think that's my personal 80/20 rule. All this turns out to make sense, is that like 20% of the effort writing tests. Usually you cover 80% automated tests, right? What do you want to test? And then you have to take like the other 80% of the effort to maybe try to cover the remaining 20%. And that I've often found that to be true. So I'm a big fan of like do something that covers most of it, and then sometimes find testing productions. Sometimes trying to deploy some code and just make sure that it works by playing around with it. And that email just tells me that HBO is definitely doing something close to production, I think, because like they were able to actually send email to real people, like a bunch of them. So they're doing like queries that get a bunch of people, I'm guessing. So they're using production data. I love that. I love that. Yeah – I mean, there's no such thing as bad advertisement I do write on.
+
+
+[00:18:33] JM: Every software engineer got that email and just smiled. We are all just – And there was nothing wrong with the content. We knew it had happened. And it was just like, “Ah.”
+
+
+[00:18:43] AL: Give me a thousand of those emails out – Or rather than like the advertisement updates. I much rather have that. I'm a big fan of HBO. [inaudible 00:18:52].
+
+
+[00:18:54] AH: I think Sundi and I both have HBO-related stories. But I just wanted to agree with you, Andrea, that I loved that. I thought it was great to know, but also that HBO followed it up with a tweet confirming that it was the intern and that they were taking care of them. We get so hard on ourselves when we mess up. And so to know that they're being taken care of I think is a good reminder that everybody messes up. And good companies will take care of you.
+
+
+[00:19:25] SM: Yeah, my story was mostly around just like I loved the response to that response, which was just like this whole dear intern thread. And it was just like everybody's mess ups. And just like this whole chain of software engineers being like, “Dear intern, I messed up too.” And it kind of reminded us all the time where we could have like tested our thing better. And it's just a fun story. I almost think like what's your biggest like testing mess up is almost a fun icebreaker for engineers. 
+
+
+I was thinking Alex's question about what's the time that testing something better could have helped. I worked at a travel company for a little bit. And I actually booked a trip in production to Australia because I was actually going Australia. I decided to use our company's services personally. But we had never done international travel. And time zones are the bane of all software engineers’ existence. And I was actually at the mercy of my own bugs. I was getting Google updates for the wrong times. I was getting layover calculations that were incorrect. I was like, “I'm getting on the right flight today, right?” I just wish I had known a little bit more about testing time zones back then. And that we could have tested out that kind of stuff a little better, because the Australia one is a big leap. We were optimizing for like cross-country travel, not international travel at the time. So I'm definitely thinking about how testing could have helped me out back then. Wild times.
+
+
+[00:20:52] AH: Sundi, did you get on the right flight? 
+
+
+[00:20:54] SM: I did get the right flight. 
+
+
+[00:20:56] AH: Okay. Good. Wheew! That would have been a kicker to that story. 
+
+
+[00:21:00] SM: Yeah. Luckily, Google told me that my flight was leaving early, not late. So it was like, “Hey, your flight on Saturday is something something.” And I was like, “No, no. My flight is on Tuesday. What are you talking about Google?” But Google had scraped the email that I sent wrong, because I had built the email. And it wasn't like looking at the correct something or the other. So it was like taking the email and auto populating the wrong timestamps in its reminders. And you can't fix that. You can't tell Google, “Hey, Google, you're wrong.”
+
+
+[00:21:32] JM: Because not when it’s scraping. Yeah. 
+
+
+[00:21:35] SM: Yeah. So it was a bit of a time. It was a little bit stressful. I made it to Australia and back, though. No scrapes, no bruises. All good. 
+
+
+[00:21:45] AH: And a lesson about time zones. 
+
+
+[00:21:47] SM: Yeah. 
+
+
+[00:21:49] JM: The second company I worked at, I came in, and it was a startup. There was a very, very small startup. We were doing sensors and parking spaces. And I got there right at the time where they were actually starting to throw stuff up in front of customers and realizing they were having time zone problems all over the place. As Mr. Testing, because I'd worked a lot with a lot of people with the previous company, right? I gained that reputation. Suddenly, my very first thing at this new company was to fix all of the time zone related bugs. And welcome to the company, right? They claim it wasn't hazing. But that's when I realized that, hands down, the best thing to do when you are doing time zone stuff, is to drop things one second outside of the correct time. What people tend to do is they will throw something into a different time that they're looking for, for a record or something, because it's almost always around SQL queries that we see these bugs. Drop things instead of like safely into the margin of the difference of the time zones, or whatever your query would be, always go one second inside, one second outside of whatever your boundaries should be. Boundary testing, basically, and run it that way and use that to tune your queries. And it will make you hate times. No. You’re still going to hate time zones. In fact, I developed the saying there that I'm not going to say on the air about time zones and what we say about time zones. But yeah, they're terrible.
+
+
+[00:23:11] EO: So kind of shifting gears a little bit. So one of the things I think that a lot of Elixir developers probably don't use, but should utilize more is async true. How do we start using that better?
+
+
+[00:23:23] AL: I can try to answer. The thing with async true is that it’s beneficial only on stuff that's slow, because the easiest way to use it is to use it on functional tests, right? Like testing pure functions, like no side effects, and you shove async through there and tests are not faster, because they're already so fast that like making them parallel. If anything, maybe they’re slower for the content switching and all the concurrency there. 
+
+
+I mean, usually you want to think through where it's harder, because when you're testing side effects, when you're testing interactions with databases. In general, when it comes to ecto, the sandbox is pretty well built so that you can use the thing async true and get ownerships in the right places so that you're not scrap database things. For me that hardest thing I've encountered when trying to use async true, trying to push for a little bit, is Singleton. When you have like Singleton resources in your system that are shared by the whole system, that is my really arch nemesis. 
+
+
+In the book, I have a section that I wrote about Singleton. It's like half of the sentence is like, “I'm sorry. I don't know how to lose better. This sucks.” Ignore everything that we said before. This is like not a clean testing. But I have no idea how to test this 2 bit Singleton in a good way. So it's always like compromises. And asynchronous cases are one of the things that make this harder, because you have these resources that are shared by the whole application. 
+
+
+And another one is also Mox, or anything that that's on those lines for testing, for doing kind of dependency injection, which is also Mox is a really good library. It supports allowances and ownership for the mocks. If your code has clear enough dependencies between processes that you can do, for example, explicit allowances through Mox or that you can do stuff like that and make [inaudible 00:25:20]. Good. A lot of times you can't do it that easily. A lot of time like you have dependency injection happens at a more global level. Or it happens in process that you have no control over, whatsoever. So that becomes harder to test. In those cases, I haven't quite found the solution, I think. Yeah, the ideas, I just wait more for the tests to happen.
+
+
+[00:25:44] JM: Step one is try to get an understanding of where it's easy, right? Which is the stuff that's purely functional. Step two, is then learn a little bit more about the ecto sandbox, because those are the places, especially if you're doing testing that's still kind of more unit testing. But it's incorporating the database. So your black boxes expanded a little bit there. Those are still places. But as soon as you start integrating things, the complications tend not to be worth the payoffs. That's another good reason to emphasize. Trying to push code path, different code paths, and branching into places that even potentially are either more functional or smaller and have a smaller black box, and be able to knock out smaller tests there that also could potentially be isolated better, right? And then that you can get away with using async true. And then as you work up towards the controllers, or the event listeners, or the rabbit, the Broadway stuff, or whatever, you're going to have more and more trouble, more and more overhead trying to be asynchronous, and so don't. Because at the end of the day, I'd rather see a slow test that I can't understand, right? If six months from now I come in and like, “Why the hell is this structured this way?” and it just doesn't give me any confidence in what's going on, then a slow test is better than that. 
+
+
+Then the other one too, is that for folks, is you can do dash-dash trace when you run your test suite and see the time it took to run each test too. And then that way, you can also just target those. Eric, I believe the reason you were asking about async true is literally so we can speed up our tests. The biggest thing is learn multiple ways to potentially identify and speed up tests. But that should definitely be one of them. And most people I know, myself included, don't use it enough. Or don't think about it enough until we're at the point where we have a slow suite. 
+
+
+[00:27:20] AL: And one-up, Jeffrey, on the dash-dash trace, which is dash-dash slowest N, which is like much better to find slow tests. Well, like few years, I mean.
+
+
+[00:27:31] JM: Yeah, okay. There you go. I'm stuck in my way. 
+
+
+[00:27:33] AL: There’s a book. There's a book. There's a book here. You can read – 
+
+
+[00:27:36] JM: Yeah. What it’s called?
+
+
+[00:27:39] AL:  Elixir Testing, and other good things. No, jokes aside. That's what I use a lot of the time. Because there really is like the distillation of you ain't going to need it, right? Or premature [inaudible 00:27:53], right? Like sometimes you want to go and say, “Oh, this test is not a thing.” I should make it a thing. Are you sure if you do – Like a lot of the times, what I find is that there's the single tests that are small. It's not a whole test suit the suite, suite, suite. American. Jeffrey, [inaudible 00:28:10] to be fair to him. 
+
+
+But like a lot of the time, I find that you're on slowest and you have like – I don't know, that test suite of maybe 100 tests. And that five slowest one take 50% of the runtime of the test suite, right? So run that, because a lot of time you're going to be able to optimize a few tests and bring down like the runtime to like half, right? And then you go from there. And the test suites where you really need to async true I think are the ones where a lot of the tests are slow. Like when you're interacting with the database a lot, right? Those are the ones you want to speed up, because you have the 100 million seconds for every test, or something like that, then it starts to become like definitely starts upright. And then you may notice the one is a lot of IO, for example, a lot of file writing. You’ll start to notice the benefits of async true. But dash-dash lowest N is like few characters away and give you a lot of insight in your testing.
+
+
+[00:29:08] AH: It's so much fun to actually like to pick your brains on these things. So one other thing that we really wanted to chat with you about was mocking Andrea, you mentioned Mox a little bit. I'm actually really excited that we're with this exact group of people, because Alex here was the first person to teach me about mocks. I don't know if Alex remembers that. But I didn't know what –  Oh, I'm sorry. Eric has reminded me that mocking is not a verb. To mock –
+
+
+[00:29:37] AL: I would ever mind to do anyways. I was just biting my nails. 
+
+
+[00:29:42] AH: So can you tell us what your thoughts are on when to mock and not to mock? Can you speak to maybe why you chose Mox over other things? Or did you use to spin up your own Mox kind of substitute before you were using a Mox suite?
+
+
+[00:29:58] JM: I'm going to jump ahead to why we use Mox. And then we can work through some of the other stuff there. The reason we use it is because it's just annoying enough to use, because you require a behavior. You've got to figure out some way to switch in your environments. It's just annoying enough to use to actually get you to stop and think, “Do I really need to use a test double here?” And then the next step is you do have to think about that behavior. And it's the only library we've seen that actually forces you to define a behavior. Behavior enforcement in Elixir is not the same thing as interfaces in some other languages. It doesn't guarantee things are going to be perfect if you do that. But it gets a lot closer than anything else we've seen. And so you're in a place where you've got to find that behavior, you're thinking about that. And then on top of that, it has enough overhead that you can stop. Get you to stop and think about other ways to get around it, which is great, because if you can think of another way to do it, do.
+
+
+[00:30:52] AL: So for me, my personal rule for when to use Mox is to only use Mox in situations where you have something that you can't reliably control, or essentially you don't reliably own maybe, right? So the classic example is databases. Database, it's usually part of your application. You usually own it. And so having a mock for the database is not something I would do, because it essentially just keeps a layer of indirection between your application and the database that will be there. And you have control over the database. So you can do it in a reproducible way where you set up the database in the way you want for your testing. And you can do that reliably. Whenever you have something that you have no control over, like an external API, for example, then that's where I tend to use Mox way more. 
+
+
+First of all, it's good to have interfaces on top of those things. And one thing that Jeffrey mentioned is that Mox, the library, kind of forces you to think about the interfaces and boundaries of your application, which kind of defines the borders of the integration’s testing, like you're really knowing that you're integrating with something else. And you usually don't have control over those things, right? It's not only about the fact that, in a lab, for example, that you're interfacing with an external API. They have rate limiting, or you can pay for requests, or whatever. Have your – I don't want to do that in testing. And also, it's about reliability. Like do you want your test suite to fail if the API you're using is having problems or anything like that, right? So that's when I tend to use Mox way more. 
+
+
+A caveat that I really like that kind of drive this point home of things that you have reliable control over is network interaction. For example, when you're testing databases, it's true that you own them. But you usually do not own the network that your application uses to talk to the database, right? So in those cases, I like to use Mox for some tests where you use a mock for database just so that you can test the failure cases of the network, because that's a nightmare to test. But it's going to fail. Like it's one of those things, it's like it fails all the time in production. All the time, you have timeouts, you have disconnections, all sorts of things related to the network, to TCP, or to UDP, or whatever. But they are really hard to pass, because, locally, everything is just usually just fine. You'd never get any of these disconnections, errors, or timeouts, or long response time or anything like that. So I really like to use Mox for that. That's my kind of rule of thumb, like things you have control over.
+
+
+[00:33:25] JM: So to build on that. For example, if you have a purely functional module that is well-tested, that is something that you've got control of. And it's very predictable in your tests. Like do not try to replace that with a test double, because there's no way that the return value when it gets called is ever going to be different from what you would expect it to be. But then on top of that is the same kind of stuff. If you've got code that is specifically doing an interaction with a database, and that code is tested, where it's got all the different branches, and you're working on a module that calls that. So it's a step up in your dependency tree, there's no reason to replace that module with a test double. If what you're trying to focus is the logic in the module that's a step up, then all you need to do is make sure that your inputs into that are going to give you predictable responses out of that dependency. Typically a happy path and a sad path, right? Something like that. 
+
+
+And so what you're looking for is do I need to cover the logic in the section that I've added? As we continue to grow, in fact, those who are actually seeing a video right now can see that at some point, recently, I was explaining these concepts and drawing black boxes and going up an application stack with somebody. But as you continue to back out from a coverage standpoint, the higher level you get, the more you just focus on testing that the logic in the new part of the code that’s not as tested, right? And so all you need is to make sure that the responses the dependencies give are going to be predictable. And chances are if your database logic is changing, your whole application logic is changing. And so it's good for the expectations at a higher level to actually be breaking, because you just change the behavior of that dependency. That's what I mean by like looking for ways to get around having to use a test double.
+
+
+[00:35:05] AL: Just one quick thing about Mox that I'm really passionate about, is that when you use Mox, you use them, for example, for an external API. You usually can't get away with just that. Like you still need some way to test the actual interaction with the actual API. And that's exactly the 80. I want to talk about this because that's my 80-20 rule, where you write like an automated test suite, uses Mox, in order to interact. Or not just Mox, right? Like anything that's kind of in that in that area. Like it could be cassettes, or XVCR, or bypass to fake the request. Those are all kind of ways of doubling as the dependency without actually having to interact with the dependency. All those ways, they're great for – They get you 80% of the way there, because you are pretty confident your code is going to work. But you got to test your code somehow, right? 
+
+
+For example, CI, if you can run against the real API in CI, do that maybe in CI once a day if you pay money for that. Or even just deploy that code, test it manually with a real thing. That's kind of lost 20% where like, automating, it's going to be like real hard. And it's not easy to reproduce. And you have to do it on machines of all your developers and all of that. But actually testing it, you still need to test it, otherwise you're going to find stuff that breaks, because you're using Mox in the wrong way or whatever. You're predicting everything that can happen through the Mox.
+
+
+[00:36:27] AH: You've mentioned this before, in previous conversations, that there's more to testing than just writing the unit tests and the integration tests. And I think you've touched actually just now on a few of the different kinds of ways that you can go about testing. Do you want to speak to that a little bit, Andrea?
+
+
+[00:36:42] AL: Sure, my 80/20 rule. Like that final 20, there's so many ways to achieve it that are not automated testing. And that usually don't require a lot of the effort that they would require to be tested in an automated way. I like to consider, for example, CI as a slightly different environment than your local testing, because in CI you can do more reproducible stuff. You have like the same machine. It's always connected to the Internet, and so on and so on. So that's kind of something that I tried to treat differently. And I tried to reserve some tests for CI, for example. And you also have smoke tests where you like exercise your system from end-to-end as if you were – Or like end-to-end test, however you want to call them. But to where you exercise your system as an external actor. So for example, you have a web app. You just have headless browser tests, or whatever, that just exercise the whole thing, but are not even part of necessarily your application or part of different services. They just live on their own. And then you have like engineers testing. That's a very fair way of testing things, right? Deploy the code and test that it works. I like that. I do that all the time. And you need to – 
+
+
+[00:37:45] JM: Well, if in lieu of everything else, you don't have the ability to set up smoke tests, you don't have the ability – Like the number one thing, you deploy your code, run it, and you make sure it's working. And then you revert it. Rollback if it's not. It's amazing to me how many companies I've gone to, people write great tests, and somehow we've all heard it, right? Well, the test passed. Yeah, but did you try it? Right? And so nothing, nothing automated tests ever will do can be a replacement for just trying your code. And in fact, knowing your plan to validate it before you get out. And that doesn't mean you're going to catch every case. There may still be coming out, but if basic functionality is not working, then you messed up.
+
+
+[00:38:29] AL: Yeah. Jeffrey touched on something, like to make it very easy to roll back the code. I can deploy and test. And if there’s something wrong, roll it back. So that, again, I can I kind of really do production testing, right? And invest maybe in the tooling to deploy quickly and painlessly. And that's something that I find very, very valuable in that quest to not automate everything, but make it easy to do  very hard to automate tests manually sometimes.
+
+
+[00:38:53] AH: I think we're all over here just like, “Yes. Smoke test your code. Woohoo!” Seriously though, yeah, it's a great reminder. Because I mean, you're right. Yeah. I think also, too, there is such a push. Not saying there shouldn't be. Write your tests, then write your code. Test all your code. But you can get so in the mindset of doing test-driven development, that then you forget to actually manually test your code. So it's a nice reminder.
+
+
+[00:39:23] JM: I tend to see that skip step the most with people who test drive. It's not exclusively them. And to be honest, like I worked in this career for a little over eight years now, like in this field, and I finally took down production for my very first time last November in a like hard to recover way. Thank you. And the worst part about it is – You know what I didn't do? Was jump through the logging after I deployed it. I checked for errors, but I didn't jump through the logging. And there was something that was being caught there. And I took down production. And it was just because I hadn't put my full play together and done the follow up on it. And it was because I was on a hurry. And I was confident because of my tests that I had covered all the cases. So it's one of those nice things where you got to eat a little bit of humble pie there. Fortunately, we work at a company that when we make mistakes, as long as we're not consistently making the same ones over and over again, they tend to handle things really well. Work together, write a root cause analysis. Figure out if there are things that need to be changed and get out. And there's no shame involved basically. 
+
+
+[00:40:26] AL: And then blame the intern. 
+
+
+[00:40:28] JM: Yeah. We say instead of having a blameless environment, because everybody knows who did what. We talked about shameless, right? Where we all make mistakes. A lot of times it's our system or our processes that actually got somebody thinking whatever it was, was a good idea.
+
+
+[00:40:41] AH: Yes. Maybe what we really need in life are T-shirts that say, “I took production down on,” and then you can really wear it like a bad of pride.
+
+
+[00:40:54] SM: Yeah, we've all done. 
+
+
+[00:40:56] JM: I'll start working on the iron-ons. We'll get your address, and I’ll send them to you. Nice.
+
+
+[00:41:00] SM: Amazing. So speaking things that you can hold, T-shirts, books, you've got a book coming out any second now. Are there any particular takeaways that you hope that somebody picking up your book at Target or Amazon, picking up your book in-person? What do you hope this person will take away from reading your book?
+
+
+[00:41:21] AL: For me, the biggest value I think, it's in having a point to start the discussion about testing. And I wanted to write this book also, because I think that there's not a standard way to write tests in Elixir. There's not a lot of guidance on how to write tests in Elixir. I hope things that the book can achieve is to at least be a starting point for discussing about testing, and more in discussing about what are the standards of testing. 
+
+
+And admittedly, Elixir in particular, and Phoenix, and ecto, they do a pretty – Like a really good job I think at guiding people to testing things in a certain way through tooling, through scaffolding and all the things that we tried to do so that we have people write tests in a certain way, and is a good way, to communicate things a good way. But there are certain areas like OTP where I never came across. Like I always learned on the field, right? I never came across guides, or blog posts, or not enough at least, told me how to test things in OTP. And so that's one of the things I'm very happy that are in the book, is like some guidance on testing OTP, which was really gained like in the field. So I'm really happy that it got this in the book. So maybe that's one of the things that I would be very happy if people took away. Admittedly, I'm very scared, because OTP has been around like as much as long as almost as long as me. So I think there’d people that would be writing tests on OTP when I was a little kid. So hopefully they're not going to come after me. 
+
+
+[00:42:54] JM: It's okay. They don't work in Elixir.
+
+
+[00:42:58] AL: Touché. That's a good point. That’s a good point. Yeah, I've been around a long time in Elixir’s history.
+
+
+[00:43:06] JM: If I could ask one thing of people beyond anything else, is failure tests. Wee what it looks like when they fail. If they do not direct you to the problem, then go at – Either change the way you're asserting. Almost every assertion thing we have allows a custom error message. Figure out how to make it so that the test gives you as much information as possible about what's breaking, so that you, future you, or your teammates will thank you. Everything we're doing is effectively for regressions. We have the most context that we have, that we're ever going to have the first time we write our code. Your tests are there to help you when you've lost all that context. And so I actually do. Part of it is I test drive. So it's where I have to go beyond that. So I know what my tests look like when they fail. And I absolutely go and tweak the way that I assert things to try and improve that, so that if somebody has to go put any debugging line to figure out like what field is mismatched on a map or something like that, because they had to step outside of doing normal straight comparison, double equals comparison. Like if anytime somebody asked to dive into a test and try to figure out what broke, you did not do them a favor.
+
+
+[00:44:17] AH: I like that. Well, Jeffrey, Andrew, do you have any final plugs? Asks for the audience? Maybe you're going to plug a forthcoming T-shirt company? Your new Netflix show? What have you?
+
+
+[00:44:29] AH: Oh.
+
+
+[00:44:31] AL: Yeah. No to Netflix, because we're too busy to do stuff.
+
+
+[00:44:36] JM: So I got a couple. One is that I'm on Twitter. Please feel free to follow me. My DMs are open. I'm @idlehands, all one word. And you’re more than welcome to hit me up with testing questions there. I'm also active on the Elixir Lang Slack, but I don't like that we lose our message history there. So I tend to try to push people over to Twitter. We'll be starting up pretty soon. I've got testing Elixir there. And we'll be additionally starting to do supplemental, like covering blog posts on the stuff that we couldn't cover in our book, whether because it was too niche, or we couldn't agree on it, or something else. Testingelixir.com will be up pretty soon. And I'll be using that as a blog to add myself. And then Andrea will be blogging his own place. 
+
+
+There's one other thing. If people are learning interested in learning the process of test-driven development, there's actually a book out there. I'll try to make sure we get it in the show notes. From a guy named Herman Velasco. And it's about test driving a phoenix application. And I think that that's a good place for people to start. That's about the flow of test-driven development, but then you obviously you should buy Testing Elixir from PragProg to learn how to fine tune that information. Andrea? 
+
+
+[00:45:43] AL: Yeah. Again, just to maybe mentioned my Twitter username, which is @whatyouhide, all one word, where I tweet stuff sometimes. If you buy the book, we’ll be very, very happy. And we hope that you will like it. And please, for the love of everything that is holy, do not send us typos, because we can't fix it anymore. So please, I beg. I love the ones in the reviews. But now it's just going to make us feel like terrible about ourselves. I'm just kidding. But this is like one of the weirdest things that like now we can’t change it. So like, I don't want to read this book, because I'm sure the first thing I'm going to do, like open a random page, typo. I'm sure. Refrain from tweeting me. 
+
+
+[00:46:26] EO: [inaudible 00:46:26] Donald Knuth. I probably didn’t told you this. But if you found a bug in one of his books or typo, he'll send you a check for like 10 bucks. Are you guys going to have that? 
+
+
+[00:46:31] JM: No. We are not going to do that. No. But, Eric, I hear that you’ve actually volunteered to do it, right? Eric will send you $10 for every bug that you catch. 
+
+
+[00:46:42] AH: I mean, if there's anything –
+
+
+[00:46:42] EO: I will send 10 Eric books. They're redeemable nowhere. But you'll feel good. 
+
+
+[00:46:47] JM: Wait. Is it a cryptocurrency? I want some. Sorry, terrible.
+
+
+[00:46:51] AL: What’s the conversion?
+
+
+[00:46:51] SM: Maybe they're redeemable for one of the eggs that Eric's chickens will lay. And it will be sent to you in the mail, and no promises that it won't break. And that's all you'll get. 
+
+
+[00:47:02] EO: The eggs may require self-assembling.
+
+
+[00:47:05] SM: Only small bits of assembly. Also regarding typos, if there's anything that I hope people take away from this, it's that you can't catch every error. So deal with it, people.
+
+
+[00:47:16] AH: Before we close out the show, we'd like to share another quick mini feature interview. A brief segment where we showcase someone from the community at a company using Elixir in production and how they're using elixir. Hope you enjoy it. 
+
+
+[00:47:28] AH:  Hello, and welcome to the mini feature segment of elixir wizards. My name is Alex Housand. And today we're speaking with Tracey Onim, software developer at Podii. Welcome to the podcast.
+
+
+[00:47:39] TO: Thank you very much, Alex. That was a great introduction. And thank you to all for giving me this opportunity to be here to Elixir Wizard.
+
+
+[00:47:48] AH: It's really wonderful to have you, Tracy. And what your intro didn't include is that you are also one of the organizers for Elixir Comp Africa. Is that right? 
+
+
+[00:47:59] TO: Yes. I was given the role of communication to speakers. 
+
+
+[00:48:03] AH: That's amazing. What has that been like so far for you? 
+
+
+[00:48:06] TO: It has been an amazing role to me. It gave me an opportunity to network with many speakers from different parts of the world. And also, it gave me an opportunity to learn about the communication skills, which is required when reaching out to people. 
+
+
+[00:48:22] AH: Absolutely, which is a whole different kind of side of this industry. I don't think that I thought when I became a software developer I would end up being able to go to conferences. How did you become a software engineer?
+
+
+[00:48:36] TO: This was something that I gained interest while I was in campus. The first time I went to campus, I didn’t know about this career and how it is. But when I found out there's an opportunity of solving problems with softwares, I really got excited. So I started learning programming while I was in second year. And this is through my friends who are ahead of me. They were in fourth year back then. Yeah, that was in 2016. I can't remember. 
+
+
+So Java was my first programming language. And what got me excited is this friend of mine used Java to build a school system. So since something that was – It was a theoretical idea through something that was a software that can be used to solve problem in schools. It was something amazing. And that's how I started learning Java. It wasn't an easy path. But at least I got to use it in my fourth year project. And after that, I gained an interest of working in a software company. And after my fourth year, I started looking for an internship where I could improve on my skills in programming.
+
+
+[00:49:55] AH: You learn Java in school. Maybe a more traditional path to becoming a developer But how did you find Elixir?
+
+
+[00:50:02] TO: I actually found Elixir to be beginner friendly. So then Podii gave me an opportunity to learn Elixir. And the reason why I can say it's beginner friendly is learned Podii when I was very novice, or very green in this field. I didn't know how to program with Elixir. And Podii gave me an opportunity to learn it by majoring in the mob session and pair programming. And also they encouraged me in learning Elixir. And also been given projects to work on made it easier for me to adapt and to learn it.
+
+
+[00:50:41] AH: I 100% agree about the beginner kind of friendly element. I think that I was able to learn a lot of the standard bits and pieces of Elixir fairly easily, but especially because of pair programming, which I think is such a great way to learn. Could you tell us a little bit about what Podii does?
+
+
+[00:51:01] TO: At Podii,  they made this stack that uses Elixir. And we have been able to build an amazing project with Elixir. So recently, have been working on this project, which is a gaming application. What the project entails is that this client had this idea of educating people on cybersecurity. And he wanted something that can be fun while learning cybersecurity. So with this gaming application, part of it was long cloned Bruce Tate’s projects. If you know the Tate’s project. So the part of it was cloned from it. So we used Live View to build it. And with that, we got the opportunity to build something that can make it fun while playing that this pop-ups question on cybersecurity. You're educated on it. You can lose. You can win the game. So with that, also, there were contests on it. And yeah, it was such an amazing project for us, which was also used at conference.
+
+
+[00:52:07] AH: That's super cool. I think any opportunity to help other people learn about a topic. They don't maybe know a lot about, especially if it's in a fun way, it makes people want to learn more, which is great. It's really what we want. Elixir conference in Africa just happened, right? It happened May 8th.
+How did it go? 
+
+
+[00:52:28] TO: Yeah. It was amazing. Actually, being our first conference, we didn't expect it to turn out this way. So, okay, we are all first determined about that. But the most important thing is that we got to achieve our goal, which was diversity. And we also got the opportunity to network and to bring different countries together through Elixir of Africa.
+
+
+[00:52:51] AH: That's amazing. I'm really glad that you guys were able to have it and pull it off. How did it get started?
+
+
+[00:52:57] TO: Eventually, that was in 2019, which is a bit late. But I can tell you the history of how this came about. So while Podii started, it was not its first language. But through Agile Ventures, Podii came to realize this language called Elixir. And they started having more obsession on Elixir with Agile Ventures. Then through that, it's build up this interest of coming up with an internal meet-up, whereby they can move on Elixir. And while moving, they can build clan projects with Elixir. So through internal session, definitely, you can't learn alone. And there's an interest of joining Elixir developers who had the same interest in learning. So with that, it came up – Monday meet-ups came up, whereby [inaudible 00:53:55] with other members from outside had always held Monday meet-ups whereby they can move on particular topics on Elixir. Then after that, though, came this interest whereby why not come up with webinars. Why not so sought speakers from different parts of the world and let them speak and let them people join and also learn something from that. This also gave them an opportunity to speak and to join and see what other people are doing with Elixir. So with that, we realized that this thing is majorly done in Kenya. That's where the Elixir Kenya, BEAM Kenya came all about. But we also wanted, we also had an interest to know what about other parts of Africa, what have they used Elixir to do? What are the production project that they have built with Elixir? That's how we started having an interest with other people from Africa. And we also realized that there's no Elixir conf that was held in Africa, or organised in Africa. And that's how Elixir Africa came to be born. And it was started. So we had to start something.
+
+
+[00:55:10] AH: I think that's amazing. Are you guys already planning Elixir Conf 2022? for Africa?
+
+
+[00:55:17] TO: Yeah. We haven't started planning, but we have said that Elixir Conf 2022 will be there. So we are in a small break. Then we'll all start.
+
+
+[00:55:27] AH: That makes me so excited. I'm so happy that it came about and that it was what you wanted it to be and more. I think conferences really provides so many incredible opportunities for people just to meet people and hear other people's ideas and what they've been working on. Did you have a favorite speaker at the conference? 
+
+
+[00:55:48] TO: Most of the speakers are my favorite, but the major three. Bruce was one of them. Then we have Francisco, and Peter Ullrich. 
+
+
+[00:56:00] AH: Tracy, it was so wonderful to have you on today. I think that you're incredible. And like your work putting the conference together is amazing. Thank you so much for joining us. And to all of our listeners, if you or your company are using Elixir in an interesting way and want to come on the show for a mini feature, we would love to have you. Reach out to us at podcast@smartlogic.io with your name, your company's name, and how you're using Elixir.
+
+
+[END]

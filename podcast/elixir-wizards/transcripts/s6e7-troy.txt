@@ -1,0 +1,346 @@
+﻿EW S6E7                Transcript
+SEASON 06 EPISODE 07
+
+
+[INTRODUCTION]
+
+
+[00:00:00] EO: Hi, everyone. We have a quick announcement before the show today. SmartLogic, the custom software shop behind this very podcast is hiring for a mid-level Rails or Elixir developer. Our team is fully remote and this position is open to applications from anywhere in the United States. You can read the full job description and apply at smartLogic.io/jobs. Okay, now on to the show.
+
+
+[EPISODE]
+
+
+[00:00:28] AH: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Alex Housand and I'll be your host. I'm joined by my co-host, Sundi Myint. Hey, Sundi.
+
+
+[00:00:41] SM: Hey.
+
+
+[00:00:42] AH: And my producer, Eric Oestrich. What is up Eric?
+
+
+[00:00:46] EO: Not much.
+
+
+[00:00:47] AH: Delightful to hear. This season's theme is BEAM Magic. Today, we're joined by a special guest, Chelsea Troy. Welcome, Chelsea.
+
+
+[00:00:55] CT: Hi. Thanks for having me.
+
+
+[00:00:57] AH: It's great to have you. Just to kick things off with a basic question, how did you get yourself into programming?
+
+
+[00:01:05] CT: Sure. Well, I had taken a couple of classes when I was in college and had really enjoyed it at that time. It's an interesting thing for me to think about now, because now, so I work as a programmer and I also work as a programming educator. I'm an instructor in the Master's Program in Computer Science at the University of Chicago.
+
+
+As I'm thinking about my pedagogy and the way that I teach programming, I think a lot about the programming classes that I took in college and the things that made them inspiring and made me want to be a programmer, and also the things that made them difficult and made them – Ultimately, I did not come out of college with the intention to be a programmer. I came out with the intention to do something else.
+
+
+I got back to programming after having had starts at a variety of other different careers. It was something that I remembered that I really liked, and always wanted to come back to. I have maybe an advantage, in so far as that I think I could enjoy probably most things that I had the opportunity to improve at. I think, programming was one of a number of professions where I would have been really happy. I also wanted job security.
+
+
+Like I said, I had started in a number of different professions that have much lower job security than programming has. After experiencing that for several years, and trying to make ends meet from job-to-job for a long time, programming seemed like something that would offer that security in a way that I was looking for at the time. That's how I ended up here.
+
+
+[00:02:40] AH: That makes a lot of sense. I think, like my parents also pushed me to be an engineer for that job security. Then I quickly realized that job security is only as secure as you can make it for yourself. It's an interesting time. It's an interesting world. You said you could be happy doing anything. What was making you excited about being a programmer specifically?
+
+
+[00:03:01] CT: I am not one of these people who started writing Visual Basic, when she was 11-years-old, and just really loved it, or something like that. For me, programming was the thing that maximized the equation that I was optimizing for at the time of job security, maximum job security with the minimum amount of expenditure to go back to school and learn how to do it.
+
+
+Another profession that's famous for job security is being a doctor, but that requires going between a quarter of a million dollars and a half a million dollars into debt in the United States and eight to 12 years of your life. I was thinking about a whole bunch of different options. Programming was the one that felt accessible to me. It's something that I think is valuable for folks who are getting into programming to hear and to talk about, because I feel that the dominant narrative around why somebody becomes a programmer is that their parents had a computer when they were growing up, or they had a computer when they were growing up that they played on from ages 10 to 15, and started hacking on stuff and they got into it for the passion.
+
+
+That's a fine narrative, and I don't think there's necessarily a problem with it. I think that there is a problem with privileging that narrative over other narratives, and there are a couple of reasons for that. The first one is that that route into programming requires an amount of access from a very young age that a lot of people don't have. One of the things that's very nice about programming at the moment is that at least so far, it remains more accessible than a lot of other professions, who folks who do not come from a lot of privilege already, which is not to say that it's not easier to get into.
+
+
+For folks who come from a lot of privilege, of course, it is. That having been said, there is less of a guaranteed educational and financial burden associated with becoming a programmer. I think that there are benefits to that and there are downsides to that. One of the benefits of it is that it creates an opportunity for people of a much broader diversity of backgrounds to get into the field, which I think is absolutely crucial.
+
+
+Because the Internet was designed by and for this main character, largely Bay Area. Honestly, children of electrical engineers who moved out there from Boston to Silicon Valley, in order to work for some of the defense companies out there. A lot of the big 90s era Internet companies grew out of that. That is a very specific demographic of wealthy, well-connected college kids.
+
+
+At that time, the Internet was brand-new, and represented an opportunity for a lot of people to have access, who didn't have access to before, just due to the location dependence associated with applications at that time. Now, we've moved on 30 years, and we're on a web that was built predominantly by and for that Internet main character, which means that additional innovation in the tech field is going to have to come from folks who are not that main character.
+
+
+For now, the relative accessibility of the profession, I think, gives us a chance at that, that I think it's valuable for us to acknowledge and for us to take advantage of, rather than discounting these other ways of getting into the profession. The other thing is that I have not seen a particularly high correlation between “passion” and quality work as an engineer.
+
+
+I've seen high-quality code from folks who got into it for job security. I've seen high-quality code for folks who got into it openly admitting that they were indifferent between software engineering and something else. I've also seen passion cause problems on teams. I've seen passion result in people being unwilling to listen to other people's ideas, uncompromising on things where another perspective really was important. I think, we glorify these stories of passion.
+
+
+I think, we often also miss attribute the origins of some of the most groundbreaking ideas in web development and software engineering. A lot of those stories about impassioned leaders who insisted on nothing less and created a billion-dollar company, or what have you, they're not really true stories. They're situations in which history has identified an individual who represents the efforts of thousands and thousands of other people. Very often, acquisitions of other organizations that are responsible for the things that this genius person is attributed for.
+
+
+Those efforts happen as a collective. I think that focusing on this narrative of an individual with passion, misses a lot of the teamwork skills that go into getting anything done on a large scale, because at the end of the day, it's never one person. The momentous changes happen as a result of a collaboration between often a large number of people.
+
+
+[00:08:13] SM: I agree with so many things that you just said. I mean, there's just so many times in the beginning of my career where I felt I was less than, because I didn't have this drive to go home at 5 or 6, or honestly, 7, at the startups, and just keep coding. Forget eating, forget working out. Just keep coding. That was just the mentality. I have so many other hobbies that I felt I couldn't pursue, because I was supposed to be coding.
+
+
+It's absolutely accurate that you can love what you do, or maybe do what you do, and be really good at it, and then go from there. There are all types. I personally very much appreciate working with people who are interested in so many different things, because it gives us so many different perspectives, for sure. You are in so many different things as well. We were looking at your website, chelseatroy.com. Can you tell us a little bit about your goals with that website? What is the main goal? Is it to find folks to work with, or to work for, or projects to get off the ground?
+
+
+[00:09:18] CT: The goal with my blog has changed over time. When I first started that blog many years ago, the idea was to record what I was learning as I was learning it for my own future reference. Also, because I found that writing helps me to solidify my understanding of things in my mind. A lot of those early pieces were focused very much on that. As I started to gain experience in the industry, I got to the point where I knew what I was doing more than I had before.
+
+
+I had a tough time getting co-workers to believe that I knew what I was talking about. That blog provided an opportunity for me outside of my work for external validation from folks who could learn from what I had learned. Then after a while the blog, I continued to gain experience, started to gain more respect for my colleagues, honestly. At that point, the main benefit of the blog, I would say, changed, again, to being a place where I had the opportunity to articulate my thoughts on stuff that I was learning with the purpose of developing new frameworks for understanding in particular, amorphous concepts.
+
+
+It was no longer about recording what I'd heard from someone else. It was no longer about establishing that I knew things. Instead, the blog became, from the perspective of someone whose readers already trusted to know things, framework for thinking about stuff that particularly amorphous concepts that folks can struggle with. That's where we are today. A lot of the pieces that I have now.
+
+
+I don't do as many one-offs. The vast majority of my posts are now parts of series that I do. I have series on the raft distributed consensus algorithm that I implemented from scratch in Python. I have a series that I'm working on right now about the process of building a compiler and the different pieces of a compiler. I have found that the blog now gives me an opportunity to publish in essence, longer works, but with time to stop and think about them in the middle, and opportunity to publish things in a length that extends past what typically one post would cover, but maybe not as long as a book.
+
+
+One of the things that I struggle with, with regard to, for example, traditional publishing is that there is a traditional length that a book is supposed to be. As authors are working on creating a book of that length, they'll have to figure out how to create additional content to reach that length. I think, that length is also frequently longer than what somebody is looking for, to find out what they need to know about a topic. I found that the blog series is a good length for me for a lot of those topics.
+
+
+The other advantage to it is that some of these particularly more technical concepts that I write about, they're things that people have to take in bite sized chunks, and then think about in between anyway. The fact that there's a lag of time in between post one, post two, post three, post four, doesn't end up being a hindrance and actually, gives people a natural stopping point to go and reflect on the material and then come back to the next part when they are ready in these granular chunks.
+
+
+The goal of the blog has never been external. I have asked people for feedback on Twitter on what I should write about, but I have never actually used it. I have always determined what I am going to write on there, based on what will be most helpful for me to write about in terms of developing my own skills. It just so happens that a lot of times, the pieces that come out of that also help other people develop their skills.
+
+
+Now, as a side effect of that, I have gotten client work through the blog. I have had folks who became employers reach out to me, because of my blog. I think that the blog has created some validation of my skills for employers who've ended up hiring me in the past. None of those things were ever the reason for writing it. For that reason, I have a very hard time giving people advice about how to blog, because when folks asked me for advice about how to blog, generally their goals are things like, “I want to get X number of readers per month. I want to get paid clients from my blog. How do I do that?”
+
+
+The truth is, I don't know. That was never something that I was trying to do. I wrote my blog consistently when no one read and when one person read and when four people read. When one of the pieces happened to get shared and on that occasion, 12 people read. To me, none of that mattered. Four years later, I looked at the analytics one day and a few hundred people were reading it. I was just like, “When did all these people get here?” The motivation for the blog for me has always been intrinsic. I have never even developed any skills around marketing a blog, or anything like that, because every piece on there would be exactly the same as it is right now if nobody ever read that website.
+
+
+[00:14:41] SM: That's really interesting to think about. I've read a lot of, or I’ve maybe more accurately watched a lot of videos on how to grow a YouTube channel, or how to grow a blog, just because I'm curious about what that process looks like. Honestly, if I were even to start thinking about a blog, or YouTube channel, the idea of everything you have to do to become successful just becomes so daunting that I don't even start. I love this idea, that you just getting started to do it for yourself. I love that. Do it for yourself. Then you know what comes, comes.
+
+
+You mentioned a lot of technical things there. It just made me realize, I'm not even actually sure what stack we’re working in right now. I became aware of you at Code BEAM. We were both speakers at Code BEAM. You were keynoting, 2021, for future listeners.
+
+
+[00:15:22] CT: What is time?
+
+
+[00:15:24] SM: Time is a construct. as Eric knows, earlier today, talking about time. Because obviously, this is an Elixir podcast. Have you worked with it at all? Or you looked at Erlang, or any of the other BEAM languages? You spoke at Code BEAM, so I'm assuming there's some relation there.
+
+
+[00:15:43] CT: I've worked a little bit in those languages. My career has bounced around a whole bunch of different languages. At the University of Chicago, for example, I taught an iOS development course they taught Swift and some Objective C for a while. Now, I teach a mobile software development course that teaches Swift and it also teaches Kotlin. Back in the day, I wrote a lot of Android apps in Java. Some of my clients that I have now also are in Java. I've written a lot of server stuff in Ruby. I've written a fair amount of data science machine learning code in Python. I've also written some web type of stuff in Python. I've written some in dotnet, and a whole bunch of JavaScript across all kinds of different frameworks.
+
+
+Chiefly, I have found that a lot of the strength that I draw in my writing and in my teaching comes from the parallels that I can identify between different programming languages and programming paradigms. Because each of these different language communities has different approaches to writing code. Sometimes it's the case that you can end up with a local maximum in one language community for solving a problem, when another programming language community has an approach that would be useful to the first language community, and being able to identify those connections has helped me a lot.
+
+
+It's one of the reasons that I have never really tried to niche down what programming language I'm writing. So much as I have focused rather, on what kinds of problems I want to solve, and then remaining open to whatever tooling is going to be the best for that problem at that time.
+
+
+[00:17:29] AH: That makes a lot of sense. We've heard a lot of people take that approach. I actually appreciate that, because you often see people – we’re guilty of it as Elixir enthusiasts, who just automatically assume Elixir is going to be the solution. Phoenix is going to be the solution. Live View is the new big thing that has to be the thing that will work for us. I really do appreciate that you've had so many different experiences over a wide breadth of languages. You can figure out what makes sense per solution. What are you doing that lets you solve those problems?
+
+
+[00:18:00] CT: Totally. At the moment, I am a software engineer at Pocket. Pocket is owned by Mozilla. It's an app that allows you to currently save stuff that you're reading on the web and organize it, so that you'll be able to read it later. There's a really cool feature on our mobile app that allows you to listen to your articles. I do a lot of listening to articles in the morning, while I'm brushing my teeth, or making my breakfast, or whatever. It helps me stay up, honestly, on the zeitgeist, or programming stuff a lot more, because there's just a limited amount that I can look at a screen. Being able to listen to it is really nice.
+
+
+That's my little plug for Pocket. You don't have to pay for the app, by the way, to get that free version has that in there. That's where I work. For my day job, I teach, like I mentioned, a few classes at the University of Chicago. Teaching. I feel like, if I am going to have an impact in the tech community as a 10X developer, I'm going to do it not by shipping 10 times as much code as somebody else, but rather by enabling 10 times as much to get done through my empowerment of other people.
+
+
+Teaching feels like it's going to be a really big part of that. I love teaching. I find a lot of purpose in teaching. Teaching, I taught all five quarters of the pandemic. I think that being able to design classes and teach during the pandemic was for me, it was a joy and it was a coping mechanism. It helped me get through that time in a way that I think would have been much harder for me if I weren't doing that. That's the second thing.
+
+
+The third thing is that I have consultancy. I work specifically with clients who are working on advancing basic scientific research, or trying to improve access to resources for underserved communities. I've done everything in that capacity from machine learning model development to mobile application development. Right now, it happens to be a lot of mobile application development.
+I've also done some coaching for software engineers through that. A company will come and they'll say, “We have really good engineers. We need them to write an app in blah, blah, blah language that they don't happen to know really well. We want to help them get up to speed. Will you come in and do some coaching?” I do some engagements like that, which has been a lot of fun.
+
+
+That's my professional world. At least, that has been my professional world up until now. Now that the lockdown is lifting, we'll see if that shifts at all. A lot of my clients, for example, are grant funded and grant funding slowed down a little bit during the pandemic, which had an impact on the client work. I'm curious to see what happens now. It's been an interesting time to figure out how to help maintain things, sometimes in the absence of grants, and how do you make that thing work.
+
+
+One thing that came out of that consultancy that I didn't plan on at the beginning, but I have really, really enjoyed is that a lot of my clients either had open source software, or they were willing to be open source software. That gives me the opportunity to live stream, and this is the YouTube channel. I'll live stream working on some of my client work. Over time, those streams shifted from, I'm just going to turn on OBS, and you can watch me work and I'll try to talk through it as best I can. I'm pretty good at talking through what I'm doing, because I spent the first few years of my career as a pair programmer, where you have to say everything you're thinking. I was pretty good at that to begin with.
+
+
+Slowly over time, those streams did shift from, “Hey, join me if you want, while I work,” to actually, identifying a skill that I wanted to help people build. Identifying a story, or a ticket, or a feature that would help me demonstrate that skill. Then thinking about ahead of time, how do I want to teach it? What illustrations do I want to have in place? Using that feature development process as effectively an object lesson for people who wanted to watch my YouTube video about it. Those ended up being much tighter streams. They tend to be a little bit shorter. They're more focused, and they'll teach one skill. For example, oh, let's talk about the way that we handle static methods in a model object, as we build this feature into this mobile app or something like that. Those would be 15 and 16-minute streams, as opposed to some of the three-hour ones that I was doing at the beginning.
+
+
+[00:22:33] AH: I want to know more about how you found your passion for teaching and how that led you into teaching in higher ed. I would say that teaching should be a passion, so it's really nice to hear that it is a passion of yours. It's just an interesting path. I just wonder more about how you found yourself on it.
+
+
+[00:22:54] CT: I come from a long line of teachers. My mom was a university professor and my dad's mom taught English for 45 years, or something like that. I very much grew up with it in my family, which I think was a nice advantage. My dad was also – he wasn't a teacher by profession, but he would sit down with me and helped me do my homework every night, until I was out of grade school, which was, I think, very instructive for me and a privilege that I did not treasure at the time, but I do treasure in retrospect.
+
+
+It was something I always thought I was interested in doing, but not something that I explicitly pursued. I happened to go to a conference where one of the other attendees happened to be an Academic Director at the University of Chicago. They have lecture positions that they specifically attempt to open in the master's program in computer science, for folks who are working in industry, because they want the students to have access to those industry perspectives.
+
+
+He sent a message to a list that we were both on, about one of those openings. I decided well, I might as well. I might as well apply. I might as well give it a try. I looked at the application. They wanted my resume, or curriculum vitae. They wanted, I think, it might have been a cover letter. Optionally, we could send in a sample syllabus. I thought to myself, “Well, I can write a cover letter. That's fine. As far as my curriculum vitae goes, it's not going to be particularly impressive.”
+
+
+I did not go to the University of Chicago. A lot of people applying for this position are going to be alumni of the university. I don't have a graduate degree of any kind. My undergraduate degree is not in computer science. By all categorical measures, I am not qualified for this position. I don't have the legitimacy by proxy for a position like this. I figured, I probably wasn't going to get it.
+
+
+In the process, I decided I was going to prove that these legitimacy by proxy metrics were a problem. Because this is what I like to do is walk in with a chip on my shoulder when nobody even said anything to me. I don't do this anymore. In my 20s, this was my attitude. You'll recall that the application allowed us to optionally include a sample syllabus. I sent in a sample syllabus with every lesson we would do, every reading assignment we would have, the learning goals of the reading assignment, the overall arc of the class, just absolutely everything that I could think of that would go, in my opinion, on a good sample syllabus.
+
+
+I got moved on to the sample lecture round. I came in with my sample lecture. For my sample lecture, I decided that what I was going to do was I was going to demonstrate how to implement a feature in Android. I was worried that I was going to mess up live coding, because live coding – I mean, live coding scares me, first of all. Second of all, humans are fallible. There's not really a way to guarantee that you're not going to mess up live coding. Third, I think, and I experienced this in the programming classes that I took. Unfortunately, if your students have very little familiarity with the syntax, you can very easily lose them with even a very minor mistake. They need to see it exactly right.
+
+
+If you're not able to produce for them exactly the right thing, like saying, you get the idea doesn't really work, because they don't get the idea. It's very easy to lose them. To get around this, I decided that I was going to identify what steps I wanted to do in the feature development process. At each step, I was going to make a commit. Then, I was going to back up to the first commit in my lecture, and then I was going to move forward commit by commit and explain what I was doing. Then make the code available, of course, to the students.
+
+
+I came in for my sample lecture, extremely prepared, and did this whole lecture about this Android app and what we were going to do, all the different lines in it and all that thing. I came out of that thinking, “All right. Well, I'm not going to get this job. But at least I have proven that it's not because I can't do it.” Then to my surprise, they wanted me to teach there and now I do. That's the whole story there. I didn't really expect things to work out the way they did. I taught one quarter in-person and I taught somebody else's class. It was not my own class.
+
+
+The next year, I had the opportunity to design a class. What we did not know as I was designing that class initially, was that teaching was going to happen remotely because of the pandemic. We found out with two weeks to the start of the spring, that all of the classes were going to be on Zoom, which meant, in my view, redesigning elements of the class to work well in a remote setting, in a way that they would not work in a co-located setting. Because I think, this might be an unpopular opinion. I think, that there are certain things and in particular, in programming, I think there are certain things that a remote class has the opportunity to do better than a co-located class.
+
+
+Big example, being pair programming and group programming. Because it can be really ergonomically challenging to huddle two, three or four people around a single computer. It's cost-prohibitive to expect to have a computer lab available for every class, with external monitors available for everyone. People just bring their laptop to class and that's how computers work. If you're on a Zoom, you can have one person share their screen from their laptop, everybody can see it from their own laptop, nobody's got to be over anybody else's shoulder and those kinds of things. That's just one example.
+
+
+My approach to remote teaching has very much been, it hasn't been like, how do we shore up all of the weaknesses of this medium? Rather, how do we leverage the strengths of this medium to make teaching computer science a more engaging experience on Zoom, than it might even be in person? That's produced a lot of benefits, I think, for the design of the class.
+
+
+[00:29:16] AH: That's fabulous to hear. Because I think, most of what I've heard in the past 15 months has just been how virtual learning is really difficult. Not to say that you're not saying it isn't difficult, but that there are benefits to it, too, which we need to be grateful for. Because otherwise, I don't even know what would have happened.
+
+
+I noticed on your website, you've worked in a lot of different languages. You have, I think, a few posts about functional, versus object-oriented languages. What do you see is a few pros and cons for each category?
+
+
+[00:29:50] CT: This is a good question, because I think that in programming, we sometimes fall into this trap of trying to identify one approach is categorically better than another approach. I think that in my career, at least, I have been better served by answering a different question, which is, in what situations would this approach be a better fit? In what situations would that approach be a better fit? I think that between functional programming versus object-based programming, I think we run into a little bit of that too.
+
+
+The appropriate use of one or the other depends on your use case. The thing that's really nice about an object-based approach is that there's relatively little friction in the direction of adding new types of objects. Whereas, in the functionally-oriented approach, there's relatively little friction, in terms of adding new behavior to the types that already exist. The very short version of this is that and there's a whole piece on the blog, of course, if you want to see me really get really wide sporadic about it. But, is that within a given system, and even within given parts of a system, one approach might make sense over the other.
+
+
+The question I like to ask, as I'm building out a new part of the system is, in the future, how is this part of the system most likely to change? Am I more likely to want to add more types to this? Is the client going to want more types here? Or is the grain of change on this part of the system, more likely to be new behavior?
+
+
+I'll use a functionally-oriented approach, if I think the direction, the grain of change is going to be towards new behavior. Maybe a more object-based approach, if the grain of change is going to be more towards adding new types. Now, of course, that decision is constrained a little bit by the language that I am using. There are very few purely functional, or purely object-based languages. I think, most languages are maybe object-oriented with some ability to do functional, or functionally oriented with some ability to do objects. That in particular, now that we're using more of those higher order languages more of the time, that gives me a lot more freedom to figure out how I want to orient a particular piece of code.
+
+
+For example, if I'm using Java, like at this point, if I'm using Java 8, or Java 9, I've got options for each of those two. Whereas, in something like Python, in Python, functional programming can be done, but the design of the language just does not optimize for functional programming, which is not a weakness of the language necessarily. It is a design decision that the people who wrote Python very deliberately made based on the use cases where they saw Python being used. Constrained certainly by the language and the framework. That's how we’ll tend to think about solving problems in a functional, versus an object-based way.
+
+
+[00:33:17] AH: I have one follow-up to that. In teaching, whether that's in a classroom, in person, or virtual, or even on a live stream, have you found that one, functional versus object-oriented is picked up easier by people who are learning it?
+
+
+[00:33:32] CT: Yes. I think it's a little bit different from my mobile software development students, versus my python programming students. My python programming students tend to come in with a little bit less background. Python programming is their first core programming class. Mobile software development is an elective. Those students have already taken a core programming class, and so they just have more reps of coding under their belt, which makes it easier for them to digest new kinds of programming.
+
+
+Mobile software development, they learn two languages, two frameworks and two IDEs, and they do it all in nine weeks. I could not ask that of people in their first core programming class. It'd be absurd. It's already absurd, even for the people I ask it off. They do a good job. I'm very proud of my students. They get in there, and they do a good job.
+
+
+With Python programming, once again, it's an interesting situation, because I'm constrained in that case, by the language. There are just not that many functional constructs in Python. The other thing is that I think in their immersion programming classes and the prerequisites that they're taking to my Python programming class, they generally just have more experience with the object-oriented approach. They tend to have less of a hard time wrapping their heads around that, in part, because at that point, they just have a lot more reps in that construct.
+
+
+I will tend to do that one first. Now in Python programming, we do do both. The reason that we're doing that is that it's the core programming class. The point isn't for them to learn Python. The point is for them to learn programming constructs. We happen to be using Python, but they can also fulfill that requirement in Java. They can fulfill it. I think in C++. They have other options. It's important to cover it. We will cover it after we do object-oriented programming.
+
+
+In general, the example in Python that I will use for that is the decorator. Because the decorator is one of the only places in Python, where the benefits of functional programming make themselves clear. Because one of the benefits of functional programming is having the opportunity to layer behavior on top of behavior and say like, “I have a method that will do something five times. I'm going to pass into it a method that contains the actual operation that I want done five times.” We have map and filter in Python, but those operations on a list don't always necessarily demonstrate the power of the functional programming construct in the way that I would like, and the decorator is the best way that I found to do that. I'm looking for others. I would say, it's a little bit of a there, I fixed it situation, where it's not exactly what I'm looking for, but that's the best I have found so far.
+
+
+[00:36:11] AH: I just want to say that, I think, the feeling is mutual between at least myself and Sundi, and probably Eric too, that we wish you would have taught us the class when we were in college.
+
+
+[00:36:21] SM: I think, if I had a professor like you who had done the intro course for me, I think I would have been a much better fit to begin with.
+
+
+[00:36:30] CT: I mean, it's not too late. We've got folks in there. We had folks in there in their 30s, in their 40s. We have parents. It's always fun to see people's kids while they're taking class. I'll never forget, I had this one office hours and this parent showed up. He was working on his final project. He was very focused on it. As he is laser-focused on his final project, I watched his four-year-old walk up behind him with a pool noodle raised aloft and start banging on a piano with it. This poor parent is just trying to ignore that, as he finishes his final project. I will never forget that.
+
+
+[00:37:11] SM: If he can only imagine what happens when he's not coming to office hours and that four-year-old is just running around at home.
+
+
+[00:37:18] CT: My gosh. Just the image is burned in my brain forever.
+
+
+[00:37:23] AH: Education is continuous, though. It's a good reminder. We’re too late. Chelsea, do you have any final plugs, asks for the audience?
+
+
+[00:37:30] CT: I do a lot of writing at chelseatroy.com. Chelsea, like the neighborhood in New York. Troy, like Helen of Troy. There's not that much to buy on there, maybe a book or a class here or there. For the most part, I just write there, and I hope that folks find it useful.
+
+
+[00:37:47] AH: I have read a few of them. They're topics fast, very interesting. I would encourage people to go take a peek.
+
+
+[00:37:57] SM: Before we close out the show, we'd like to share another quick mini-feature interview. A brief segment, where we showcase someone from the community at a company using Elixir in production and how they're using Elixir. Hope you enjoy it.
+
+
+[MINI-FEATURE]
+
+
+[00:38:08] AH: Hello, and welcome to the mini-features segment of Elixir Wizards. My name is Alex Housand. Today, we're speaking with Rosemary Ledesma, a software engineer at RentPath. Welcome to the podcast, Rosemary.
+
+
+[00:38:19] RL: Thank you. Thank you very much for inviting me.
+
+
+[00:38:21] AH: It's great to have you here. If you could just jump right in. How did you find yourself to be a software engineer?
+
+
+[00:38:28] RL: When I talk to other people, it seems most people have a pretty obvious trajectory where they had some aha moment, where it seemed like a ray of light shone on a computer or something. It definitely wasn't the case for me. It’s true, my father was a programmer of sorts, but in a different epoch. Because, yeah, children quite late in life. His idea of programming involved punch cards and magnetic tapes.
+
+
+We had a lot of punch cards around the house growing up. Also, we always had computers growing up, even though I'm sufficiently old that it wasn't ubiquitous, when I was very small. It was somewhat rare to have computers. I definitely had exposure from a very young age. That being said, I had a lot of interests as a kid and definitely wasn't a focus for me.
+
+
+My degree in college was actually in English. At Oakland, I wanted to be a biologist. It certainly wasn't a really clear and obvious trajectory for me. During college, I was already working on building websites and doing some programming as my side gigs, while I was an undergraduate. After graduating, I continued with that. My first real job was with Warner Brothers. I was there for quite a long time, nine years. That's why I moved to Los Angeles, from provisionally New York.
+
+
+I was working on various optical media formats. They're all implemented with programming, although it's a proprietary and in some cases, quite primitive. DVDs, believe it or not, are written in assembler language. I worked on all those different formats. At the end of my stint there, I was actually doing Java for the Blu-ray discs. After that, I transitioned into doing back-end web development and now I find myself writing Elixir.
+
+
+[00:40:14] AH: Well, you introduce a great segue. How did you go from Warner Brothers, DVDs, Blu-rays and Java, how did you find Elixir? Was it just happenstance, fate? Was it a purposeful decision?
+
+
+[00:40:28] RL: I felt, I think, correctly, that optical media was hitti ng it sunset. Blu-ray never really had the sizzle that people were hoping for. I mean, you could just tell that it was on the way out and streaming was the future. While I was at Warner Brothers, I definitely would write a script here and there, in addition to the programming on the actual discs themselves, which was a whole adventure. Web is not going anywhere. We're going to be doing some interactions over the Internet, and probably until we die and beyond our lives.
+
+
+That seemed like something with more of a future. It was a little bit of a rough transition, because I had been working with purely proprietary systems that really didn't translate into anything outside of the company. I've worked it out and I ended up doing firstly, it was more Ruby. The company I'm with now is trying to phase out Ruby in favor of Elixir. It's just a really exciting language that lets us well, first off, we get a lot of performance with very little effort.
+
+
+Secondly, it's just honestly, it's fun. Thirdly, we are finding that we are part of an exciting community and able to find really up and coming, innovative people to join our team as a consequence of making this shift.
+
+
+[00:41:45] AH: There's a few things bouncing around my brain. The first one is I totally agree with you. Working in Elixir is it's just fun. It's the first time I've been like, “This is fun,” and I really enjoy it. Second, I think the path from Ruby to Elixir is one that makes a lot of sense. Third, you're so right. Blu-ray just never really took off like people wanted it to. I remember when it was the new big thing. I also remember, nobody being really excited about it. Now, here we are with six streaming services, or what have you.
+
+
+[00:42:18] RL: I'm not exactly happy with how things turned out. I think, no one is with the streaming wars. I felt a good way to get a feeling for something is how people react in a cocktail party when you mentioned the topic, or the impression I take away is meaningful. When people would say, “What do you do?” I would say, “I work on Blu-ray discs.” They’d go, “Oh, yeah.” There wasn't that excitement. It transitioned from what is that, to, “Oh, yeah. Okay.” It was never like, “Wow.”
+
+
+[00:42:49] AH: Right. You think to yourself, “Oh, man. Maybe it's my time to leave.” You touched on it briefly, you're transitioning from Ruby to Elixir at RentPath? Could you give us a brief elevator pitch for what RentPath does?
+
+
+[00:43:03] RL: We started around 2016, actually, with starting to implement some stuff with Elixir. We stuck our toe in with microservices, because we do have a microservice architecture. That makes it easy to start building something out in a language you haven't used before and still have it be real and to have it be part of your actual production system. That's how we got our start. Also, pretty close to the beginning there, I was part of building this in-house tool that was full stack, but wasn't customer-facing, that was for managing deployments, kicking off managing deployments. That was really fun. I got to do a lot of stuff with processes.
+
+
+As we continue, we're having more and more of our microservices being written in Elixir. We're even getting to the point of starting to switch off some of our Ruby apps in favor of an Elixir version. We're trying to take pains to avoid doing any new development that's not in Elixir. That being said, we do have other teams, like the data science people are using Python, and we have people using closure too. It's not like, one language across the board by no means. We're trying to phase out Ruby. I think, we're also facing out Go, way too much for that year.
+
+
+[00:44:12] AH: Well, that's hard too, because as you've phased out of one language, there's always still this maintenance phase with anything. You are still continuing to work in another language, but at least they're two functional languages. I feel, the context switching is probably a little less hard, but I don't want to obviously speak for that.
+
+
+[00:44:30] RL: I think, switching context between Ruby and Elixir isn't the problem. What's the problem is trying to open up a project that no one's been maintaining in Ruby for a couple of years. That feels bad.
+
+
+[00:44:41] AH: Yeah. It’s like, everybody's worst nightmare when you open up a code base that has really poor documentation and hasn't been updated in a while. It's a bit daunting. Could you give us a brief description of what RentPath does?
+
+
+[00:44:54] RL: Sure. Yeah, RentPath is in the real estate space and we have several websites for folks who would like to find a property to rent, or list one available to rent. We've recently actually, very recently just got bought by Redfin. Now we're also able to offer solutions for people who want to buy or sell a home. That means we were able to reach more customers both once again, who are looking to find a place to live, or want to list something.
+
+
+[00:45:20] AH: That's cool. Is there any desire to eventually do more in the Redfin space? Or will it be RentPath will continue to be its own entity?
+
+
+[00:45:32] RL: This is all really new. No, we literally just got married or whatever. We're in the honeymoon phase. Right now, we're mostly interested in sharing data. At least, I'm not aware of any clear course ahead that is going to be visible to anyone really, other than just more rich data for all the purposes that we have in common.
+
+
+[00:45:53] AH: Cool. Well, I mean, I live in DC, where real estate is always booming, seemingly. I know that that's an industry that really has nowhere to go, but up, I would say. I want to end on a fun question. If you weren't a software engineer, what would you be? Would you be a biologist, who writes books?
+
+
+[00:46:14] RL: That would be great. This question is very hard for me, because I have so many passions, and I keep adding new ones. A friend was just telling me, and I share this with him. It's like, if anything is worth doing, it's worth overdoing. I get very excited about things and jump in really hard. Right now, I'm learning Italian and practically fluent. Also, I'm super into wildlife photography, and very best level hiking and a ton of other stuff. One possible fantasy scenario is traveling around the world, photographing rare animals. I could definitely see myself lying in a duck blind for days to get that one picture of that one bird.
+
+
+[00:46:52] AH: That's so cool. That's incredible. We've asked this question to a lot of people and a lot of them have answers that are in the creative space in that field. I think, we've had the photography answer before. But the wildlife photography is a totally new spin. That would be awesome.
+
+
+[00:47:08] RL: When I look into the eyes of a wild animal, and I know that it has no use for me, like they don't care one bit about humans. They live their own mysterious existence that is irrelevant to us, it's a different experience. It’s like, my heart stops. It's hard to explain.
+
+
+[00:47:22] AH: That’s beautiful, though. Thank you for sharing. That's lovely. Well, Rosemary, thank you so much for joining us today. To all of our listeners, if you or your company are using Elixir in an interesting way and want to come on the show for a mini-feature, we would love to have you. Reach out to us at podcast@smartlogic.io with your name, your company's name and how you're using Elixir.
+
+
+[END]
+        © 2021 Elixir Wizards

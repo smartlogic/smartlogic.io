@@ -48,6 +48,32 @@ items = rss_xml.xpath("//channel/item").map do |item|
   }
 end
 
+transcripts = YAML.load(File.read("_data/elixir_wizards_transcripts.yml"))
+
+transcripts = rss_xml.xpath("//channel/item").reduce(transcripts) do |transcripts, item|
+  slug = item.xpath("link").text.gsub("https://smartlogic.io/podcast/elixir-wizards/", "")
+  transcript_path = "podcast/elixir-wizards/transcripts/#{slug}.txt"
+
+  transcript = item.xpath("podcast:transcript").first
+
+  if transcript
+    transcript_url = transcript.attributes["url"].value
+
+    unless File.exists?(transcript_path)
+      response = Faraday.get(transcript_url)
+
+      if response.success?
+        File.write(transcript_path, response.body)
+      end
+    end
+
+    transcripts[slug] ||= {}
+    transcripts[slug]["English"] = "/#{transcript_path}"
+  end
+
+  transcripts
+end
+
 rss_map = {
   "title" => rss_xml.xpath("//channel/title").text,
   "pubDate" => rss_xml.xpath("//channel/pubDate").text,
@@ -82,3 +108,4 @@ end
 File.write("_data/elixir_wizards_feed.yml", rss_map.to_yaml)
 File.write("_data/elixir_wizards_episodes.yml", items.to_yaml)
 File.write("_data/elixir_wizards_seasons.yml", seasons.to_yaml)
+File.write("_data/elixir_wizards_transcripts.yml", transcripts.to_yaml)

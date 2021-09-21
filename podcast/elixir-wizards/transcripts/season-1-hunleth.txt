@@ -1,0 +1,161 @@
+Justus:             Welcome to Smart Software with SmartLogic, a podcast where we talk about best practices in web and mobile software development with a focus on new and emerging technologies. My name is Justus Eapen and I'm your host today, I'm a developer here at SmartLogic. We're a Baltimore based consulting company that has been building custom web and mobile software applications since 2005. I am joined by one of my colleagues, the esteemed Elixir wizard, Eric Oestrich. Say hi, Eric.
+
+Eric:               Hello.
+
+Justus:             Our first series on the podcast covers Phoenix and Elixir in production and today we have a very special guest. Mr. Frank Hunleth from SmartRent. How are you doing Frank?
+
+Frank:              I'm doing great.
+
+Justus:             Great. Frank, to get started here, this is an unusual episode for us because of your background. So I would love it if you could introduce yourself and give us a little bit of background about SmartRent and how you got started with Phoenix and Elixir.
+
+Frank:              Okay so, my name's Frank Hunleth. I'm one of the creators of the Nerves Project. So, Nerves Project is a project that makes it easy to develop Elixir applications on embedded systems and I work for a company called SmartRent. They outfit apartment complexes and rental communities with the smarthome-style systems like smart locks, smart thermostats and other things and then they also provide a management system to the property owners.
+
+Frank:              My work with them is they're building embedded devices to install in those homes and Nerves is gonna be running on one of them.
+
+Justus:             Which is precisely what makes this an unusual episode for us. Most of our episodes are about web application development but today, we're really gonna talk about embedding which is very unusual. So, I'm a little bit out of my depth. But Eric knows a little bit more and Eric's gonna start us off with some of our regular questions. Eric, you wanna take it away?
+
+Eric:               Yeah. So, do you wanna give us a quick overview of the Elixir projects that you have in production or even just, since you're part of the Nerves core team, just any that you are aware of?
+
+Frank:              Okay so, there are actually a few. I mean Nerves has been planted in a variety of embedded systems. So, I think when you come to Nerves, you're wondering what type of embedded systems. So there are these ones with really small micro-controllers. If you're familiar with the Arduino, those might be in those. That's not Nerves. Nerves is more in ones that can run, they typically run embedded Linux. They do some networking and they also usually run enough business logic where it starts to become interesting to put some Elixir code on them so they can run offline a little bit or do a little more localized processing.
+
+Frank:              So of those projects, the initial one was one by a company called Rose Point. Which, Rose Point got the Nerves project on the ground. It was their first success story. What they did is they made a device they put into tugboats and towboats and some medium-sized yachts, and it was based off of the BeagleBone, which is a fairly easy-to-buy embedded board. But they put some interfaces on it so you could connect it to other sensors on the boat, and then they had software running that would aggregate sensor data and communicate to the captain running it.
+
+Frank:              That device was pretty successful for them. And one of the things that they came back to about Elixir and Erlang was just how stable it was. It made it easy for them to code up some of their software. The developers were coming more from Ruby, and a little bit higher-level background in low-level C. It made it easy for them to write, and the devices just kept on working, which thrilled them to no end. So that was the beginning for SmartRent, for using the smart homes that we're deploying. There's Le Tote is another company that uses it to automate their warehouses. It's being used on a couple farms' operations, to automate the equipment there.
+
+Frank:              There are a few other uses in industry, some not announced yet, but it's also used for many hobbyists and many people just getting involved with electronics for the first time. So if you go to the Nerves forums you can see a lot of those little projects get put up that people are making in Elixir and doing some pretty neat things with.
+
+Justus:             Cool.
+
+Eric:               So our next question is, what made you pick Elixir? So going back a bit to the start of Nerves.
+
+Frank:              Yeah, so if I rewind I totally didn't pick Elixir. I originated in Erlang, so the story was is that, my career, I started out making voice over IP switches, big ones for central offices. Built one, the company was successful, left to go to college, and then started reading papers about Erlang and found out how I did everything in not the greatest way. Their solutions were quite good, so I was very impressed with Erlang and decided I was going to take it upon myself to get Erlang in a project. And that was 2002, so it look me like forever to actually figure out a way to get Erlang in the project and gave up and got down to like 2010 or 2012 or around then, and was just like, "Fine. I'm just writing something. I'm just going to see how I can do it." And the toy project I built eventually grew into Nerves project and then Justin joined in and made it way more awesome for an Elixir developer, and me too. So, totally sold me on Elixir. I love it.
+
+Justus:             So this is interesting because I think you're the first person that we've spoken to that comes to Elixir from somewhere other than Ruby on Rails.
+
+Frank:              Yeah. C and C++ all the way for me. But yeah, via Erlang, so ...
+
+Justus:             And now I'm curious if there's a whole cohort of developers out there that have come to Elixir through Erlang, or if that's actually a minority.
+
+Frank:              Oh no, there are a bunch. The one nice thing about, I think, Erlang ... You get really indoctrinated to OTP, pretty much head first, get it nailed into your brain. So the people that come over, I've really enjoyed working with them just because they've really got those pieces down. Now if you were to ask me about C and C++, I think that's a harder nut to crack, to get C and C++ developers to come over.
+
+Frank:              But I would stress here that a lot of the features that are really important to embedded development mesh very well with the selling points of Elixir. It's not like this is some crazy jump here. The embedded, robustness, the reliability that you need, fault tolerant stuff, those are key things. Embedded devices are usually put place that you can't access, or need to recover at off hours, and all these things — these are really important things that Elixir and Erlang have solutions for.
+
+Frank:              And C and C++, we rebuild them. Now granted, there are a few more available to us today than when I started but I don't think there's anything quite as cohesive as the Elixir Erlang ecosystem regarding this. Certainly with third party libraries, it's usually mix and match. It's been my experience with other languages whereas things are a little more, fit better together and follow similar paradigms.
+
+Eric:               I was searching for this real quick. That reminds me of ... I was speaking of C++ redoing what Erlang is doing. There's Robert Virding's first rule of programming. Any sufficiently complicated concurrent program in another language contains an ad hoc, informally specified, bug-ridden slow implementation of half of Erlang.
+
+Frank:              Yeah, I feel like I've been there a couple times. So I could definitely imagine it happening a few more times on the C and C++ project that I do, start seeing these patterns and start replicating them.
+
+Eric:               Cool, so that kind of covered a bit of the advantages of why you'd want to use Elixir. Is there any disadvantages that kind of jump out?
+
+Frank:              Elixir's not a systems programming language, so you don't really want to wedge it into places where it's not right. That's why we have ports and NIFs, so that we can view those system-level things in maybe a page of C or maybe Rust code, and then be done with it and then back to the Elixir land. Most of the pain points in Elixir are shoehorning it into places where it's not a good match. When you keep it at the networking, business logic, and in the control logic, that's a pretty happy place and it performs amazingly well in some other places. And I certainly know some other people in the community have done some pretty ridiculous things with managing video in Elixir on some slow embedded devices that I told them wouldn't work and they showed me it working.
+
+Frank:              I wouldn't go with those, but I think you just have to look at what you're going to do. And if it's going to be something low-level or if it doesn't quite mesh, not to try to force it and put yourself in that pain.
+
+Eric:               Yeah.
+
+Justus:             So we're going to have to add links to ports and NIFs documentation for people so that they know what we're talking about there. Moving on, Eric, do you want to jump into some of these hardware questions?
+
+Eric:               Yeah, I guess our first question is ... We've written our Nerves application. What hardware do we stick this on?
+
+Frank:              Right, that's a good question. Nerves runs a lot of places. We generally encourage people to start out with Raspberry Pi-based boards because our support, the open source community and the greater Nerves community has a lot of comfort in supporting those boards. Then certainly if you're trying to pull something attached to Raspberry Pi to some new piece of hardware and no one in the community has used it, you can usually get some answers from other Raspberry Pi communities. But Nerves is much bigger than Raspberry Pi.
+
+Frank:              The other official boards are the BeagleBone series of boards which are a similar take. They kind of look similar and are very high-level to the Raspberry Pis, but when you go through the feature list it's much more interesting to me, the industrial user. They have some lower-level interfaces, some features that support realtime, and a little bit better support in some areas to keep your devices running and failing back if you happen to give it a bad piece of firmware.
+
+Frank:              That one we support, and we also support x86. There's a whole bunch of people who use embedded x86 boards, which just look like PC motherboards except a little bit smaller and screwed into some weird container.
+
+Frank:              So that's the official list. Then getting past the official list, people are making custom boards, and for SmartRent we made a custom board. We're basing it off of a module built by Octavo, which has many similarities to the BeagleBone, but it's one module that we can put on a special board that has the other components that we need. There are other groups putting their stuff onto Raspberry Pi compute modules, which is more of like an embedded way of using the Raspberry Pi. I'd say it's mostly supported by Nerves, but I don't think that we have a regular maintainer. Still, it's slightly different than just taking a Raspberry Pi.
+
+Frank:              There's NXP has a set of processors called i.MX 6 and there's other varieties that people can run Nerves. When it comes down to it, porting Nerves to a new platform is not the biggest deal if you're familiar with the tool or have used the tool called buildroot and have some passing familiarity to embedded Linux. There are a couple configuration options. You can kind of copy/paste them from stuff that the board manufacturer will give you. And we provide a route to doing that.
+
+Frank:              Certainly if you're building a lot of boards or planning to ship a lot of units, looking into custom hardware or building your own board starts becoming a more interesting option to lower the cost.
+
+Eric:               Cool. So now that we've picked out our hardware, how do we get our code to this hardware?
+
+Frank:              Yeah, so there are a couple ways. We start everyone off using SSH, so you can SSH to the device by default, and you get an IEx prompt. You don't get a shell prompt. You get the IEx prompt because it's Elixir running. But you can also ... We have a little script that lets you upload firmware files, so Nerves compiles down to a release, and then there's a post-processing step which zips up the release and puts the metadata, and optionally, cryptographically signs it. And that we call a firmware bundle. That firmware bundle file is effectively just copied over to the board through SSH and updated. So that's the development.
+
+Frank:              And that mode works for small numbers of boards. Some people deploy that with Ansible, then the other way that we're working a lot on now is a service called NervesHub. It's a server and a client. So NervesHub is the server, which you'd upload your firmware file to, and then the device is also connected to the server. And through configuring what we call deployments on the server, you can say a device connects with an old version of firmware, send it down this new version of firmware and it will automatically update. And there's a laundry list of features on how you can roll out updates, but you're using a centralized server. We operate NervesHub.org, but you can set up your own server instance.
+
+Frank:              And then, the third way is just do your own thing. There are a lot of people who make ad hoc firmware update servers, they just ping a web server for the latest firmware image or some variation on that theme.
+
+Eric:               Yeah. So now that we've got our code deployed to the application, it's out in the wild, how do we secure this thing?
+
+Frank:              Okay, so this is a long topic because IoT security is ... There are many aspects to this. So I can talk. A lot of what I have to say is specific to the SmartRent or a couple others I know. So you always have to keep that in mind, but ...
+
+Frank:              Out of the box, we are forcing everyone to use SSH, so the unfortunate part is that only lasts so long because it's a secret key option. For security reasons it's not great to pass around the secret keys as far as logging in or updating firmware onto your box, unless your environment is behind a firewall, like some industrial factory kind of setup. When you move into the NervesHub realm, where you have devices that might be behind firewalls or just anywhere in the world, then you want to start to do more and turn off SSH and secure the connection to the NervesHub server and also secure your firmware chain.
+
+Frank:              For our NervesHub, we require firmware to be signed, so when you build your firmware image and you want to ship it to this production, you have to cryptographically sign it using a private key that's where the public key is put on the device. So that no matter how that firmware file gets to the device, the device can always check. It says yes, it came from a trusted location. So then, you peel back the onion a little bit, and how do you authenticate to the NervesHub server. We use HTTPS, just like pretty much everyone else.
+
+Frank:              I think the device authenticates the server just like you would in any other typical web interaction. But we also use client side certificates to secure the devices. This isn't something that's specific to us, the various MQTT, the IoT brokers, that people use do a similar thing. So for those, every device gets deployed with its own certificate, and the way we manage this with NervesHub is that you can either create your own key locally. We don't recommend that approach but it doesn't require any extra hardware because it's a very manual process, and then you have to protect and rotate the keys.
+
+Frank:              The approach we're using at SmartRent and the approach that they're starting to use other places is to put a chip on the main board. We're using one from Microchip. It stores the private key part inside the chip. There's no way to get it out. What we did to make it a little bit easier for hobbyists and others is we made a little board called the NervesKey board, which has this particular chip on it and it works with the open source client, NervesHub client, so that your devices can each have their own certificate with a protected, private key. It just fits into the Erlang's SSL stack, to authenticate with the server. Roughly speaking, that's far. I'm trying to think of how far to go with this.
+
+Eric:               Yeah. Security in a nutshell.
+
+Frank:              Yeah, it's like peeling back the onion. Once you keep on ... and the problem with a lot of these devices is that people have physical access, by design, they have it so there are additional ... If you're storing something critical on the device itself, you have to take extra precautions to secure that. And I think what a lot of people have done is moved a lot of that sensitive data over to the server so if the device is compromised, they have to go a little bit farther. But certainly this is a big topic.
+
+Eric:               Is there a Nerves security page somewhere that people could start looking into?
+
+Frank:              So the NervesHub documentation talks about thee end-to-end and the client-server security. If you want to get into more details, the cryptochip, we've documented a lot of that at the NervesKey GitHub. There's actually two repositories, one for the chip and one for our configuration of it. The chip is highly configurable, and we label that configuration NervesKey, which is certainly a good starting point for everyone. And then depending on your application you can use the cryptographic chip for more stuff, if that makes sense.
+
+Eric:               Cool. Alright, so we'll make sure to include the links in the description for that. So let's keep moving on.
+
+Eric:               So we've asked other people if they and how they cluster, but I imagine that's pretty different for embedded stuff. So is there anything that's kind of similar to clustering?
+
+Frank:              Yeah, so when you say clustering I immediately think of the Erlang distribution and I do not know of production use for Nerves devices with Erlang distribution. I could believe that they exist, but the projects that I know are more like toy-like projects because it's just kind of fun. I guess where I'd take this is that the typical protocols that we run through are MQTT so these devices call home to a server. And the favorite protocols are the ones that you're expect. Either someone has a RESTful interface, but it's more often that they have an MQTT interface and there's a Elixir library called Tortoise, which almost everyone seems to be using it nowadays.
+
+Frank:              There used to be a couple others that got used but people have been switching to that one. It lets you connect to AWS, IoT, the other big brokers. Pretty simple to integrate it. Then, since this is an Elixir podcast, I have to mention that people are often using Phoenix Channels to connect up because the companies that are using Elixir or using Nerves, usually have a team of server side developers, back end developers who are strong at Elixir. I think that's like the default. And channels seem to be very low barrier to get started.
+
+Eric:               I think I saw at ElixirConf this year, for the NervesHub announcement, was that NervesHub channels?
+
+Frank:              Yes, NervesHub is using Phoenix channels.
+
+Eric:               So then there's a good example to go peek around.
+
+Frank:              Yeah, so no, NervesHub is full speed forward on Elixir-based technologies and where they fall short. The answer is to fix them to meet our needs.
+
+Eric:               Okay, I guess our last hardware related question specifically is, how does Elixir compare to C or C++ or any kind of other embedded development?
+
+Frank:              Well, it's different. I think that there are a couple fun areas on Elixir, compared to C and C++ development. One of the fun areas is when you make a mistake in your code and you just copy/paste something into the IEx prompt. This is boring stuff, and there a way better ways of doing it, but for a C developer who had to recompile, and stop and start their app, that's pretty cool stuff.
+
+Eric:               So better developer experience.
+
+Frank:              Yeah, I would like to say in many ways that there's a better developer experience. I also think that there are many ways that we can improve. So I don't want to feel like I'd ever give the impression that there's an end point here, but that certainly is a fun thing. Anything that has to do with binaries, pattern managing, is crazy fun for me because I go from these libraries ... And I guess one thing, to back up, is to maybe talk very nicely about hardware people and electrical engineers, and say something about how they like to cram every piece of information in various numbers of bits. If it takes three bits, it takes three bits, and that leaves five more to put some other random thing that's totally unrelated to that one flag in that field.
+
+Frank:              And binary pattern matching has just a way of making the code to interact with this stuff so pretty. I guess from that point of view, I've almost gotten to the point where Bitwise is a code smell. The Elixir Bitwise library, if I ever see that I'm like, oh no. Something was just copy/pasted. So if I think about this a little bit harder, I can complete like half the code with appropriate patterns.
+
+Eric:               I've done a bit of, for better or worse, telnet parsing and there's some out-of-band stuff that you can catch that ... doing pattern matching was so much nicer than ... I don't even know what I would have done, but--
+
+Frank:              No, it's just totally a brilliant feature. It's one of these things that I would imagine that your audience ... If you've gone through the pain of dealing with all the bit manipulations, you'll be like ah, this is just the best thing since sliced bread. If you have it, you're like, "Why are we even talking about this?"
+
+Eric:               Cool. So I guess we can move on to maybe speak a bit more about Nerves itself and what's in there and if there's any competitors to Nerves.
+
+Frank:              Right, so let me just give the quick summary. So Nerves is ... it's tooling, really. And when it comes down to tooling core libraries, that's where we try to focus the Nerves project now. The Nerves ecosystem has a lot of other things surrounding it, so that's part of the nice part about keeping the core small is we can focus on that and pull in things from the community, either via ports or hardware associated libraries and whatnot.
+
+Frank:              There are other ways of programming in Elixir on embedded systems that I'm actually quite excited about too, even though they aren't Nerves. So I guess I'd be remiss to say, if you had a Raspberry Pi with Raspbian, you could program Elixir on that no problem. It's like a PC. Program Elixir on it and you're good to go. A lot of the Nerves libraries will just work out of the box and that's on purpose. A lot of us prototype stuff there on Raspbian when we have no idea what we're doing. But we also like to keep things working there because we know that that's a particularly low barrier to entry to people who are coming from the Raspberry Pi.
+
+Frank:              Another project, that is the GRiSP project and that one started out as an embedded Erlang project. So it has slightly different roots. If you take a very distant step back, it has a lot of similarities to Nerves. Some of the things that the GRiSP group prioritizes that are interesting are one, they don't build off Linux. So Nerves, we use the Linux kernel as our way of getting access to device drivers for all the kinds of hardware and ports. So GRiSP takes a different approach. They use a realtime operating system, so it's a little bit thinner. They also have been running on microcontroller boards, so if you want to program using GRiSP you'd have buy a board that they ported the GRiSP libraries to.
+
+Frank:              The exciting thing about GRiSP coming up is they're working on a new board and it's using an NXP i.MX6 which is a processor that can run Linux. And since it can run Linux, it can run Nerves, and since the people who work on the Nerves project and the people who work on the GRiSP project talk to each other, we'll have Nerves running on that board. So that board is probably going to be a pretty interesting board to quite a few industrial users who have various needs that aren't met by the Raspberry Pis and would actually take some work to get a custom board, like a BeagleBone, up to speed. Plus i.MX 6 has some cool features that the BeagleBone doesn't have.
+
+Frank:              So in any case, this is a very exciting project for both of our teams and hopefully there will be some announcements soon. Maybe, I don't know when this podcast is coming out, but it could be soon or now. So, about that ...
+
+Justus:             Well, I'm looking forward to that and I think that we're running pretty short on time here. So, Eric, maybe you want to take us through our wrap up questions?
+
+Eric:               Yeah, I think we just have the one. So if you could give one tip to developers out there who are or may be soon running Elixir/Nerves in production, what would it be?
+
+Frank:              There's so many things, confining it down to one ... I should have really prepped better for this one. So my focus is on Nerves. I think the key to being successful with Nerves is just keep the system simple. I think that's the whole beauty of Elixir. I know this is some totally generic and this is probably the lamest answer ever, but keeping these embedded devices simple is what makes them robust and last long and easy to deploy. We live in a network world.
+
+Frank:              If you don't need to cram the whole world onto the embedded device, I think there is less success to be had. Certainly the devices out there have found nice splits between what goes on the embedded device and what goes on the cloud to keep the embedded device as reliable as possible. And I think that's led to success and happiness from the people that have to maintain these devices.
+
+Justus:             Very cool. Well, Frank, thank you so much for being on the show.
+
+Frank:              No, thank you. It was great to talk to both of you.
+
+Justus:             It's really a pleasure and an honor. You're a luminary in the community, and I mean that, really. And before we let you go, are there any plugs you'd like to make before you head out? Obviously Nerves, but also can people find you somewhere? Or, why should they try to find you and reach out?
+
+Frank:              Oh, of course. People should always try to find me and reach out. I'm human, so I can only get back to as much as humanly possible, but please reach out on the Elixir forums, right now underutilized for Nerves people. We love our Slack channel, but we're present on both. And certainly just give a shout out to Justin Schneck, Connor Rigby, he's always on, Greg Mefford, Nerves core team people, and there's certainly quite a few other people who aren't core team that are super helpful to me and others. So that's where you reach them is on the Elixir forum, and tag your post with Nerves. Or on the Elixirlang Slack, the Nerves channel.
+
+Justus:             Awesome. Frank Hunleth, everybody.
+
+Justus:             Once again, this has been an episode with Smart Software with SmartLogic, talking about Elixir in production. Join us next time for more conversations with folks running Elixir in production and if you are interested in learning about Elixir, this is the podcast to learn. Eric, Frank, thank you so much for your time, both of you. And we'll see you all next time.

@@ -1,0 +1,443 @@
+﻿EW S6E10                Transcript
+EPISODE 10
+
+
+[INTRODUCTION]
+
+
+[00:00:00] EO: Hi, everyone. We have a quick announcement before the show today. Smartlogic, the custom software shop behind this fair podcast is hiring for a midlevel Rails or Elixir developer. Our team is fully remote and this position is open to applications from anywhere in the United States. You can read the full job description and apply at smartlogic.io/jobs. Okay, now on to the show.
+
+
+[00:00:30] AH: Welcome to Elixir Wizards, a podcast brought to you by Smartlogic, a custom web and mobile development shop based in Baltimore. My name is Alex Housand, and I'll be your host. And I'm joined by my cohost, Sundi Myint. What's up, Sundi? 
+
+
+[00:00:42] SM: Hello. 
+
+
+[00:00:43] AH: And my producer, Eric Oestrich. How's it hanging, Eric? 
+
+
+[00:00:47] EO: Pretty good. 
+
+
+[00:00:48] AH: Fantastic to hear. This season's theme is BEAM Magic. And we're joined today by a special guest, Quinn Wilton. Welcome to the podcast. Quinn. 
+
+
+[00:00:56] MK: Thank you, Alex. I’m happy to be here. 
+
+
+[00:00:58] AH: It's great to have you. I want to dive right in. You went to the University of Waterloo. Is that correct?
+
+
+[00:01:04] QW: Yeah, I went to Waterloo. I never actually finished my degree, but I started a couple of them.
+
+
+[00:01:09] AH: That's okay. It really stood out to me, because that's my favorite Abba song. 
+
+
+[00:01:14] QW: Oh, awesome. 
+
+
+[00:01:15] AH: I would kind of like to know more about, I guess, kind of what the computer science program is like in Canada? Have you noticed any differences like with your American colleagues in terms of what your schooling was?
+
+
+[00:01:27] QW: Yeah. So something that's really interesting about the computer science program at Waterloo especially is that it's actually an entire department that's part of the math faculty. And this meant that straight from the first year, all of the computer science education had a really mathematical slant to it. So straight from my first class, right on the first day, our first assignment, for example, was to take Haskell programs that the teacher had given us and then prove properties about them literally on paper using structural doctrine like that. 
+
+
+So if I remember right, I think the assignment was he had defined the natural numbers using piano arithmetic. I wrote a function for adding two numbers together. And then we had to prove that A plus B would be equal to B plus A. And it was basically taking this Haskell program and manipulating it as formulas and mathematical symbols to show that those two different invocations which mapped to the same representation. That was the first thing any of us saw during the very first lecture at the introductory computer science class. So that kind of set the course for the start of things. And that's not how I have typically seen things done hear from a lot of people I know who studied computer science. I personally really enjoyed it. But I understand that it's not for everybody.
+
+
+[00:02:46] AH: Yeah. I was going to say that's wild. It feels like a good way to kind of weed people out. If you don't like math, maybe don't use this path. That's fascinating. 
+
+
+[00:02:56] SM: Super weirdly on-brand for this season, because we've talked about math so much. And then I think we even talked to, I think, Chris Miller was talking about treating computer science like a math proof, and working to use math equations and the systematic way that you can attack a problem the way that you do it in mathematics like the study with computer science. And to hear you have to prove the B plus A from the A plus B is fascinating. That would not have worked for me as a freshman in college, but very interesting.
+
+
+[00:03:30] QW: I thought it was super fascinating too. And what I thought was really interesting about the teaching style is that I think with this professor in particular, one of his goals was to put everybody on a level playing field. Waterloo has a huge reputation as being kind of VCS school in Canada. So a lot of people who go to Waterloo, like myself, have been programming since they were 10, or 11 years old. And so when people with already almost a decade of experience are placed alongside people who are programming for the first time, that's a really intimidating situation to be placed into. But then if you can just kind of shock everybody by throwing something at them that no one has seen before, you can show people that your past experience is not going to be the indicator for how successful you are in this program. And all that matters is how much effort you're going to be willing to put into learning the material and practicing it.
+
+
+[00:04:24] AH: Yeah, I think that's really important. I didn't have any programming experience going into college. And so I definitely was always intimidated by the people that had come in with AP Computer Science credits, and had already built their first app and had made some money. And I thought to myself, “What? I was supposed to do that? I didn't do that. What do you mean?” But I stuck with it.
+
+
+[00:04:47] QW: Yeah. And no, you weren't supposed to do that. But it's really easy to feel that way. And it's not even necessarily anyone trying to make you feel that way. But it's a really stressful environment to be in.
+
+
+[00:04:56] AH: What made you fall in love with programming in the first place? What made you choose this as your career path?
+
+
+[00:05:02] QW: It's interesting, because like I mentioned a minute ago, I started programming when I was around 10 or 11. But I actually never wanted to go into programming as a career. I got into it through video games actually primarily as a way of hacking online games. I'd make bots, AIM bots. I'd duplicate items in MMOs. Basically, it all came down to the fact that I loved playing video games with my friends, but they were better at than me. So rather than putting in the time to get good at video games, I put in the time to cheat at them. That kind of was what set me on the whole path towards learning programming. 
+
+
+I actually spent a lot of my childhood as one of the early players for an online game called Roblox. I don't know if you've heard about it, but it lets you make your own games using a programming language named Lua. I spent basically my entire childhood doing that, making games, hacking them and so on. But I never wanted to go into software, because I was really scared that if I made my career the same thing that I was passionate about, that I would just learn to hate what I loved. 
+
+
+But I think after trying out so many other fields to try to get around this corner I had gotten myself into, I just eventually came to the conclusion that programming was really the thing that I loved and what I should be doing. I tried English, and I wanted to be an architect for a bit, a doctor. I studied physics and quantum physics. I tried a whole bunch of things before I just abandoned it and went all in programming.
+
+
+[00:06:33] AH: So what was the first programming job like?
+
+
+[00:06:36] QW: Let's see, I guess it depends on what you define a job as. The first – 
+
+
+[00:06:41] AH: Paid. Paid to be –
+
+
+[00:06:42] QW: The first thing I got paid for was actually creating a game for Roblox. If I remember right, they wanted to have an event for Thanksgiving. And so I think they paid me $100 in gift certificates, because I was like 13 at the time, to make like an online game where you had to like compete against other players to catch as many turkeys as you can or something. So that's possibly the first time I was ever paid for programming. 
+
+
+And in terms of a more proper job, I did a four-month internship in college with an educational company named Desire to Learn. They make online e-learning platforms for universities and stuff like that. I only spent four months there though. So what I consider to be my first real job is Lookout Security where I was a malware researcher and cybercrime investigator. So I was basically responsible for crawling the Internet looking for malware for Android, then pulling it all down and analyzing it, reverse engineering it and so on to figure out what it was doing, how it was getting onto people's phones and where we're sending their information? And then trying to track down the people responsible for the malware so that we could shut down their servers and stuff like that. So that was my first time actually working in the security field and kind of where I consider my career to have actually started.
+
+
+[00:08:11] SM: How did you find your way working in Elixir? Was it at that kind of first real job-job? Or was it more happenstance?
+
+
+[00:08:19] QW: Kind of. I didn't write Elixir at that job. But while I was there, there was another intern at the same company. He was a PhD student at the time, Clint Gibler. Actually, he has a really great blog about security. I think I was learning Go at the time. And I was really excited about how easy concurrency was in Go. And I planned a program that I had been writing. And he's like, “This is very cool. But if you're into concurrency, you need to check with this new language named Elixir. It's only like version 0.01 right now, but I think you're going to love it.” So I gave it a try and just immediately fell in love. Dropped everything else I was doing and kind of set out to be an Elixir programmer. So after that job, one of my requirements for whatever job I found next was that I would be able to write Elixir, which at the time in 2012, I think it was, was actually a very hard thing to do. 
+
+
+So what ended up happening was I joined a small startup named Tenfold Security that was primarily a Ruby shop. And I convinced them to let me write elixir for any of our new tools and so on. And eventually the company became an Elixir company, as people just realized how much they loved the language.
+
+
+[00:09:34] AH: What a power move. Love it. You're like, “Hey, I would like to work here also. I'd like to change your language.”
+
+
+[00:09:43] QW: It was really funny actually. I almost didn't get the job because I did the interview with them. And they said I could use any language. So I said I'd use Elixir. And the question they gave me was to write basically a port allocator that would be thread safe and multiple colors from different threads would be able to request a port and de-allocate a port without the same port ever being allocated twice and with ports being cleaned up properly when they're de-allocated. So I did this in Elixir, and I got a like a 15 line gen server or something. And then they started asking me how it could possibly work in a parallel environment because I didn't have any locks or anything. And at the time, my answer was basically, “Oh, I don't need locks. The BEAM VM handles that for me.” And they thought I was entirely full of shit. 
+
+
+But they weren't familiar with the language. So they didn't really know enough to dispute it. And so they almost didn't give me the job, because they thought I had lied my way through the interview. But fortunately, they did a little bit more research and found out that, in fact, the solution was corrupt. And because the processes were all running separately with their own heaps and with linearized operations and so on, that there weren't any race conditions or anything. It was honestly probably a terrible interview. And I probably shouldn't have got the job.
+
+
+[00:11:06] AH: That is so fun. And I can say, I feel like last summer was a real – I looked for a lot for Elixir jobs and jobs that weren't maybe Elixir-related. But they also said, “Well, you can do the coding thing in any language.” And I was trying to do it in Elixir. But you could tell that the interviewer was like trained to look for certain things in other languages. And you just like didn't want to do it in Elixir. But Elixir is like the language that you most recently worked with. And it's just such a tradeoff. But I mean, that's so cool that you were like going for that at that early stage when the language was younger. People are hesitant even now. So that's just really cool to hear about, for sure. 
+
+
+[00:11:43] QW: I do. Yeah, I feel really fortunate to have gotten started when I did. 
+
+
+[00:11:46] SM: Yeah. Are you up to anything fun now? Any Elixir projects on the horizon?
+
+
+[00:11:51] QW: Yes. As anyone who follows me on Twitter may have seen, my recent obsession has more or less been trying to read as many papers about Erlang as I can. And kind of the goal there is that I want to trace the evolution from Erlang as an implementation of a small language, in Prolog to the BEAM VM today with all the pitfalls and learnings that Joe and Mike and Robert had along the way. 
+
+
+And kind of alongside that, I have been working to re-implement little bits and pieces of all these different systems to get a better understanding of how they work. So that means tried to implement my own schedulers to work in the same way as the original airline scheduler did, or making my own compiler passes for core Erlang, and things like that. It's been a really educational journey. And I'm actually really hoping to give a keynote on some of this later on this year. 
+
+
+Luckily, one of the code BEAM talks. I've been in talks with Dave Thomas a little bit and we are still working out a lot of the details. But we're both excited about the idea of putting together a talk that's kind of meant to inspire the audience into believing that they can create their own language to solve the problems that they have. 
+
+
+Something that really stands out to me as I've worked through the history of this entire ecosystem is that Joe and Robert and so on weren't programming language theorists when they made Erlang. They were software engineers working at Ericsson trying to figure out how to build telecom switches. And what came out of that was Erlang, an incredible language for the problem that they were trying to solve. But they got there through a really winding path. And most of what they accomplished seems to have been things that they learned along the way based on all the holes that they fell into and the different experiments that they tried. 
+
+
+And I have just found reading all these papers really inspiring in that way. And I would really like to try to capture some of that and see whether there's some way that we can take some of these lessons and package them up in a talk that leaves people feeling hopeful about their own capabilities and extending and growing this ecosystem beyond where it's come in the past 30 years now.
+
+
+[00:14:27] AH: Something that I think about as you're talking is diving into academic papers is like a whole different ballgame in terms of just wanting to learn. Have you found anything difficult about kind of dissecting academic papers versus reading a book that's more geared towards the masses as opposed to academia, I suppose?
+
+
+[00:14:51] QW: Yeah, absolutely. Reading papers is definitely a different skill. And it's one that I'm still developing myself. Like I mentioned, I dropped out of college. I didn't go to graduate school or anything like that. So I don't have a ton of background in this stuff. I'm just really excited about it. Something that is very different about papers compared to, say, a book or a blog post is that usually the book or blog posts are meant to be fairly self-contained. They have a lot of background at the beginning to teach you more or less everything that you need to know to understand the material that's going to be presented. But papers are not being written for your average person. They're being written for an expert in the field, who is expected to have read all of the work that these papers are building on. 
+
+
+So what this means is that when I'm reading a new paper, I usually need to do it in a couple of passes. And first, I do a very high-level pass. I read the abstract. I read all the headings. Generally, all the texts. Focus on the conclusion. And try to get a feel for what the paper wants me to learn or what its big contribution was even if I don't understand the details. Then I do a second pass where I actually do look at all the details. 
+
+
+But I don't get too bogged down if there's something I don't understand. And there's going to be a lot of things that I don't understand. Instead, I just make notes of words that I don't recognize or papers that they keep referencing that seem important. And then afterwards, I go back and try to follow that chain of references back through the lineage of the paper so that I can try to fill in some of that background. And then hopefully, by the end of that, I have enough knowledge to take another pass through the paper and actually digest more of it. 
+
+
+It's definitely time consuming, but it's a very thorough way of working through material that I'm not necessarily very well versed in while still getting instant gratification from at least trying to understand the high-level ideas that are being talked about. And I have found that slowly over time I'm kind of chipping away at the gaps in my knowledge and stuff is becoming easier. But there's so much to know.
+
+
+[00:17:05] AH: Yeah. I actually have really been appreciating like your kind of thoughtful discussions around — you've been making Twitter threads, papers that you read, and then taking your thoughts away. I think that's really cool. I think that's probably how I'd want to do it if I were to dive into something that was super technical and kind of like way out of left field for me and sort of digest it in a certain thoughts and hook into pieces that I find really interesting and see what other people think about it. I think that's really cool. 
+
+
+[00:17:31] QW: Thank you. I'm glad to hear that it's been helpful for you. It's honestly been really helpful for me being able to share this stuff on Twitter and see other people are getting excited about it. It makes it feel like so much less of a solitary activity if it feels like I'm like sharing it with someone else and other people are getting excited and we're having fun conversations about it. It's been really motivating for me to keep going.
+
+
+[00:17:55] SM: I also appreciate when you talked about how you approach a paper at first. It's very similar to I feel like what a lot of teachers tell their students. Like read the first part, read the last part. Try and see what you can get from those two things. And then you can work your way backwards and get deeper, skim and scan. But you can learn a lot about what you're supposed to take away if you start with those two things. But maybe some teachers know what they're talking about.
+
+
+[00:18:23] QW: Apparently. 
+
+
+[00:18:25] SM: Who would have thought? We have a whole bunch of things that we want to ask you. But at least my personal favorite question that I really want to ask is why is your website so awesome?
+
+
+[00:18:38] QW: Oh, thanks. Honestly, I think a big piece of it is just that I really missed – This is going to sound weird, because I'm really young. But I'm going to miss the Internet of the '90s even though I wasn't necessarily on the internet of the 90s.
+
+
+[00:18:51] SM: Yeah.
+
+
+[00:18:53] QW: Nowadays, everything is so formal and professional. And it feels like people are scared to express themselves and show who they really are. But when I look at like the old days of like MySpace, and Geocities, and things like that, it just seems like such a fun place. And I wish we could have more that.
+
+
+[00:19:10] AH: I loved when people would customize their MySpace profiles and they would put a fun on background of like palm trees and they would make their cursor a beach ball. It was delightful.
+
+
+[00:19:23] SM: That is actually how I started learning to code, was I want to make custom MySpace layouts. And I didn't like any of the ones that existed, but I liked parts of the ones that existed. So I would like go rip off some of these layouts and tweak it for my taste.
+
+
+[00:19:39] QW: That's awesome. Or all the people who learned how to make websites by making like their star page in Neopets.
+
+
+[00:19:46] AH: I miss my Neopets. 
+
+
+[00:19:48] QW: They are still there. 
+
+
+[00:19:51] AH: That's true. I’m the one who abandoned them. That's fair.
+
+
+[00:19:54] QW: If you do login, it'll say they're hungry though. So it might make you feel bad.
+
+
+[00:19:59] EO: I actually think they're is a total – This is a big tangent. But here we go. There was a Polygon video maybe within the last like four months about how like Neopets trade. So you might have some very highly sought after Neopets sitting in your account. So maybe you can go make some Neo cash or whatever that one was called.
+
+
+[00:20:21] SM: I'm pretty sure the email address I signed up with is gone. So we could look into it. Well, that's fun. I mean, your website was obviously – And you're still using it? I saw you had like a hefty blog section kind of updated.
+
+
+[00:20:35] QW: It's still my main website. I don't update it as much as I should. I always want to blog, but that I never do. I've honestly found that Twitter has enabled me to do the sorts of writing that I've always wanted to do that is felt inaccessible to me. I've talked about this a little bit on social media, but I was recently diagnosed with ADHD. And I think that has made it really difficult for me to do the sorts of long form writing that blogging usually requires. But with Twitter, I can just like send out a flurry of stream of consciousness thoughts before I get bored. And then other people interacting with it as I'm writing it kind of gives me the motivation to keep going.
+
+
+[00:21:11] AH: I think that's a very fair point. I definitely relate to that. And I've never been formally diagnosed with ADHD, but I know people in my family who are. And I definitely relate. You can have all of your thoughts composed in your brain and ready to go and then you sit down and you start typing and you're like, “I'm out. I can’t do it. I got to go.”
+
+
+[00:21:29] QW: Go and do literally anything else now. 
+
+
+[00:21:31] AH: I got to go lay down. I don’t know why. But I can’t do this right now. 
+
+
+[00:21:35] SM: I guess that gives me like a related question, is you've done blog posts, and like the sort of Twitter writing, and obviously conference talks. Do you have a favorite medium in which you create content?
+
+
+[00:21:47] QW: That's a really good question. I really like giving presentations actually. I haven't given many publicly yet. Most of the recent ones I've done through Elixir and Erlang conferences have been — most of the examples of those. But I have given a lot of talks internally through various jobs that I've had. And I've just always enjoyed technical speaking. I think that is probably my favorite. I do actually enjoy writing. But I just always find it really hard to actually sit down and carve out the time to do it.
+
+
+[00:22:19] AH: Very fair. It's just like life gets in the way. 
+
+
+[00:22:23] QW: Yeah, exactly. 
+
+
+[00:22:24] AH: You could be walking around and having a thought and tweet it and you can like type it into your phone really quickly. You mentioned in your job interview that they didn't believe you at first. And you were like, “No. It's just running in the BEAM.” Do you have any favorite characteristics, abilities, super powers of the BEAM?
+
+
+[00:22:47] QW: I think when I look at all the code that I've read in with the BEAM VM, the code that I have been most happy about is the code that really leans into the letter crash philosophy. And I think a lot of this comes from the fact that right from the beginning, Joe and Robert recognized that in order to write reliable software, you needed to act under the assumption that your hardware is going to fail. And so that means that you need to be able to support running your code on multiple nodes. 
+
+
+In practice, I don't often write distributed Elixir or distributed Erlang. I'm often working within a single node. But I think that philosophy has kind of permeated through the rest of the ecosystem and made it really easy to write the sorts of code that fails really quickly. And that's something that I take a ton of advantage of when I'm writing any sort of more complicated or systems level programming. I have assertions literally everywhere. I'm checking invariants every time I enter or leave a function. And the end result is that when I'm testing my code and using something like property-based testing, it's really easy to basically reuse all of those assertions as the test article for my software. And I can just throw garbage at all of my functions and basically use whether or not it crashed as the signal for whether the code worked or not. 
+
+
+Before using Elixir as my primary language, I primarily used Haskell for my hobby programming. And I really liked the way that Haskell, Haskell-type system in particular, gave me a lot of tools for modeling my domain and really thinking about how my data connects together and so on. But now that I'm primarily writing Elixir, I have had a lot of success in really putting a lot of time and effort into writing code that models the invariants around that domain and very quickly crashes and fails if those invariants are not met. Making it just incredibly easy to debug and jot down problems in a way that I've never experienced in any other ecosystem.
+
+
+[00:25:05] SM: Yeah, that makes a ton of sense. It's also just like really interesting to think about how far this language has come, both Erlang and Elixir. Over the years, Erlang obviously being old enough to have first – I don’t know, a child language. You've done a lot of deep dives on the history of Erlang. And history of stories are my favorite in general, but particularly in tech. Are there any really interesting things you've learned that you were kind of surprised by or maybe something that's changed over the years that you were surprised to hear it was like that in the beginning or anything surprising?
+
+
+
+
+[00:25:40] QW: Yeah. There's a very brief anecdote that's covered in one of the papers. I think it might be the History of Erlang. And is about the idea of semantic embedding. I think this really ties it into the themes that you wanted to talk about with this podcast, which is the idea of magic in tech and in compilers, and programming languages, and so on. But when I think about magic, it's kind of a loosely defined term, but I usually think of it as being like an informal and usually a negative way of describing abstraction. There's positive and there's negative abstraction. And the negative abstractions are the things that we call magic. 
+
+
+But at the end of the day, magic is still just a layer of abstraction underneath the internals. And what this means is that when you're writing, for example, a programming language, there is, I think, a delineation you can make between intentional and accidental magic. Where intentional magic is you consciously making a tradeoff between flexibility and complexity. You're perhaps hiding some access to the internal details in order to reduce the complexity of interacting with those details or to support some sort of forward compatibility as you evolve the language over time. 
+
+
+But in contrast to that, there is accidental magic, which is where you are either unintentionally leaking the internals through to the system, or unintentionally taking on properties of the underlying system that you haven't necessarily thought about and don't necessarily want to be part of your language. And this showed up in the early days with Erlang, because the early versions of Erlang were implemented in Prolog as an interpreter within Prolog. And this meant that a lot of the properties of Prolog kind of accidentally made their way into Erlang. 
+
+
+One quote that stands out in particular is Joe one time mentioning that he didn't explicitly set out to create a statically typed or dynamically typed language. It just accidentally ended up being dynamically typed, because that's what Prolog was. So that was kind of a natural next step. They didn't decide that. It just happened. But more interesting, I think, was some issues that they ran into in the early days with logic variables. Prolog is a logic programming language. 
+
+
+And so when you have variables – so you can have variables that are called logical variables, which you can think of as kind of being like variables within a math formula. They don't have a value necessarily. But in the context of some larger equation or formula, you can solve for their value. And this is kind of the way that Prolog works. You have these formulas called goals. And as long as goals are solved, the logic variables get values assigned to them, and then those values and those variables can be used to solve other goals elsewhere in the program, and so on. 
+
+
+But there was a really interesting side effect that they ran into in the early days, where if you had two processes in Erlang and you used one process to pass one of its logic variables to another process, that would essentially make like a secret channel that you could exchange information on. And if that first process assigned a value to that logic variable, that value would propagate to the other process. And you'd basically end up with like spooky variables at a distance. That completely violated all of their assumptions about having isolated heaps between the different processes and no shared memory and all communication happening through message passing and so on. 
+
+
+But it's just one case where magic from the underlying system kind of leaked into the language and accidentally introduced semantics that they didn't want and hadn't supposedly thought about that I thought was really interesting to see because it would have led to an entirely different language than we have now.
+
+
+[00:29:43] AH: I just like the spooky variables, because what I'm picturing is a variable kind of going, “Boo!” I don't really know what the variable looks like in my brain, but it's definitely saying boo.
+
+
+[00:29:52] QW: It’s like a little cartoon ghost in mind. Yeah, exactly, the ghost of emoji.
+
+
+[00:29:56] SM: You can have emojis in your code.
+
+
+[00:29:59] QW: You can. 
+
+
+[00:30:01] AH: That is one thing that I love that Sundi does, is when she debugs her code, she always plops in emojis. And I think, “Yeah.” 
+
+
+[00:30:07] SM: I standout against the black terminal. What can I say? 
+
+
+[00:30:12] AH: Quinn, you spent much time programming in other languages that run on the BEAM?
+
+
+[00:30:17] QW: I have been less involved lately. But historically, I've been very involved in the Gleam project. I have also played a little bit with Alpaca and Caramel, but Gleam is probably the one that I can speak most to. For those of you who aren't familiar, it is a statically typed language that compiles to Erlang, made by an absolutely wonderful person named Louis. But if any of you have ever used Elm, for example, I tend to like to think of it as Elm but in Erlang. And what I mean by that is that even though it's a statically typed functional language, unlike most statically typed functional languages, like Haskell, for example, it doesn't prioritize really academic theory at the expense of pragmatism. 
+
+
+It has a really simple type system with type imprints. But otherwise, it more or less reads and writes as if you were working in something like Go or Ruby – Or sorry, not Ruby. Go, or Java, or C, just running on the BEAM VM and with really powerful type inference. So it's a really pleasant language to use. Very easy to learn. I'm a big fan. And I'm really excited by the work they've been doing.
+
+
+[00:31:31] AH: How did you find yourself working within that project?
+
+
+[00:31:36] QW: Let's see, I actually first came across it probably four or five years ago. Back that, it used to look a lot more like Haskell. And I thought, “Oh my God! This is the coolest thing I've ever seen. The person who made this must be an absolute genius.” But at that point, I was a complete social recluse. I wasn't on social media. I didn't go to conferences, or anything like that. So I didn't really know anybody. And so I just kind of played with it on my own without ever sharing it with anybody. 
+
+
+And then sometime last year, I think, after Code BEAM San Francisco, I realized – That was kind of the first main Elixir conference I went to. I realized that the community is kind of amazing. So I started using short social media and just very quickly actually met and started talking to Louis and realized how welcoming and friendly they are. Started pulling issues off of the tracker, talking to them on IRC, grabbing projects to help out with, and just very quickly took to the project I guess. 
+
+
+[00:32:35] AH: That's fantastic. Do you have any recommendations for people that would like to know more about the project? Or maybe they're interested in learning Gleam? Anything? Yeah.
+
+
+[00:32:43] QW: Yeah. Definitely, the best place to start is gleam.run. That's their main website. There's a REPL. The documentation is there, downloads. There's a small book you can work through. The project has had a huge focus on onboarding. It's very easy to get started. The documentation is great. It leans into a lot of via testing tools and the ecosystem for doing things like generating documentation. So it really plays nicely with all the other languages. And it's really quick to get started. I think the official website will give you everything you need there. 
+
+
+[00:33:16] AH: I'm definitely going to check that out. 
+
+
+[00:33:17] QW: Cool. Let me know what you think. 
+
+
+[00:33:19] AH: I will. I'll hit you up on Twitter. 
+
+
+[00:33:21] QW: Perfect.
+
+
+[00:33:23] SM: So you mentioned that you have a few things coming up that you're really excited for. Are there other Elixir related or Erling related things that you're interested in exploring next? Like the next paper dive or anything like that?
+
+
+[00:33:36] QW: I have a small list of unfinished projects that I really want to continue with. One that I'm really excited about, I can't really take any credit for it. I haven't done much work on it. And I've probably talked about it a ton at this point to anyone who's willing to listen. But there's a very small paper that Joe Armstrong wrote, I think called How Should Erlang Communicate with the Outside World. And it describes a small protocol that he came up with code UBF, universal binary format. And the idea behind it was to provide a really simple and efficient way of encoding messages over the wire. Like with something like JSON, for example. 
+
+
+The big difference between UBF and JSON though is that with JSON, you just send data over the wire. But with UBF, you actually encode your data is a computer program, and you send that computer program over the wire. And then on the other end, the server implements an interpreter for that language, evaluates the program, and the result is the data that you wanted to send. 
+
+
+So what this means is that you can encode huge amounts of data in absolutely tiny packets. He has some benchmarks and the paper that compared to XML and JSON and stuff. And it just performs incredibly. And it all so means that you can take all the Erlang terms like couples and represent those directly within the small language. So it becomes really easy to write these encoders and decoders and evaluators and so on. 
+
+
+But where it gets even more exciting is that he pairs this wire format with a contract language that he defines that gives a small DSL for defining protocols as a state machine basically. We have the preconditions and post-conditions at each state alarm with the valid messages at each state. And then from this protocol definition, it actually generates essentially a gen server that you can stick into your application that will verify that all incoming and outgoing messages conform to the protocol so that you can ensure that your code is correct at runtime while having all of that verification automatically generated from your specification allowing you to decouple all of that verification from the implementation of the functional concerns for your program. 
+
+
+He has an implementation of this in Erlang. As far as I'm aware, hasn't really been touched since the late 2000s, early 2010s. And more for my own edification than anything, I really want to implement it in an Elixir and give a talk about it. But I just have not had the time yet. Even as late as 2016, I tracked down a tweet by him saying that he still maintains that this is the future of programming. And he just really hopes people pick up the torch on that project. So I just really want to try it out for myself, because it sounds like such an incredible idea. 
+
+
+[00:36:40] SM: Are you aware of any other projects that have sort of picked up that torch? 
+
+
+[00:36:44] QW: There is a repo on GitHub that doesn't seem actively maintained. I think it may just be more of an archive than anything. But there's a lot of great information in there about how the system works and how you can adapt it to different languages and transports and so on. Yeah, I don't know why it didn't take off. I don't know if it was just the wrong idea, or the right idea at the wrong time or what. But just from an outside perspective, there's so many good ideas there that I think it's worth another look at.
+
+
+[00:37:18] AH: You mentioned you used to work on hobby projects in Haskell. 
+
+
+[00:37:22] QW: Yeah. 
+
+
+[00:37:23] AH: What are some other languages that you've worked in professionally, hobby wise? Do you have a favorite besides Elixir?
+
+
+[00:37:31] QW: Professionally, I have used ASP.net, C#, Ruby, Java, Elixir, obviously, and Go. Hobby wise, I have used just about everything. But I generally lean towards more esoteric languages, because my goal in programming is never necessarily to create something for some reason. That's never really excited me. I just really like to learn new stuff. So really like kind of the weirder functional languages. I have a huge soft spot for a language from 1961, I believe, called CLU by Barbara Liskov. Otherwise, I'm a big fan of Prolog. 
+
+
+One of my big obsessions lately actually has been a very obscure programming language called Strand. It was a variant of Prolog designed for parallel computing. It actually very briefly was used as an experiment by Joe and Robert. They adapted the original Prolog compiler to compile to Strand to see if it speed things up. And I think they saw something like 60 times speed ups, or no. It might have been eight times speed ups. Don't quote me on these numbers. I'm getting confused. It was faster, but not fast enough. 
+
+
+But the idea behind Strand was that it was basically like Prolog accept – In Prolog, normally you have a clause. Kind of like an airline function clause. And then that map's to a list of goals on the right, which you can think of as basically being a list of Erlang expressions. They even share the same punctuation. This is where all the Erlang syntax comes from, for assigning colons, commas, periods, and so on. But in Erlang, all those goals on the right are evaluated sequentially. 
+
+
+And Stand, though, every expression and the function is evaluated in parallel and its own process. So they thought this might be a really great way of implementing Erlang. It took what was traditionally a very sequential language and made it extremely parallel. Interestingly, the problems they ran into was that it was too parallel. Because if you had, for example, an expression like X equals 1, even that would execute in parallel. If you had a function that set like 10 variables, all of those would happen independently in their own processes. So the concurrency was just so fine-grained that they're spending all their time trying to make programs in the language less parallel, which is kind of mind boggling to think about when we already think of Erlang and Elixir as being such concurrent languages. But there's very little available about this language. 
+
+
+There is a book that was written in the early '90s, I think, and one of my best friends managed to track down or copy for me for my birthday earlier this year. He spent months looking for it. But working through that has been really exciting. Even though it's probably not a very practical language, it's been really mind blowing seeing the ways in which this book recommends writing applications in a way that fits within this every single expression runs in parallel paradigm, which is just such a weird paradigm. I like all languages. I just like programming languages.
+
+
+[00:40:42] AH: I would like to give the MVP of the year work to your friend for tracking down that book. That had to be pretty hard. 
+
+
+[00:40:47] QW: Seriously, it was such an amazing gift. 
+
+
+[00:40:52] AH: Yeah, what a delightful present. Great friend. I love good friendships. Top one on MySpace. I’m just going to keep bringing it back.
+
+
+[00:41:03] SM: Top one on MySpace. Is that going to be the theme for this episode? Not magic? 
+
+
+[00:41:08] AH: Yeah, MySpace. MySpace magic. 
+
+
+[00:41:11] QW: I’m down with it. 
+
+
+[00:41:13] SM: Amazing. Quinn, it's been so awesome just getting to talk to you about anything BEAM related. I mean, I will admit that when I hear Gleam, I think Quinn. So I actually maybe thought that you had started that. 
+
+
+[00:41:28] QW: You’re not the only person who's made that mistake. Louis and I have kind of a running joke, because everybody always thinks that I made Gleam. And they constantly invite me to give talks or podcasts or whatever about the creation of Gleam. And then I need to send them to Louis instead.
+
+
+[00:41:46] AH: Well, it's funny to see how you've turned around from like maybe not being so socially involved on the internets to being the face of Gleam or the voice of Gleam, which –
+
+
+[00:41:55] QW: It’s been a change. 
+
+
+[00:41:58] SM: Amazing.
+
+
+[00:41:59] AH: Yeah, Quinn, it's been super delightful to talk to you, from Waterloo, and Haskell, and Prolog. I feel like we've covered a lot of fun things in this episode. And I'm really excited for people to listen to it. Thank you so much for being on. Do you have any final plugs, asks, requests for the audience?
+
+
+[00:42:17] QW: I guess the main thing I would say is just if you have ever wanted to really get into reading research papers, or theory or anything like this, but you've been really intimidated, just go for it. It's going to be really hard at the start. You're going to get intimidated. You're going to want to stop. But it's like that for literally everybody. And it's one of the most rewarding things that I've ever gotten into a hobby of doing. Even if you've never use this stuff in your day to day job or anything, it's really empowering, being able to work through a paper that you start with no understanding of and by the end of it feel like you get it. And I really want more people to have that experience.
+
+
+[00:42:58] AH: Just like anything, kind of, right? Even if you're a little afraid of it, once you start doing it slowly over time, it will come to you. Riding a bicycle. 
+
+
+[00:43:07] QW: I think that's absolutely the case here. 
+
+
+[00:43:10] AH: Yeah. And where can people find you on social media?
+
+
+[00:43:13] QW: Probably the best bet nowadays is on Twitter, which I believe I am at @Wilton_Quinn. 
+
+
+[00:43:21] AH: Perfect. I mean, I'm going to be hitting you up on Twitter probably after I start looking at Gleam. 
+
+
+[00:43:27] QW: If you need any help, feel free to reach out. We also have a Discord that's very active at this point. And there's always people answering questions there.
+
+
+[00:43:34] AH: Cool. Yeah, I would love to join. I just noticed a roly-poly bug on my wall and I got a little distracted. Sorry, guys. Woof. There's a bug in my house.
+
+
+[00:43:43] QW: I have such a bug phobia that I'm distracted just knowing there's one in your house.
+
+
+[00:43:46] AH: I don’t I like it. And now I can't see him anymore. So that's fun. Got to go find him in a bit. Oh, boy. Well, Quinn, thank you so much for joining us today. It was really nice to talk to you. 
+
+
+[00:43:57] QW: Yeah. Thank you all of you for having me. This was such a good time. 
+
+
+[00:44:00] AH: This is great to hear. And for everybody who's listening, that's it for this episode of Elixir Wizards. Thank you again to Quinn Wilton for joining us today. 
+
+
+Elixir Wizards is a Smartlogic production. Today's hosts include myself, Alex Housand, and my cohost, Sundi Mying. Our producer is Eric Oestrich. And our executive producer is Rose Burt. We get production and promotion assistance from Michelle McFadden and Ashley Stotts. Here at Smartlogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails, and React, Kubernetes, and React Native. 
+
+
+If you need a piece of custom software built, hit us up. Don't forget to like, subscribe and leave a review. Follow @smartlogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord. Just head on over to the podcast page, hit the link. And don't forget to join us again next week for more on BEAM Magic.
+
+
+[END]
+        © 2021 Elixir Wizards
