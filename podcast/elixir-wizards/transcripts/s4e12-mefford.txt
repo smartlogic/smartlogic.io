@@ -1,0 +1,515 @@
+EW S4E12 Greg Mefford                Transcript
+EPISODE S4E12 Greg Mefford
+
+
+[NB: Timestamps are off by ≈ 30sec due to an edit made after transcription]
+
+
+[INTERVIEW]
+
+
+[00:00:30] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile app development shop based in Baltimore. My name is Justus Eapen and I’ll be your host today. I’m joined by my indomitable co-host, Eric Oestrich. This season, season 4 of Elixir Wizards, we are talking about system and application architecture. Today's guest is none other than Greg Mefford. How are you doing, Greg?
+
+
+[00:00:57] GM: Good. Hello there.
+
+
+[00:00:58] JE: So glad to have you on the show, Greg.
+
+
+[00:00:59] GM: Yeah, thanks for having me on.
+
+
+[00:01:01] JE: You have such a great attitude and I’ve really been looking forward to this conversation, because positive people are positive.
+
+
+[00:01:06] GM: Yeah. I’ve been actually really looking forward to it too, despite the fact that it took me forever to get it scheduled.
+
+
+[00:01:11] JE: Oh, well. What is the saying? “Separation makes the heart grow fonder.” We get to have this warm reuniting. We want to start off by giving you a chance to just introduce yourself to the audience. But really starting at the beginning in terms of your technical career. How did you get started in programming? Were you formally trained? Did you teach yourself? What is your path to programming?
+
+
+[00:01:36] GM: Yeah. I first got started in programming, my mom was a teacher at a school and obviously, when your mom's the teacher at the school, you go to that school. It was a private school. After school, I obviously didn't have anywhere to go, because my mom was still there finishing up whatever. I would go down to the computer lab, as they used to call it. And one of the math teachers would teach me QBasic, mostly because I would tell him that he had to. He'd be like, “Oh, man. It's been so long. I don't know if I remember any of this stuff anymore.” Yeah, that's how I got my first toes into programming.
+
+
+Then funnily enough, I didn't actually get a job in programming until I had been doing it for fun, — open-source for several years. I went to college for computer engineering and I got a job doing some electronics design stuff. Like space and military type applications, and then transitioned into, man, this company needs some help with IT. So I’m just going to go yak shave that. I’m just going to go join the IT team and work through that system. I did that. Then eventually, Justin gave me a job over at Le Tote, working on some Nerves stuff. Because I had been doing Nerves on the side for fun. He's like, “This guy seems not terrible. Let's hire him and see how that goes.”
+
+
+[00:02:41] JE: I think that's even how he would describe it is like, “Yeah, Greg seems not terrible.” How old were you when you were learning from that math teacher?
+
+
+[00:02:48] GM: Oh, yeah. I didn't mention this. That was the fourth grade that I was like, the bored kid after school, needed something to do. There were computers around. We had a computer at home at that time too, I think. Obviously at the time, it was one of those not very powerful ones and didn't have a whole lot to it. But some basic games that came with the computer, like actual QBasic games, like Gorillas and Snake. Just learning how to change the colors in the game and stuff like that was my first entrance.
+
+
+[00:03:15] JE: Do you remember what kind of applications, like Snake, did you make anything that maybe was useful or sticks in your mind as something that was unusual for a fourth grader to be working on?
+
+
+[00:03:26] GM: Yeah. I mean, I started out with the just infinite loop of “Hello Greg”, that kind of code, as you do. Then my next step was to make ASCII movies and obviously, an operating system is the next thing after that. I started working on a QBasic operating system that was basically just a clone of the Dos C prompt that didn't actually do anything. I started to implement a few commands and that stuff. That's how I got into MUD-ing too, which is something that maybe we'll hit on a bit later, but throughout high school and college I was into making video games for fun and some MUDs, stuff like that.
+
+
+[00:04:00] EO: Yeah, that's amazing. Writing an OS in QBasic.
+
+
+[00:04:04] GM: Yeah, it wasn't an operating system, so much as it had a menu.
+
+
+[00:04:09] EO: What made you take the leap from writing stuff in QBasic, or otherwise and doing hardware?
+
+
+[00:04:16] GM: In between the QBasic and the Elixir that I use now, there were obviously several languages. I was really into Ruby and I was thinking that that was the coolest thing ever. It's so expressive. You can do all this magical stuff and you can control every aspect of how the whole runtime works and all the built-in objects are open and stuff like that. I got into the Ruby community here in Cincinnati, met a lot of great people.
+
+
+I did do Ruby professionally, but only as a side-effect of getting hired to work on Elixir at Le Tote. I got into Elixir and hardware, because one of our local ruby-ests, James Smith, you probably know James Smith from the Elixir community, he got us in Cincinnati interested in Elixir. He was always talking about, “Oh, man. You gotta check this thing out. It's so cool,” and people talk like that all the time and you ignore them. Then eventually, they don't go away for long enough then you're like, “Okay. I’ll actually try that thing.” I was like, “Wow, this is really awesome. It's pattern-matching and multiple function heads.” There's not very much magic which, as I grew up I realized, I didn't really like the Ruby magic as much as I’d like just the code actually being understandable without knowing the spells.
+
+
+That's where my background working at work with electronics and working for fun with Elixir and Ruby kind of came together. It's like, well, I’m a nerd that has Raspberry Pis, literally all over my desk. I have this Elixir thing and then I saw Garth Hitchens talk at ElixirConf, I think 2015, where he was saying, “Why aren't people using this Nerves thing? I’m using it for these embedded systems and it's perfect, but nobody knows about it.” I was like, “Well, I’ll just pull out the Raspberry Pi, I’ll try some Elixir on there and see how it works out.” The experience was really good, as people who've used Nerves would be able to tell you even long ago.
+
+
+I really got deep into the Nerves community by helping make that process easier for people onboarding. I was thinking, I’m new-ish to Elixir. I’m new-ish to this embedded systems thing. What were the pain points that I didn't really know as I was joining the community? Because I had literally just joined the community. What did I not know? What was hard for me to figure out? I just started writing about it. A little bit of light blogging and just talking to people about it.
+
+
+Then I approached the Nerves core team and just asked like, “Hey, do you want me to make some PRs to the docs, or just take that over and own the onboarding experience?” Unsurprisingly they said, “Yeah, that would be amazing. If we had somebody that did that as their main contribution.” I did that for a long time. More recently, we've been doing a kitchen remodel and changed jobs, new role — I’m not using Nerves at work anymore. I don't know if you've heard, but there's been a pandemic in the area, at least where I live. I don't know if you all are experiencing that too.
+
+
+Just a lot of stresses on my time. I don't have as much time to contribute to things that don't directly contribute to my day job. I haven't been as much in the Nerves community as I’d like to, but still looking forward to getting back there.
+
+
+[00:06:57] JE: Talk a little bit more about this new role, where you, unfortunately, don't get to do Nerves work but you're still working on Elixir. How new is it really? Because I think that you've actually been there for a little while, right?
+
+
+[00:07:07] GM: Yeah, I know. Time and space are all a blur at this point. I’ve been at Bleacher Report for a couple of years now, I think, maybe two. I don't remember now. Yeah, so I joined Bleacher Report as a senior engineer doing development work. And then — when did I get promoted? I don't remember. I think it was the beginning of this year, it became official. But I think it was last summer I moved into a lead engineer role, which means that I don't program anymore, but nobody reports to me. I’m like a guide role, where if someone needs to say “No, that's my job”, for example, If somebody needs to do an architecture design review, that's my job.
+
+
+[00:07:43] JE: What do you mean when someone needs to say no?
+
+
+[00:07:45] GM: When someone says like, “Hey, can we just rewrite everything in Rust? Is that okay?” My job is to say no to that. Or whatever.
+
+
+[00:07:53] EO: Isn't the answer yes? Should we rewrite it in Rust?
+
+
+[00:07:57] GM: I think the answer is you're welcome to go rewrite it in Rust. Just don't do it on company time and don't put it in production. Rust is fine, but even if it's the right technology, if you don't train the team on it then it's the wrong technology kind of thing. Those technology decisions and overall, how should we do things needs to be somebody's job. And that's what my job is — is what's our engineering process for back-end engineering. I don't know, if people just have questions about what should we do, or I just need somebody to talk to, that's my full-time job, basically.
+
+
+[00:08:25] EO: I guess as part of this, do you help facilitate any professional growth for your teammates?
+
+
+[00:08:31] GM: That is definitely something I’ve been thinking a lot about lately. I mean, facilitate in the sense of I think it would fall to me to push for getting something like that set up and figure it out. Bleacher Report is also part of the Warner media/AT&T very large corporation. They obviously have resources for that, but we're still working on figuring out how to get all that integrated. Bleacher Report still feels more a startup that has a lot of those resources, but it's not as well-oiled and figured out in our little bubble.
+
+
+[00:08:59] JE: You're allowed to mention your own work on the Nerves onboarding, but I’m curious, what do you think are the most important, or underrated Elixir resources out there for someone who's maybe getting into it as either a new language, or new to programming?
+
+
+[00:09:13] GM: Yeah. I feel a lot of the really popular resources out there are pretty well-known. Dave Thomas's book, just Programming Elixir, or Saša Juric’s book Elixir in Action, did I get that right? Then just the Elixir docs themselves are really good. I mean, if you already know a different programming language, you could probably learn Elixir just from the docs. Just reading it. I mean, maybe you would need to — you'd like to understand functional programming and pattern matching and stuff like that. I think even the Elixir docs have some pretty good onboarding guides. If you just go to the Elixir website, you'll be in the right direction.
+
+
+[00:09:42] JE: Would you say something similar for Nerves, or any underrated resources on that side?
+
+
+[00:09:48] GM: Yeah. Nerves I did a lot of work on the getting started guide, which is, if you go to the nerves-project.org website, one of the things that's up there at the top is actually, they redesigned. I don't know if it's there anymore. It's called the ‘Getting Started Guide. I think if you look for that, you'll find it. That has like a, how do I even get started with this thing? It looks like the website has changed. There's a resources tab, so I would probably start there.
+
+
+Yeah, it's just like, “What hardware should I buy? How do I install Elixir?” It's at that level. It'll tell you exactly what to do to build your first firmware and push it and see a light blink and we have code samples for all that stuff.
+
+
+[00:10:22] EO: So, if someone has a Raspberry Pi, they've got a light blinking, what's the second piece of hardware they should buy?
+
+
+[00:10:28] GM: That is a good question. I am really into the idea of multi-colored blinking lights. That's why I recommend the NeoPixel LEDs. I have a library called Blinkchain for driving a grid of those. You can set up a virtual grid, but you can actually have whatever kinds of physical pixels you want and you just have to tell them where on this virtual grid they are and then you can paint to it like a canvas. Set this pixel to this color commands, or draw this rectangle at this location. That's what I would recommend people do next, because for maybe 10 or 12 bucks, you can get a little grid of pixels and you can draw a rainbow scrolling across it or something and it's really cool.
+
+
+[00:11:03] JE: Do you have any Nerves projects that you're working on on the side right now for your home, or anything like that?
+
+
+[00:11:08] GM: I currently don't. I guess, along the lines of those NeoPixels, I bought a really big screen. I think it's a 144 by 12 pixels or something. It's a really big display that you can make into an actual screen. I was thinking, I want to build a kids video game system, where it has a really simple API. Where you can design Flappy Bird style games, but on this giant pixel grid thing. I think that would be a lot of fun and I would just use Nerves and Blinkchain for the actual rendering part of it. It would be fun to try to tie scenic into it too. The Neopixel grid is a scenic display that you could write a little Elixir game in.
+
+
+[00:11:44] JE: I’ll just give the audience a free idea for something for one of these displays, which is, my buddy always talked about — he wished that we could put marquees in the back of our cars, so that you can advertise, or whatever, send a message to the guy behind you. I always thought that's probably illegal, but definitely a fun idea.
+
+
+[00:12:02] GM: It's funny that you bring that up, because when I was a kid my dad did electronics maintenance for the Kodak Company here in Cincinnati. They were throwing away one of those old-style, only red scrolling LED display sign things. They were throwing that away and he brought it home. Of course, that's like candy for a nerd. I had the little keyboard you could plug into the side of it and type in the message you want to display. That was always my dream too, to put that thing in the back of the car somehow, where I could just type some kind of trolling message to whoever was behind us. I agree. It's probably illegal.
+
+
+[00:12:33] JE: We should do this. I think that this needs to be done. This is a Nerves project. For someone out there, make it so that I can text while driving to the display in the back of my car.
+
+
+[00:12:44] GM: Don't text while driving. You should do this if you're a passenger.
+
+
+[00:12:46] JE: Yeah, right. My passenger can text while I’m driving to the back.
+
+
+[00:12:50] GM: Hey, Siri. Troll the people behind us.
+
+
+[00:12:51] JE: Exactly. Yeah, yeah, yeah. Or just set an ongoing message for advertising purposes or whatever. I always thought it was actually a pretty good idea, but I’m surprised nobody's made it and it probably is because of the liabilities around that.
+
+
+Here's a funny question. You're Chris Keithley's co-worker. He asked us if we would have him back on in season 4 and we said yes. We sent him the calendar invite and he hasn't gotten back to us. Can you bug him, or shame him publicly, or privately, or both?
+
+
+[00:13:17] GM: Oh, yeah. That's no problem. I think you just took care of it, actually. I think that he would love to come back on again, so I’ll sign him up for you. He just needs to pick a time.
+
+
+[00:13:25] JE: This is also an opportunity to roast Chris, which is an ongoing theme on the show.
+
+
+[00:13:30] GM: He just got done giving a really good presentation for the Code BEAM V Conference. I think, probably that's one reason that he has been too busy lately. Now that that's over, he has no excuse, obviously.
+
+
+[00:13:40] JE: Oh, very nice plug. Did you attend, or watch, I guess?
+
+
+[00:13:43] GM: I did attend. Yes. I gave an update on the observability working group there. When the videos get posted, be sure to check my time slot, my three-minute time slot out in the 30-minute collection of all the observability working groups. It'll be worth it.
+
+
+[00:13:55] JE: Cool. I know this is a little bit of a digression from our regularly scheduled program, but I’m curious if any of the sessions that Code BEAM V really stuck out to you and that you can recommend to people as the talks are uploaded?
+
+
+[00:14:08] GM: It was all really enjoyable. I missed some of it, just because I didn't realize that it was going to be live only at the beginning. I was thinking it was going to be time-shiftable, so I signed on late and I missed the beginning. It is recorded, so obviously you can go back and re-watch them now. Chris's was really good. Tristan and Fred gave a talk about adopting Erlang. It was really interesting. I’m trying to remember off the top of my head. I can't think of a lot of them right now, but I felt it was really well put together. The Whova app though is really bad. That was a bad experience.
+
+
+[00:14:39] EO: That seems to be a continuing theme amongst the ElixirConf. Were you part of the group at last year's ElixirConf that did the, ‘how many points can we get?’
+
+
+[00:14:48] GM: Yeah. I didn't engage in the exploitation, but I heard that that was happening. Yeah, I was at that conference. The experience of using the app at the conference is like, “Oh, this is frustrating, but you can just uninstall it.” You don't need to participate if you don't want to. The problem with the virtual conference in Whova is there's no other way to participate in the conference. It's just a bad experience and there's not a different way to do it. I think that was my main complaint, is that if it would have just been YouTube live or something, or Twitch or whatever, any other platform, it would have been much easier to participate.
+
+
+[00:15:20] JE: Two things come to mind here. One is that, that seems like an opportunity to solve that problem in the market for anyone who's listening. The other thing is what is this point exploitation thing that happened? I don't think I —
+
+
+[00:15:31] GM: Oh, I thought that's what you were referring to. Yeah, so there were certain people. I don't remember who, but they were racking up a lot of participation points.
+
+
+[00:15:37] EO: Amos King was at least one of them.
+
+
+[00:15:39] GM: Yeah. I think — it was there is no cap on how many points you can get for commenting in various threads, so they would just A, A, A, A, A, as separate posts.
+
+
+[00:15:47] JE: Thanks for commenting.
+
+
+[00:15:49] EO: Yeah. I think Amos and one or two other people just had a thread that they just tapped while they're at dinner and they just weren't paying attention. They just kept doing it. They were lighting up some poor moderator’s phone as this was happening.
+
+
+[00:16:01] GM: Yeah, I feel that was pretty — Chris Keele, so we can send him an apology.
+
+
+[00:16:05] JE: What do you get for points? Is there —
+
+
+[00:16:07] EO: Nothing.
+
+
+[00:16:08] GM: Bragging rights.
+
+
+[00:16:08] EO: Yeah, you just have the top.
+
+
+[00:16:10] GM: I mean, bragging rights is an important thing. I think they carry over too, because the ElixiConf is a series of conferences, so they're still on top.
+
+
+[00:16:17] JE: These people are so smart.
+
+
+[00:16:20] GM: I mean, like, optimizing for the wrong thing, but yes. See, this is when you design software, you have to assume people are going to gamify it and ruin the whole experience for everybody else.
+
+
+[00:16:28] JE: Hilarious. Okay, I’m sorry. We have real questions to get to. We don't normally have this much —
+
+
+[00:16:34] GM: This is the problem with me. I think I warned you about this ahead of time, but I sometimes get in trouble at work because it's like, “I asked you a question and you gave me a deep philosophical discussion about why you feel the way you do about what I just said, but you didn't give me any practical guidance on what I should do right now.” I’m sorry. I’m just here enjoying myself.
+
+
+[00:16:51] EO: Let's see what kind of an answer, I guess we get out of a back-on-topic question, what does architecture mean to you?
+
+
+[00:16:58] GM: Yeah. That was a good segue, because I was really looking forward to this one. I was just listening to Steve Bussey earlier this morning on your podcast. That was really interesting to get me primed for this, because I knew that we were going to be talking about this too. I think that the direction I would want to take it is architecture is a thing outside of programming and software. Actually, I should preface this with; I don't actually know what I’m talking about. I don't know anything about architecture, or design, or any of that stuff outside of software.
+
+
+I see architecture as this is the blueprint for the house, or the bridge, or the thing that you're trying to build. Then there's a different role which is construction, which is following the plan. Then there's a different thing that's designing a thing so that it'll be useful to people and also look good. There's aesthetic design and then there's usability design. There's architecture and design, construction and stuff.
+
+
+Then there's also just, someone had to design the things that you're building with. There's these products that are designed and then they become a component that an architect, or a designer and stuff — they can learn that those things exist and then they can build something on top of it. Or with it, or around it or whatever. Then going super meta-deep, the people that are building those components, also are building it out of actual organic materials and stuff that exists in the world. You have to know that steel is a thing, or else you can't use steel in your skyscraper. Or you have to know that this tree naturally grows in this way, so that the green pattern looks cool and then you can build a really interesting table top out of it.
+
+
+At some level, God inventing physics is part of the architecture discussion that we need to have and this is where I get into trouble. It's like, I get caught up and I can't stop going deeper. Anyway, back to the architecture question.
+
+
+[00:18:35] JE: No, no. Keep going. Don't feel like you have to limit yourself here, because I’m definitely curious what the connection there is between the highest-level possible view of architecture, which is nature, I guess.
+
+
+[00:18:45] GM: Right. I guess, the connection there — there's a whole bunch of connections, but one of the things that I sometimes come to realize at work is that we didn't do the architecture and the design part upfront for some of the things that exist. 
+
+
+It just feels like they grew over time organically. It's like, that meets the business needs and maybe it's fine. It is frustrating a lot of the time, because it's like, we really wish this thing was rectangular, but it's a tree. It would be much more convenient if this shipping container were a rectangle that's the same shape as all the other shipping containers, but instead, we grew a tree and we're putting things in the tree, because that's — it just grew one piece at a time.
+
+
+[00:19:23] EO: I guess, to keep the metaphor going, it's like a European city versus Cincinnati, which looks mostly grid-based.
+
+
+[00:19:30] GM: Yeah. It's like, we tried to enforce a grid around whatever, main streets were there or whatever. Yeah, so bringing it back up to architecture, I think there's this application to software where it's like, we have these software architects that, I guess, the understanding is that software architects are designing what the patterns are. And then programmers, or developers, or I guess, whatever you want to call them, are implementing those patterns in some way to build a certain piece of software in the builder construction type sense.
+
+
+You can be really good at building. You can innovate at some level in being really good at that craft and having a lot of practice. At the end of the day, when we're working in Elixir, typing is not the limiting thing. Literally typing, not type systems. Yeah, okay. Maybe with Eric it's typing, because he's got a sweet keyboard.
+
+
+I think we've gotten to the point where everybody needs to understand architecture. You have to be able to understand the patterns and also make your own patterns, to some extent. Or that's an expectation that we have of people. It's no longer the case where the architect gives you the plan and then you convert that plan into some pseudo-code and then somebody else takes that pseudo-code and actually types in the real code. That just isn't the thing that we need to do anymore in Elixir, because the tools are just there for us.
+
+
+I used to work at a company where we didn't really do much internal custom software, but the software that we did write was the COBOL for payroll systems and business automation or whatever. We had these really sweet ladies that would write the COBOL code. I talked to them one time about how I worked on this space electronics application, where I had to change some assembly code or whatever for this thing that had been written 20 years ago. And it's like, how can we make this the smallest change possible?
+
+
+It ended up being 10 bytes that were different when we were done after six months of writing documentation about it. I was telling them that this thing is like hand-coded assembly. She was like, “Well, did you actually write it with your hand, with a pencil? Because that's what hand-coded used to mean to us. We would take the requirements and the pseudo-code and stuff and we would literally write it by hand, or punch a punch card, or whatever.” I thought that was a funny little anecdote about translating designs and plans into actual constructed software has changed a lot and maybe the roles have shifted.
+
+
+[00:21:37] JE: Do you think that they were doing a similar thing to what you were describing with the tree growing, because I imagine — I’ve never done that myself, but I imagine it would be a trial and error process and that it would be not a top-down, “You design the thing and then you program it.” But you try to get it to work and then eventually, it works.
+
+
+[00:21:58] GM: You mean like COBOL programming?
+
+
+[00:21:59] JE: Yeah. I also don't know anything about COBOL programming.
+
+
+[00:22:02] GM: Yeah. I don't know a ton about COBOL programming either. I mean, I think there's probably — all the same tools are there. But with COBOL, it's like, you hit the glass-ceiling more quickly because there's just less primitives there for you. It's very “Do this and then do this and then do this.” Their big achievement is we can read a CSV file and we can manipulate it and then we can write a CSV file. That's the limit of what they needed to do in COBOL, because it's business reporting type stuff.
+
+
+[00:22:26] JE: That was a big achievement for me when I first started learning Ruby.
+
+
+[00:22:29] GM: Yeah. It was also a huge win, because it's like, man, Ruby has a CSV module literally built in. It's pretty good and you can just use it.
+
+
+[00:22:34] JE: Yeah. I’ll tell you, the first time I used pandas, I think it is with Python, you're able to just invert tabular data. It's wild. It's one letter and then what you're trying to do is it felt like magic in a really cool way. Definitely recommend that. Do you have any opinions on domain-driven design? What does that mean?
+
+
+[00:22:53] GM: Yeah. That's been a thing that I’ve been really interested in recently, because I feel at some point when you have this architecture that you want to get some reuse out of, or some structure out of it, I think DDD is this tool that you could use to figure out — what is your current architecture? What are the domains and what are the components that interact with each other in your existing systems — in your actual business problems, not even in the software.
+
+
+What are you trying to even do? I think that's where DDD comes in. Also, where a lot of people struggle with it, myself included, is okay, I get what you're talking about with DDD, but I don't really understand what I’m supposed to do next. I feel that resonates with me really well, because I feel that's my personality. Is, I get what you're saying, but what do I actually do? — Is the feedback that I get from people all the time. Maybe I am the personification of DDD.
+
+
+I heard that you all were talking to, I forget who, recently about DDD. And maybe we should get somebody on here that knows about it and talk to them about it. I am not that person, but I did hook you up with Mark Windholtz, which — I hope he is on soon. Yeah, so he's that person. He's really into DDD and he's here in Cincinnati, so we've talked a lot about it and I’ve tried to understand from him more about how I can use that to solve my actual business problems without frustrating everybody around me.
+
+
+[00:24:09] JE: I think we're actually talking to him the day after tomorrow. Is that right, Eric?
+
+
+[00:24:11] EO: Yeah.
+
+
+[00:24:12] JE: Yeah. Oh, it's a whole week of Cincinnatans. Is that right? Cincinnatans?
+
+
+[00:24:15] GM: I don't know.
+
+
+[00:24:17] EO: I think you just yell, “OH.”
+ 
+[00:24:19] GM: We just say, “Who Dey!”, here.
+
+
+[00:24:21] JE: Who they.
+
+
+[00:24:22] GM: Yeah. Everybody has to be a Bengals fan.
+
+
+[00:24:24] JE: It was bad. It was really bad. But Bengals won. I think it was the only game they won last year.
+
+
+[00:24:28] GM: I’m not into sports at all. I just work at a company that's founded —
+
+
+[00:24:32] JE: — Don't tell them. Yeah, me neither. Actually, not anymore, but my brothers are. It was for a bachelor party. Anyway. Yeah, no, the domain-driven design thing, it's interesting because I think we started asking this question, because it felt like contexts in Phoenix more lended themselves to what domain-driven design is popularly believed to be. Then as we asked the question to various guests on the show, we realized that there is no popular conception of what domain-driven design is and that I was wrong, I guess in bringing this question up. It's definitely interesting, because people do have different ideas about it and how it relates to Elixir and contexts and everything.
+
+
+[00:25:13] GM: Yeah. I think one thing that, I guess you'll hear from Mark in the future, is that there are definitely people who know what it is. Obviously, people wrote books about it and they go to talks about it and all that stuff. It's just that the intersection of people that know about it and people in the Elixir community is probably more thin. Same with extreme programming, where a lot of us have been using extreme programming practices for a long time, but it's been so long now since it was incepted that it's been changed over time and not a ton of people remember what it was like before and what problems was XP trying to solve. What are all the practices and how do you actually use them as a group, instead of just pick and choose?
+
+
+Then, I think it's similar with DDD, where it's hard enough to understand it, that it's not worth the investment, to be honest, probably for a lot of people. I’m speaking as one of those people. I haven't invested enough time to really understand it myself. I think the promise is there. You can actually talk one-on-one with people that do understand it. That's where a lot of the value is. Maybe to some extent, that's on purpose. Maybe it was all about consulting time at the end of the day anyways.
+
+
+[00:26:14] JE: Because you brought up extreme programming and I’m curious if you have a sense of where you see the industry going. Do you see us moving more in that — I mean, I think the key thing about XP is pair programming, like, all the time. Maybe I’m wrong about that, but I mean, do you have a sense of — are we moving more toward that direction? Further away from that direction? Are there other key practices that you think we're going to see more of in the future? Any thoughts on that?
+
+
+[00:26:37] GM: Yeah. I would say that you'll probably get more of an earful from Mark about it, because he's also really into XP. I think one of the things is that I think over time, people will start to rediscover the fact that a lot of the XP practices enhance each other, like they synergize if you want to use a business term. If you pick and choose, you'll probably be successful. If you use all of them or most of them, then one helps the other. For example, the trunk-based development concept with very short-lived branches works better if you're pair programming than if you're not.
+
+
+For example, if you pick those two things together, it works better than picking either one of them separately. There's a bunch of other examples. I forget how many, 13 practices there are, or something like that. They all play into each other. Also, those things were discovered a long time ago. I’m sure that there are other things, or some of them are less relevant than they used to be as well.
+
+
+[00:27:28] EO: All right. Before you start typing anything out, what is your pre-coding planning?
+
+
+[00:27:34] GM: I’m trying to think how to answer that in a personal sense and a work sense — are different too, especially with my current role. I don't even do that much programming. I do mostly only the pre-planning part of it, because that's just my role now.
+
+
+I think a lot of the idea there is I like to try to drive people to show me how this fits into the rest of the system, so that I understand what you're trying to build. And so that you understand what you're trying to build. Now we have an artifact that we can give to other people and they can understand how this fits into the overall ecosystem. We don't use microservices at Bleacher Report, but we do use small-ish services, like medium-sized services, I would say. I think that helps a lot if you can document, “How does this thing fit with the other things that I know about,” then that helps you understand the overall ecosystem inside the company.
+
+
+Then the actual coding-coding part of it is usually somewhat trivial, because we just have engineers that are pretty good at writing Elixir code. The Elixir code itself is not the problem. It's more “Why are you using that service,” or “Let's try to not connect to some other database that you don't own in this service.” Or, “Let's try not to cross this team boundary.” Getting back to the architecture and Conway's law discussion that we had many moons ago. Maybe if you're crossing a team boundary, then that's an architectural problem for your software that we should think about. “How are you going to maintain this in a way that's autonomous and you don't have to wait on somebody else to do something?”
+
+
+[00:28:53] EO: Can you dive a bit deeper, assuming you're allowed to, I guess, into how Bleacher Report is set up? We have several services, like anything else that you can tell us about that?
+
+
+[00:29:05] GM: Yeah. Like I said, we're not using microservices, but we are in the camp of probably several dozen services. I don't actually know how many, so I don't know. Maybe there are microservices. Maybe we're just fooling ourselves. If we have that many of them and we're just a social news app, maybe we do have microservices. Yeah. I think we try not to keep them super small though. It's not the thing that we would feel comfortable rewriting in a couple days. They're bigger than that for the most part.
+
+
+We try to pull features out of the old system, so that we no longer need the old systems and then we can retire them, sunset them, whatever. Then the new systems take over. We have a lot of crusty Ruby code and we have a lot of even crustier Elixir code, because we adopted Elixir very early on. You can read about that in Ben Marx's book called Adopting Elixir.
+
+
+It's interesting in the Elixir community to have legacy Elixir code that is not written the way that you would write Elixir code, yet it has been delivering value for us for many years. Anyway, that's a digression. Yeah, we mainly just have a lot of different services that are talking bespoke JSON over HTTP. We're getting into using a thing called Twirp for more of a structured RPC. It was invented by Twitch, it's called the Twirp protocol and there's language support in various languages. Keithley wrote the Elixir one, so that just solved the problem of, “Can we use it or not,” and he's like, “This looks easy. Let's just do it.”
+
+
+What that gives us is some of the benefits of GRPC without having to buy into all of GRPC, but also not having to do a bespoke HTTP client for every single service interaction that you want to have. And manage a lot of just whatever JSON without any schema is a big problem that we run up against with our services.
+
+
+[00:30:37] EO: I’m looking at the Twitch TV Twirp page and they don't have an Elixir line, so you should pull request that in.
+
+
+[00:30:43] GM: Yeah, that's true. I don't know if we're ready to have that be an official thing until we've actually used it. Actually, we are using it already. We're experimenting with it on a few services. It seems like, unless we see a problem with it, that's just going to be our default go-forward standard. We definitely won't be rewriting everything to use it. That's just not how we roll, but we'll develop new things with it and eventually, maybe migrate things over if it makes sense.
+
+
+[00:31:06] JE: Once upon a time, Chris Keithley again, mentioned that Bleacher Report was able to drop 50 Ruby servers for two Elixir servers. One, is this true? Is it hyperbole? Can you expand on it? How did he do it?
+
+
+[00:31:21] GM: Yeah. There's an infamous blog post out there from long ago that was a misquote of the numbers, where we replaced a whole bunch of Ruby with five Elixir servers, I think is the number that was quoted. Which was actually just misunderstanding and not true at all. In this case, actually, it is true because there was a Ruby service that was — one repo but deployed in a whole bunch of different environments for the scalability that we needed and different components doing different parts of it. Just the fact of Elixir having a better concurrency model, we were able to squash all those into actually one runtime, versus a whole bunch of Ruby runtimes.
+
+
+Just based on the scale that we needed with all the different things doing different things in Ruby land, we were able to do — basically, it would have worked with one Elixir server, but we wanted two just for availability. That's as small as you can get and CPU usage on these things is negligible. Whereas with Ruby, it was having trouble keeping up with all 50 of the instances. With Elixir, it’s just like, “Yeah, this is fine.” Yes, this is true. I won't quote the numbers, because I don't know whether I’m allowed, but the numbers that you have in there seem correct.
+
+
+[00:32:27] EO: Close enough.
+
+
+[00:32:28] GM: Definitely order of magnitude, correct. I think it could have been one Elixir server.
+
+
+[00:32:34] JE: Well, I hope one day the technical details of that could be discussed.
+
+
+[00:32:39] GM: It wouldn't be interesting.
+
+
+[00:32:40] JE: To our audience, it would be. They love that stuff.
+
+
+[00:32:43] GM: Yeah, but the summary is just, like, when you run Ruby, it’s, you have to solve the concurrency problem by just running more of them. That's how you do it in Ruby is —
+
+
+[00:32:50] EO: Toss them more dynos.
+
+
+[00:32:52] GM: Yeah. [Inaudible 00:32:52], or a unicorn or whatever. Yeah, if you're on Heroku, you slide the dyno thing over and it just runs them in parallel. We're on Amazon so I think those are all elastic beanstalk nodes, so one container running on each elastic beanstalk thing. It's expensive. It adds up really fast when you do that. Just the concurrency model in Elixir, like, is we don't have that much data to process in the thing that this is doing. It's just that Ruby can only do one thing at a time, so you got to put one on each core, right? If that's what you need to do and that's what we needed to do. With Elixir, you just give it however many pool of cores you have on one instance and it just uses them.
+
+
+[00:33:26] EO: Yeah. I remember the first time we deployed a Elixir app into Heroku and I think we were using XQ or Virk, I was like, “Oh, we don't need a worker dyno. It's just the web one does it.” It was super weird.
+
+
+[00:33:41] GM: Yeah. Can you run two? Probably not —
+
+
+[00:33:44] EO: Yeah. I mean, the way we had it it stuck jobs in Redis. We went that route. We were very heavy into Sidekick. Anything that was Sidekick like just ease the transition into Elixir. Do you remember doing Heroku run IEX and then, “Oh, this is also processing jobs.”
+
+
+[00:34:03] GM: Yeah, it's interesting how that problem's just solved. So many problems in the beam are just solved by either a library, or just part of the actual platform itself.
+
+
+[00:34:11] EO: I guess, some of this knowledge might be a little out of date based on what you said earlier, but do you have any recommendations for Nerves architecture? How would you keep things more low power, or if there's better supervisor strategies on another for things that are possibly never online? Like online in the internet sense?
+
+
+[00:34:32] GM: Yeah. I haven't been super involved in things like how to keep it low power. I know that Frank Hunleth is really into that lower level, because he actually has a background in embedded systems. I would say that as far as supervision strategies, newcomers to the BEAM think that there's some kind of deep thing that you have to study and learn a ton about. There are those things, but I think if you just look at the docs for supervisors and you look at the default of one for one being when something dies, it gets replaced. If you just look into the rest for one strategy and then basically if anything fails, then it does a cascading restart for everything listed after it in the children list.
+
+
+If you just know those two things, that gets you most of the way to what you want to do and you just have to think about if something gets corrupted in this layer, “Do I want everything after it to also restart so that it gets refreshed, or does it not really matter and I can just have this one thing restart and it'll be fine?”
+
+
+Then you can think of that in a nested sense. If you want to change that policy between different layers, you can just insert another supervisor in there and have more children under it that do whatever you want. Nerves, I guess none of this is Nerves specific is the thing. One thing that is Nerves specific is that I remember the actual details of — whether it was Justin and I that invented the term, but I will take credit for writing the blog post about Poncho style application organization.
+
+
+The main reasons that we came up with the Poncho style is that in Nerves, some of the magic that the Umbrella organization gives you just doesn't really work, because if you build something from the wrong place, then it builds it in the wrong order and then you don't end up getting a firmware. The whole Poncho application organization structure was really designed to fix that problem specific to Nerves.
+
+
+Then I think, other people realized that actually, Umbrella applications are just some fancy sugar that you could have designed yourself. That's where I think people outside the Nerves community are, like, “Actually, maybe Poncho projects make sense, because I can do exactly the same thing and be in control of it when I build it as a Poncho application, instead of Umbrella.”
+
+
+[00:36:28] EO: Yeah. I’ve taken the term of ‘Ponchbrella’. I have a mono repo, it's got an apps folder, but in the apps folder it's just a bunch of separate things that say, “../” — the thing next to me.
+
+
+[00:36:43] GM: Yeah. I think that's basically the same thing that a Poncho project is. What makes it an Umbrella is really just the config.exs structure auto includes everything, like using a file system glob. That's basically what gives you an Umbrella application. Then there's some fancy aliasing and stuff that happens. Basically, I think the Umbrella structure was invented as a convenience, but it isn't actually necessary. I think that's where I usually steer people away from using it. Is, you can build exactly the same thing and when you're done, you'll understand it. Or you can just use the Umbrella thing that's already there if you want to and either one's fine.
+
+
+[00:37:18] JE: One more question before we try to wrap this thing up and it's probably a better question for Eric, but I’m going to steal it out of the jaws of victory, which — that doesn't make any sense. What programming did you do for MUDs?
+
+
+[00:37:31] GM: Yeah.
+
+
+[00:37:32] JE: Maybe, what are MUDs, for people who don't know?
+
+
+[00:37:34] GM: Yeah. A MUD is a multi-user dungeon. If you're interested in learning more about what a multi-user dungeon is after we talk about this, you should check out the Titans of Text Podcast that Eric runs, because I heard him plug that on here and I was like, “Oh, that sounds awesome. I didn't know anybody was still into this stuff.” Of course, they are. I mean, why would they not be?
+
+
+Anyway, MUDs are multi-user dungeons, which is typically text-based games that you might play over Telnet, which is a thing that's equivalent to SSH, for anybody who doesn't know what telnet is. You basically —
+
+
+[00:38:03] EO: Very unsecure.
+
+
+[00:38:05] GM: Yeah. You shouldn't use it anymore, but that's just how MUDs work, because they were invented a long time ago. Basically, you type what you want to do and then you read what happened — kind of thing as an interactive novel. Programming that I did for MUDs, as anybody who's interested in MUDs, I built my own from scratch several times in high school. That's just par for the course. I also worked on programming and I don't know, what do you call it? Building? Level design? Like writing, like creative writing, I guess, for the Miriani MUD, which is an offshoot of Star Conquest. Then I worked a little bit on Galaxy Web as well and also played these games. A lot of the Star Trek-type themed futuristic MUDs is what I was really into.
+
+
+I also played a lot of DragonRealms as a young teen — on AOL originally, because on AOL — actually, that's how I got into MUDs I think is on AOL. If you had an America Online subscription, you could just click on it. I want to play DragonRealms and it would pop up in whatever AOL's magic thing was and you're just playing it and it's a client right there. You don't have to worry about the fact that there's telnet involved. Yeah. Dragon Realms is still around. That was what, 1995? Or no, it must have been earlier than that. You can still pay 15 bucks a month to play DragonRealms. It's a good experience.
+
+
+[00:39:17] EO: I’ll have you know, you can also pay $50 a month to play DragonRealms on an extra private server.
+
+
+[00:39:23] GM: Yeah. I actually did that in my late teens. I went premium for a couple months, because they give all kinds of cool things if you're a player on the know.
+
+
+[00:39:30] EO: They have premium. They also have platinum, which is the —
+
+
+[00:39:33] GM: — I think I went platinum for one month. I was like, “This is awesome and I can't afford it.”
+
+
+[00:39:39] JE: Every time the MUD thing comes up on the show and people say that they've built them, made them, it seems like so much work to me. The fact that so many people have done it I’m like, “What?”
+
+
+[00:39:49] GM: I remember when C-Sharp was at least new to me. I don't know what year it came out, but I discovered C-Sharp at some point and it was like, you mean I can just do class TCP server and I can just open a socket? This is already a MUD server. I was blown away, because I guess before that, I must have been using it, I don't even know what.
+
+
+[00:40:08] EO: Socket and select, I think is the common —
+
+
+[00:40:10] GM: Yeah, I don't know what I was doing before I discovered C sharp. I don't remember what languages I was into at the point. Yeah. I did a lot of MOO programming, which is MUD Object Oriented. It has a language that's very similar to PHP. I think I learned PHP after MOO and I was like, “This is just like MOO programming.” I wonder if that was on purpose. It might have been designed by people that worked on the same things. It was interesting, because I learned PHP by programming MOO scripts.
+
+
+[00:40:36] JE: Wow. I think that's a pretty good place to end on. We're going to have a lot of really good notes in this show. Greg, before we let you go, do you have any final plugs, or asks for the audience, shameless self-promotion of any kind, really?
+
+
+[00:40:47] GM: I don't have any personal plugs or anything. I feel like I would be remiss if I didn't at least mention that our country is broken right now. I feel broken. I know that people feel past the breaking point in the sense of being broken. Also looking around, some people are just broken in the, “What’s wrong with you,” type-sense. I just want to give people a shout out to try to understand other people's perspective is, I guess, my only advice for a way to come towards a solution to that. Yeah, try to be kind to each other.
+
+
+[00:41:14] JE: Understanding and being kind. I love it. That's it for this episode of Elixir Wizards. Thank you again to our special guest, Greg Mefford and my co-host, Eric Oestrich. Once again, I am Justus Eapen.
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails, and React, infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally @JustusEapen and Eric @EricOestrich.
+
+
+Join us again next week on Elixir Wizards for more system and application architecture. Mic drop.
+
+
+[END]
+        © 2020 Elixir Wizards

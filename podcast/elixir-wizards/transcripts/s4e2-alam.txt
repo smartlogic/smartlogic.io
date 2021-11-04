@@ -1,0 +1,478 @@
+EW S04E02 	- 	Transcript
+EPISODE 2 Mohd Maqbool Alam
+
+Justus Eapen:
+Welcome to Elixir Wizards, a podcast brought to you by Smart Logic, custom web and mobile development shop based in Baltimore, Maryland. My name is Justus Eapen and I'll be your host. I'm joined by my co-host Eric Oestrich, and we are here for season four. Season four's theme is system and application architecture. Today we're joined by a special guess, Mode Macbul Alum. 
+Macbul, how are ya?
+
+Macbul:
+I'm great. At the same time, really feeling terrible because of the whole Coronavirus thing, but overall trying to use this time to be more productive, learn new stuff, mostly related to history and linguistics, which I'm really interested in. 
+
+Justus Eapen:
+I would love to hear a little bit more about that. We're now devoting a little bit more of the show just learning about people personally and so I'd love to hear about where you're calling us from, how did you discover Elixir? We are recording this in the middle of Coronavirus pandemic 2020, so would love to hear how you're faring in Delhi, because that's where you're calling us from. Mostly just tell us about how you're doing during this crisis. I'm curious, is Delhi shut down? How are you coping? Tell us about this history that you're studying. 
+
+Macbul:
+Delhi is shut down. Not complete locked down but people aren't allowed to go outside after 6:00 p.m. But mostly I just don't go out pretty much so it doesn't really matter for me that much. Most of my time involved reading about history books and learning about new languages. I'm picking up a couple of new languages. I'm putting more stuff on those online. Not too much programming, but more like other humanities stuff. 
+
+Justus Eapen:
+So we discovered you through the folks over at [Groxio 00:01:48]. They recommended that you would be a great interview. I've seen that you have participated in a number of Elixir conferences. How did you come to the Elixir community?
+
+Macbul:
+This has happened by chance. I was in my second year, or fifth semester, I believe. I had some experience with object oriented languages. I'm talking about in 2017 or so. I had to take this class, something... We have to take this class independently to get some grades. So I was looking to learn something different. Everyone was talking at that time about functional languages, functional languages. Someone's talking about [Haskin 00:02:24]. 
+So I don't know, some Google search I came to a [Moot 00:02:28] service feature on where there was the great Joe Armstrong course on [Erline 00:02:35]. So I just pick it up and got to know it. At the beginning, the syntax really looked different because I was not really into prologue and logic programming, but now I'm really liking the Earline style syntax as well. 
+Then later on I figured out there is some other community building, right, with the [Beam 00:02:53] community, so Elixir. So I joined Elixir forum and start looking for resources, and start learning, and start taking part in the community. And finally, come to the point that I have to learn this thing and I'm not really that experienced so I start talking about peoples in Delhi who really shared information on starting this. 
+Again, people started joining in and then finally we have a good enough number. There are folks in Pune; so Pune is in Maharashtra somewhere. So, they have really good community lead, big community. I got contacted with them, then finally we have something is happening in Delhi and Pune in Elixir community as a whole. 
+
+Justus Eapen:
+Is there an Elixir-con in India?
+
+Macbul:
+Yeah, there was Elixir-con last year, where I gave my first full talk. It was a Elixir beam light, Bangalore. 
+
+Justus Eapen:
+Bangalore, of course. 
+
+Macbul:
+Which is part of a big... Yeah, Bangalore is like our Silicon Valley. A lot of tech people work up there. So there I met Groxio founder. I was acquainted with Bruce works, like seven languages in seven weeks. So I knew him from online. We had chatted. Didn't meet personally, but we talked about it and then finally I saw that he submitted a talk to this particular conference, Functional Programming India, which includes the code beam lighting, yeah? 
+So, I thought maybe I had work on this database driver for my sequel database, so I thought I might share something I learned. Path mapping and how my sequel [inaudible 00:04:29] protocols in Word. So finally the proposal got accepted and then I gave this talk. I gave a tour to [Gooth 00:04:35], over to Bangalore. 
+
+Justus Eapen:
+What made you excited to learn to program and become a programmer?
+
+Macbul:
+This is really good question because after 9th grade, I joined this [government 00:04:46] school so we had really worst condition you can think of for learning computer science. So, we had not good condition in here, and especially for government school, at that time I was studying. But someone showed me the way to install this Mac OS onto your thing, on your machine which are not Apple fix, or [inaudible 00:05:11]. By doing that I learned about Dash and also I thought this was something interesting. I mean, just reading and I start taking seriously. 
+Then I took a class in 11th grade about computer science where I learned C++ and algorithms and data structure; basic stuff and I liked it. So I thought maybe I should major in this particular field because I can think about doing this for a very long time. 
+
+Justus Eapen:
+When you were getting started learning Elixir, do you have a favorite resource or something that helped you learn, or someone that helped you learn?
+
+Macbul:
+Elixir forum is number one resource, of course. There's this Sasha, he's a really big guy in our community. Sasha, he is an Elixir in Action guy. 
+
+Justus Eapen:
+Sasha Urich. 
+
+Macbul:
+Yeah. 
+
+Justus Eapen:
+He was just on the show. 
+
+Macbul:
+Yeah, so he's super smart. He gifted me his Elixir in Action book, so the first chapter, the whole discussion how each of these functionality could be replaced with Earline, so that was really tipping point. This is something just kicks in. Another part was supervision tree. Anyone who never thought about this way of thinking about individual components of your application will find it very interesting. 
+Given that I was not very experienced with distributor system at that time, it's just blown my mind away. 
+
+Justus Eapen:
+That's a great segue into talking about architecture because I'm curious, you're learning from Sasha. You're giving talks. How has Elixir changed the way you think about architecting applications? 
+
+Macbul:
+Previously, most of my code was to be mostly comparative programming or maybe sequential code, but after getting into Elixir and Beam, start thinking more in a distributive fashion. So this was not something it was in my toolbox. Anyone who comes to Beam, he going to start loving distributive system instantly because it's something part of it. It's a part of bundle. 
+
+Justus Eapen:
+Right. 
+
+Macbul:
+You have to love it. 
+
+Justus Eapen:
+Can you talk a little bit more about that? What were some of the big "aha" moments for you when you were learning distributive programming? 
+
+Macbul:
+Biggest aha would be, first example I did where I just launched two terminal sessions where I wrote some code and it was able to join them together as thinking as even though it was on single machine, but that was really different aha experience because I'm writing something on this machine I'm able to access and it could be possible that these machines could be very far apart. It doesn't really matter, but mechanics and semantics would be the same. That was the very aha moment, the supervision tree which I talked about, which is great. 
+But later on I started loving pattern matching, which is like, greatest piece of feature every language should have. 
+
+Justus Eapen:
+I'm a little bit surprised that you're excited about pattern matching after getting comfortable with the distributed aspects of the language. 
+
+Macbul:
+Because when I start learning about database drivers, there is a Google Summer of Code. I don't know if you know about this. There is a program by Google where they pay a student to write code, so I want to do part of this. So, there was this movement going on at that time in the Elixir community, the need for a new database driver, so I thought I might write this. 
+I work really hard, but I wrote proposal which got rejected, but along the way I learned these couple of things. I did contribute a little bit to the main project as well, like DB connection, the library which we have, which use to build these things. That whole thing got me excited about pattern matching because pattern matching really gives you ability to write simple enough passes and also dig into binary very elegant way. 
+
+Justus Eapen:
+Pattern matching was also one of my early favorite features and it still continues. 
+
+Macbul:
+I don't know any Elixir developer here in [inaudible 00:09:06]. Everyone wants to talk about pattern matching. 
+
+Justus Eapen:
+Okay, so one of the things that came out, I think only as of recording, only two hours ago one of the things you mentioned during the pre-recording section, you wanted to talk about this Phoenix Live dashboard. So what is it, and why are you excited about it?
+
+Macbul:
+Let me just look at the tweet and then I'll just maybe look it up. Because I didn't look into details. It was kind of a tool which allow you to have... It's a kind of dashboard kind of thing, which gives you more information, but we have observer kind of thing in Earline built into our Beam. So I think it's along that similar line, but much more user friendly and give much more information compares to some things. It gives information to the Phoenix Live dashboard, which give you what is a version related to Elixir that you have? What is the Phoenix, the dashboard itself? What is the uptime?
+So they're giving a lot more information about your application itself, without any third party built into your Phoenix app. What are the binaries you are using? Or how many items you are... How many size that your ETS table is taking on, the processes? So a bunch of metrics are available to you right into the dashboard itself. That is really interesting. I'll also give you the chart information. So like, microsecond, millisecond, these metrics also available. So there are couple of things. 
+I think people should check it out. It seems interesting. Right now I think it's in beta or alpha. I don't know. Just released two hours ago. 
+
+Justus Eapen:
+Have you gotten to play much with live view? 
+
+Macbul:
+I attended Bruce Talks, so apart from that I don't have much experience with the live view. 
+
+Justus Eapen:
+I'm pretty excited about this dashboard thing, too. I think that having code that people can build on top of, that really demonstrates the capability of live view is going to be... I don't know if it's a game changer, if that's the right word, but it does feel like a pretty big step for the community to take. So, I think I'm also excited. Eric, do you have a take on that at all?
+
+Eric:
+I think it's super cool, and I believe this is the thing... I think I saw someone say this Elixir-con 2017 or '18, Chris McCord's keynote was showing off a metrics page. So I think this is finally that. It's cool to see it come out and the two things that I am most interested in is, you can look at the Phoenix logs for a specific request chain through this thing. Then it also works through distributed Earline, so as long as you can hit any of the nodes you can get information about the whole cluster, which is pretty wild. 
+
+Justus Eapen:
+Let's talk about architecture. Macbul, when you're starting a new project, a side project or maybe a client project, how do you think about the design process? Where do you start when it comes to designing an application from scratch?
+
+Macbul:
+There are two possible. One is when I want to learn something, that's totally different way I think about any problem, per say. But when I have to deliver something, I usually just do practical stuff where take out the information which are already available, take out the code which are already available, and start going. Because you can't start with client base when you're working for somebody else.
+But when it comes to my own learning experience, I tend to do everything from first principal, from scratch. Everything. Just the bare minimum which we get from our generator and start from small steps, little steps, or maybe take a page from the notebook and write it down. "Okay, these are the things I need," and small, small information, write it down. So you're learning the process itself, so it would be useful later on. I tend to think things in that way. 
+
+Eric:
+Do you do any pre-coding planning? Like white boarding or sketching out on a piece of paper or taking notes beforehand, or anything like that?
+
+Macbul:
+I think even before writing, everyone should start. A piece of paper is the greatest technology ever invented by human. So we should take advantage of that and I think it's a very good way to really think about your thought process and jot it down every individual things you need to think about before. Then thinking about the coding itself. 
+Coding is the easy part. The hard part is to think about what are the pieces you need? Where are the pieces going to fit together? And then finally, the coding. Coding is really the easiest part in whole process. 
+
+Justus Eapen:
+I think we just got our episode quote right now. "Paper is a great piece of technology invented by humans." I love that. I'm also a huge pad and pen proponent. Eric and I have sort of landed on this agreement around, we usually start with designing sort of like, data and then the API on top of that. Can you talk a little bit about how you think about architecting information... Or designing an information architecture and then designing APIs on top of that?
+
+Macbul:
+So, how do I think about building when it comes to maybe a RESTful API, for example. 
+
+Justus Eapen:
+Right, or a GraphQL API. Do you use GraphQL?
+
+Macbul:
+I have played with a little bit, but I have more experience with RESTful API, sadly. I need to look into it, but I just could not. I think Elixir has a GraphQL library already. 
+
+Justus Eapen:
+Absinthe is the GraphQL library?
+
+Macbul:
+Absinthe, yeah. 
+
+Justus Eapen:
+Yeah, we don't use it either. 
+
+Eric:
+We have a very recent project is using Absinthe, so this is my first... I've done reviews on it, but I haven't actually used it myself yet. So hopefully it holds up to everyone's love.
+
+Macbul:
+There is a book also to learn about this building APIs with Elixir, GraphQL APIs. I think the library author wrote that book. 
+
+Justus Eapen:
+So then speak about REST APIs. First of all, what does REST mean to you? I guess is the best way to phrase the first part of the question. What are your opinions on architecting REST APIs? 
+
+Macbul:
+My opinion of REST, of course, is great. Of course, number one because it allow you to have a single interface, which allow you to build multiple... It's been revolutionary if you think from historical point of view. The way we used to do API designing, but when I want to build an API most generally I think about what are those nouns? I'm thinking in terms of what are the objects we have and dealing with those things? What are the actions I'm dealing with, with those nouns? What could happen?
+And then along that thinking I'm coming with names and those verbs which need to be done. And then finally, end product will be, on piece of paper, will be my whole API things. How it going to look like and finally coding it. I'm thinking first the nouns of the things and the objects themself. For example, I'm building an API for maybe a real estate company. What are the most important part of any real estate will be a house, will be of different types of houses. Going along that way, if that makes sense. 
+
+Justus Eapen:
+I guess before or after coding, what kind of documentation do you do for an API?
+
+Macbul:
+I have used two tools. One is Postman, because it's also useful, Postman also have this feature to testing your RESTful API as well. So you can have small snippet of Java Script code, which you can use to check your API endpoints. Another one I have played with is Swagger. 
+
+Justus Eapen:
+We're going to change subjects here, but I'm curious. What is your opinion on micro-services? Feel free to just roast them belligerently. 
+
+Macbul:
+Most of my applications would come into something micro, monolithic, kind of micro-services. Which is not too much isolated. 
+
+Justus Eapen:
+The macrolith. 
+
+Macbul:
+Yeah, yeah. There was this term by Francesco. He shared a tweet similar along that line, but with a microlith, right? Something not too much isolated or not too much like a mod-... Something moderation, but when it comes to like you are building for a large company, then the micro-services has some reliability, if that is a good word. Because you can have a large number of teams can work together, which is not possible in cases with monolithic. So there is a good and bad in both situations. It depends on the team and decide what kind of architecture you're going to choose. So I don't have really, roasting kind of thing about it. 
+
+Justus Eapen:
+Have you played around with Kubernetes at all?
+
+Macbul:
+Yeah, I've played with Kubernetes. It's been one year since I've been playing with Kubernetes. Whole ecosystem related to Kubernetes is fantastic because it just makes more sense. You describe what you want to do with your application and the things it's going to do the things. So imperativeness, its out-of-the-box [descriptness 00:17:44], it's good. That's the beauty of Kubernetes. 
+
+Justus Eapen:
+What about server-less architectures? Have you played around with Amazon Lambda at all?
+
+Macbul:
+Yeah, I've played with Amazon Lambda in, there was one hackathon I attended where I played with Amazon Lambda, I think. 
+
+Justus Eapen:
+How'd it go?
+
+Macbul:
+I don't know, but I think it's reasonable to use these kind of services in a situation when you have... Want to have a capability where want a service which you don't have to maintain, but it's process oriented kind of services. Like maybe an image processing service you want to write and don't want to deal with the underlying infrastructure because it doesn't really give you that benefit to maintain the underlying whole system. So it makes sense in that cases, the server-less would be a good idea to choose. 
+I think I have wrote some sort of a scraper service as a server-less for my... We were building some sort of machine learning project as a team for a hackathon. So, in that part I built that thing. There is a library for Earline, which allow you to build your server-less location, which can be run on Amazon AWS. So I think if people want to try with Earline, they can check that out as well. 
+
+Eric:
+I think my favorite server-less story is, From $server-less to Elixir, is the title of the article from Cory O'Daniel. And he talks about $12,000 a month server-less function and he converted it from that to like, $160 a month of Phoenix application and it is just as good. That's pretty much my takeaway from server-less. It's very expensive. 
+
+Justus Eapen:
+I would love to see it in action, though. Actually see costs being racked up in some kind of production architecture. That would be interesting. Are either of you aware of a product or project... Is there a website out there that you know for sure is hitting a Lambda service?
+
+Eric:
+We actually wrote one because it's an Amazon Alexa skill. One of our clients, spotgrime.com, has an Alexa skill... I believe it's still active. I think they force you to use a Lambda to make a skill. Any Amazon skill, I believe, is a Lambda. So if you've asked for stuff, you've used Lambdas. 
+
+Justus Eapen:
+I wonder why they would force that upon people. 
+
+Eric:
+Money, money, money. 
+
+Justus Eapen:
+Well we are all in agreement on Amazon's motivations there. Let's talk a little bit about protocols. I've been kind of hoping that this would come up in our conversation at some point. Everyone's familiar with HTTP as a protocol, but do you have any familiarity or experience using non-standard protocols like FTPS, FTP, SSH, RAFT, or other [inaudible 00:20:31] protocols?
+
+Macbul:
+I want to talk about FTP because no one wants to talk about now at this time. Because it used to be used. Everyone used to use FTP signs to upload their files. And then there was a time we used to have this hosting services where you buy for a year and then you upload your files. Maybe a PHP application or maybe a WordPress, so there was a time people used to use FTP. I don't know if anyone are using FTP now. I don't think so. 
+
+Justus Eapen:
+I was until like, a year ago. 
+
+Eric:
+Those hosts still exist, so people surely are developing on a remote server. Develop on production. 
+
+Justus Eapen:
+It's what I do with [inaudible 00:21:14], which is why my website's down right now. So. Yeah, so go on. You think no one's using it anymore? Why do you think that is? Are you glad about it? Do you think we need to bring it back?
+
+Macbul:
+I don't think we need to bring it back, but yeah, that was a time when... It just feels nostalgic because I bought my first subscription of this, what we used to say, I joined server where multiple people used to use the same server for hosting their websites and all. So that just being nostalgic and nothing else. It don't need to come back, I'm pretty sure. 
+
+Eric:
+Yeah, I think that was my first intro as well. I convinced my dad, because I was still in high school, to pay the $60 for a year with a free domain and I uploaded my PHP that I wrote. It was quite the time. 
+
+Macbul:
+Yeah, it was me too in high school, as well. It cost me about $20 so there was some [black 00:22:10] thing going on so that was really cheap. So Go Daddy happens and got me for a year, so yeah. First time getting things online and you type your domain name. It was such a great feeling. 
+
+Justus Eapen:
+I have a curve ball that I think neither of you are going to expect because this just came out. Have either of you heard of Neil Ferguson? Neil Ferguson is an epidemiologist, I think in England. He's written one of the major models that they're using... This is going to get to an architecture question, or at least an application question. It was originally written 13 years ago in C, and this is a pandemic simulation model that they are using to model control measures against COVID19. So he wrote this 13 years ago in undocumented C Code, and now they're using it to predict how the COVID19 pandemic's going to work its way through Britain, I presume. 
+The reason I'm asking you this is what's your immediate reaction to that?
+
+Macbul:
+I'm getting same feeling when I saw in Indian for the trending base, COVID was trending. So, same happened with United States. I think COVID was trending, and the same in India; the COVID was trending. Similar kind of feeling. 
+
+Justus Eapen:
+I guess, is it responsible to use 13 year old, undocumented C code to develop public policy? Is there anything that you wrote 13 years ago that you would trust in any way at all?
+
+Eric:
+I think it depends on when that C code was written in Neil Ferguson's life. Was that part of his doctorate, or whatever? Or like, something where hopefully there was a little bit more thought put behind it than me, 13 years ago in high school, just learning how to program. So no, I would not trust myself from 13 years ago, but the code I write now, I would hope still works in 13 years. 
+
+Justus Eapen:
+Yeah. Well, let me ask you this. The code that you write now, 13 years from now would you feel comfortable using it to build a voting, high stakes things like pandemic predictions or voting systems? Macbul, if you were going to model this in India and then make suggestions, how should we high stakes things? Is I think the real question. 
+
+Macbul:
+We have to also realize there are really smart people out there whose works... The tool which includes like, very long period of time, maybe I might not be comfortable with my work there. There are people out there who have done really good quality works which are, at the moment, running the world. For example, Cobalt. It exists because there are smart people who have done some really good work. 
+
+Justus Eapen:
+There Cobalt. John McCarthy wrote List, I'm pretty sure by himself, in the '50s and we still use it. I'm totally not opposed to the idea that people can write things and they can be valuable forever. I am somewhat opposed to the idea that you can... I can go look at the C source code, right? I cannot go look at this model that this guy's using. 
+The point was sort of about how should we think about the real world consequences, and how do we ensure that there won't be real world repercussions that are super duper negative in our code?
+
+Macbul:
+A lot of works we do which don't really have that kind of high stakes, but one example comes. The airplane crash happened... It was Boeing, right? Boeing Seven Max, something. So there was softwares kind of issue, which led to real world people dying. So in that scenario, we have to take your work really seriously. Maybe thinking like, how a doctor thinks when operating on a patient. This kind of development, really people who are doing, needs to be very careful with that. 
+
+Eric:
+This is why I write video games. Very low pressure situations. 
+
+Justus Eapen:
+So you wouldn't write a voting system if we got hired to do it?
+
+Eric:
+At least not in three months. 
+
+Justus Eapen:
+Are there any guarantees that we can get from using something like [Dializer 00:25:56] or, I think Norm is the other library that [Heathley's 00:26:00] working on. Do you have an opinion on static typing, Macbul? 
+
+Macbul:
+This is a good question. I love it. Why I love it? Because I have started learning Haskell as well. Because in Haskell there is a static type system, you just describe your types. So what are the signatures of your type? It can be a very complicated function viewed on the implementation, but you can start thinking in terms of types. Then using its type system, you can have information. You can have something... Oh, there is a thing called Hose and all. So I started to love static type system and all, especially. 
+But if you think about static typing from C++ or C perspective, I just don't like it. It's not going to work in that. I need more interactive static type system, which Haskell provides. If we can put that into our Beam community, it would make our application. If you build... Haskell programs are literally the proofs of your work. They are proofs. When you're writing a program, it's proofs so yeah. It's a mathematical object, in a sense. 
+
+Justus Eapen:
+We've got an ongoing debate between the people who are pro-static typing and not pro-static typing. I do think that for something like a voting system or something like that, that would be probably helpful. 
+Eric, do you want to talk about the big news that came out today? Other than the dashboard. It involves the dashboard. 
+
+Eric:
+Yeah, this was just a very late breaking... Late, in that this probably won't come out for a few weeks. You'll already have known about this for a while, but five minutes ago Chris McCord posted on the Elixir forum that Phoenix 150RC0 is out. Big day in Elixir land. We have the Phoenix Live dashboard and now a brand new version of Phoenix itself. 
+It looks like some of the big things is that Pub Sub 2.0 is getting pulled out, which is pretty cool because I've done a lot with Pub Sub in the background. So, not being part of your endpoint's kind of neat. Go check that out, I guess. 
+
+Justus Eapen:
+Macbul, do you have a favorite RFC?
+
+Macbul:
+TRPC is cool. It's great. GRPC is like, Google RPC so they have protocol buffer where you can find what are the objects will be. And then it will generate the client and solve all the components. So GRPC is great. I learned about GRPC in Cloud Native-con, China. I played a little bit. I only know GRPC, so I would say GRPC. 
+
+Justus Eapen:
+Did I say RPC or... Because I meant to say RFC. 
+
+Macbul:
+You said RPC, right?
+
+Justus Eapen:
+Yeah, I might've said that. That's a great answer, though, considering that was not what I expected. GRPC was... And now I'm looking at it and it looks super cool. Open source universal RPC framework allows efficient connection to services across data centers. Pluggable support for load balancing, tracing, health checking, and authentication. This is pretty cool looking. 
+What I meant to ask was, what's your favorite RFC? Which is a little bit different. 
+
+Macbul:
+So, for this question I Googled it. So I cheated a bit. Of course, [inaudible 00:28:50] protocol is my favorite for any application developer. Of course, there is another one you should Google; 527. You should read it out. 
+
+Justus Eapen:
+RFC 527. Eric, can I get your permission to read this out loud? Actually, Eric, you should probably read this out loud. 
+
+Eric:
+We'll just do the first stanza, I guess. 
+
+Justus Eapen:
+Okay, so this is the first part of RFC 527. Thank you so much Macbul, for bringing this to our attention. "Twas brillig, and the Protocols did USER-SERVER in the wabe. All mimsey was the FTP and the RJE outgrabe."
+And this was from 1973. Arpawocky; I have no idea what this means, but I assume that maybe someone is going to reach out and tell me what it means. And we're going to have you on the show to explain it. 
+
+Eric:
+I'm guessing that it's probably a play on the Jabberwocky poem. 
+
+Justus Eapen:
+Macbul, I want to thank you for coming on the show and I also want to give you the chance, if you have any plugs or asks for the audience, or where people can find you online. Shameless self-promotion. Now is your opportunity. 
+
+Macbul:
+Thank you for inviting me to your show. I just want to give a shout out to Groxio and Bruce and Maggie for succession me, to having really excellent discussion. Guys, do check out Groxio. It's an excellent way to learn new programming languages. And for finding me, you can just Google my name, entire name. You can find maybe a short description. So just "ism" to Macbul and you'll be on Twitter. I'm very active on Twitter, but I talk about a lot of different thing involving politics. I talk about politics, I talk about history, I talk about linguistics, I talk about programming. So broad, different ideas. 
+
+Justus Eapen:
+I'm following you on Twitter and I'm really looking forward to getting into it with you on there. The Twitter is plenty of fun for those of us who like to get into a lot of different topics. 
+Before we close out, we've got to share another edition of Pattern Matching with Todd. Friend of the podcast, Todd Rezideck is asking members of the Elixir community five questions to help us all get to know each other better. Hope you enjoy it. 
+
+Todd:
+Thank you for joining me for this episode of Pattern Matching, where I ask your favorite members of the Elixir community five questions to try to get to know them better. My guest today is known for speaking about Kubernetes and the Beam at conferences all over. He is the author of some great libraries like Bonnie, which he describes as, "The Elixir-based, Kubernetes development framework." Welcome, Cory O'Daniel. 
+
+Cory:
+Hi, Todd. Thanks for having me. 
+
+Todd:
+Let's get started with question number one. So where were you born?
+
+Cory:
+Felicity, Ohio. Population, 900, so big town. On a cattle and tobacco farm. 
+
+Todd:
+So that's outside of Cincinnati? 
+
+Cory:
+Yeah, it's I think maybe 45 minutes or so from Cincinnati. You know, little farm. We grew tobacco. I think we had apples and pears. Actually, I texted my mom this morning and I was like, "What all did we grow on this farm?" And she was like, "There's some things I can talk about and there's some things I can't." That was interesting, trailblazers. 
+Now I live in Pasadena, California with my wife. I got a nine year old son, who may or may not yell at some point in time. And an Instagram celebrity dog who may or may not bark at squirrels. 
+
+Todd:
+Nice. Shout out to Cincinnati. Cincinnati is well represented in the Elixir community. Lots of good programmers over there. 
+
+Cory:
+Yeah, actually in [PEX OA 00:32:13] I met a number of people from Ohio. So I was very surprised. I didn't know that there was a budding Elixir community out there, so it's pretty cool. 
+
+Todd:
+Yeah, I don't know how it happened, but it sprang up so I was on their last month's meet up. I guess they did it online, so I joined them there. But lots of great programmers come from the Cincinnati or Columbus areas. 
+
+Cory:
+If they're doing it online next month I might have to join as an honorary Ohioan. 
+
+Todd:
+Yeah, there you go. And you said you have a celebrity dog. You want to promote your dog's Instagram?
+
+Cory:
+Oh, yeah. It's Ziggy, Z-I-G-G-Y, .odoodle. We just posted a few pictures of her and she's got several thousands of followers now. I think she's almost got 30,000 and it's like pet food and pet snack places mail us stuff all the time. The weirdest thing I ever got was this one company was like, "We do organic dog treats," and I'm like, "That's fantastic. We love organic stuff. Send them." 
+Then a few weeks later a big, wooden crate showed up at my house and I was like, "What is this?" I pried it open with a hammer. It was a legit wooden crate; pry it open. There's a styrofoam box inside of it, I'm like, "Okay this is a bomb." So I take the lid off, smoke comes out. It's dry ice and there is a cow femur just cut into sections laying in this box. When they said "organic dog treats", they were like, I guess, really organic and pretty fresh. 
+So that was disgusting and then we gave them to our neighbor who had a chihuahua. So interesting times. 
+
+Todd:
+Wow, all right. The life of a celebrity dog. Who would've thought? What a time we live in. 
+
+Cory:
+It can't be a difficult life, that's for sure. 
+
+Todd:
+Definitely not. You're having cow femurs delivered right to your door. All right, question number two. Have you had any careers before programming?
+
+Cory:
+Yeah, I mean they're all computer oriented or network oriented. How I got into technology in general, I worked at a hospital in data entry. It was, I think, in 1999 and I'd been programing for a while just as a hobby. Wasn't really interested in it as a job. I was doing data entry and what was going on in the hospital is, I worked in the billing department so we would print up all these spreadsheets. Bring the printed spreadsheets down to me, and then I would enter them in this terminal program. 
+And I was like, "This is stupid." So I asked the lady that brought them down every day, I'm like, "Can you just bring them to me on a disk?" And she was like, "Yeah, sure." I was like, "I don't want to waste all that paper." So I wrote a program to pretty parce the spreadsheets and then just enter them in the program for me. And I was just sitting around one day, reading I think it was the third edition, Dungeons and Dragons Monstrous Manual, and my boss walked by and she's like, "What are you doing?" 
+And it's just like, I'm very obviously reading a Dungeons and Dragons book. And I'm like, "I'm reading the Monstrous Manual." She was like, "Why aren't you working?" I was like, "I wrote a program to do my job." She just kind of looked at me weird and then left, and then she came back an hour later and she's like, "If we gave you a $1000 bonus and put you on the networking team, would you give us the rights to your software?" And I was like, "Yes."
+So I got 1000 bucks, which was great at the age of 18 for nothing. I joined the help desk and networking team, so I kind of got into networking. Still wasn't interested in software at that point in time. I eventually went on to be a HIPPA security analyst, so my master's degree is in healthcare information systems. Kind of stayed in healthcare, and after that I went to become a adjunct professor. Then decided to move to California to join a start up. 
+
+Todd:
+HIPPA security analyst sounds really exciting. 
+
+Cory:
+Yeah, it wasn't so much exciting. It was interesting. I mean, it was a lot of policies and procedures, writing scripts to like, analyze nodes on our network, or endpoints on our network, I guess is what they referred to them as. You're trying to protect people's information, which is a good deed, but it just wasn't super exciting and we had a lot of HIPPA violations up until that point. 
+I don't know, it was kind of sad. We did a lot of stuff where it was trying to see if employees were doing stuff wrong and I felt like my job was just being a boring cop. I was just trying to bust people all day for putting their passwords under their mouse pad. 
+
+Todd:
+So if you weren't a programmer, what do you think you'd be?
+
+Cory:
+I'd either be an architect... So, if you ever see me in real life, my right arm is all architecture tattoos; the skyline of San Francisco, New York. A map of the outline of Manhattan. I was originally a physics major, switched to architecture, and then switched to information systems. Pretty much just trying to find where I could end up to make the most money, quickest. My right arm is like an homage to a career that I did not take, so I'd say architecture. 
+I'm also really interested in archeology. I've done some volunteer digs. I've been to a lot of the UNESCO World sites; a hobby of mine. But realistically, I'll end up probably owning a bodega, selling overpriced wine and grilled cheese sandwiches. 
+
+Todd:
+And what's the name of your bodega?
+
+Cory:
+O'Dega, with an apostrophe. 
+
+Todd:
+O'Dega, the Irish bodega. So do you have a favorite architect?
+
+Cory:
+Yeah. Me and my wife, we designed a very beautiful house. We bought a dump two years ago and put a lot of thought into designing an awesome space. 
+
+Todd:
+So your own favorite architect?
+
+Cory:
+We are now. Is that full of myself? A little bit, that's fine. 
+
+Todd:
+Well, almost by definition. Moving on then. What is the genre of the last song or the last album you listened to?
+
+Cory:
+I don't know what the genre would be. The last album I listened to was Wheezer Blue album. I love that album. To this day, it's one of the handful of albums that I can listen to all the way through, not skip a song. I love that album, so yeah. What is that? Surf rock or pop punk, I guess? But my musical tastes are a bit all over the place. My playlists are, people hate them because it's just like, it'll be like, hip hop, a country song, a punk song. And to me, I'm just like, "Ah, it feels good. It's great." But yeah, I'm a bit all over the place. 
+
+Todd:
+I don't want to mess up this quote too much. Wheezer put out a tribute album, I don't know, a couple years ago, right? So it was all cover songs and a friend of mine described Wheezer. She said, "If you take their albums in reverse chronological order, they're a tribute band that got slightly better over time." The implication is their first few albums were really good and then they get worse up until that tribute album.
+
+Cory:
+Oh, yeah. As long as it starts out with like, a Toto cover, right? 
+
+Todd:
+Yeah, Africa, I think. 
+
+Cory:
+Yes, that album. I did listen to that album a few times when it first came out. It was pretty good. What else was on there? Oh! Sweet Dreams is on there, too. Yeah, that was a good one. I might, you know what? I'm popping that bad boy on when I'm off this call. 
+
+Todd:
+Cool, all right. Question number four. What movie will you watch anytime you come across it on TV?
+
+Cory:
+Probably one of two. I'd say Primer, just because no matter how many times I watch it, I still have no idea what happens. I think it's a great movie. And Jim Henson, David Bowie's Labyrinth. That's probably my favorite movie of all time. I've dressed as the Goblin King for Halloween a couple times and I think I've got most of the movie memorized. There was a point in time when I was a kid that it was on pay-per-view, and I figured out pay-per-view, and I watched it every day after school. And my parents had, I think my mom said it was a $500 pay-per-view bill from me just watching Labyrinth over and over. 
+
+Todd:
+Wow. Yeah, I recently listened to a Stuff You Should Know podcast about Jim Henson. I don't know if you've heard that or not. It's got a really interesting history as a hippie who also liked puppets. 
+
+Cory:
+I hope there's nothing bad in it. 
+
+Todd:
+No, no, no. It gives him a lot of credit. All right, final question. What project are you most excited about working on next? So, something you're either maybe just starting working on now, or continuing to work on, or something that you really want to get involved with in the near future. 
+
+Cory:
+I'm a principal software architect at the Real Real, but I own a Kubernetes consultancy with a few other people that I've done work with over the past few years. We've decided to pivot that towards building some applications, so we actually have been brainstorming a project that we're going to be starting... Well, we've kind of already started on an MVP of it, but it's called Cape and it is super powers for infrastructure engineers. 
+If you've ever used Terraform or Customize or Helm or KSonnet or Jsonnet, what we're doing is developing a platform that feels a lot like the UI consoles you'd see in GCPAWS, except that it is packaged the best practices of infrastructure applications and services that you might need to deploy. But with the ability to eject from that UI at any point and it generate all of your IAC. 
+So if you're one of those people that you want to have all of your stuff in code, but maybe you want to use a UI to do it, you can build systems using a user interface. Then if you're ever like, "Man, I'm backed into a corner. I really wish we would've done this as IAC," you can eject it and it'll spit out all the Terraform and Helm and all that stuff that it used to deploy your applications, infrastructure, and services. 
+
+Todd:
+Very cool. Where can listeners go to check out Cape?
+
+Cory:
+You can SSH into my home laptop and it's in a folder on my desktop right now. We're literally, I think maybe two or three weeks into discussing how we're going to build most of this. Then we've started building a few of the systems that we've deployed previously; starting to build those out as some of the bundles that are there. 
+When you talk a bit about what it's built on top of, there's a spec out there called CNAB, which is conative application bundles. I believe it came out of [Dayes 00:41:38] Labs, which is a part of Microsoft now. So it's all built on top of the CNAB spec. We've had to add a few extensions to it, to be able to do the kind of things we want to do. It's a pretty cool spec; there's two implementation open source out there now. One's called Porter and another one's called [Dufflow 00:41:53], so if you're deploying stuff on the Cloud and you're deploying applications and infrastructure, and you want a better tool, I'd take a gander at CNAB and Porter. It's pretty cool technology. 
+
+Todd:
+All right, well sounds great. Thanks for joining me today, Cory. And for our listeners, if they want to SSH into your laptop, are you going to put out your IP and your private key out on Twitter later today?
+
+Cory:
+You got to catch me at a Starbucks, though. I don't know what my IP address is. 
+
+Todd:
+Ah, okay. All right, well anyway, thank you for joining me today, Cory O'Daniel. 
+
+Cory:
+Yeah, thanks so much. 
+
+Justus Eapen:
+That is it for this episode of Elixir Wizards. Thank you again, Macbul and Eric, my cohost, for joining us. I am Justus Eapen. Elixir Wizards is a Smart Logic podcast. Here at Smart Logic, we're always looking to take on new projects, building web apps in Elixir, Rails, React, Kubernetes, and mobile apps using React native. 
+We'd love to hear from you if you have a project that we could help you with. Don't forget to like and subscribe to Elixir Wizards on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally at Justus Eapen, like Just-Use-A-Pen. And Eric at Eric Oestrich. And join us again next week on Elixir Wizards for more system and application architecture. 

@@ -1,0 +1,515 @@
+EW S5E14                Show Notes
+S5 EPISODE 14
+
+
+[INTRODUCTION]
+
+
+[00:00:00] EO: Hi, everyone. We hope you're enjoying Season 5 of Elixir Wizards. Before we get into today's show, we want to make a quick announcement. We’re currently looking for an engineering manager to join our team. If you have expertise in React, Elixir or Ruby, a track record of improving engineering processes, and a proficiency in the design, maintenance and assessment of technical architecture, we'd love for you to apply.
+
+
+Our team is fully remote in the United States and first-time managers are encouraged to imply. Head over to smartlogic.io/jobs to learn more and submit your application. Thanks. Now here's the show.
+
+
+[EPISODE]
+
+
+[00:00:39] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I'll be your host. I'm joined by my kaleidoscopic co-host, Sundi Myint and my prodigist producer, Eric Oestrich. This season's theme is adopting Elixir and we're joined today by none other than Sophie DeBenedetto, old-time friend of the show. How are you doing, Sophie?
+
+
+[00:01:05] SD: Doing well. Thanks for having me on.
+
+
+[00:01:07] JE: Super glad to have you on. You're about to publish a new awesome book, or an awesome new book. We'll talk about the book for sure, but we —
+
+
+[00:01:13] SD: — Oh, for sure.
+
+
+[00:01:14] JE: What's new in your life? How are you?
+
+
+[00:01:16] SD: Yeah. Lots of stuff. Lots of stuff. I don't know where this will publish timeline-wise to some of the things I'll talk about. Either I'm announcing and plugging upcoming events, or encouraging you to check them out on available channels and shaming you for missing them. Some cool stuff coming up on Code BEAM V in March this year. All virtual, as I'm sure you can imagine. This year, I’ve joined the program committee.
+
+
+It's been really cool just to see all the thought that's been put into making a remote conference really special, so that you're not just sitting at home, staring in front of your computer. Which you can totally do for free with talks that are already on YouTube, or posted elsewhere. There's a lot of cool, really dynamic activities that are going to go down. There’s really Q&As and panel discussions and just the conversational interactive stuff that you're not going to get in, I think, your average online conference. And maybe not even going to get in an in-person conference.
+
+
+Definitely encourage folks to check that out. We're going to do a Q&A with me and Bruce on the programming LiveView book. I think there's also going to be — this was just announced, a Q&A with Bruce Tate and José about NX, this shiny new thing that you guys may have heard of. A couple of other great talks that I'll shout out from some of my new podcast co-hosts, which I'll also tell you guys a little bit about later. We've got Alex Koutmos talking about observability in Elixir. We've got the incomparable Steven Nuñez, talking about Ruby Ractors and what other languages have to learn from the BEAM. Yeah, just plenty of good stuff coming up in Code BEAM. Check it out. Get a ticket, if this gets published before March. If not, check out talks once they go live.
+
+
+[00:02:53] JE: Well, we're looking at publishing this on March 4th, is that right Eric?
+
+
+[00:02:57] SD: Perfect. Just a few days left for a couple of non-early birds to get their tickets and if I've inspired anyone.
+
+
+[00:03:05] JE: Oh, I'm sure that you have. Code BEAM is supposed to be an awesome thing. I've never made it, but maybe I will make it this time around. It sounds really cool. There's a lot to go off of there.
+
+
+[00:03:15] SD: Sorry.
+
+
+[00:03:16] JE: No worries. It's super exciting.
+
+
+[00:03:17] SM: So many things. So many things to dig into. Is this your first time being a programming committee person for a conference?
+
+
+[00:03:26] SD: This is my first time on the program committee of Code BEAM, but I'm usually one of the co-organizers of the EMPEX NYC Conference. We didn't have our event last year, because it's normally in May. You can imagine why we did not have it last year. I'm not sure what we're thinking of doing for the coming year. Stay tuned. Might be virtual, might be another skip. It was really fun to get back involved in that community, planning stuff on EMPEX this year. Unfortunately, sadly, had to be skipped.
+
+
+[00:03:53] JE: Are you still writing Go on the daily these days?
+
+
+[00:03:57] SD: Oh, my goodness. Let's rant about Go. Actually, I did have a rant when you asked me earlier. I'm writing Go a lot at GitHub. Go is one of our paved path languages.
+
+
+[00:04:06] JE: Sorry, paved path?
+
+
+[00:04:08] SD: Paved path. It's just a language that we have a paved path for, like we have the tooling to support getting into production. Whereas, Elixir is not one yet, but maybe that will change in the coming months. I feel like, I'm sure I've said feelings about Go other times that we've chatted.
+
+
+[00:04:25] JE: Say them again.
+
+
+[00:04:26] SD: Oh. Well, okay. Well, there's some things that I've come to enjoy about it, which is it's nice to work with something that's statically typed. It gives you a lot of answers for free. That is good. As I was thinking about that, I was also realizing, maybe one of the reasons why it's so nice to have that static typing in Go is because it's one of the few tools that are on offer for even reading through code packs. And figuring out where things go and how they fit together. But that could just be the very cynical side of me talking. It's not so bad. It works. It does stuff. You can do things with it.
+
+
+[00:05:00] JE: What is RIIR?
+
+
+[00:05:03] SM: Is that how you pronounce that?
+
+
+[00:05:04] JE: I have no idea. Eric Oestrich just mentioned.
+
+
+[00:05:06] EO: Sorry.
+
+
+[00:05:07] SD: Oh, is this in the chat?
+
+
+[00:05:08] EO: Yeah. In our back channel, I posted “But what about rewrite it in Rust,” is what that is, because Rust is also statically typed. And I poked at that recently. It's one of the few static type systems that I don't hate and seems to be —
+
+
+[00:05:23] SD: Why don’t you hate it?
+
+
+[00:05:25] EO: — Beneficial. Rust lets you skip. In Java, you always have to say the class name, the variable equals whatever. And Rust, you can omit a lot of that and just go on with your day, but they’re still statically checking underneath the hood. There's a Rust analyzer language server thing that does a really good job of helping you along the way and all that fun stuff. You just got to get GitHub to switch from go to Rust.
+
+
+[00:05:52] SD: Top of my list there. Top of my list.
+
+
+[00:05:54] SM: We were looking into this. I actually didn't realize that you were A, at GitHub and B, that you didn't write Elixir in your day job. You're just such a prominent name in the community that I just assumed that you write Elixir every second that you're breathing. Have you tried to get it at GitHub, or into your daily life more? How's that been going?
+
+
+[00:06:15] SD: Yeah, that's a great question. Those are two different things, right? Or they could be two different things, GitHub and daily life. There is a small, but growing cabal of folks at GitHub that are very interested in Elixir, and that have a lot of experience with it, including some other folks that are prominent in the community. There are some plans. There is an opportunity, I think, that might be coming down the pipe to do a little greenfield app in Elixir that might get us a foot in the door. In the meantime, it's been pretty fun just to get together with some of the other engineers at GitHub, who have worked with Elixir, who are curious about it.
+
+
+We just have a little Elixir channel. We do this internal meetup, almost, every other week, where either somebody might give a little presentation, maybe a lightning talk, or use it as a place to test out talks. Or conferences and other events. Or we can just get together and hang out and talk a little bit about Elixir. It's really fun to have a group of people that just socialize about Elixir with when so little socializing is happening in the world now.
+
+
+As for how else to get Elixir in my daily life, certainly working on the LiveView book has kept me plugged into writing a lot of Elixir. As it starts to wind down, I'm open to suggestions on what other Elixir things are out there that I can engage myself with.
+
+
+[00:07:30] SM: What do you think you'd recommend for people who are in the same scenario, very passionate about Elixir, but don't get to write it in their day job? Are there things that you would recommend that they do? Or maybe avenues that they could take to bring it in?
+
+
+[00:07:44] SD: Yeah, that's a great question. Bringing Elixir into your day job feels very relevant to what I believe is the theme of your guys' this season, Elixir adoption. Happy to chat a little bit about that. Plenty of ways to go about Elixir adoption. I'm sure you guys are more or less experts at this point, all the episodes that you've done on the topic. One thing that comes to mind that I've experienced in the past, when we work towards some very successful Elixir adoption at my previous company, which is the Flatiron School. We leaned into this eventing system, so like leveraging event-driven design to get Elixir greenfield applications into the ecosystem.
+
+
+We ended up building on our existing RabbitMQ async messaging system to build out this event-driven architecture, where we could start peeling off responsibilities from the monolith into microservices. When we had an opportunity to build a new micro-service and when we're already using RabbitMQ as the backend system for all these messages, why shouldn't that micro-service be in Elixir? That of course, wasn't the only way that we drove forward Elixir adoption. I think, leaning towards event-driven design, leaning toward asynchronous messaging is a great way to bring in anything greenfield and certainly, Elixir, which is a great technology for working with messaging.
+
+
+[00:08:57] JE: Event-driven design, I think has come up recently. Is event-driven design and event sourcing the same thing?
+
+
+[00:09:04] SD: I probably, I’m going to get that wrong.
+
+
+[00:09:06] JE: No. I mean, I just Googled it. There's definitely such a thing as both. Yeah, I think they're the same thing maybe.
+
+
+[00:09:10] SD: I feel they're the same thing, as far as I'm concerned, for talking about it in my day-to-day life. I'm sure someone would make an academic distinction. I don't know what the rest of you guys think?
+
+
+[00:09:18] JE: We don’t care about it.
+
+
+[00:09:19] SM: I was actually reading about event sourcing last night, because of a tweet Chris Keithley made.
+
+
+[00:09:25] SD: Oh, I saw that. Yeah.
+
+
+[00:09:28] SM: How I understood it was a constant stream of events is a way to track the state of a thing, versus having a static state that you update per event. You just have a ton of messages for events and that's how you keep track of state. That was my five-minute read into just trying to understand what he was talking about. Then the website that gave me that description, hit me with all the ads this morning. Thank you for that.
+
+
+[00:09:55] JE: I mean, isn't blockchain just an event-driven architecture?
+
+
+[00:09:58] SD: I'm shrugging for the listeners. I don’t know a thing about blockchain.
+
+
+[00:10:00] JE: I just wanted to piss off Eric. No, I'm kidding. A question about GitHub, it was originally a Rails app, right?
+
+
+[00:10:07] SD: It is a Rails app. The monolith itself is a Rails app, but there's a lot of other services in the mix, I'm sure you can imagine. We've got stuff in Go and Ruby, lots of front-end stuff in React and other JavaScript frameworks. Are there others? I mean, there's other things, I'm sure floating around here and there. Those are the main technologies on offer at the moment, as far as I'm aware.
+
+
+[00:10:31] JE: We just got the definitions of both of these terms. Event-driven architecture is used for any software system, which is based on components communicating mainly, or exclusively through events. Then event sourcing is a more special term, which I assume means a subset of event-driven architecture, referring to systems where the whole application state is stored as a sequence of events, like we just described.
+
+
+[00:10:50] SD: Pretty much [inaudible 00:10:51]. Yeah.
+
+
+[00:10:52] JE: I think you guys are right on. Very cool. Very cool. Super-duper.
+
+
+[00:10:54] SD: Learning.
+
+
+[00:10:56] JE: I guess then, a great way to connect these things together would be for you to tell us a little bit about how does the Rails app, I guess, interact with whatever the backbone of this event queue is? What is the event queue?
+
+
+[00:11:05] SD: At GitHub?
+
+
+[00:11:06] JE: Sure. I mean, if you're allowed to tell us. I don't know.
+
+
+[00:11:07] SD: Sure. I mean, I can tell you a little bit about it. We have the, I don’t know if proprietary is the right word, but inner source wrapper around Kafka, more or less. Which is the eventing technology that we use to communicate between components at the GitHub system. The system that we built out at Flutter in my previous file that enabled us to bring a handful, actually, of Elixir apps into production was basically, just wrappers around RabbitMQ. In Ruby, we were using the bunny client. In Elixir, we were using ex_rabbit_pool, and I think one other lib.
+
+
+We actually built out — and this was super fun, I feel like I've maybe also talked to you guys about this in the past. We built out our own set of libraries in Elixir that would rack RabbitMQ and support our event-driven system for our microservices, and we called it Railway. I forget why we called it Railway. I think we were looking for transportation themes.
+
+
+Yeah, we just really learned a whole lot about event-driven design from that, about Elixir, about leveraging Elixir’s fault tolerance, especially when it comes to handling messages and recovering from failures. A lot of those learnings are what inspired my colleague, Steven and I, to create a workshop that we're giving at Code BEAM this year. I think it's March 9th, the first day before the conference starts. It's called Greenfield Elixir, Building Greenfield Elixir in a Legacy World. It really just focuses on what we've been talking about, how to use event-driven systems and RabbitMQ and Elixir specifically, to bring greenfield Elixir apps into your legacy ecosystem. If anybody feels that's relevant to their interest, we would love to see people there at the workshop.
+
+
+[00:12:40] JE: Wow. As a person that professionally segues, that was an excellent segue for a pod, really, really —
+
+
+[00:12:46] SD: Unplanned. Yeah, unplanned, elegant, barely even shameless self-plug.
+
+
+[00:12:51] JE: The best ones are.
+
+
+[00:12:52] SM: We also noticed that your job title is engineering manager. Is that correct?
+
+
+[00:12:56] SD: I was an EM at the Flatiron School and I'm happy to talk about that experience, especially because I made a choice to transition back to an IC role, which is what I'm doing now at GitHub. Happy to talk about that journey.
+
+
+[00:13:08] SM: Yeah. Definitely. Because we have had this top of mind as we, at SmartLogic, have been searching for an engineering manager. Subtle plug. Not so subtle plug. We were actually just curious. We've come across a decent number of people, who've been individual contributors and maybe have thought about moving to engineering manager, or people who really love writing code, and maybe would be good at it. Don't know if they want to manage people. There's so many different aspects of it. Can you speak to your experience a little bit?
+
+
+[00:13:35] SD: Yeah, absolutely. First of all, I want to say, even though I transitioned in the past year back to an IC role, I was not running away from being an engineering manager. I really enjoyed that role. I got a lot out of it. I learned a ton. I'm certainly not ruling out transitioning back to that direction in the future. I got really lucky, in that this was my first EM role, by the way, the role that I had at the Flatiron School.
+
+
+I got really lucky, because I became EM at first of a team that I had been a member of. And I had a really great relationship with the people on that team. There was a lot of trust there and there was a lot of great communication. To start from that and then transition into managing some of those folks was a really, really strong foundation for being able to play that role well. I was not only in a position where I knew the people I was managing really well, knew their work and what their goals were and what they wanted, what they were struggling with. Also, they knew me and felt comfortable giving feedback to me.
+
+
+I think one of the hardest things to get as an engineering manager is meaningful feedback from your reports. It's so hard to give your own manager feedback, right? On the one hand, you're like, “They're fine. They're great. My life is fine,” whatever. Now on the other hand, you don't want to say anything critical about the person that ultimately is in charge of your career at that time. Having that trust in those good relationships enabled me to get some early feedback as I was stepping into this role for the first time.
+
+
+One of the things that I really struggled with was letting go of some of the technical sides of things and letting go of some of the day-to-day coding. I was lucky in that, and it's different everywhere you go. I was lucky in that at the Flatiron School, I didn't want to totally leave behind any engineering work. The way that this team was set up enabled me to do some hands-on coding. Not very much, but some and more of the EM stuff. I didn't have to totally say goodbye to writing code in the day-to-day. I did have to say goodbye to owning large technical projects and the implementation of those projects.
+
+
+Something that I did, I think, a little bit at least at the beginning was step on the toes of some of my engineers, because I didn't want to let go of that level of technical control. Again, because those personal relationships were there and they were strong, one of my reports was able to give me that feedback, pretty much right away, basically by saying, “Hey, back off,” in a professional, friendly way.
+
+
+It was hard to hear, but it was really eye-opening. I was lucky that they felt comfortable offering me that feedback. Yeah, that was some of the early growth pains there. Then EM to that team for a couple months and then I transitioned into managing that team and another one of our teams, which was — I forget what we called it. I think we called it ‘Core Platform.’ It was like DevOps in our overall architecture and infrastructure team. That was also really fascinating, because I was stepping up to a level of responsibility that I hadn't had before, and that my number of direct reports was growing.
+
+
+I went from being the EM of a team that I was deeply familiar with all of the technical work of that team, because I had been a full-time individual contributor on that team, to managing a team whose domain I knew basically nothing about. Especially having done almost little to no DevOps-oriented work myself. That was definitely a challenge, stepping into a team that I didn't know and a technical domain that I wasn't familiar with.
+
+
+I think what really got me through that was it really comes down to trust a lot, getting to know and trusting my engineers to make the right decisions, to inform me appropriately. Nobody's perfect. It's not to say that you don't have to do anything and everything will always just succeed. Leveraging those relationships and really relying on engineers to do what they do best, I think, was pretty key to the success of both those teams.
+
+
+[00:17:15] JE: Then moving back to an IC role, what was the decision-making process there?
+
+
+[00:17:20] SD: Yeah. It was a tough decision. One of the reasons why I decided it was time for me to move on is because I felt that I needed a new set of technical challenges in particular. I had been at the Flatiron School on and off for five or six years. That's a long time to be at a company. It gets to the point where people trust you a lot, which is great, but it also means that you don't get challenged as much, if that makes sense.
+
+
+I wanted to be somewhere where I'd be a really little fish in a big pond. At that point, I was also like, “Okay, so I want to move to a bigger environment, where I'm going to be faced with the kinds of challenges that I, frankly, can't even conceive of right now. I have to decide, am I going to stick with this EM track, or go back to the IC?” I was just feeling the itch to be a little bit more technical. I felt that a lot of my success as an engineering manager had to do with my skills as a technologist. I knew, and I still know, that I have a lot to learn as an engineer. I wanted to put in a few more years as an IC, growing my engineering chops, before I make the decision, again, if I do to move back to people management.
+
+
+[00:18:27] JE: Eric, actually recently made a move from the IC to the engineering manager role. Does anything that she mentioned there, Eric, stand out to you as being especially true in your situation?
+
+
+[00:18:36] EO: Yeah. Just the — can echo, letting go and not being in the weeds is very difficult.
+
+
+[00:18:45] SM: I don't know what it looked like before Eric was an engineering manager, but every time I turned his calendar on, I kind of scream internally and then turn it back off.
+
+
+[00:18:54] SD: I don't miss having a 1,000 meetings every day. I used to. I mean, this is back in the day of in-person offices as well. I remember — this is why I started wearing a watch. I mean, I was literally checking my watch every minute of the day, because you might be in the hallway, getting a drink of water and realize that in two minutes, you have to be in your next meeting. I definitely don't miss that.
+
+
+[00:19:14] JE: Someone recently mentioned to me that with the advent of Zoom and Google Meet and all that, that people's expectations around timeliness have become even more strict. Has anyone else noticed that? In the past, you were five minutes late to an in-person meeting, it wasn't a big deal. Now, if you're one minute late to a zoom meeting, they're pinging you, basically.
+
+
+[00:19:33] SD: 10 out of 10 out of 10. I was two minutes late to something and my manager DM’d me. Very friendly like, “Hey, did you forget, blah, blah, blah?” I was like, “No, I was just reading an email and it's been two minutes and I'll be right there.” When there's no excuse, you don't even have to get up from your desk and walk to a different location. I too assume that if someone is one minute late, that they might have just straight up forgotten, or not coming.
+
+
+[00:19:56] JE: Then the other thing that I frequently complain about that has just changed recently is that when the pandemic started and people were no longer seeing each other in person, they suddenly wanted to stay on meetings after and chit chat. Yeah, I had been remote before that, so this was an unwelcome change of events.
+
+
+[00:20:13] SM: Justus is almost known for cutting out right at the hour.
+
+
+[00:20:17] JE: I know. I'm like, “All right. I don’t want to be here anymore. Bye.”
+
+
+[00:20:20] EO: Speaking of timely people, R. Melvin, he's always on time and exactly at the — if your meeting is 15 minutes, he is done at 15 minutes. It’s incredible.
+
+
+[00:20:32] SD: That's impressive.
+
+
+[00:20:33] JE: A great inspiration to me. Let's get to the meat and potatoes of this thing. Your book, the LiveView book, Live View is the hottest new thing, until NX.
+
+
+[00:20:43] SD: I know, right.
+
+
+[00:20:44] JE: Your timing is great — the NX book is going to be a while, I think.
+
+
+[00:20:47] SD: I know. I'm excited for the NX books, plural I think. We could talk about that too.
+
+
+[00:20:51] JE: Oh, yeah. I'm sure. Tell us about your book. Where are you in the process? What's the elevator pitch?
+
+
+[00:20:56] SD: Yeah. We're actually going to beta so soon, that I expect beta to be published by the time this podcast gets published. Very excited for your listeners to check it out. I really think LiveView is a big deal, obviously. I think you guys might agree. I think it's really the future of single-page apps, for the most part. Of course, are things that you're going to use more complex front-end frameworks to handle. If you're building a sophisticated in-browser game, you probably need all the JavaScript in LiveView is not for you.
+
+
+Increasingly, the demands of users are such that any old web page is going to need a degree of interactivity and probably a degree of real-time notifications as well, in which case, people are going to be reaching for LiveView more and more, because what it does, which is originally what web frameworks period did, it's what Rails did, it’s what any good web framework does is it moves the details into the framework. The details that support the WebSocket communication, the creation of notifications, the handling of DOM updates, all of that is in the framework of LiveView.
+
+
+You, the developer, are responsible for the details of your own application, the details with the features that you're delivering to users. You're not on the hook for establishing WebSocket connections, making sure they're reliable, managing throughput, sending events, updating the DOM, all of that is framework code, and you can trust that it just works. I think we're going to see a huge adoption of Live View for really, just your everyday web app.
+
+
+[00:22:22] SM: We've mentioned a few times on this podcast, and maybe other places that a nice thing about Elixir is that it's not magic. Having worked with LiveView a little bit in Bruce's class last year, I did feel a little bit like the generation was super well done. Also, I didn't know what it did and what was left for me to do. Do you feel it's a little magical? Or how do you feel about that?
+
+
+[00:22:46] SD: I'm really glad you said that, actually. Because I've been wondering for a while, pretty much up until the advent of LiveView like, what is the Phoenix magic going to be? You know how people say like, Rails magic a lot. I do think it might be LiveView. LiveView in that it handles so much in the framework is going to feel a little bit like magic to some people. I would counter that with two things. I would say, if you take a step back and think about how Phoenix in particular, leverages OTP and processes, then it's going to demystify it a lot and I can talk a little bit more about that.
+
+
+Also, I agree that code generation is magic. It's hard to get a sense of the inventory, what's been built for you, what you need to do. Luckily for you and all of our wonderful listeners, the upcoming programming LiveView book, actually spends a fair amount of time on this. We do our best to really show you how you're going to build Phoenix LiveView applications from the ground-up in the wild, in the future. You're going to use generators, so we're going to need to understand what they're doing under the hood and not just take a cursory glance at the code, but really understand what's generated, how it fits together and how to build on top of that. We definitely cover that in a couple of chapters at the beginning.
+
+
+[00:23:57] JE: What experience level are you targeting as far as the audience for the book?
+
+
+[00:24:01] SD: Yeah. I’m super glad you asked that. This book is called Programming Phoenix LiveView for a reason. The intention here is, I don't want to say replace Programming Phoenix, because that's a great book and it's, I think, still very useful. I think that Programming Phoenix LiveView is going to be how people program Phoenix from now into the future, and maybe to a certain degree, how people program your average web app from now into the future.
+
+
+We are trying to provide a bit of an on-ramp book. We expect Elixir experience and familiarity with Phoenix of the readers who are going into this. This book is really trying to tell you what you need to know about how Phoenix operates and how to build a Phoenix LiveView application. If you're looking for like, “I am a total pro. I just need to know how to do this one fancy thing in LiveView,” this is probably not the book for you. Because the LiveView documentation is great. If you really feel the need for a book about how to do this one thing in LiveView, you should write that book, and I would love to hear about it and I'll actually put in a plug for that in a minute.
+
+
+This really is trying to take you from zero lines of code to a fully functioning complex Phoenix LiveView application. We're building it out with our readers step by step, absolutely from the ground up. Just like you would ideally in the wild, so to speak. Expect to put in the work to really set things up.
+
+
+[00:25:21] JE: Sophie, this is such a great opportunity, because one of the things that you mentioned that sent up my world domination antenna was that ideally, in the future, Programming Phoenix LiveView will be the default choice, for example, a startup looking to build a new web application. I am really interested in making Elixir the number one intro to programming language. What I want to ask you is, I want to find out, and we've talked about this before, maybe even on the show, but I just want to keep reiterating it, which is what do we need to do to make Elixir more accessible to people who are new to programming?
+
+
+[00:25:55] SD: Yeah, that's such a great question. I bet Sundi, you have some thoughts on this too, having gone through Bruce's class last year. I feel like Elixir has a super friendly learning curve. The more mature the ecosystem has become in the past even year or so, the more just excellent developer tooling has become. I've seen teams that are brand-new to Elixir several times over the course of the past year. I've seen teams like that become highly productive in Elixir very quickly and put brand-new apps into production.
+
+
+At the Flatiron School, we actually deployed, I think, three greenfield Elixir applications to solve very non-trivial problems within the span of a year, year and a half. Those were each instances in which you had teams of engineers who were more or less brand-new to Elixir, maybe say for one or two hobbyists, who were able to ramp up super quickly, get the stuff into production, observe it, maintain it.
+
+
+I think since, I even had those experiences, the ecosystem has matured with telemetry, with better releasing support. I feel it's there. I feel like people who are new to Elixir can grok it. The support is there in terms of tooling, for the development experience, for the release experience, for instrumenting and observing your Elixir app and production. I'm sure I'm missing something. Yeah. What do you guys think?
+
+
+[00:27:14] SM: It brings me to another question, or point that I've been thinking about recently, is that here at Elixir Wizards and in general, as people, developers, we really want to see Elixir adoption spread across the globe. What did you just say, Justus, world domination?
+
+
+[00:27:30] JE: Yeah. I like to use that language, because it’s uncomfortable for a lot of people.
+
+
+[00:27:36] SM: We want Elixir adoption to be more widespread. I think, the majority of jobs, Elixir opportunities out there are usually Elixir-Phoenix. I could potentially foresee this awkward phase in between when, or if you can tell me about how you feel about this one, LiveView adoption is, where people are finding less resources on Phoenix, because LiveView is taking over that space and that SEO space too, because you actually can't find a lot of traditional Phoenix things now on the internet, because Phoenix LiveView is in the name as well. You mentioned that with the book as well. It's Phoenix LiveView, correct? I'm curious what your take on that is.
+
+
+[00:28:21] SD: Yeah. I think programming Phoenix LiveView is how people are going to program Phoenix. I don't think there's much of an argument to be made at this point for saying, “I'm going to generate and build a Phoenix app that does not include LiveView.” Does not mean, every single one of your pages in every view is going to be an interactive LiveView. No. Certainly, you can still have some static pages. Those things are not mutually exclusive. I think finding resources that are explicitly Phoenix only, I don't know how necessary that's going to be.
+
+
+Of course, if you're talking about “How to OAuth with Google and your Phoenix app,” that's not necessarily specific to LiveView. I would hope resources like that would still be available, because you might do that in your Phoenix LiveView app, just as you might do that in your Phoenix app, if that makes sense, or if that answers your question.
+
+
+[00:29:10] SM: Yeah, a little bit. I think resourcing, too, is completely different, the way that resources are in Phoenix versus the way that resources live update in LiveView. Legacy app is the wrong word, because Elixir is not that old.
+
+
+[00:29:24] SD: I mean, it's still legacy. Yeah, you're going to have a legacy app.
+
+
+[00:29:27] SM: Yeah. For applications that exist, people who are new to Elixir, they're joining a company that's three to four-years-old, and they are learning Phoenix, and they're trying to get their head around how the router works, and they're not finding resources on it. Do you see that situation? Or do you think that we're all moving to the LiveView rocket ship?
+
+
+[00:29:47] SD: Yeah, that's a great question. I don't want to totally discount that and say like, “Oh, that wouldn't happen.” I think it's going to be mitigated by a couple of factors. First of all, I think it's very much the intention of Programming Phoenix Live View as a book to provide an on-ramp into both Phoenix and Live View. We talk about the router. We tell you the things that you need to know, in order to feel very comfortable with Phoenix as a framework and working with Phoenix LiveView. Obviously, that's one resource. It's not all resources. The book is going to tell you everything you need to know about Phoenix.
+
+
+[00:30:15] JE: I think, I actually agree with you that in an ideal world, we'll be moving toward a place, where people by default, use LiveView to make the UI as responsive, right? Not responsive, but responsive back and forth. Anyway, that doesn't make any sense. My point is that, so that, I think that you're right on.
+
+
+I think what Sundi is getting at is less the tooling part of the question, or the capabilities part of the question, but more of the resources and tutorial part of the question, which I do think — and that's also, where my question is oriented, because I do think that probably the book that you're writing, I know that Programming Phoenix is like this. For an intermediate or advanced programmer, you can just pick up Programming Phoenix, for example, and learn Phoenix and build a web app.
+
+
+My question is more oriented around the book that always comes to mind is Michael Hartl’s Learning Web Development with Ruby on Rails book, because that book teaches somebody who doesn't know anything really about programming how to do test-driven development and make an app with a front-end and everything. I've always felt that is the missing link. That's why I always ask this question, just to see if anyone has also come to this conclusion, which is like, I think the missing link isn't just hey, can we take an existing programmer who's in the Rails world and turn them into a Phoenix programmer? Because of course, the question is, can we take someone who's not a programmer and make them useful to web development?
+
+
+I also want to give Eric the chance, because I think Eric probably has the strongest anti-LiveView feelings from a tooling perspective. I want to also give him the opportunity to respond to this.
+
+
+[00:31:41] EO: All right. Yeah, I guess as far as you had mentioned, small comment, we actually just deleted LiveView from the one app —
+
+
+[00:31:49] SD: Gasp.
+
+
+[00:31:49] EO: — That we're writing. We added only there for the dashboard, whatever that is, and then it was like, “Eh, goodbye.” Anyways, as far as SmartLogic, most of our clients just need your typical static pages, or whatever. Then there's a handful of we might have leapt beyond the LiveView setup and we also have a handful of reactives and they like to do React, so that's a good reason to let them.
+
+
+[00:32:22] SD: Totally.
+
+
+[00:32:23] EO: Yeah. That's at least as far as that goes. Then, I said this recently and I continued chatting with Toran Billups in the Discord he mentioned, about — it's just like, most of my pushback against LiveView is just totally from ignorance, and I just haven't cared to research it yet more. It's just like, what does deployment look like? That's my biggest concern about it, where at least at one point, I remember hearing that when the socket disconnects and reconnects, it just refreshes to what it had in the state when you loaded the page. If that is no longer the case, or if I just heard wrong, that would be good. 
+
+
+[00:33:02] SD: Yeah. That's actually a great question. I think it's something that recently came to our attention as a topic that could use a little bit more love in the book. I don't think you'll find content, specifically answering those questions about handling failures and handling loss connections in the beta version. I think we're thinking of throwing some stuff in for the upcoming version. I don't want to talk out of turn, because I haven't dug super deeply into this topic yet. I will just say that that's not my experience that you revert back to the state on page load.
+
+
+Then I'll also say that going back a year and a half ago, when LiveView was still very, very new, at the Flatiron School, we had a couple of instances of LiveView in production. We had a pretty easy time dealing with building releases and deploying. There wasn't anything particularly special that we needed to do. Other than some setup to configure pods to talk to each other across distributed nodes, but that wasn't necessarily a LiveView problem. That was a distribution problem.
+
+
+Yeah. No, complaints from users regarding the glossiness. I'd be very curious to hear about other folks’ experiences with deploying LiveView, because it's changed a lot. I don't even think we're not even at the 1.0 release. That's probably coming up in a couple months, I think targeting this year. If not, I’ll keep you guys on the call if you haven't been deploying a lot of LiveView, perhaps listeners will weigh-in in Twitter or elsewhere.
+
+
+[00:34:21] EO: Yes. I think, and you also answered another question I had of sounds like, we need to, if not PG2 releasing a Redis — All the pods need to somehow talk to each other —
+
+
+[00:34:33] SD: Yeah. Live View out of the box is using the same PG2 server as the rest of your Phoenix app. Hooking it up with pub/sub, integrating it with presence, you don't have to do anything else. That's more just the framework does that for you. The configuration that I was referring to that we had to do to get it up and running, didn't have to do with because it's LiveView and we're configuring Live View-ing code. It just had to do with our Kubernetes deployment, and we didn't have these two pods configured to talk to each other, which was a personal problem, I guess you could say. It's a personal problem. It’s not a LiveView problem.
+
+
+[00:35:06] SM: I will say that on the resource front, where I'm coming from is that as a developer, I have a career trajectory and I need to work on some skills, and Phoenix is one of them. When I go to work on it, I can't. My most accessible Phoenix resource is Eric and we talked about his calendar. That's always been a struggle for me in the last, about, year or so, is trying to find resources on just Phoenix, just to have a better understanding of the code that we already have in place.
+
+
+This will not be a problem in a future where we will move to LiveView and I just have to look at LiveView documentation forevermore. It might be like I said, this awkward phase, where we're in this transition.
+
+
+[00:35:48] SD: Yeah. Truthfully, I don't know if that's a problem that's going to go away as people move more and more to Live iew, because I think there are things that you still need to understand and know about Phoenix that have nothing to do with LiveView. Programming Phoenix LiveView doesn't change the way that you generate migrations and set up your back-end and core modules. It doesn't change the way that you would leverage Phoenix routing. You're still going to define routes and need to work with that.
+
+
+It might mean, let's say, that finding resources, or working with Phoenix channels directly becomes more and more difficult, because that's not going to be the go-to technology that people reach for when they're starting from a new Phoenix app. I wouldn't expect that the uptake and popularity of LiveView would edge out existing resources on routing, on database migrations, on seeding your Phoenix app.
+
+
+I think if we're feeling a lack of those resources, I think it's a bigger problem that I wish I had the perfect answer. For one thing, what I always tell people and try to tell myself is if you're in a really bad day and you couldn't find the answer to this thing and you just wish you had the resource that told you X, you need to write that resource. Obviously, that depends on many other factors in your life, but that's something that I would love to see more of.
+
+
+This might be a good time for me to plug the fact that I'm stepping into the Elixir series editor role at Pragprog. Bruce is going to be moving over towards our maker series and putting out a lot of very exciting stuff coming up on Nerves and Elixir and other maker projects. I mean, not an open call to inundate us with proposals. If you or anyone else wants to talk about writing for the prags, I would love to have that conversation.
+
+
+[00:37:21] JE: Wow, that's really cool. I love to see just how much involvement Pragprog has in the community. One thing I want to ask is specifically around testing in LiveView. Does the book go into again, I'm just going to reference the Hartle book, because I love it so much — is that it really holds your hand through a developer workflow with test-driven development. How much does programming Phoenix with LiveView address that?
+
+
+[00:37:41] SD: Yeah, that's a great question. I like the way you phrase that. It holds your hand through the developer workflow. That's pretty much our intention, not hand-holding in a bad way. We trust that the reader is the smart person who can figure things out. There's a nice section in the first chapter that I like the title of. I think it's called something like, ‘Program LiveView Like a Professional.’ It lays out though, our intention in this book is to walk you through how you are going to build Phoenix/LiveView apps from the ground up in the wild, in your own life in the future.
+
+
+That means that you're taking the development and yes, testing workflow that you would want and that we hope you'll take in your own life in the future. There's a lot of great content on testing in there. As for my personal experience, testing LiveView, I found it pretty nice to test so far.
+
+
+[00:38:25] JE: Wow. I'm definitely going to pick up a copy. I love that. It's my favorite style technical book. Hold my hands. Don't make me think. I want to develop muscle memory.
+
+
+[00:38:33] SD: You’re definitely going to have to think. You're not off the hook for thinking. It's a nice, I hope, balance between walking you through a very realistic development workflow to build out this application, as well as diving under the hood and understanding how things work and why it's done a certain way. We really did want to keep the focus on you, the reader building out something cool. You're going to build out an app for a fictitious game company. You're going to build out all these admin features, including some really cool interactive dashboards and then you wrap up by building — doing a simple in-browser game.
+
+
+[00:39:05] EO: I like that the LiveView book is going to do the thing that Chris McCord started out saying, “Don't do this.” 
+
+
+[00:39:10] SD: Yeah. I mean, there is literally a line in the book that's like, “You might not use LiveView for your involved front-end games.” The thing is, I think that the book, first of all, is packed with plenty of very realistic features that you'll build that are great use cases for LiveView. Then we wanted to wrap it up with building a game, because A, it's fun and cool to build something that you get to interact with that way. As I'm sure, you guys will agree to a certain degree. Games and the rules that one applies to games are a great way to teach programming models. We give you lots of great real-world scenarios that you're going to build out. Then we wrap up with something fun, that's just a great learning exercise.
+
+
+[00:39:45] SM: Which brings us to this more generic adopting Elixir question, which is just do you think LiveView will make things easier, or harder for the average developer to pick up Elixir?
+
+
+[00:39:56] SD: I think easier. I do. I hope that's true. I think for a few reasons. I think that building web apps with Phoenix.LiveView is going to enable teams, especially small teams to be highly productive and to move very quickly. I think that is one of the huge factors that drive adoption. I think in the same way that teams may have adopted Rails years ago, because of logging in 15 minutes, and you can prototype quickly, you could get stuff out the door quickly. The same is very much true of LiveView. I think that one of the reasons why that's the case, well, a couple of reasons. One that I already mentioned, all the details are handled so well in the framework. You get to focus on building application code for your own users.
+
+
+Then I think, two, there's really a lot to be said, for keeping the mind of the developer and the team of developers firmly on the server. You don't have to deal with all of those like, “Did you push the front-end change? Great. Let me pull that down.” Or, how are we going to integration test between the React client and the API back-end? You get rid of those often brittle client-server contracts that you're responsible for maintaining and integrating across your ecosystem. You keep the mind and the focus of the developer in one place, where it's easy to write code, easy to test, easy to deploy, easy to observe, easy to maintain, all the things that enable us to write good code that hopefully, doesn't break that much.
+
+
+[00:41:14] JE: We're getting pretty close to the end here. I do want to ask you one, or I guess, there are two questions here. One is, generally speaking, writing a technical book, what advice do you have to give to somebody who's looking at, or considering writing a technical book? Adjacent to that, with Pragprog, what benefits are there to writing a book with Pragprog?
+
+
+[00:41:38] SD: Yeah, I love that question. I would say, the first thing to know about writing a technical book is that it's hard and it takes a lot of time. If you thought it would be a fun side project, it's probably not that. There are definitely days where I was banging my head against getting some piece of code working, or getting the phrasing, or the writing exactly right. That said, it's been just an incredibly rewarding process. I feel like, every round of revisions and seeing feedback from our editor and from our readers, I just feel myself getting smarter.
+
+
+It's interesting, because I feel that through this process and through all the learning and growth that I've undergone while writing this book, I also feel myself becoming a better developer and a better teammate at work, because I'm able to, especially in this remote async world, communicate so much better, articulate my thoughts and my plan so much better. I feel it's almost given me superpowers in my day job, to have been put through the wringer, honestly, on some of these rounds of editor feedback and review, but just become so much stronger because of it. That's the takeaway.
+
+
+It is hard. Of course, it's hard. It does require a non-trivial time commitment, but the benefits are obviously, that you wrote a book and that you're going to be wildly famous beyond your craziest dreams. First of all, no, you're not. Also, that you're going to see these benefits in your life as an engineer, or whatever your role is. That is something certainly that I'd like to call out. As for writing it with the Prags, I've really been enjoying it a lot and I think they've got a lot of infrastructure in place that makes it so much easier than I mean, I can't compare it to writing for other publishers, because I have not done, but then it would be, let's say, without this infrastructure.
+
+
+I think it really comes from the fact that this is a company, or a publisher started by engineers. This is Dave Thomas. This is Andy Hunt. These are people that are developers, first and foremost, then wanted to enable other developers to be authors and to write books. Things like, the book building system, there are things about it that are a little archaic, but I don't know that there's anything else like it out there, where you're using version control to both write your prose and commit your code and seeing it built and generated into the PDFs for you to review every time you push up. Stuff like that is incredibly helpful.
+
+
+Then our editor, the editor for the Elixir series, the technical editor, Jackie Carter is so incredible. I don't think I've ever learned more in a five-minute conversation from one person that I have with Jackie. Every time I talk to her and go over her feedback, like I said earlier, I just feel myself getting smarter, feel myself becoming a better writer. She is just so experienced and so hard working and has been absolutely tireless and getting this book into shape. I know that she treats all her authors the same way. I feel super lucky to have had a chance to work with her.
+
+
+[00:44:26] SM: That's really amazing. I have to say, I mean, it doesn't happen very often, but whenever I come across somebody I know, and I've talked to who's written a book, I always really enjoy reading the book, because then, I can hear in their voice and I internalize it that way and it's really fun for me. Having taken Bruce's LiveView class and having talked to you, I'm really excited to read it. I haven't, like I said, looked at LiveView really since then, so I'd like to see how it's changed, if at all. It's only been eight months, really, but that's millennia, also, in 2020 or 2021 speak. Very excited. Thank you so much for putting in the effort to write a LiveView book. I think the community will really enjoy it.
+
+
+[00:45:05] SD: Thank you. Yeah. Thank you so much for that sentiment, and I'm very excited for you to check it out, for all of your listeners to check it out.
+
+
+[00:45:11] JE: Well, you know Sophie that we'd like to give the last few minutes of time to you to plug anything you want, to shamelessly self-promote, to ask the audience for anything. Please, the floor is yours.
+
+
+[00:45:25] SD: I'll refrain from shamelessly self-promoting, because I feel I really effortlessly and subtly just wove all the self-promotion into our earlier conversations, in a way that I think will make me sound really great and not braggy. I want to talk about a non-Elixir, non-programming thing that I want to plug that I'm super excited about, which is more glasses, more glasses for your face. A friend of mine, actually Steven, turned me on to zenni.com. I'm not getting paid by Zenni to tell you this. It's a cheaper Warby Parker, which is great because frankly, I guess I'm about to throw shade at Warby Parker, but it's not that affordable and the glasses are not that great quality. I'm wearing some right now and the coating has started to wear off. I just feel I'm constantly looking through smudges, but they’re not smudges. They are just not great.
+
+
+Why not pay, actually, really cheap for glasses that maybe are not that great and get a bunch of fine ones. I just went nuts and I ordered a few different frames, including a pair of prescription sunglasses with pink lenses. None of them are here yet. Maybe next time I'll talk to you, I'll tell you how terrible they are and I'll retract all of this. Next time you see me, I might be wearing some extremely stylish pink sunglasses.
+
+
+[00:46:37] JE: That's cool. I just got it, zennioptical.com, sounds very cool. I actually am supposed to wear glasses. I just don't, because —
+
+
+[00:46:45] SD: You’re in vain.
+
+
+[00:46:46] JE: Yeah. Actually, that is.
+
+
+[00:46:47] SD: That was rude. That was a joke.
+
+
+[00:46:49] JE: That's exactly it. No, I feel I'm very vain. That's it. I don't wear them, but that's great. Super excited about the LiveView book. Can't wait to read it. We'll probably buy it right out of beta, if that's how that works. Yeah, super cool having you back on, Sophie. You're just a great member of the community and contributor, so thank you.
+
+
+[00:47:07] SD: Yeah, thank you guys so much for having me. It's always so fun to hang out and chat. I'm sure we'll do it again.
+
+
+[00:47:12] JE: Rock and Roll. That's it for this episode of Elixir Wizards. Thank you again to our guest, Sophie DeBenedetto for joining us today. Elixir Wizards is a SmartLogic production. 
+
+
+Today's hosts include myself, Justus Eapen and my co-host, Sundi Myint. Our producer is Eric Oestrich and our executive producer is Rose Burt. We get production and promotion assistance from Michelle McFadden and Senay Daniel.
+
+
+Here at SmartLogic, we're always looking to take on new projects, building web apps on Elixir, Rails and React, infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project we can help you with. Don't forget to like and subscribe and leave a review on your favorite podcast player. Follow SmartLogic on Twitter for news and episode announcements. We also have a new Discord channel. If you'd like to join us there, look for the link on the podcast page, or head over to smr.tl/wizards-discord for the invite link. Don't forget to join us again next week. For more on adopting Elixir.
+
+
+[END]
+
+
+        © 2021 Elixir Wizards

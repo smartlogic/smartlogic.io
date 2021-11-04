@@ -1,0 +1,394 @@
+EW S4E21                Transcript
+EPISODE S4E21
+
+
+[00:00:04] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host. I’m joined by my co-host, Eric Oestrich.
+
+
+This season as you probably know, we're talking about system and application architecture. Today's guest is none other than Anna Sherman from Zillion. Hey, Anna Sherman. How are you?
+
+
+[00:00:28] AS: Yeah. I’m doing fantastic. How are you?
+
+
+[00:00:30] JE: I’m doing great. I don't normally greet people with their first and last name, but yours came with — the total package. It's great. You're calling us from Chattanooga right now. I just got back from — or got out of Chattanooga three weeks ago. It's a really nice spot. We have a question way down the line to ask you about why there's so much tech going on in Chattanooga. But I’m just going to open up with that. Tell us about Chattanooga and the tech ecosystem and what's going on down there and how you like it.
+
+
+[00:01:00] AS: Yeah. It's a great place for developers. The gigabit internet, I think draws everyone in. It's super-fast. I go and I visit places now. I’m like, “Oh, my goodness.” I am so spoiled with just how seamless everything runs, because I have a gig coming into my house for super cheap. 60 bucks or something like that. It's stupid. It's real. That I think draws people in, because they're like, “Oh, I can come in like, this is just not even in the equation of having to worry about.”
+
+
+Then you get here and there's a lot of stuff to do outdoors. Which — that's, some people like that, some people don't. But I love being able to just get into the river, or go down a creek, or go rock climbing. There's just so much stuff to do here. Tons of hikes. Yeah, I think low-cost of living. I think it just is a really nice place to live with a tech scene. It's hard, I think, to find that without going to a large city.
+
+
+The people are nice. The developer community here is really cooperative, rather than competitive, I think. Everyone wants to see everyone else do really well. People offer up help. It's just a really good vibe. I think too, Bruce Tate came and he's been helpful and getting more Elixirs in Chattanooga. Brett Wise, who I work with now at Zillion, he recruited Bruce to come. I think the river sold it for him there. I think he got a nice place on it. It's really pretty.
+
+
+[00:02:33] JE: Yeah, he does have a nice place on it. I visited him while I was down there and it's really nice. The river is super cool. The reason I made that face was because Eric sent me a back channel and said they have 10 gig internet, which yeah, that's insane, okay. I’ve got a gig for 120, which is pretty expensive. I’m like, “Oh, gig internet. That's super-fast. But 10 gig internet? What? That's dope.”
+
+
+[00:02:59] EO: Yeah. You need different networking cards to get that.
+
+
+[00:03:03] AS: You gotta upgrade your router, all that. You got to get some beefy stuff for that. Yeah, so I mean, the gig really, it draws you in and then you just get here and the town's just nice and people are nice. I don't know. I think Elixir is getting bigger here too, because we have Gig City Elixir that happens, which has been nice the last couple years.
+
+
+[00:03:23] EO: Eventually, NervesConf, right?
+
+
+[00:03:26] AS: Oh, that's right. Yeah. That was supposed to happen this year but, RIP everything because of COVID.
+
+
+[00:03:32] JE: RIP everything.
+
+
+[00:03:34] AS: That's just where I’m at with it.
+
+
+[00:03:38] JE: Oh, man. Yeah. No, I just invested in a rental property down there. I’m going to be in Chattanooga more often.
+
+
+[00:03:46] AS: Well, next time you're in town, hit me up. We'll take you out.
+
+
+[00:03:50] JE: I will.
+
+
+[00:03:51] AS: Have dinner or something.
+
+
+[00:03:52] JE: I would love that. We're getting way too into this, but I love that train station place.
+
+
+[00:03:57] AS: Oh, yeah, yeah. The choo-choo?
+
+
+[00:03:59] JE: Yeah. That's a cool place. Yeah, I like that a lot.
+
+
+[00:04:01] AS: They've done some really nice stuff there. I think they moved a coin op up in there too, so there's an arcade. Actually, I haven't really been over there since COVID happened. I don't know what survived. I feel like that's the state of the world right now. I think the guitar museum went away though. That was a little sad.
+
+
+[00:04:20] JE: Oh, permanently?
+
+
+[00:04:21] AS: I think so. Yeah. But anyways.
+
+
+[00:04:25] JE: A moment of silence for the guitar museum.
+
+
+[00:04:26] AS: So then, RIP.
+
+
+[00:04:29] JE: Okay. Really glad to talk about Chattanooga. We're also going to ask you, give you time, especially at the end of the show, as much time as you need to talk about Zillion and what you're doing over there. First, we wanted to learn about you and who you are and we like to start right from the top, like how did you get into programming originally? Were you formally trained? Did you come to programming via some other path?
+
+
+[00:04:50] AS: I was a math nerd all my life. I just knew that I wanted to do something Mathy, and so I just took off. Very driven person. I went to Berry College down in Rome, Georgia and was getting my math degree. When I was there I was like, “Okay, I’ve got to figure out — how do I get a job with math? How does this work?” The only two things — I was not very imaginative. The only two things I could think of. Was like, “I could just stay in academia and do the whole research thing, or maybe I could get a minor in anthropology and be a statistician.” I don't know. I was coming up with some weird stuff.
+
+
+[00:05:26] EO: I think, one of the things that I’ve saw a lot was you can go be an actuarial scientist.
+
+
+[00:05:33] AS: Yeah. That's a whole other ball game for sure. I decided. I was like, “You know, I’ll do the anthropology minor thing.” People are interesting. Cultures are interesting. My junior year of college, it's required that you take an intro to computer science class for your math degree. Then I was like, “Oh, this is what I want to do. This is what I actually want to do. It takes all the logic and problem solving and turns it into a fun game with tangible output.” I just had a blast.
+
+
+From then on, I was hooked. I dropped my anthropology minor with one class left. I picked up an object-oriented programming class in Java. I had two college courses under my belt when I graduated, because it was so late. I was like, I’ll finish my math degree. Then my parents after I graduated, sat me down in a Chili's, like you do. “What's your five-year plan?” It's like, “Okay. I’m going to teach myself programming and I’m going to get a job and I’m going to —” I was really weirdly specific. I was like, I’m going to get a job with a small company, so that I can really learn from people.
+
+
+Then after two years, I’m going to leave them and I’m going to go to San Francisco and work for Google. This was the plan. They were a little skeptical, mostly because I didn't actually know anyone else who was a software engineer. It was just, the only concept I had was from college. I just knew that I loved to do this thing, but I didn't know anyone. I am a very organized, very driven person. I was like, “Okay. I’ve got to figure out how to learn this.”
+
+
+I went and found all the resources I could online. I literally made myself, basically, a little boot camp. I didn't realize what I was doing, but I was like, “Okay. I want to get through all of this material.” I just broke it up and I was like, “Okay. I estimated this is going to take this much time.” It's like, okay, Monday through Friday, I got up and worked 9 a.m. to 5 p.m. Just learning. Caveat here, I moved in with some family friends who took very good care of me while I was doing this. And I worked at a math tutoring center place in the evenings to make a little bit, so I could survive.
+
+
+Yeah. I cranked through all of this material online. This was seven years ago. It was pretty good. Definitely did not fully prepare me for my first job, but I got through the material I had planned in two months. I just set out and applied for jobs and basically sold myself as an investment. I was like, “Look, I know I don't know everything. I’m not telling you I know anything. I just know that I know how to learn and I love to do this. If you guys invest in me, I’ll definitely invest in your company and be super, super there for you guys.”
+
+
+[00:08:33] JE: It took you two months to get a job that way?
+
+
+[00:08:36] AS: Yeah, I know. It's a little bit crazy. It's a little crazy. I don't know how it happened. I don't know. I really pushed on it and somehow made it work.
+
+
+[00:08:51] JE: Yeah, amazing. That's amazing. I love it.
+
+
+[00:08:54] AS: It was a blast for sure.
+
+
+[00:08:55] JE: I want to ask — well, I guess I’ll just comment on that, so actually. I went to a boot camp almost 10 years ago now. It took me three months coming out of the boot camp to get a job. I thought that was pretty good. I was like, “Yeah, three months. That's pretty good.” Two months? Like, wow, man. You just did it. You taught yourself, which is even more impressive.
+
+
+[00:09:14] AS: I think it was just my naivete, just didn't even — just didn't let me hold back on anything. I was like, “I’m going to do this thing. It's going to be great.” I just pushed forward on it.
+
+
+[00:09:25] JE: Beginner's mind. It's very valuable. What was that first gig though that you got?
+
+
+[00:09:32] AS: That was a company called Sovee. It was a local company in Chattanooga and they did machine translation, which was pretty cool, super neat. They also did a bunch of other random stuff. I think we hosted GodTube or something. I don't know. There was a lot of other random things. There was a video editing component to things at one point. They came back and they were like, “We need video editors, because we just got this order in for 350 videos. Anna, can you learn how to do this?” — “Sure, fine.”
+
+
+Then they realized they were paying me way too much to be just putting dubs on video, so they switched me back over. It was a trippy company. Their main goal was to translate the bible into a whole bunch of different languages. There was that part going on, but then they were selling the language translation to companies to help solve problems with translations in between different parts of their company. Chrysler or Fiat, or whatever. There was Italian going to English and then English going to Spanish for their Mexican plants and stuff like that. Stuff would get lost in translation, so we create smarter translations for them.
+
+
+[00:10:40] JE: Were they translating, because there are many translations of the bible in English, right? Were they translating a specific version, or did they translate all of them so that their corpus was a little bit more diverse?
+
+
+[00:10:50] AS: Yeah. I can't remember exactly if they had a specific version. It was like, they were working with — oh, man. What is that company? It starts with W. Oh, I don't know. There's a group of people that their whole mission is to translate the bible. They were working with that organization. They were also not starting from the English versions, because we already had so many translated versions. For the different languages in Chinese or whatever, they would start with traditional and then translate to the modern one.
+
+
+There's thousands of languages in India, and so they would start at a different — not the English version just to get a closer translation to what's going on in the next language. I don't know. It's been so long since I’ve done any of that.
+
+
+[00:11:44] JE: No worries. No worries.
+
+
+[00:11:46] AS: I can't remember any of these real specifics, but it was just, yeah, translating. We'd load in a bunch of corpus, like you're saying. I was on the parsing part of that, which was really fun. Got really good at RegExr. It was my life, because I was building a segmenter, not just in English segmenter, but all these different languages. Figuring that out was pretty fun.
+
+
+[00:12:10] JE: If we keep that in this, you're going to get people knocking on your door to help you with RegExr.
+
+
+[00:12:14] AS: Oh, no. Yes, then take it out. Just kidding.
+
+
+[00:12:18] JE: No, it's probably a good problem to have. Everybody wants a resident RegExr expert. Tell us a little bit more about your current gig. What is Zillion? What are you doing over there? How'd you get the job?
+
+
+[00:12:28] AS: Yeah. I think the line is, “We provide one-click insurance to help people protect the things they love,” specifically jewelry. Yeah, we're trying to leverage data where we can to help create a better experience for people buying jewelry and insuring it. Right now, I’m the team lead and the developer there, which means I get to help architect and implement various systems that we have. Elixir is a big part of our back-end infrastructure at Zillion. All of our engineers write Elixir, at least a little bit, and most write a ton of it.
+
+
+[00:13:06] JE: Cool. How big is the team over there?
+
+
+[00:13:09] AS: I am actually not allowed to disclose that information.
+
+
+[00:13:13] JE: Okay. Tell us a little bit about like, we'd love to hear more about the work you're doing over there and we'd also, especially love to hear about open source work that you get to work on, maybe supported by Zillion, or just in your free time.
+
+
+[00:13:26] AS: Yeah. Currently, I saw that question and I’m just not working on any open source stuff right now.
+
+
+[00:13:35] JE: Me neither. It's totally okay. This is my open source project.
+
+
+[00:13:39] AS: Yeah. I feel that it's one of those things where it's like, “Oh, man. I always want to be doing that.” Then when I do have time where I’m feeling like coding, I end up futzing on weird side apps that I have. I like to paint Bob Ross things, murals or whatever. I have an app that, it keeps track of my art supplies, because every time I go to the store I’m like, “I don't remember what I have.” I have a little app that helps me with that.
+
+
+Then, I play a lot of Magic: The Gathering with my husband. I’ve built several magic apps. One is an Alexa skill that you can ask what's the ruling on this card, so while we're playing we can shout out Alexa to be like, “Tell us what the ruling on this card is,” so we don't sit there and argue about it. I also built a small Elixir app for cataloging all of my Magic cards, so I could figure out how to build decks.
+
+
+[00:14:35] EO: Now do you also include the price API somewhere to watch the number go up or down?
+
+
+[00:14:42] AS: [Inaudible 00:14:42]. I can't remember the name of it, but there's a – is it Scryfall or something like that? It has a really good API for all the metadata you want to know about a Magic card and an API. Super clean. Super easy.
+
+
+[00:14:55] EO: Yeah. You can also download — they have daily JSON dumps of way bigger than you would expect files, if you don't want to use the API. Yeah, it was pretty cool. I messed around with that at a hackathon once.
+
+
+[00:15:09] AS: Yeah. No open source stuff. Just random mini-projects. Currently, all of our stuff at Zillion is proprietary. We don't have any open source stuff at the moment.
+
+
+[00:15:21] JE: Cool. Cool. At Zillion, how are you thinking about for yourself and for your team, given that you're a lead? How do you think about professional development and growth?
+
+
+[00:15:31] AS: Yeah. I mean, it's super important. We have a pro rata budget that allows our engineers to go and go to conferences and learn things, which is always a great way to learn and develop your skills and stuff. Pairing helps, I think with professional development that ironing, sharpening iron is great. Professional development-wise, COVID has thrown a wrench in all that stuff. The last thing I did was Code BEAM out in San Francisco, right before everything shut down.
+
+
+Normally, Chattanooga has a pretty bustling tech scene. Chatta, for a while there, once a week, we were putting on a ‘Lunch and Learn.’ Someone in the community, or even outside of the community we'd bring in to come in and talk on a topic. That was always a great way for me to learn new things.
+
+
+Then we do, within Zillion, our own Lunch and Learn. If there's a new topic, or a new pattern, or something that's come out and that someone's learned about, or they've implemented something new, we'll have once a week, or so, a lunch and learn where we discuss it, someone goes over it. We're constantly sharing stuff like that.
+
+
+[00:16:41] JE: Eric and I actually found you, I think, through that Code BEAM talk. Do you want to maybe give the audience an elevator pitch for that talk?
+
+
+[00:16:49] AS: Oh, yeah. Sure. It's on change and how to handle change, which I think everyone can use these days. We've been hit with a lot of change in our lives. Being able to accept and not tense up so much when we are presented with change in our personal lives will be help — is helpful. Within your development teams, it's crucial.
+
+
+Elevator pitch, I guess, would be Elixir is great, because it basically allows you to — it's functional. Everything's a function and it's composable, and so you break everything down when change does happen. It's not like, “Oh, gosh. I have to go change this giant thing.” Everything's a small function. It takes care of its own business, and so you can go straight to where the issue is and make changes, or if you have to refactor. It's just much easier in a functional language, because you're not dealing with giant OOP, tightly nested systems.
+
+
+[00:17:46] EO: Yeah. I remember, there was a specific moment where I realized that, “Oh, this is just a function. I can call it directly.” We'll include a link to that talk in the show notes, so make sure you go check that out.
+
+
+All right. This season is architect, or yeah, architects and system architecture. We've been asking everyone roughly the same set of few questions. To start that out, what does architecture mean to you?
+
+
+[00:18:16] AS: Yeah, this is a tricky one, because it can be such a broad thing. I mean, it's definitely about the layout of the code, but it's about the patterns that you choose that help provide consistency and lower the cognitive overhead for your developers. For me, that's what I’m about. If I can offload that and not have to think about something, I will. I think architecture plays a big part in that, when your developers aren't having to worry about those things, they're free to create cleaner and better code, I think.
+
+
+[00:18:52] JE: Can you maybe give an example of what — I think in Elixir, there's probably an infinite number of these, but at the same time, it might be hard to pull an example just out of thin air. When you're trying to create patterns for people to use and also build on top of, how do you make them really clear and explicit? If you have an example, that would be great to hear too.
+
+
+[00:19:09] AS: Yeah. A lot of the time, so we've got a style guide that I’ve been working on for a little bit. Yeah, so we'll do — If I put in a pattern, or we're like, “Oh, we like” — I think this is a known pattern maybe, where you have your mocks, you have your service that is doing some business logic, or you have a service that maybe calls out to the outside world. And you're wanting to test around that, you create a mock module. Then in your config, you pull that one in, instead of the real one that goes and makes the call and then you handle the responses.
+
+
+That pattern, we talked about it in a Lunch and Learn, and then we document it within the code to be like, okay, this module, this mock module handles mock calls out to said service. There's comments in our code and then information in the style guide and then we disseminate it through a Lunch and Learn.
+
+
+[00:20:07] JE: Part of the problem that I have and I guess, this is part of the reason why I’m asking is because it’s a problem that I have personally. Which is a lot of times, I find myself not exactly knowing how to get someone up to speed, especially on patterns that are project-specific. Always curious how to make them either very obvious, or document them in such a way that they are apparent to people.
+
+
+I like the idea of going over them in a Lunch and Learn. That's great for people that are already on it, that are on the team. The problem I have is when new people join. And that weren't there for the Lunch and Learn. That's super helpful. What is the difference in your view between architecture and design? What — what's the difference between those two words and what do they mean?
+
+
+[00:20:48] AS: Yeah. I think design informs architecture. We design systems and flows and the architectural plan is the thing that actually supports and implements the designs.
+
+
+[00:21:00] JE: Do you have any opinions on domain-driven design?
+[00:21:03] AS: Yeah. I mean, I think it's important. It keeps everyone in the company aligned on what you're building. Again, it's all about lowering that cognitive overhead. If a developer needs to implement code, it's easier to think about, when it's in terms of the domain and what we're building. It makes it easier to have conversations around things then where they fit into the system. For us, it's pretty natural. We have the controller service repo pattern and then our domain logic ends up in the services. It just flows from there.
+
+
+[00:21:34] EO: All right. I don't think I’ve heard of the controller service repo pattern. Can you go a little bit into that?
+
+
+[00:21:42] AS: Yeah. Basically, you keep your controller super thin. And then your services does all of the domain logic for whatever you're doing. Your controller just handles the input-output. It gets a request in and then it packages up and gives you the output. Then the service goes and calls this into the repo to get whatever data you need do the transformations, calculations, whatever. Then returns that to the controller and that just presents it out. Yeah, all of the real meaty stuff ends up in the services. I guess, domain-wise, the services are named after things in the domain.
+
+
+[00:22:23] JE:        When you mentioned earlier that you were working on a style guide, I mean, for the first thing that came to mind was, “Oh, I wonder if you open source that and then she'd have a good open source product to reference.” The other thing that came to mind is the style guide very focused on idioms and the very tactical aspects of programming in Elixir? Or, are you documenting some of this, is it controller service repo?
+
+
+[00:22:46] AS: Yeah. I mean, it's pretty — the way I’ve set it up, it is pretty specific to what we're doing. I reference out to, again, other people say things better than I do, or have thought through Elixir-specific things and I just reference those. I’m like, “We're doing this thing. Here's an article on that thing.”
+
+
+I mean, I literally break it down of, like, “Okay, if we're going to go implement a story that creates a resource and what does that need context functions and the service and the controller and all of that?” Breaking it all the way down. Then what that looks like, what our expectations are, because we have specific — every context module that we have has specific one functions that we want in each of them as a base. It gets all the way into that of okay, you're going to go add this thing. You need to go add these specific things.
+
+
+Then any weird situation that comes up, we have — someone will Slack me like, “Add this to the style guide. This thing came up. We need to remember this. It's important. Add it, so we know this for the future kind of thing.”
+
+
+[00:23:54] EO: We have something similar, speaking of side projects, I guess. I ended up making one. Someone was making a joke about Evernote and I was like, “Oh, we can call it Smartnote.” Now we have a similar thing, where it's like, if a question keeps popping up, we write it down in that thing. It's a good thing for companies to have, I think.
+
+
+[00:24:14] AS: I think so too. I mean, having that shared knowledge helps everyone be on the same page for sure.
+
+
+[00:24:20] EO: Reduce the siloing.
+
+
+[00:24:22] AS: Yes, absolutely.
+
+
+[00:24:23] EO: Okay. You're about to start a new feature and you've got all the requirements and all that. Is there anything you do before you start typing out into a file?
+
+
+[00:24:34] AS: Yeah, I do. I’m a physlistcler. I make a lot of phylisticals is what we call them. They’re physical lists. You all are like, what? Yeah, so we have pre-coding. We've got our tracker tool that has the stories that have the AC in it. Typically, we'll go through that with a product owner and just make sure that we know exactly what they want built and then we'll do an estimation ala, like rock, paper, scissors style. And get that set expectations there a little bit.
+
+
+Then what I do is I try to think through everything I need to do for that story. I will write out a little to-do checklist on it. If there's something that's in there that's like, “Oh, I know I need to do this thing. I don't know how to do it yet. I’m sure there's going to be other things.” I’ll just be like, “Okay. Star, come back, come back to this,” or spend time figuring this thing out. After I figured it out, now do this thing.
+
+
+I find it really helps, because especially working at home now, there's so many random little things that can happen that might pull you away and you'd be like, “Where was I when I come back?” I automatically can be like, “Oh, yeah. I was working on this thing and I still have this stuff to do, kind of thing.”
+
+
+Especially when it's something really hard, or something unknown, you go into that little developer rabbit trail hole thing, where it's, “Okay, I need to figure this thing out.” Then you come up for air and you're like, “Where am I? What day is it? Okay, that's done. We figured that out, but what's next?” Yeah, I just always refer back to that list. Again, it's that removing the cognitive load of okay, did I actually do everything I need to do for the story?
+
+
+I make sure it lines up with our acceptance criteria and stuff like that to make sure I catch anything that they're like, we need to make sure it does this specific thing. I make that phylistical before I start. Then I go and then after I get it working, I make another phylistical. Is this word just killing you guys?
+
+
+[00:26:37] EO: I just want to know how you spelled it, because I typed it out, Justus is like, maybe this is right.
+
+
+[00:26:42] AS: Oh, my gosh. I think I spelt it five different ways. Maybe P-H-Y-L-I-S-T-I-C-A-L?
+
+
+[00:26:53] JE: Like phylistakeys. Phylistocles. Like the world's best Greek philosopher.
+
+
+[00:27:01] AS: Yeah, Phylistokles.
+
+
+[00:27:04] JE: It's so good. Yeah, they're going to come back and a 1,000 years from now, they're going to dig up this audio and they're going to have a hard time translating it. And they're going to think that ‘Phylistokles’ was a real thing. No, that's actually also how I do this. Eric and I never worked in the same office, but we used to have this, like a closet full of legal pads. Recently, we went to get all of our stuff. When I went to get it, I just had an entire filing cabinet full of used legal pads of just to-do lists, basically.
+
+
+[00:27:36] AS: Can you throw them away? Because I can't. I keep trying to bring myself to throw them, I’m like, “None of this stuff matters anymore. This project is over, but I can't throw it away for some reason.”
+
+
+[00:27:47] EO: It’s like journalism where you have to have to always have the physical copy, if you wrote it down.
+
+
+[00:27:53] JE: Yeah. I literally have a three-bedroom house and one of my bedrooms is just filled with notebooks. It's terrible.
+
+
+[00:28:02] AS: It's useless now, but I’m like — it's not even like it's cool math that I was doing. Then it wa like, “Add user,” button or something like that. It’s just like, check, like it’s nothing groundbreaking, but you just can't let them go.
+
+
+[00:28:17] JE: Let's talk a little bit more about architecture, microservices, microliths, monoliths. What kind of just broadly speaking, architecture are you using over at Zillion?
+
+
+[00:28:30] AS: The Elixir side, we do both, but we prefer them like the monolith, unless we need to break it out. Testing is a big driver for us. We're big TDD people. Since at least TDD, or at least having coverage. We've got our coverage tool that helps make sure. Since testing within an app is much easier than testing. It's way more reliable than testing across microservice boundaries prefer the monolith.
+
+
+We have occasionally made microservices within the monolith to make separation easy if it becomes necessary. Within some of our stuff, we're actually making HTTP calls back to our app, just because we know eventually, we want to move it out, but it's not ready. We're a startup thing, and so move fast and mostly monolith.
+
+
+[00:29:22] JE: Very cool. Umbrella apps. Do you have any experience with those?
+
+
+[00:29:26] AS: I don't really have any experience with umbrella apps. I don't think I can give a real good opinion on them. We do technically have an umbrella app at Zillion, but it's just a fun little Nerves project that got built. It's nerd gong. It's strands of lights that light up, depending on different things that come into our Slack channel. If someone buys jewelry insurance, we get a pretty little light or whatever. Or someone gets an SMS from our system, it lights us.
+
+
+[00:29:57] JE: Oh, my gosh. I love that. We work in the best industry, where people make stuff like that. Come on.
+
+
+[00:30:02] AS: It’s pretty fun.
+
+
+[00:30:04] JE: That is so cool. All right. I really like that. I’m glad you shared that. You want to credit, or hat tip to whoever put that together?
+
+
+[00:30:11] AS: Craig Lyons all the way.
+
+
+[00:30:12] JE: Craig Lyons. Okay, cool. Well, good on you, Craig. That's a really clever idea. I’ve got a note here about getting over the fear of failure and not worrying about making mistakes, or messing up. What does that mean?
+
+
+[00:30:25] AS: Yeah. I think, especially in our industry, I fail every single day. I don't know about you guys. I do not immediately write the perfect line of code every time. It's a lot of trial and error and error is important and it's a part of the process. For me, I think it's important for people, especially trying to get into our industry to not get bogged down and everything not working right away and that's just perfectly natural in the programming setting. I don't really ever see anything super as a failure. Just like a learning point in our lives.
+
+
+A lot of the times, I meet juniors or people who are trying to do the thing that I did right. I’d set up this ridiculous schedule and I was able to stick to it, but that doesn't work for everyone. Not everyone is insane like I am. People who try it and it doesn't work for them, they can sometimes get discouraged. For me, I’m just like, “No, just pick a different time. Try a different time. You'll figure it out.”
+
+
+I’m one of those people that thinks anyone can program. I don't — I don't know if that's controversial or not, because we all like to be special and have our thing. We're smart and we're intelligent and we can build really cool things and that's totally true. But I think, I think everyone has the capacity to learn what we do and become good at it. It's — people learn in different ways. I think at the core of everything, it's just being comfortable with failure and learning from it. And moving forward is a thing that every developer needs.
+
+
+[00:31:55] JE: Yeah. If it's controversial, it really shouldn't be. I mean, we do an hour of code every year and it's like, you'll go into a school setting with second or third graders and they're little kids and sometimes they don't even speak English. At least one of them will be absolutely on a tear, just destroying this thing, like better than I would do. Even the kids who are not as motivated are able to do some of it.
+
+
+Realistically, how many literal primitives are there in programming? At a very high level, there's not that much to learn. It's like, what? Loops, functions, variables, what else? If the conditionals like, I don't know. There’s got to be less than half a dozen things. Very cool. Eric, do you want to close out with a fun question?
+
+
+[00:32:37] EO: Yeah. I was watching the start of your talk and at the very last intro bullet point was you were into board games. I was curious if your board game has changed since — your favorite board game has changed since what? March is when you gave that?
+
+
+[00:32:52] AS: Yeah. It still hasn't. A Handful of Stars, it's just so good. It's this really intense galactic strategy game, but it's also deck building at the same time, which scratches that Magic: The Gathering itch that I have. It's pretty great. Have you guys ever played A Few Acres Of Snow? Yeah. Okay, so it's made by the same guy. Some of those mechanics are there.
+
+
+Yeah, it's fun. I like that it can be played two-player and it's still just as good as if you had four people. It's hard to find those kinds of games too, because we have a house and we always have tons of people in and out of it. Sometimes we want four, sometimes it's just me and my husband. We just got back from a trip from Tellico, Tennessee and we brought it with us and we played a couple games. I was just like, “Yeah, this is definitely my favorite game.”
+
+
+[00:33:42] JE: That's really cool. This has been a really interesting conversation. I want to give you some time to make any plugs, or asks for the audience, shameless self-promotion, where people can find you, whatever you want, the time is yours.
+
+
+[00:33:54] AS: Yeah. I guess, my Twitter is @cavewoman90. My Instagram is @annasherman100816. My plug for Zillion is we're always looking for good talent. If you're interested in looking for a fun and challenging environment with lots of Elixir, you can drop a line to either Craig or I at anna@myzillion.com, or craig@myzillion.com.
+
+
+[00:34:20] JE: Amazing. Thank you so much, Anna Sherman. This has been an episode of Elixir Wizards. Thank you again to our guest, Anna Sherman, and my co-host, Eric Oestrich. Once again, I’m Justus Eapen.
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails and React, infrastructure projects using Kubernetes, mobile apps using React Native, we love to work on all that stuff. We'd love to hear from you, if you have a project we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally @JustusEapen and Eric @EricOestrich.
+
+
+Join us again next week on Elixir Wizards for more on system and application architecture.
+
+
+[END]
+        © 2020 Elixir Wizards

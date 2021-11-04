@@ -1,0 +1,910 @@
+S04E01 	- 	Transcript
+EPISODE 1: Launchisode
+
+Justus Eapen:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen, and I will be your host today. We are bringing you season four of Elixir Wizards. And we've decided this season's theme, taking into consideration much feedback from our audience who are brilliant and smart and very helpful. We've decided that this season's theme is going to be system and application architecture.
+So normally, we would produce a short two to three minute trailer to give you a preview into the season theme and how we're thinking about it. But we thought that since this is season four, we just finished the first trilogy, we would stick to the old trope of starting a second trilogy by totally appending everything that made the original great. And so, we're going to forego doing a trailer, and instead we're going to launch the season with a full on interview exploring this season's theme of system and application architecture with my esteemed co-host, Eric Oestrich, and the Director of Development at SmartLogic, Dan Ivovich. How are you guys doing?
+
+Dan Ivovich:
+Doing well.
+
+Justus Eapen:
+Eric, how are you?
+
+Eric Oestrich:
+I'm doing great.
+
+Justus Eapen:
+That was obviously a really long intro for you two.
+
+Eric Oestrich:
+Well, like our wisdom, it is epic.
+
+Justus Eapen:
+So, we got a lot of feedback between the seasons and while doing season three from the folks that listen to the show, and we want to take it really seriously. And we want to continue providing absolutely the highest quality Elixir Podcasts that we can possibly produce. So, one of the pieces of feedback that we got a lot, and so we're going to be implementing some of this feedback into season four is that we should talk a little bit more personally with the guests that may get onto the show. So, Eric and I are on every episode of the show. Dan, you've been on several episodes. Dan, can you just kick off just like, can you give us a little bit of background on yourself? How you got to be the Director of Development Operations at SmartLogic? How you came to letting Eric and I do this show?
+
+Dan Ivovich:
+Sure. SmartLogic I joined coming up on nine years ago as a Rails developer. Back when that was SmartLogic's big focus. Over a couple years working as a developer there, I established, I don't know, some amount of expertise and leadership around project management and making sure that things are being architected well, and that we're heading down a happy path of client satisfaction. And through conversations with the owner, we kind of like any good startup invented a position that became the Director of Development Operations. And like any good job description over the probably now seven and change years that I've been doing this job it has evolved from making sure projects are running smoothly to now managing the entire team, and making sure that we have the right people in the right roles on the right contracts to maintain that level of excellence that we expect from SmartLogic.
+
+Justus Eapen:
+And we recently made another new role for somebody at SmartLogic, isn't that right?
+
+Dan Ivovich:
+We did. We made a new role for Eric because Eric's been with this company just about as long as I have.
+
+Eric Oestrich:
+Just about.
+
+Dan Ivovich:
+Well, Eric was an intern before I was a full time [inaudible 00:03:26]. It's a hotly contested topic as far as who's been with the company longer. But yes, we just created a technical architect role for Eric in trying to... As my role has progressed more into that full on team, people, career, leadership making sure that we're executing on contracts. I wanted to make sure that we had a focus on good design of systems, good professional development tracks for the employees, good decision making into should we adopt new frameworks? Should we use certain libraries? Should we open source things that we're working on? I mean, obviously, we should but I guess the question would be more, can we? And so, those things have fed into Eric's new job description as a technical architect.
+
+Justus Eapen:
+Eric, you joined SmartLogic as an intern. Did you think that you were going to be here nine years later and promoted to the only technical architect at SmartLogic?
+
+Eric Oestrich:
+I'm not really sure how long I thought it'd be here or whatever. I do remember it. So, I joined while I was in senior year of college as an intern, and then two days after I graduate... I think I had a weekend from graduation just starting full time. And so, that was how I got started. The one thing I do remember was we were at a Rails Conf and I was... I found the Valve hiring thing or whatever. So, that was nine years ago, Eric wanted to be working at Valve doing something, so I don't know. [crosstalk 00:04:50]. That obviously didn't pan out.
+
+Justus Eapen:
+That was the Valve employee manual? Is that what you're talking about?
+
+Eric Oestrich:
+Yeah.
+
+Justus Eapen:
+That is such a great document. Everyone should read that document. It's really good. Valve is a great company. So, Eric, is it true that this is your only full time job ever?
+
+Eric Oestrich:
+I had, I guess it was during the summer it was a full time computer support position at the college. But that was... I don't know if that counts as this is what I would consider my, I guess. I don't know.
+
+Justus Eapen:
+Well, you're kind of a unicorn in that regard. You're like, your whole career has been at SmartLogic, and just building stuff here, and you've just been able to be heads down for so long. You got OSS, Open Source Software out the wazoo that I think we're going to talk about in this interview, but it's the opposite of Dan because you came from corporate, building super duper... I mean, [inaudible 00:05:39], weapons of war. [crosstalk 00:05:42].
+
+Dan Ivovich:
+I was at a defense contractor, but I was not doing that sort of work. But yeah, out of college I got a job with a defense contractor in Maryland. So yeah, I came from 100,000 plus employee company to SmartLogic, which was probably maybe 10 at the time. So, definite difference for sure.
+
+Justus Eapen:
+Yeah.
+
+Eric Oestrich:
+10, and then I think quickly shrunk to six at that point because there's waves of people that leave.
+
+Dan Ivovich:
+Yeah. I came in right at the tail end of one of those cohorts moving on to other things. So yeah, but we're now at the point where Eric is the only direct report I have that I didn't hire. So-
+
+Justus Eapen:
+Wow, and we're 12 right now. Is that right?
+
+Dan Ivovich:
+Well, nine on the product team. So, product designer and developer, and two and a half of support plus me.
+
+Justus Eapen:
+We just hired a new engineer. He's doing a great first day. Recording this on his first day. I don't know if we want to... We probably don't want to get into that. But-
+
+Dan Ivovich:
+We've had a season on getting jobs and hiring and training and all that. So, let's move on. 
+
+Justus Eapen:
+There's lots of people looking for jobs right now, and I keep seeing them on Twitter. So it is worth pointing out that SmartLogic is always hiring.
+
+Dan Ivovich:
+Well, for those listening in the future. We're recording this during the height of the 2020 pandemic. So, that is why we're seeing a lot of people looking for new work.
+
+Justus Eapen:
+Yeah, I was actually struggling before we... I almost asked you guys how timely you want to keep this episode, and I think we'll just see how it goes because we can edit it. So yeah, that was some of the interesting parts from knowing you guys pretty well, and sort of your paths. Eric, you've got a very unconventional in tech career path to be at one place, to be able to see these technologies evolve over time. It's really fascinating. And I feel like I came at the best time in the last three years where when I met you, I immediately knew you were one of the most productive people I'd ever met. And I was like, "Oh my goodness, how did you get this way?" And there's something about SmartLogic. Not only do we have a huge diversity of different types of people that end up at SmartLogic, but where people go when they leave SmartLogic is really diverse too. I don't know like... I think when I got here people were leaving for Amazon and for Under Armour, and for Facebook, someone had just left. 
+So, yeah, SmartLogic, I think produces some pretty incredible talented engineers, and that's a really cool thing about working here. We have a question here about favorite underrated Elixir resources. And we want to know. I actually, Dan, I want to know what resource or what happened that convinced you that SmartLogic should go all in on Elixir. I know it's not exactly a resource, but maybe it involves a resource or multiple resources.
+
+Dan Ivovich:
+Sure. I mean, so you could argue that the resource for that was a former employee who was very passionate about functional programming and specifically Elixir, and we had a small project. It was like this would probably take a person a couple weeks in Rails type of project. And he was convinced he could do it just as fast and just as well in Elixir, and it was kind of like, you know what, this is a pretty low risk as far as the company is concerned. If it doesn't go well, we'll probably know halfway through the two weeks, and then... So, all we've lost is a week. That seemed kind of like a no brainer.
+I think we did the project and it went well, and then we deployed it, and then we didn't have to touch it, and then still didn't have to touch it, and then still didn't have to touch it. And it was just like, okay, so we definitely got something that checks that stable box. Eric and I being here as long as we have, have seen several iterations of the right way to deploy a Rails app, or the right way to do this, that, or the other thing with Rails. And I've seen all sorts of timeouts and memory issues and things that, that can happen. Elixir has gone through some similar growth around how to properly deploy, but I think we just saw at least at its core maybe the how has changed a bit, but the what you get when you deploy Elixir app has been solid since day one. So, I think that's the first box to check. We can't put something into production, and have to be supporting it like crazy.
+Then from there, then it was really about exploring the ecosystem, exploring the language, exploring the resources. Looking at Phoenix and Ecto as our parallels to Rails and Active Record and say, "Okay, can we build what we need to build? And can we build it better, faster, in a state that's more maintainable." And for me, the aha moment was deep diving on Ecto, and seeing change sets, and thinking about all of the callbacks, and validations, and attributes, and things that I've added to Rails models over the years to make it work the way I want it to work, and how painful that can be to support even a few months later. And seeing the patterns in Ecto as just a path where so much of what we do is data driven, and everything about functional programming is based on the data flowing. That really, that cemented it for me 100% that interacting with the database and building a solid app with Ecto was what I wanted to do.
+
+Justus Eapen:
+And so, this was what? Like 2016 2017, early 2017 maybe?
+
+Dan Ivovich:
+Yeah, something in that ballpark.
+
+Eric Oestrich:
+Tail end of 2015 because I think I'd just [crosstalk 00:11:06].
+
+Justus Eapen:
+2015.
+
+Eric Oestrich:
+Yeah.
+
+Dan Ivovich:
+Yeah, I mean, for that first app probably was out then. Yeah.
+
+Justus Eapen:
+Yeah. Because I got there in 2017 and it was just in full swing, I feel like.
+
+Dan Ivovich:
+Yeah, it wasn't till about 2017 that it was nine out of 10 new apps were Elixir. So, this was a year and a half before that point where we were just trying it out. And I think we did one other project in that timeframe. And then after that it just became, okay, unless there's a compelling reason to not mostly client requests because of their own internal skill set to just keep pushing Elixir.
+
+Justus Eapen:
+Do you remember any specific resources that helped you pick it up when you were first learning?
+
+Dan Ivovich:
+The programming Elixir, programming Phoenix books I worked through probably 75% of one and 50% of the other. I tend to be a just kind of immerse yourself in something. I really tried to read the book cover to cover and do all the exercises and I was like, "Okay, I want to learn this the right way with all the fundamentals." Because my exposure to Ruby and Rails was very... Like a lot of Rails developers was you learn Rails, and you don't really know where the lines are between Rails and Ruby itself. And I really wanted to try to avoid that.
+It turns out that's way less of a problem because Phoenix is super lightweight, and mostly just glues things together. But yeah, so that was my approach, and then that it's just been kind of the typical way that I think a lot of people learn stuff. Try it out, rebuild something that you've built yourself. I have little side projects I've done in Rails and then go... So, it's like try those in Elixir. Okay, great. And then my position at SmartLogic has made it where a lot of my Elixir learning is reading other people's Elixir code as well. So, pull requests and pull request reviews, and then getting in there and helping, learn by doing.
+
+Justus Eapen:
+Eric, what about you? Do you have... I'm going to follow up on this question with both of you, but do you have a favorite Elixir resource that helped you when you were first picking up. And also, maybe just talk a little bit about that time, if you remember it, and how the adoption cycle went at SmartLogic since it was before I was there.
+
+Eric Oestrich:
+So, we had that small project, and then four months later, I want to say, we had another one that kicked up that we started doing. And that was my first big project at that point. We were planning on doing all these cool things and whatnot. And then I think we were going to try out Absinthe and all that fun stuff. And then I was like, "All right, this is all too much new stuff." So then we went back to the thing I knew of just standard Rails stuff because it was just too much at once. So, we did that. And then I think that project went for, I don't know, six months maybe. And did as some startups do is it fizzled out. And then we had a little while later, I think was our next big one towards the beginning of 2017 maybe was our next big one.
+
+Justus Eapen:
+I joined in March of 2017, and there was at least a couple of projects at that point. Because I was working on Elixir not on day one, but pretty early.
+
+Eric Oestrich:
+Yeah. So anyways, whenever we had... There was two big projects that I was involved in that kicked off my Elixir stuff. And then during the summer, I think of 2017, I'd had some PD time, so I just pulled down Ranch. Ranch is the TCP acceptor library. So, I set that up and played around with letting it be like a chat socket type of thing for Telnet. As everyone may or may not know at this point if you're listening to this I write [inaudible 00:14:41] software. So that's how that started was just like the [Neko 00:14:45] server that just spit back what you said, and then it turned into a chat server, and then just kept morphing until it became ExVenture.
+And so, a lot of my learning came from doing a side project and going... Just being like, "Okay, I finished my last thing that I wanted to do. I wanted to do this new thing. Scroll through the what's something I've heard of that I've never used before?" One weekend I just was like, "I've never done [ETS 00:15:13], so let's try ETS." And whatever the next thing I was working on, I just used ETS and made it work.
+
+Justus Eapen:
+I think we all, and this is probably an engineer, creative type thing where people opt to learn by doing. You have to come up with some sort of project or portfolio piece to work on. I wanted to follow up with this resource question because we were talking about Elixir resources. Have you read any good books on architecture? Because Eric, you read the book about architecting apps with OTP, right?
+
+Eric Oestrich:
+Yeah. The one that I read was Designing for Scalability With Erlang/OTP. That was a pretty good book that helped the initial foundation of my programming stuff. I haven't really read too many other Elixir books recently.
+
+Justus Eapen:
+[crosstalk 00:15:56] architecture books, more broadly. Yeah.
+
+Eric Oestrich:
+There's a few if you're interested in web APIs of the restful nature. There's a few good books that one of the co-organizers of REST Fest, which I'm actually wearing the shirt right now. No one else can see, but my co-host can. So, I'm a core organizer for that, that I just got accepted into, but one of the main organizers who started it at all Mike Amundsen has a lot of books at O'Reilly all about HTTP stuff, and I definitely... I mean, pretty much anyone that he's written should be good. But there's a pretty good one about designing APIs that he did that I cannot remember the name, but I will make sure we have a link for.
+
+Justus Eapen:
+Dan, what about you? Do you have any favorite books or resources just on architecture more generally?
+
+Dan Ivovich:
+I do not.
+
+Justus Eapen:
+I just started reading Bruce Tate's book on... It's called Designing Elixir Systems With OTP, I think.
+
+Dan Ivovich:
+I have a healthy stack of I wish I had time to read books in this [crosstalk 00:16:58].
+
+Justus Eapen:
+You're pretty busy, Dan.
+
+Dan Ivovich:
+Yeah. I think from an architecture standpoint, I just have a lot of lessons learned from nine years of working on every... Basically every project SmartLogic has ever worked on I've been involved in, in some way.
+
+Justus Eapen:
+Yeah. Well, let's dive into the meaty questions here about architecture design. Dan, do you have a preferred style of design, domain driven design, test driven design, behavior... What is PDD? I don't even know, is that paper driven design? That's what I do.
+
+Dan Ivovich:
+PowerPoint driven design.
+
+Justus Eapen:
+PowerPoint. PowerPoint driven design.
+
+Dan Ivovich:
+Yeah. We like to use TDD, and we've definitely experimented with DDD. More style approaches like your Cucumber style approach. Describe a behavior, write a test that implements that behavior, make that test pass. I think there's a lot of misdirection that gets added in there, and I've seen that lead projects astray. So, I would... I generally shy away from that. [crosstalk 00:17:55].
+
+Eric Oestrich:
+I believe you have a lot of opinions on specifically Cucumber, Justus.
+
+Dan Ivovich:
+I think all three of us have a lot of opinions on Cucumber.
+
+Justus Eapen:
+Yeah, I mean, I think that let's [inaudible 00:18:04] Cucumber's good name. I think it's time. Someone needs to do it. Someone just needs to say it. Why would you ever do this to yourself? It's so bad. I need someone to come out of the woodwork and defend Cucumber. If you're listening to this and you think Cucumber is worthwhile over just RSpec and Capybara I want to hear it.
+
+Dan Ivovich:
+We'll let you record a special episode with Justus defending Cucumber.
+
+Justus Eapen:
+But you should go into it, Dan, because you I think started moving away from Cucumber before I started complaining about it.
+
+Dan Ivovich:
+Well, I think Cucumber's strength is also its big fault, right? It's infinitely configurable because you take plain English language, and you turn it into implementation. And you can do that in ways that are effective, and you can do that in ways that are really horrible. And so, you can really make a mess for yourself. And I have seen us write some Cucumber that's reasonable, and I've seen us write stuff that's horrible. And I think it leads you into a false sense of, oh, I can get a lot of reuse, right? Every time I want a user to do something, I'll just reuse the statement.
+And then you find the case where that statement doesn't quite apply or the English isn't quite what you want it to be. And then so you parameterize it, and now you've complicated everything, and you have to go back and change it everywhere. So I think the people who seem to like Cucumber, I think, and I don't know because I've been disconnected from this community for a while. They take the approach of don't reuse anything. Every Cucumber file you write is a clean slate, and its implementation is unique to that file.
+And so, I think if you're going to do that, then it's why not just write the tests. I think if you have a stakeholder or a product owner or somebody who can collaborate with you on the Cucumber files, and you can say, "Okay, this is our spec, and if we write tests that implement the true meaning, the essence of what this English statement says, then we will build the right behavior." That is probably possible, but I think it is very [crosstalk 00:19:57]-
+
+Justus Eapen:
+People must exist somewhere.
+
+Dan Ivovich:
+Well, I think it takes a lot of discipline, and it takes a very involved product owner. And when you're a consultancy, and you're collaborating with... We talk to our product owners every day, but that's still probably not enough bandwidth to really use Cucumber to that extent, to use it right in that way. And then I think the other thing that happens with Cucumber is that you're testing from outside of the system as possible, which is fantastic, but it's slow. And you can write way too much Cucumber that's testing things that are not truly relevant to the behavior of your system. Yes, they are the behaviors your system has, but do they really... Are they core behaviors? Is that really what you want to be testing.
+And so, you get this bloat of this giant test suite that no one wants to run, and that when you do want to fix something or make a change, you now have to make a change in so many places. And so, I think that's where the long term maintenance of a giant Cucumber suite I think outweighs really any of its benefits. If you're doing good, from my opinion, if you can replace it with a good mix of healthy integration tests, a good mix of true good unit tests. Make sure your components work correctly, then make sure they integrate correctly. And then yes, do a full end to end test on the most critical business cases for your application so that you can ensure from a regression standpoint that you don't break check out or sign up or your ability to make money. Do those things-
+
+Justus Eapen:
+But do them [crosstalk 00:21:25].
+
+Dan Ivovich:
+But don't try to make sure that your error messages text is correct and is formatted correctly or is translating correctly at the Cucumber level.
+
+Justus Eapen:
+Yeah. We should do season four video and I'll tell you why. Because you could clip out just Dan's little rant right there and you could repost it as a three minute video that's like Dan Ivovich destroys behavior driven design, and I would totally click that every single time.
+
+Eric Oestrich:
+[inaudible 00:21:52] both Justus and I at the same time mostly just like shaking... Nodding and agreeing with everything.
+
+Justus Eapen:
+So, yeah. Definitely we should do video if our marketing department listens to that then you know my opinion bros. What style of design you prefer? So, I want to talk a little bit more about design because I want Eric to define for me domain driven design. I don't know what it is. Tell me what it is.
+
+Eric Oestrich:
+I'm not sure I fully understand either. I think it's... We had someone at LoneStar, there was someone who did a presentation that included it. I think he said he was part of the domain driven design ecosystem. I think it's sort of similar to BDD, but different nouns or something. I'm not entirely sure. Yeah. I just noticed the thing, so we included it in our script.
+
+Justus Eapen:
+Okay. Well, I have to say-
+
+Eric Oestrich:
+I think we're three people who all seem to prefer test driven design with maybe a little PowerPoint driven just at the onset to make sure you understand stuff. I think flow diagrams are important to understand what it is you're going to build. So, for what it's worth, I think that's the approach the three of us take.
+
+Justus Eapen:
+So, I thought that domain driven design was like... I thought Phoenix is a framework that encourages domain driven design because you're creating contexts, and contexts are like your application business logic is organized in such a way that it makes sense in context of the domain, right? Like the business logic domain. So, that's what I thought DDD was, and this is so funny because someone's going to come out of the woodwork and be like, "This is what domain driven design is you idiots.
+
+Dan Ivovich:
+No, I think you're right. [crosstalk 00:23:30]. Core domain, complex designs on a model, and that's, I think we get there, right? And if you go through the design process we usually go through as far as talking about the data, talking about the nouns, talking about the flows, describing the behaviors, these things fall out of it. I think part of the reason why these terms are all difficult is because they overlap. So, is anyone doing one thing? No. They may say they are but they're probably doing some mix of all of these things or it's just that each one of these is a mix of all these other things. Because ultimately, we're ending in the same place, which is I want to know what code I should write. Whether that's based on a domain, whether that's based on a PowerPoint, whether that's based on a giant Cucumber file or based on a failing test. I think you're ultimately trying to say, "How do I write code that I can ensure is correct?"
+
+Justus Eapen:
+What is our RDD, Eric?
+
+Eric Oestrich:
+REPL driven design.
+
+Justus Eapen:
+Ah, I do that. I do REPL driven design for sure. I do paper driven design. I write a lot of things down and then I'm just like, "Okay, that's my checklist." Okay, cool. Yeah. And then test driven design. I feel TDD is the best practice that people need to learn. Everything else is a fancy word for something else. But that's just me. When starting on a new project, what do you design first? When we get a new client, how do you guys think about deconstructing whatever the idea is in their head and how.... Dan, especially for you, because you spent a lot of time in early client product meetings. How do you think about starting or breaking down a problem at the project level?
+
+Dan Ivovich:
+Yeah. It's about understanding what we're trying to accomplish, and then decomposing that into what do I think are the big modules? I like to start on a whiteboard and just draw things out. Someone will say, "Oh, I want a user." So, it's like, "Okay." Well, you write user on the board. And then you try to come up with a better name than user because user is horrible. No one wants to be called a user. So, it's like, okay, well, I want the player or the accountant or the... These people have real names, real roles within society, and we want to capture that.
+
+Justus Eapen:
+But at the database level, they're always a user.
+
+Dan Ivovich:
+Maybe.
+
+Justus Eapen:
+A user with a type column.
+
+Dan Ivovich:
+So, you start there, and then you say, "Okay, what is this person going to do?" It's like, "Okay, well, they're going to sign up. They're going to add credit card details." It's like okay. So, you're starting to build up the pieces, maybe the domains of what concepts, what nouns is the system going to entail? And then you talk about flows. Okay, so I'm going to move from part A to part B to part C, and what is it that I need to do there? What validates that I'm allowed to do that?
+
+Justus Eapen:
+You're starting at the data level.
+
+Dan Ivovich:
+I tend to think about things at the data level. A client says something and immediately thinking about database tables. For better or for worse, that's how I break down a problem is like, "Okay, what am I going to store where? And how are these pieces going to relate?" And then, I kind of... Maybe that's pretty low level to be thinking about, but I think it informs so much about how you're going to make the system.
+I think making your data model match reality makes the system so much easier to maintain, and so much easier for a developer to understand. Because if I sit down and I explain to you the real nouns of a process, and then you look at the code and none of them match, and everything's normalized down to the point where you need eight tables just to figure out one thing then it's going to be so difficult for somebody there to ramp up onto something or even for myself to support it three months from now. Oh, legacy code is code that hasn't been looked at in three months regardless of whether you wrote it or not. I just try to make a reality mirror in the code as much as possible. And so, that's where... I think maybe that's where that approach comes from. 
+
+Justus Eapen:
+Eric, do you have a different take? Because you were nodding when he was talking about starting at the data level? Do you have a different take on that at all?
+
+Eric Oestrich:
+Yeah. I think we have similar... It's probably also because we've worked for nine years together. I think I like to have a similar approach. I feel like most of the time when we start new projects, we have some big document that the client has written out. Like this is what I want the system to do. And then we have to try and break that down into topics or stories, epics, whatever nouns you want to use. I think we came up with a bunch of... I've already forgotten them, Dan. But defined our nouns, and so we just make a list of things in the correct order of we'll bootstrap Phoenix. We'll do authentication. We'll make an admin panel. We'll do this, this, this, this, and it's like that's how I like to create the backlog of stuff you will do in the order that you'll do it based on that big document that the client has written out.
+
+Justus Eapen:
+Yeah. So this is so interesting that you both answered this question this way because you're asked, the question is, when starting a new project what do you design first? And so, it's interesting because you both took it as, given a client with an idea of what they want where do they go? But right now, I've got a situation where I've got a client with a bunch of budget, but they don't really know what they're going to use it for. You know what I mean? And so, then the question is a little bit more... It's even like you're calling it low level, Dan. I was thinking... I was like, "Yeah, that's pretty low level." That's like engineering level design. Designing the solution or whatever you're going to build is even more of a product manager problem, maybe, and I think they're asking themselves about the [crosstalk 00:28:51].
+
+Dan Ivovich:
+He'll explain something to me. I'll define some code that accomplishes it. And that is why I'm a consultant and not a product company. Defining product is hard. Product road mapping, and what's a good market fit? And all those things, those are hard challenging problems. I think there's a lot of collaboration that goes on between technology and that process. I think SmartLogic is great in the sense of we've really tried to optimize for that, and we involve the developers early on, and everyone needs to understand the business case and be on that same page because they do. They inform each other what is technically possible, and also what is the purpose of this so that I can write it the right way? But defining a product from nothing, that's challenging.
+
+Justus Eapen:
+Yeah. I think if we're talking to an Elixir developer, and the question is how do I start designing this project? What you guys are saying is sort of technically correct. You know what the problem is already at this point. The question is, how do you define that into ones and zeroes. At the database level, data level, thinking about the information architecture.
+Okay, cool. What other pre-coding planning... We don't really want whiteboard as much as I think some people do. I don't know. I'm on paper a lot. Are you guys on paper a lot? What do you use to get the architecture into some sort of [crosstalk 00:30:10]?
+
+Dan Ivovich:
+I draw on paper a lot. I to whiteboard. Whatever is available. Whether it's a whiteboard or a sketch or an iPad with a pencil. I think the important part is drawing it out. Being able to freeform, put something onto a page that is very unstructured. I think that's what's great about drawing is it's completely unstructured. If you open up a terminal or you open up a Vim buffer, you're forced into characters in order line by line. And you have to... If you want to create unstructured things, you need to add whites pace, which is still very constraining, and you're going to spend most your time getting the white space to align correctly. So, I think it's about starting with something that has as few boundaries on it as possible.
+
+Justus Eapen:
+Yeah. It's about imposing boundaries. Eric, do you have any tools that you use for pre-coding planning?
+
+Eric Oestrich:
+I also use just a blank printer paper because since I was fully remote before current day, so I just generally didn't have the opportunity to whiteboard with everyone else in the office. So, I started getting into writing stuff out on a sheet and I think I've taken a picture and send it to Dan before. That and the other thing I like to do is I'm on Linux, so it's called Mousepad. But it's just like notes.exe type of thing or notepad.exe in Linux. And just typing stuff out in a bullet point list of [crosstalk 00:31:38] this, then this, then this, then this. So, kind of like a to-do-list of everything that I could maybe want to do and just think about all the little weird edge cases and whatnot. So, I have a pretty good idea of what this thing will be. And then send it to someone else, send it to Dan or you or whoever and just be like, "What do you think of this?" Let's talk through it. What am I missing? Type of thing.
+
+Justus Eapen:
+I also design by checklist. Let's talk about APIs because we talked about the data layer a little bit. We're thinking about things in terms of, I think the database and the relations in the database is really what we meant. The APIs are sort of at a level above that. There's logic, there are accessible APIs online? First of all, what does it mean? How broad is the name API? What does API encompass for you guys?
+
+Eric Oestrich:
+Everything.
+
+Justus Eapen:
+Everything is API.
+
+Eric Oestrich:
+I think at this point when you say API, you're specifically referring to an HTTP API. I think that's definitely co-opted the name at this point. So, whether you're doing whatever specific style you're doing, it's over the HTTP protocol. If it's REST or GraphQL or [crosstalk 00:32:52]-
+
+Dan Ivovich:
+For the nature of the work we do that covers basically all the cases. If we were making low level libraries for iPhones or something that, well then, maybe we would consider that. The API of our SDK. But when we say API, we really mean generally something HTTP based.
+
+Justus Eapen:
+It's on the web, it's an API. If it's native it's an SDK.
+
+Dan Ivovich:
+Sure. I'm sure someone will fight you on that just like they'll fight you on Cucumber.
+
+Justus Eapen:
+Oh, man, the best fight is what's interesting coding and programming.
+
+Dan Ivovich:
+Well, we're starting season four with controversy. It sounds like. I don't know.
+
+Justus Eapen:
+Tabs or spaces.
+
+Dan Ivovich:
+Oh, only spaces because-
+
+Eric Oestrich:
+And why should you fire everyone who uses Emacs?
+
+Justus Eapen:
+Yeah. Also VS Code.
+
+Eric Oestrich:
+I used to be a big Emacs user. I'm not anymore.
+
+Justus Eapen:
+If you used something that can be described as an IDE, you're fired.
+
+Eric Oestrich:
+That's also not true. But we're the only three people I think who still use them. So-
+
+Justus Eapen:
+No, at SmartLogic we use Vim. That's what [inaudible 00:33:53] told me when I started. And now I tell everybody, and they're all like, "No." We're going to use just like... I don't know, it's like a cartoon game or something. It's got Comic Sans, and bright colors.
+
+Eric Oestrich:
+I don't know what you're talking about.
+
+Justus Eapen:
+VS Code.
+
+Eric Oestrich:
+That's [inaudible 00:34:10]. That's mean.
+
+Justus Eapen:
+Like it's a sandbox. All right, I'm sorry, I'm sorry. I'm going to trigger some VS Code users in our audience. I'm sorry. So, APIs what do we do? We use GraphQL. We use REST. We use SOAP. I exclusively design... Do either of you guys actually know what SOAP APIs are?
+
+Eric Oestrich:
+Yes.
+
+Justus Eapen:
+Okay. Could you enlighten the younger developer?
+
+Eric Oestrich:
+It's like a very XMLE, RPC type of thing. That's my understanding.
+
+Dan Ivovich:
+It's Simple Object Access Protocol.
+
+Eric Oestrich:
+Yeah. It's a bunch of very strict XML to invoke functions on a remote server.
+
+Justus Eapen:
+I want to know do you guys agree on what the word REST stands for?
+
+Eric Oestrich:
+Representational State Transfer. That's what it's supposed to stand for. [crosstalk 00:34:57].
+
+Dan Ivovich:
+Sure. That sounds good.
+
+Justus Eapen:
+When I googled-
+
+Dan Ivovich:
+It sounds accurate.
+
+Justus Eapen:
+And I'd always thought it was something resource related. I thought that's what REST was all about.
+
+Eric Oestrich:
+It is.
+
+Dan Ivovich:
+It's a representation of a resource.
+
+Justus Eapen:
+Yeah. Maybe since REST is much more important, obviously, we could do a definition of... First of all, for a number of years REST API design was really [inaudible 00:35:18] thing to talk about. I think we're past that point because everybody just internalized it. Did that happen or am I imagining that?
+
+Eric Oestrich:
+I think it happened, and then everyone got upset with it because all they did was write CRED APIs, and that's relatively a bad pattern. And so, no one put thought into APIs. Early on, I was definitely a part of that, and [crosstalk 00:35:40]-
+
+Justus Eapen:
+Why is CRED a bad pattern for APIs?
+
+Eric Oestrich:
+It's just like for REST you should be thinking about state transitions of your resources. So, if I have an order, what actions can I do on that order to change it into different states. If you read the-
+
+Justus Eapen:
+Are you telling me the actions aren't Index, New, Create, Update, Delete [crosstalk 00:36:02] actions.
+
+Eric Oestrich:
+Yeah. One of the first times I went to a REST Fest, Mike Amundsen said a pretty good line. It's like, I'm totally going to forget the actual quote at this point, but it somehow boiled down to, don't show me your database because that's like the underpants have your application. I don't want to see it. So, your API does not have to equal exactly what tables you have. It's not to say that if it does, it's bad. It's like you just can put extra thought into it, and you don't have to just directly export your database through CRUD stuff. And there's stuff where it's like... I think it's called [inaudible 00:36:42] I think is what it is where you can just put a GraphQL API on top of your database, and it's just... I just sit there and be like, "No, that's bad."
+
+Justus Eapen:
+But why is it bad? I don't know.
+
+Eric Oestrich:
+If you have a good API, it's intentional designed. It's like if you just plop out your database to the front end then it's like it could be better, I guess is more of the... If you intentionally designed it to be what you need it to be then you should hopefully have better resources, and then less queries, blah, blah, blah, whatever.
+
+Justus Eapen:
+[crosstalk 00:37:21]. Your intention is just straight up access to a database?
+
+Eric Oestrich:
+Yeah.
+
+Dan Ivovich:
+Right. [crosstalk 00:37:26]. And the point being, if you couple your API to your database, then you change your database, you're now... You can leave your API the same, but now they don't mirror. So, any benefit you had of the mirroring from all I can keep this all in my head, you've [inaudible 00:37:39]. Or you're then going to break your API because you've changed your database.
+I think that's one of the things that the whole Phoenix contexts change I think was so great, and really helped push people in that direction of think about what API you want to have. And here I mean a programming API between your controllers and your data model. What do you want to layer in there. And so, you'll see in apps we'll create an accounts context that handles the management of users. And if we decide to change the users table or anything about how we manage users, we can keep that account, the interface of that account's context exactly the same. And the controllers and the APIs that our mobile apps are calling can stay exactly the same. And you can replace behavior and update behavior. You can even move things off the server and access them through another API, if you wanted to, and no one outside of your context would be any of the wiser.
+And so, that lets you create that modularity that lets you move things around, and also test things in isolation. That's where I think Phoenix context and Elixir has pushed us in positive directions from a testing standpoint because you can say, "Okay, this is my boundary." And all I care about is the shape of the data in and the shape of the data out, and I can test that. Whether I have a running web process or not is irrelevant. Whether I have an actual database or not is irrelevant. We can just test the manipulation of this data and ensure that it's behaving correctly. And then, when you pull the pieces together you can be... A high level of confidence that's going to work.
+
+Justus Eapen:
+I'm wondering how much more time we should spend on this HTTP stuff. I guess we have to mention GraphQL. So, talk about [crosstalk 00:39:17].
+
+Dan Ivovich:
+Sure. It's mentioned. Let's move on.
+
+Justus Eapen:
+Eric, anything to add there?
+
+Eric Oestrich:
+Nope.
+
+Justus Eapen:
+Okay. Obviously, SmartLogic is not bullish on GraphQL. Yeah, let's go on. I'm curious how has your thinking about designing an application architecture evolved, especially over the last few years since we've picked up Elixir as the main thing that we do? How has your thought process around the architecting from beginning to an ongoing iteration process? How has that changed? Dan.
+
+Dan Ivovich:
+I think it is extremely easy and extremely dangerous to over architect a system, and if you try to plan for every contingency, every what if, you'll build a bunch of things that never are used or never happen or you never encounter. I remember long ago people saying, "Oh, if you spend all your time making your application so it scales, you'll never get enough users that actually needs to scale." And so, it's about prioritizing things. 
+I think, from my standpoint, designing a system that you can iterate on is the number one thing because you will iterate on it. You're going to iterate on the product. Most projects we start we'll spec out two to three months worth of work. Where we end up is different because things change, the world changes. Whatever thing is going on right now, the world changes. Priorities are going to shift, and it's important that you architect an application such that you can iterate your code to match the changing of reality.
+I think that's where Elixir and Phoenix have really made me feel good about the work that we're doing because of its functional nature. Because of the way we're doing low level tests, it feels we're doing building systems that can evolve with the changing needs. And we've done that for the applications that are now three or four years old. When we need to make a change to them we can drop into the module that we need to add some behavior to, we can add the behavior to it, we can test it, and then we can integrate it in without a giant re-architecture. And that's what I think is important. So, design for the future, but don't try to guess what it's going to be.
+
+Justus Eapen:
+Eric, I'm curious your response to this question because building ExVenture you've gotten to really dive into having code running on multiple nodes, the sort of sweet spot for developing Elixir applications. What have you learned?
+
+Eric Oestrich:
+I think there's definitely... I feel like the biggest thing that I've learned that's my design process that's changed has just been like... I don't know what the best way to describe is of just having Elixir sink in enough to not try to make a Rails app that is Elixir or I happen to be making a Ruby Elixir app type of thing.
+
+Justus Eapen:
+What do you mean by that?
+
+Eric Oestrich:
+Where the writing style that you're doing is still of I came from Ruby, so I might be writing an Elixir application that you could almost just copy paste into Ruby type of thing, and just make it, assume it's functional Ruby or whatever. So having stuff seep in enough has just been the big change where ExVenture definitely feels a Rails app or something similar.
+
+Justus Eapen:
+I was going to say that... Well, it's more of just a comment that Elixir benefits from this weird asymmetry that Ruby doesn't benefit from where if you bring OOP to Elixir world, it makes your Elixir code worse. But if you bring functional thinking to your Rails applications, it'll make your Rails applications better. So yeah, learning Elixir does seem to be a really more functional programming... Learning functional programming seems to be a false multiplier in your ability to architect a good system. Sorry, go on.
+
+Dan Ivovich:
+Well, I was just going to say the more variety of experience you have, the more different areas of thought you can pull on. I think those are all tools to building something. And so, introducing something new-
+
+Justus Eapen:
+[crosstalk 00:43:15] developer for learning object oriented programming.
+
+Dan Ivovich:
+Sure. [crosstalk 00:43:21]. Well, I don't have the perspective of learning programming from a functional first paradigm. I did not learn it that way. But I think if you're trying to explain programming to somebody people can relate to objects. Objects that have methods on them, people can understand that. And they understand what a car is. They understand that if you tell a car to lock its doors that something about that object will change. They don't think about it as lock is a function and when you put your car into the lock function you get back a different car that is now locked.
+
+Justus Eapen:
+See, when you call it a function, no, but if you call it a process, people might [crosstalk 00:44:01]-
+
+Dan Ivovich:
+Transformation. [crosstalk 00:44:02].
+
+Justus Eapen:
+Yeah.
+
+Dan Ivovich:
+All right. And for someone who knows nothing about any of this. [crosstalk 00:44:08]. Now you have a bunch of other vocabulary you have to define.
+
+Justus Eapen:
+Right. Well, I just wonder if this is a confirmation bias thing where because we all want to know OOP first we're like, "Yeah, it was good that we learned OOP," but when you think about does OOP actually contain some kind of isomorphism about the real world? Or is it an unnecessary layer of abstraction between the actual isomorphism which is that the universe is made up of processes, and things. Like a human being isn't an object, a human being is a process, and the process begins and it ends.
+
+Dan Ivovich:
+I mean, you can come up with whatever set of nouns you want to describe anything. But the point I'm trying to make is not learning one way or the other is better. My point is that learning lots of ways is probably going to help you.
+
+Justus Eapen:
+This is a fascinating philosophical question. Okay. We don't have a lot more time but I want to get into micro services because there's a hot take here somewhere. I feel like 2020 is the year where we destroy all our angels. What do they call it? Our killer darlings, killer... You know what I'm saying? Where we take microservices, single page applications, SOAP nobody cares about, but REST maybe. This could be the year that we just destroy all the things that we love in software engineering and are reborn with things that we like, like functional programming. 
+
+Dan Ivovich:
+Do you have a point there or are you just excited?
+
+Justus Eapen:
+Microservices, talk about them. Is this the year that we have to kill microservices?
+
+Dan Ivovich:
+I mean, it depends on what you mean by micro services. You can do too much of anything. You can have too big of a monolith. You can have too many microservices. You can use Kubernetes before you should. You can abuse Heroku. You can have so many VPSs that are custom configured that now you have a nightmare. You can make anything into a maintenance nightmare.
+
+Justus Eapen:
+How many people do you think you should have on your staff before you consider engineering a microservices architecture into your product?
+
+Dan Ivovich:
+Why is that the metric you're going to use to make that determination?
+
+Justus Eapen:
+Because I think that you need a DevOps person to run a microservices architecture. I don't really think that you can... One person can build a whole product on a microservices architecture. Now, there might be a genius out there, a prodigy type of human being who's cable of that.
+
+Eric Oestrich:
+I definitely tried going that route for Grapevine. I had three or four projects going at once that were all using WebSockets to keep in sync. And it was working, but it was definitely way too much for one person to be worth it. So then that's when I collapsed back to a monolith application, and that was definitely the better choice, I think.
+
+Justus Eapen:
+Do you think you would have had a better architecture if you had architected it as a monolith from the ground up?
+
+Eric Oestrich:
+I don't know. The way that that started was Gossip was born, and then it was purely chat, and you would register your game and that's how it worked. And then Grapevine came along, and was like a listing Steam type site that let you look into the Gossip network. I don't regret the choice to start that way. I had a lot of fun doing some WebSocket real time stuff. So, I think as far as the, was it worth it because I enjoyed what I was doing because it was a hobby project. I totally thought it was worth it. But if this was a client project, what would I have done? I probably just would have added, turned Gossip into a listing site and just kept it a single monolith application.
+
+Dan Ivovich:
+I think that any given code base can't be bigger than the team can manage. So, if you have a team that can take on your monolith and do what needs to be done in it then great. But then in the same sense, a small team can't necessarily manage a whole bunch of different applications all at the same time and expect to orchestrate them correctly. But does that mean that needs to be a micro service with some sort of protocol between them that is on the network, not necessarily. You could break out a team that's just working on something where the API is an SDK, and it's being pulled in as a Hex package or as a Gem, and you can iterate on that.
+I think what's important there is the same thing that would be important as if it was over the network is that you agree on an API. You agree on how these two things are going to communicate, and then you then don't need to keep the implementation of that in your brain when you're working on it. You just need to keep the API in your brain so that you know how to interact with it. So drawing those segments between components, as your team grows, as your product grows I think is important. But is REST full microservices or GraphQL microservices, the solution? Maybe. Is making a Hex package and pulling it in the solution. Maybe.
+
+Justus Eapen:
+Maybe, yeah.
+
+Dan Ivovich:
+I think the things that matter there are constraints of your environment, constraints of how you want to be able to deploy it, constraints of your staff expertise. And then also just the constraints of legacy. I think maybe one of the reasons this is such a hot topic on the Elixir community of don't do microservices is because we have great ability to put a bunch of apps together in an umbrella, right? Or have them run as in the Nerves Poncho style, or just be like, "Hey, I have a folder full of code. I'm just going to drop it into this project." And now it is a module that I can access from any of my controllers. It's convention then on how you want to segment things out.
+
+Justus Eapen:
+Yeah. I guess it's also a matter of definitions here, which is like I don't consider a single page application with a separate API. Those are both... One application's talking over the network to another. I don't think that's a microservice architecture. You know what I mean?
+
+Dan Ivovich:
+If that single page application is the only consumer then no. It's barely an API. It's just two components of the system who talk a certain way.
+
+Justus Eapen:
+And so then the question is, at what point do you end up in microservice? When I think of... I guess, maybe I'm kind of a... I don't know if I'm a purist. I don't know what the purest definition of microservice would be. But I assume that a pure definition of microservices would be like something over the network that provides just one piece of responsibility. And that's how the entire system is architected. So, if we were to take a common, like a blog application and turn it into a microservice architecture, it would have a user service, and it would have a content management service, and it would have like a... I don't know, a cache service all spun up.
+In that case, it would just make way more sense to make that one application if you're doing it in Elixir. That's why I'm like, can we kill microservices. I know that we can't really because there are situations like what you're talking about where you would need to have things accessing one another over the network. We want to wrap up with some kind of conversation just about where we think the future is going to. We glided right past GraphQL. Maybe that's not in the future for us. What are we hoping for? What are we expecting from the future of our applications, and from architecting systems? Dan, do you want to talk about what we're hoping for or what you think we can expect to see?
+
+Dan Ivovich:
+I'm excited about the community continuing to just not assume that the way we've been doing things is the right way to do things. I try to not bog myself down in buzzwords and dogma and look for what are the lessons we can learn from the things that are going on. And I feel like Elixir has been a shining example of that in the sense of, "Oh, hey, it's got a Ruby inspired syntax because we the way Ruby looks." But it takes advantage of the multi process actor model of Erlang. And so it's like, okay, we've taken things that we like about existing pieces and pulled them together in a unique and interesting way. Phoenix looked a lot like Rails when it was early on, and now it looks different, but it's still inspired by it, but it brings its own approaches to things.
+And so, I think my hope for the future, my hope for what SmartLogic continues to do with these technologies is to evolve our usage informed by experience, and continue to pick tools that are flexible enough to adapt to the changing needs of our projects. Similar to what I was saying about designing a system, over engineering a system and then trying to implement it or preparing for the future that never comes. From my standpoint, it's more about picking tools that you can adapt with, and that's why I enjoy Elixir. That's why I enjoy the things we've done with the ways we've decided to use Docker or not use Docker, or the way we've used Heroku or not use Heroku. The way that we've tried different CI systems. Letting ourselves pick the best tool at the time, but trying to ensure that we're not too locked into any one approach.
+
+Justus Eapen:
+Eric, do you have anything to add? Any aspirations? Do you think we're ever going to have codeless development?
+
+Eric Oestrich:
+I do not. It's drag and drop coding, is that-
+
+Justus Eapen:
+Yeah, you want [crosstalk 00:53:05]. You want [inaudible 00:53:07].
+
+Eric Oestrich:
+No.
+
+Justus Eapen:
+No, okay.
+
+Eric Oestrich:
+No, I don't.
+
+Justus Eapen:
+No, but seriously, what are you hoping for? What do you expect to see?
+
+Eric Oestrich:
+I think I expect to see more and also hope for more real time stuff. So, like WebSockets, and Phoenix Live View and all that fun stuff. I've had a blast doing a bunch of weird WebSocket stuff I've done for all my projects. And long live TCP connections or Telnet, whatever. I think there's a lot of stuff you can do with WebSockets that most of our clients I'm sure would love a real time site. But it's like, I don't know, making that work well, and seeing where that heads I think will be pretty cool.
+
+Justus Eapen:
+Awesome.
+
+Dan Ivovich:
+Yeah. And that made me think of something else too that I think is a benefit to the Elixir community, and that's the Nerves Project. Because that's just a whole nother set of constraints. It's a whole nother set of things to keep in mind, and that's informing things in Elixir. Elixir is informing things there, and developers who are working in both communities are... They're learning things. They're sharing things. This world of web development has just been continually pushing to not necessarily care about resource constraints because resources are cheap. And then you take the Nerves community, and they're extremely resource constrained, and they're in environments where there are not unlimited resources. There's not unlimited bandwidth.
+And so, when I talk about the diversity of the community, the diversity of teams, the diversity of a language, those are the things that attract me to the Elixir community because there is that diversity that's informing how this is being made. Rails is great at building apps that are a lot Basecamp because that's what Rails was built to do, and it's great at it. I built a lot of things that I still hold dear to my heart in Rails, and I can still do a lot of things really fast in Rails if it aligns with those needs. What I like about Elixir and the community is that the alignment to needs seems more broad or at least it seems like a set of tools that I can use to meet a more wide variety of needs. And at the level that we're at, at the types of work that we're doing, at what we hope to achieve as a company, a bunch of really good solid tools is way more important than one really fancy device that works some of the time.
+
+Justus Eapen:
+Well said, Dan. Well, I would say, do you have any more plugs or asks for the audience? Any final shameless self promotion, Dan, before we let you go?
+
+Dan Ivovich:
+Yeah, I'm not super up on the socials. I'm Dan Ivovich in most places if you want to check me out. My blog is pretty stagnant. I'll use this opportunity to just plug SmartLogic. I feel really great about the team that I have working for me here and our ability to solve a variety of problems using some of the best technologies that we've been able to procure and become experts at. So, if you're interested in talking about a project that you're working on or an idea you have or you have a team that could use some extra support or take that project off your plate, hit us up.
+
+Justus Eapen:
+Eric, do you have any final plugs or asks for the audience?
+
+Eric Oestrich:
+Go check out ExVenture at exventure.org or the new Kalevala at my GitHub, or search /C-A-L-E-V-A-L-A.
+
+Justus Eapen:
+Wait, it starts with a C?
+
+Eric Oestrich:
+Or K. Yeah, wow, I am bad at spelling. Oh, man.
+
+Dan Ivovich:
+Kalevala with a K.
+
+Eric Oestrich:
+Check the show notes for links.
+
+Justus Eapen:
+Before we wrap the show we have a special segment that we're testing out and you're about to hear. Pattern Matching With Todd hosted by our friend and occasional co-host Todd Resudek. We've heard feedback that you all would like to learn more and get to know some of our guests better. Pattern Matching is a segment dedicated to just that. Todd has five questions he'll be asking a variety of special guests, and we'll be sharing them throughout the season. Let us know what you think of this new segment. We'd love to hear from you. Okay, now, here's our first ever Pattern Matching with Todd.
+
+Todd Resudek:
+All right. Thank you for joining me today for this episode of Pattern Matching. My guest is the Leonardo da Vinci of embedded Elixir. He's a member of the Nerves core team, and he's known for creating some amazing, if not always practical devices. Taking some time away from his duties at Binary Noggin welcome Connor Rigby.
+
+Connor Rigby:
+Hello.
+
+Todd Resudek:
+Hi, Connor. Thanks for joining me today. So, if you're not familiar with the segment, we have five questions for you. They're the same five questions for every guest, and the idea is just to get to know you a little bit better. So, where were you born?
+
+Connor Rigby:
+I was born in Redding, California, a tiny little town on the main highway in the States. Way up north, not really where most people like to hang out.
+
+Todd Resudek:
+All right. Up in Humboldt, or north of Humboldt?
+
+Connor Rigby:
+About the same level of northness as Humboldt, but inland not on the coast. Right in the middle of the desert.
+
+Todd Resudek:
+Okay, cool. They've got some interesting industry up there.
+
+Connor Rigby:
+Yeah.
+
+Todd Resudek:
+So, where do you live now?
+
+Connor Rigby:
+Now, I just recently a couple years ago moved to about the middle of the state in a tiny town called Morro Bay, California. It's right on the 1. If you ever feel drove the 1 from SF to LA, for example, you would have driven through it. It's right around near San Luis Obispo.
+
+Todd Resudek:
+Cool. So, nice little beach town-
+
+Connor Rigby:
+Nice little beach town.
+
+Todd Resudek:
+... in the Central Coast.
+
+Connor Rigby:
+Yep.
+
+Todd Resudek:
+Cool. And you live up there with your significant other and a collection of cars and electronics from what I remember.
+
+Connor Rigby:
+Yeah, that's about right.
+
+Todd Resudek:
+All right. So how many cars do you have at your house right now?
+
+Connor Rigby:
+Right now I'm down to two. That's all I have at the moment. I have been selling left and right.
+
+Todd Resudek:
+Okay. So, what's the most number of cars you've had on your property in your life?
+
+Connor Rigby:
+Well, so usually I like to store them not on my property. Neighbors aren't usually super stoked with a bunch of broken cars. So, probably four at my last apartment. I had a one bedroom apartment with probably more car space internally than I had floor space of the apartment.
+
+Todd Resudek:
+Okay. So, four cars, and I guess just to explain that a little bit, I think you're into autocross or you just into working on cars or what?
+
+Connor Rigby:
+Yeah, a bit of autocross, a bit of on track racing.
+
+Todd Resudek:
+Wow.
+
+Connor Rigby:
+I'm not usually super picky. Don't do any off road stuff, though.
+
+Todd Resudek:
+Okay, cool. Yeah, I think the last car I remember you buying was an old RX-7.
+
+Connor Rigby:
+Yep, bright yellow. I actually bought three of them all at once. Fixed one of them. Just selling that one not that long ago.
+
+Todd Resudek:
+Oh, okay. Very cool. So have you had any careers before programming?
+
+Connor Rigby:
+No real ones. I went straight into programming right out of school.
+
+Todd Resudek:
+Okay, you're pretty young, right?
+
+Connor Rigby:
+Yeah. 23
+
+Todd Resudek:
+Okay. So, you went to... Sorry, when you say out of school. Do you mean high school, college?
+
+Connor Rigby:
+I mean out of high school. Yeah, I didn't... I skipped out on college. Yeah, I was one of the six people who knew how to work a computer in Redding, California. So, they were happy to give me a job doing that.
+
+Todd Resudek:
+Sweet. Hey, if you can, I would say go for it.
+
+Connor Rigby:
+I try to tell everyone, do it if it works for you.
+
+Todd Resudek:
+Yeah, it works for LeBron. He didn't waste that eight months in college. So, if you weren't a programmer, what do you think you'd be?
+
+Connor Rigby:
+I don't know. If I wasn't a programmer, I would probably just be a California beach bum. I don't have a ton of marketable skills outside of programming.
+
+Todd Resudek:
+Okay. So, Lebowski type.
+
+Connor Rigby:
+Yeah.
+
+Todd Resudek:
+Nice.
+
+Connor Rigby:
+Lebowski, what a reference.
+
+Todd Resudek:
+Well, hopefully everybody understands what I'm talking about. Get some imagery from that. If you don't, I'm sorry, you'll have to bing it. Lebowski the dude.
+
+Connor Rigby:
+The guy.
+
+Todd Resudek:
+Yes, the dude. Okay, cool. So what was the genre of the last song or album you listened to?
+
+Connor Rigby:
+Man, I answered this, this morning and now [inaudible 01:01:19] again. I just listened to... Let's see, I just listened to ASAP Rocky's new album, which is a rap album.
+
+Todd Resudek:
+Okay. Let's go with what you said this morning.
+
+Connor Rigby:
+This morning, I usually start... Okay, so I start my day off with some sort of metal album usually. I bounce between a lot of genres, but usually it starts with a metal album of some sort and gets progressively less intense as the day goes by.
+
+Todd Resudek:
+Okay.
+
+Connor Rigby:
+I don't do that actively. It just happens.
+
+Todd Resudek:
+Okay. So, this is dear to my heart. So, we talk about metal. metal is composed of a vast-
+
+Connor Rigby:
+It's a wide [crosstalk 01:01:55]-
+
+Todd Resudek:
+.... number of song genres. Yeah, so maybe can you give me the sub genre or maybe be a little bit more specific on what kind of what metal you're into?
+
+Connor Rigby:
+I guess a sub genre would be maybe Post Hardcore, Punk maybe depending on how you want to classify it. Where you want to draw the lines on the arbitrary rules. Stuff like A Day to Remember, maybe We Came As Romans. I'm trying to think of other popular bands.
+
+Todd Resudek:
+Okay. 
+
+Connor Rigby:
+We'll pop Spotify right now see what's on the queue? All That Remains, they're pretty popular.
+
+Todd Resudek:
+Okay.
+
+Connor Rigby:
+Stuff in that general... Hopefully, I just gave someone someone some new stuff to listen to.
+
+Todd Resudek:
+Yeah, awesome. Okay. I've been really getting into Power metal lately.
+
+Connor Rigby:
+Oh, Power metal is a bit high energy.
+
+Todd Resudek:
+Really? Okay. All right. That's cool. To each his own, I guess. But the point is, there's a lot of different kinds of metal, so [crosstalk 01:02:50] and then you tell somebody, yeah, new metal. And they'll be like-
+
+Connor Rigby:
+[crosstalk 01:02:56] my favorite, yeah.
+
+Todd Resudek:
+Yeah. So just because two people metal doesn't mean they have anything in common about [crosstalk 01:03:02]-
+
+Connor Rigby:
+I like to keep it vague because not everyone wants to hear the minute differences between two different genres of metal.
+
+Todd Resudek:
+Yeah. Okay. I'm maybe one of the few. The few outside of Northern Europe, I guess. [crosstalk 01:03:15]. Distinguishing the differences?
+
+Connor Rigby:
+I'm not going to go talking about metal in Northern Europe. There's Germans.
+
+Todd Resudek:
+Yeah, is it Germans and the Swedes.
+
+Connor Rigby:
+Oh, the Swedes there. They're there on their own level of metal.
+
+Todd Resudek:
+Yeah. So, I was talking to [inaudible 01:03:30] recently, who doesn't strike me as somebody who's particularly into metal, but I mentioned that I was going to see a band called Sabaton, which is from a smaller city north of Stockholm. And he immediately knew exactly who I was talking about. So, yeah, I think it's compulsory in the Swedish education system to at least know-
+
+Connor Rigby:
+Yeah. To at least know who they are.
+
+Todd Resudek:
+Yeah. Liken it to Brazilians, even if they're not into soccer, they still know way more about soccer than most people.
+
+Connor Rigby:
+Correct. Yeah.
+
+Todd Resudek:
+Totally. Okay. Well, cool. So, let's talk about your taste in movies or TV shows. So, let's say you're flipping through the channels. What's one movie or TV show that you would stop and watch pretty much anytime?
+
+Connor Rigby:
+Oh, man. So, I don't watch a ton of TV or movies. But if we're going for TV, basically anything animated. I love cartoons. I have old Cartoon Network cartoons. Even the real old like Looney Tunes, Bugs Bunny, Tom and Jerry that stuff. If there's a cartoon on a TV, I will stop and watch it. As for movies, I don't watch a ton of movies. Probably if I had to pick one that I would watch no matter where I saw it I would definitely sit down and watch Donnie Darko. It's just one of those stupidly over the top movies that they went well out of their way to make no sense, and understanding it is up to the viewer.
+
+Todd Resudek:
+Okay. Yeah, that's one I haven't seen. My wife loves it. I don't know why, but I've literally just... I've never seen it.
+
+Connor Rigby:
+Jake Gyllenhaal can be a chore to view sometimes.
+
+Todd Resudek:
+Okay, who was the director of that?
+
+Connor Rigby:
+I don't remember who directed it.
+
+Todd Resudek:
+Is it [crosstalk 01:05:09]?
+
+Connor Rigby:
+Probably someone [crosstalk 01:05:12]-
+
+Todd Resudek:
+[crosstalk 01:05:12] or somebody.
+
+Connor Rigby:
+Let's see. Richard Kelly, who I'm unfamiliar with. I don't know what else he made.
+
+Todd Resudek:
+Okay.
+
+Connor Rigby:
+Nothing good it turns out according to Google.
+
+Todd Resudek:
+Okay. Well, congratulations, Richard Kelly, for making one more good movie than I've made. Okay, cool. And to wrap it up, let's talk about what project are you most excited about working on next. So, either something you're working on now or something you're really excited to get started working on soon.
+
+Connor Rigby:
+So, I've been working with Frank [inaudible 01:05:43] on Wi-Fi meshing, and maybe no one else cares as much about this as I do, but I think it's just amazing. Basically, the idea that you don't need a central router to connect all of your Wi-Fi devices. So imagine you get home and there's no central router that your phone connects to get on your Wi-Fi network, but it just connects to whatever's closest. Your light bulb, your refrigerator, whatever ridiculous component that you have in your house connected to the internet. So, we're working on adding support into that with Nerves right now. So, your Nerves devices don't need to be configured to connect to a router to talk to each other. Say you have a local network of Nerves devices, you can configure them to just talk directly to each other.
+So, right now I've got a test bench in my house. I have a two story house and there's a device upstairs that needs to talk to a device downstairs. They cannot talk directly to each other because the distance is so great. But by putting one more of these devices in between them, they can now reach each other and all three of them can communicate with each other. So rather than the classic client-server relationship that you might have in Wi-Fi, you get the meshing of it.
+
+Todd Resudek:
+Okay. Yeah, so I guess that reminds me of the Z-Wave protocol.
+
+Connor Rigby:
+Similar.
+
+Todd Resudek:
+Okay. So, you've set up your Nerves device to act as an access point as well as...
+
+Connor Rigby:
+Well, so it's actually part of the specification where Wi-Fi devices... So, it's neither an access point or a client or infrastructure if you're into the actual terminology. It's a brand new mode. Brand new as of 2016, I think, called Mesh Mode where it doesn't actually act as a client or server. It acts as both simultaneously. More of a node than a client or a server. And there's a lot of really complex routing and math that goes on under that. Thank God someone smarter than me figured out.
+
+Todd Resudek:
+Nice, and they somewhat documented it.
+
+Connor Rigby:
+Well, as much as anything in Linux is documented.
+
+Todd Resudek:
+Nice. Cool. So you have one Nerves device that maybe reaches out to the internet, and then any other Nerves device just needs to reach none of those others-
+
+Connor Rigby:
+Or any of the other ones. Right. So, my test benches, I have one... There's one device connected to the internet, and by connecting that one device to the internet, my test bench of six other devices all mesh together. And as long as that one device that's connected to the internet is in the mesh, they all have internet.
+
+Todd Resudek:
+Nice. Well, cool. Well, thanks for joining me today, Connor. It as a real pleasure getting to know you-
+
+Connor Rigby:
+Thanks for having me.
+
+Todd Resudek:
+Getting to know you a little bit more, and hopefully we'll see you at a conference soon.
+
+Connor Rigby:
+If we're ever allowed to go on them again.
+
+Todd Resudek:
+Yes, or a virtual conference.
+
+Connor Rigby:
+A virtual one, yeah.
+
+Todd Resudek:
+All right, thank you.
+
+Justus Eapen:
+Well, that's it for another episode of Elixir Wizards. We are so glad to be back at you for season four on system and application architecture. My name is Justus Eapen. I'm joined by my co-host, Eric Oestrich, and our Director of Development Operations at SmartLogic, Dan Ivovich. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails, and React. Infrastructure projects using Kubernetes, in case microservices isn't actually dead, and mobile apps using React Native. We'd love to hear from you if you have a project that we could help you with. Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook. So add us on all of those. You can find me personally online at Justus Eapen and Eric at Eric Oestrich. And join us again next week on Elixir Wizards for more application and system architecture.

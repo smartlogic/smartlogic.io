@@ -1,0 +1,475 @@
+EW S5E13                Show Notes
+
+
+EPISODE S5E13
+
+
+[INTRODUCTION]
+
+
+[00:00:06] EO: Hi, everyone. We hope you’re enjoying Season 5 of Elixir Wizards. Before we get into today’s show, we want to make a quick announcement. We’re currently looking for an engineering manager to join our team. If you have expertise in React, Elixir or Ruby, a track record of improving engineering processes, and a proficiency in the design, maintenance and assessment of technical architecture, we'd love for you to apply. Our team is fully remote in the United States and first-time managers are encouraged to apply. Head over to smartlogic.io/jobs to learn more and submit your application. Thanks. And now here's the show.
+
+
+[EPISODE]
+
+
+[00:00:39] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I'll be your host today. I'm joined by my crypto-zoological co-host, Sundi Myint, and my paranormal producer, Eric Oestrich. Oh boy. These are getting really good, y'all. Really good.
+
+
+This season's theme is adopting Elixir. We're joined today by a couple of very special guests, from Legends of Learning, Shaun Robinson and Toran Billups. Say hi, y’all.
+
+
+[00:01:14] TB: What’s up, guys.
+
+
+[00:01:17] JE: First of all, let's hand it to Shaun. Shaun, what is Legends of Learning.
+
+
+[00:01:23] SR: Legends of Learning is a startup company. We're in our fourth school year. We're building a platform of curriculum-aligned games for teachers and students. So far, we have about 2,000 fun and curriculum-aligned games in math and science. They're created to engage students and assist teachers, especially in the wake of COVID with hybrid learning, blended learning and distance learning models that teachers are now using. Yeah, happy to go into more details about any of those aspects, but that's the high level.
+
+
+[00:01:57] SM: Fun that you measure your time in — what did you say? School years? I love that.
+
+
+[00:02:03] SR: Yep. School years. For the fourth school year.
+
+
+[00:02:06] SM: How did you come up with the name Legends of Learning?
+
+
+[00:02:10] SR: I know early on, so our founder’s name is Vadim Polikov. This was his brainchild. I know that they played with a couple of names. We have been named Smart Little Cookies, was one idea. Now that is our staging domain name. If you want to see the next version of the site, you can go there. Yeah. So I think Legends of Learning, it just worked. I think our mission has started to empower teachers and to really turn them into the superheroes that they are. We've built our brand around that. That fits in with Legends of Learning. We will help the teachers become legends.
+
+
+[00:02:48] JE: Give us a little bit of background on you both personally, when did you start at Legends of Learning and what are your roles?
+
+
+[00:02:55] SR: Four years ago, when the company was first starting, Vadim had reached out to me on LinkedIn. He pitched me the idea of what he was thinking about building. He had put together an executive team, and they had no tech hires yet. For me, it was a dream opportunity. It was a completely greenfield project. No legacy code. I just thought the idea was super cool. I joined. From there, well first, we had to assemble furniture. Then after that, we got our internet connection. Then we started coding. We built the first version of this platform that brings together teachers, students, game developers, and some others. That's how I got started. Then yeah, Toran, do you want to talk about when you came in?
+
+
+[00:03:45] TB: Yeah. I think I was in 2019, that first second quarter, April, May timeframe. Before that, I didn't know the Legends of Learning. I obviously sought them out specifically, because they were hiring for Elixir, which I thought was pretty cool. You guys always talk on the show about competitive advantage, definitely was from that standpoint. And my experience was getting to meet Shaun and that team specifically, because I knew I'd be doing Elixir there. 
+
+
+[00:04:13] SM: You are seeking an Elixir job, essentially?
+
+
+[00:04:17] TB: 110%. It was a really big risky pivot. Years before that, I'd actually been doing Ember.js for many, many years. Actually, no back-end for some time, other than Python and just some basic stuff that I was doing. It was actually a huge career jump for me to throw out all the time invested in the Ember community and just start over professionally in that sense.
+
+
+[00:04:40] SM: Interesting. I feel like, I think we actually met at the DC Elixir meetup around the time you joined Legends of Learning. I remember someone introducing me to you, or you to me and saying, “This is our new person. They just started and they're joining up.” So are you in the DC area currently?
+
+
+[00:04:56] TB: No. I actually live in the Midwest. I do remember actually meeting you as well. I flew out, I think, just to spend a couple of weeks onsite, which maybe sounds weird now in COVID time. I've been working remote for a number of years and one of my things that I feel sets everybody up is that foundation of trust. When I joined a new company, I actually asked if I could be on site for two weeks straight. I actually just lived there and I was there for a bit. I think, I'm trying to remember if that was Shaun or Jeremy that was with me. And did that introduction. Either way, yeah, it was a good time in DC. I haven't been in DC for some time now, just because of travel and things. But one day, again.
+
+
+[00:05:33] SM: Nice. Shaun, where are you located?
+
+
+[00:05:35] SR: Right now, I'm living in Bend, Oregon. I grew up in the DC area. I've been there my whole life. Just when COVID happened and everyone went remote, I drove my van. I'm converting this van. I drove it out here to Oregon, where I have some friends who live here and who are also converting a van. I've been here for a few — since September.
+
+
+[00:05:55] JE: How is the van project going?
+
+
+[00:05:57] SR: It's going great. You see all the nice pictures on Instagram of people living the van life and you're like, “I want to build a van.” Then a year later, you're crawling on the floor, running wires in a garage and you're not doing the cool stuff. That's where I'm at right now.
+
+
+[00:06:15] JE: Crawling on the floor –
+
+
+[00:06:15] SR: Finishing the van. Yeah. Now I tell people, if you want to live the van life, buy a van that's already done. If you want to build a van, that's definitely a fun life challenge.
+
+
+[00:06:25] JE: Are you going to integrate any Nerves into your van?
+
+
+[00:06:29] SR: Oh, yeah. I'm going to have a Mac Mini that's mounted in the wall and that'll be my workstation, one of those new M1s. Yeah, I've been running the plumbing and electric lately. I actually was thinking, because I'm a software developer, I always draw parallels to software engineering. I have this idea that I will write a book about how to build a van for software engineers. Because it’s just like a lot of little things. For example, if you have three pieces of wood and you want to be able to take them apart, don't put a screw through all three of them. You need the first one to the second one, and the second one to the third one. I was thinking, that really relates to good decoupling in software engineering. You want to keep your interfaces separated. If you have things calling through — you have modules calling through each other, then it becomes hard to peel apart. Stuff like that. I think I would love to share some of the van experience with other —
+
+
+[00:07:23] TB: I don’t even have a van, but take my money, dude. I’m in.
+
+
+[00:07:27] JE: I definitely want to buy your book.
+
+
+[00:07:30] SR: Cool. I got a couple of customers already for my eBook.
+
+
+[00:07:34] SM: Amazing. You heard it here first on Elixir Wizards. Shaun Robinson’s new book. Speaking of content creation, Toran, you had a podcast, have a podcast? Is that true?
+
+
+[00:07:45] TB: Yeah. I mean, how many emails did I send you guys, self-promotion? It's just like, “Hey, I did this talk. I wrote this. I did this.” You guys were torn. Would you chill out with this podcast. This isn't about you? Yeah, my podcast, Developing Fatigue, it's the human side of programming. A friend of mine, Kris Van Houghton, worked with him some jobs ago. We get together and just talk about our week, talk about certain topics in tech. It's really not super directed in the third season, which is going on right now. It's a little bit more loose. It's just a fun podcast to talk about tech.
+
+
+[00:08:18] JE: Rock and roll. There's a story I wanted to ask Shaun about, because we heard through the grapevine that you sold a GitHub handle. We had to get this right at the top of the shows, because people are going to be fascinated by it.
+
+
+[00:08:34] SR: Sure. Sort of, with one clarification from my legal team. The handle was @ENV. I got it in 2011, or something when I first signed up for Twitter. Actually, it was earlier than that, because I remember —
+
+
+[00:08:50] JE: GitHub or Twitter?
+
+
+[00:08:52] SR: It was Twitter and GitHub. It was Twitter. and I think I had it as far back as 2008. Because I remember, Barack Obama followed me and I thought that was really cool.
+
+
+[00:09:03] JE: Barack Obama followed the handle ENV?
+
+
+[00:09:06] SR: ENV. Yup.
+
+
+[00:09:09] JE: Oh, ENV. Okay. Okay. I’m sorry. Yeah, okay. That’s a little bit —
+
+
+[00:09:13] SR: To be honest, it was a little bit of a rough handle to have, because it's a really common programming variable. Anytime someone on Earth uses @ENV, I would get a notification about that piece of code. It was pretty cool that it was short. Someone reached out. It was actually a Brazilian web hosting company. They just reached out and said, “Hey, we're building this brand. We would love to acquire this stuff,” the ENV name from GitHub and Twitter.
+
+
+I did a little bit of research and I found out that it was a violation of Twitter's Terms of Service to sell a name outright, because it's their platform. I did some research and I found out that CNN BRK, which is CNN’s breaking news handle, somebody had owned it and CNN wanted to acquire it. They set up a consulting agreement, where he consulted for them and they got access to that name. That was a structure that I used with the hosting company. I've licensed them my consulting services and they get to use the name as part of that.
+
+
+[00:10:11] JE: You get paid in an ongoing way for this? They're paying you rent, basically.
+
+
+[00:10:18] SR: Sort of like that. It actually ended up just being a one-time payment for a lifetime of consulting.
+
+
+[00:10:24] JE: That is a great story. Definitely, I think useful. I mean, someone's going to want to try them out one of these days.
+
+
+[00:10:31] EO: I wanted to ask you, your legal team was there, Shaun. You were like, “Hold on, we got a clarification from my legal team.” I was like, “Who's this?”
+
+
+[00:10:37] SR: Just the internet.
+
+
+[00:10:40] EO: Oh, okay. You didn’t —
+
+
+[00:10:40] SM: My legal team, the internet. I love it.
+
+
+[00:10:43] SR: Okay. Small other related story. I also used to have the handle, which is my name, @ShaunRobinson. I didn't use it. I put one tweet on there that said, “Follow me on ENV,” where I'm tweeting from. There is an E, entertainment news, weekly, or E entertainment talk show host that has the same name. Her name is Shaun Robinson. She reached out to me and said, “Can I get this name from you?” This is five or six years ago. I said, “Sure, I'll sell it to you.” Then the next day, I woke up, and Twitter had given the name to her. I think what happened is she said, “I'm a celebrity, and he's not using the name and he's trying to sell it to me, which is a violation,” so I lost the name. With that experience in the back of my mind, I was like, “No, no, no, no, no. I cannot sell Twitter names, but we'll look into a license agreement.” 
+
+
+[00:11:35] SM: This happens to no one ever, and then — that’s so cool. Really glad we went there, because we just happened to see it. We were taking notes and a meeting we had with Dave, CTO, correct? I don't want to get your titles wrong here. Yeah. We've just taken this note, where we had been trying to reach you about talking about DC Elixir last year. And he mentioned something about — you had moved, you'd gone into the van life and sold your GitHub handle, and I was like, “One, two, three. One of these days —.”
+
+
+[00:12:10] SR: — This guy's gone off the rails.
+
+
+[00:12:12] SM: Amazing. Speaking of going off the rails, we'd love to talk about Elixir. Sorry. I don't know if you guys were using Rails at any point in your life. But we would love to know about your personal past to Elixir and how you landed there. Especially Toran, you talked about looking for a job in Elixir. That's great to hear. Would love to know about both of your experiences first time using it.
+
+
+[00:12:35] TB: Yeah. I mean, I can soak up some air in the room here. My story goes a little bit further. I had the ambition, the desire to be an Elixir developer. I obviously been doing single-page apps for many years, so nobody was going to look my way. As usual, I was going to push through that. I decided first, obviously, the network effect would help. This was back when obviously you could go to a conference and meet some people. I paid my own way to Lonestar Elixir. I think this was actually the February 2019 Lonestar that I went to. I just met a ton of people at this Lonestar. A lot of people understood my story. It's something different when you meet them in person. Get some idea of who you are and that allowed me to get through the door a little bit more. Through a lot of those interviews, I met — really companies, I think were in some hypergrowth, I would call it. Probably why they came to Lonestar to begin with, looking to hire.
+
+
+And when somebody tells me that they're going to hire 70 engineers that year, I look at myself and said, like, “Do I want to be one of those 70?” I didn't end up taking any of those jobs. To help myself stand out further, I also decided like, I should have a real project. Something to prove that I actually can build something. I built this game called Elixir Match. I started talking about this and used it as an interview tool.
+
+
+Actually, Shaun and I, I think when we got together, we went through that as part of the pairing interview that we did at Legends. Really, it was just getting some experience with Elixir under my belt, getting out in front of people, meeting people and eventually, getting some opportunities my way. And Shaun, I guess, believing in me, the potential maybe.
+
+
+[00:14:15] SM: Shaun?
+
+
+[00:14:17] SR: I believe in Toran. He's awesome. Okay, a little bit about my background. I think I started when I was younger, I used to make programs for AOL. I'd be chatting on AOL. I would be building these little programs in Visual Studio, Visual Basic, I guess. Then one day, I remember learning, “Oh, I can use this code to write web applications.” I figured out how to hook up a database and stuff.         
+
+
+That led me towards PHP, because I was like, “Oh, you don't have to pay for this. It's free.” VB was, you had to pay. I was a teenager. I started working with WordPress and expression engine in PHP. I built a web development consultancy around those technologies. Then about 2014, I got the startup bug. I got — somebody reached out to me and said, “Do you want to join the startup?” I was like, “Yeah. This seems really awesome.” After having built one website after another, it seemed a great idea to build one product. That seemed really exciting.
+
+
+At that startup, we chose Closure. That was my foray into functional programming, and especially dynamic functional programming. I spent a couple years with Closure, and I'm learning all this, the nice stuff about functional programming, immutable data structures, concurrency, and those types of things. The job after that was a Ruby on Rails shop. I remember, just missing functional programming when I was working back in Rails. I was just — typical things that happened with Ruby on Rails applications, where you can get into a callback hell, where you say, user.save and then hundreds of little calls go off and you're not sure what happened. It's hard to introspect and understand the system.
+
+
+Then, with Legends of Learning, when we started off, we chose with that experience in my mind, we were looking at technologies. And we chose to go very data-driven and functional. We started the application using SQL and React, and we had the server in the middle that was PostGraphQL, it was called. What it did was it introspected SQL and automatically generated a GraphQL server, so that basically, you could just code in react and SQL.
+
+
+I knew about Elixir, just because I knew that it had some of the ergonomics of Ruby on Rails, and then a lot of the aspects of Closure that make Closure a great functional programming language. I knew about Elixir. When Legends of Learning was first being built, we didn't commit to any application stack. We used React and SQL. It was in the second year, when we started having some scaling problems with those choices, where we knew we needed to introduce an application layer. I remember at first, I was like, “Oh, maybe we could use Closure.” Closure is notoriously — people don't have a lot of experience with lisps. I think also, Closure as a community is very library-focused and less framework-focused.
+
+
+I think because of that, people end up designing their own in-house framework for a company. It could look different from one company to another. I think that's what was really attractive about Elixir, for me at least. It was like, “Oh, I get to use these concepts and technologies, functional programming, data, dynamic language. But I'm getting something that other developers are actually going to want to use.  And having a batteries-included framework, like Phoenix. That pushed it over the edge of the other choices.
+
+
+I think it turned out to be a great choice, because after we selected that, we started to get really great engineers, like Toran, who were specifically looking for Elixir. At first, it was an open question of like, “Will we actually be able to hire for this language that's not one of the main languages that you see out there?” It turned out, not only could we hire, but we were actually – it was a filtering mechanism to get really great people.
+
+
+[00:18:31] JE: That's something that we hear over and over again. When you were making that decision to go to Elixir, who else was in on that conversation and what was some of the pushback, or you mentioned closure that you were thinking of. Did anybody throw up any other alternatives?
+
+
+[00:18:49] SR: I think we had narrowed it down to — We had narrowed it down to Node or Elixir. Just because we already had — our friend was in JavaScript and React, and then we had some Node applications running. On the back-end, we had done some serverless stuff with Lambdas. We already had JavaScript in our ecosystem. We considered Node as our safe choice. Then we had Elixir as our, “We'd like to do this, but we're not sure if it's too risky.” I think we looked at Rails and we looked at Python. I think, I was certainly very biased towards functional programming and towards just biting the bullet and using something that was a more modern language, like Elixir.
+
+
+We tried to make a systematic decision and identify the different criteria, like, how easy would it be to hire? How easy is it to find resources? What if we get stuck? We tried to lay out the criteria and I think at the end, we just said, “Let's just go with Elixir.” I think it was at that time, it was myself, Jeremy, who's one of our other senior engineers. And Jared, who — he was an early engineer that worked with us and he was a React front-end specialist. I think he was open to it as well.
+
+
+There may have been a couple other people at that time, but we got in a room and just on the whiteboard, just went through all these criteria and came out with okay, we're going to start using Elixir. Yeah. I can talk a little bit more about the actual strategy that we used to start introducing Elixir into a running application, if you guys want.
+
+
+[00:20:31] JE: I do want to know about that. I've also got a question for Toran. Before I even get to that one, I want to know how big of a role Lambdas play in your architecture. I mean, you mentioned that you had a few back then. Today, do they still play a role?
+
+
+[00:20:48] SR: No, they don't play any role today. As I mentioned, we started with SQL, PostgreSQL, and React on the front-end. Then we had that Post GraphQL server in the middle. This was 2016. I think, serverless was pretty hot at that time. Everybody was like, “Oh, do we even need servers?” When we had something that came up, so the first example was, in our platform, we have thousands of game developers all over the world who build these mini-games. We have a process where they — it's like the back-end of an app store. They log in and they can upload a version of their game, and then it goes through a review process.
+
+
+So the first task that didn't really fit into that SQL back and forth, SQL to React flow, was we need a service that can receive a zip file and unzip it and put it on S3 and then update the database. We said, “Okay, well, for something like that, let's build a Lambda.” The funny thing about that lambda is the way it was coded is it would go to the database, find the stuff that needed to be unzipped, unzip it, and update the database. Then the next time that that row would no longer be unzipped.
+
+
+If it didn't work, it would just keep looping. Two years later, we realized the Lambda was still running. It’s still trying to unzip. It actually worked really well in that sense. It did not go down, even when we wanted it to. We ended up moving away from the serverless approach. I think we just lacked a central way to manage those and other frameworks out there, like serverless and things like that. Going towards something like Elixir, where we really had our own application stack that was back into a monolith, that ended up being a really productive choice for us. We don't have any serverless Lambdas left anymore.
+
+
+[00:22:33] EO: I'm curious, how much did you spend on —
+
+
+[00:22:37] SR: On that Lambda?
+
+
+[00:22:38] EO: Yeah, on that Lambda doing absolutely nothing for two years.
+
+
+[00:22:42] SR: Probably a lot, a lot. I think, we were benefiting from the AWS early stage startup credits. It didn't come up on our radar, but it was literally for two years, unzipping the same files over and over trying to upload them failing, and then looping again.
+
+
+[00:22:59] JE: Sundi, don't let us forget to ask how they moved from their old architecture to the Elixir architecture, because I do want to not forget about that question. I want to ask Toran, what it was like being hired by a company? What was the hiring process for you at that point, Toran, and if it's changed at all since then?
+
+
+[00:23:18] TB: The hiring process, I think it was not too different than your average hiring process. They've wanted to get to know me. Wanted to see me talk about some code. We didn't have a surprise whiteboard interview or anything like that. I was remote, so I was actually interviewing remote. I basically met the two engineers at the time, Shaun and Jeremy; paired up with them. What was neat is since I had just recently done this game, they just said, “Hey, let's see some code you've written in Elixir.”
+
+
+I basically, by padding my own resume and pulled this game up and went through it, which was cool and got a chance also to meet Shaun and Jeremy in the process, get to know them as human beings, which was really cool.
+
+
+[00:24:00] JE: What about now? I mean, you're still hiring. Have you changed the process at all as you've all become more comfortable in Elixir?
+
+
+[00:24:10] SR: I think we are not hiring now, but we are fundraising. We're at the end of a cycle of fundraising. Our executives try to keep that stuff away from us while we're working in. So I might be a little out of touch with what's going on, but I know that we do plan to raise money and we would use that money to hire and build our team, build our engineering team.
+
+
+[00:24:35] SM: What do you hope your team looks like, if you're able to secure that?
+
+
+[00:24:41] SR: Maybe a couple more clones of Toran. Well, we have Toran, we have Robson, Jeremy. We just have some really great people and we just have way more work, that it's scoped out, it's ticketed, it's ready to go. Users want it. We just don't have enough people. I think, it would be some combination of more, or junior, intermediate, and senior level people that would be able to work on all those different parts of the system.
+
+
+[00:25:06] SM: Yeah. We always say that we need a few more Erics. We could all use a few more Erics. I totally get that, for sure. Do you still — do also consider yourselves a DC-based company? I'm just curious, as a fellow DC resident.
+
+
+[00:25:24] SR: I think, yes. Although, so when the company started, you always had three days in the office, two days remote setup. It was Monday and Tuesday in the office, Monday, Tuesday and Friday. Then Wednesday, Thursday were work from home days. I think then when we started hiring engineers, we realized just how much higher quality engineers we could get if we opened that up. I think, Toran, were you our first remote person?
+
+
+[00:25:50] TB: Yeah. Guaranteed remote, I think. Yeah.
+
+
+[00:25:52] SR: Then today, everyone's remote. It's Toran in Iowa. Jeremy, I think is in Maryland. Robson is in Buenos Aires, and Ho-Sh is in Arizona. Then I'm in Oregon. Dave's in Virginia.
+
+
+[00:26:05] SM: Amazing. That's all the time zones. All the time zones.
+
+
+[00:26:08] SR: Yup. All the time zones.
+
+
+[00:26:10] SM: That must be fun for whoever manages your calendars.
+
+
+[00:26:15] TB: Mostly Shaun, because he has to get up at the crack to meet us all for stand up.
+
+
+[00:26:20] SM: Amazing. Yeah, I'm just interested in that, because last summer, I was trying to identify Elixir jobs. I think at the time, I hadn't considered the idea of remote forever. Just remote for now thing. I was looking for Elixir jobs. I was like, “Okay. Well, there are two companies that use Elixir in DC.” The one I just left and Legends. I don't think they're hiring right now. I got to branch out somehow.
+
+
+It's always nice. I just always keep my ear to the ground on who's hiring for what, because here, we try really hard to make sure that people who want to stay in Elixir, for whatever reason, can stay, or can join in. We want to make sure that people who are interested in Elixir have the ability to join in. It's always good to know when those opportunities arise. Great to hear that when Toran was looking for a job in Elixir, found one. Always love to hear those stories.
+
+
+[00:27:15] TB: I would say back then, it definitely was a bit of a fight. You had to really look and also, just really groom the companies that were, because obviously, if you're looking for your first shot at any new programming language, you probably, especially if it's out of state like it is for me often, probably don't know that company. You don't know the hiring managers. You don't know the team. There's a lot of risk. Obviously, risk on both sides. They don't know me either. That's, maybe just comes with the territory of languages that are younger, like Elixir is.
+
+
+[00:27:48] JE: Toran, you had some words for us about LiveView?
+
+
+[00:27:53] TB: That last show, the one that came out today, dunking on LiveView, saying like, “Yeah, we ran into a mess.” I mean, I would actually be surprised if you guys picked up a LiveView project and it wasn't a mess, just because it's new tech, right? Anybody picking that up has no idea what they're doing often. I just wanted to step in lightly, softly, defend —
+
+
+[00:28:11] SR: LiveView.
+
+
+[00:28:12] JE: This is great. I want you to defend LiveView. First of all, a little bit of context for the audience. We're recording this on February 11, 2021. It's probably going to come out in a few weeks. The episode that it came out today, was the episode with our president of Smart Logic, Yair Flicker. LiveView comes up with the conversation. I said, “Yeah, I've already ran into one mess in LiveView.” I won't mention the project. It's not even actually a Smart Logic project, but still, I’m not going to mention the project.
+
+
+I want to know from you. Okay. Yeah, it's a mess because it’s a new technology and people don't know how to architect new technologies. What's the solution here? Sell me on it.
+
+
+[00:28:52] TB: Sell you on it? I don't know. I would say, I don't know that the project you looked at, obviously, and I didn't look at the code. I would say, I've built a few games with LiveView now. In fact, one of them I built over the Christmas holiday, because we have some family that were not coming back due to COVID. We always play this fun bicycle shedding game called President. I don't know if you’ve ever heard of it. You basically dump your hand and the first one who loses their hand is the president, and then you play another game. You continue to be either president, VP or the lower-tiered citizens, we'll put it that way.
+
+
+Anyway, yeah. This one president game, I built that in LiveView. It wasn't my first LiveView experience, but this was one that I had a good time with. I think really, it comes down to the programming model. For me, when you guys are talking, obviously, on the show about running into some trouble —or is LiveView production ready? My only feedback is just that if you look at the model and what Chris and that team has done, I think they've actually got a pretty good foundation. I think there's still improvements and changes.
+
+
+To Eric, or whoever made the comment that like, “Hey, we might wait for it to stabilize,” right there with you guys on production projects. I actually think LiveView is really productive and that comes from somebody that my day job is the polar opposite, where I'm writing React, GraphQL and Elixir back-ends. When I just drop into straight LiveView and I'm just working in Elixir, there's not this pivot foot over the boundary of client-server that you often do when you're doing really rich client work. 
+
+
+[00:30:22] SM: Maybe as another argument for LiveView, at least from my experience with it, I took Grox.io’s LiveView course last April, with Bruce Tate. I got a more functional, realistic view of how Elixir worked as a whole. I think that was probably more Bruce, than it was LiveView, to be honest. It was fun. It was easy to pick up. Even maybe for somebody who didn't know too much Elixir beforehand. Maybe the one downside of it is I fundamentally have less understanding of how Phoenix works in general. I can't find resources on Phoenix now, in the same way that you look for something and you find it only for LiveView, because people are just so desperately trying to figure out how to do something in LiveView.
+
+
+All the resources on the internet right now are for Phoenix LiveView, and you can't look for something just for Phoenix. Since, SEO, it’s in the same name. I don't know. I had a lot of fun working in Phoenix LiveView during that class. I haven't gotten a chance to work with it since then. I've been playing around with the idea of doing something with it. Just can't think of anything. We'll see. Yeah, it's interesting, as with new technology, it just takes a little time for adoption, but that's what we're talking about today. So, air points.
+
+
+[00:31:50] EO: Yeah. I'll say, what's wrong with just basic HTML?
+
+
+[00:31:56] JE: Why can't every website just look like Craigslist?
+
+
+[00:31:59] SM: Eric is our resident Grinch when it comes to this.
+
+
+[00:32:03] JE: We've got a few of them. Shaun, let's return to this question of the process of refactoring from your old code base into an Elixir monolith. I am a huge fan of monoliths. I think I've already mentioned that in this episode. Can you talk about that process, and just about the process of adopting Elixir?
+
+
+[00:32:23] SR: I think everyone who's working in software, you've either done the big rewrite yourself, or you've learned not to do the big rewrite, where you're like, “Oh, man. Now that I've built this system, I can see how to do it so much better, clean air, and new technology, simpler, but it's going to require me to start over.” There's all sorts of horror stories about what happens when you have a production app, and then you start to — you try to rewrite and try to catch up.
+
+
+There's all sorts of hidden complexities and features and things like that, that cause it to often fail. I remember having read this one page on Martin Fowler's website. He's a prolific software engineer and writer. He has this page called The Strangler Pattern. It's got this picture of a tree with lots and lots of vines, strangling another tree. That was the approach that we used.
+
+
+What we did was we started off with a brand-new Phoenix app. What we did is we made ecto schemas for our existing database tables. That was the first step. That's one really nice thing about ecto schemas in particular, that you just give it a name of the table and it doesn't matter if that table exists, or if it’s new or existing. It will wrap it. You specifically add in the attributes that you want that schema to have, so it doesn't have to be the full set of attributes in the DB. That was the first step we did. We wrapped all of our existing tables with ecto schemas. Then we started using, I think, X unit to start writing tests. We didn't really have great test coverage before. We started specking out our app using that and we actually found bugs that way.
+That's where we started. Over time, we were able to build up confidence in how the app was working and get rid of some of the bugs. Then the other thing we did is I mentioned, we had that Post GraphQL API. We started, instead of having our clients go directly to that API, we started proxying it through Phoenix. It's like, their API request would come in to Phoenix then Phoenix would pass it off. That gave, pass it off to the API layer. By putting Phoenix in the middle, it let us start to get instrumentation and monitor those requests.
+
+
+We sometimes didn't even know what requests were coming in, or how long they were taking. I think the third thing we did was we mounted our React app inside of — we use Phoenix’s build pipeline and web pack integration to build that app. Phoenix, all these little tools that Phoenix has, ecto schemas, ecto migrations, the build pipeline, and just a full stack web framework, we were able to strangle the rest of the application. We started mounting it on — we started mounting different — creating different routes that would replace certain pages of the site.
+
+
+Just last week, I think about — which is two years later, we finally deleted that old V1 API, as we called it. Now, we're 100% in this nice, clean Phoenix monolith. Toran just finished porting our game developer portal into Phoenix and we just released that. The game devs are super happy about it. I think we're using only a few web servers. Whereas before, when we got to the height of our scaling problems, we were using 15 or 20 of these API servers to do wasted amounts of work.
+
+
+Now we're much more efficient with — we're handling a lot more requests with a lot fewer servers and we can do everything in Elixir with one stack. I think that was a pretty cool — I didn't know if it would work. Now having been through that, it was really cool to see how you can basically replace a running production system with a better one, without taking on the risk of a big rewrite. Just wanted to share that with you guys.
+
+
+[00:36:16] SM: That's awesome. Has there been any scaling up or down, or any changes that you had to make to your system in the wake of COVID and more online learning?
+
+
+[00:36:26] TB: Yeah. There was an auto-scaling piece of tech, I guess, you would call it that is Phoenix driven. But Kubernetes probably actually does the work. Phoenix, what we wanted to do was really get a metric about how many connected websockets we have, or sessions we have. That would alert, or give Kubernetes information to decide, really, what is the percentage of CPU on this box? If all these boxes are at 50% or more CPU, we probably need to spin up a spot instance, or another machine.
+
+
+Something we went through recently was the Elixir upgrade from 110 to 111. There was an interesting change during that, because we were using PUB/SUB 1, obviously, the Phoenix PUB/SUB. During that migration to go to Phoenix 1.5, we had to upgrade to PUB/SUB 2.0. We were using this private API, Phoenix PUB/SUB list local. When you actually go look at the source, it's like, please don't use this in production. It was actually a really handy way to get information or metrics about the local node, not the entire cluster. We use that information really, just to determine, “Hey, should we scale up?” That's obviously very important to be on the local node, not the cluster in that case.
+
+
+[00:37:35] SR: Sundi, another one that comes to mind is we started using Timescale, recently. TimescaleDB. Timescale, it's an extension of PostgreSQL. It has some additional features that make it, so that when you have a lot of data, lots of low level data points that you can have, they call it continuous view, where it rolls up the data and stores the rolled up data, so that when you query the rolled up data, it's really fast. We just got to a scale where we had so many of these low-level data points that when someone queried a lot of them, it just was really, really slow. One of our viewers got to set something like, 60 seconds, and then it timed out.
+
+
+The way this relates to Phoenix and Elixir, is that ecto just worked. Because it's just PostgreSQL, we were able to wrap our TimescaleDB tables and views with ecto schema and everything just works. We can use ecto queries on those schemas. Even though Timescale is doing all this magic under the hood to roll up individual data points into aggregates, it just works like normal in Phoenix. I think that's pretty cool.
+
+
+[00:38:41] SM: Nice. Toran, we do have a question specifically for you, because Shaun has been there since the beginning. When you joined, was there anything that you had to tear apart or refactor, as we say?
+
+
+[00:38:53] TB: Interesting question. A lot of the game front-end code and the tooling underneath of it was aged. Over time, those things were basically thrown out and rewritten. A lot of that was more on the React side. I’m trying to think of any Elixir that I actually rewrote. I don't think so, honestly.
+
+
+[00:39:15] SR: Toran is being humble. The whole codebase was trashed and he's been writing beautiful, clear code, as we've been upgrading parts of the system.
+
+
+[00:39:22] SM: Maybe we should have asked Shaun from the beginning.
+
+
+[00:39:25] JE: We were really hoping he would just come, he would just savage — he would be like, “You have no idea.” No, just kidding.
+
+
+[00:39:31] SM: We've talked a lot about Legends in general and both of your paths to Elixir. A lot of our listeners are people who are looking to be hired into an Elixir role, or are hoping to bring Elixir to their company. What advice would you give to them from either situation, to help them reach those goals, seeing as you've both done that at some point?
+
+
+[00:39:55] SR: Maybe there's a lesson from that strangler pattern, that you don't have to convince your company to make a wholesale switch, if you can just deploy something, something that adds value and you can get people using that. It still works with the same database, so you can build something off of a database that you already have to show value. Or you could build it for a piece of your existing application. I think that could be one way. It doesn't have to be this big architectural shift. It can happen incrementally. That's one that comes to mind. What do you think, Toran?
+
+
+[00:40:31] TB: Yeah. I think my useful information here would just come for people seeking, or saying, “How do I get my first Elixir job?” The two rows that I know that, obviously, just worked for me, but may help other people would be first, get your hands into the tech that you're trying. If you're trying to get an Elixir job, actually write some code. Don't just show up at the interview and say like, “Hey, I'd really like to work here. I just haven't taken the initiative. Isn't that great?”
+
+
+You obviously, want to put in some effort. I think building something, get the thing all the way out to production on the web and show it to people. In my case, the Elixir Match game that I built, I literally sent that link out to people and said, “Check this out. Is it cool? Okay, it's cool. You want to see the source? I also open source. Go check that out.” It gives people an instant path to learn more about me, my coding style and ask questions. If you don't do that, you can't really set yourself apart.
+
+
+The second thing, this might be a little bit more narrow for people. If you can actually speak at a local meetup just about something you learned, it doesn't have to be some huge open source release. Just start hacking into Elixir and go speak about what you learned. It can be really simple. I tried to do this before I even started my job search to pad my blog. Because in a way, blogging, speaking is a way about writing about what you've learned. I basically spent 30 days, where I tried to blog something every single day that I had learned in Elixir. I did this while I was reading a couple Elixir books. A lot of it seems like, it really comes out of the chapters I was reading. I was trying to really get through this and get it into my mind as I wrote it down. If you can communicate clearly about something you're learning, that goes a long way. Whether you're speaking or writing,
+
+
+[00:42:06] JE: That's a great answer. One more fun question before we let you go here, what are each of your favorite games, out of the Legends of Learning collection?
+
+
+[00:42:18] TB: Funny enough, I just spent too much time with this game. I don't know if favorite is the right word, or just comfort. I'm very comfortable with this game, called Miss Rose. It's a science game about climates. I don't know. I'm really partial to that one. I think another really fun game on the math side is Newton's Pool. It's an interesting physics-based game, where you bounce like, almost if you're playing pool, but on HTML. You basically pull back and watch the ball react to all these other things in the game, and then try and get it into a hole to advance to the next level. Both of those are high on my list. I know Shaun, he probably knows all 2,000 games by heart. 
+
+
+[00:43:01] SR: Every single one of them. I can speed-run them. Just kidding. I think one of my favorites, it's called The Tale of Curious Nail. This is an instructional game. Instructional games teach the curriculum, then we have other games that are more question and assessment games. This is one that really teaches. It's in the category of — I think it teaches about, let's see, so the description is Nail the Curious Snail. Helps you observe and learn about patterns of objects in the sky, day-night cycles and the seasons. At the end of the game, students can use various tools to make observations on their own, or guided by the teacher. Yeah. I just think it's got some cute artwork that kids really like.
+
+
+[00:43:45] JE: Wait. This is teaching cosmology, or when you say objects in the sky, you mean planetary bodies, or clouds?
+
+
+[00:43:54] SR: It's about objects in the sky. It's in the category of the sun, moon, and stars, patterns of apparent motion is the name of the unit.
+
+
+[00:44:03] JE: That is so lit. I love that.
+
+
+[00:44:06] TB: I got to get in, though, and actually plug, because I think it may be a little confusing. I want to make the distinction, but also plug this game that is, we have these 2,000 mini-games that Shaun mentioned that indie developers make. Obviously, they’re instructional and assessment styles and things, but we actually have our own game that is in the classroom.
+
+
+It's actually a really fun card game. You can build your own deck. It reminds me of a really white version of Magic the Gathering or something, where you actually stack your deck and you play these enemies. Obviously, the questions that come up that are related to the subject, so math or science. When you get those questions right, it buffs the play. You either buff your card, it does more damage, or you maybe get more cards in your hand. To be quite honest, that's my favorite game. We designed that one ourselves and the kids play it at home as well and they can actually progress through all the grades playing that game at home without a teacher, or a parent, which is cool. 
+
+
+[00:45:01] JE: Do you have any games that teach computer science fundamentals?
+
+
+[00:45:04] TB: I wish. That would be nice.
+
+
+[00:45:06] SR: Not yet, but we've gotten a lot of interest from kids about that. If they want to learn how to build games, which is meta, we need some games that will teach how to build games. Yeah, just to plug what Toran was plugging, but it's called Legends of Learning Awakening. It's available on the web, and also now in the iOS store. Yeah, iOS store.
+
+
+[00:45:28] JE: That is so cool. I just want to share a story, because it's relevant. We go into to do Hour of Code every year. I mean, you're basically sitting there helping kids to understand super basic programming concepts, loops, functions, variables, that kind of thing. Which I think is actually so basic that we should be teaching it at the same time as you teach basic reading concepts, because I don't know why you wouldn't, other than — anyway. But there was one little girl there who didn't speak any English, but this girl could crank code. She embarrassed everyone in that class. She put them all to shame.
+
+
+The craziest thing was that she was just zoned in. She didn't need any help. She just completely ignored everything going on around her, while everyone else was — these are little kids. They're like, six, seven-year- old, they're goofing off and barely getting it done. She was cranking. It just always struck me that, man, take this girl out, give her a Macbook, get her cranking on some websites and put her to work, because we need more people with that focus. Anyway.
+
+
+[00:46:37] SR: No, I know that. I was actually doing some volunteering last summer with a local bunch of companies that volunteer this thing, tech journey, where kids come in. We even did it during COVID through Zoom. I had a girl. This was a little bit older. This was eight, ninth grade. A little bit older. I know the feeling. You got a couple kids messing around on Zoom and then you got the one person and she was a beast. She didn't need any help. She's doing the full demo. She's asking super deep questions, like way beyond the level of this talk. It was just really impressive. It's like, at the end of those —
+
+
+[00:47:10] JE: The level of this talk?
+
+
+[00:47:12] SR: I just mean, sorry. The level like, we go through a bunch of games in that session that I was working on and it's just like, “What level are you on? Because we have not even approached the subject and you already presumed it.” It’s just really impressive. I love that when you have the standout student that is just ace material, wrecking. 
+
+
+[00:47:30] JE: Yeah. It's one. Because I noticed that in the class, there was a few that were good, that were helping the other students. Then there were a few that were really bad, or not even paying attention — and there's the whole middle. Then there's one who's just cranking. I'm like, that little girl is a prodigy. Get her out of here. Get her into some, I don't know, special class or something. Special class.
+
+
+Okay. Anyway, I got to get off this topic before I say anything stupid. All right, we'd like to give you the final word of the episode. So if you have any plugs, or asks for the audience, shameless self-promotion, the time is yours? Why don't we start with Shaun and let Toran close up.
+
+
+[00:48:05] SR: I don't have any plugs, but I did want to thank you guys. Justus, this is my third time meeting you. We had a drink in a bar once, then I saw you hosting the ElixirConf and you did an incredible job.
+
+
+[00:48:18] JE: Thank you.
+
+
+[00:48:20] SR: Sundi, I know you've been organizing the DC Elixir meetup. Yeah. I just really want to say, on behalf of all the Elixir people, thank you guys for all the community work you're doing.
+
+
+[00:48:32] TB: Yeah. I want to say also, like, Shaun, a lot of this stuff has to do for the agency, the work that you do. In a sense, it's also growing the Elixir ecosystem. It's growing the interest. That's, I think, really important. So I wanted to thank you.
+
+
+My only shameless self-promotion, no money tied to this product at all, is this company called Meeting Owl. I think I actually heard about it on your podcast way long time ago, actually. If the world returns to some version of normal-ish for tech, and you find yourself as the only person in the room on a call and there's 50 other people. And you can't see who they are, you don't know who's talking and you're like, “Gosh, isn't there tech out there that solves this?” Well, there is. I bought it and I brought it to Legends when I started. It was amazing. While everyone is still in the office, like Shaun, during the meeting, Shaun starts talking on the left side of the table, it will actually Zoom in on Shawn.
+
+
+Me at home in Iowa, I was actually able to see Shaun. You just feel a little bit closer to the team. Obviously, people are more remote today. If you return to this hybrid model, the Meeting Owl. It’s just really awesome. I love that product. And they sent me a shirt. They're huge fans of promotion, I guess, shameless or otherwise.
+
+
+[00:49:43] JE: That is awesome. Thank you both so much. That's it for this episode of Elixir Wizards, everybody. Thank you again to our guests, Shaun Robinson and Toran Billups from Legends of Learning. Thank you to my co-host, Sundi Myint and my producer, Eric Oestrich. Once again, I am Justus Eapen.
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects building web apps in Elixir, Rails, React, infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you, if you have a project we help you with. Don't forget to like and subscribe on that favorite podcast player, whatever you use and hit that button. Help us climb the charts. You can also find us on Instagram and Twitter and Facebook, so add us on all of those and join us again next week on Elixir Wizards for more on adopting Elixir.
+
+
+[END]
+
+
+
+
+        © 2021 Elixir Wizards

@@ -1,0 +1,924 @@
+﻿EW S7E1                Transcript
+EPISODE 1
+
+
+[INTRODUCTION]
+
+
+[00:00:07] AH: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Alex Housand, and I'll be your host. I'm joined by my co-host, Sundi Myint. Hello, Sundi.
+
+
+[00:00:20] SM: Hello.
+
+
+[00:00:21] AH: And Eric Oestrich. What’s up, Eric?
+
+
+[00:00:23] EO: Howdy.
+
+
+[00:00:24] AH: And my producer, Bonnie Lander. This new season's theme is the Impact of Elixir. We do not have a guest today, but you do have the three of us because we want to give you guys all of the chance to get to know us a little bit. Honestly, just for us to hang out together. Everybody, Sundi, Eric, what's new with y'all?
+
+
+[00:00:45] SM: So excited to be here. This is just so chill. So casual. This is all I've ever wanted.
+
+
+[00:00:53] AH: Just to hang out in a space, especially now that everything is virtual. I really want to know what Eric's been up to. I feel like, that's top of mind. We'll get into why.
+
+
+[00:01:09] EO: Yeah. I guess, Elixir-wise, I've mostly been working on a new project called iKnow, that's built on top of – I think, it's LE, which is a different HTTP server. It's, I know is a, I don’t know, different take on how to build these applications and just trying out different things, seeing what works, seeing what doesn't work. I guess, most recently, I've been building a Twitter clone and making that work and making it live, but a different live and all that fun stuff.
+
+
+[00:01:47] AH: What was the grand inspiration for all of that?
+
+
+[00:01:51] EO: It’s just seeing how Phoenix is, appears to be trending towards. Mostly Live View stuff. Just also, wanting to do this. Seemed like as good as time as I need to start experimenting and try different things out. I've done a lot with Kali Vala, which was also a V3, I guess, of text games, and a decent amount of learning from that has come over into iKnow, just mostly in layout of an application and doing stuff through reducing and all of that. Yeah.
+
+
+[00:02:33] AH: I feel like, I wouldn't really know where to get started, if I wanted to start something like that. Do you have any advice? Besides like, have an idea?
+
+
+[00:02:42] EO: Open a text editor. Elixir mix a new, call your project. Yeah, I don't know. A lot of it was just a lot of experimenting and other things and figuring out how I want to do configuration and that stuff. I've been talking with someone else with this, and they had hinted me towards ring. I was looking at the docs for ring, which is a closure HTTP framework thing. A lot of that was taken with that. Plug, obviously, has some amount of influence, so does Phoenix. Yeah, it's just trying to keep it as simple and dumb as possible.
+
+
+[00:03:25] SM: Which is exciting. I think, I know, I just threw Eric right into it. The reason it was interesting to us as a team, as the wizards, I like to say, is that we've been talking a lot internally about the future of Elixir, and the impact Elixir has on people, the impact that Elixir will have in the future. That spun us onto the season idea. This is where we're starting. We wanted to just get to a ground, base level. Where are we right now? What's going on with us? What's going on with SmartLogic? What's going on with the community and set a base for where we'd like to go with the seasons. That's why we went with no guest today, but we've all got some fun stuff going on, so I thought it would be nice to start with Eric's project. Alex what's new with you?
+
+
+[00:04:22] AH: Let me tell you. Nothing is cool as I know, really. I did get to see a crane recently in operation, because we got a new air-conditioning unit installed. If anybody really wants to hear about air-conditioning units, I’ve got you. I can tell you all about how the crane came and lifted itself up on the street. It was pretty cool, honestly. You know when you see little kids watch in the trash truck and they're just like, “Wow. So incredible.” That was me as a fully-fledged adult with my coffee, watching this crane like, “This is neat. This is the best day ever.”
+
+
+[00:05:00] SM: I'm picturing that kid from The Incredibles. The one standing on the driveway just waiting for something amazing to happen.
+
+
+[00:05:09] AH: “I don’t know. Something amazing, I guess.” I believe is exactly what he says. As somebody who was just told that they look like Edna Mode, then I feel like, it is my duty to provide as many Incredibles quotes as I possibly can.
+
+
+[00:05:24] SM: Absolutely. This is how we live our lives.
+
+
+[00:05:27] AH: Workwise though, I've been pretty involved in the new apprentice program here at SmartLogic, which has been really great, honestly. I think a lot about the fact that I really just lucked into a first job. Just totally lucked out.
+
+
+[00:05:44] SM: We've talked about your path to software engineering before, but in a 22nd spiel, you want to talk about that real quick?
+
+
+[00:05:52] AH: Sure. I definitely was not a person that sought it out as a career path most of my life. All I cared about really was dance. When I realized that I didn't have the personality to be a professional dancer, I was like, “Well, I have no idea what I want to do with my life.”
+
+
+[00:06:11] EO: Personality to become a professional dancer?
+
+
+[00:06:14] SM: There is a personality. Mm-hmm. Absolutely.
+
+
+[00:06:17] AH: I think, I have a lot of the extraversion that's needed. I think, what I don't have is the total willpower to do anything that it takes to follow that. Rejection after rejection would probably just destroy me. I would like, being, working in the service industry, while can be extremely gratifying, I think, doing that to live. then also taking classes and auditioning. I just wasn't meant for it. Which is fine.
+
+
+[00:06:53] SM: In figure skating, obviously, there's competitions and judges and the whole thing. We also do testing. How people decide what level of figure skater competes at, they have to test into it. There was one test that I failed five or six times. I think, I started at the end of middle school, then I stopped skating briefly in high school. I ended on failing that test the sixth time. I still don't think I've recovered from – My coach certainly hasn't. We talked about that recently. I don't want to derail totally from your dance story, Alex, though. We can probably catch back up on this. It’s a time.
+
+
+[00:07:34] AH: Yeah, I mean, I think it's similar. It's also, you're still developing mentally and physically and emotionally. Going through all of that as a teenager is really rough. Then going into college is like, I did dance at college.
+
+
+[00:07:50] SM: I skated in college, too.
+
+
+[00:07:51] AH: I did quit the dance team within one day of the boot camp before school started. Because I guess, it wasn't one day, it was two days, whatever. That's 48 hours as opposed to 24. The first day of practice was just – it was hard, but it was great. All of the girls on the dance team were real mean and shitty. I was like, “I don't need this. Nope. Bye. Quit.”
+
+
+[00:08:19] SM: Did I ever tell you that I actually did one of those dance auditions? I completely forgot, actually, so I probably didn't mention it before. One of my best friends was trying out for the dance team. We were freshmen and we didn't know the location of the auditions, and it was pre-audition week. She was like, “Will you go or I –” Somehow, I ended up going with her to the pre-audition, which was just learning the choreography for the audition.
+
+
+I was like, “Well, I'm a figure skater. I can probably pick up the choreography for this. It doesn't matter. I'm not auditioning. I'll learn it with you.” Figure skaters spin in a different direction from dancers.
+
+
+[00:08:54] AH: Yeah, you don’t.
+
+
+[00:08:55] SM: That doesn't seem like a big deal, but that is not the natural orientation for my body to move in. While everyone spun one way, I had to spin the other and it was just so obvious. But I could do everything else.
+
+
+[00:09:11] AH: You're like, “Aah.”
+
+
+[00:09:13] SM: Yeah. You have to really have some – I was just like, “Nobody's looking at me. No one cares, because I'm not really auditioning, kind of situation.”
+
+
+[00:09:20] AH: Yeah. Just like wasn’t worth it. That experience, too, was like, I don't need to continue hanging out with people that might be this way. Not saying all the answer so that way, because they're not, I'm not – I have more friends that aren't, but –
+
+
+[00:09:35] SM: Yeah. Why would I do that? You definitely learn a lot about the environments you want to be in, and also, the environments you want to perpetuate. You mentioned about having this opportunity to just get thrown into tech. Now we as a company are hoping to facilitate that welcoming environment for apprentices, also. How is that translated? How is it going?
+
+
+[00:10:00] AH: I think, very well. I've been enjoying working with them. I had a really great first job in as a software engineer, I would say, in terms of, I had two specific, really great co-workers, who were similar-ish enough in age that I think they understood where I was at. We got along very well, but they both have a little bit more experience. They were just really good mentors. I would say that from a management perspective, that job was seriously lacking. That's been something for me, that's been a fun side of this to explore.
+
+
+Also, from the actual coding experience, trying to instill the like, it's okay to not feel confident in what you're doing. Because that confidence took a long time to come. I would stay mostly, all the time, still not there. It's okay. It's nice to help people figure out that this is something that they can do, not just something that they want to do. That takes a while.
+
+
+[00:11:15] SM: This is our second time running this program. Eric, can you – because Alex and I both weren't here for the first round. You want to talk about how it went before?
+
+
+[00:11:24] EO: Yeah. That was, I think, 2018, maybe, that we did the first round. We had three people. I think, they worked on small tasks on client projects, then two – I think, that they self-organized a weekly meeting to chat about new things they learned and whatnot, which was pretty cool. Yeah. I mean, the angle of that was we either hire them, or help them get a job. We hired two of them and helped the other get a full-time job at a company we are familiar with. Yeah, it was pretty successful. One of the apprentices stayed for, I think, three years and then left to go work with a friend and the other is still here. Doing great.
+
+
+[00:12:21] AH: Doing great. Just gave a talk.
+
+
+[00:12:25] SM: Speaking of talks, we've had a fun last week. We're recording this on Monday, October 18th. ElixirConf just ended. SmartLogic had a crew out in Austin, myself included and then, we also had Steph from our team, give a talk on Ecto multis, so that was super cool. If you, listening, haven't checked it out yet, please do. It's great. Yeah, it was a fun time.
+
+
+[00:12:54] AH: It was really nice to be able to participate virtually as just an attendee, and not an emcee, I will say. Yeah. Well, it was obviously a lot less taxing physically and mentally, just to be able to watch and also, do some other things while I was watching was so nice. It was so nice. Being an emcee was really great and very gratifying. But man, oh man.
+
+
+[00:13:22] SM: I almost said this word for word to our team, while we were there. I loved speaking. I loved getting to know everyone. I loved hearing about how listeners listen to the podcast, all of you out there, if you came up to me and said hi. Loved it. I also recognized that I was distracted. Maybe I wasn't in taking the content as much as I'd like to. I'm definitely going to have to go back once all the recordings are posted and watch everything again. Maybe avoiding mine, because I don't know that I do that.
+
+
+[00:13:58] AH: I mean, in the same way that I still, spoiler alert, everybody, have yet to listen to an episode of our own podcast, because I am just very afraid to hear my own voice, because I hear my voicemail message and I'm like, “I sound stupid.” The idea of hearing my voice in a long, extended amount of time, causes me a little bit of anxiety.
+
+
+[00:14:22] SM: Actually, real quick, while we're talking about ElixirConf –
+
+
+[00:14:26] AH: Anxiety. Just kidding.
+
+
+[00:14:30] SM: I just wanted to give a quick shout out, because at the end of my talk, I mentioned a quote, “Negative values will move backwards in time.” Then I asked both people online, on Twitter and then also at the talk, if anyone knows where that from without looking it up. I couldn't think of a of a thing, like a reward or something. I was like, “Why don't we just give them a shout out if they get that right?” I want to give Philip Brown a shout out. I think, Philip writes at Culttt, which looks like a tech thing. Anyways, Philip got the right answer. The library was daytime. That adds, specifically. I got a lot of good responses, or guesses around Timex. Close. Anyways. Philip, shout out to you.
+
+
+[00:15:21] AH: What does he win besides pride?
+
+
+[00:15:25] SM: Pride.
+
+
+[00:15:26] AH: Excellent. Put it on a shirt.
+
+
+[00:15:30] SM: Yeah. I thought about doing some sticker situation. We had some fun stickers at the conference, too. They were for everyone.
+
+
+[00:15:38] AH: Were they a big hit? Did people had stickers?
+
+
+[00:15:41] SM: They were a big hit. Then, another teammate, Melvin, who was sitting at a booth came up with this fun game of match the wizard to the pet. That was just amusing all around. For folks listening in, Eric has a rooster sticker. Alex has a dog sticker, and I have a cat sticker. They're great.
+
+
+[00:16:04] AH: Also, not to say that there would be anything wrong with this, but Eric does have more than just a rooster. You have chickens.
+
+
+[00:16:12] EO: Yeah. Yeah, we got eight chicks earlier this year. The store says that they were all – they're supposed to be sexed to be only hens. We have an accidental rooster, but he's pretty sweet. It's got the long, wiggly rooster feathers.
+
+
+[00:16:35] AH: I’m just like, what's the temperament of a sweet rooster?
+
+
+[00:16:38] EO: I don't know. He doesn't try and pick at you, but sometimes he looks at you. You just like, be bigger than him and make a noise and then he's like, “Fine.”
+
+
+[00:16:54] SM: I mean, that has been a fun thing that's been going on for you this year that we've gotten to check out internally. We watched those chicks go from little baby cheep-cheeps in the corner to fully plumed beings.
+
+
+[00:17:10] EO: Yeah. For three weeks, we weren't getting eggs. Then, you can get fake eggs to suggest, so the chickens were – they're supposed to lay eggs. They started coming again, so it's pretty exciting. I guess, it’s also a chance, I think, chickens molt around now, so their energy might have been going towards that. I don't know.
+
+
+[00:17:31] AH: Fascinating.
+
+
+[00:17:33] SM: That's like shedding, yeah? But for feathered creatures. Also, the term you would use to describe crabs. Crabs molt.
+
+
+[00:17:42] AH: What?
+
+
+[00:17:43] EO: Yeah, they shed their exoskeleton.
+
+
+[00:17:45] AH: Yeah, they shed their shells and then they grow a new shell.
+
+
+[00:17:50] SM: I'm a bad, born in Maryland person. I did not know this.
+
+
+[00:17:53] AH: Lobsters.
+
+
+[00:17:55] SM: Oh, actually, the crabs reminds me. At ElixirConf, whenever I met someone from somewhere I hadn't really – I hadn't been personally, which was basically everyone, I would ask what is something that is common, or known for a place that they're from, but that I wouldn't necessarily know of as not being from that place. The answers are great. They're wild. I highly recommend this question.
+
+
+[00:18:20] AH: What was the most fascinating one?
+
+
+[00:18:23] SM: Well, now, everything was a blur. I remember asking someone from Utah. I think, they're at Divi maybe, that sounds right, about something about Utah. The last time I asked somebody from Utah that question, they said something about fry sauce, which is interesting. I didn't know fry sauce was a thing. Alex, did you have that in the south?
+
+
+[00:18:48] AH: As opposed to ketchup?
+
+
+[00:18:50] SM: It’s like a specific sauce. You could ask for ketchup or mustard?
+
+
+[00:18:54] EO: Ketchup and mayo?
+
+
+[00:18:56] AH: I do love ketchup and mayonnaise as a combination.
+
+
+[00:18:59] SM: I don't know what the combination is, but it's a thing. You ask for fry sauce. It's the sauce to you eat with your fries. That's what I got last time. I’m blanking completely.
+
+
+[00:19:10] AH: Fascinating.
+
+
+[00:19:10] SM: When it was this time.
+
+
+[00:19:12] AH: We did not have that in the South.
+
+
+[00:19:13] EO: One part ketchup, two parts mayonnaise.
+
+
+[00:19:15] AH: Okay. I was going to say, we don't have that in the south. But I have been asked as a waitress in the south if the people could just get mayonnaise on their salad, instead of salad dressing.
+
+
+[00:19:27] SM: That's a thing.
+
+
+[00:19:28] AH: Yeah. People love mayonnaise. Go Dukes, mayonnaise. Not the sports team.
+
+
+[00:19:35] SM: The answer I normally give around that one, being from Maryland is that about Old Bay, the seasoning. Is like, that's our thing. People like crabs. Then yeah, but specifically Old Bay. We put it on everything.
+
+
+[00:19:48] AH: Only Old Bay. I don't know what that would – There's so many things about South Carolina. There's so many things. I really wouldn't even know where to start.
+
+
+[00:20:01] SM: Yeah. It's a fun question. It's a good icebreaker. If you're at a conference and you're meeting people from all over the place.
+
+
+[00:20:07] AH: We did have extra wide and extra long parking spots at my high school to accommodate really big trucks.
+
+
+[00:20:13] SM: Big horns. Oh, that’s flame.
+
+
+[00:20:15] AH: Really, lifted up jeeps and shit. We did have that. Yeah. We had camo day during spirit week. Of course, we did. I don't know. None of it feels very, very unique, but it did at the time. I've said this multiple times to Eric that we did have feral cats in the ceiling of my high school.
+
+
+[00:20:33] SM: Also, not like this.
+
+
+[00:20:34] AH: Unique to South Carolina. Fun story to tell.
+
+
+[00:20:37] SM: I think, another one I got was about Hawaii. The highways are interesting there. I guess, they're more windy, maybe was the answer there.
+
+
+ [00:20:49] AH: That makes sense. Just even the topography.
+
+
+[00:20:53] SM: Yeah. That's a great word, by the way. I heard it recently said out loud and I was like, “That's a nice word. Topography.” Well, if you're working with maps a lot, Alex, topography is something on the on the brain.
+
+
+[00:21:06] AH: Yeah, it was really fun meeting people from all over. Eric did suggest a way to determine where somebody is from, which is how do you say the word water?
+
+
+[00:21:17] SM: W-A-T-E-R. Oh, literally spelt that.
+
+
+[00:21:21] EO: Yeah. Because Alex, she’d say without giving away yours.
+
+
+[00:21:24] SM: Right. Right. Right. Right. I know that Marylanders say that a particular way that I don't say it that way.
+
+
+[00:21:31] AH: How do they say it?
+
+
+[00:21:32] EO: Wuter.
+
+
+[00:21:33] AH: Oh, I don't like that. Sorry, guys.
+
+
+[00:21:37] SM: Yeah, I don't like –
+
+
+[00:21:39] AH: I say water. Water. Maybe with two D’s, instead of a T.
+
+
+[00:21:44] SM: Water. Yeah.
+
+
+[00:21:45] AH: I will say, I say melk, instead of milk. With an E. It definitely comes from the fact that I went to three and four-year-old preschool in Minnesota. There were some friends I grew up with who were like, “You can never say that word in front of us, because it's disgusting.”
+
+
+[00:22:05] SM: Yeah. I think, let me see. I just feel so slow today. Sorry, guys. I just feel like, I’m made out of tacos. I'm not functioning at my normal capacity. I went to get coffee yesterday on my regular weekend errand run. I told my barista that I run into every weekend, basically, that I was made of tacos and I haven't had a vegetable in a week. He was like, “Yeah, yeah. Keep that going. Don't start again till Monday.”
+
+
+[00:22:37] AH: What is a vegetable?
+
+
+[00:22:40] SM: Yeah. What is a vegetable?
+
+
+[00:22:41] AH: We've been joking in my house, because I made some double chocolate zucchini last week. Anytime we go to get a piece, we're like, “We’re eating vegetables.” That is in fact a true statement.
+
+
+[00:22:52] SM: Technically.
+
+
+[00:22:53] AH: Yeah. Yeah, yeah, yeah. It is very good, too.
+
+
+[00:22:58] SM: I am actually really curious about how many people total attended all of ElixirConf in person and virtual, since I only got to go to the first half, while the second half was online. How Eric’s cat –
+
+
+[00:23:13] AH: What a fluffy cat.
+
+
+[00:23:15] SM: Comes to talk to us.
+
+
+[00:23:17] AH: I learned this weekend, because I went to a brewery for their first anniversary. There happened to be a birthday party there for a three-year-old Greyhound named Pearl. Happy Birthday, Pearl. There was another Greyhound there named Mika. I went to go say hi. I was scratching Mika’s head. Greyhounds when they're happy, chatter their teeth like they're very cold.
+
+
+[00:23:45] SM: Today I learned.
+
+
+[00:23:48] AH: Wild. Had no idea. Also, how? What do you mean? How is that what you do?
+
+
+[00:23:56] SM: I don't know if you caught this on Twitter, Alex, but we were doing this hashtag for the conference, ElixirConf, that was pets of Elixir. It was in the spooky theme. It was like a insert spooky pet here, pet wearing costume. I'm never ever, ever, ever going to get my cat into a costume. You can barely pet her without her immediately cleaning herself. I submitted a photo of Marble in a shoot. She's in the white dubay comforter. She's under the covers. She looks like she wants to pounce on something, so her eyes are super big, her pupils are humongous. She looks like a ghost cat.
+
+
+[00:24:39] AH: I once put a tutu on bean and she just didn't really care, and we went for a full walk with her wearing the tutu. It’s great.
+
+
+[00:24:47] SM: She was probably like, “This is the cone of shame, but on the wrong end.”
+
+
+[00:24:49] AH: She’s like, “I don't like it, but whatever.”
+
+
+[00:24:52] EO: Mia also has a pink tutu somewhere that she wore every now and then. She loved it, because then that meant that when people saw her, they go, “Oh, so cute,” and give her attention.
+
+
+[00:25:04] AH: Right, and dogs know. They know when you're like, “What a cute dog.” They know. They're so smart.
+
+
+[00:25:10] EO: Then, I think, we have one year we dressed the cats up as Christmas things. One was an elf and one had a Santa hat. I don’t know, we've got just too many cat costumes. It was like a bee and a susi and a corn.
+
+
+[00:25:28] SM: Yes. I have seen this. Living in the the world in which Eric came before me at ElixirConf was real fun, where a lot of people thought Marble was Eric's cat, because they just see SmartLogic stickers, cat stickers equals Eric. I was like, “No, no. My cat. My cat.”
+
+
+[00:25:46] AH: Obviously. Sundi, how do you deal with all the cat hair? Serious question.
+
+
+[00:25:52] SM: I have a Roomba. We can't talk about vacuums, because we'll be here all day. I have a Roomba that helps a ton. Yes, lint rollers. Love a lint roller. 
+
+
+[00:26:02] AH: Yeah. I do love a lint roller. It's very satisfying. I wish, no. I couldn't ever have a cat. I would die, number one, from my allergies. Number two, would also just be so anal retentive about getting up all of the hair.
+
+
+[00:26:19] SM: I actually think, most of my friends with dogs have more dog hair than I have cat hair.
+
+
+[00:26:24] AH: I don't have dog hair, because she don't shed.
+
+
+[00:26:26] SM: Oh, right, right.
+
+
+[00:26:27] AH: She’s a doodle.
+
+
+[00:26:28] EO: Also, I think you eventually just get over it.
+
+
+[00:26:31] AH: That's fair.
+
+
+[00:26:33] SM: Alex, somebody did actually walk up to the SmartLogic booth at ElixirConf, looked at Bean and was like, “This is a Bernedoodle?” I was like, “You know. You know he’s a Bernedoodle.” He goes, “I have two.”
+
+
+[00:26:45] AH: Oh, I love that. Hi friend, who has two Bernedoodles.
+
+
+[00:26:49] SM: If you’re listening, hello.
+
+
+[00:26:50] AH: If you're listening, hello. Bean would love to be your friend.
+
+
+[00:26:53] SM: Well, really, at this point, our pets are our friends of the Elixir community now. One help with a lot of folks.
+
+
+[00:27:00] AH: Everybody's friend. That’s Bellevue. That's true. Speaking of the community, what do we – I feel, I haven't really been a part of this community that long since what, 2017? How many years is that? Four?
+
+
+[00:27:14] EO: That’s a lot of years.
+
+
+[00:27:16] SM: That is a lot of years. I actually came to this distinction a little while ago, where I was thinking about like, just because you work in Elixir, doesn't mean that you personally have to identify as working, or being in the community. You can work in Elixir in your day job. Then you go home, and that's all you do. You think about it. That doesn't mean automatically that you have to be involved. Even like, Alex, I don't know, how much stuff you did outside of work. If you only started doing stuff with the community recently, then that's even more recently than 2017.
+
+
+[00:27:51] AH: It's been nice to just meet other people, though. I mean, one thing that this is not a unique problem. I went to Elixir Conference in Bellevue, Washington, and I guess that was 2017. I don’t know.
+
+
+[00:28:10] SM: 18.
+
+
+[00:28:11] AH: Was that 18?
+
+
+[00:28:12] SM: I think so.
+
+
+[00:28:13] AH: Okay. Whatever year I went, and I know we had this – we talked about this, too, Sundi at Austin. Or it was like, there's five women here. Not a unique problem in tech. One of the nice things I've enjoyed so far about doing the podcast is that I feel I've met more women who were involved in the community, that are just maybe not as public, or were not members of the community when I at least went to those two conferences.
+
+
+[00:28:47] SM: Yeah. It is interesting to see sample sizes of things like that. I was looking at the StackOverflow developer happiness survey 2021 thing that we saw a while ago, where we saw that Elixir was number four, in most wanted to work in languages, or whichever that one was. That was also a 5% women breakdown there. Yeah, it's interesting. I don't feel divided as much, because we personally on this podcast and through conferences and virtual conferences, have interfaced with so many different people. So many different groups of people, and worldwide, too. Not just United States-based. It's interesting.
+
+
+Yeah. That distinction, Alex, by the way on the community thing. It wasn't specifically about you. I wanted to draw that illustration, because I was thinking about it recently that I know a lot of people sometimes feel pressure to do more, to be a part of a lot of stuff. You don't necessarily have to.
+
+
+[00:29:48] AH: No. I would to take this opportunity to tell everybody that it is okay to take a break. Go take that nap. Do it.
+
+
+[00:29:54] SM: Yeah. Even further, if you don't want to do extra – if you don't listen to the podcast, because you don't want to be the most up to date, or you don't want to really read the newsletters, you just want to do your job, that's fair. We were talking about this a lot at the conference last week, that it's fine if you're programming and you just want to do what you got to do. It's just an interesting illustration of the community as a whole, as to make sure that we're welcoming to all types of people, even people who don't hang out with us all the time. It's okay.
+
+
+Yeah. We're talking about Elixir community a lot. We were also curious what – This season, we want to chat with people about what they hope to see from the community moving forward, in the next five to 10 years, and maybe we could start here, Eric?
+
+
+[00:30:50] EO: I don’t even know.
+
+
+[00:30:52] AH: Spill all of your hopes and dreams.
+
+
+[00:30:57] EO: Yeah. I mean, Elixir’s done, all right. Be the same.
+
+
+[00:31:03] AH: Never grow. Never change.
+
+
+[00:31:07] SM: You’re doing great.
+
+
+[00:31:08] AH: Stay as is. I mean, more people using it would be cool. Just more companies using it would be cool. I think, again, I keep saying this phrase, but it is just true. It's not unique, but companies not being afraid to make a tech change, just because it’s a change. I feel like, there probably are places, like Elixir is a great language for their use case. Just the idea of making a change is scary. Rebuilding something from scratch is scary. I feel like, companies doing that, that would be cool to see. Using a language that actually does what you need it to do.
+
+
+[00:31:49] SM: Yeah. Something that I've been noodling on for a while too, has been around this, we want to adopt more folks into Elixir. Then conversely, we see a lot of job postings, listings or on senior engineers. A lot of the talks last week that were not technical focused, mentioned how this can actually stunt our growth, because you don't give people room to grow when you start folks in Elixir at the top of their career trajectory.
+
+
+Also, I drew a parallel here with our adoption that I just can't believe I didn't think about when we were doing our adoption season. For a really long time, I did leadership work in IEEE. I was not an electrical engineer. I just happened to be involved with that. One of the things that we struggled with with retention of members was marketed everything inwards. If we sent an email for an event, we sent it to our members. Instead of having a Slack group with all of our members, we made one ourselves, and spent a lot of money on it.
+
+
+Also, instead of using meetup to advertise our events, or Eventbrite, the other one, we made our own event tooling system that also goes straight to our members. We were having a lot of growth problems. It was only in the last three years that I realized, we were only advertising internally and externally. I'm drawing some parallels there, because, I mean, we as Elixir developers, we also advertise outwards as well. I feel like, a lot of our job listings are for Elixir engineers, talking towards Elixir folks, putting things in Elixir circles. I would love to see us in the next five to 10 years branch out and post Elixir talks at other conferences, or submit – sorry. Submit Elixir talks at other conferences, and blog posts on other blogs that are not just Elixir focused ones, and have guests on podcasts that are not Elixir podcasts. That would just, I think, really help with this marketing aspect.
+
+
+[00:33:57] AH: Yeah, there's something to be said, too, for looking at somebody's skills holistically, as opposed to very specifically. There are a lot of skills that people can have that are not related to the language that they program in most frequently. That's also important, I think, to just always keep in mind.
+
+
+[00:34:16] SM: Yeah. I worked with a lot of people in a lot of different languages. When I catch up with them and they ask what I'm doing now, I say, “Elixir.” It's the first time they've heard of it. Then, so they associate it with me. Then, whenever they get a chance to work in Elixir, or see anything Elixir related, they ping me right away and they're like, “Elixir, Elixir.” I would love for me not to be the association for my friends. I'd love for it to just be a thing that they got to work with at some point.
+
+
+[00:34:40] AH: I mean, now I'm going to be associated with Lord Farquaad. Because as an addition to being told, I look like Edna Mode, I was told I looked like Lord Farquaad.
+
+
+[00:34:49] EO: A long list of people that have that haircut.
+
+
+[00:34:54] AH: This is true. Also, honestly, an honor to be related to anything that's near Shrek. I mean, I'm not offended. Lord Farquaad a villain, obviously. But also –
+
+
+[00:35:08] SM: Iconic.
+
+
+[00:35:09] AH: Yeah, an iconic villain.
+
+
+[00:35:11] SM: Absolutely.
+
+
+[00:35:13] AH: I love Shrek.
+
+
+[00:35:16] SM: I mean, when I think anything Disney, I think Alex.
+
+
+[00:35:19] AH: That’s fair.
+
+
+[00:35:20] EO: Shrek turned 20 this year.
+
+
+[00:35:23] SM: Shrek did not turn 20 this year. Stop it.
+
+
+[00:35:26] AH: Shrek did turn 20 this year.
+
+
+[00:35:27] SM: He did. He did. He did. He did. Isn’t that wild? Next year, Shrek can drink.
+
+
+[00:35:32] AH: I think, Shrek’s been drinking. It is weird though, to know that movies that you love, watch and enjoy are gold. Ones that you remember coming out, I should say. It's a very strange feeling. I remember going to see Kangaroo Jack for my 10th birthday. That's not a good movie and I would not recommend watching it. It’s weird to have a memory of a movie debuting.
+
+
+[00:36:01] EO: Yeah, I'm just looking up the poster and images for that. I don't think I ever saw it, but –
+
+
+[00:36:08] AH: You don't need to.
+
+
+[00:36:10] EO: Yeah.
+
+
+[00:36:10] AH: Yeah. You definitely do not need to.
+
+
+[00:36:13] EO: It's so 2000s.
+
+
+[00:36:19] AH: Yeah. I mean, like most things really, which are coming back now. I would also like to take this opportunity to tell everybody that wear what you want to wear, but low-rise jeans were never a good idea and they still aren't. Don't do it. Don't.
+
+
+[00:36:36] SM: Oh, fashion.
+
+
+[00:36:38] AH: I've seen recently that Korn has been coming back. Young kids are ironically, or unironically wearing Korn t-shirts. Again, not related to Elixir.
+
+
+[00:36:49] EO: The band, Korn?
+
+
+[00:36:50] AH: Yes. The band, Korn.
+
+
+[00:36:53] SM: I was seriously thinking of cute little t-shirts with corn on it. Corn as a pattern.
+
+
+[00:36:58] AH: I would love a t-shirt with just the – a buttered corn on the cob.
+
+
+[00:37:02] SM: I think, I saw a hoodie had a corn on it. I was recently also, because the conference. Shout out to Jeff from community, had this amazing Psyduck sweater. He was wearing it on Wednesday. I was like, “Let me buy this right now.”
+
+
+[00:37:19] AH: Did you say duck?
+
+
+[00:37:20] SM: Psyduck. It’s a Pokemon. He’s this little face that looks like he’s not –
+
+
+[00:37:28] AH: Expanded that side eye duck. I was like, “That sounds awesome.” I would love a sweater.
+
+
+[00:37:33] SM: He’s kind of doing a side eye, from the side, actually. He's turned around, so his little duck butt is fluffed up in the air. It’s really cute. It's so cute. I did buy it the next day. It's coming in a few weeks. I'm so excited. Why are we talking about this? Oh, when I was looking for the sweater, I saw a bunch of sweaters with corn on it. That's definitely what I thought.
+
+
+[00:37:55] AH: I mean, I support both, I think. I'm not a fan of Korn, the music. I am a fan of the food. Yeah, I don't know. It's interesting. I think, all kids have a have a phase, where they're like, “I'm going to wear the band t-shirt.” That's not what kids sound like. Also, weird to say kids and I'm talking about 16-year-olds. I don't know at what age I turned into an old hag.
+
+
+[00:38:23] SM: As Dan likes to say, “Get off my lawn years old?”
+
+
+[00:38:27] AH: Get off my lawn.
+
+
+[00:38:29] SM: Whenever he says it though, I think of git, not get.
+
+
+[00:38:34] EO: I've been watching this YouTube channel about retro video games and his shtick is, “Get on my lawn,” because he wants to share the love of retro games with everyone.
+
+
+[00:38:45] AH: That’s cute. I like it. I like it.
+
+
+[00:38:47] SM: Alex is making a face.
+
+
+[00:38:49] AH: I love that.
+
+
+[00:38:50] SM: Oh, it’s a good face. Got it.
+
+
+[00:38:51] AH: That's cute. Also, what a pandemic thing to start doing, watching a lot of YouTube videos. I used to make fun of my parents. I’d be like, “What are y'all up to tonight?” They're like, “We're watching YouTube videos about tiny RVs.” I'm like, “That's neat, guys.” Then lo and behold, I find myself watching videos about how bridges are built.
+
+
+[00:39:14] SM: Yeah. That's fun. I don't have a lot of spare time these days. In my spare time. I recently started that Flutter book. Alex, the one that came out a few weeks ago. I talked about it a lot last week at ElixirConf. Found it funny, because we're at ElixirConf. Not FlutterConf. Anyways, yeah. New book came out. It was fun. It's fun. Going through it, section by section. It's a good time.
+
+
+[00:39:40] AH: I'm excited to go through that after we've wrapped this latest Flutter project. Because right now, my brain is so fluttered out.
+
+
+ [00:39:48] SM: Such a good verb. Such a good verb.
+
+
+[00:39:50] AH: Which also, just works, just in general as a phrase. If you've got spaghetti brain, I feel like, you could say, your brain has been fluttered out. My brain done did been fluttered out. All right, everybody. The one thing you need to know about the South is that people who grew up there can usually do a decent Southern accent. You also, earlier, Sundi, this is absolutely on a tangent, but said, you've been noodling.
+
+
+[00:40:19] SM: I want pasta. Yes.
+
+
+[00:40:21] AH: Well, the thing that I've been thinking about is that there is a man on TikTok, who has a 13-year-old pug named Noodle. Every day, he wakes up and he makes it TikTok. Noodle decides whether it's going to be a bones day, or a no bones day. He lifts Noodle up on his dog bed to see if he stands up. If he stays up, it's a bones day. Maybe falls over, it's a no bones day. People have started treating it like a weather forecast. They’re like, “It’s a bones day. Treat yourself. Eat that pasta. Go buy that car. Go buy that jet ski. Do whatever you want to do.” Now when you said noodling, I'm like, it's a bone day today, everybody. Treat yourself.
+
+
+[00:41:08] SM: All right. Pasta for lunch, it is.
+
+
+[00:41:11] EO: How often does bones day happen then? Is that a rare occurrence?
+
+
+[00:41:16] AH: Yes. Yes. Noodle is not about standing up. Most days are no bones days, which I respect. You’re a 13-year-old dog. You get to do whatever you want to do. Yeah. How old is your dog, Eric?
+
+
+[00:41:32] EO: Questionably, 14. We don't know how old she was when Beth, my wife got her. At least, 11 plus. Probably two or three. 14 to 15-ish. I don’t know. She's up there. She loves the everyone has left the house, and now she just gets to sit on the couch, or her little bed and do nothing the whole day.
+
+
+[00:42:01] AH: Yeah. I mean, don't we all?
+
+
+[00:42:03] SM: Also, not really do anything, but since we're here. Alex, you will not believe that when I was at ElixirConf and after we did our little promotional thing about SmartLogic. I know, you're going to talk to Rose about being in a band and me about being a figure skater. I just went into it with, I'll be the only figure skater here. That's a normal thing. That is my normal default state. I am the only figure skater here. I in fact, was not. I met another figure skating Elixirist.
+
+
+[00:42:34] AH: Wow. Isn't that crazy? What a treat. I can’t imagine that's pretty rare.
+
+
+[00:42:40] SM: Yeah. I am not remembering now which company she was from, but it was great to meet her. She came to my talk. Came to me after and said, “Hey, I'm also a figure skater.”
+
+
+[00:42:49] AH: What a delight. Eric, I would really like to thank you for sharing the news about a co-worker who has a pug named King Tooth.
+
+
+[00:42:57] EO: Yeah, King Tooth.
+
+
+[00:42:59] AH: I love King Tooth. Wow. I'm looking at pictures of him, by the way, everybody.
+
+
+[00:43:06] EO: I just remember, King Tooth went on vacations to Maine by himself. I don't know how that happened.
+
+
+[00:43:12] AH: What a treat. Wow.
+
+
+[00:43:17] EO: He went to visit their friends. I don’t know. I just remember everyone at that house would give King Tooth a treat. The normal amount of treats for a dog at a day. Everyone in that house would do it, and so, he would get four or five times the treats.
+
+
+[00:43:35] AH: Absolutely. King Tooth deserves the treats.
+
+
+[00:43:39] SM: King Tooth is going in the show notes, right? Because we have to share this love of tooth.
+
+
+[00:43:44] AH: King Tooth has a public Instagram with 33,300 followers.
+
+
+[00:43:49] SM: Oh, my gosh.
+
+
+[00:43:50] AH: Yeah. Everybody, go follow King Tooth.
+
+
+[00:43:51] EO: I was going to ride horses, I think, somewhere –
+
+
+[00:43:54] AH: He lives in Berlin now.
+
+
+[00:43:57] EO: Yeah. It’s where they moved to.
+
+
+[00:43:58] AH: What a life. I’m jealous.
+
+
+[00:44:00] SM: Is Berlin on your mind? I've been meaning to ask.
+
+
+[00:44:03] AH: Yes. Well, as we record some episodes out of order here, an upcoming episode, we talk to someone in Berlin. I want it to be a surprise. Berlin on my mind, because of that. I also watched Cabaret last week for the first time, which is weird, given my love of musicals and dance and Bob Fossey, but I watched it for the first time. Also, on my mind because of that, because that takes place in Berlin. Yeah. Great movie, by the way, if you've never seen it. Very niche, though. If you don't like musicals, or dancing, or Liza Minnelli, then don't watch it. You probably won't enjoy it. That's just a fact.
+
+
+[00:44:47] SM: Bringing it back to Elixir real quick. Do we want to talk about the impact of Elixir on us, perhaps? As we are going into a season, where we're going to ask everyone else the same question. Maybe it's only fair.
+
+
+[00:45:00] AH: I think so. I mean, Elixir brought me here. That's probably the biggest impact so far, honestly.
+
+
+[00:45:07] SM: Here, where you're sitting right this second? Or at SmartLogic?
+
+
+[00:45:11] AH: Right this second, speaking into this microphone, working at SmartLogic.
+
+
+[00:45:17] EO: The house with the new AC unit.
+
+
+[00:45:19] AH: Ah, thank God. Yes, with a new AC unit. Shout out to that crane company. Yeah. I mean, working at a previous job where they hired me and taught me Elixir and then got a different job, because of the pandemic where I didn't get to use it. I was like, I don't enjoy this nearly as much as working in Elixir. Now I'm here working on Elixir, and talking about it to other people who enjoy working in it, which is cool.
+
+
+[00:45:48] SM: Yeah, it's interesting. We've talked about this before about how much Elixir clicked with us, Alex. Eric, I don't know if it was – Eric, you always been great on everything, I feel like. I don't know if you had a not clicking moment with another language, but I definitely did. I think, I've done – if I review my career trajectory over the course of my career, just looking at how much more Elixir clicked for me, it's just been interesting. Eric, I don’t want to speak for you, though.
+
+
+[00:46:20] EO: Yeah. I did Ruby before this. I think, that clicked fairly well. There was definitely a moment – it’s probably about a year to a year and a half in, where just being in Elixir long enough changed a lot of how I wrote Ruby and JavaScript and everything else. It’s just like, much more functional and feels better.
+
+
+[00:46:45] SM: Yeah, changes the way you think. That's fair. That's fair. I was thinking about, obviously, just having gone to the same – I feel like, the last conference I went to in person was Lonestar Elixir in 2019 with Alex. Alex was the only person I knew there when I showed up. Just to turn that around in the next place I go to is right back there, right back to Austin, right back to Norris Conference Center.
+
+
+Now through the podcast and SmartLogic, I know a lot of people. I got to see a lot of familiar faces and meet a lot of new ones. I actually was talking, I don't know, Alex, if you also met John, I'm going to shout out John Forsyth. Hey. I met John at Lonestar Elixir, and then met John again last week at ElixirConf.
+
+
+We were talking about how when I showed up at Lonestar before, I just started Elixir. Just started my journey. Now I'm at the next conference, and I'm speaking and I'm with a military company, or an Elixir-focused company. It's just a totally different vibe. Totally different turnaround. It really makes you reflect on how a language has impacted your entire trajectory, when you meet somebody from a different perspective, I guess. I don't know if Alex, you had a similar from then to here, then and now. It's like, before and after photos.
+
+
+[00:48:14] AH: Yeah. I mean, I got to go to Lone Star and I went to the Big Conf in Bellevue the year before. I'd also have never been to a conference like that before.
+
+
+[00:48:27] SM: In general.
+
+
+[00:48:28] AH: In general. Never been to one. That was also just a cool experience getting to do that and having somebody prioritize my development in that way. Because that was never something that had happened. There's another element of that, where this is the first time, like working in Elixir is the first time I've had the experience, where people want me to grow working in a language actively and are doing things for that purpose, and not just working all the time to learn it, but proactively helping me learn.
+
+
+[00:49:08] SM: Yeah. I think, we've all been affected by Elixir in different ways and we've had really interesting career growth out of it. I'm really excited to see how other people have stories that go around this. I'm really excited to talk to more people about that for sure.
+
+
+[00:49:28] AH: I am, too. Yeah. To see just how people are involved in general, whether that's not, or they're just working in it. They're not working at it, but it's a side project language. Open source projects. There are a lot of side projectors. I think it can be.
+
+
+[00:49:46] SM: Side project erst. There's a better name for this.
+
+
+[00:49:50] AH: It definitely can be a verb, noun?
+
+
+[00:49:54] SM: Side projecting. Yes. Verb. Amazing.
+
+
+[00:49:57] AH: Language. English.
+
+
+[00:50:00] EO: Half my Twitter in the last week has been a means of a – stuff like the – all my current side projects, here's my new side projects and it's like, “Oh.” They're all greeting each other.
+
+
+[00:50:15] SM: I feel like, I always walk away from conference week with a few side project ideas. I’ve gotten better at not immediately buying the domains about them.
+
+
+[00:50:23] AH: This is something that I've thought so many times before. Started having this back in college. It is okay if you don't want to have a side project. You don't have to do that. That was something that like, I had a professor in college that said that everybody had a million-dollar app idea. I was like, “No, they don't. That's not true. Absolutely not.” We shouldn't force people to feel bad that they don't have a million-dollar app idea.
+
+
+[00:50:50] EO: There's some people who have a million dollar app ideas that make up for the rest.
+
+
+[00:50:55] AH: Right, exactly.
+
+
+[00:50:57] SM: Yeah, I definitely being raised in startup land, felt bad every time my friends, or co-workers were all like, “Okay. See you. I want to work on my startup idea.” I was like, “What? I'm going to go home and cook dinner, or watch Netflix, whatever.” That was my thing for a while. Then, just like I was saying earlier about you don't have to be part of the community, if you don't want to be. You don't have to do side projects. Just do what you want to do. We've, I think, in the past year and a half have really learned what's important to us and really pursuing it.
+
+
+[00:51:30] AH: Yeah. Like taking breaks. Do it, everybody.
+
+
+[00:51:33] SM: Taking breaks, pursuing passions, re-pursuing passions. I restarted figure skating. I didn't expect you in my adulthood, so that's crazy.
+
+
+[00:51:44] EO: Playing a bunch of GameCube, Xbox and PS2 games. Pretty great.
+
+
+[00:51:52] SM: The normal ones, or retrofitted ones? I guess I don't know the difference actually.
+
+
+[00:51:56] EO: They’re original hardware, but modded.
+
+
+[00:51:59] AH: I would love to play some GameCube. Maybe I'll play Mario Kart later. On the Switch, though. Not the GameCube.
+
+
+[00:52:06] EO: I actually just bought the GameCube Double Dash.
+
+
+[00:52:10] AH: Oh, it’s so good.
+
+
+[00:52:12] EO: Yeah. It's the actual GameCube discs and whatnot.
+
+
+[00:52:17] AH: Yeah. Oh, man.
+
+
+[00:52:18] EO: Splurged a bit.
+
+
+[00:52:20] AH: I have very fond memories of playing Double Dash with my youngest brother, and Mario Dance Dance Revolution, or whatever it was called. That was so fun.
+
+
+[00:52:30] SM: The way that I see Eric's working on GameCube stuff, in my head, that's a side project of yours, but that's not – At SmartLogic, we have side project club, which totally redefined to me what a side project is. Side project is really just anything you're doing on the side. If Eric's redoing his floors –
+
+
+[00:52:47] EO: Accountability club.
+
+
+[00:52:49] SM: Yeah. If Eric's redoing the floors and Alex, if you’re redoing the entire AC top to bottom.
+
+
+[00:52:55] AH: Man. I did not do a darn thing in that fight. I did live through it. Does that count? It was a lived experience.
+
+
+[00:53:07] SM: I counted a side project – I have a year-long side project that I just finished, which was technically, I wanted to do a non-technical talk and a technical talk this year. I did them both. That was a little checkmark on my accountability club thing.
+
+
+[00:53:23] AH: I think, I should probably add folding laundry to my side project club list, and putting it away.
+
+
+[00:53:30] SM: Designated drawers. That's all you need. They don't really need to be folded. Why do they need to be folded? You just need to know where they are. They don't need to live in a laundry basket.
+
+
+[00:53:40] AH: I actually enjoyed the art of folding.
+
+
+[00:53:43] SM: Okay, fine. If you don't do it.
+
+
+[00:53:44] AH: Yeah. I would not say, it is artful folding, but it's cathartic in its own way. I'll fold them when I do get around a folding them and then I just have folded laundry somewhere that's not put away.
+
+
+[00:53:59] SM: I see. I see. Well, I tried to put away laundry and then my cat immediately pulls the drawer out, and is like, “I live here now.” That's not fun. Alex is making a face.
+
+
+[00:54:14] AH: Cats are just wild.
+
+
+[00:54:16] SM: Yeah, she's a little too smart for her own good. It’s all right.
+
+
+[00:54:18] AH: I mean, I feel like, every year, there's a study where some scientist is like, cats, if they were large, they would kill you.
+
+
+[00:54:28] SM: There's a recent trend where people will play an ancient Egyptian flute song around their cats, and their cat reacts. It’s like a, “Huh.” I'm looking over. My eyes are wide and people are saying that the cats are remembering a time in which they were worshipped as gods.
+
+
+[00:54:47] AH: No. No.
+
+
+[00:54:51] SM: That's the trend. I tried it. My cat was just like, what is this loud noise?
+
+
+[00:54:55] EO: I mean, I haven't heard it, but it probably more sounds like, something another cat makes noise-wise.
+
+
+[00:55:04] SM: It's like that really low-sounding flute noise. We got some musicians in the company who probably could speak to it better than me. It's a funny trend. It did not work on my cat. Can confirm. Yeah. I think, we've done a good portion of life updates here, and Elixir updates here. Is there anything else?
+
+
+[00:55:32] AH: Man. Probably. I mean, yeah, there's probably some updates here. People will learn them in due time. You'll probably get to hear us chit-chatting about doughnuts at some point in some episode and hopefully, not air-conditioning anymore.
+
+
+[00:55:50] SM: True.
+
+
+[00:55:52] AH: Pets. Bean comes up a lot. It's like, what did Bean eat off the street today? I don’t know.
+
+
+[00:55:59] SM: Great icebreaker question.
+
+
+[00:56:00] EO: Squishing your count. Or your count –
+
+
+[00:56:01] SM: Or your counter.
+
+
+[00:56:02] AH: It's actually mostly the counter. Yeah, it is. I had a bit of a panic moment in the middle of the night, because she got up, off the bed. She's 70 pounds, so you notice when she gets up off the bed. She didn't go into the other bedroom, she went downstairs. I was like, “Is she getting stuff off the counter?” I was too tired and still asleep pretty much, so I did not get up. She didn't get anything off the counter.
+
+
+[00:56:28] EO: That you know of.
+
+
+[00:56:30] AH: That's true. We do have a loaf of jalapeno cornbread right now. That if she managed to get her hands on, man, that would just wreck her up.
+
+
+[00:56:40] EO: Oh, no.
+
+
+[00:56:42] AH: We don't need that.
+
+
+[00:56:44] SM: Okay. Bean getting jalapeno cornbread would suck. Learning about all of our quirks and things that we deal with every day, I think it's fun. I think, it was fun learning that last week, meeting people in person as well. I've always thought, it's super important to see the human side of the developers behind the thing and the hosts behind the voice, or whatever. Just because, at the end of the day, we're all just people, going around, doing stuff. Sometimes, we do stuff that impacts other people's stuff. For the most part, we all have our own things going on. It's just fun to talk about it. As we talk about the impact of Elixir, we just thought we'd talk about the impact of life a little bit, too.
+
+
+[00:57:28] AH: I love that, Sundi. It really was a perfect segue for me to say, that's it, everybody. That's it for this episode, this first episode of the season. Can't wait to see what the season brings, learning more about each other, everybody else and Elixir’s impact on us as individuals and the community. That's it, guys.
+
+
+Elixir Wizards is a SmartLogic production. Today's hosts include me, myself, and I, Alex Housand, and my co-hosts, Sundi Myint and Eric Oestrich. Our Producer is Bonnie Lander and our Executive Producer is Rose Burt. We get production and promotion assistance from Michelle McFadden.
+
+
+Here at SmartLogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails and React, Kubernetes and more. If you need a piece of custom software built, hit us up. Don't forget to hit like, subscribe and leave a review. Follow @SmartLogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards on Discord. Just head over to the podcast page to find the link. Don't forget to join us again next week for more on the impact of Elixir.
+
+
+[END]
+        © 2021 Elixir Wizards

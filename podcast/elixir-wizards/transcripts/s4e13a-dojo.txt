@@ -1,0 +1,689 @@
+EWTranscript
+EPISODE 13
+
+
+
+
+Hi everyone, just a quick note. The episode you're about to listen to is from our partnership with ElixirConf in Japan. You’re going to hear a quick intro in Japanese from our friend Paige Finkelstein, who is a friend of the show and an Elixir developer that used to work here at SmartLogic. The episode continues in English from that introduction so just keep your ears open, for our listeners in Japan, please check out the Japanese transcript put together by the ElixirConf Japan organizers. Okay, here’s the show.
+
+
+
+
+[INTRODUCTION] —
+
+
+
+
+[0:01:55.8] JE: Thank you so much Paige, welcome to the Elixir Wizards Dojo, a very special collaboration between the elixir wizard’s podcast on ElixirConf Japan. That was Paige Finklestein, an Elixir developer and friend of our show. This show is brought to you by SmartLogic a web and mobile app development shop based in Baltimore Maryland and it’s a very special episode because we’re partnering with ElixirConf JP or ElixirConf Japan. Today, we will be talking with several members of the Nerve’s ore team, Frank Hunleth, who is in the chat with us right now. Justin Schneck, who I assume will be joining us very shortly. Connor Rigby and also Todd Resudek. We have been receiving questions from the Elixir community in Japan and all around the world and we’ll be asking them these questions, we’ll be asking these questions to our guests today.
+
+
+This episode will be hosted by your favorite wizards, Eric Oestrich and myself, Justus Eapen. The show will be recorded and released in the coming weeks on the Elixir Wizard’s podcast with transcripts in both English and Japanese. 
+
+
+[INTERVIEW]
+
+
+
+
+[0:02:56.1] JE: Welcome to the show everybody. Frank, glad to have you on.
+
+
+[0:02:59.0] FH: Glad to be here.
+
+
+[0:02:59.8] JE: Is this your first livestream Frank?
+
+
+[0:03:01.4] FH: I think it might be, yeah. I think everything else has been recorded. Yeah.
+
+
+[0:03:05.8] JE: Welcome to your first live stream, Frank. Justin Schneck, how are you Justin Schneck? I was going to say a ‘Justice Neck’ joke but I feel like it’s getting old.
+
+
+[0:03:14.7] JS: Can everybody hear me okay?
+
+
+[0:03:16.6] JE: Yeah, you sound pretty good. Your mic might be up above over your ear.
+
+
+[0:03:21.7] JS: I think I’m on this one.
+
+
+[0:03:23.2] JE: No, you’re on. I like this pattern you got going on behind you.
+
+
+[0:03:26.8] JS: Thanks, I needed some artwork to be able to freshen that wall up a little bit. Looking at the traditional color that I see most of us have, I don’t know, we’ve got a little bit of variation but it’s a nice — calming and then that’s the wake up stay alert portion of this, yeah.
+
+
+[0:03:43.1] JE: That pattern is stimulating? Well, this is so exciting because you guys are like ‘Nerdcore assemble!” it’s so exciting. Before we jump into, like, the questions that we’ve gotten from the Japanese Elixir community, just, you know, want to kind of check in and see what you’re bringing in here today. How is everyone, where are you calling us from?
+
+
+[0:04:04.9] FH: You want to go first Justin?
+
+
+[0:04:05.7] JS: Sure, I’m feeling good today, yeah, it’s good. It’s a little rainy here in [inaudible] Pennsylvania but we kind of needed this. This way my outdoor robotic garden can take a break. 
+
+
+[0:04:19.7] JE: What’s it called? The robotic garden.
+
+
+[0:04:21.5] JS: FarmBot?
+
+
+[0:04:23.0] JE: FarmBot. I was going to say like ‘Garden Drone’ or something like that. I was going to ask if it doesn’t work in the rain and then I was like, “Well, if it’s just watering your plants, it probably doesn’t need to work in the rain.” Frank, what about you? How are you doing?
+
+
+[0:04:38.1] FH: Doing well, I’m calling in from just outside of Washington D.C, Maryland. I’ve been holed up in my house, my neighborhood, life is good, and the lease is good as it could be.
+
+
+[0:04:48.1] JE: Right, how often do you two get to like — do you guys ever, like, meet in the middle?
+
+
+[0:04:52.0] FH: We’ve driven to each other’s houses. We’re not too far away but we’re — we have been in plans to meet anytime soon at the moment though. 
+
+
+[0:05:00.0] JE: Super glad to have you both on. We should also check in with Eric, how are you doing Eric?
+
+
+[0:05:03.4] EO: Currently dealing with extra white noise that I’m trying to turn off the AC, see if that’s it but yeah, doing good. Got my shirt from Todd last year, Frank, Justin, Connor, Greg.
+
+
+[0:05:16.4] JE: That’s great, I really want one of those. We’ve got a number of questions and we will definitely get into them, I want to just give a little bit of context for the show, people might be asking like, what is this Wizards, kind of Japan mash-up? And we were reached out to by one of our favorite members of the community Susumu Yamazaki, also known as Zacky who has spoken to many of the conferences and is just, like, a really good friend of the show. And he told us that we have got a lot of folks in the Japanese Wizard’s community that have — I think since you went out there last year Justin, have been a little bit obsessed with Nerves. And so they were asking if we could partner on a show and to promote ElixirConf Japan and to promote Nerves and also to do a show that will be transcribed to Japanese and just the whole thing.
+
+
+It's very exciting for us, we came up with this concept of the Dojo and so we’ve got Frank Hunleth and Justin Schneck here and later we’ll have a couple of other guests and we’ve got all these questions from the Japanese Nerves community and we’ll start with some of the general questions. Really, we want to know at this point. because Nerves has been around for a few years now, like, how big is the platform gotten in terms of like useage and do you have any idea how you could even tell?
+
+
+[0:06:31.7] JS: First off, I mean, the Japanese Elixir community and their involvement in Nerves, I think that as a mirror of this question itself and to shine it on them, they have been so active and so excited towards building devices using Nerves Hub, there’s a lot of activity from them that they want to be able to try to be able to explore more, help out more, and they’re using it for ways to be able to do research. And exploration towards new concepts and new ideas and that’s really exciting.
+
+
+As far as the growth of the community, a lot of it is from people talking about projects they’re working on. People experimenting with different things. The vocal nature of I guess, that excitement of the community. That’s kind of like double-edged in a way though because as I’m sure Frank has experienced this as well, we’ve always talked about this in the past. People who work on a vetted project at companies tend to speak less of those, like, externally. They’re usually quieter about that than they are but, about like, what web projects they’re working on or if they have some VC thing that they’re doing like Silicon Valley startup wise, people are less vocal in those cases, it’s so hard. It’s just so hard to shake out the production use-cases.
+
+
+[0:07:42.6] FH: Right, I think the sampling that I did is that there are some insanely good questions that you — clearly someone has this thing deeply embedded. We have those on the Nerves’ Slack periodically where someone has, just, this very interesting question that you’d never get to unless you have some kind of industrial usage. I think we gather them from time to time. We’ve had talks where we’ve showcased a few of the companies that use Nerves and have been okay with publicizing that. I think Blue Clover in San Francisco, I showcased a few. Like Snyder, we always talk about FarmBot because — well Connor always, I mean FarmBot is just a cool thing. They have lots of cool videos but there’s Rose Point, that’s been pretty actively promoting the Nerve stuff.  And tug boats, it’s not something that you’d actually see in real life unless you go  along something major waterways in the US but still, it’s there.
+
+
+I guess we have some farming ones, we have some examples later on. Yeah.
+
+
+[0:08:38.9] JE: Could you maybe dive into the FarmBot and farming applications just because I think they probably a lot of people in recent months have taken up gardening.
+
+
+[0:08:50.3] JS: Yeah, FarmBot is a pretty cool device, it kind of actually blends in a little bit with some of the other questions. There’s another question that we have as well that we get asked a lot.
+
+
+[0:08:57.1] JE: Feel free to jump around, we don't really stick to the script very well. As you know, I think.
+[0:09:02.5] JS: Some of these things, like, are really intertwined as far as being able to really show a practical use case of how some sort of facet of design might be implemented using Nerves, right? FarmBot is an example of a situation where you have to do some motion control and that’s going to require some more hard real-time constraints and with Nerves, our focus is mainly on, well, it’s an embedded Linux. And inside of that system, where you tend to be more of the soft real time, especially with their VM, we can discuss it more of that a little bit more later but anyways, to satisfy the question of — that people have upfront of, I need to be able to kind of blend these environments. I need to be able to do some hard real-time stuff like controls and motors or something, get some good deadlines.
+
+
+
+
+
+
+[0:09:44.4] JE: Okay, can you define that for me just like as a naïve person. What is soft versus hard real-time?
+
+
+[0:09:49.2] JS: Sure, modern computer, general purpose computers, you know? We have these general purpose operating CPUs and then operating systems built on top of it that allow us to be able to multitask and do several things at once and in those cases, those have complex schedulers, which schedule all the work to be able to tell who  has time to be able to do what events. What processes get certain slices of the processor’s time, so that everybody can kind of get a fair share. But in those cases, you know, you can’t make guarantees on when deadlines are hit.
+
+
+So, if you have some really high priority processes that need to get accomplished by a certain period of time, it’s difficult when you have all of these other processes that are also fighting for the same pool. Frank is like looking like I’m butchering this one badly.
+
+
+[0:10:32.6] FH: I’ll help you out. I think that the cooler thing is just how severe the air is if you miss your deadline. If you have some task that you're trying to do, did you just destroy something completely and the product’s totally broke, well then, that’s hard real-time. You know, more hard-real time. If you miss a deadline and it’s like one hour a thousand times, one up 10 million times or whatever. It’s okay, your product survives and you know that’s in the soft area.
+
+
+[0:10:58.7] JE: I guess with the example of FarmBot, can you maybe give me like a specific — I’m trying to imagine like, a FarmBot failing in such a way that it just totally bricks the device because of a hard real-time failure. Maybe it just, like, runs right off the tracks because it didn’t know when to stop or something like that?
+
+
+[0:11:13.5] JS: Well, in this case, it’s that you need to pulse electricity to the motor to be able to tell it to move a certain amount so that you can ensure that when you told it to move a certain amount, that it moves that certain amount. That kind of action to be able to control that motor in that case to be able to — at that point, get the accuracy desired is the reason for the need for the hard-real time component. And because FarmBot uses sort of an amalgamation of open source or publicly available products such as Raspberry Pi and Arduino.
+
+
+From the easy to digest maker’s perspective of things, through that lens, you can sort of see how you can piece components together so that they can excel in their own domains. And so in that case, the Arduino is being able to handle a lot of those — the movement control and what it does is it’s just essentially a processor that then exposes an API over an interface to the larger, main processor, that handles all of the things that  would be more complex to do in Arduino. Which will be like, network I/O and up linking things securely to the internet and communicating with cloud servers and stuff.
+
+
+In that case, running Nerves on the embedded Linux side of things excels in that domain because it can also monitor and make sure that the Arduino processor is doing its job. It can leverage and grace that as part of its local domain as if you’d consider it a process, an OTP that can be supervised and monitored. That’s where it’s excelling. It’s like a gateway, it’s that uplink for Nerves.
+
+
+That’s why I say, it kind of embraces some of these other questions, you know? We get — how do I do hard real-time stuff. A common answer for us is that use case where, you know, you’ll sort of manage your hard real-time components as part of your umbrella underneath your Nerve’s Nerve. Letting the Nerves device do what it excels at and acting as the edge device for the gateway device to be able to connect your local landscape of processors, if you will. Micro controllers, if you will — to the greater internet. And you can also go so far as to manage, you can embed the firmware for your Arduino inside of the Raspberry Pi firmware that they push down and that way you can manage both of them locally using one framework to nurse them.
+
+
+Did that make sense? Was that too much of a spew? You’ve got that look Just, you’re just like, how did we get here?
+
+
+[0:13:22.6] JE: Go ahead Frank, I want to give Frank a minute.
+
+
+[0:13:25.5] FH: I mean, it seems like a lot of these projects that you want to create some hardware for, or something like that, have like a little hard, a little real-time component. It’s kind of nice to know that that part just works really well and there’s a lot of knowledge and theory and experience on building hard real-time things on microcontrols. 
+
+
+We really pushed that route, where you look at your project or your device, you take out the hard real-time part. Program in microcontroller using known techniques. Set up a communication channel to the bigger microprocessor which runs Nerves and then you do all this networking, business logic, all this stuff that you kind of have to do but you don’t really want to think about so hard about how it could mess up deadlines and stuff. Then you put it all there. Then, it’s as Justin was saying, there is kind of nice OTP,  super vision-ish, infrastructure that you get through. Or like, and you can extend it to supervising that microcontroller. Like, rebooting it if it starts going haywire or something or becoming irresponsive.
+
+
+[0:14:19.9] JE: Yeah, I was going to ask if you're supervising the microcontroller, if you can like — a Raspberry Pi powers the microcontroller or, and then, like, switches the GPIO pins or how does that work?
+
+
+[0:14:32.0] FH: Usually you have like a wire called reset line. There are multiple ways of doing that but you know, you just toggle it, and the thing reboots. This whole concept of turning things off and on again is pervasive. Everywhere.
+
+
+[0:14:46.1] JE: At all scales. I want to dive a little bit into the specific applications because I think that it — probably people find it really interesting which is why it’s one of the first questions that was asked but FarmBots is open-source. Did you guys help them put it together at all and to what degree?
+
+
+[0:15:01.6] FH: I mean, they were useful, a lot of Nerve stuff and so I guess I feel indirectly —
+
+
+[0:15:07.4] JE: — Okay, you aren’t like, helping them do that, right?
+
+
+[0:15:10.6] FH: No. Well I think Justin, you contributed to the FarmBot.
+
+
+[0:15:15.1] JS: Yeah, I’ve worked to make some contributions and help out there as I can but that was after they’ve already decided and make their choices to be able to use Nerves, Connor was an advocate early on because of the complexities that they had in their system that they were maintaining for packaging.
+
+
+[0:15:30.9] JE: I’m looking at the GitHub right now. They’ve got the operating system that runs on the Raspberry Pi, which I assume is what is running Nerves. And then they’ve got the web app which is made in typescript. I’m guessing if this is like, okay, I guess they didn’t build, what you’d call, like, the control panel. Like the user-facing control panel in Elixir, they built that in Node. Is that what that is?
+
+
+[0:15:53.6] JS: The server language is a mashup of a bunch of different technologies, there might be some Elixir in there to be able to handle some high throughput modes or TQs maybe but as far as the stack is concerned, a lot of the Elixir’s driven on the device’s end. This is common in IRT platforms, it was always the web component and the beautiful part with Nerves and Elixir on the device end of things is that it doesn’t dictate what your website has to be. It can work with anything else.
+
+
+[0:16:20.1] EO: Have you guys gotten to apply Nerves to any projects that you can talk about? I mean, like an open source project or personal projects?
+
+
+[0:16:27.1] JS: Sure, I’ll let Frank start because I’ve got — I can geek out on that subject for a while.
+
+
+[0:16:32.3] FH: Open source projects. My projects are like a little one offs that, like, Halloween decorations that I make turn mic on. I don’t know if you remember there’s a time where it was popular to get all these dinosaurs or different bone skeletons. And they would scream at you. My kids and I, we thought it would be fun to control all those and harass the trick or treaters.
+
+
+[0:16:54.8] EO: Wait, you got one that already did that and you just like plugged — 
+
+
+[0:16:58.4] FH: We got one and then we gutted out the electronics and jammed in a Raspberry Pi and similar stuff.
+
+
+[0:17:04.9] JS: That was my all time favorite Frank projects, yeah.
+
+
+[0:17:08.9] EO: I like that you took an existing working one and then, was just like like, “Let’s do it ourselves.”
+
+
+[0:17:15.5] FH: I mean, the hard part about a lot of this stuff is a lot of the mechanical and motors and at least that’s hard for me, the software part, it’s a little bit easier.
+
+
+[0:17:24.8] EO: Your kids think you’re like Tony Stark?
+
+
+[0:17:26.4] FH: Yeah, they clearly do not. I have teenagers. I’m past that phase.
+
+
+[0:17:34.2] JE: A friend of mine just recently said this quote to me. “Only an engineer would buy a product so they can spend twice as much money building their version instead of using the one that they bought.” To reverse engineer one, right? Or you know, to gut it and do something else here.
+
+
+[0:17:50.1] FH: Wow, that’s depressing right now.
+
+
+[0:17:54.2] JE: We’ve got Halloween, scaring children is one application, anything else that I mean, Justin, you want to talk about one of your favorites?
+
+
+[0:18:01.1] FH: Justin should talk about his.
+
+
+[0:18:02.7] JE: I mean, Justin makes one for every single keynote that he does, it’s like a different play demo.
+
+
+[0:18:08.3] JS: Yeah, I try to put something together that’s a fun use of it for any talks that I do. It’s mainly because conference-driven development, I should say, doing something at Nerves or extending something in Nerves is always, like, let’s find something we want to build or some project or some even thing that we want to exercise — it may even been done before. It’s just fun to be able to implement and get up and running and working and talk about it. 
+
+
+
+
+But, of those projects, one of which I have a FarmBot outside, I have two farm deep-water hydroponics system in my office that’s controlled with Nerves, I’m growing —
+
+
+[0:18:37.0] JE: — I’m sorry, slow that down, one word at a time. Deep water?
+
+
+[0:18:41.6] JS: Two deep-water culture, hydroponic systems in my office.
+
+
+[0:18:44.7] JE: Okay, one word at a time. What is a deep-water hydroponic?
+
+
+[0:18:47.0] JS: It’s basically a five gallon vessel that the roots grow down into, that contains a flowing nutrient solution that I change periodically.
+
+
+[0:18:54.9] JE: What are you growing?
+
+
+[0:18:55.8] JS: I’m actually, the reason I’m growing — I’m growing Sichuan Chinese chili peppers to feed my Chinese cooking addiction. Because it’s hard to get Chinese peppers right now.
+
+
+[0:19:08.0] JE: Wow, that’s insane. 
+
+
+[0:19:10.2] FH: I was able to germinate two plants I have outside. Two plants I have inside. And I have one that’s a rare one that I was able to, out of a hundred seeds, finally get one to germinate, that [inaudible] peppers and this is all because of Lance Halverson. He ruined me by showing me a Sichuan Chinese cooking as in the side if you're interested in learning more, you can get Future Dunlop’s book about the food of Sichuan which contains many wonderful recipes.
+
+
+[0:19:35.5] JE: I’ve actually been to Sichuan. It’s hot pot, right? It’s from there?
+
+
+[0:19:38.9] JS: It’s really the flavor, yeah, I would say of China. The mala flavor —  that mouth numbing, it’s like you got anesthesia or not anesthesia, what is it, Novocain. It’s like Novocain.
+
+
+[0:19:52.0] JE: Or menthol, right? 
+
+
+[0:19:52.8] JS: Yeah. That one is a fun one, that controls my lights and everything and timers. For professional installations, we ship Nerves into industrial spaces where they’re being added on as gateways to industrial PLCs for manufacturing facilities. We’ve also recently finished a project up where it’s going to be used for the smart energy sector to be able to power some energy grids and some smart city stuff.
+
+
+
+
+We’re working on a couple of projects coming up, there’s a couple of consumer electronic devices that we’re going to be launching that have Nerves on them.
+
+
+[0:20:24.4] JE: Can you say —
+
+
+[0:20:26.1] JS: Sure, yeah. One of which is a children’s sleep clock. I’m really excited for that one because I kind of need it myself for my kids. It’s a good exercise to say, like, hopefully this ends up helping me but as a funny joke then to refer back to only an engineer will spend twice as much money or time in that case, instead of just buying one for their kid.
+
+
+
+
+And then we’re also working on some additional products coming up in the medical markets and things like that too.
+
+
+[0:20:54.3] JE: It’s sort of an interesting question because I feel like when you ask me, “What are the potential applications of this thing? The answer is like, anything.
+
+
+[0:21:01.8] FH: There’s a lot. I think we have narrowed it down, some of our focus. I think this is going to get to another question on here which is —
+
+
+[0:21:09.3] EO: Strengths and weaknesses?
+
+
+[0:21:11.4] FH: Well, there’s embedded is just a huge field, depending on who you talk to, I mean, it’s basically pretty much everything almost — knowing if you get down to it. But there’s — we focus on these more smarter network connected gateway-ish network or devices as opposed to a not-so-smart sensor. It’s very popular to have little microcontrollers on little sensors that you apply everywhere and they call home.
+
+
+
+
+There’s not much logic on them. That would not be a thing that we target with Nerves. The other side as the embedded projects become way too complicated, involved, that’s also beyond — that would be like a car, a cellphone, well, cell phones used to be a kind of embedded but now I have no clue. They’re just like personal computers to me now.
+
+
+[0:22:11.4] JE: Can you talk a little bit more about some of those? I guess either constraints or strength, what the strong areas are to think about application?
+
+
+[0:22:19.1] JS: I guess when you're coming down from, you have some device in mind, right? Then you’re looking for what technology you want to put on it. Sometimes it’s easy, if you have a lot of networking involved with it and you have engineers who might know Elixir and be comfortable with that style of language then you start looking very seriously at Nerves because it has a lot of matches there.
+
+
+
+
+If your project just is completely dependent on a really small battery, for example, and like power management is going to be a major design focus, that’s going to be something that you're going to be forcing to processor set that doesn’t run Nerves and Erlang.
+
+
+[0:22:57.0] JE: I feel like really small devices.
+
+
+[0:22:58.9] JS: There are a whole lot of these, right? It’s like, this is — I don’t want to minimize the field, it’s like a huge feel that devises that fit this profile.
+
+
+[0:23:06.4] JE: that would be like, wearable devices just don’t have — 
+
+
+[0:23:09.5] FH: — This is where it gets all gray area, right? You look at the Apple Watch and that thing has an insane amount of computational power but the same time, there are other wearable devices that have almost none. I don’t think it’s easy to just say, give these clear recommendations for what you want to go. It’s kind of like, you just have to look at everything individually and if you — sometimes you have things that are out of control like projects like how much you can actually spend on the engineering. That’s going to [inaudible] you some ways because Apple does some insane things.
+
+
+[0:23:39.7] JE: How long before we get this thing on a rocket ship?
+
+
+[0:23:44.1] JS: I mean, sometimes if you're a small company or you have the small development budget or whatever, you just have to face reality here that maybe some things that your Apple, like, fits an insane amount of computational power in this little watch. That might not be within your domain so you might be practically forced into a smaller processor and maybe a few less features.
+
+
+[0:24:03.8] JS: But then let’s speak to that case. A smaller processor, the fewer features, there’s two things that come to mind in this case. One, that thing’s probably in its smaller processor and smaller feature set design going to have to go through some other thing to be able to get to the wider area network. And that’s where we see a lot of insulations with Nerves.
+
+
+[0:24:20.9] FH: Yeah, that’s effectively the smart way, use cases. We use Nerves and gateway devices. We have — just to back up, smart — what we do is we retrofit apartment complexes, single-family homes, rental properties basically with smart home features in a way that the property managers can share access to what their tenants said.
+
+
+Any right, we have door locks, water sensors, thermostats,  all kinds of stuff that goes in these installs and they’re all pretty low-powered devices. We start radio over edges and the Nerves devices, gateway them up to the cloud and handle some stuff locally.
+
+
+[0:24:56.8] JS: That’s the first avenue to it and then if you think about that, you can kind of make correlations between language and complexity and like business logic. If you consider the idea that as the complexity of the business logic that’s needed at that stage increases, then such should your perspective on what higher-level language you might want to use approach said of problem. Because it might become something that’s a little bit more difficult or a little bit more time consuming to do on really low-level spaces.
+
+
+And that level, since you need to do a heavier lift, you’ll probably be reaching for something more powerful at which point it would make more sense to be able to, or I should say, you’d have the capability to be able to take advantage of some of the higher-level language technologies like using Nerves, using higher-level languages like Erland and Elixir.
+
+
+[0:25:43.0] FH: Yeah, time is certainly a component here. What’s possible today is going to be different from what’s possible tomorrow. I mean, right now, it’s the processing power that we  can get in these little devices — keeps on going up, so.
+
+
+[0:25:55.9] JE: I kind of want to return to this apple watch question which is like, has anyone like jailbroken an Apple Watch and ran the BEAM on it? Do you even need to jailbreak it? I guess you could run it on like an app or something. Do we know about those? No?
+
+
+[0:26:08.0] FH: I don’t know.
+
+
+[0:26:08.9] JE: Anybody, about this?
+
+
+[0:26:09.6] EO: From what I’ve heard, I feel like if anyone has done that, it will be our next set of guests and Connor will probably be the one that —.
+
+
+[0:26:18.4] FH: Yeah, that’s a good point, ask Connor that question. If there’s some random usage of porting Nerves to some platform, he’s the go-to-person. You know, just to jump on some of these questions that I think are on the list that are kind of related, there’s one about is there support for USB 32 or SDM 32 4. What is this planned and this comes up all the time, right? It’s like what boards can you port Nerves to? SC32 and SDM32 are microcontroller motherboards. They don’t have quite enough memory, processing power, sometimes looks like it actually might be okay but really, we can’t run Linux on them. And the Nerves go-to is, “Can we run, boot a  Linux kernel on it and have enough memory left over to comfortably run BEAM.” 
+
+
+So those two particular processors aren’t something that we are looking at. That is not to say that they’re not looked at by someone else in their line community. There is a project called Atom-VM, which is looking for, which has a — not the beam but a different virtual machine that will run or a little Erlang programs in those processors and the other half is just how do you go about porting applications or porting new boards. 
+
+
+I think Justin was going to be  tippy-talking about that a little bit but the way that we all go about it is we copy + paste from one of the open source ports that we have and start from there and move down. And the official Nerve systems we keep pretty up to date and current and they will get a decent amount of use so they form a good template. And then I think that if you are interested in a particular board, there are certainly a lot of unofficial ports out there that don’t nearly get the kind of publicity. 
+
+
+And that is everything ranging from IMS6 to all kinds of random — embedded and maybe not so embedded XAD6 style boards. There is a Lichee Pi for it that’s like this crazy small or this really, really small arm for I think someone was it Justin? Oh yeah, Justin you were the one that sent me those. So as a tangent, people send me hardware in the mail randomly and that was one of the devices. So all right, anyone who does this, I totally appreciate it. I cannot help myself but to open up and do something with it and I know —
+
+
+[0:28:31.2] EO: Any PO box you want to give out?
+
+
+[0:28:33.9] FH: No, no.
+
+
+[0:28:33.8] JS: Definitely go and read between the lines. Frank loves receiving hardware randomly in the mail. 
+
+
+[0:28:38.5] FH: No. 
+
+
+[0:28:40.3] JE: This could be really bad. 
+
+
+[0:28:44.7] JS: It’s just the quarantine thing to do, spend your time building the hardware.
+
+
+[0:28:50.8] FH: Yeah, you were the person that sent that Lichee Pi over and then Conner did the port which had something that he made some decision in there. That looks clearly like he wants to get my attention and to spend time on the port to fix it. 
+
+
+[0:29:04.7] JE: Wow Frank, people love you man. They are sending you gifts. We are just talking before the show that this poster behind you, Amos gave that to you. Like they just love you Frank. Anyone won’t get as much, like, fan mail as Frank, I don’t know that’s really —
+
+
+[0:29:17.0] FH: I know.
+
+
+[0:29:18.8] JS: Fan mail is hardware. Send hardware. 
+
+
+[0:29:25.4] FH: All right I have fun in there with the piece, yeah. 
+
+
+[0:29:28.2] JE: We have a shameless self-promotion and ‘ask the audience section’ of the show. So just hang in there. No, so yeah Frank’s actually doing a better job of sticking to the script than I am. We have a question here that I am actually a little bit curious, specifically around, like, Bluetooth low energy because that is always a challenge for us at Pavlok back in the day. I am curious can you talk a little bit about integrating BLE on this? 
+
+
+[0:29:52.0] JS: Yeah, so there was a swing that was taken at this early on from Very before I was working at Very by one of the engineers their Dans offered. 
+
+
+[0:29:59.9] EO: One of the Daniels. 
+
+
+[0:30:00.6] JS: Yep and I think that was actually the number of Dans has diminished to now — the Spock nickname is no longer acquired but just —
+
+
+[0:30:09.4] EO: Diminishing Dans? 
+
+
+[0:30:11.1] JS: Yeah diminishing Dans. So there was a project there that was done for I think I am allowed to talk about it, yeah whatever, interstate batteries. So that project was shipping some Bluetooth. It needed a minimal-level of functionality for the Bluetooth stack and so an effort was started to be able to try to make the Bluetooth spec perchable to engineers to sort of make a system that was flexible. That could be extended to add more and more functionality but from a contracting standpoint, as a consultancy, once the engagement ended and that customer was satisfied, Spock had to go on and work on some other stuff.
+
+
+And so we have recently started to pivot a lot of that work into a place where we want to still make it public to be able to try to allow others to help push forward. And at least have a place where they can get some reference and where others may have started.
+
+
+But it was tough because there’s definitely a connotation, there is definitely a line that’s drawn, like when you say something is open source versus this thing that I made something public, right? Like saying that I made something open source means, like, people interpret that as like, “Oh this is forever going to be maintained by a community of people like yourselves and I can hook onto this and take it and use it for my thing over and over again. And if I have problems I will reach out to you and I will let you know that I have the problems”, right?
+
+
+But it is tough because you can’t continue to manage everything and so the point of all of this is to say that when it comes down to it with stuff like Bluetooth LE, the spec is big but it is not scary if you break it apart to its components. And you know much like anything else in software, if we just follow some of the guides that are out there that got started in certain places, then it might help others be able to get a leg up on pushing it forward. To implement the things that they need. 
+
+
+Ultimately in order for these things to progress then people just — they need to actually have a need for it instead of claiming that there is a lack of space for it. And that somebody really needs it, it is not terribly difficult to make a contribution to push forward on it as well. Somebody just needs to have a project.
+
+
+[0:32:04.6] EO: So one project that I have seen that Michael Reese was doing something with BLE and a golf cart, I think, so yeah and I just remember him saying that on Twitter, like the Bluetooth spec is 1,300 pages long or something obscene.
+
+
+[0:32:21.0] FH: Yeah, I suspected it might even be longer than that. That thing is a behemoth. The part that is important for this is much smaller. Bluetooth is completely overwhelming when you look at it, I think, at first flush. And then there are a couple of pieces there. They are much more important than others when it comes to BLE and I think that I did a little bit of rage coding on that a couple of months ago. Or at least find it out to see where things looked as Harald. 
+
+
+Because we were getting so many questions and neither Justin or I — our companies don’t use — well, your company used Bluetooth and shipped the product with Harald on it. And in Harald, it works for that use case. It just doesn’t have any use case that most people coming to Harald are looking for. They want something that they can kind of connect to a phone. I think or at least on that level. 
+
+
+[0:33:09.8] JE: I’m sorry rage coding? 
+
+
+[0:33:12.2] FH: You know. 
+
+
+[0:33:13.1] JS: It’s a popular form of coding, you’re not familiar?
+
+
+[0:33:16.9] EO: The key coding actually. 
+
+
+[0:33:18.8] JE: The only one I am familiar with is — no I am just kidding, yeah. 
+
+
+[0:33:22.9] FH: Yeah, so I don’t know if I have some notes. I am not completely sure they are 100% accurate but I think they are good enough to get someone a little bit start and I am hoping to encourage people, like, if you decide to put a little bit of time on this Bluetooth problem maybe just put little comments on my gist or something. This is, you can find the community that’s been interested in Nerves and Bluetooth in the past on the Elixir Slack and the Nerves Bluetooth channel.
+
+
+[0:33:47.5] JE: And we can get the link to it in the show notes. 
+
+
+[0:33:50.9] FH: Yeah and there will be a link to the gist that was made off of it and with the gist I have is that you just download firmer image, plug into a Raspberry Pi Zero, connect it up to your laptop, and you can do all your development with Peril on your laptop. You don’t have to do — be creating a Nerves firmware at all. You can just go Harald straight to the Bluetooth chip on the Raspberry Pi Zero W. So if you make any progress I hope that people can put comments there.
+
+
+Because I know at some point, someone is going to be like, “I have a business meeting” or “I have some hobby project or something that I really want to push across the finish line.” And be willing to get this over that hump that is currently at and we will eventually get there. I think it’s yes. 
+
+
+[0:34:34.1] JS: I mean if anybody out there that is interested in doing Bluetooth, I think joining my channel would be a great way to be able to say hi to each other and start vocalizing that community. And I want to use this as a means of touching on the Nerves keyboard people. Frank, you know more about that but they were a group of people that were passionate about a thing that had a use case that required some technologies and they advanced parts of the stack. 
+
+
+They made contributions back and so, as a group, in their spare time they ended up being able to all work together on a project that they’re building together. And that’s what it would need for Bluetooth but Frank, yeah, talk about the keyboard. 
+
+
+[0:35:06.5] FH: Oh they keyboard is awesome. It’s just talking about setting hardware. I know a package that is in the mail and it currently says it is going to get to my house on Monday and it has their keyboard. I am so excited. 
+
+
+[0:35:19.8] JS: So somebody is building Nerves keyboard like a clickety-clack keyboard with Nerves. 
+
+
+[0:35:24.3] FH: Yeah, so the interesting part is they went about solid and actually took a little bit of time which was, “How do you turn a Nerves device into something that you can plug into your PC so it shows up as a keyboard, right?” I mean this is a Linux thing. We have supported this kind of on little bits and pieces in Nerves. It is not something that a lot of us do all the time. It is one of those things that’s just a little complicated enough that you have to put work in and then they did and so it is really cool to see this. 
+
+
+[0:35:50.6] JE: Is this something that we can do as well? 
+
+
+[0:35:52.6] FH: Oh yeah, I think I have a lot of stuff out. I know on Elixir on Slack, it is Nerves-keyboard but they have I think they have some web pages and GitHub pointed off that too — that if you don’t see anything quickly there I will dig into. They are a friendly group. I think it is the Elixir meetup in Seattle. I think that’s —
+
+
+[0:36:11.6] EO: I am finding a lot of carpal tunnel things plus ElixirConf EU and then T-Repo, I think, so it is coming up right now. 
+
+
+[0:36:20.2] FH: Cool, you know after this call I’ll make sure that you guys have all the links. 
+
+
+[0:36:24.8] JE: So we want to get to a few more of these questions. One that we tagged as being an interesting question is, how can you extend the functionality of a file system on Nerves? 
+
+
+[0:36:35.3] FH: Oh, right. This is a — we get some questions there. There are multiple directions that you can extend. So this one, I have the feeling like there might be some intent but I am quite not sure what it is. So I will just talk about a couple of things. Justin, you figured this out. So on Nerves, we can throw all the file systems that run on device, right? So there is a program we use called fwup, which is a configuration part which says where your partitions are. 
+
+
+
+
+So, it’s like, if you have a Raspberry Pi, you have a micro-SD card and it gets divvied up based on that configuration. We have a prescribed configuration for micro-SD cards. If you’re building a product, you might have something like EM-MC in which case you might want to modify things a little bit. Two main routes that people go; master boot records or GPT partitions, most of the official stuff is master boot records, so four partitions. 
+
+
+So extending it is — four partitions doesn’t give you much room to extend. You might be able to add one more partition and format another file system on it with — You know if you came with some [inaudible] material, for example. Just to, maybe I skipped over — the partition set we currently have are required for the processor like, a boot partition that’s required and we can’t change. Another partition file is the root file system, which is where we keep Linux and we keep your Erlang application, your release, and all of that stuff. It is all re-only.
+
+
+Those people might be familiar with AP partition swaps, the read only partition swaps that we do for our controlling, which far more build of your programs that the device runs. And then the final partition that we ship with is this — the application data partition. So you could just write everything, whatever you want, whatever your application wants to write, keep the database there, whatever. That’s the one that I sense maybe of interest to this question. 
+
+
+
+
+So right now, most of the platforms are USD4. For that one, it’s typical Linux file system. One first boot gets expanded in our default configurations that will expand to the size of your drive and then it will get reformatted. If for some reason it doesn’t get expanded or you have it four set to something low then expanding it later on is kind of a trick. It is just like if you were to change the size of your hard drive partitions on your own laptop. 
+
+
+
+
+That is something that we don’t really encourage but people do and it ends up being similar to what you do on a Linux PC. Okay, so that is part of it and then when Justin and I were talking about there is another facet of this — that people could be asking about this. The root file system is read-only. That, we know, is kind of an annoyance, right? You just want to change one file like why do I have to download a whole new firmware? 
+
+
+Oh there are many good reasons for doing that in production, right? Production having a known set of bits for the root file system — but just ignore that for now. I am just debugging. I just want us to change a few files, how do I do that? We say you can’t, right? But there is a concept called overlay file systems and early on in Nerve Projects, we had this feature and I almost think that we might even be bringing this back for development because this use case kind of convenient to where you might want to mark or modify something. 
+
+
+
+
+So the overlay file system idea is, you have a base file system, which would be this read-only one, the overlay at the arrival one. Whenever anything makes a call in the Linux, taking a file off the drive will consult your writable one, which could be in a memory one that just clears itself on reboot. Which might be completely fine. It is probably worth discussing why we moved away from this. So when we first had it on there, it turned out that this, that overlay file systems were a little flaky. And this I pre-Docker days. 
+
+
+I mean I guess Docker was around but Docker, in my impression, flushed out every bug possible that you could have in an overlay file system. So I think it is worth the experiment again. I got it nice and it is working pretty well now. So I think that is one just waiting for someone just to push that one over the edge. I think it is like tweaking a few configurations and playing around it a little bit to make sure that you are happy and then sharing the result we can get it in. 
+
+
+[0:40:31.0] JS: And I think there is value in shining light on the fact that you mentioned that, bringing that back would be good for development purposes because the reality is that some of the pain that we end up rubbing up against that might require a little extra detail, or slow down the development experience a little bit with Nerves is that the product you build in Nerves excels in the production environment. It is like really immutable. 
+
+
+It is really strong, it is really explicitly, like, there. It is easy to reason about but that is because you are just sort of packaging just what you need to be able to make that thing work, which is good because it protects you from everything that you don’t need. That you may have packaged with a full dust-op system like Raspbian. However, Raspbian has its merits in debugging or testing and things like that where you can much more quickly iterate over things in Raspbian, which is like Raspberry Pi’s form of Debian. 
+
+
+
+
+Which is just like desktop Linux on Raspberry Pi, right? And that is because in that case like Debian and Raspbian they’re going to come with all of the bells and whistles and lights turned on and let you be able to just kind of play around and, at runtime, do stuff. But that is not a very good production environment to ship, right? So it is like some of this stuff you could get away with by — I am going to use this as an excuse to answer one of the other questions. 
+
+
+
+
+Some of this stuff you can use to get away with enhancing your development environment. Like, there are different ways to be able to go about this like trying to do as much as possible on your host, for example, is a great way to be able to increase the performance of your development experience. A lot of your business logic if you can decouple it from — you can create quality contracts in Elixir to decouple all of the hardware specific bits. 
+
+
+
+
+Like, let’s say you need to talk to a sensor. Well, if you can make an interface that mocks that so that your test can still exercise what the business logic is that you are writing for how to handle that sensor data or communicate that sensor data to something else. Can really speed up your development experience because then you don’t have to push through the device every time you need to just make sure that you can send some data to the cloud, right? 
+
+
+
+
+And as such, we found that it is more and more beneficial to be able to try to structure your logic, encapsulate it inside of OTP applications and not necessarily just modules. And that the place where Nerves is going to produce its output that is great for production. You are going to want to try to be able to keep that as, like, the contractual glue layer between your business logic and your hardware front, right? 
+
+
+
+
+And from there, we recommend the poncho-style approach of just decorating the environment, like, pushing the rest of the requirements out to other external OTP applications and including them as dependencies so that they can be integrated and tested as smaller components. And on their own, wouldn’t necessarily be burdened by the inclusion alongside of all of this very specific hardware-integrated bits. 
+
+
+
+
+[0:43:15.4] FH: Yeah, I think it is interesting to see how the project has changed over the years because early on, we’re like, all in for silking up relaying distribution and setting up hot updates and pushing releases over and Erlang distribution and just recycling — iterating that way. And then as we started getting a little bit more experience, we started finding that it was more effective to pull logic out that could be fully testable in isolation. And use the main Nerves project as more of the glue. 
+
+
+
+
+And that it helped I would be careful because I actually think that the other approach is cool and wouldn’t mind doing a little bit more about that. But it is just interesting how our focus is the past few years when very much to the poncho-style setup and minimal code. 
+
+
+[0:43:59.9] JE: We’re almost out of time and we had two more questions we want to get to. Eric, do you want to kick it off and then I will ask you a little bit about the future and what is next. 
+
+
+[0:44:08.5] EO: Yeah, so, I guess sort of along these lines, we had someone asking a question about Nerves and deploying with Nerves Hub. They have a config target exs. with Wi-Fi config and they are building firmware. How do you deploy that to different devices that will have different Wi-Fi configs and all of that. 
+
+
+[0:44:27.9] FH: Right, yeah I will take part of this. So the question is how you deploy. You have some specific settings that just depend on wherever the thing gets installed in the end. If you are using Nerves just for a hot new project, you know building, for the firmware, you know my device is firmware is how I put it to my own home Wi-Fi access point. Totally okay, right? That is an easy, quick setup. But it's just not something you could ever deploy any number of devices with. 
+
+
+There is a project called Vintage Net Wizard. So the idea is that you start the project with an empty Wi-Fi config, right? You won’t know anyway what they put in that config. The Vintage Net Wizard is a project that knows how to configure a Wi-Fi module to go into AP mode and then it will broadcast a little. It has a little web server that once you log into it over, you know a cellphone or a laptop, and it will tell you what other Wi-Fi access points it sees. 
+
+
+And you just pick one set and then it updates the config. So you could do that. I think the end result is if you don’t want to use that, you could imagine coding on something out that is basically a one-liner to set the configuration and vintage net wall persisted for you in the next boot. So somehow you have to get that vintage net config line run whether it is to the wizard or to some other mechanism. Maybe your device has a little UI on it. I don’t know, that’s the place to go. 
+
+
+I think the other thing to say here in the devices I build, we have a manufacturing step where we can provision stuff in. We also have a site prep stuff, where we can set something before things go out. So if you have one of those stages then the way we do it, we do a dedicated PC that runs a little piece of software that anyone can plug a device into. It will detect it, it might know, like, whatever credentials or whatever it needs to put on there or the set.
+
+
+It’s like for, if you know where you’re going to install these things and it has a particular Wi-Fi access point at that location, you could pre-configure it there. That stuff I don’t know, Justin, do you want to add anything there? 
+
+
+[0:46:21.5] JS: Yeah, I know I think after that it is a matter of the fact that connecting to a Wi-Fi network is an implementation detail of projects. So therefore, I default to the fact that that could be configured from any external domain and so therefore because it is ambiguous on where, our best effort in being able to help support that is with Vintage Net wizard, which has been a wonderful effort.
+
+
+But other than that it is up to your business details of your application on where you might capture that information. You know, you might be an enterprise account here deploying into a warehouse and you know the Wi-Fi IDs or you want a geographically distribute and you know them as well. So just where — whatever extension server you have and traffic that information at runtime. 
+
+
+[0:46:59.5] JE: I want to get one more question in and also please use this time to plug your own projects, your companies whatever you want but we want to know about what the future of Nerves looks like and also if Nerves Hub is ever going to get a facelift. 
+
+
+[0:47:13.5] FH: Nerves Hub is getting a facelift, you know what I mean. 
+
+
+[0:47:19.2] JS: Spoiler, I have screen. So as the plug port, I have since the beginning of the year, started work at Very and we have been working to build and produce IoT products for all types of different domains and we have a wide variety of experience from data science, embedded engineering. We do hardware designs, we also can do mechanical manufacturing too. So we can cover the gamut for all of the IoT space and we have been really interested in the usability of Nerves Hub from the web experience perspective.
+
+
+So, we’ve decided to spend a lot of time and energy and focus on enhancing that to be able to make it as best as we can. I saw some of the new screens, they look gorgeous. As you can see from the Nerves-project.org site that we’ve finally going to do a little bit of a facelift recently and that with the help of Very, we’re also trying to be able to help promote in this stage of Nerves, a lot of the adoption and this sort of leads into then answer the last bit of the question, which is like what the future would be like.
+
+
+Currently the roadmap for us is that, a while back, we shipped Nerves 1.0 and then we started focusing on a lot of the runtime components. Frank and members of SmartRent, as you will talk about soon. They have been working to push forward with a lot of the polish on a lot of the stacks to be able to add robustness to the system and shore things up more and more and so from my perspective as well for the future, I am looking to be able to promote the adoption as much as possible. Which involves trying to be able to make ourselves more approachable to the people who are interested in implementing Nerves in their projects, from the web perspectives.
+
+
+So we have had help from various marketing departments there to be able to create new web domains, new places to be able to digest some of the information that is the elephant of what you can do in the IOT space. And just try to be able to install it in as many places as possible. So that we can continue to learn from the experience. That I can continue to learn as well from the experience of adoption, what things need to be able to get added in and it better. And so, from our company, we’ve been making some work towards whatever it might be focusing on or experiencing during that time and we’ll try to be able to open source them and work with the community to push that work out there. 
+
+
+[0:49:33.3] JE: Awesome, final word with Frank. 
+
+
+[0:49:34.6] FH: Oh wow. So I had a couple of things. And I guess I’m putting — getting abused  by time slightly. But I want to point to something really important about what is happening with Nerves Hub. Nerves Hub is going from this open source — well, it is going to stay open source. And I am not saying that it is going from an open source community sponsored project to a more commercialized so they can go long-term. Like this is really important to have a meaningful resource supporting Nerves Hub firmware update. 
+
+
+So Very is taking the lead on this chapter of Nerves Hub’s life which is going to keep it going long term right? This is hugely important for us as a project because it’s an expensive service for us to maintain. Certainly as Nerve starts getting more and more users. And we want to be able to supply stuff like some uptime guarantees, which — Nerves Hub is amazingly stable as it is. And you know it doesn’t use much of Justin’s and my time going down but still, it’s not something that we can count on all the time. 
+
+
+There is upkeep, for sure. So I really want to spend some time thanking our open collective sponsors because our group, Nerves, we have this open collective. People just sponsor us and this has just been awesome. This has let us pay AWS fees for getting Nerves Hub going and this is going to be a transition zone — and the open collective’s money is going to be going more towards [inaudible] stuff in a bit but this is where we want things to go, right? We want to be able to make these things long-term viable. 
+
+
+So I guess, just the other thing. Anyone that’ss worried about Nerves Hub free access going away for, hobby, personal-use, that’s not happening. So that is hugely important too Justin and me. So that is always going to be a resource for our community. It is just going to be, I think, in more long-term hands. So, let’s see. Got my piece on that far. 
+
+
+[0:51:18.8] JE: You shamelessly sell or like plug anything? 
+
+
+[0:51:21.5] FH: I would plug SmartRent. SmartRent has been an awesome supporter of this project. I can’t thank them enough I mean, right? So the SmartRent funding that’s been going has been paying for my time and others. And the company as a whole has let us open source just a ton, right? It’s been very easy, right? You are not going to see a lot of business slides. Lots of things that wouldn’t expect to be open source from any company. 
+
+
+But they have been very flexible with the people working on Nerves and Elixir paid Ripley to do projects to get them into open source domain and I think we’re you all probably may see and hopefully start seeing more of is in the polish on some of the networking components, for example, with Vintage Net to keep the solid link up. You can see our crisply projects which is a Z-wave client library, which is pretty full-featured and I think easier to use than the default Z-wave stuff that you get from the people making it. 
+
+
+And so that is fully open source, not our stuff doing any of the application logic but there is a whole lot of things that is open source that you can do smart home things with. So that is what is coming from us and we’re hiring. Sadly not in my little group but if you are in the market please check my website.
+
+
+[0:52:32.4] JS: I should say the same. We are hiring as well, yeah. 
+
+
+[0:52:35.9] JE: SmartRent and Very, both really great organizations. And huge contributors to the Elixir ecosystems. So check them out. Frank Hunleth and Justin Schneck, thank you so much for coming on the show again guys. 
+
+
+
+
+[0:52:48.4] FH: Thanks for having us. 
+
+
+
+
+[0:52:49.1] JS: Thanks Justus, take care. 
+
+
+
+
+[END OF INTERVIEW]
+
+
+[0:52:50.9] JE: That’s it for part one of our special Elixir Wizards Dojo recorded live earlier this summer. We wanted to thank today’s guest, Frank Hunleth and Justin Schneck. Of course our friends at ElixirConf Japan, who invited us to put together this special series. And all of the Nerves community members in Japan and around the world who sent in their questions for us to ask Frank and Justin. Special thanks as well to a friend of the show, Paige Finklestein, who translated our intro and outro and delivered those in Japanese for our listeners in Japan. 
+
+
+Once again, I am Justus Eapen and my co-host is Eric Oestrich. Elixir Wizards is a SmartLogic Podcast. Here at SmartLogic, we are always looking to take on new projects building web applications and Elixir, Rails, and React, React Native and infrastructure projects using Kubernetes. So we’d love to hear from you, if you have a project we can help you with. Don’t forget to hit that subscribe button on your favorite podcast player and please, leave us a review on the iTunes podcast store and on Stitcher. 
+
+
+You can find us on Instagram, Twitter and Facebook. So add us on all of those. You can find me personally @Justuseapen and Eric @Ericoestrich and join us again next week on Elixir Wizards for part two of the Elixir Wizards Dojo on Nerves with Connor Rigby and Todd Resudeck.
+
+
+[END]

@@ -1,0 +1,375 @@
+EW S5E3                Transcript
+
+
+EPISODE S5E3
+
+
+[00:00:04] JE: Welcome to Elixir Wizards, a podcast brought to you by Smartlogic, a custom web and mobile app development shop based in Baltimore. My name is Justus Eapen, and I'll be your host today. I’m joined by my spellbinding co-host, Sundi Myint; and my incredible producer, Eric Oestrich. How are you guys doing?
+
+
+[00:00:26] SM: Good.
+
+
+[00:00:27] EO: Good.
+
+
+[00:00:27] JE: So glad you're on. So glad to have my team here today. This season's theme is adopting elixir. And we're joined today by a senior software engineer on the news engineering team over at the Washington Post, Simon Glenn-Gregg. How are you, Simon?
+
+
+[00:00:43] SGG:  Hey, good to be here. I’m doing well. Thanks.
+
+
+[00:00:46] JE: So we're really glad to have you on the show. We wanted to open with I think the question, the big elephant in the room, which is what kind of news do you engineer at the Washington Post?
+
+
+[00:00:57] SGG: I feel like news engineering is actually kind of a funny phrase because it sounds like we're making it up. So a lot of the work that the engineer team at large at the Post works on is around publishing. So helping our reporters and editors get their posts in and writing stuff, editing stuff and then getting into the print newspaper. So my team focuses on tools that are very much adjacent to the newsroom. So tools that reporters use every day like publishing, but not in that main sort of CMS world that a lot of people work on. 
+
+
+So obviously the past two years we've been very consumed with the 2020 election. I’m taking a deep breath right now because it's over. So we were super focused on building out from scratch an elections infrastructure that would show live updating results maps, data visualizations tables that gave our readers as much information and analysis as possible about the results coming in.
+
+
+[00:01:48] JE: We also thought that the name was super-duper funny. So can you talk a little bit, like let's just dive right into it, right? Like talk about specifically the prototype that you build on Elixir. What it was meant to do?
+
+
+[00:01:58] SGG: Yeah. When we were sort of charged to build this stack from scratch, starting around last spring, like spring 2019, we had the target date of like January for the beginning of the primaries. That was when we need to have most of our stuff kind of working this shape, and we were going to keep iterating it obviously, but like that was our big target date. So we had about eight months, maybe nine months to sort of prototype. Not a lot of time. And we were mainly concerned with how could we get our users live updates for elections data. How could their maps update in real time? 
+
+
+Traditionally the way that had been done was through a thing called long polling where your page would load in the browser and on an interval, usually five or ten seconds, it you know pull a file on S3 or any kind of JSON file. Do a diffing in the browser and then update components on the page. We used React on the frontend for that. 
+
+
+We were just trying out a bunch of technologies that would give us that sort of live feel as much as possible, because like a lot of time users don't even realize that a page is live updating. So we want something that will happen fast enough that they will see changes before their eyes and they'll go, “Oh, okay. This was very much a live.” 
+
+
+We had a strong suspicion we wanted to use WebSockets for this technology, and at least to my knowledge amongst the big newspapers, that hadn't really been done a lot. It was sort of new territory even the WebSockets themselves have been around part of the web standard for a long time. So last summer when – things had to be a little slower in July, we test – the three engineers, each of us would take – The three like senior engineers on the team would take a technology, run with it, see what they can do. And we had this sort of election in September. It was the North Carolina, 3rd Congressional District, house race, and we were going to sort of run our data fetchers and everything live for that night just to kind of – Because there's no good tests like a real election night. So that was sort of our immediate target. 
+
+
+So we each built out a prototype showing the north – I’m just going to talk about the 3rd District because it's easier. Showing the 3rd District map, and we did it in Elixir. That was the one I worked on. And then the other one was in Node using a library called Socket.IO. And then the third was kind of crazy thing written entirely as an Nginx module using this thing called Nchan.
+
+
+[00:04:04] SM: So how did you come up with those three? I’m assuming that Node was something you were already using. How did you end up choosing Elixir as one of those options?
+
+[00:04:12] SGG: Yeah. So we are very much a Node shop, Node and Python a lot on the backend. It's a good question. So one of the engineers on my team, Jason Holt, who is a brilliant engineer, he loves reading engineering posts and he came upon this one called Elixir RAM and the Template of Doom by this guy named Evan Miller, which is like an awesome post. He sent it to me. He's like, “Oh my god! Check this out. Look at what this language can do with memory management.” So he sent it to me, I read it and was like, “This is awesome.” 
+
+
+Personally I was just like a little tired of writing everything in JavaScript. So I was like, “Ooh! A new language. Let's do –” Like in my spare time sometimes I'll just do like the first projects for a lot of languages, just weird interests, I guess. That blog post, really, it was like, “Wow! This looks really super interesting. And the fact that the language is used in industries and sectors where liveness is very much a factor, it's something that's really important to users. We thought it would be a good fit for live election results pages. 
+
+
+Looking at some of the like example projects specifically in Phoenix, Phoenix was like a way that we thought we could bootstrap pretty quickly by using that framework. Seeing some of the things people did with Phoenix kind of like blew our minds. Like some of the games especially where it's like, “Wow! This is so quick.” Performs really well in the browser. And yeah, we just got super excited about it and want to try it out.
+
+
+[00:05:23] SM: You had never written Elixir before you picked up this project.
+
+
+[00:05:26] SGG: No. Elixir or Erlang. Yeah, I had no exposure to it really. 
+
+
+[00:05:30] SM: That's really interesting. So how did you like ramp yourself up to get to a place where you were working on this project efficiently?
+
+
+[00:05:37] SGG: I guess what I first did is I picked one of the Phoenix like example projects that I thought was especially cool and I just kind of read through the source code a bit. For me it's always like when you look at a repo it's like finding like where is the code actually. Which folder is the code that actually matters in? So it's like finding that, reading through it and then kind of going back. Just doing the thing I do with any language where I'll do like the first Hello World project or polling app project, whatever. Build that, like okay. And I think I did the Phoenix like intro app as well, because we knew we wanted to use Phoenix.
+
+
+[00:06:04] SM: Cool. So when you were setting everything up, were you working on it like solo Elixir island by yourself or did you have like a team of people who were helping you with the prototype?
+
+
+[00:06:14] SGG: No. It was just me. Kind of like holed myself up in a room. Not actually, but mentally in a room for, yeah, probably four or five days, hammered it out. Definitely once I got to the point where I wanted to integrate it a bit with our AWS account, I pulled other people in. Part of what the app was doing was pulling data from S3 and dipping stuff with that and then also publishing stuff to S3. So I was kind of talking to people architecturally about how we wanted to do certain things. And also when it came to deploying it, I was consulting a colleague of mine, Erik Reyna, who is really good with DevOps stuff and knows EC2 kind of architecture inside and out so. So worked a bit together on that. In terms of the actual Elixir code, it was mostly me. And they were also all working on each on their own prototypes on their own different languages. 
+
+
+[00:06:58] SM: Was there some sort of ceremony around the projects like you guys were like, “Okay, we're going to start on this day. We're going to end on this day and present on this day.” Was it sort of like that or how did that process work?
+
+
+[00:07:07] SGG: Yeah. I don't remember the exact like days and everything, but we definitely started on the same day and it was like about a week later. We have this one conference room on the top floor of the Washington Post building. It's called the publisher’s conference room, because it's where the publisher takes like very important people. It's got this long table. It's very shiny and we poked – We sort of like treat ourselves by booking meetings in there. So we had to launch the pitch day in that room and we each like put our prototype up on the huge monitors they usually use for important stuff and kind of walk through them a bit.
+
+
+[00:07:37] JE: Do you remember what the initial reactions were from your team?
+
+
+[00:07:42] SGG: Yeah. I mean everyone was really impressed by it. So the actual app, the way it looked, is it was a map of the 3rd Congressional District in North Carolina, which is the outer banks in North Carolina, the northern part of them. And I was able to just get it sort of – I set the interval so high that they were like flashing updates. And like as maps color in and they'll just get darker, and there was two candidates. So they were just getting darker red or darker blue and each county was shading in and it was just happening really quickly. I set up a thing where I could kind of toggle the interval too so I could slow it down and speed it up and I was sort of packing together Phoenix templates to do that and just modifying SVG on the front end by changing classes on the SVG to do it. Yeah, people were very impressed by the lightness of it, the speed of it and also the control and expectability. I pulled out the – 
+
+
+[00:08:25] EO: Observer?
+
+
+[00:08:26] SGG: Observer. Thank you. Yeah. So I was like kind of showing most of the processes that were happening on the backend while it was going on. So it was having able to have that at an introspection to the backend while looking at the frontend was also cool for people.
+
+
+[00:08:38] JE: Was this strictly like a product demo or did you walk them through the code a little bit? Show off some of the language features? 
+
+
+[00:08:45] SGG: I kind of showed them the syntax for people that had never written anything in it before. It's kind of like, “Oh, cool. I don't know what to do with this. That looks like code. I don't know.” So I should be able to code, but it wasn't like an immediate like, “Oh, wow!” 
+
+
+[00:08:58] JE: I’m just a little surprised that immediately the entire Washington Post engineering team didn't just switch to Elixir. 
+
+
+[00:09:04] SM: Then end there.
+
+
+[00:09:06] SGG: Yeah, right.
+
+
+[00:09:08] JE: Throw out your entire computer and just start from scratch in Elixir on the beam. 
+
+
+[00:09:13] SGG: So a bit of background on that I guess is we'd had experience in the past where one engineer would kind of pioneer a new language for the company and build something in it. And we have this really interesting targeting system that was built entirely in Clojure about five or six years ago. It worked really well. But then when they started to try to hire against it, they had trouble finding Clojure engineers. There's never really a time at the Post to like allow people to kind of go off and learn new languages. Just things happen so quickly, there's so many deadlines that like they want refactoring that whole thing into Node. So I think people had that, especially the directors had that back their minds like this has happened before and we had to switch this all the Node anyway. So like yeah there's a bit of reticence there.
+
+
+[00:09:49] SM: Yeah. I guess that was our next question, is just like so after the presentation, what is the decision process look like? Like how does somebody come to that decision or who comes to that decision?
+
+
+[00:09:58] SGG: Yeah we all voted. The other demos went really well too, the Node Socket.IO 1 and the Nchan, Nginx 1. Those both have their drawbacks and pros as well and we all just kind of voted. And I think the Elixir one got the second most votes. But ultimately it was up to the directors to kind of get together and talk about how they wanted to move forward with it. 
+
+
+[00:10:19] EO: And the first count of votes was Nchan, right?
+
+
+[00:10:23] SGG: I wish. No it was a project. We all loved Nchan, but it was a bit of a black box. Like it was like six lines of code that did the whole thing and there was no kind of observer equivalent there. Just kind of happened, which was amazing. But how do you debug that?  I don't know.
+
+
+[00:10:38] SM: Did you get to chat with people who voted for Elixir? Like did they say why they wanted to work in it?
+
+
+[00:10:44] SGG: Yeah. I mean I think everyone is really excited about the sort of functional aspect of it. The syntax was really appealing to people. The memory management and just sort of the way that it's been used by other companies like Discord who like are super focused on live experience. Like that sort of heritage was really exciting for people. I think people also raised that like we would want to also have someone on the team who has experience in it. So everything like, “Okay. Who do we know on Twitter who's like an experienced Elixir developer that we could like hire as a consultant to kind of tell us don't do that, don't do that?” We were talking about that as well definitely as a way to offset the inexperience that we had.
+
+
+[00:11:21] JE: Did any of your colleagues that you're aware of do their own exploration into Elixir and maybe toy with it in their free time? I guess did you win over any converts over the long haul?
+
+
+[00:11:31] SGG: I don't know about the long haul, but definitely I encouraged my colleagues to kind of take the repo, clone it and try to add things to it, try to break it. A few of them definitely did that who were interested in it. But like I said, we basically had from July to September to build that initial app that includes the entire ecosystem of data fetching to like the frontend database tables. So it was kind of like after we did this presentation, we had to like start building the thing already. So people played around with it for few days, I think. And then it was kind of like once they picked Node as the way to go, they just switched over to doing that. It's kind of the nature of working at a super deadline-driven place, especially in a crazy news collection cycle like 2020. 
+
+
+[00:12:10] JE: Well I got to say just in general, I’m pretty impressed with the culture that would encourage this kind of testing of different languages and encourage people to – I mean you all built the same prototype in three different languages, right? They weren't different. So yeah, that to me is just a remarkable thing and definitely I think it says good things about the Washington Post's engineering team.
+
+
+[00:12:31] SGG: It's a fabulous place to work. I'll put a plug for it right there. But yeah a lot of credit also goes to our boss, Jeremy Bowers, who was very encouraging to experiment. And he knew that things were going to get sort of hairy and not as fun this year. So he's like, “Let's take this time. Explore things that you're passionate about and let's be really creative in our approach to this.”
+
+
+[00:12:50] SM: Oh! I think I understood this as you were doing this prototype in the summer of 2019. You're saying you did it this past summer, 2020. 
+
+
+[00:12:57] SGG: No. It was 2019. 
+
+
+[00:12:59] SM: Oh okay. Okay, gotcha.
+
+
+[00:13:00] SGG: We started a year and a half out from the elections, yeah.
+
+
+[00:13:02] SM: When was the presentation?
+
+
+[00:13:04] SGG: It was let's sort of end of July in 2019, yeah.
+
+
+[00:13:07] SM: Okay, gotcha. Cool. 
+
+
+[00:13:09] SGG: So we had four senior engineers at the time. It would have been four prototypes, but one of the people was away on vacation that time, Susan Tyler, yeah.
+
+
+[00:13:16] JE: We're going to I think depart a little bit from Elixir land here, because I want to talk about the data. I’m really curious. First of all you I think you said that you're just reading like JSON dumps that are hosted on S3 somewhere. I’m really curious for, people who don't work in the news industry, like where does the data come from, this type of situation?
+
+
+[00:13:35] SGG: Yeah. It's a super good question and it's something that not a lot of people know outside of the industry actually. So the Associated Press, which most people probably know is like a wire service. They also have people all over the country that collect data on election nights and feed into their system. And they are the main provider for newspapers. Also this year Google rolled out their own election results system in search results, which of course we were a little bit nervous about, because it cannibalized our pages because AP was also feeding that. So the Associated Press has an API. So your basic REST is JSON API that you make requests against. 
+
+
+There are other people out there aside from AP. One of them is called Edison. Edison is the service that actually delivers results to TV networks. So think of all the big TV networks that pretty much use Edison. And they were actually founded by a representative from each of those networks. And similarly JSON API just like AP, it was like weirdly ported over from XML. So that the variable names are all terrible, like J Type is for jurisdiction type, things like that. 
+
+
+So yeah, traditionally at the Post we've used AP. We had a contract with them, but we sort of wanted to reevaluate for this election cycle, because often times TVs will get results and race calls first, and we wanted to have access to like as fresh data as possible. So we actually signed a contract with Edison as well. So we were using Edison and AP interchangeably. Usually Edison for presidential because people were most concerned about that, getting that as soon as possible. And then AP, Associated Press for lower ballot races and also senate and house races usually. So we'll sort of mix and match. We'll sort of look at each race and kind of, “Okay, which one do we want to use for this? Which one do we want to use for that?” 
+
+
+[00:15:17] JE: And can you give us a sense of like the quantity of data that we're talking about here? Like was it was it large enough to cause any problems or require any interesting solutions around ingesting large amounts of data? Or is it just not that much?
+
+
+[00:15:27] SGG: Oh yeah. Think of the problem like – And we encountered it. Another engineer on our team, Susan Tyler, who actually is now a lead engineer, she sort of during last fall pioneered this data fetching approach that used a bunch of AWS tools. Primary Lambdas, which Lambdas, which are serverless functions which would fetch the data from AP. Let's just use AP in this example. Fetch the data and then write it to Dynamo, DynamoDB, AWSs database, NoSQL database. 
+
+
+We're writing a ton of data into there and then basically the Lambdas would get stitched together by step functions, which kind of run Lambdas on certain conditions and triggers. So like one of the ones we would use is the step function was set up so that it would fetch the data. I would wait five seconds. It would check if the data had changed – It would fetch it again and check if it had changed. If it had, it would write it to Dynamo again. If not it would wait another five seconds and just kind of restart itself at a certain interval. 
+
+
+For early races like this North Carolina 3rd District race, the data actually is fairly small because you have two candidates. You have like 12 counties, I believe, if I remember correctly. So you can imagine the JSON payload for that is fairly small. Once you start getting into primary land where you have, like super Tuesday was our big terrifying night initially because you have many, many, many states, primaries as well as – Presidential primaries as well as senate house primaries. 
+
+
+Also last fall we covered the local Virginia state elections, because as well as a national paper, we also cover especially Virginia, Maryland, DC local races. So it's pretty sizable payload for that as well. Think about all the Virginia house and state legislative districts. Not as big as data at other companies where we're talking about like companies like big, big tech companies. It's still small compared to that. But when you think about it, you're trying to also broadcast all that data to the client and you have people – One of people's browser is also on like memory limited, hardware limited browsers like on phones be able to handle that without crashing. And believe me, we saw some crashes. That's where the concerns start to creep up. 
+
+
+[00:17:22] SM: When you were working, I’m guessing you worked on the real application after the prototype was finished, right? 
+
+
+[00:17:28] SGG: For sure. Yeah. 
+
+
+[00:17:28] SM: Was there any moment where you were just like, “Oh, I’m working on this and I remember solving this problem in Elixir,” and like you solved it differently or you wished you had some Elixir tools or was like maybe it was easier in Node. Can you speak to that experience a little bit?
+
+
+[00:17:42] SGG: Yeah. I mean one of the things I loved initially about Phoenix is that it just kind of handled all of the socket stuff. It just worked out of the box. I had to do very little to get it to work. I mean the most I had to do was to think of the name spacing for channels and rooms and stuff. And I remember kind of reinventing that with Socket.IO, which is the Node socket library we wound up using. 
+
+
+And Erik Reyna, my colleague, did a lot of that work. But I remember kind of having to rebuild a lot of that in JavaScript, which is not as performant. It doesn't do memory management as well. It's single threaded. There were frustrations there. We didn't have the same concurrency that we would have had on Elixir. We basically had to scale up our cluster I think a lot more with Node than we would have had to with Elixir. So yeah, there were definitely – When it came to concurrency concerns and memory stuff, there were like frustrations.
+
+
+[00:18:28] SM: Was there anything that was easier?
+
+
+[00:18:29] SGG: In JavaScript?
+
+
+[00:18:31] SM: We're hearing both sides of the story. 
+
+
+[00:18:33] SGG: For sure, yeah. I mean I’ve been writing JavaScript for – I don't know, eight, ten years. So just the iteration happens a lot faster. I can write it a lot faster. I don't have look every little thing up, which I honestly had to do with Elixir when I was writing it. I’m sure that would have dissipated with time where I would have gotten faster at Elixir. But yeah, just the speed 
+
+
+Also the community, I mean I could turn to any of the engineers on my team who knew JavaScript in and out and talk to them about it. Same thing for Python, which a lot of the Lambdas and stuff were written in Python as well for the data fetcher. 
+
+
+[00:19:02] JE: So I’m curious. If you think that in future – What do you call these prototype testing rituals?
+
+
+[00:19:08] SGG: Pretty much that. Prototype testing. We don't have a name for them, yeah.
+
+
+[00:19:12] JE: Do you think that in the future you'll maybe give Elixir another shot?
+
+
+[00:19:16] SGG: I would love to. We're also throwing around Rust a little bit as well. And now that the election sort of wrapped up, our team is going to get a tiny bit smaller and we're going to kind of all go work on other projects that are close to the newsroom. So I definitely am going to, again, pitch Elixir or maybe Rust for one of those projects. Especially since they're smaller, they're not going to need to be maintained the same way that an election stack does where we need to have people coming in and out of it all the time, like 10 to 20 people. More contained apps, I think this might be a much better fit for. 
+
+
+[00:19:46] SM: Simon, you said that you've been programming in JavaScript for about eight to ten years, yeah? So can you speak a little bit to like your personal background? Like how you got started with programming? How you maybe landed at the Washington Post?
+
+
+[00:19:57] SGG: Yeah. Well I'll speak to the second part first, which is that I’ve always been kind of a newspaper junkie ever since I was a kid. I grew up reading The Times and I would like – I don't know why, but I would just love reading newspaper as a kid. Like even the national news section and like the weather section. I especially love the data visualization on the weather section. I remember like just pouring over those maps, like the weather and pressure zones and stuff. 
+
+
+But in terms of my studies, I definitely didn't study programming. I took a few computer science classes in Java in college, but I was went to a liberal arts school and studied human rights. I was always really interested in kind of more poli-sci humanities kind of stuff. I was working in nonprofits. And I had a really supportive boss who just wanted me to learn on the job. So I worked at a digital agency called Whole Whale that worked with nonprofits to help them with their websites and AB testing and analytics and stuff. And so I just built a bunch of websites on my own learning as I was going for these various non-profits. Mostly in PHP at the time, then more and more JavaScript on the frontend as it went along as JavaScript became more necessary.
+
+
+So from there I did more data visualization work with JavaScript. I worked at a think tank called The Century Foundation, which is a progressive think tank up in New York. And I built basically a lot of their maps for their data, live updating maps. Yeah, I would up with the Washington Post a few years later. I’ve been there for three and a half years now.
+
+
+[00:21:20] JE: When you were first getting started in programming, like what were some of the breakthroughs that really let you know that this was the career for you?
+
+
+[00:21:27] SGG: I guess realizing sort of how necessary the work was in the changing world. I feel like I was sort of getting into the workforce at a time when there were just so many changes going on. Things were shifting towards being online versus anything else. And I think I was just – That feeling when you finally figure out a problem you've been struggling with for days and days. A lot in my early days I was working on Drupal sites and PHP. I just remember like writing my first like Drupal extension and PHP and finally getting it to do the thing, be it like – I don't know, turning some text blue. And it's like, “Oh my God! That was so cool.” 
+
+
+I don't know. And obviously being in a field that I knew that I would be able to have a job like in this economy. I graduated during 2010. The financial crisis was still going on. Being able to have a career that was dependable and stuff it was also a part of the calculation as well.
+
+
+[00:22:16] JE: I'll be honest. I was a little bit surprised when we started talking, and I thought the Washington Post was just a WordPress site. And would find out that it's not. 
+
+
+[00:22:29] SGG: A lot of people would be very touchy about that. We actually did use WordPress for a while as part of our sort of ecosystem. It was sort of patched together. But no, the Post, I mean especially in the past five or so years, as changes have happened, we've become very build-it-yourself kind of focused. Build yourself and then also resell it to other papers through Arc Publishing, which is part of the Post that runs publishing software for other newspapers, a lot of the big newspapers in the country. So yeah, it's very much like building yourself and then resell to other papers through Hark. 
+
+
+We're focusing more these days honestly on just building our own tools and like we're hiring a ton of engineers to keep kind of growing and working on our own platform, because there's a certain benefit to being able to work with a reporter who needs this thing to build them exactly what they need to be productive. It's a really cool feeling to be able to deliver that and be able to like see a story get published that you know that you've got to work on and be a part of. It's a really cool feeling.
+
+
+[00:23:20] SM: Yeah. That was one thing I thought about asking, is I’m actually from the DC area. I’m a dev in the DC area. And every interview cycle, every time I’m looking for a job, a recruiter is always hitting me up about a Washington Post job. And at some point I was just like, “Why is there always an opening there? They must be growing something. Something must be being built.” But over the course of the years, I was just like, “Is it like an ongoing growth situation or like what are you guys doing over there?” Where you just have an endless need for engineers?
+
+
+[00:23:49] SGG: Yeah. I mean, honestly, I see the ads too. I’m on Stack Overflow like looking for an answer or something. Yeah, recruitment ad for the Post. I think a lot of it honestly has been around Arc Publishing has been really good for the business in terms of bringing in money. So that has come back to help hire people with the Post itself proper. But also like I think with the changing newspaper landscape, a lot of the smaller papers have kind of gone out of business, which is really terrible. I mean I think local news has really suffered a lot. I’ve been really sad about that. But one of the results is I think that a lot of the money and like the attention goes to bigger papers like Post and the New York Times and Chicago Tribune, papers like that can just grow because the market has been kind of expanded to accommodate on their end, yeah.
+
+
+[00:24:34] JE: It's totally off script, but I’m curious if you know about Substack and you have a take on that sort of entry in the media space. 
+
+
+[00:24:41] SGG: I have read some Substacks. I have enjoyed reading them. But as to beyond that, I don't know much about them honestly. I’m sorry.
+
+
+[00:24:48] JE: I'll tell a little bit about the model. Basically it's individual writers with paid newsletters, and I mean it's just exploded the last year. I’ve got friends that write and make really good money on people buying their newsletter. And I mean it's bonkers. It's a bonkers sort of a situation. 
+
+
+I’ve got so many questions about like – I’m actually kind of curious about how the whole architecture looks over there, because you've got the main site, which is the Washington Post. You've got, I’m sure, a ton of data that you're dealing with. Can you tell us a little bit about what the architecture looks like if a new engineer was joining the team? How you would walk them through it?
+
+
+[00:25:24] SGG: Yeah. Yeah, for sure. I can speak more to the elections pages, because that's what I’ve worked on the most. Our main publishing platform is a crazy configuration of Lambdas basically. But our elections pages are actually just HTML files, search from S3, like static file host, which is nothing crazy there. We did that because we have these crazy traffic patterns basically, right? Like most days we'll have 200 unique visitors on a page and then a certain night we'll have literally millions of people. Ad we don't want to like deal with the load concerns of that. 
+
+
+So from an early point on our development cycle we decided we were just going to statically pre-render all of our pages to S3 and serve from there, because – What? 99.95% availability or something? I mean like those pages will never go down. So starting from there we use a framework called Next.JS, which is based in Node and React. It uses React to render pages, pre-rendered them and then we sync them to S3. So within Next.JS we have a React app, which is all of our data visualization frontend features, maps, tables, you name it, which actually generate an entire full page, which we pretty much just took our pages from the main site and made them look the same as that. 
+
+
+I mean I remember there was a point where I was like copying each thing over. And then of course we refactored it to use like a shared library that we've developed called Site Components, which is this tool that we can kind of use all over the site to – so there's only one button to load and you just pick which color you want and it loads it. It's an NPM package, and that's been super helpful.
+
+
+[00:26:54] JE: I would also plug, you guys have a great with like 70 repositories police data. It's really cool.
+
+
+[00:27:01] SGG: Thanks. Yeah. I mean I’m always pushing to open source more of them. I’m really hoping we can open source our map pipeline to generate our maps. Yeah, there's always concerns about open sourcing stuff. But I’m hoping that we'll have the time especially over the winter to do some more of that so that there's more public repos. 
+
+
+So talk about the map specifically. Something I worked a lot with Jason Holts, my teammate who I mentioned earlier. We had this issue where we knew we wanted to use SVGs. So traditionally maps had been rendered using something called either Map Box or there's other cardo, there's other mapping tools on the frontend, which can be a little slow and memory hoggy. So we wanted to go with something like WebSockets that was an old web standard SVGs. And really just toggle IDs and classes on them to change the way they looked, because that alone is like super lightweight payload and very performant on phones. 
+
+
+So we had this problem though where we needed to render them in React though. And React usually takes JSON data and uses that to instruct with a template, a whole page. So we need to kind of get an SVG sort of de-structured so that React could read it and re-render the SVG. It was sort of this weird workaround that we had to do to be able to manipulate the IDs on the SVG itself. 
+
+
+So we used D3 as a node package. Usually D3 is used in the client I feel like to kind of show things interactively. But we used the NPM package to render out the SVGs through this pipeline. We built this whole CLI that did it with whatever options you wanted to pass in. You could get like a state divided by county, a state divided by congressional district, a country divided by state, a country divided by county, etc., yadi-yada. 
+
+
+It would render out the thing and then deconstruct into this JSON format. And that JSON would then go on S3. The Next.JS app would read that in, render the map and then it would be able to be live updated as new results came in. Those results would come in via WebSockets. We actually started using Pusher as a WebSocket client instead of Socket.IO eventually, because it was just a managed service. The WebSockets would send in JSON data, which would then update the map and it would color in as the results progressed along through the night. 
+
+The results came from DynamoDB written to S3. So the Next.JS was actually reading from S3 and the results were getting pushed there. So it was another issue of like downtime, because the results are just Json files on S3, there was no concern about them going down or disappearing or anything. The database, likewise, Dynamo is super stable. AWS uses it for their own infrastructure. We weren't worried about that, but we didn't want to worry about database reads and any kind of latency there. So pretty much all the data was on S3 and our final product was on S3 as well, all static. 
+
+
+[00:29:28] JE: This might be a fun question and you can totally dodge it if you want, but I imagine that at an organization as old as the Washington Post that's been online for probably 20 years now, you've probably got some legacy code that was like pretty gnarly. Do you have any stories or any that come to mind? 
+
+
+[00:29:45] SGG: I feel like we actually iterate through stuff for on a pretty frequent cycle. I haven't encountered too much gnarly code. And a lot of this is because we're not sort of afraid to just tear things up and write from scratch, which is what we do with our election pages. Before this current election cycle we had this code that was written in 2016 for the 2016 elections. And that was brand new in 2016. So we sort of threw that away and just started fresh. So like actually I feel like no. Probably not what you'd expect at an old company.
+
+
+[00:30:13] JE: Yeah, that's amazing I was going to say earlier that I doubt you'll get like a bunch of recruits from Elixir podcast because nobody wants to go from Elixir to JavaScript. No offense. But I’m actually beginning to think that you might because you're just really pitching it really well and the culture sounds amazing. I would feel like an idiot if I did not ask you about the dominion voting systems, like news, and if you know about it, if you have a take on it.
+
+
+[00:30:37] SGG: Dominion voting system?
+
+
+[00:30:38] JE: Okay. You haven't heard about those. 
+
+
+[00:30:39] SGG: No, sorry.
+
+
+[00:30:40] JE: Okay. No. Okay it's the election software that's basically under fire right now. I don't know. Go read about it and it'll just blow your mind, and everybody else should too. 
+
+
+[00:30:50] SGG: I have had my mind on a single thing, and that is this code and like maybe three repos for the past six months. So I haven't been doing a lot of reading, but I will check that out.
+
+
+[00:31:01] SM: Yeah. I think that was like an interesting – We talked about having – when we were talking about having this conversation, we kind of knew it was going to happen right after the election. And this is something that you've been working towards for however many months now, years even. And you mentioned it's really nice that you're past it, you're past the date. But I guess what are your other thoughts or feelings about having this thing that you worked on for so long kind of like past the date? Do you feel like it worked to the best of its ability or was there something that you felt like could have been done better? I mean just like this is a big milestone to reach. How do you feel about it?
+
+
+[00:31:36] SGG: Yeah, I definitely talked about this with a bunch of my teammates since a couple weeks ago. But I think one of the things that kept coming up is that we wish we could have done more. I mean there's always that feeling like we could have done that extra database. We could have done that other optimization that could have improved this thing. And that's a sign of like a healthy productive team that they always want to be doing more. 
+
+
+That being said, we were pretty happy with how things went. There were no glaring issues, of course no downtime. I felt pretty good about it. And there was definitely a moment on election night right before the polls closed where it just like sort of hit me that like, “Yeah, a year and a half of work was about to go in front of like millions of people.” And also like my work was pretty much done on that. And that was – Oh my gosh! It was such a feeling of relief. But definitely got a little messy thing thinking about how much time and stress and had gone into it and how I really couldn't have done it without my team really working together and supporting each other. 
+
+
+[00:32:33] SM: Yeah. And so like for future projects, do you think – I mean you mentioned a little bit that you kind of have some down time now to maybe pitch other projects, pitch other languages. And you mentioned you might try to create some room or some space for Elixir or Rust in there. And I was wondering if you could expand on that. Do you see future projects that would fit Elixir better? Or is it just like you're hoping to create an ecosystem where there's more languages than just JavaScript? I mean how is that temperature there?
+
+
+[00:33:01] SGG: I mean yeah, the Post is super supportive of – I remember during my interview when I was first applying for the job. Someone saying like if you can get it to work in Docker and deploy it, you can write it however you want, whatever language you want. And that was like something that got me super excited about working here obviously. Just the encouragement to sort of experiment. 
+
+
+I’m definitely going to run with that as we start working on these smaller projects. I’m working on something now that is going to work with freedom of information access requests, for your requests. And I’m excited to see how I can build that. Something I’ve thought about that we do is we're doing more and more live shows that have a chat feature. I think Elixir would be a really good fit for that. We're going to use I think a vendor to start with, but who knows? Maybe we could work on that more depending on how it goes. 
+
+
+Obviously having a chat feature means dealing with all the headaches associated with people on the chat feature, which I love to see how much of an appetite there is for. But yeah, definitely I think that was something that came to mind there, yeah.
+
+
+[00:33:57] JE: That sounds really cool. There's a lot of room to innovate in that space. I loved this conversation. I want to give you the last word to make any final plugs or asks for the audience. Anything you want. The floor is yours.
+
+
+[00:34:10] SGG: I actually did think it was sort of a funny story from the election night eve that y'all might enjoy. You were asking about the stack and how we spent a year and a half developing it. This super sophisticated system that my colleague, Susan Tyler, pioneered with the state functions and Lambdas writing to Dynamo on these finely-tuned crons. It was all automated. All you have to do is sort of click a button in the console or run a CLI command and it would start fetching data for the results and our pages would start magically updating. Except there are some weird arcane bits of the election system like these few townships in New Hampshire, one of them being Dixville Notch, which because of some arcane rule, they're allowed to release their election results starting at midnight on election day rather than when polls closed for most states. 
+
+
+So seven people – Or no. There were seven votes this year. But there’s between 10 and 20 people live in Dixville Notch. And because the APIs don't actually turn on for Edison and AP until like 7 p.m., or they don't start showing data until then, we had no way to get this data at midnight. And because there are a lot of election nerds out there, journalism nerds who know about Dixville Notch and are like expecting to see those seven votes show up at midnight, I had to go in to our database manually and find Joe Biden and Donald Trump's candidate ID numbers, find the cell, look at the New Hampshire Secretary of State website and like manually enter in their results values. It was insane. We just hadn't planned for this at all. We planned for this super automated thing, but we didn't plan for these like seven people in rural New Hampshire casting their votes. That was insane.
+
+
+[00:35:49] JE: The audience can't tell, but Eric is cracking up right now. Well, Simon Glenn-Gregg, thank you so much for coming on the show. Really glad that you're bringing Elixir to the Washington Post. That's it for this episode of Elixir Wizards. Thank you again to our guest, Simon Glenn-Gregg and my co-host, Sundi Myint; and my producer, Eric Oestrich. Once again, I am Justus Eapen. Elixir wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails, React. Infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with. Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook. So add us on all of those. You can find me personally @justuseapen, and Eric @ericoestrich, and Sundi @sundikim. And join us again next week on Elixir Wizards for more on adopting Elixir. Mic drop.
+
+
+[END]
+        © 2020 Elixir Wizards

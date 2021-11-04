@@ -1,0 +1,347 @@
+EW S4E20                Transcript
+EPISODE S4E20
+
+
+[00:00:04] JE: Welcome to Elixir Wizard, a podcast brought to you by Smartlogic, a custom web and mobile app development shop based in Baltimore. My name is Justus Eapen, and I'll be your host today. I’m joined by my co-host, Eric Oestrich. 
+
+
+[00:00:16] EO: How are you, Eric?
+
+
+[00:00:17] JE: Doing well.
+
+
+[00:00:18] EO: This season we’re talking about system and application architecture. We’re joined by an old friend of the show, special guest, Devon Estes. Hey, Devon. 
+
+
+[00:00:25] ES: Howdy!
+
+
+[00:00:25] JE: Devon, we’re so glad to have you back on. We wanted to open up on a hot take that you have on design. 
+
+
+[00:00:33] DE: So I was kind of late to the Elixir language server game. I didn’t start using it until like maybe in the last 6 months, 8 months something like that. But the more that I’ve been using it, and especially the navigation parts of it, the more that I’ve realized that where things go doesn’t really matter if you have something like the language server. 
+
+
+I don’t have to think of “Where’s this function defined,” because I just have, like, a Vim key binding that takes me to where that function is defined. Or if I’m searching for things like most of the time, given my history as a consultant, the way that I get around codebases 99% of the time is searching. It’s like, “I bet this word will be somewhere.” Or, “I know the module is called something like this.” So I had a fuzzy finder, or I’m searching for words somewhere to try and navigate my way through. But it seems like — and a lot of the things that I’ve been realizing is that a lot of the sort of conventions that we have around design of applications around structure of applications, a lot of those things could maybe be replaced with just really good tooling. 
+
+
+Imagine of, instead of knowing that — well, of course, the change sets are defined in the Ecto schema of definitions. So I’m going to go there because that’s where the convention is. That’s where you define a change set for your Ecto schemas. But if, instead of knowing that, you could just ask a computer program, “Where’s the change set for this module defined?”  
+
+
+[00:02:13] JE: Can you back it up a minute and just define what a language server is for somebody? 
+
+
+[00:02:18] DE: Cool. So the language server, I think it came — like this LSP, the language server protocol came out of Microsoft when they were trying to make Visual Studio code work with all of these languages and like basically to give really tighter integration almost to the level of like an IDE for every programming language out there, right? 
+
+
+Clearly, Microsoft doesn’t want to write an IDE for every language. But if they can abstract away this idea of — you know, a language breaks down into things that have certain properties. Basically to like the tokenizer level, I think. I’m not like the language server expert, but I’m pretty sure what it does is it basically allows you to map primitives. Some set of primitives of like an identifier or a token or something like that — that you would think of it like a tokenizer or a parser level. And then allows you to say, “For the token under the cursor, where is that defined?” Like if it’s a function, where is it defined? If it is a variable, where is that defined? For Elixir, the same thing. If it’s a module, where is it defined? 
+
+
+And then, because they have that front-end that expects some protocol that will work with any backend, then every language can write their own backend. And that’s the language server, and there’s an Elixir language server that was originally done by Jake Becker, and I don’t know who’s doing it now. But I think Jake stopped working on it for a bit, or maybe altogether. But it still works. It works great, and as I’ve been getting used to it, it works for me phenomenally well, because I can just pretty easily follow that path through the code. As I see functions and I need to dig in to it, I can scroll down and then just hit my little key binding, and it takes me to the definition of that function. And then I can see what’s in there and I can, again, for any other function. Even for dependencies, which I think is like the best part. You can just go to definition and it will bring you right to that in your editor. 
+
+
+And so you can go as deep as you want into the code completely effortlessly, and you don’t need to know in which module or in which file it was defined. Your editor just brings you to them. And it’s made — like at one point, I was thinking, like, in a world where the compiler could, let’s say, compile any file in under a second. Any file in under a second, why even have different files? What’s the point of having different files aside from, like, not having merge conflicts in Git and stuff like that? A lot of the things that we do around application design are either working around deficiencies and tooling. Like I know, there are a lot of people that say, like, their style guides aim to minimize Git diffs. But that isn’t at all related to design. That’s completely saying, like, you need to design your code in this way to work with Git specifically. It doesn’t have anything to do with the problem you’re solving. It doesn’t have anything to do with the team that you’re on or what they like. It’s just a thing that you do in your code to make it work better with Git. 
+
+
+And there are I think a fair amount of those things that we do that don’t have anything to do with the code that we’re doing, like the code that we’re writing. They’re either working with the tooling, or like they’re designed in such a way so that it works with the tooling as the tooling currently exists. Or they’re designed in such a way so that they can integrate with or work with whatever deficiencies exist in whatever other tools or applications that we’re using. And it seems like — I mean, totally, it’s necessary. But it makes me just wonder, like in a world where — I think of the parallel I give is like a sock drawer or, like, organizing your clothing. If you say, “Oh, of course, my socks are in the sock drawer.” Great. You know where the socks are. But what if you didn’t need to know where they were? What if you had some magical robot and you say, “Hey, robot, where are my socks?” And it would just show you where the socks are. Like the Jetson’s House or something. 
+
+
+Because then when things start getting a little gnarly and people want to organize things in a different way, say, instead of keeping the socks in one drawer and the shirts in another, that everything is organized by color, it doesn’t matter. You can just ask your robot, “Hey, robot, show me where my socks are.” 
+
+
+[00:06:48] EO: Sounds kind of like the — I think the Amazon warehouses are just like a bunch of bins and it’s like catalogues. It’s like, “There's a space for this box in this bin. Stick it there.” The computer just knows exactly where that item is, and like, it brings the beam when it needs it instead of, like, “Put all of the same things here.”
+
+
+[00:07:09] DE: Eric is like, exactly right. Like it doesn’t necessarily matter where it is, because there’s a program with some interface that a human can use that can instantly bring us to where it is. And so that means, like, at that point, like what does a module really mean? What does a file really mean? Like it breaks down some of those things that we use that maybe if, such like — I mean, in a couple of years or in a couple of decades, if the tooling existed, that it would mean like, you know, “Do we even really need files or modules?” Is that just over complicating things? Because then people are sitting there and saying like, “Oh, no. This module belongs in this file. And that function belongs in this module.” 
+
+
+I mean, I don’t know about majority. But for a great deal of functions in Elixir, which module they’re defined in doesn’t make any difference at all. It only makes a difference if you’re a struct definition, or if you have some sort of macro. Those kinds of things, yeah, modules matter. But otherwise, like, maybe you could just stick in one huge file that’s like 100,000 lines long and maybe it just works because you’re just using “Go to definition” to get this stuff.
+
+
+[00:08:23] JE: Okay. Before you give someone like, a heart attack, I want to mention two things. One is like retrospective and the other one is sort of feature-based. And the first one is, recently in my experience I’ve had this feeling of as I get much more deadly with my fuzzy finder, I’m much more comfortable with like deeply nested file — like, directory structures, right? Because it becomes very easy to just get around and find what you’re looking for and not have to look at your nerd tree, right? And you’re basically describing the opposite of that, where rather than deeply nested files, you’re saying let’s compress it into more like — I remember Sinatra. Sinatra is really just like one files your entire application back in Ruby-land. And then in the future, it makes me think — I don’t know if you’ve seen — have you seen any of the demos of using GPT-3 to generate designs? 
+
+
+[00:09:14] DE: I have not seen the demos. 
+
+
+[00:09:15] JE: They’re amazing. They just type in like, “I want a feed of photos with captions, etc.” And then it creates the design based on neuro-linguistic understanding, right? Natural language understanding. And so I could imagine a world, like a post-file world where you’re just talking to your computer and it’s just spinning up functions that exists in the ether, kind of like a — what’s that database that we all hate. 
+
+
+[00:09:39] DE: Mongo? 
+
+
+[00:09:40] JE: Yeah, that one. Where it’s like documents. Like instead of documents, these are functions that exist in the ether. Is that kind of what you’re describing? 
+
+
+[00:09:46] EO: I’m going to swing this to MUDs a little bit. So there’s actually an engine called MOO, so MUD object-oriented, that is literally what you’re talking about. So functions just exist in a database, and the database happens to be one big ass file. The kind of gross part is you live edit while it's running. 
+
+
+[00:10:05] JE: What?
+
+
+[00:10:06] EO: Yeah. 
+
+
+[00:10:07] JE: How does it work? 
+
+
+[00:10:09] EO: I mean, it’s like a big scripting engine, I guess. So like as soon as you type it, it gets evaluated in whatever — like something would call it. It just calls the new thing. But like, there are no files. You don't write files in this. You just like say, “Here's my function.” There it is. And it's just like put into a database. 
+
+
+[00:10:27] DE: That's what the Beam Code server. It's basically a registry saying like this module, this function is this code. And you can update that live. That's what a hot upgrade is. And like for the beam to run, what file something is defined in does not matter at all. And for the beam to run, all you need is basically a key and a value, where a key currently is a module and a function. And then the value is the body of that function. And that can be an anonymous function, because those all in the same way that named functions are. Those all essentially get names when they are compiled and the beam knows how to reference that function. But like the Beam Code server is pretty much just the same thing you described, Eric, is it’s basically a dictionary that you can update live if you want. You don't have to. Unlike that thing we mentioned, but you certainly can. 
+
+
+To me, that makes a lot of sense. And like, the crazy thing that I mentioned was like, why not put everything in one huge file? But you can also put everything where like each function is in its own file. You can take it to the other extreme if you want. The sort of thing that I've been thinking of is that it matters far less. There was a time in my life when I was younger and doing work in different languages where, where behavior went was the thing that I spent a fair amount of time discussing with coworkers. And it's not worth the time especially now, and especially in a language like Elixir. In an object-oriented language, yes, it takes a little bit more sense, because behavior and data are a couple.
+
+
+But in a functional language, it's not really worth the time. It really can go anywhere as long as you can find it. The problem has historically been finding it. And that's why we have these conventions that help us find things, because otherwise you end up with all kinds of duplication because somebody didn't know that some had already written a function just like that. It’s the human part of it. But if we can have computers help us avoid those mistakes with things like language servers or with some other sorts of tooling, it could frankly just let people do kind of whatever they want and it'll just kind of work. And that would be a great future, I think. We’re not really there yet, but maybe hopefully eventually.
+
+
+[00:12:47] JE: Well, that's what I was going to ask you about, is like, is this something that’s occurred to you? Is it something you’ve been thinking for a while? Are you working on it? Do you want to work on it?
+
+
+[00:12:56] DE: No. But it's something that has occurred to me — the more that I’ve used the language server, is I noticed I don't even use my fuzzy finder nearly as much as I used to. Once I’m starting work on something, I’ll frequently just have two tabs open with a test and the code that I'm testing. And I’ll almost exclusively use go to definition to either go from my test to something else and then back. Or in the code that is hopefully working on making that test pass, going through there to whatever other stuff that I need. Occasionally, I’ll have to search. 
+
+
+[00:13:33] JE: Is this VSCode that you’re using?
+
+
+[00:13:35] DE: No. I use Vim. 
+
+
+[00:13:36] JE: You use Vim. Okay. Yeah. You’re using one file. I’m trying to imagine, are you just like opening up classes? Modifying them all on one file and just like spitting it out and then organizing it after-the-fact? 
+
+
+[00:13:48] DE: No. I mean, I don't actually do that right now. But it makes me think that it is a thing that would be possible. I see enormous benefit in convention, and I'm really happy for those things to exist. I see enormous value in having conventions, because the hard part of software is the human part of software. But the hard part of software, like specifically those human problems, are, like, “How do I find things in this codebase? How do I know where to put things so that other people can find them?” And then, “How does it all work together?” 
+
+
+And there's this other part of trying to make software modular and trying to have these modular pieces encapsulated. And that's a different thing that is not really a file thing as much as it is a module thing. But then that gets into like how big should a module be? Is a module, like, a 10,000 line module a problem? There are a lot of really big modules in the Elixir-lang core codebase, but I’ve worked on that a fair amount and I have never once had a problem finding what I needed to find there. The Eno module is like 10,000 lines, I guess, including documentation. But the fact that it’s like 10,000 lines has never once been a problem for me in navigating that.
+
+
+[00:15:09] EO: I've had issues specifically in Ruby with big files, but I think that's more Vim syntax, because I don't know what's up with my Vim. But when you turn off syntax, like Vim doesn’t care how long it is in Ruby. So I probably seemed to have fixed that. 
+
+
+[00:15:24] DE: When you say issues, you probably mean like latency.
+
+
+[00:15:27] EO: Yeah. It starts chugging. 
+
+
+[00:15:29] DE: Yeah, that's another issue where people are potentially changing the design of their application because their editor can't display a 10,000 line file, which is like, we’re working around the constraints of our tooling. And it would be great if one day that isn't the case. And it makes me wonder what would happen in the future if we didn't have those limitations. If our tooling didn't limit us. If we didn't have to design so that Git was happy. Or we didn't have to design so that like Vim buffers didn't crash because we have extremely long classes in Ruby or something. How would that change how we think about software if we didn't have those limitations? 
+
+
+[00:16:11] JE: I want to shift gears a little bit. Before I do, I want to ask you a really serious question, which is why is it that all the best programmers use Vim? 
+
+
+[00:16:18] DE: I don’t know. I wouldn’t say the best. I would say that there are certain class of people that either cared deeply about ergonomics, which is my case. Like I don't like getting my hands off of my very ergonomic keyboard, because I have had issues with RSI in the past, and I have a bad back. I don't want to mess up my hands. Because if I can't type, I can't make money. And so I haven't used a mouse in four years. And so that's my choice. So I think it's either those people or the source of people that care deeply about customization and personalization. And usually, from what I've seen, is those people that have like the really long, like shallow RC, like their batch RCs and stuff, those are the people that have spent the time to I think like, “How can I make this better?” And those people end up often digging into really interesting corners. And usually those people care. They care about making things better and they care about doing stuff like that. I wouldn’t say it’s a Vim-only thing.
+
+
+[00:17:33] JE: It's okay. You handled that very diplomatically. It was really just a shot at some of my college who use VSCode and Atom and stuff like that. They will forgive you. They won’t forgive me. 
+
+
+[00:17:41] EO: We have an internal, friendly fight about Vim versus VSCode.
+ 
+[00:17:47] JE: Yeah. I’m not going to stick to the script much here, because in our preliminary conversations about his episode, you sent over a couple blog posts that you definitely wanted to talk about. And so I want you to kind of jump into what you're proposing in these posts. And we’ll link to them in the notes so that the listeners can check them out. But maybe if you could just start from the top and what you're thinking as far as context rules, might be a good place to start.
+
+
+[00:18:14] DE: Cool. Yeah. I mean, I don’t actually have analytics on this. The only analytics I have on it are from the Elixir — 
+
+
+[00:18:22] EO: Elixir Radar?
+
+
+[00:18:23] DE: Yeah, Elixir Radar Analytics. But the sort of informal analytics that I use or the amount of questions I get emailed to me or DM’d to me or just ask me on Twitter and stuff. And the two posts that I get more questions about than anything else are the posts that I made on my way proposal for a set of rules for Phoenix contexts and proposal for an Absinthe application structure. 
+
+
+It’s funny, like over time, I get more and more questions about it. I almost feel like there's maybe some correlation in terms of like the adoption of the Elixir. As more people adapt it, they come across these things, and then write me and ask questions. But I also think that both of these get a lot of questions because they’re two extremely open-ended problems at the moment. 
+
+
+There's no hard and fast rules for these things. And a lot of people, certainly coming from other languages. But in general, people like rules, because it makes decisions easier when you don't have to actually decide. You say like, “I have socks. They go on the sock drawer. Easy. I don't need to think about it.”  But that's not really how Elixir applications and applications that use Phoenix — how they’re structured. They are structured in a much more open-ended – Like at a completely open-ended way. 
+
+
+And so, I, being someone who, again, doesn't want to have to think about where stuff goes, and I like the consistency, and I like the convention. I had been working on a few different applications. And the thing that I'd sort of settled on that I found worked for me and for a couple of the teams that I had worked with at the time, because I was freelancing at the time. The thing that I had settled on was this idea of you have your resource file, like your Ecto schema. And then you have a secondary context. And then you have a primary context. Because in Phoenix, starting with 1.3, when the introduced context and this idea of a more domain-driven design approach and these contexts, a lot of people loved the idea. But then the implementation became really tricky. 
+
+
+And so I saw this, for me, at least, was sort of a middle ground. It's a little bit more structure than what you would see in the Phoenix docs, for example. But it's still not extremely prescriptive. The rules that I have are to try and least let me take some decisions out of it. 
+
+
+One of the rules is like your change sets go in your Ecto schema definition, like that resource. So like you change set your type definition and like all of the actual Ecto schema stuff. And that goes in there, and that's it. It’s the only thing in there. And then you have your secondary context, which uses. You have one secondary context per resource. And that will be the place where you use your Ecto repo. So if you need to get a user by ID, that goes in the secondary context or list all users for a certain organization. That goes in a secondary context. 
+
+
+And the rule that I had sort of put there, and this is one of the funny places, is if it returns a user, it goes in that user’s context or that secondary context. So it’s by return type, not by input type, because you can have multiple input types, and sometimes you can have multiple return types as well. If you have a tuple of like a user in an organization — but that's where the primary context comes in. So this is the sort of higher-level abstraction that will deal with the interaction between your secondary contexts.
+
+
+So if you need to have — like the example that I had in there was the social media posts. So like you would have a Twitter and a Facebook and all of that. But then if you wanted all social media posts for a given user on Twitter, or Facebook, or LinkedIn, or whatever, that could be at a higher-level of abstraction where it's returning a list of multiple different types of posts. 
+
+
+And, of course, there are a whole lot of ways in which there's still a lot of flexibility. There are a lot of things that don't have a prescribed place to go. One of the questions I get the most often is like, “What about stuff that returns Booleans?” I was like, “Well, that's tricky. Does the user exist for this organization?” And it takes a user and like a user ID and an organization, and it returns true or false. Should that go in users or organizations, that's tricky. 
+
+
+[00:22:55] EO: Make one big Boolean. 
+
+
+[00:22:59] JE: But this is a good point, I think, in the conversation to address a question that the audience member might be having, which is this cognitive dissonance around — earlier, we were just talking about, “Oh! New tooling can enable us to make any kind of application structure that we want. And these are the possibilities.” And now you’re sort of saying, “But here're the conventions that you should do.”
+
+
+[00:23:18] DE: Yeah. I mean, to be fair, this post was significantly older than the last few months where I’ve started using the language server. But even still, even today, this dream that I have of maybe, one day it, doesn't really matter where you put things, because we have some helpful robot assistants that helps us find everything easily. We’re a lot better with the language server now than we used to be. But Eric's terminal will still crash if he opens a file that's too big. We still have those conventions that we need to work around, and software is still extremely — the hard part of software is the people part software. 
+
+
+So doing stuff like trying to stay consistent, especially when you're working within a team, that will make things a lot easier. Because then people won't have to think. Like, until we’re at a point where it can go anywhere, it has to go somewhere. And we’re not at the point yet where it can go anywhere. So it has to go somewhere. And then the idea is to try and minimize the need for discussion or thinking. And like that analysis paralysis of like, “Where does this go and how can I find it later?” 
+
+
+[00:24:35] JE: So I don't want to make you go through each of these individually. I do want to — First of all, I want to say that, just for me, these seem like completely reasonable recommendations for conventions, or especially in Phoenix applications. Eric, do you have any holes you can punch on this? 
+
+
+[00:24:51] EO: Upon reading this on re-review, because I'm pretty sure I read it when you posted it. But the only thing that I can think of now, almost two years later since you did this, like, how has your experience been like in practice, like, now that you’ve had a lot of time to actually use this? Do you still believe in this post? Has there been any other kind of tiny tweaks or anything like that?
+
+
+[00:25:13] DE: I'll say I still believe in it. It's hard to apply this sort of thing on something other than a greenfield project, because it just takes time. I've been in places where — like, a recent engagement that I had, the codebase was not in particularly great shape. And these guidelines were helpful for me in trying to resolve that. And, like, in resolving that, there were a whole bunch of indications of things that I would hope would have been avoided at the get go. Like problems that would've been avoided at the get go had some of these rules been followed. 
+
+
+There were cases where, essentially, the same function was defined twice in two different places because one person did it by input type and one person did it by return type. So like that sort of thing. Like get user for organization when in organizations and in users, for example, that idea. And it was literally used twice and then you end up with all sorts of problems of bug reports, of someone saying, “Oh, it doesn’t work in this situation. But the same thing works in that situation.” And then you look in the code and it’s because you essentially have the same function defined twice with a different name, but one had the bug fixed and the other didn't, because it's really duplicative logic. 
+
+
+[00:26:34] EO: I have to imagine, that probably was around like repo preloads. One of them was missing something. The other had it. 
+
+
+[00:26:42] DE: Yeah. Preloads was a real common thing, especially as, like, one of this — the last project that I was on that used GraphQL. And so I was trying to replace a lot of those preloads with DataLoader, because there were a lot of those cases where it was preloaded in one place, not preloaded in another. And then also the bigger issue was a lot of the stuff because of the way the resolvers can be tested, like any actual resolution of an object can be tested. Either things weren't tested thoroughly enough. Because you can test a mutation, but not really test it if you don't actually, in the document that you're sending, request all of the fields to be resolved. 
+
+
+So there are a lot of ways in which you can get yourself into some really difficult, tricky situations there. And that was partly one of my inspirations for that second post about the Absinthe structure — was mainly inspired by that issue and specifically the testing problems that we had. Because there were — again, it was the same thing where the same thing was tested in two different files. So it was either tested like 20% in one file, and 60% in another file, and then 20% which is missing. Or it was the same 40% was tested in two different files and then 60% was missing. But there is no easy way to see what was missing, because the stuff was spread out upon multiple locations rather than following some sort of pattern, some sort of convention. Again, that very human part of it was the sort of root cause there. That there is no strong convention being enforced there, and that led to people just not seeing what is not tested. 
+
+
+When you can easily map a test file to a source code file and see like, “Okay, this source code defines these functions. So they should all be tested in this test file.” And sort of the same thing in Absinthe application, if you have an object definition and you can say, “This object defines all of these fields.” These fields should be tested in this correspondence file. And if you see that something is not tested, you can see pretty clearly where the test should go. And it makes it a lot easier to sort of spot these things that aren’t tested in the same way that, like, currently it’s, I think, really easy to see whether you have untested functions in a module. If you're doing the one module, one test file. Then each public function in your module gets a describe block in your test file. And if you’re missing the describe block for a public function, you're not testing that function. I mean, not directly, maybe indirectly. But it's really easy to see that. 
+
+
+But there are a lot of cases especially in Absinthe when you're dealing with — if there's a lot of logic in the resolvers of individual fields. Then you can totally leave that untested. You can introduce duplication fairly easily. There are a lot of ways in which, that — you can structure an Absinthe application in a way that might make it not terribly simple or — conventional to test, is maybe the way. You don't instinctively know where a test should go or how something should be tested, because there isn’t a strong structure to the application. 
+
+
+So that's why I had — I’ve worked on several Absinthe projects at this point over the last couple years, and this is sort of the way that I had structured my applications. And had found it to work really well. There is one project where we did essentially the structure, and it worked great. It was also like on one of the better teams I've ever been on. Like, just really exceptional developers. This company was a fairly young company and they went out and just said like, “We’re going to pay a lot of money and hire like all of the core team members for, like, all of the important Elixir libraries.” And like, it worked. They had really good software. It was well-tested. And it worked really well. But it was like a top-notch team that I worked on. But we ended up essentially with this structure, and it works really, really well.
+
+
+[00:30:53] EO: We just did an Absinthe project. And this was my first GraphQL at all. And so like it’s been — when did you post this? January 27. So I guess we could've used this to start out the project, but did not read it. So, what can you do? 
+
+
+One thing that sort of disappoints me, and we had avoided it for a while up until pretty recently, is these, like, taking a query with a Heredoc and just like the whole big blob. And I wish there was a better way to test these Absinthe. This is what's in coming and whatnot. Because up until we'd started doing more integration level, which is kind of what this sort of looks like, is we've just been doing — we would test the resolvers directly, instead of, like, through the Absinthe’s layer. 
+
+
+[00:31:41] DE: You got to test it through your Absinthe, because there's no other way to test a lot of the resolution. The default resolution, if you're only using the defaults, which is, it just assumes that you have a map with those keys, great. But lots of times you're not only doing that. And I saw that there were — for example, in the last application I was on, it was Absinthe. And that one point, someone did a library bump and like a whole ton of stuff broke because there is an issue of integers and floats. And Absinthe said — “Can't resolve this.” It says it’s a float. It’s not a float. It doesn't do implicit coercion. Like if you give it an integer to resolve to a float, it won’t do it and it will raise an exception. As it should, by the way. But that was never tested once. 
+
+
+There is a better way to do it. So I have this other testing library called Assertions. And one of the things that I've added recently was a set of assertions for dealing with Absinthe, and one of them is a function called “Document.for,” which basically allows you to say, “Give me a document for this Absinthe type.” And it will generate for you basically all of the fields in that type. And then, recursively, all of the fields and all of the subtypes down to certain level of nesting. So you can say, “Give me one level, or two levels, or three levels of depth into my tree,” and it will just give you everything. So it makes sure that you are always resolving every field and the type. 
+
+
+[00:33:10] EO: That's amazing, and I think I will be using that shortly, because we also had — The way we’re loading the data that comes back through a resolver, there could be like two slightly different formats of it. The new tests that we were writing didn't request like one of the fields. And so like when I added the field, then it broke. It's like, “Okay.” 
+
+
+[00:33:31] DE: Yeah. I mean, that’s the thing. Part of it makes me sad, because you are potentially doing a lot of unnecessary work there. Like you’re resolving, especially if you're going into the deeper levels of nesting. But I've also seen so many bugs get caught that way. It's a trade-off. Yeah, it's going to make your test significantly slower, but it will also make it cover like an enormous amount of stuff to at least — at least you won't raise an error. Maybe you don't actually write assertions against every nested field. Maybe you do, maybe you don't. But it will at least make sure that resolves without error. And that's a huge first step. 
+
+
+And I personally caught many bugs, a lot of bugs around preloading. A lot of bugs around — there was one case where there was a permissions issue. So like you could be a non-admin user and resolve most of the fields on a type. But then only admins could resolve some fields on a type. So if it preloaded, like if it existed, but you weren't an admin, you could get most of it, but not all of it. And so that was an error, and that was like a, “Wait. What?” 
+
+
+So then it was like, “Well, you need to use a directive for that, and like you can't request that if you are an admin.” If you aren't an admin, otherwise it will raise an error. So it can find all of those things. But the tradeoff is it’s going to make for a really slow test. But hopefully you shouldn't have many of these. You should maybe have one or two for each type just to make sure it works. And then you can test everything else at the resolver level. And that'll work in terms of the real logic. But if you have something, the default is the three levels. 
+
+
+So if you have — so all the fields were organization. All the fields with all the users and all the organizations, and then — yeah, it will give you fields for posts. But then if a post has a comment, it won’t give you comment or anything. So it just gives you that three levels of depth and you can configure in the function [inaudible 00:35:27]. 
+
+
+[00:35:28] EO: We’ve set it up so that we tag them an integration. And by default, mixed tests won't run them. CI will run them. But you have to — If you're just doing it locally, you have to say like, “Hey, I also want this for the extra 10 seconds of test run. 
+
+
+[00:35:46] DE: Yeah. I mean, there’s slow tests, but they're valuable tests. Having a couple slow tests as long as it’s only a couple isn't so bad. Yan get a lot of value out of them. 
+
+
+[00:35:56] EO: No one is seeing Justus, a smile there, because we have a few projects that have a little bit more than a few slow tests due to reasons. 
+
+
+[00:36:08] JE: Due to reasons. I want to make sure we kind of dive into, like, sort of just more broader perspective on architecture and design. Because I think last time we had conversation you had a really great, like philosophical take on things. And we’ve got some sort of higher-level questions that sort of dive into that. And we also just love to ask everybody that’s been on this season about the difference between architecture and design and what that means to you. Do you want to talk a little bit about that, Devon? 
+
+
+[00:36:37] DE: To me, there is no difference. If we’re really going to buy into this whole building software just like building houses thing, architecture is a style. You can say, “That is gothic architecture because it has these stylistic components.” Or that, “This is American Southwest architecture because it has these other stylistic components.” 
+
+
+To me, if we’re going to start using their terms, we should actually take their meaning. We’ve given it a different term, which is “The Big Picture.” It’s not the sort of meaning that it's evolved to as the biggest picture that a human can reasonably reason about. That is architecture. And then design is the finer arts. So if architecture is the whole design, it is one of the rooms. What do you put in a room? The couch goes against the wall and the bed goes in the other room. That's design. Architecture is — the house has five rooms and they’re laid out like this. So it's the bigger picture. But, to me, I think it's all sort of just building. It's all engineering. Having that distinction is just a way for someone to get paid more and have a different title. 
+
+
+[00:38:00] JE: That is definitely a unique response to that. No one has just said they are the same thing. 
+
+
+[00:38:06] DE: Yeah. I mean, to me it’s just the same thing at different levels of abstraction. Levels of abstraction exist. I've never worked in binary. I am aware that it exists and I'm sure that someone is an architect of assembly language. And there are architects in assembly and there's design in assembly. But then we’re sitting even on top of that. So if there is an architect below my design, what does that make me? It’s just different levels of abstraction and different levels of specificity. And the more people zoom out of a level of abstraction, the more they like to call it an architecture decision. But it's always relevant to a different level of abstraction, usually relevant to one layer further down. 
+
+
+One might say that they are an architect of an assembly language because they are doing the actual assembler down to binary. Making sure that whatever assembly language they are architecting has all of the necessary instructions to work with the hardware that they’re targeting. But that has — as me, as someone who works at a layer above that, like two layers above that actually, or even three sometimes, like that architecture exists, but it is completely hidden from me. 
+
+
+So it’s just about different layers of abstraction I see. It’s like, one layer of abstraction references the layer beneath. That is architecture. But I don’t think it’s an actual definable thing really, other than that.
+
+
+[00:39:49] EO: So do you think in the next few years we’ll see the Devon Estes architecture being just — put it on a single file?
+
+
+[00:39:57] DE: I hope not. I mean, in some ways, I hope so, because it would mean that our tooling is making our lives a whole lot easier and better. Imagine if one day there was even, like, a voice assistant, like an Alexa kind of thing. It’s just like, “Alexa, I think there might be something that returns me a list of users. Can you look for it?” And then they’re like, “Oh, look. Here are these two functions. It returned a list of users.” And like, “Here are the other places that they’re used.” You can much more easily understand an application that you don't maybe have in your head already. Like especially on larger applications, you can keep everything in your head. 
+
+
+And so you need to be able to work with stuff that you don't know and stuff that you didn't write yourself and stuff that is foreign to you. And you need to be able to navigate it and understand it. The one thing that's never going to go away is that, like, good function naming and good variable naming, that stuff is going to be wildly important till the end of time. But in terms of where those functions and variables go, that's going to matter less if the tooling is there to make the actual navigation and finding of those things a lot easier.
+
+
+[00:41:10] JE: So I just have to ask at this point, the audience primarily, if you know anyone that can get us GPT-3 access to work on this, I want it. I want it. I’m on the waitlist. Get it for me. And then let's make — I mean, Eric knows, like probably day one at Smartlogic I asked, I was like, “All I want to work on is developer tooling with AI.” It still hasn’t happened. Like three years later, there's still nothing even remotely — and this is in the vein of what we’re talking about here. So, yeah. If you are in the audience, you have that access, hit me up. 
+
+
+[00:41:49] EO: Yeah. So one of the other questions we like to ask pretty much everyone, what is your opinion on domain-driven design?
+
+
+[00:41:56] DE: So I haven't read the book. My understanding is second or third-hand at best, but my understanding of it is that it basically means, like, use the same words as your customers and the other non-technical people. Which kind of goes back to that other point of like good variable naming and good function naming is wildly important. 
+
+
+And I could not agree with that more. There are so many times where I've seen things go horribly wrong just because people — like the engineers are using different words than the salespeople, or the product people. If you’re designing software for a doctor's office and like they're always talking about patients. But then in your code, you're referencing users. That’s just going to end terribly, because eventually someone's going to write something for patients. And patience is really users. And then you're going to end up somewhere where it's — get patient ID that returns a user and you’re like, “Well, why doesn't this return a patient.” And then confusion ensues. And out of confusion comes bugs. 
+
+
+So if you use the same words as your business people, this is a great thing. And people should definitely do that. But how that relates to, like, what contexts you use in Phoenix and stuff, like that is the thing that one will never solve. But using the right words is vitally important.
+
+
+[00:43:16] JE: I do want to point out one problem with this theory, which is that it assumes that the business people use the same language consistently, which they don’t. 
+
+
+[00:43:25] DE: But that is actually something that is important to push for. It’s something that I’ve — like there are many, many times in meetings where I've had like, “Okay, before we get into this, let’s just defiance some terms.” And like the more you can do that across — these are usually meetings with product people and front-end, design, product. Is like, when we’re talking about – So one fun thing that was pretty recently is this idea of a subscription. 
+
+
+In Absinthe, we have Absinthe subscriptions. And then we have, in this thing, there is also like a domain concept of a subscription to a thing. So a user could subscribe to a thing. And there was a lot of confusion around the term ‘subscription.’ So it’s like, we really need to be sure that we say like a user subscription or an Absinthe subscription. We can no longer just say subscription, because that word is no longer clear. It has two meanings. 
+
+
+It's sort of on us as engineers. And, of course, to business people as well. But when that terminology evolves, and it will, that’s the nature of things. Things will grow and things will evolve and change. That people try and push to use the same words, because if you don't, then you’re going to have confusion and you’re going to have misunderstandings. If one day people start calling cars something else, then — yeah, things are going to get real weird if everybody isn’t using the same terms. That's like the hard parts in computers are the people problems, and communication is a big part of that. And that's a manager problem, but it also is kind of on us as engineers sometimes to make sure that everybody knows what a term means when you're discussing it, and that everybody is clear. 
+
+
+Otherwise, I've seen so many times people have real serious arguments about the same thing using two different words. And then eventually after 15 minutes, it was like, “Wait. You two are talking about the same thing, right? You’re just using two different words, but the same thing.” And they're both like, “No. We need to do this, because it’s this.” I was like, “Yeah, but that's the same thing he’s saying. You're just using a different word for it.” 
+
+
+[00:45:40] JE: Yeah. There are so many instances in sort of collaborative efforts where I find myself being the person basically translating between two people speaking different languages, but essentially saying the same thing. 
+
+
+Devon, I feel like we could probably do like super-duper long episodes with you, and I'm sure that we’ll have you back on. I want you to have a few minutes to make any plugs or asks with the audience, shameless self-promotion. The floor is yours.
+
+
+[00:46:07] DE: Cool. So I'm doing a training. Originally, I was, and then I wasn't. And now I am again for ElixirConf EU, which I think October 5th, I think my training is going to be. I don’t know if they’ve put it up on the website yet. 
+
+
+[00:46:19] EO: If our schedule does not shift, this should be coming out the week beforehand. So you, dear listener, can be the judge of how our schedule went.
+
+
+[00:46:28] DE: Cool. Oh, yeah. I did put it on the website. Yeah, I'm doing a training on Elixir testing, at ElixirConf EU, which is going to be virtual this year. So if you would like to learn more about testing, that will cover from the basics all the way up through stateful property-based testing with just a little bit of the way I sort of like to do these. Which is not saying that there is a right and wrong, which is giving you a lot of different options. And the pros and cons. And then we can talk through when one might want to do this, when someone might want to do that. What are the tradeoffs? What do you need to think about? But it should give you a lot of options and a lot of tools. So that when we do get back to working on things, you'll have a lot more things that you can consider for the right tests for the right thing. And hopefully that'll help. So that’s going to be running online. So anybody can do it, although I think it'll be European-ish hours. So probably Americans wouldn’t want to get up that early. Yeah, that's the biggie for me. Yeah, that's the only major thing I have coming up. 
+
+
+[00:47:34] JE: Well, thank you so much, Devon, for coming on the show. We’re really glad to have you and we’re sure to have you back on again. 
+
+
+That’s it for this episode of Elixir Wizards. Thank you again to our guest, Devon Estes; and my co-host, Eric Oestrich. Once again, I’m Justus Eapen. 
+
+
+Elixir Wizards is a smart logic podcast here at Smartlogic. We’re always looking to take on new projects, building web apps in Elixir, Rails, and React. Infrastructure projects using Kubernetes, and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with. 
+
+
+Don't forget to like and subscribe on your favorite podcast player. And please, please leave those reviews, people. We love those reviews. They really help us get to the top of the charts. You can also find us on Instagram, and Twitter, and Facebook. So add us on all of those. You can find me personally @JustusEapen. That’s just use a pen, and Eric @EricOestrich. And join us again next week on Elixir Wizards for more on system and application architecture.
+
+
+[END]
+        © 2020 Elixir Wizards

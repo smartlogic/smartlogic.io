@@ -1,0 +1,404 @@
+EW S5E4                Transcript
+
+
+EPISODE S5E4
+
+
+[EPISODE]
+
+
+[00:00:07] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host. I’m joined by my spellbinding co-host, Sundi Myint and my ethereal producer, Eric Oestrich.
+
+
+This season's theme we're talking about adopting Elixir. We're joined by a special guest today, Viki Fördős from Cisco. How are you doing, Viki?
+
+
+[00:00:33] VF: Hi. Very nice to be here. Hello, guys.
+
+
+[00:00:36] JE: We're so glad to have you on the show. We're going to actually be talking a little bit more about Erlang today, than we will be talking about Elixir. Before we jump into the whole world of Erlang and the work that you've been doing, we want to just get to know you a little bit, Viki. If you could tell us a little bit about how you got into programming, the industry. Did you teach yourself? Were you classically trained?
+
+
+[00:00:58] VF: How I got into programming, it's a funny story. I wanted to be part of a choir at elementary school. Then I went to these auditions. They listened to me and then they told my parents like, “Yeah, so we are starting an informatics faculty. Maybe that would be a better place for her.” Today, I got accepted. Then I really started to love programming. My first programming language was Basic. I started coding, I think, at the age of nine. Yeah. It's been a long journey. I really, really enjoy coding, so it's really good.
+
+
+Since after that, I went into this specialized high school, where I didn't have any choir still, but a lot of programming. Then I went into university. Yeah, I walked through all academic ladders. Then I went to code, basically.
+
+
+[00:02:04] JE: Do you remember any of the early experience of learning Basic in – I mean, elementary school, learning Basic sounds just wild to me.
+
+
+[00:02:11] VF: Yeah. Right. I think the first program that I wrote was, I think, summing up two numbers. I was just so happy that it worked. It was magical. It was truly magical.
+
+
+[00:02:28] SM: That might be the key to teaching younger children, giving them the easy wins. Maybe not – The early wins. They'll remember it. Clearly, you remember it. That's great. What was your first programming job? Did you get that right out of college, or did you have an internship?
+
+
+[00:02:45] VF: I first learned how to do websites. It's quite interesting. I was doing HTML, PHP. I learned that at high school. Then I went around like, “Hello. Do you want to get a website? Hello. Do you want to get a website?” This is how it all started. Then during university, during my bachelor's, I was working as a PHP developer.
+
+
+[00:03:11] JE: Nowadays, you're at Cisco. I think that the title that we found for you is NSO Core Engineer. Is that right?
+
+
+[00:03:20] VF: Yeah, that's correct. I work in the NSO team.
+
+
+[00:03:25] JE: What does NSO stand for?
+
+
+[00:03:26] VF: NSO is a platform. In maybe in three sentences, it would be a network operating system, device automation platform and it's an orchestration engine. There, the core means that I work on the platform, on the core of the platform itself. We are focused on services. Under services, we mean any types of services and policies. Like any rules that you can define and fit into the network. Consider virtual private networks, or policies involving access control lists, or just redirecting a small percentage of the traffic to a canary deployment.
+
+
+Then in NSO, we have this patented algorithm called ‘fast map’, that gives a very, very elegant way to handle full-service lifecycle management. There, I work on a platform on the core part. It's a fast map-based services, implementing network-wide transactions. Because our goal is to ensure that the network is consistent and the changes are carried out in a transactional fashion. We, of course, always try to measure the consistency of the network. For this, I use Erlang to solve this task.
+
+
+[00:04:45] JE: Is it 80% Erlang, or a 100% Erlang that you're writing on the day-to-day?
+
+
+[00:04:50] VF: 99.99.
+
+
+[00:04:55] SM: Did you start using Erlang only after you joined Cisco, or were you writing Erlang before? I mean, how did you journey into your Erlang path?
+
+
+[00:05:02] VF: Yeah, because it's very far away from PHP, right? I was in university, trying to find the bachelor's thesis. I was really enjoying a class that was about proving correctness of parallel programs. There, we did implement parallel programs. That was again, this magical moment that wow, they can run in parallel. Oh, it's so beautiful. Then, so I contacted the teacher and I asked, “Okay, but I learned in what language?” She said, “Erlang.” I was like, “What?”
+
+
+Yeah, this is how I entered into Erlang. She gave me books that I learned through. Then this is how I started. It was in 2010, 10 years ago when I wrote my first Erlang beach program. I can talk about it a bit later. It was part of the refactoring project, actually where I did. I did the web-based interface of refactor as bachelor series in Erlang.
+
+
+[00:06:10] JE: This is a great segue, because one of the talks that you gave at Code BEAM last year was called Think in Erlang. Is that right?
+
+
+[00:06:19] VF: Oh, yeah. That's correct. I really enjoy giving that talk.
+
+
+[00:06:22] JE: Most of our audience is coming from either the Elixir world, or they're interested in Elixir. Obviously, Elixir is built on top of Erlang. I’m curious, if you could – maybe for someone with that perspective, who's maybe working in Elixir, but hasn't really gotten into Erlang internals yet, how do you start thinking in Erlang?
+
+
+[00:06:42] VF: I think the thing is that we, or at least me, I really got used to think imperatively. What I mean, is that that we try to be totally in control. We go through lists by indexing them. We always try to describe the program. Okay, if this is the case and we go this way, otherwise that way. We are super in control. I think, this is very, very far from how I like to think in Erlang. Because I think in Erlang, we need to let the computer take a bit of the control.
+
+
+What we should deal with is what is our problem. We should try to give a mapping that takes our input, the problem and then transforms it into a solution. I think we should focus on the input and then the output. What we are trying to do is we are trying to build a mapping, to build a function around it. We are going to refine our input, until it is turned into output. It's easy to say, but I do remember my first Erlang codes. I think I even used the list secu to try to index that list, because come on, how can I go through a list without indexes?
+
+
+Then oh, I think I overused function expressions, the lambdas, the closures, which I try not to do it. It was so cool. It was not really part of any other language back then what I used. I was like, “Yeah, it's nice. It's new. I need to use it.” Then I overused it. Another thing is that I think, or at least how I programmed before was that I had huge functions. What I mean is that the body of the function was very, very long. That when you try to do that in Erlang with a lot of cases and ifs, I think it gets a bit ugly. That I try to avoid as well.
+
+
+Then of course, the processes, it is so easy to spawn processes. That's the easiest thing to do, so to say. Then there will be a point in life where you hit yourself, that you spawn too many processes. Then you realize that, “Okay. Maybe I need to have a strategy of finding process I would like to spawn and do so.”
+
+
+[00:09:17] JE: What kind of issues do you run into that let you know that you're spawning too many processes?
+
+
+[00:09:22] VF: Right. I was trying to schedule tasks. Then, it happened to be that there were too many tasks. What happened is that the tasks that were realized as one-on-one processes, at the end, what they were just doing is that they were fighting for the common risk for the shared resource. It can happen that if you have 200 processes, your overall throughput will decrease.
+
+
+[00:09:49] JE: The first place you'll notice is in just performance ramifications?
+
+
+[00:09:53] VF: Yes. Or if you look into your processes that are running and you see that most of the processes are waiting, and then there is something again there.
+
+
+[00:10:05] SM: Do you think that maybe from a high-level view, like we said, that a lot of our listeners are strictly Elixir developers, or looking to get into Elixir. As Justus mentioned, not all of them know the underlying functionality of Erlang. If you had to sum up what Erlang is and maybe if you can go a little further and talk about how Elixir might be built on top of it, just I think we love to hear it from your perspective, what Erlang is and what it gives to people that other languages don't have. I think that would be a really good spot for people to hear more about it.
+
+
+[00:10:37] VF: Right. Erlang, the shared nothing. That's a beautiful thing. If you look into a lot of literature in computer science, then what you see is the crazy amount of books deals with how to protect the critical section, how to be sure that if I put together two program components and then I run them in parallel, they are not going to interfere with each other. Share nothing. I’m not saying it solves it a 100%, but solves most of it. That's very beautiful.
+
+
+Of course, it has some downsides as well. You are going to hold in the process space the data that the process can access. Meaning, that if you have multiple processes using the same data, then it's almost for other cases, it's going to be copied. You are going to have shared instances of that data. That's the downside of share nothing, but I really like to work with it.
+
+
+I think, once you start enjoying it, that there are no shared variables, there are no global variables, life becomes way, way, way better. I think, you can write simple programs. You can reason about your code way easier. You can look and understand other people's code way easier. I think, processes. Process is its entity that is executing a function throughout its executing code. Processes brings you a very nice way, like an agent style concurrency. You write your independent agents and then they are going to work to reach the same common goal by sharing tasks. They will work independently. Sometimes they can synchronize and the synchronization is through message passing, not through shared variables, which is again, a much cleaner, at least in concept. Processes, message passing, share nothing, I would highlight this characteristic of Erlang. I think it's very useful to understand deep and exploited, because it does give you benefits.
+
+
+[00:13:07] JE: Let me ask you this. If you can think back to when you were first starting Erlang, do you remember what the most challenging hurdles were in terms of learning and becoming productive in the language?
+
+
+[00:13:20] VF: I think, recursion is hard to get it right, because you are trying to write a tail recursive function, but at the same time, you are used to forage loops. That's a long distance to get there. Then understanding gen servers, I think that was interesting. From the point of view that it is a server, it's a generic server, and then we have a synchronous and asynchronous operations towards the server, and then what does this mean from the client side? What does this mean from the server side? Then of course, I made the mistake of calling gen server, call from inside the gen server and not really understanding what's happening and why can't I no longer talk to my server and all that craziness.
+
+
+Then when I saw that I got gen servers right, then I overused them. I started to put processes everywhere, because like, oh, it's so cool. They can hold the state and then I can ask them. Then I got back my global variable. To say, so somebody finally hold my data and I can talk to it from everywhere. Then turn out, the gen servers are serializing your request. To get the value of my beautiful global variable, I was serializing my system. That was disappointing when I realized that.
+
+
+[00:14:56] SM: I’m sensing a theme. You get excited and then use it too much.
+
+
+[00:15:01] VF: Yes.
+
+
+[00:15:03] SM: I love that though. It's really awesome to see that, we love Elixir obviously and you definitely seem to love Erlang a lot. I guess, how do you convert that enthusiasm over to other people when you're trying to maybe teach them, if you've got a new team member, or you're just trying to convince your JavaScript friend, or your Ruby friend that they need to get on Erlang? What's your elevator pitch for Erlang to your friends or colleagues?
+
+
+[00:15:31] VF: I was working at my university. We were doing a software technology lab, which was in Erlang. We got a lot of students there. Imagine that the mathematicians were the ones who got Erlang the fastest. It's because it's so close. You write a function and then it has a definition. It's so close to the mathematical meaning of functions, and they had much less computer science classes, otherwise. They bring it on the tree. I think, that was for instance an interesting thing to find out. How would I convince my friends to write Erlang?
+
+
+[00:16:14] JE: I want to jump into some of what we talked about before the call. You recently gave a talk, also at Code BEAM. You've done a lot of talks at Code BEAM. We should probably talk a little bit about how you got to do that so much. I want to know about securing the BEAM. I want to know about Erlang security. It's been on your mind lately. What does, especially someone maybe moving into Erlang need to know?
+
+
+[00:16:40] VF: It's not easy. It's not given. That's a sad, but true news. The platform doesn't really give you a lot. The thing is that how Erlang was designed that it's going to run in a private network behind corporate firewall and the nodes are absolutely locked away. They are locked down there in a box. Nobody can talk to them. The first thing that we need to serve is that it's not how we use Erlang today.
+
+
+The thing is that the platform, or what we get right from the platform has not really been changed, which means that the burden is on us, on programmers. Everybody needs to really, really understand it and be aware of it. Then, what I noticed, I think it was two years ago when I first started to deal with it. Back then, I was working at a bank, so it was important. I think, it's important in every company, but there we were extra, extra super careful, so to say.
+
+
+What I noticed is that when I looked into interrelated work in research in academia, there was nothing. I mean, not literally nothing, but it was not a very researched topic. I got really surprised. Then I looked into challenges. Because, one often says that, “Yeah, sure. Put up the firewalls, and then everything is fine,” because we know that the distribution protocol of Erlang is you know you don't want to go with that, with just that to protect your VM.
+
+
+[00:18:18] JE: Could you talk about why? What about the distribution protocol? What does that mean to someone who's brand new?
+
+
+[00:18:24] VF: If you want to have an Erlang cluster, where you have multiple nodes connected to each other and then they talk to each other, Erlang provides a built-in way, which is through your own distribution protocol. What happens is that when the two nodes join together, so they are always going to build up this mesh network, so all node is connected to every other node. How is the authentication, is that they check each other's cookie. This cookie is a string, basically, and that's what one node sends to the other. Then based on that, if the cookie is the same, then then the two nodes can join. Now this sounds a bit weak. We have way better authentication mechanisms in place.
+
+
+[00:19:11] JE: Because I’m extremely naïve, what about the cookie method is creating a vulnerability? How does one exploit that? Why, as somebody's just getting started with distributed computing, why is that not a good enough solution to securing your cluster?
+
+
+[00:19:26] VF: First of all, that it's very easy to retry it multiple ways with different cookies and then sooner or later, I will get the right cookie. There is another thing, which is that don't know if you heard about atoms. They are in Elixir as well. The node names are atoms. Then whenever you try to join, then there is a vulnerability. What happens is that when you join, then there is a – what is sent is your node name and the cookie. That node name is going to be converted to atom before the cookie is checked.
+
+
+Meaning, that if I just open a TCP socket, two bars zero long load, start sending the name and the cookie. I send multiple names, like a 100,000 names. I don't even need to go that far. Then I’m going to crash the node without even joining to it. Because with the atoms, what's happening is that there is this atom table that’s fixed size. Well, when you reach the limit, then the VM is just going to terminate.
+
+
+[00:20:42] SM: Yeah, we see that in Elixir. Every once in a while, I’ll be using something that's a string and I want to say, “Oh, I want to string to atom that.” I’ve always been told, you can't do that. You shouldn't do that, because you can't be generating new atoms, because of the atom limit and all of that. I always knew that, but I didn't know the story behind that. I guess, I vaguely knew it was a security risk and you would crash your application if you were generating too many atoms, but that definitely gives it a little more context.
+
+
+[00:21:15] VF: Okay. That that's good. Yeah. You are definitely going to crash it. I think, you can sometimes do it. I wouldn't go absolutely ballistic on don't use leads to atom, or string to atom in Elixir. I would say that if you know that the strings that you are going to give to this function can have 10 different value, all right. If that string is coming from a user, let's say it's the username, and that is what I would like to turn into atom for some reason, I wouldn't do that. I would first look into is this username a valid username and so on? Is it a registered user? Well, most likely, I will keep it as a string.
+
+
+That's the other thing. In Erlang, we don't have a buffer overflow and then we can say that yes, we are awesome. The thing is that yeah, we can overflow the atom table. We can overflow the ETS tables. For that, we have as well as the maximum amount of ETS tables that you can make. You can look this up if you search for Erlang system limits, then you are going to get a full list of what limits you have that you don't want to reach during runtime.
+
+
+[00:22:34] JE: I want to if possible, give folks who are listening to the show who are most of them are probably working on Elixir, interested in learning more and more Erlang to be better at their jobs. Some of them are probably brand new to Elixir and Erlang. I just want to make sure that we hit all the major issues and buckets of vulnerabilities that they should be on the lookout for. Are there any other high-level spaces of vulnerability that we should be paying attention to when we're starting new Erlang projects, or maintaining them?
+
+
+[00:23:04] VF: There are three classes, basically. One is with what you can compromise the confidentiality of the system. There, the problem is the SSL crypto libraries, they are not shipped with the most secure configuration by default. What this means that you need to look into the configuration and then you need to find unit before you release your product. Then the second thing is about the integrity of the system. We would like to avoid that that information is unexpectedly modified.
+
+
+Now, how can information get unexpectedly modified? We have the OS module, which allows you to run your OS command. Then there are port commands. Then there are different functions allowing runtime evaluation of terms. There, you definitely don’t want to let any user to flow in-game. Because then, well, it’s either a bash injection, or an Erlang code injection that you are going to execute.
+
+
+Then the third group would be availability that we briefly touched. We would like to have our server always up and running, serving requests. If we reach the maximum number of atom tables, well, then we crash the system. That's not okay. Look into system limits. All these runtime evaluation options that we have built into the language, with that you can compromise availability as well.
+
+
+Again, let me say that this is not black and white. You can convert anything to atom if you need to. You can create a new ETS table anytime, if you want. The thing is that you need to be really sure that the data that you are converting is secured. There was a proper input validation sanitization. You are sure that the data is not malicious. Then you can use these functions.
+
+
+[00:25:15] EO: Yeah. We'll have links to the system limits. Then also, SSL distribution. Elixir has something called string to existing atom, which may save your bacon.
+
+
+[00:25:26] SM: That's the one I always ended up using.
+
+
+[00:25:29] VF: That's safe. That's good.
+
+
+[00:25:32] JE: We're taking a quick break. We'll be back to the main interview in just a few minutes. First, we have a short mini-feature segment, where we spend a little time with someone from a company using Elixir in production, learning more about how they use Elixir. Enjoy it and we'll be right back after this.
+
+
+[BREAK]
+
+
+[00:25:53] SM: Hello. Welcome to our new mini-feature segment of Elixir Wizards. My name is Sundi Myint. Today, we're speaking with Christian Koch, Senior Platform Engineer at cars.com. Welcome to the podcast.
+
+
+[00:26:03] CC: Hi. Thanks for having me.
+
+
+[00:26:05] SM: Yeah. Thanks for joining us today. Before we get into how you're using Elixir at cars.com, can you give us a little bit of your background and how you got into programming and maybe, where you got started with Elixir?
+
+
+[00:26:16] CC: I’ve been a professional software engineer for about 12 years. I like to say, an occasionally skilled amateur for longer. I studied some computer science in college, learned enough C to be dangerous. Then later on, started learning Ruby and then Ruby on Rails, which I used professionally for five or six years. Then like a lot of people, I discovered Elixir, probably about four years ago now. It's been a really great experience with that language ever since.
+
+
+[00:26:49] SM: That's awesome. Did you transition to Elixir while you were at cars.com, or was that a hobby thing that you found on your own? What was your journey to Elixir there?
+
+
+[00:26:57] CC: I was actually at my previous employer. We were primarily doing Ruby on Rails and we had a couple new greenfield projects. We investigated some alternative technologies, alternative languages to use. Elixir was largely at my encouragement, the language that we landed on for a couple of service-backed APIs, non-public-facing services.
+
+
+[00:27:23] SM: Great. Could you give our listeners a quick introduction to cars.com, where you're based, what you do?
+
+
+[00:27:29] CC: Cars.com is headquartered in Chicago, Illinois. It's a digital marketplace solutions provider for the automotive industry that connects car shoppers with sellers.
+
+
+[00:27:38] SM: Great. Can you speak to how you're incorporating Elixir into your product? Is it a consumer-facing application? Are you just using it internally?
+
+
+[00:27:46] CC: Actually, we're in the process of a major re-platforming initiative. We're converting the entire cars.com application stack to use Elixir. This includes the customer-facing website, which we're writing in Elixir and Phoenix. We're in the final months of this effort and expect the Elixir site to go live in early 2021. This is not just cars.com, but it's a number of back-end services, data ingestion, API, analytics, reporting.
+
+
+[00:28:12] SM: What were you using before the overhaul?
+
+
+[00:28:15] CC: More or less, everything. Cars.com has been a pretty substantial website for a pretty long time, since the early.com days. The existing application has just grown up organically over time to be pretty broad. There was a lot of Java in the application and just a number of ancillary services in various different languages. This effort over the past 18 months has been to unify all the technology around Elixir.
+
+
+[00:28:50] SM: That's awesome. Something that we talk a lot about on the show is for overhauls like this, what was the process like to get your higher-ups onboard with bringing on a new programming language and how did you present Elixir as the end-all be-all solution?
+
+
+[00:29:05] CC: I think, a lot of it was driven by dollars and cents argument. We had a number of expensive legacy contracts for various services, database services, or analytic services, or a number of other things. Because Elixir, and really, the beam give us so much ability to do our own versions of those, to bring that into open source technology and eliminate contracts that despite the really bold investment that was required to engage in this effort, ultimately, it's going to be a cost-saving endeavor for the company. I think that was really one of the key pieces that our CTO, a gentleman named Fred Lee, that was the key promise that he was able to make to help sell the company on the value of this initiative.
+
+
+[00:30:01] SM: As you were ramping up on Elixir with your team, were you onboarding more, or were you just – were you hiring for Elixir? Were you training internally for Elixir? How are you ramping up your team?
+
+
+[00:30:14] CC: It's always a challenge to find experienced flicks or engineers. They're not only in demand, but there aren't that many of them. We've made all our hiring decisions, regardless of any previous Elixir experience. It's a nice to have, but it's never been a requirement for us. We've taken an approach of bringing on people who are talented and adept engineers and who fit with our culture of inclusivity and raising your hand when you don't know something and training them with the Elixir skills as we go.
+
+
+[00:30:49] SM: When you're onboarding new engineers who have no Elixir experience, maybe what is a ramp-up method that you use to get them started on that path?
+
+
+[00:30:57] CC: There are a number of tools that we've used for this, the collaborative programming exercises, like Cohens and Katas are always a starter for us. Then we get into some of the more interactive programming challenges. Along the way, we do just a lot of pair programming. We're a very collaborative group.
+
+
+For people who are coming new to Elixir, depending on where they're at, we often will pair them up with a specific mentor as well. It's really trying to fit the education to the person and their skill level as best we can.
+
+
+[00:31:31] SM: Absolutely. I’ve always been a strong supporter of pair programming for learning purposes. Last question and this one's just for fun. If you weren't a software developer, what would you be? What would be an alternate career path for you?
+
+
+[00:31:45] CC: Coming out of college, I spent about five years living in Colorado and working as a white-water raft guide and then skiing, working on a job that allowed me to ski during the winter. I think there's every chance I would still be doing something like that if I hadn't become a software engineer.
+
+
+[00:32:03] SM: That's really fun. Skiing is not something I ever got the hang of, so that's cool.
+
+
+[00:32:07] CC: Yeah.
+
+
+[00:32:08] SM: Awesome. Well, thank you so much for joining us today, Christian Koch. To all of our listeners, if you or your company are using Elixir in an interesting way, or want to come on the show for a mini-feature, we'd love to have you. Reach out to us at podcast@smartlogic.io with your name, your company's name and how you're using Elixir.
+
+
+[00:32:24] JE: Okay. That's it for this week's mini-feature. Let's get back to our main interview.
+
+
+[INTERVIEW CONTINUED]
+
+
+[00:32:29] SM: Going back to your talks at Code BEAM, there are a lot of folks who listen to the show, who are interested at speaking at different conferences. I’m not sure if Code BEAM is one that they're aspiring to. Just in general, do you have any advice that you'd give someone who is looking to give a talk?
+
+
+[00:32:47] VF: Don't try to give the best talk. What I mean is that it's very easy to over-push yourself and never be satisfied with what you achieve. The thing is it's like riding a bike. It's going to get better and better. Try not to set the expectations very high. Try to work with topics that you are really excited about. It is as well, I think a good idea to do dry runs. First, practice it by yourself. Then, maybe involve your cat, or dog. It is still safe.
+
+
+Then you can maybe do it to your friends who understand the topic, because soon, you would like to get feedback, because feedback is important. Then, I think you should do a dry run at your company, because that's still a safe place. That will already feel a bit frightening, because you are going to be on a new role. You are going to speak to other people and you can always have this feeling that what if it's me who knows less about it? What if other people know more about it? What if I said something wrong? The thing is, I think this will always be true. There are always people who know more about the topic that you do, but there is no problem with that. I think it's hard to get into this mindset.
+
+
+[00:34:20] SM: Was there anything specific that you did when you were applying to be a speaker? Did you do anything special, or did you just prepare something that you had already been working on, or something you were interested in studying more about?
+
+
+[00:34:32] VF: Being very active in research. My first talk was about my own algorithm, which is a duplicated code detector for Erlang programs. I was really excited about it. I was super scared, because I had to present it at an academic conference and I was a master student. I was pretty sure that everyone else in the room knows much more than me. That was a hard start.
+
+
+From a point of view, it was an easy start, because I was talking about my algorithm. Who knows better the algorithm that I invented than me, right? That gave me some confidence as well. I think it's easier to talk about topics that are very concrete, very focused than doing some fluffy, general talk. I think that's the way how I learned. That's next level.
+
+
+[00:35:27] SM: Was that the refactoral project that you're talking about?
+
+
+[00:35:31] VF: Yeah. I started to work. That was actually my first Erlang job. I’ve become this R&D fellow at the refactoral project. There, I was doing the running the software technology lab, helping the other teachers.
+
+
+[00:35:47] JE: What is refactor erl, for those who don't know?
+
+
+[00:35:50] VF: Refactor is a static source code analyzer and refactoring tool for Erlang. I’m not pretty sure it works with Elixir.
+
+
+[00:36:00] JE: It might work on Elixir.
+
+
+[00:36:05] SM: The audience can't see the dad joke face that Justus made, but I’m noting it here.
+
+
+[00:36:11] JE: Go on. Did you help the found refactor erl, or you were hired there? Tell us a little bit more. Give us a little bit more context there.
+
+
+[00:36:19] VF: Oh, okay. No, I was just lucky to join. I was invited by the teacher who was the supervisor of my bachelor thesis. Basically, this is how I ended up there. Then first, I was just a student. Then, they said that, “Okay. It looks like she could contribute more, so we can offer her a job.” This is how I ended up there.
+
+
+It was really fun. I really enjoyed it. Working in refactor, working in a static analyzer of Erlang program. Static analyzer means that we don't execute the code. The program studies in the source code of another program and this is how we build up information about the code. Then we can do refactorings, like moving around functions. Then there, I chose a topic that was duplicated, called detection for Erlang. Then that's what I worked on mostly.
+
+
+[00:37:19] JE: I feel like there's a lot that we could go into there. It's a great segue into this next question, which is what are the bad parts of Erlang?
+
+
+[00:37:27] VF: The strings. That's terrible.
+
+
+[00:37:29] JE: The strings? The strings are terrible.
+
+
+[00:37:31] VF: Oh, my God.
+
+
+[00:37:33] JE: I think I know why, but you should tell us why. Why are they terrible?
+
+
+[00:37:37] VF: Oh, it's just so wrong. It's wrong in many ways. The string manipulating functions that's provided by Erlang, not good. What I mean there, it's not good, is that the API is not really consistent. I know that this is all fixed in Elixir and I’m jealous of you guys. That part is way better in Elixir.
+
+
+[00:38:03] JE: Which is another great segue, because we were going to ask if you've used Elixir and what your opinion is of it.
+
+
+[00:38:09] VF: Right. I was once in a project, where I was trying to provide the core function. At least, we were building up a new platform. There was a team who already used Ruby, and then they were really interested into trying and learning and using Elixir. They chose to use Elixir to build the function that is on top of the platform that I implanted.
+
+
+I was very in love with Erlang already. I said, that it's okay, because I heard they will work together. What I did is that I implemented the core in Erlang and I implemented the libraries in Elixir, calling into my Erlang libraries. Then we used the mix project to build it up and it's very beautifully – I was so amazed, because I was like, “Yeah.” At the beginning, yeah, we can try. I don't know how is this going to end, but it went very well.
+
+
+[00:39:08] SM: That's exciting to hear. The way you opened that up, I was really expecting it to have failed somehow. I thought it was going the other way. That's nice. It went well. What was your takeaway from that project? I mean, you said it went really well. Do you think you would want to do something like that again, like implement something with Erlang and have another team build off of it in Elixir?
+
+
+[00:39:27] VF: Yeah. Sure. It went very well. The thing that I learned in Elixir, there is this – you will help me out if I’m very wrong. You can have structs, right?  Correct. Okay. For some reason, and I’m pretty sure it's my own personal limitation, I wasn't able to understand parts and get information out of that struct in Erlang. That was the biggest pain point that we had. I would say that if you build up teams and one team uses Erlang, another team uses Elixir, I think they can live in harmony. It's going to be a nice, perfect world. It's okay.
+
+
+[00:40:11] SM: Would you recommend for most Elixir developers that they go deeper in Erlang to understand how that connection is, or maybe do you have any recommendations for resources for them?
+
+
+[00:40:23] VF: Yeah, to understand how to connect the project together?
+
+
+[00:40:27] SM: Maybe learn a little more about Erlang from a base standpoint, because a lot of us use Elixir and we learn the fun and the shiny parts, but we don't understand how it works under the hood all the time.
+
+
+[00:40:38] VF: Right. I think, if you are curious, because you think this is how it should start, so it shouldn't be a mandatory thing, because Elixir is very well built. You are very safe to use it. I would look into – I will need to be very careful here not to list everything. I would look into processes, how they work, how the linking works between processes, how errors are propagated, supervisors, gen servers. I think you do use them in Elixir as well. Maybe it's nice to understand the different restart strategies to be able to write a system that if you unplug it, there will be still no catastrophe, because you can handle graceful, abnormal termination as well.
+
+
+[00:41:30] JE: I’ve got one more question for you before we give you a chance to plug anything you want. On your Code BEAM, code sync biography, it says, “She believes that research is to be consumed by industry.” My question was, is that something you actually believe, or did they just make that up? If you do believe it, what does it mean and why is research to be consumed by industry?
+
+
+[00:41:59] VF: Yeah. I do believe in it. No, they didn't make it up. What I think is that industry and academia should really work more closer together, because they can help each other. What I believe is that industry can give hot topics to academia, so then they can do their research, which means that their research work is going to become much more impactful, which is something that the researcher would like. The other way is, wouldn't it be nice to us in the industry that somebody gives us the best algorithm? Then, it's tested. We know it's correct. It's going to solve our problem and it's going to solve our problem in a performant way. Then we will just adopt that algorithm, which means that our time to market is going to be reduced, which means that we can deal with unsolved challenges. We can deal with real problems and we are not going to reinvent the wheel. I mean, who wants to re-implement again, boxes algorithm? We don't do that. We use it.
+
+
+I think, both sides can benefit. I personally think that I try to keep myself up to date with research, which is a huge, huge field. You need to pick your poisons. The things I read, I think they make me a better engineer. I can use them, even more old stuff that you can use. There is no validity or research. Even if it's old, you can still use it.
+
+
+For instance, I realized that reorder, or generating a div that we assign to the devices can be a topological sort of the graph. That's so interesting, because then you connect the abstract word and then you can use it. Then the properties and then you can reason for fiber implementation is going to be correct.
+
+
+I think, academia and research make me a better engineer. It’s the other way around. I’m in industry for eight years. I’m surrounded by real problems. That's cool, because now I know where I want to focus and what I want to do. Since I know research, I see that oh, I wanted to use something that's ready and there is nothing that's ready. That means that maybe, I can write about it. Maybe that's my next topic that I want to focus on. I think, industry does make me a better researcher as well. I think, my topics are always hot topics, topics that will have impact and can contribute to academia.
+
+
+[00:45:05] JE: I love it. I think that's exactly right. All of the hard problems are in industry. Before we go, we want to give you the floor to make any final plugs, asks for the audience, where people can find you, etc. Use the time however you like.
+
+
+[00:45:25] VF: One, is that don't forget that you need to have a secure lock system. It's pretty important. You can look into my GitHub. It's Fordos, Viktoria with a K, where I have a prototype to help you find vulnerabilities in your Erlang code. Bear in mind, it's a prototype. I would love you to try it out another.
+
+
+Another message is to try to mix a bit and meet researchers and talk with them and try to involve them in your projects and try to learn, divert. It's a very interesting world and their problems are very interesting. I think you can grow with it. It would be cool as well. Be happy. Code Erlang or Elixir.
+
+
+[00:46:19] JE: Be happy. I love it. That's it for this episode of Elixir Wizards. Thanks again to our guest, Viki Fördős and my co-hosts, Sundi Myint and my producer Eric Oestrich. Once again, I am Justus Eapen.
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails and React, infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with. Don't forget to like and subscribe on your favorite podcast player. You can find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally @JustusEapen and Eric @EricOestrich and Sundi @SundiKin.
+
+
+Join us again next week on ElixirWwizards for more on adopting Elixir.
+
+
+[END]
+        © 2020 Elixir Wizards

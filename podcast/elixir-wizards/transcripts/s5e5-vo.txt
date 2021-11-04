@@ -1,0 +1,381 @@
+EW S5 E5                Transcript
+
+
+EPISODE S5 E5
+
+
+[INTRODUCTION]
+
+
+[00:00:07] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen, and I'll be your host. I’m joined by my spectacular co-host, Sundi Myint, and my exceptional producer, Eric Oestrich. This season we're talking about adopting Elixir. And today we're joined by a special guest, Shawn Vo from Axle Payments. How are you, Shawn? 
+
+
+[00:00:31] VO: Good!
+
+
+[00:00:32] JE: Shawn, I’m so glad to have you on the show. We met, it must've been last year in New York City at the Elixir Meetup over at the Tallinner Offices. There were like a lot of — I mean, New York Elixir community is a big deal. You were there. Do you remember at all about that event? I remember — was it — do you remember any of the talks or who was speaking?
+
+[00:00:49] SV: I do remember one talk in particular. It was a female, and she had really cool comics in her presentation. She was like drawing pictures and everything and I was like, “Wow! I love that. I’m going to steal that idea.” And then I try to learned how to draw comics after that actually.
+
+
+[00:01:04] JE: Yeah. I was hoping you would bring this up, because that's Meryl Dakin. And Meryl's been on the show a handful of times. She's actually I think hosted the show before. Really cool lady. She gave a great talk with she had like spies and agent provocateurs, and cartoons. 
+
+
+[00:01:16] SV: Yeah. Yeah. That was awesome.
+
+
+[00:01:19] JE: Yeah. She's a really good speaker, and I hope that I get to see her speak again. But that was a really cool time to meet. It was before corona. Back when things were normal and we were able to like get together. It was this year. I think it was like February, like before corona [crosstalk 00:01:31]. Yeah. Yeah. Yeah. Because we were definitely shaking hands.
+
+
+[00:01:35] SV: I think that might have been the last meetup that I went to. It might have been the last meetup that I went to.
+
+
+[00:01:40] JE: Meetups are over, dude. Meeting in real-life is over. I mean, real human, physical interactions. We're just going to be like those people in the pods and WALL-E. That's what's coming by any day now. 
+
+
+Anyway, we're super glad having you on the show. We’d like to start off with like personal questions. Get to know you a little bit. How did you get into programming?
+
+
+[00:01:56] SV: Yeah. So I feel like I started programming when I was very little. We had a computer in my basement and I was just making random websites, things like that. I was making these, like, TI 83 games back in high school and I thought that was really cool. But in college, I didn't pursue programming. My parents were like, “You guys should do it.” And I was like, “No. Coding is for nerds. I want to get into investment banking.” And that was like the hot stuff. It's just like, “Oh, I’m going to go to business school, move to New York, work in finance.” 
+
+
+And then I did that for about a year. I worked at Barclays Investment Bank and I realized that I was just like, “Man, this isn't that cool.” Like I was looking at all the MDs and I was like, “I don't really want to be like you when I’m 40.” 
+
+
+[00:02:36] JE: MD?
+
+
+[00:02:36] SV: Yeah. They're called like managing directors. Yeah, they're the big bosses there. But then I started automating a lot of my work while I was at the bank. So I used to have to send out these reports at 8am every morning and then I was just like, “Man! I don't think I can wake up at 8 a.m every day.” So I wrote a crazy like VBA script that checks my emails, like downloads, this Excel sheet, like does all this stuff. Sends out the email at random interval between like 8:15 and 8:30 and everyone thought I was in the office. And I was like, “Wow! This seems like a super power, and I want to pursue that.” So then I moved to California shortly after my first year at Barclays. Worked for a startup there and then really got more into the tech side of things. 
+
+
+[00:03:17] JE: Man! That's an awesome origin story. Yeah. No. We need more people coming out of finance with great stories like that. Yeah. And I feel like a lot of people learn how to program. You said you were using Microsoft Database Administrator?
+
+
+[00:03:28] SV: Yeah, it was like — I think my first thing was just like Excel and then like recording macros. And then making — writing VBA scripts. And then on top of that, started writing like actual like Visual Basic things. But then just went and picked up Python and JavaScript shortly after.
+
+
+[00:03:44] SM: This definitely reminds me of that saying that great developers are born out of pure laziness. Not wanting to do something, especially like automating something that they do every day. And that sounds like a pure example of that one. I love that.
+
+
+[00:04:00] JE: Speaking of origin stories. I’m just looking at some of your — you're one of the most prepared guests we've ever had. Usually people read the doc. Very few people show up and, like, mark up the docs. So that's super-duper helpful. But one of your answers says it's why you were excited to learn programming. It's perfect, because we just said that you have an origin story. So can you talk about, like, what excited you about it when you first learned?
+
+
+[00:04:20] SV: Yeah. I think it's, like, a lot of people see software as this like magic, like black box. And there's that quote that I put in there. So it's like, “Any sufficiently advanced technology is indistinguishable from magic.” And I feel like that's true. Like, I feel like if you ask like an everyday person, they're like, “Oh, I don't know how it works, but it kind of just works.” And once you’ve realized that you can just build really cool things with it, it becomes like a superpower.
+
+
+I think that this is really relevant for this show, because I think that in life right now there's two ways that we can create leveraged value. And one of those ways is software and one of the other ways to do that is what you're doing right now, which is producing content, because these are the two things that can just infinitely like replicate with zero marginal costs. You can just like have more people watch your podcast and it doesn't cost you anything. Similar to how you can just write code and then it'll just do a bunch of stuff and it doesn't cost you anything either. So I feel like that's kind of what I’m trying to capitalize on, because it's one of those ways where you can just create a ton of value just from your basement. 
+
+
+[00:05:19] JE: And maybe you could talk about some of the practical aspects of learning how to program from the non-traditional perspective. I mean, what resources did you use? What trials did you foist upon yourself?  
+
+
+[00:05:30] SV: Yeah. I’m a big proponent of books just because I feel like books are the fastest way you can consume data. Videos are nice, but then you have to watch a video and you try to watch it at like two times speed and then it's hard to scrub through time markers and things like that. So I’m a big proponent of books, and I’m a big proponent of just getting really deep into the fundamentals. I generally prefer older books than newer books. Because I feel like newer books just kind of, like, they replicate a lot of these ideas and they kind of just like — it's like telephone where someone has an idea and then someone thinks that they can say it in a better way and then it just keeps going onwards and onwards. 
+
+
+Generally when I try to learn things, I try to get to like the most, like, core fundamentals. So like, for example, when I was trying to learn more about blockchain or cryptocurrency, I wanted to read like the original white paper of blockchain or Bitcoin. And I feel like that's the best way to learn things, usually. It doesn't help when you're trying to learn the latest frontend frameworks. But I think, in general, the core principles are helpful. And I always felt like since I didn't take CS classes, I never read a lot of software books. And for me that was a high priority when I was learning how to program, which was try to get to like the core fundamental CS books.
+
+
+[00:06:43] EO: Jump in here real quick, and say that as a CS major, I also didn't read a lot of programming books. So you didn't miss much.
+
+
+[00:06:51] SM: Yeah, that's actually an interesting point. So you read them and you found them helpful?
+
+
+[00:06:54] SV: I think I found them helpful and I think that the other growth hacks that I did for learning was just relying on people to help you more with the day-to-day getting started. I remember I was in my New York apartment. I had a friend who was working also at an investment bank, but he was on the technology side. So he basically helped me set up my first Python environment. Configured my path variables. I was like, “What is a path variable?” Things like that. And I think that that type of knowledge transfer is very helpful and that's something where a person can be really useful. But I think in terms of learning about system architecture, learning how to write really clean code and doing all that kind of stuff, it comes either with just practice in the industry or you can just read a ton and pick up principles. I like books overall.
+
+
+[00:07:44] SM: Yeah. I think that context definitely helps. Like when you're taking a CS course to get a university credit and you have like a thousand other classes and a lot of other things going on, you're doing it for the grade and you're not really retaining the information the way you're talking about reading the thing and then applying it in real-life and debugging it right on the spot. I think it's a totally different experience. That’s a really good point.
+
+
+[00:08:04] SV: Yeah. I started doing my sister's CS homework though. She's like 10 years younger than me. She goes to UVA and she's also a CS major. And I was like, “Oh, I can kind of help you with this. It's 50-50. Sometimes I know. Sometimes I don't.” 
+
+
+[00:08:04] JE: Can you tell us a little bit about your first job where you were like getting paid to program? And I don't mean the Barclays, because it sounds like you were doing that sort of illicitly. 
+
+
+[00:08:26] SV: Yeah. I was doing that illicitly. And then when I actually went to the Climate Corporation, which is a startup in San Francisco that was selling insurance products to farmers. 
+
+
+[00:08:36] JE: It’s called the Climate Corporation? 
+
+
+[00:08:38] SV: Yeah. It sounds super evil. 
+
+
+[00:08:39] JE: It sounds super dystopian. 
+
+
+[00:08:41] SV: Yeah. The thing is they got acquired by Monsanto. 
+
+
+[00:08:45] JE: Oh my God! That’s perfect. 
+
+
+[00:08:47] SV: It was a great company. I have nothing but good things to say about them. They were more of a traditional tech company. But also when I went there, I wasn't hired to program. I was hired for more of the insurance finance side of things. I happened to do a lot of Python programming while I was there, but it wasn't part of the job description. 
+
+
+So my first real job where I got paid to program was actually doing financial technology consulting work for the FDIC. So it's like a big banking regulator. So I worked for a smaller consultancy shop and I was just contracted out as a developer there. I think I was hired primarily because I knew finance really well. Not because I was like an expert code or anything. The type of software that we're building was super heavy kind of old school type stuff. It wasn't really complicated. I was doing more small fixes, bug fixes, things like that. But I felt like I was hired more because I just knew the finance side of the house.
+
+
+[00:09:44] JE: You were using Python over there?
+
+
+[00:09:46] SV: No. It was a lot of Visual Basic and Java. 
+
+
+[00:09:49] JE: Oh! But at Climate?
+
+
+[00:09:51] SV: Oh, no. At Climate I was using Python at the job that I was actually hired for. It was more like Visual Basic and Java. 
+
+
+[00:09:57] JE: I feel like Python is so in right now. We're going to talk about Elixir here shortly. But especially — we're going to talk about your business and all that, but I feel like I’m sure you're probably using Python at your current company too a little bit.
+
+
+[00:10:11] SV: Limited basis.
+
+
+[00:10:11] JE: Cool. Speaking of meetups, which we haven't spoken about for some time in this conversation, but I wanted to ask you, you run the New York Functional Programming Meetup?
+
+
+[00:10:19] SV: Yeah. So that was something that I started doing after I decided to go all in on elixir and I was like, “Wow! How can I supercharge my learning of functional programming and Elixir?” At that time I actually didn't realize that there was another Elixir meetup in New York City. So one day I was like, “How do I get really smart people to come teach me things? Let's start a meetup. And it was great. We met once a month for over a year or so and we were literally reading textbooks. We were reading textbooks and then we were talking about it. And it attracts a very certain type of person to come to this kind of meetup. And I felt like that was the kind of people that when I was trying to really learn new things, they were great to surround myself around. So I think that was probably one of my biggest learning hacks of the last couple of years.
+
+
+I got inspired to do it because when I was doing Python and I was trying to get more into machine learning stuff, there was another meetup in New York City called like the New York Deep Learning Meetup, and that was essentially the format where you would go to this meetup, read a textbook and then you just like solve problems together. And I felt like I learned a ton from that meetup. So I decided to do one for functional programming.
+
+
+[00:11:28] JE: Yeah. You're absolutely right. It's one of the best ways to learn something. I mean, SmartLogic hosts and sponsors a ton of meetups. One of them for a couple years was the Baltimore AI Meetup, and that was great for learning. We actually did the Fast AI course.
+
+
+[00:11:43] SV: I don't know it.
+
+
+[00:11:43] JE: Oh, okay. Well, Fast.ai is like a library I think built on top of Tensorflow. No. Or PyTorch. I think it's built on top of PyTorch. And we did like the whole course there. It's great. It's a great tool. Fast.ai has got a great tool kit for deep learning. Very interesting stuff. One day maybe we'll have an AI theme. I’m seeing if Eric will respond to this. He probably does not want us to do the Ai theme. I don't know. 
+
+
+Okay. I want to ask about this readme, but first I feel like we need to hear about what you're working on these days, because this is like — I mean, you're working on something very cool. You're the founder and principal engineer. Tell us about Axle Payments.
+
+
+[00:12:21] SV: Yeah. So Axle Payments is a freight financing company. So what we do is we help the logistics industry, so think truckers, shippers, like carriers, people who are moving goods around, help finance that operation. Our first product is an invoice factoring solution. So what invoice factoring is, is if you're doing work for another business, they tend to not like to pay you right away. They usually pay you within, like, 30, 60 days or whatever. You probably know that as like a software development shop, whereas maybe your clients don't pay you right away. So what we do is we step in, we say, “Hey, we're going to give you the money right now and we're just going to collect from your customer whenever they pay you,” and we take a fee for that. So that's called a factoring fee. And so far it's a pretty wild ride. 
+
+
+We started the business with no technology at all. I was basically running this thing off of Excel sheets. It was about a year and a half ago. And since then we've been growing about 40% month over month, building out a ton of stuff around that to support the operations. And, yeah, I think this month we're doing over two million dollars in terms of invoices factored. So it's been really cool. It's been really exciting. It's something that I never thought I would really do. I don't come from, like, a trucking background or anything like that. But if there's one thing that Climate taught me, it was just like, “Hey, build cool technology for an industry that people don't really think about,” and there's a lot of opportunity there.
+
+
+[00:13:46] SM: So did you just sort of know that this was like an opportunity that something needed to be done in this industry and you just went for it? Or like how did you kind of get into this exact niche?
+
+
+[00:13:55] SV: Yeah. So when we started the company, we actually pivoted to this model. But when we first started, we were selling data analytics software for passenger transportation. So we were doing pricing optimization for like buses, like intercity buses. Think like Megabus, Greyhound, those types of things. We were basically giving them the technology that airlines and hotels use to sell their inventory dynamically. 
+
+
+And that was okay. Like, we made some money doing that, but the market, as you are aware, is not that big. How often do you ride the bus? And along the northeast corridor, there's a lot, but just the rest of America, the market was kind of small. But as we were working in that industry, we started meeting people who were doing more, like, freight transportation and different types of logistics. And we met some investors in that space. We started doing more customer discovery there. And we realized that there was this whole like factoring industry. There's about like 400 factors in the US that do invoice factoring. It's a very fragmented market. And it's a market where the NPS score is super low. If you Google factoring companies, it's going to be like, “Oh! This factoring company ripped me off,” or it's kind of like a loan shark. It's kind of like these things that it's just not a nice financial product. And we decided to build something much better.
+
+
+[00:15:12] JE: So most of our audience is probably going to be engineers. Can you tell us what an NPS is?
+
+
+[00:15:17] SV: Oh! Net promoter score. So it's like when you get a survey that's like, “Hey, would you recommend this thing to your friend or not?” Factoring has a hard no. It’s like, I would not recommend this thing to my friend.” And the reason why we thought that's interesting is because when you identify industries where people just are not satisfied overall but they're still using the product, there's something there. There's a way to make that way better and still have the same people using it. So that's actually been pretty instrumental to our growth. For example, we don't really compete on price or anything like that. We're not the cheapest option. We're not like the biggest brand or anything like that, but we just provide a really cool user experience and a really dope service that people are willing to pay a premium for.
+
+
+[00:15:57] SM: And you do see that a lot in the market, that people are willing to pay more for a better experience. And that's kind of always the in that people with ideas really want to — not exploit, but take advantage of that. Make the money if it's out there to make it. 
+
+
+[00:16:13] SV: Yeah. I want to build the iPhone of factoring. It's just like a nice ecosystem, really nice product and people will wait in line and pay way more than they — not way more than they should, but just a premium for the service. 
+
+
+[00:16:24] SM: Line up at 5 a.m., camp outside. 
+
+
+[00:16:27] SV: Yeah.
+
+
+[00:16:29] JE: I'm curious, what opportunities do you see for factoring like outside of freight? You probably have something on your roadmap. 
+
+
+[00:16:36] SV: We're more focused on the logistics space. But, for instance, I have a friend in California that's doing cannabis factoring, which is like a crazy industry. But then I also have another friend who was looking into app store factoring. So whenever you distribute an app on the app store, Apple and Google, they don't pay you for like 45 days net. So a lot of companies who are trying to really grow their apps, they want to spend a lot of money on Facebook ads, Google ads, Play Store ads, but they're not getting paid by Apple or Google for 45 days. So they have this cash flow gap. So I think app store receivable factoring is also a thing that — I think some company out there does it, but that's like another example. It's also big in manufacturing and fashion. So factoring, we don't care about a lot, because most of us aren't doing B2B sales. But it's over like a two trillion dollar industry.
+
+
+[00:17:26] JE: Let's rewind just a little bit and get to Elixir. When did you first hear about Elixir? How did you hear about it?
+
+
+[00:17:35] SV: Yeah. I heard about Elixir back in 2017. I was going through Tech Stars, and one of another company that was going through TechStars, they were building almost like a — they were building a telecom company. It's a very ambitious thing. They were trying to be like a mobile phone provider and their CTO is this super genius. He like dropped out of — or he dropped out of high school actually. He was like a Thiel Fellow. Like Peter Thiel had this scholarship program so that you just don't go to college and he gives you like $200,000 worth or something. And then he obviously got into TechStars. He's now since like been at two companies and they've both like IPO'd. 
+
+
+But this kid, at the time, he was like 17-years-old. I was like 20-something. And he was telling me about Elixir. I was like, “What?” I just kind of dismissed it a little bit. And he was telling me how cool it was and I was like, “Okay, that's really cool.” Didn't really think too much about it. But then after TechStars, we went back to New York, and I was working at a WeWork, and I made friends with another engineer there who I thought was really smart and he always had, like, really smart things to say. And he started talking about Elixir one day and he was like saying how his company uses Elixir. And I was like, “This is the second time I'm hearing it from two people that I think are really smart. There's got to be something going on here.” And that's when I really dived into it, took the time to learn it, build my first app and just fell in love with Elixir.
+
+
+[00:18:58] JE: So you had already started Axle at this point.
+
+
+[00:19:01] SV: I started the precursor to Axle, which is the bus revenue management company.
+
+
+[00:19:05] JE: Okay. So when you really got started on the invoice factoring technology for freight, it was like greenfield running it in Elixir.
+
+
+[00:19:13] SV: Right. Right. Exactly.
+
+
+[00:19:14] JE: You'll have to introduce us to this buddy of yours.
+
+
+[00:19:17] SV: For sure. He's also in New York.
+
+
+[00:19:19] JE: Yeah. We'd love to have people like that on the show. That's awesome. 
+
+
+[00:19:23] SM: So, with the greenfield project like that, were you able to kind of build up your team surrounding Elixir? Did you have to find Elixir developers? Or did you just find some more smart people and kind of train them up?
+
+
+[00:19:33] SV: Yeah. So at that time I was still the only developer. So the company, we basically just pivoted. It was me, my co-founder, another person. And I was the only one that was actually writing code. And at that time I was just like, “Let me just pick the thing that I think is interesting and cool and I want to work on.” So I basically just 100% optimize for my own developer happiness and I was just like, “I'm going to use this thing, because I want to learn more about Elixir. I want to, like, do like functional programming.” And I just picked it. I know that doesn't help the vast majority of the audience. I was just like, “How do I get Elixir adopted at my company?” But for me I just made the decision. Decided to build it and then started hiring people around it. 
+
+
+[00:20:16] SM: Well, I mean that's the interesting thing though. You started hiring people around it, right? So how's that been going?
+
+
+[00:20:21] SV: I think that this is going to touch on the point where I think Elixir has given us a competitive advantage. And one of the advantages is within hiring. So, Paul Graham, who's the guy who runs Y Combinator, things like that, he had this article in 2004. He called it the Python Paradox. And at the time I don't think Python was nearly as widely used. But he was basically saying that people who are learning Python today are the type of people who aren't learning it to get a job. They're just learning it because they like the language or they're interested in it. And he was saying that it's a paradox because those are the type of people that you want to hire. 
+
+
+So it's like easier to find a job if you're trying to learn this like esoteric language or relatively esoteric language. And I think that's true with Elixir too. I think that if we were just a Python shop or a JavaScript shop or something, I wouldn't be able to find these types of engineers. Because the first engineer we hired, he basically has been a founder before. His last company, he went from being like the first employee and he scaled it up to being like 100 employees and he was like their tech lead there. So I was like, “Wow! That guy is coming to work for us” — for a variety of reasons. But one of those reasons is because we're using a technology stack that he really likes using. And I felt like if we were just a Python shop or something, that would have been really hard to do. 
+
+
+So I actually think that it's easier for us. There's definitely less engineers out there that know Elixir, but I think it's relatively easier for us to find really good engineers that use Elixir. And for us that's more important, because we're not like Google or Facebook where we're hiring like thousands or hundreds of engineers. We just need a handful.
+
+
+[00:21:59] JE: But you are hiring.
+
+
+[00:22:01] SV: Yeah.
+
+
+[00:22:02] JE: Okay. We'll get to a plug at the end of the show, but I think it's a really cool company. My dad was in freight for many years. He's a trucker. So I think it's a very cool company. I've kind of known that it's an opportunity for a while, because he used to talk about it all the time. Yeah, it's just a cool idea, and it's in Elixir. 
+
+
+[00:22:17] SV: We also have a referral program, if you want to send it over to your dad.
+
+
+[00:22:21] JE: If anyone reaches out to me personally, I'll take advantage of that. 
+
+
+[00:22:25] SM: So when you're talking about hiring really good Elixir developers, have you ever — or have you thought about hiring just really good developers who've expressed interest in Elixir, but maybe haven't worked in it professionally or maybe haven't like had a job with it or side projects? Maybe they're just a good programmer, but they haven't done it yet. Have you looked into that avenue?
+
+
+[00:22:46] SV: Not really, but more because — there's two reasons why. One is that because we're such a small team, we need everyone to be fully ramped really fast. So we work in a pretty domain-specific industry. So there's a lot of learning involved in terms of like the industry, the financial product, all of this stuff. I don't really want them to have to learn Elixir at the same time. But that's just like the nature of where we are and how small we are and how fast we're moving. And then the other thing is we actually haven't found the need to. Like we have — it's actually easier for me to hire an Elixir developer than it is for me to hire a JavaScript developer. It sounds kind of weird, because like everyone and their friend knows JavaScript, but I found it to be easier to hire Elixir developers than other languages. 
+
+
+[00:23:33] JE: When you were first learning Elixir, what were the hardest concepts for you to grapple with? I mean, what were the big sort of advances in productivity?
+
+
+[00:23:43] SV: Yeah. I think the harder things were probably more around like OTP type stuff, like figuring out how to structure applications and these like supervisor trees. Like figuring out gen servers and things like that. But I actually found it kind of counter-intuitive that I think a lot of people who come from an object-oriented background, learning how to think functionally, that's usually a hard challenge. But, for me, because most of my background was in, like, finance and Excel. And I kind of see Excel as this, like, ultimate functional programming language because it's like you have cells that are connected to other cells and all you're doing is passing data through them and there's actually no side effects. You can't make it run anything. 
+
+
+So I felt like because I was building these, like, really complex Excel workbooks, I was already naturally thinking in this pure function type way. And that transition for me was really nice. Like, I felt like one of the gains that I got out of that transition was my code just felt like it was a lot cleaner and it just didn't have bugs. I remember every time I would spin up my Python server for things, it would just randomly crash or like things would go wrong. And one of the things I noticed when I started building a lot of Elixir apps was it's hard to break it. It's easy to build it in a way that's just more reliable, and I just don't get a lot of errors. And that was something that was cool. Even today when we run our application on production, things like that. I feel like over the course of our company history, we might have only had like three or four times where I felt like there was a serious bug in the system. And that's pretty solid. Like I appreciate that a lot.
+
+
+[00:25:21] SM: I’ve always said something along those lines that when people ask me about Elixir, my 20-second elevator pitch is usually like, “Production doesn't usually break.” And then of course immediately go to knock on wood. But I totally agree with you there. I just feel like there are a lot less bugs.
+
+
+[00:25:36] SV: Yeah. It's kind of hard to articulate why. Like, I think if I think about it, there are reasons for it. But you kind of feel it when you're just writing it.  You're like, “Oh! This seems clean. There's not bugs.” 
+
+
+[00:25:48] SM: I think it's that idea that Elixir is, like, built to fail. And so you fail while developing and you cover those cases rather than defensively program. I mean, I’m sure there are plenty of people who are listening right now or who will have on later in the season who will have more intelligent things to say about that. But that's I think what we've seen across the board is that a lot of people will say that it's, like, built to fail and that's like the Erlang system kind of coming in there. But yeah, I think it's hard to articulate for sure. 
+
+
+[00:26:16] JE: Do you remember what your first Elixir project was?
+
+
+[00:26:19] SV: Yeah. I built this really cool Chrome extension, and our whole company uses it today. It's dope. I’m going to monetize it one day. But basically — I don't think it's a new idea. I think it's just a really cool project. But basically it's a Chrome extension that sends all your cookies to this — it encrypts it and everything and it puts it into like a gen server. So it's just like holding the state temporarily. And it's actually deployed on Heroku, and Heroku does this thing where it just cancels — like it just resets all your servers. So it naturally clears itself every 12 hours or so. But basically you share a link with a friend or someone you trust and it just downloads all your cookies into their browser. So it sounds really insecure, but the reason why I built it was because my co-founder, he has, like, a lot of subscriptions to like the New York Times and all these other things that are just hard pay-walled. And sometimes you log in with your Google credentials. And you don't feel comfortable sharing those things. So you can download this Chrome extension and you can send people links to articles. And when I click on that link, I’m automatically logged in as him and I can see all his stuff. 
+
+
+It becomes really useful too when you're trying to facilitate group orders or something where you want your team to all order food and you want to put it on one account. You could just share this link with everyone. They can all order it. Put it on there. I also use it a lot now that we have an office manager and assistant where if I’m logged into something, that is usually like a sign-in with Google thing. And I just want her to be able to do this task for me. I can send her this link and it works. It's called Sessionizer. 
+
+
+[00:27:52] JE: Is it on GitHub for people to check out?
+
+
+[00:27:54] SV: Yeah, it's on GitHub. It's also on the Chrome App Store. So you can check it out, or you can go to sessionize.me I think is the link.
+
+
+[00:28:03] SM: I have to say, I appreciate how enthusiastic you were about that. For the listeners, Shawn’s video started shaking. He was so excited to talk about it. That's so awesome.
+
+
+[00:28:14] JE: Yeah. We need more people building Chrome extensions I think. I think developers should be building Chrome extensions like kind of regularly, because they're really easy and they're really useful. I mean, I’ve built some to block like the YouTube comments section and the Stack Overflow bar, the recommended bar. That is the biggest distraction on the internet, because it pulls from all over Stack Exchange and there are all these interesting topics.
+
+
+[00:28:37] SV: Yeah. I have this other Chrome extension. If you're ever in New York and COVID is not a thing, New York City has a Broadway lottery system where you can apply for Broadway lotteries. [crosstalk 00:28:48]. Yeah. You can apply to a bunch of lottery tickets with this. I’ve won maybe like three or four lotteries so far with it, and it's cool. It's a good date idea.
+
+
+[00:28:59] JE: So I have a friend that did this just for the Hamilton tickets, and he's gotten, like, I think like half a dozen free tickets just by basically rigging these lotteries. They're so — of course.
+
+
+[00:29:11] SM: I needed this like four years ago. Shawn, where were you?
+
+
+[00:29:15] SV: I was still learning how to code. Sorry. 
+
+
+[00:29:19] JE: Yeah, that's awesome. There's a lot that you can do in the browser. There're a lot of security vulnerabilities to exploit in the browser. We should do it more often, I think. Yeah, let's do some takeaways. I mean, first of all, is there anything else on Elixir that we could cover how you're using it over at Axle? How you adopted it? How you're training? I don't know if you've had — it sounds like you haven't had to train anybody up on it because you're getting people who are interested.
+
+
+[00:29:40] SV: We do some training. So, for example, we have a front-end engineer. And she had some familiarity with Elixir, but it's just good for her to be able to go in there and mess with things at the controller level. That hasn't been too hard. But yeah, as a small company, we don't really have a formal training program. One thing that I would say that's unique to what we're doing is we're building our app using this event sourcing and CQRS architecture. And Elixir has been a really good fit for that.
+
+
+[00:30:07] JE: Can you give us a high-level definition of what those are?
+
+
+[00:30:11] SV: Yeah, for sure. So event sourcing, you can kind of compare it to a traditional crud application, where with a crud application you're sending these like requests to update or create an entity. And when you have the entity in the system, you're basically keeping track of its current state. You update it five times and you keep track of where it is right now. With event sourcing, you are sending it a bunch of change commands. So you're saying, like, add one thing, like take away one thing or whatever. And you can compile all of those change requests to generate the current state. So what we store in our database is not — we have this thing called a projection, which is the current state, but our source of truth is a series of a bunch of events. 
+
+
+The reason why Elixir is really cool for this application is because when you think about — “How do I regenerate an event,” you want to make sure — or — “How do I regenerate an entity to get the current state?” You're basically sending all of these events into a gen server and the gen server is processing them one at a time. And it's important for it to be processed in the right order. So the actor model is really solid for that. So the actual use case for us is like, “Hey, we know that this guy has,” let's say like, “$500,000 in his bank account.” And we're not just keeping track of that as like a database row where it's $500,000. We're keeping track of that as thousands or hundreds of thousands of like events that has added up to this amount. 
+
+
+And using Elixir, pairing it with this event sourcing architecture, which is traditionally really hard to build. If you Google like why — like pros and cons of event sourcing, a lot of times it's like, “Oh, it's really cool, but it's also really annoying and you have to watch out for all these different things.” I feel like by adopting Elixir, having this framework where it’s just like, “Oh, there's this actor model you're just sending messages and you're compiling the state in this way,” has made it so that we are able to do this pretty hard thing with relatively low cost.
+
+
+[00:32:11] SM: That's awesome. I mean, yeah, that really ties us back to why Elixir can be advantageous for those of us who are trying to do certain things that — we might have roadblocks just trying to start a business on our own. Sort of like you did. But you've obviously found a way to to pull Elixir to your advantage. So that's awesome.
+
+
+[00:32:29] SV: Yeah, and it all kind of happened by accident too. Like I didn't plan this all, like I didn't even know about event sourcing before I already decided on Elixir. But it was one of those things where it's like, “Wow!” You kind of just get lucky sometimes, and it works out.
+
+
+[00:32:41] SM: Happy accidents. We do have a question for you. We noticed when we were doing some of this research for this call, just we saw your readme at your GitHub link and we wanted to know what gave you the idea to make a readme about how to work with you. And can you kind of describe the idea behind what you were thinking when you made that?
+
+
+[00:33:02] SV: Yeah. I’ve seen other engineering managers kind of do the similar thing, but it's basically a way for me to kind of post out there publicly like, “Hey, this is kind of how I like working.” And it evolves overtime. It's like maybe one year it's like, “Oh, I stopped using Slack, and this is the best way to contact me.” But I think at the end of the day, it's just like instructions on how to run an application. And I kind of just see myself as like a big application that is supposed to work well with other modules. And this is the way that you can just look at it and be like, “Oh! I understand how this dude operates and work with him.”
+
+
+[00:33:36] SM: Yeah. I can definitely see a lot of developers out there who would look at that and just be like, “Oh! Thank God. There's some direction on this. There's a readme on a person.” But, yeah. No. It's just like an interesting concept. We were looking at it and we were just like, “This is very interesting to see somebody thinking of themselves sort of like a software application that is to be run that has like certain attributes to note before interacting with. So that was kind of an interesting one. Have you noticed a difference? Like did you operate at any point in time as an engineering manager without that readme and you know you needed this?
+
+
+[00:34:09] SV: I think it's less about showing it to people and having them follow the instructions. But it's more about understanding yourself and like figuring out your pros and cons and then being thoughtful about addressing them. It's kind of almost like cognitive behavioral therapy in a way. Where it's just like when you catch yourself doing something that is — you've already identified it in the readme as a known bug that you're like, “Oh! This is a known bug. I can resolve this.” So I think a lot of it is really for yourself, and obviously people can check it out and they can read it and sometimes it helps. But I think it's kind of like journaling or reflection. I think that practice is very beneficial.
+
+
+[00:34:46] SM: Yeah, I can see that. And as much as I hate the like strengths and weaknesses questions during interview, I think if you were a software program, what is your known bug? I like that question much better than, like, “What’s your weaknesses?” Yeah, I like that.
+
+
+[00:34:59] JE: Well, we'd like to give you the last word and an opportunity to plug what you're working on, recruit people, however you want to use the time. I also want to just — because there's a lot here. Is there anything else in the Elixir realm that you wanted to touch on?
+
+
+[00:35:16] SV: Yeah, I think we — Just to like synthesize some of this stuff. I think Elixir has been a really – it has given a company a lot of advantages, one of which is the hiring, which we talked about before where I think it has given us the ability to hire really great engineers that are just interested to work with this technology — even though we can't pay them like Google or Facebook or anything like that. So that's been really cool. I think that there's attributes of the language that have been really beneficial like to the domain that we're working on specifically, to the type of architecture and infrastructure we're building. And then the last piece I think is important is Elixir has been able to allow us to build things very quickly and simplify a lot of the tools that we use. So our infrastructure is actually very bare bones, because we don't need crazy like Kubernetes and things like that. We just have supervisor trees. 
+
+
+And then also like in terms of the libraries that we pull in, there's really only two that we heavily depend on, which is Phoenix and Commanded, which is the event sourcing library. Everything else is just smaller things. It seems very lightweight. And the reason why I think that's important for me is as a startup you're just trying to build as much as you can as fast as possible, but maintain as little footprint as possible, because that allows you to do things like refactor things quickly. It allows you to adopt your business model to changing environments. So the fact that we're able to use a technology that keeps us very lightweight, keeps us very nimble for a really long time, has given us a leg up on some of our competitors. 
+
+
+For instance, we have a competitor out there in the market that basically it took them three years and tens of million dollars to build this — essentially financial ledger that we're building, this event sourcing system. And we were basically able to do it within like six months with me and another engineer. So that has been really cool. But other than that, I think that's all I really have on Elixir.
+
+
+[00:37:11] JE: And where can people find you?
+
+
+[00:37:12] SV: I think the best way is just to email me. I’m not very big — I watched the Social Dilemma the other day. I’m just like, “Oh! I’m shutting down – Shutting down social media.” But I think shawn@axlepayments.com is the best bet. So S-H-A-W-N. And as I mentioned, we're hiring multiple roles right now. We're in the process of raising another round of financing. So on that note, we are looking for Elixir developers, obviously. But then also people across the stack, frontend, product, engineering managers, things like that. And then if you're kind of more curious, this is more of like an experiment that I’m doing right now. But if you're more curious in terms of, like, how to become a technical co-founder, I started a newsletter called technicalcofounder.substack.com. And I’m trying to see if there's any interest in that. I'll push out more articles if there are, but that's basically it.
+
+
+[00:38:02] JE: All right. That's it for this episode of Elixir Wizards. Thank you again to our guest, Shawn Vo. It was great to have you on, Shawn. And my co-hosts, Sundi Myint, and our producer, Eric Oestrich. Once again, I am Justus Eapen. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects building web apps in Elixir, Rails, React. Infrastructure projects using Kubernetes, and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with. Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook. So add us on all of those. You can find me personally @JustusEapen. You can find Eric @EricOestrich, and Sundi @Sundikin. And join us again next week on Elixir Wizards for more on adopting Elixir.
+
+
+[END] 
+
+
+        © 2020 Elixir Wizards

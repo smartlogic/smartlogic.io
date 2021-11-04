@@ -1,0 +1,549 @@
+EW S5E12                Show Notes
+
+
+EPISODE 5E12
+
+
+[INTRODUCTION]
+
+
+[00:00:07] ANNOUNCER: Hi, everyone. We hope you're enjoying season 5 of Elixir Wizards. Before we get into today's show, we want to make a quick announcement. We’re currently looking for an engineering manager to join our team. If you have expertise in React, Elixir, or Ruby, a track record of improving engineering processes, and a proficiency in the design, maintenance, and assessment of technical architecture. We'd love for you to apply. Our team is fully remote in the United States, and first time managers are encouraged to imply. Head over to smartlogic.io/jobs to learn more and submit your application. Thanks and now here's the show. 
+
+
+[INTERVIEW]
+
+
+[00:00:40] JE: Hello and welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen, and I’ll be your host. I’m joined by my glorious co-host, Sundi Myint, and my unparalleled producer, Eric Oestrich. How are you all doing?
+
+
+[00:00:57] SM: Good. How are you?
+
+
+[00:00:59] JE: Tops. Thanks for asking, Sundi. This season's theme is adopting Elixir, and today we're joined by special guest, Brian Howenstein. How are you, Brian?
+
+
+[00:01:08] BH: I’m doing great. How are you guys?
+
+
+[00:01:09] JE: I’m doing lovely. Thank you very much. Sundi’s not in her head but she's doing well. 
+
+
+[00:01:16] SM: I always forget people can't see us. 
+
+
+[00:01:19] JE: Eric's got an opening question for us. 
+
+
+[00:01:22] EO: Yeah. Brian, you work for something called ClusterTruck. Do you want to tell us what that is? I also have a follow-up of when are you going to deliver to the northwest side of Indy?
+
+
+[00:01:34] BH: Great question. All right, so ClusterTruck. We are a vertically integrated delivery-only ghost kitchen, to use what the hot term is these days. We don't have any front of house. There's no actual restaurant you can go to. We are just food delivery and we deliver all of our own food, so we're not going to other restaurants and picking up their stuff. It is all made in our kitchens, you use our apps to order, we have our own set of couriers who are making deliveries, and everything comes through us. 
+
+
+When do we come to the northwest side of Indy? Man, that's a great question. We are in the same boat. I think I’m the only one left on our engineering team who can't get a cluster check delivered to their house, so I’m right in there with you, pulling for the same thing. 
+
+
+[00:02:18] EO: Yeah. I keep seeing them pop up. There's one by my parent-in-laws in Fishers. There's one in Carmel. That's like six blocks away from where I live. Then there's the, what, original downtown and Broad Ripple or something. They’re just like everywhere, except me. 
+
+
+[00:02:34] BH: It is a priority. We are working on it. 
+
+
+[00:02:37] JE: I’m learning from my producer that I immediately mispronounced your name. It’s Howenstein, not Howenstein. Brian Howenstein, everyone. Super glad to have you on, Brian. 
+Brian, we like to open with some, and we're going to get back to the ClusterTruck thing. I’m really curious what you meant when you said vertically integrated, but I’m going to follow up on that later because I’m curious just to learn a little bit about you, Brian, how you got into technology, into programming, what your training was like. 
+
+
+[00:03:02] BH: I was really lucky. I grew up with parents who are both very technically minded. My dad was an electrical engineer. My mom was a systems analyst for Purdue University. I always had computers around the house and people who were very familiar with them. Very early on growing up, we had computers in the house, so I think I first started learning how to program in roughly third grade. That was like ’92, ’93. I was on the Internet. I went with my mom up to Purdue University every weekend and got to play around on the Internet, originally searching for SimCity cheat codes. That's what got me on there, so how I got started and just kind of got addicted to it. 
+
+
+Then I think in fifth grade at part of our school science fair, I set up my first web server. Then basically, once I got to high school, I took every class I could get my hands on. Unfortunately, even back then, it wasn't a lot. I think I took our computer applications class to start because that was what was required to do anything else, so just how do you use Microsoft Word, how do you use Microsoft Excel, all that fun stuff. Then that opened up and let me take C++. Then after that, I think senior year I took – We had a two-period class a day that let us get our Cisco Certified Networking Associate kind of certificate. So I got my CCNA in high school and then headed off to college. 
+
+
+I had a pretty solid base of programming once I got to college. Then I majored in computer science and minored in cognitive science and basically kept it going through the whole way. I started off self-taught but I also definitely had some formal training as well. 
+
+
+[00:04:38] SM: I think that we have had a number of guests on the show this season who started programming officially under the age of 10, and it's like become so common at this point. I almost want us to have like an Elixir Wizards competition. That's pretty awesome. What's something that made you excited to continue doing it? You were doing it your whole life, but sometimes people would like reject their childhood. How did you decide you wanted to do this professionally?
+
+
+[00:05:07] BH: I always liked building things, and what's kind of been the common theme through my career is really liking building things. Almost the technology is really just the medium I’m using. Not necessarily that I would get super excited about the programming specifically, but it's what I use to make the things that I like to make. I even maybe changed a little bit in college. I was very excited by the deep technical aspects of programming and then I had an internship in college that kind of flipped the way I thought a little bit and I got more excited about what the end result was, rather than the technology itself that I was using. But I think in the end it's just always been kind of a means to the end. It’s what I use to make things and make cool stuff. 
+
+
+[00:05:51] JE: Can you talk a little bit more about the internship and kind of what that turning point was like? Just get a little bit more specific. I’m curious what you mean by some of that. 
+
+
+[00:06:01] BH: It's another one where I just got real lucky. I think I might have been in the right or just the right place at the right time. Because of my networking background, getting a CCNA in high school, and I took every networking class I could in college about network programming, I got an internship at Apple and I worked on the Core OS networking team, so I was on the kernel networking team. One of the cool kind of side things you get to do when you're in internship at Apple, at least the time when I was there, was that there was kind of a speaking series of the executives. 
+
+
+The internship program wasn't too huge back then. I think there are maybe a 100 or 200 of us for a giant company like Apple, but that's a pretty small room to be in when you get to talk to people like Tim Cook. Steve Jobs is obviously still there and Jony Ive. Really just hearing how they talked about the things that they built kind of flipped the things that I was excited about from being the implementation details of what I was using to build to what the actual end product was that we were building for the customer. 
+
+
+Apple at the time was really making this transition from selling features to selling kind of the end result and making your user better and making your user a better musician, making your user a better photographer, making your end user better, rather than just worried about the actual features and the technical things that we're building. Those definitely mattered, but what was most important was that kind of end product that came out at the end. 
+
+
+[00:07:25] SM: That's really interesting to think about. That's not something that I’ve ever thought about using an Apple product. But thinking about growing up, having a MacBook maybe in the later half of my high school years, I did actually become a better photographer, a better music engineer when I was interested in that kind of stuff because those tools were so easy to use. I can't say that I would have gotten anywhere without those tools being designed like that, so that's actually really interesting to think about. Was there anything else that they said that was very specific when you were kind of in the room with all these like notable names that you know our audience would love to hear, like little tidbits?
+
+
+[00:08:05] BH: I’d say one of one of my favorite stories that I think kind of really emphasized it was when we got to talk to Jony Ive. One of the questions that came up was somebody asked when he was designing that first iMac that kind of made the giant splash when kind of Apple came back to prominence. Everybody I always asked about the handle on the top. An iMac is not exactly a portable device. It still probably weighs 40 to 50 pounds. Why is there a handle on the top? He said, “It’s not really about portability, but what it's about is putting a place where people are not scared of technology, and they want to touch it. Because when you have a handle, people are more likely to feel comfortable actually touching it and interacting with the technology, rather than being scared that they're going to mess something up or have something that they're unfamiliar with.” 
+
+
+It’s kind of a really fascinating design angle that obviously it serves a purpose as you can carry this thing around, but that may not have been the full intention of it was for moving. It was to get that personal connection to technology that what that would have been in ‘90 – It was probably the late ‘90s, right around 2000. I can't remember exactly when that came out, but I mean technology wasn't super personal at that point. 
+
+
+[00:09:19] JE: Wow. That is so amazing. I’m so glad that we dug into this question because, first of all, I feel like we almost never hear about Apple on the show, so that that's interesting. But also, most of the time today, I feel like when we hear about Apple and especially like Steve Jobs and Tim Cook, it's not very flattering. But we should remember that these dudes are literal geniuses who invented some of the most amazing things of all time. 
+
+
+[00:09:44] BH: It was a very cool time to be at Apple. I was there the year that they switched from PowerPC to Intel. Then my second summer I was there was the year that the iPhone was announced, so it was a very, very cool time to be there. 
+
+
+[00:09:56] JE: Wow. 
+
+
+[00:09:57] SM: Were you there the same summer the interns designed the emojis, like the first emoji set? Was that around the same time?
+
+
+[00:10:02] BH: I don't believe so. I don’t remember that. If it was, they may have been at a different part of the program than I was in. 
+
+
+[00:10:10] SM: Okay. I’ve always been interested in that big emoji person over here. 
+
+
+[00:10:15] JE: Jumping into some Elixir, tell us about your path to Elixir land? How did you hear about Elixir? Where were you? When were you?
+
+
+[00:10:25] BH: I think I’ve taken probably I guess what's a pretty – I think it's a pretty common role path to Elixir. I was originally a Rails developer, so I started using Rails I think fairly early in the game, so I had to look back. I think it was around 2005 that I discovered Rails. I actually used it in college. My senior project was built in Rails, and I was a Rails developer for a long time until I think – I had to look back. Maybe 2016 I think is when I first discovered Elixir through Phoenix, through just one of those demos where you're looking at it, and you're like, “That is crazy. How are they doing that?” I had to try it, and it led to just a couple of little toy projects. Then after that, it was kind of off to the races. 
+
+
+[00:11:07] SM: When you first used an Elixir project at ClusterTruck, was it like ClusterTruck was something that was already planning on using Elixir? Or when you were kind of getting into the weeds there, did you say Elixir is the move or I’m interested in looking into it?
+
+
+[00:11:24] BH: It’s kind of funny. It was a little bit of a side project that maybe became mission critical. What's kind of cool about ClusterTruck is we're a very small team. At the time we started playing with Elixir, the engineering team was three people, the CTO and then two other engineers, including myself. I was one of the first few engineers at ClusterTruck. Basically, I saw this cool new language and framework, and I was just messing around with it. We had a dashboard that had kind of been something that I built for myself just to kind of monitor some different parts of the system that all of a sudden everyone else in the company started noticing me like, “Can you share that with me? Can I use that?” It just ran on my iPad. 
+
+
+One day, I think when I was working from home, the CEO was asking, “Hey, where's our dashboard,” because I had taken my iPad home, and the dashboard wasn't running in the office. Eventually, that was just like a Ruby Sinatra happened. It was kind of starting to get a little bit beyond what it was meant to do, so I was like, “I think this would be a really interesting first test for Elixir.” So I built a dashboard in Elixir that it was not mission-critical but it was just a trial to get it out there. Then we started kind of using it for more and more projects, especially once we kind of discovered how powerful it was in terms of websites because the channels was kind of our first foray into the Phoenix world, and then it grew from there. 
+
+
+[00:12:48] SM: That first project, was that something that only you worked on? Or did you start working on it and then bringing other people into it?
+
+
+[00:12:54] BH: It started just with me. But then after I kind of started showing it to other folks and they saw how cool it was, then others started joining in. I think pretty much every engineer in our team now has worked on an Elixir project who I don't think anybody had an Elixir experience prior to ClusterTruck. I’d like to say everyone has had a good experience and enjoys it quite a bit, so I think it's been definitely a great move. 
+
+
+[00:13:20] JE: Can you talk about the evolution of Elixir at ClusterTruck from that point? Obviously, they liked the end result of having a dashboard and they let you kind of build the second version of it in an Elixir, but how did it go from there? What were the conversations like?
+
+
+[00:13:36] BH: I think it kind of evolved from the different problems that we were just facing at the time, so I had to do a quick count even for just having a small engineering team. There are six of us right now, including myself, the CTO, our data scientists, and then three other engineers. That's pretty much our entire engineering team. We have 20-plus code bases and services that run ClusterTruck, and I think eight-ish of them are Elixir. As one new problem has arisen, we've kind of decided what the best tool for the job was, and Elixir’s been ones we reached for quite a bit. 
+
+
+We've gone from dash boarding to we needed the ability to show real-time messaging on our sites as things happened. In the early days, we're very hyper local delivery service. We have kind of very tight delivery radiuses just based on the promises that we give our customers. We're very sensitive to things like weather or street closures, and we needed a way to kind of in real time show messages to our customers, and that became a very great first use of just using web sockets and channels that would link up to our website and be able to show those things. That was kind of the first move into Elixir. 
+
+
+Then we have couriers that are constantly delivering and moving around, and we track locations in order to show order status and run our system. The way they would update their GPS locations to us in our Rails project was very not performant at all. I think at one point that endpoint was taking about a second to do all this processing for every single location ping, and I said this could definitely be done differently. We ended up moving that into what we call our real-time system, which is a project in Phoenix that it went from one second down to I think 500 microseconds. We had a very large speed up in processing and we were able to do a lot more things a lot faster. 
+
+
+We kind of moved from that not mission-critical phase to things that were more and more and more mission-critical. As we got more familiar with Elixir, we got more comfortable with it and we were able to kind of really understand what we were able to do with it. 
+
+
+[00:15:46] SM: Just jumping back to ClusterTruck specifically, can you speak a little to where the idea for the company came from? Just you sitting around one day and wanted food?
+
+
+[00:15:56] BH: The idea kind of came from our CEO. Our CEO has a really fascinating background. Originally, he founded a company called ExactTarget. If you're in the marketing world at all, you probably heard of it. Email marketing around the early 2000s eventually was bought by Salesforce for $2.5 billion and is now the Salesforce marketing cloud. He had a big technology background. Kind of after that happened, he went and he started a sustainable farm, so grass-fed beef, pigs, pasture chickens, all that kind of stuff. 
+
+
+Through doing that, he tells a story that when he sells his animals, his steaks on his cows would go really quickly, but he'd always have a lot of hamburger left over. So he opened a small hamburger stand in his hometown. In doing that, he kind of started you know DoorDash and GrubHub. UberEats started approaching him, “We’d like to deliver out of your restaurant.” He started using delivery through third parties and realized the system was really broken. The restaurants don't make any money. The drivers don't make any money. Obviously, the delivery services themselves aren't necessarily making any money. They're still losing money on most deliveries. This whole system is broken. 
+
+
+He kind of thought about there's got to be a much better way to do this, and freshness was a big priority. Say, if you place an order for a third-party delivery system right now, they're going to start cooking that order as soon as they get the order. But your driver may not be there for 20 or 30 minutes, so that is going to sit, and it's going to get old really quickly. We realize that the secret to getting fresh food to people is managing time and knowing where our drivers are at all times. Basically, the mission statement to start building the first version of ClusterTruck is just don't cook the food until we know where your driver is. 
+
+
+Then at that point, it kind of took its life of its own. It’s evolved quite a bit past that, but that was kind of the initial marching orders. There were some other things that we learned along the way about variety is a really important thing. So instead of deciding ahead of time that which restaurant you need to order from, what's great about ClusterTruck is we cook almost every type of food in our own kitchen. From pizza to pad Thai, to salads, to burgers, to chicken sandwiches, to cakes, to cookies, all that stuff is coming out of one kitchen in one place. If you're ordering with a group of people, which most food orders are a social experience, people eating together, you're not having to decide on one restaurant at a time. You can just decide to eat ClusterTruck and you can all get what you want from the same place. 
+
+
+That was kind of a thing that he discovered from having teenagers in his house is there was pizza coming to his house almost every single night, and he didn't want to eat pizza every night. So wouldn't it be great so that his kids could get pizza and he could get pad Thai or a salad or something else? That was another really interesting insight that led to where kind of ClusterTruck is today. 
+
+
+[00:18:48] JE: Wow. Is that true that most orders are for multiple people?
+
+
+[00:18:53] BH: Quite a bit. We have, let's say, very few orders that's just going to be like a single thing on it. You think there's a lot of orders that, whether it's two people, three people, or maybe even a small family, there's going to be different people on there, and they don't necessarily want to eat all the same thing all the time. We solved that problem really well. Kind of going along with that, we solved office lunches very well and we do very well in offices. That’s kind of an interesting thing that's happened with COVID but offices are a very tough problem that we're able to solve. 
+
+
+[00:19:23] JE: This is kind of getting into the vertical integration thing that we mentioned at the very beginning, and we were talking about Apple in the beginning, which is sort of the best known vertically integrated company in the world. I’m curious, is that sort of how you view yourself? Do you view yourself as trying to be like the Apple of food delivery?
+
+
+[00:19:39] BH: Maybe not intentionally but we've kind of accidentally stumbled that direction. I think one of our investors has once told us that we're very Apple-like in our thinking, and I don't know if that's just unconscious from my background or whatever. But we definitely try and think of what's the best possible end user experience we can have and we can really provide that by controlling the whole process from top to bottom. 
+
+
+[00:20:00] SM: Can you describe what being a vertically integrated company means?
+
+
+[00:20:04] BH: You think in a traditional food delivery or your third-party delivery through DoorDash or UberEats. There's the restaurant, there's the delivery driver, and then there's the actual food delivery company themselves. Those are all three different entities that all have somewhat competing interests, so each one wants to maximize its revenue, and there may not really be that much revenue in a food delivery order to make it worthwhile for everyone to make that delivery. Vertical integration really makes it possible to not only have a sustainable business model, but we can deliver really quickly really high quality food and kind of do things that other delivery services can't. 
+
+
+If our average delivery times are around 30 minutes and your food [inaudible 00:20:46] at that point is usually less than six minutes old, those are things that other people can't do. We can do that because we have – every piece of the system is kind of under our control. 
+
+
+[00:20:58] SM: Circling back to kind of how you integrated Elixir into this, when you were kind of scaling the company up and you had all these great ideas and you were doing all this, how did you bring people in to learn Elixir or were they Elixir engineers already? How did you go about training them and kind of things along those lines?
+
+
+[00:21:19] BH: I don't think nobody that joined the company had used Elixir before. It was I think everybody pretty much learned on the job, and a lot of it was just I guess starting to play with it and see how it worked. Maybe do a little trial project on their own and then just jumping into it. So there wasn't a lot of formal training. Being a small company, we didn't have too many junior folks. It was mostly senior engineers, so we tend to hire generalists. Especially being a small startup, you have to wear a lot of hats. Most of our team is pretty familiar with working with multiple languages in multiple paradigms, so they were able to pick it up pretty quickly. 
+
+
+Having the similar syntax to Ruby is one help, but the paradigms are all different being a functional language versus object-oriented. But it's something that everyone's able to pick up fairly quickly and has enjoyed as we move forward with it. 
+
+
+[00:22:10] JE: I want to know one more thing, which is primarily around from your own experience learning Elixir and now from your experience of spinning people up on Elixir. Are there any particular stumbling blocks that you run over time and time again or what are sort of the earliest hurdles that people need to jump over in order to become productive in Elixir?
+
+
+[00:22:31] BH: I think it kind of depends on maybe where you come from a little bit. But especially if you come from the Rails world, I think that big shift from thinking about things in an object-oriented way to a more functional way can be the biggest stumbling block. Also, what's great about just Elixir and Phoenix is there's no magic in that everything's a function, and you're not going to be wondering where the heck did this magic variable come from. There's not things that trip you up so much that way. It’s really easy to kind of unwind and figure out where things are happening. 
+
+
+But I think that pivot just from the object-oriented side to the functional side takes a little bit to get your head wrapped around it. Some days, if you're working on Rails and Phoenix at the same time, you can confuse yourself pretty quickly. But if I ever get some time to go heads down and work in Elixir for a while, I really enjoy it. 
+
+
+[00:23:22] SM: I am team no magic, so super excited to hear you say that. When you're kind of hanging out with your Ruby friends or friends who are in other technologies, how do you maybe brag about Elixir? What's your pitch when you're trying to convert them over? Because we all do this and everyone has a different way of doing it. 
+
+
+[00:23:44] BH: I would say it just works, which is one of the great things is there are things that we have that have been running in Elixir that often we just forget about, and they just run on their own for so long just because of how fault-tolerant it is. If you follow kind of the accepted patterns, you launch it and it just kind of keeps going. We have a – I call it teams app that is basically a Slack app that you can order ClusterTruck using Slack. We haven't had to make an update to it in probably a year. We have some other things like we have a small nerves project that runs in our kitchens that just like it has not had to been changed I think since we launched it into our kitchens. It’s very consistent and it's super fault-tolerant and it's very, very, very fast. 
+
+
+[00:24:33] SM: I always like saying it just doesn't fail. It’s not necessarily true but I love just throwing that one out there, so that's really cool. How did you kind of rise up and become the VP of Product at ClusterTruck?
+
+
+[00:24:45] BH: That was kind of a little bit of that. I think that transition from what we talked about earlier where my interests land a little bit more on the product side and my engineering skills more kind of the means to the end. I was one of the original few engineers. But then as our team grew, we had more and more need for someone to kind of step over to the product side and look about where we're going and what's the most important to work on and how are we going to tackle some of the problems that we need to tackle. So I moved into a head of product role. Then as time went on, I moved up to VP of products. I enjoyed it quite a bit, and it's kind of cool that I’m more of a technically minded product manager, so being able to understand kind of what the lift is on things that we're building and understand how the actual systems work I think has been very helpful and handy. 
+
+
+[00:25:36] JE: Can you dive a little bit more actually into this role and especially around this role transition? Because I think there's probably a lot of people in engineering, either with some product experience in their background, maybe on the design side, maybe on the product management side who would love to be able to make that same exact jump. If you could talk a little bit about like what does a VP of product do that like a VP of engineering probably wouldn't be doing and kind of how to make that kind of transition. 
+
+
+[00:26:02 BH: Yeah. I think it's a lot easier of a transition to make in a small company. I don't know how I would give advice to make that jump in a larger company with more established roles but I think my focus definitely changed too. My responsibility is the roadmap and where we're going and what's most important to work on next and what exactly the boundaries are of the things we're going to tackle. My experience with or my interest on the product side is very my interests in – I say how my focus shifted when I learned the things that I did at Apple were very useful, as well as I had some business experience on my own. 
+
+
+Before I joined ClusterTruck, I owned two strength conditioning facilities, kind of like cross fit gyms, and so I had a business experience as well. That also led me to be able to prioritize a little bit in what's – Thinking that little bit higher role and what's most important to the business. Even though there are things that we want to do on the engineering side, what's going to move those metrics that make us succeed on the business side and what's most important to do next?
+
+
+[00:27:03] JE: That is dope. I’m like pretty pumped to hear that you used to own cross fit gyms. That's just a cool thing. You don't see a lot of people in tech who are from that world. 
+
+
+[00:27:12] BH: Interesting period but my side hobby is I compete in the Scottish Highland Games, so I have kind of a slightly different I think characteristic than a lot of engineers but I really enjoy strength sports in the Scottish –
+
+
+[00:27:24] JE: The what?
+
+
+[00:27:25] BH: The Scottish Highland Games if you've never heard of this. 
+
+
+[00:27:28] JE: I haven’t. Please [inaudible 00:27:29]. 
+
+
+[00:27:29] BH: If you Google Scottish Highland Games, you're going to come across some interesting things, but it's basically an old – it’s I guess the original version of track and field where hundreds and hundreds of years old but a lot of the track and field events like shot put and hammer throw came from the Scottish Highland Games. We basically throw rocks in a field, we throw very heavy weights, we flip a telephone pole that's called a caber, and we basically throw quite a few things. I love strength sports, and I love kind of weird and not mainstream things. It’s a fun hobby. 
+
+
+As a side note, I have a side project built in Elixir and Phoenix. That's kind of our sports scoreboard that has all the results for highland games in North America and kind of keep statistics and track those for everyone who's competed. That’s another fun Elixir project. 
+
+
+[00:28:22] JE: I’m sorry. We are going to completely digress here because this is like ridiculously important. First of all, can you talk about that project? Second, can you talk – Do you follow like the World's Strongest Man stuff?
+
+
+[00:28:34] BH: Absolutely. 
+
+
+[00:28:35] JE: You know about the whole controversy with The Mountain thinking that he was cheated out of the wind. Do you have a take on all that? If you could even really synopsis that for the audience because I’m sure they have no idea? Most people probably have no idea what I’m talking about, but this is a fascinating piece of sporting lore that just happened in the last couple years. 
+
+
+[00:28:56] BH: Sure. Yeah. I follow strongman a little bit. In my life of having the strength-conditioning gyms, yeah, I’ve done a couple of strongman shows. I compete in the Scottish Highland Games and I follow it a little bit. But, yeah, between The Mountain and Eddie Hall, there was some controversy about who won I think some events. I think some words were said over Twitter and various arenas. Now, I believe there's a boxing match set up between The Mountain and Eddie Hall. I don't know what this boxing match is going to look like if two – Basically the largest men on the planet who are 6’8”, 500-some pounds of just pure muscle. They're just absolutely huge. 
+
+
+[00:29:36] JE: These people are monstrous. I mean, these are the Nephilim we're talking about here. They're not normal people. 
+
+
+[00:29:43] BH: Even the Scottish Highland Games. I’m six-foot tall, 275 pounds. I am usually the smallest man on the field, and these world's strongest man competitors dwarf everybody who compete in the Scottish Highland Games. It’s truly a spectacle. 
+
+
+[00:29:59] JE: Okay, yeah. I would love to – Okay, I’m going to definitely look up the Scottish Highland Games. That sounds amazing. Sundi, do you have any follow up on this? I feel like we –
+
+
+[00:30:07] SM: Yeah, just one, just one. I really would like to know. I’m a figure skater, so I get like the weird like off-the-beaten-path kind of sports that require a lot of dedication, but I also have never aspired to own an ice rink. How did you become a gym owner?
+
+
+[00:30:23] BH: That was a fun progression. Before I worked at ClusterTruck, I worked for a consulting company here in Indianapolis that basically works out of a large warehouse. It’s kind of –
+
+
+[00:30:35] EO: Is this DeveloperTown?
+
+
+[00:30:35] BH: Yeah. It’s DeveloperTown. What’s fun about DeveloperTown is DeveloperTown, it's a giant old warehouse, and all the offices are what look like tiny little mini barns on wheels, and those are the offices. So they're tiny houses in this warehouse, and it's a town of developers. It’s why it's called DeveloperTown. But they're on wheels. You can move all the houses around. They'd move them around kind of once a quarter. As people worked on different projects, they'd circle everyone up who's kind of on the same project. They had white boards on the outside. It had a little porch light, so you could turn it on if you were in kind of do not disturb mode where your head's down and didn't want anybody to bother you. 
+
+
+But on the side of this warehouse was just this big empty space. It was the old loading dock and it was unused. They were kind of trying to decide what to do with it. At the time, I had been kind of coaching at another strength and conditioning facility kind of before Highland Games and kind of strongman stuff. I do quite a bit of Olympic weightlifting. That was kind of my specialty. I kind of talked to the guy who owned the gym I went to and said, “Hey, this would be a really great second location for you. Do you want to partner up?” We became business partners. We opened a second location in Broad Ripple inside the DeveloperTown space and the old loading dock, and so I kind of stumbled into the gym ownership world. 
+
+
+[00:31:49] JE: Wow. Man, I’m so glad that we got to have this conversation. I really hope I get to visit you sometime, like work out or something. But I would love for you because you've got all this experience now at ClusterTruck but previously over at DeveloperTown and at the gym. You're probably really tied into a lot of businesses that are dealing with COVID in a lot of different ways. I’m just curious like how has business affected you all at ClusterTruck? If you have a broader knowledge from your experience, maybe talk about that too. 
+
+
+[00:32:16] BH: Yeah. It’s been really fascinating, especially on the delivery side. I think everybody this time last year or I guess about a month later in March, once COVID really started to hit the United States, nobody really knew what was going to happen. There was a lot of uncertainty and especially when things first started. There was a lot of hesitancy I think around even ordering food delivery, as all the kind of the lockdown and stay-at-home orders started happening. Is this safe? Is this a good thing to do? 
+
+
+But even once that happened, a lot of traditional restaurants had to stay closed, but we don't deliver traditional restaurant food. We're not going into another restaurant to pick up their food and deliver to your house. We have our own ghost kitchens that customers are not coming into. Our couriers don't actually even come into them. We're a curbside delivery service, so our couriers pull up to our kitchen. We hand them an order. They drive to the customer's house. The customer meets them at the curb. Then they come back to our kitchen. In terms of the delivery world, we're probably one of the safer delivery options. 
+
+
+As kind of COVID progressed and delivery really picked up, DoorDash and UberEats are really having record years with that as deliveries really become a mainstream part of our culture. Delivery's really picked up for us as well. Even though traditional restaurants are really struggling or they've really shifted towards delivery, the things have been going thankfully very well for us. We have seen quite a bit of shift between when we first – pre-COVID, we supplied offices and people working in offices quite a bit, just because we solved that problem really well and people wanting to eat together. With things like group ordering, we were able to offer group ordering where everyone can pay separately, which is a pretty nice feature, as well as have a single person cover the order. Everyone gets what they want. It all comes together. We solved that problem for offices. 
+
+
+As people went to the offices to go to work from their homes, we saw a really big shift from those lunchtime orders to people ordering at home. But through this whole thing, we've been very fortunate that delivery as a whole has picked up, and we've been able to do very well throughout it. 
+
+
+[00:34:23] SM: Kind of a wild future question for you. I got this idea from a TV show I’m currently watching. When the world opens back up, do you think you would consider opening a physical restaurant that allows you to have deliveries from different places? So you don't actually have a kitchen there but people can eat together what they want from different places. Or is that a crazy idea?
+
+
+[00:34:41] BH: I don't know about us doing that. One of the nice things is that at least in our model we think we can provide that service of instead of getting lots of different delivery services, all that same thing can come from our location. But we actually do provide food for a lot of places that don't have kitchens themselves. Things like breweries we actually do quite a bit of business too, so people are at a brewery. It’s a really great deal for the brewery too because the people are able to eat and hang out. They'll stay longer, and they can obviously drink more, and the brewery does better themselves. We have a lot of partnerships with breweries where we'll be kind of their delivery partner, and people will order. 
+
+
+ClusterTruck food will come to the brewery and bring food to you and kind of solve that. It’s kind of a win-win situation for both of us. But, yeah, that's interesting. I’m not sure about having multiple place where just delivery stuff comes to. That’s kind of interesting. 
+
+
+[00:35:35] SM: Yeah. I mean, the TV show was marketing it as like this wild idea from this like tech startup in Silicon Valley sort of situation, and I was just thinking it's not the wildest idea I’ve ever heard. Why are they treating it that way? But TV is TV, right? 
+
+
+[00:35:49] JE: I think they did this in the ‘90s in the middle of every mall in America, and they're called food courts. 
+
+
+[00:35:54] BH: That's funny. A lot of times, when we try and describe ourselves, we describe ourselves as a virtual food haul, so I get that need. 
+
+
+[00:36:02] SM: Just funny because food hauls are still cool and food courts aren’t. There’s only like one difference. 
+
+
+[00:36:08] JE: I don’t know. I’ve heard that food courts are the only part of the mall that is still like a thriving or thriving-ish business because obviously malls aren't doing too hot. I’m curious, if you are using Nerves at all at ClusterTruck. 
+
+
+[00:36:23] BH: We are. We have one Nerves project right now. One cool thing because, once again, we're vertically integrated and we know we keep a lot of data about what's happening with our system and what's going on, we have a live labor tracker in our kitchens that lets our managers be able to track the amount of hours being worked and basically being spent in our kitchens versus the amount of sales coming in to be able to manage their labor numbers more effectively. That's a huge thing in the restaurant industry is you have to – Because it is a pretty low-margin business, you have to be very conscious about your costs and kind of make sure you're not over overspending when you don't need to.
+
+
+So we have basically a Raspberry Pi that has a seven-inch touchscreen on it, and it's in the kitchen that it can show a few different displays. But it sits in there and shows live labor numbers throughout the day to our general manager. That’s a little Nerves device that runs in there. That was a really interesting thing to play with and first kind of embedded software device that I really got to develop for. That was a lot of fun. 
+
+
+[00:37:33] SM: For other future work that you might be considering, have you guys talked about having an open API for other folks who are looking into getting into the same space?
+
+
+[00:37:42] BH: It’s interesting. We have kind of kicked that idea around as do we become a software platform that other people can launch virtual kind of ghost kitchens on or do we just continue doing this ourselves? It’s funny. There's a tweet that was out there by a parody VC Twitter account, Startup L. Jackson, that said, “Everybody wants to be Grubhub. Nobody wants to be Domino’s.” I think we really kind of made that decision that the vertical integration means we have to control the food, as well as the technology. I think we're really focused on we're going to provide it end-to-end, not necessarily sell software out to other companies to do something similar. 
+
+
+[00:38:25] JE: Well, the other side of that question would be what about an open API for people to order, like create new kinds of food ordering interfaces where the food comes from ClusterTruck?
+
+
+[00:38:36] BH: That's really interesting. I’d love – If anybody has ideas for what they would want to build in an open API, I’d be really interested to talk to them. 
+
+
+[00:38:47] EO: Just going to hack the system to extend your delivery range. 
+
+
+[00:38:53] JE: That’s –
+
+
+[00:38:54] BH: It’s funny. We have a fairly significant number of people who will drive to a place in our delivery zone and meet one of our couriers like in a parking lot which is not suspicious at all, handing a paper bag between cars and a parking lot somewhere. But we have not insignificant number of people that do that. 
+
+
+[00:39:16] SM: I’m actually really glad to hear that because there's a cookie delivery in my area that they're – I’m outside the delivery range by like two streets and I’ve considered putting an address that wasn't mine just standing there for it. But I was like, “People in my neighborhood would not be cool with that.” 
+
+
+[00:39:33] BH: We absolutely have people doing that. Since I’m one of the people who’s stuck outside the delivery zone, I may have done that a time or two as well. 
+
+
+[00:39:40] EO: We used to go downtown to the orchestra and afterwards set it up so that when the show finished, there would be someone waiting outside with our mac and cheese. 
+
+
+[00:39:54] BH: Nice, nice. Yeah. It’s kind of cool. We do pretty well with scheduled orders. If you say, “I want it here at six o'clock,” it's a very high percentage chance it's going to be there at six o'clock, so that's awesome. 
+
+
+[00:40:06] SM: We're going back real quick just to kind of finish the thread on adopting Elixir and people who are looking to get into Elixir or looking to work at a company that uses Elixir. What advice would you give to somebody who is either starting an Elixir and maybe doesn't know where to start or is interested in Elixir and knows a little bit but is trying to get it brought into their company?
+
+
+[00:40:31] BH: I tend to be one of the ask forgiveness rather than permission kind of people, so at least that's what I’ve done so far where even if it's not something – Obviously, you probably don't want to toss something mission-critical into the works real quick but starting a small side project or a piece or kind of a proof of concept that you can show someone and say, “Here’s something I built.” What's great about Elixir it’s not a completely unproven technology. It has Erlang underneath in the Erlang VM, which you know has 20 or 30 years of engineering underneath it and rock solid testing. It’s not a completely unproven technology. Build something small and build maybe something that if things don't go well, it's not going to bring the company down. Show people and get that out there first. I think you'll find once you get that success out there more things will come. 
+
+
+Another example of something we did was this year when COVID hit, obviously Indianapolis were very famous for something called Indianapolis 500, and that was delayed this year. We built something called the Cluster 500, which was basically a scoreboard of our drivers that people could watch throughout the day and see how many basically laps or deliveries they took in their average delivery time. It was a scoreboard that updated live throughout the day through Live View. So it was a really fun proof of concept that was not mission-critical, but it was obviously a really fun thing to build. Something that you could get out there is just here's what this thing can do and here's – test it out. 
+
+
+[00:42:04] SM: We haven't heard too many people say that they're using Live View for anything. How's that going?
+
+
+[00:42:08] BH: We actually use Live View for a few things. That dash or that Cluster 500 project was written in Live View. That would have been obviously in May 2020 is when that went out, and we built that actually in less than 24 hours from the idea. One of our customer service manager had this, “Hey, wouldn't this be cool and basically put that out in Slack?” I think two of us on the team were like, “Hold please.” 24 hour later, we come back and we had this thing built. It was really cool and it was a really, really fun thing to build. We use Live View for that. We have an internal inventory tracking system that our kitchens use to manage their inventory from the actual food products that come in the door. That's a Phoenix project that uses Live View. 
+
+
+Then we have two locations, one in Indianapolis and Fishers and one in Columbus, Ohio in a suburb called Dublin that are actually inside of a Kroger store. We have a pickup available there in our pickup dashboards that let people know what their order statuses are written in Live View. So we kind of have a few projects out there that are Live View, and that's kind of the fun thing about being a small team where you get pretty free rain control over what technologies you use. You get to try out the new things pretty quickly. 
+
+
+Kind of just one of our team philosophies is you can bring something new, bring something different in. You just got to be prepared to support it once you put it out there. That's a really fun kind of freedom and thing we can do on our team. 
+
+
+[00:43:43] SM: That's really awesome. What's your general impression of Live View after using it for the first time?
+
+
+[00:43:49] BH: I really like it. I think it's another one of just those cool level ups that I think Channels was a big thing on Phoenix. That was just kind of a really differentiating thing amongst web frameworks. Live View is just that next iteration, just another kind of quantum leap. I think something very similar has now come to Rails with the hotwire kind of stuff where I think that's kind of coming along. I’ve enjoyed it quite a bit. I know our one engineer who's built kind of our entire inventory system in Live View may have his own opinions on it. I think he's had some frustrations with but I think some other things have gone really well. It’s been overall I think a pretty good thing. 
+
+
+[00:44:30] JE: I think we each have one more question before we give you time for plugs. I want to know about the future of ClusterTruck, how to use – How much more space is there to innovate in terms of food delivery? Do you have any plans of doing food production, meaning like agriculture, urban farming, vertical farming? Obviously, that would be like being completely, completely vertical. 
+
+
+[00:44:52] BH: Yeah. I think there's still a long ways to go in food delivery. I think we're in the early stages. I think that not only is there this additional functionality to come but I think there's additional efficiency to come. I think the entire food delivery market at least from a delivery fee standpoint is going to be a race to the bottom where free is just going to be where it's at free delivery. If you're not building a model in the technology today to support free delivery, I don't think you're going to have a good time. That’s how we basically architected Elixir or, sorry, ClusterTruck, using all of our different technologies that we support free delivery. We have no delivery fees at all, other than just tipping your driver. We’re able to build a sustainable business with that and we kind of made that a core priority at the beginning. But, yeah, in terms of functionality, I think there's still a lot of stuff to be done, and maybe I’ll plug it at the end. But our team is definitely hiring to continue on that mission. 
+
+
+[00:45:53] JE: So no CSA, no ClusterTruck CSA in the near future. 
+
+
+[00:45:57] BH: Also, it’s funny. Going back to our CEO owning a sustainable farm, one of his I guess you could say selfish reasons for launching ClusterTruck is to be another consumer of his grass-fed beef. Unfortunately, as we've scaled, we've outgrown his ability to produce a little bit. But there's never say never. 
+
+
+[00:46:17] SM: That's amazing. We're also pretty curious. Do you have a favorite and least favorite thing from your own menu?
+
+
+[00:46:25] BH: That is a great question, and I’d say I do have a favorite. I think our lazy breakfast burrito is not only my favorite but probably the favorite of quite a few people who use ClusterTruck, so it's always way up there at the top of our most frequently ordered things. We have a Nashville hot chicken sandwich. This also is pretty amazing. We have lots of things that we can deliver that you don't traditionally have as really great delivery food. We deliver things like burgers and fries that are still crispy and hot when it gets to you. Those are things that are always really nice to get. 
+
+
+[00:47:01] EO: I feel like we have to – In the Indie Hackers Slack channel, Mitch is always going on and on about the buffalo chicken mac. 
+
+
+[00:47:12] BH: Yes. That’s another great one. We have buffalo chicken mac and cheese. Those are cult favorites. That's the thing about our menu or one of the great things about our customers is they definitely have their opinions and they're not afraid to let you know. I like to say that our customers love to care very loudly at us in a loving way where they'll let us know what their favorite things are. If we take away an item that was one of their favorites, we'll know about it pretty quickly. But buffalo chicken mac and cheese is definitely one of those that people love to get. 
+
+
+[00:47:46] SM: For your least favorite one?
+
+
+[00:47:48] BH: We had a bunch of like sub sandwiches on there for a while that it's like, “Yeah. It was good enough but it's –” What are what we do really well is we deliver food that's not traditionally delivered well, and those are the things I really like to get from ClusterTruck. 
+
+
+[00:48:03] SM: I thought it would be something fun like something that everyone loves that you just like happen to hate. We do like a hot food take Friday kind of thing here at SmartLogic, so that's always fun to hear what people like and don't like. 
+
+
+[00:48:15] BH: I will say I was very angry. One of my favorite things that got pulled off the menu, we used to have a green curry that was absolutely amazing. That unfortunately is not on the menu anymore. I think I complained very loudly when that one came off the menu. We also had a short stint where we had hot dogs on the menu, gourmet hot dogs, which is kind of a funny one. Just some really off-the-wall things but it's – Yeah, we've had quite a few different genres of food. What’s great is we have our – I mean, we have an actual executive chef who comes up with our recipes. Food testing day is always a very popular day at ClusterTruck when everybody gets to come in and test all the new menu items. 
+
+
+[00:48:55] SM: I can say I also really liked new menu day when I worked at Cava. People would come in or the chefs would come in and kind of work out some new ideas, and they might not have ever made it to the menu. The chefs could have just been having fun, but that was always really an interesting experience, very eye opening. 
+
+
+[00:49:14] JE: You could have just trolled the whole Internet and said you don't like chicken tenders. Anyway, this has been a tremendous interview, Brian. We could go on a lot longer but we are out of time. I want to give you a few minutes to plug anything you want, shamelessly self-promote, ask the audience to find you online. Anything you want to say, you can say it now. The floor is yours. 
+
+
+[00:49:35] BH: Awesome. Yeah. If you want to know more about ClusterTruck, visit clustertruck.com. Google us. There's been lots of new stories out there talking about us with our – You can see videos of our CEO on TV or being interviewed. Clustertruck.com social, Twitter. You can find us @clustertruck. Me personally, you can find me on Twitter @hwrd. Then if you're interested in my sport of the Scottish Highland Games, you can find my site at cabermetrics.com. So if you've ever been a fan of a baseball statistic, sabermetrics. It’s a bit of a pun on sabermetrics, caper being from the Scottish Highland Games. 
+
+
+[00:50:14] JE: Oh, my gosh. This has been absolutely wonderful. Hey, thank you for joining us on Elixir Wizards. Before we close out the show, we'd like to share another quick mini feature interview with you. It’s a brief segment where we showcase somebody from the community that's working at a company using Elixir in production, and we'll learn about how they're using Elixir. Hope you enjoy it. 
+
+
+[00:50:40] SM: Hello and welcome to our new mini feature segment of Elixir Wizards. My name is Sundi Myint, and today we're speaking with Michelle Morry, Software Engineer at FuturePet. Welcome to the podcast. 
+
+
+[00:50:49] MM: Hi. Thanks for having me. 
+
+
+[00:50:52] SM: Absolutely. Thank you for being here. Can you tell us where you're calling in from today?
+
+
+[00:50:56] MM: I am just in Vancouver BC, so in Canada. 
+
+
+[00:51:00] SM: Awesome, awesome. We love to see that Elixir is all over the globe. We're here for it. 
+
+
+[00:51:06] MM: Yeah. Fair enough. 
+
+
+[00:51:07] SM: Can you let us know what your background in programming is like and how you got into Elixir?
+
+
+[00:51:14] MM: I started out after college doing games programming with like C# and C++ and then moved into web development and learned JavaScript on my own in my spare time. Then just in my current position now, I’ve gotten started with Elixir, so it was like the first time I ever heard of it and learned it on the job and continuing to learn as well. 
+
+
+[00:51:41] SM: That's awesome. How long has that been so far?
+
+
+[00:51:44] MM: A year now doing Elixir, yeah. 
+
+
+[00:51:47] SM: That's super awesome. It’s always interesting to hear people when they join a company and then they start learning Elixir. What were some onboarding tactics that you guys did?
+
+
+[00:51:58] MM: It was a bit kind of like really practical. I just got started with some really easy tickets. I got taken through the project, shown where like everything lived in an Elixir project, which looked super alien to me on the first day but then got like a really simple problem to try and fix where they showed me examples of how it was done before in different areas. Then, yeah, just kind of kept building up from that and working with like the code reviews and people giving me suggestions and reading the docs. Over time, it's just gotten easier and easier, so it wasn't too bad. 
+
+
+[00:52:36] SM: Yeah. That's awesome. We'll probably circle back to that in a little bit but we want to give our listeners an idea of what your company does. Can you give us the quick elevator pitch?
+
+
+[00:52:45] MM: Yeah. GoFetch is basically a loyalty rewards program for going to the vet. Every time you take your pet in for a visit, you get five percent back on anything you've spent that day, which you can then go and spend on like future visits. In addition to that, you also get like 24/7 vet support where you can like quickly ask questions on the app and get like advice from vet professionals on what you should do next. 
+
+
+[00:53:13] SM: 24/7 vet support is like the greatest thing because when your cat swallows string, it always happens at the most inopportune time, so that's great. How is Elixir used in it? Sorry. Is it FuturePet or GoFetch?
+
+
+[00:53:28] MM: FuturePet is the company but GoFetch is the product. 
+
+
+[00:53:32] SM: Awesome. How is Elixir used there?
+
+
+[00:53:34] MM: We use it for our customer-facing app, so we have a React front end with Elixir in the back end. Then that's also used for like our internal management and everything like that as well. 
+
+
+[00:53:47] SM: Nice. Can you speak a little to why it's Elixir back end or React front end setup? Was there other setups that you guys considered?
+
+
+[00:53:57] MM: Well, that was decided before I started with the company. But from what I’ve heard, it was just that the developers thought Elixir was a really cool language and wanted to get started with it and like everyone was in agreeance with it, so it was just what was decided. 
+
+
+[00:54:14] SM: Nice. When you're hiring in for your project, are you hiring for Elixir or are you hiring for engineers who can learn Elixir?
+
+
+[00:54:26] MM: Yeah. Speaking from like my own experience with getting hired, I think we're mostly looking for people who can learn Elixir, mostly because I don't think it's like the most common thing to be able to find lots of Elixir devs for like such a specific position. But as long as you're like looking for someone who is able to pick up a language, who's already familiar with like other programming languages, it's not too hard to pick up Elixir I don't think. 
+
+
+[00:54:53] SM: Yeah, absolutely. I think we've seen the same thing here. Are there any challenges when you're hiring for Elixir?
+
+
+[00:54:59] MM: I suppose probably just that you need to find someone that's willing to pick up something new and also wants to and not just like stick to the same languages that they already have experience in. 
+
+
+[00:55:12] SM: Yeah. Nice. You touched on this a little bit. But when you were on boarding, were there any resources that you found very helpful or was it mostly pair programming?
+
+
+[00:55:21] MM: I personally have like mostly just been looking at all the Elixir docs and everything, and I found them like completely sufficient for what I was trying to do and just reading tutorials and everything as well. I think like the coding project for when I did the interview for this company, I was just reading tutorials of like what other people wrote and managed to get through it. I think the community like has lots of questions and answers, so that's all just been really helpful for trying to learn. In addition to obviously my co-workers and everything whenever I have a question, there's more than enough advice to be given. 
+
+
+[00:55:59] SM: Yeah. We actually hear that a lot that the documentation's so great that that's like the only resource that a lot of people need, so that's nice to hear, that reaffirmed. You mentioned something just now. Did you do your interview in Elixir while learning it or?
+
+
+[00:56:14] MM: Yeah. The coding project was in Elixir just to see. It was a like a pretty simple sort of thing but just to see how you handle like working with a new language. It was a lot of like a little bit of research to figure out like what I was doing and stumbling through. I think Elixir like looks a little alien at first, but quickly things start looking to make sense. 
+
+
+[00:56:38] SM: Yeah, absolutely. That's interesting. We'll definitely have to dive deeper I think maybe in some other seasons on what interview tactics look like for Elixir because I don't know if I’ve heard that one before. Maybe other people can attest to different scenarios, but yeah. Looking back on your onboarding process or when you were learning Elixir, is there anything you wish you had or something that might have happened differently to help you learn faster or more in depth?
+
+
+[00:57:05] MM: I don't think so. I think – Well, for me myself, I’m a very practical learner, so it worked really well for me. But maybe if you are or if you learn better in other ways, it would be nice to like be taken through more things in detail or do some pair programming with people who are already working with Elixir. But, yeah, for me personally, I really liked the way I like took on small tasks and started learning. 
+
+
+[00:57:35] SM: Nice. This last question is just for fun. We always like this one. If you weren't a software engineer, what would you be?
+
+
+[00:57:42] MM: I think I would probably like to be a graphic designer. I do like a lot of vector illustrations and stuff in my free time and have always done a lot of art. But, yeah, that's a bit of just like a little side hobby for now. 
+
+
+[00:57:56] SM: Yeah, absolutely. I also like doing – Well, I mostly make emojis. Our team can attest to that.
+ 
+[00:58:01] MM: Yeah. That’s fun. 
+
+
+
+
+[00:58:03] SM: Yeah. So that’s fun. That's always fun to see another graphic design/artist kind of out there, so awesome. Well, thank you again to Michelle Morry for joining us today. To all of our listeners, if you or your company are using Elixir in an interesting way and wants to come on the show for a mini feature, we'd love to have you. Reach out to us at podcast@smartlogicio with your name, your company's name, and how you're using Elixir. 
+
+
+[END OF INTERVIEW]
+
+
+[00:58:24] JE: Brian Howenstein, everybody. That's it for this episode of Elixir Wizards. Thank you again, Brian, for coming on the show. Thank you to my co-host, Sundi Myint. Thank you to my producer, Eric Oestrich. Once again, I am Justus Eapen. Elixir Wizards is a smart logic podcast here at SmartLogic. We're always looking to take on new projects, building web apps in Elixir, Rails, React, infrastructure projects using Kubernetes, and mobile apps using React Native. We'd love to hear from you if you have a project we can help you with. Don't forget to like and subscribe on your favorite podcast player. You can find us on Instagram and Twitter and Facebook, so add us on all of those and join us again next week on Elixir Wizards for more on adopting the Elixir. 
+
+
+[END]
+
+
+        © 2021 Elixir Wizards
