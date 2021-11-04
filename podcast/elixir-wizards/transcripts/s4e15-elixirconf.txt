@@ -1,0 +1,894 @@
+EW S4E15                Transcript
+Note: the timestamps on this transcript are off due to some editing fixes that occurred after the transcript was created.
+EPISODE S4E15
+
+
+[00:00:03] JE: Welcome to a special edition of Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host today. I’m joined by my regular co-host, Eric Oestrich. How are you Eric?
+
+
+[00:00:18] EO: Doing great.
+
+
+[00:00:19] JE: I’m very pleased to announce, we are also joined by SmartLogic's newest Elixir Wizard, Sundi Myint. How are you, Sundi?
+
+
+[00:00:27] SM: Good. How are you guys?
+
+
+[00:00:28] JE: Doing terrific. Today's episode is a little different from our regularly scheduled programming, because LiveViewConf, I mean, ElixirConf 2020 is right around the corner. September 3rd and 4th to be precise. Because we love you, we wanted to do a little preview of the conference featuring several of the speakers that are on the docket for ElixirConf 2020. First up, we are joined by Quinn Wilton, from — Quinn, I didn't even get where you worked.
+
+
+[00:01:53] QW: I’m actually at Synopsys right now. We were recently acquired. I was at a startup named Tinfoil Security before.
+
+
+[00:01:59] JE: I really want to ask about Tinfoil Security. Actually, yeah, can we just start there real quick? What is Tinfoil —
+
+
+[00:02:07] QW: — We do dynamic security scanning for web applications, web APIs and that sort of thing. The idea is that we plug that into your software development life cycle, so that developers can find and fix vulnerabilities as early as possible. Basically, we were doing that with this big distributed Elixir pipeline that would read in your API specifications and then generate fuzz tests that dates to your API — look for seed one injection and things like that.
+
+
+[00:02:30] JE: Who's the comedic genius that came up with the name?
+
+
+[00:02:32] QW: That would have been the founder, he goes by Borohovski.
+
+
+[00:02:36] JE: Okay. Okay. Well, Borohovski. Shout out, man. Good branding work there. You work at Synopsys right now. Do you want to quickly plug that? I mean, we'll give you time at the end too, so feel free if you want.
+
+
+[00:02:44] QW: Okay, cool. The team that I was on at Tinfoil, we got acquired by Synopsys, so we're continuing what we were working on with Tinfoil at Synopsys now. The idea is that Synopsys is a much larger security company than we ever aspired to be. They have teams doing static analysis and a software composition analysis and things like that. The goal is for all of us to build all of these different security verticals and integrate them into one really holistic security scanning solution. I’m now continuing a lot of the dynamic analysis work that I was doing, but with the idea of integrating it with every other aspect of security that we can automate.
+
+
+[00:03:23] SM: That's awesome. Is there something in particular that you're doing at work that inspired your talk, or is it completely unrelated?
+
+
+[00:03:31] QW: Yeah, a little bit. With dynamic analysis, it ends up being a pretty theory-heavy area of software development. There's a lot of data structures I’m working with. Algorithms that are really finicky to implement. That thing is a mixed bag in Elixir, because on one hand, Elixir is easily the most productive programming language I’ve ever used. It has a really consistent API, really great dev tooling and so on.
+
+
+The fact that it's dynamically typed means that I’m not always super confident that my code does what I think it does. At the same time, that's not necessarily a trade-off that I’m willing to make if it means giving up all the other benefits that Elixir has to offer. I don't want to just throw Elixir away and grab something like Haskell or Idris. That's just going to be completely overkill for my needs.
+
+
+The dream for me with Elixir has always been being able to leverage the Elixir ecosystem for all of the concurrency and fault tolerance needs that I need, but then dropping down to a smaller statically typed language for the really hard business logic, or really hard data structures. The algorithms that I really want guarantees — on regarding consistency and things like that. That was the impetus for me starting to investigate Gleam and how I could get it to interact with Elixir really well.
+
+
+I am doing a little bit of LiveView at work, but really the LiveView portion of my talk is just meant to be a really cool demo of how this symbiosis between Elixir and Gleam really does work in practice and you can do some really cool things with it.
+
+
+[00:05:06] SM: Cool.
+
+
+[00:05:07] JE: For me, and I’m sure lots of people out there, could you maybe give us a quick explanation of what Gleam is?
+
+
+[00:05:13] QW: Yeah, sorry. I did this backwards.
+
+
+[00:05:16] JE: No worries.
+
+
+[00:05:18] QW: That's something that we can flip around later if it works out that way.
+
+
+[00:05:20] JE: This show sometimes is like inception. Who knows?.
+
+
+[00:05:27] QW: Gleam is another programming language written by a guy named Louis in the UK. It compiles down to Erlang, but has a static type system that has type inference, like something like Haskell would. And is really meant to — I don't know. I’ve heard people describe it as a love language between Haskell and Swift. But is basically trying to make static typing much more approachable to people who don't necessarily have a deep CS background, or experience with things like Haskell. Then because it compiles down to Erlang, it is very easy to use it within an existing Erlang app or an existing Elixir application.
+
+
+[00:06:05] JE: Are you using this in a NIF or something?
+
+
+[00:06:08] QW: No actually, because it just compiles down to Erlang, you can call it from Elixir as if it were just an Erlang function.
+
+
+[00:06:14] JE: Okay. Sundi is reminding me that we didn't even tell the audience about the name of your talk, because you jumped right into it, which is how the show goes sometimes, by the way. The name of your talk is Type-Safe LiveView with Gleam. Maybe we can break down some of the words there. I also don't want to give away too much of your talk. I’m sure you've been working really hard on it. And it's really trying to save it for people who are attending ElixirConf — go buy a ticket. Anyway, please, deconstruct that title a little bit and tell us what we're in for.
+
+
+[00:06:41] QW: Yeah, let's see. What was it? It was Type-Safe Elixir with, or Type-Safe LiveView with Gleam. When I’m talking about type-safety, I’m basically talking about leveraging the compiler to get compiler-time guarantees about what your code is, what it's doing, what sorts of assurances that code can make, and what sorts of assumptions you can assume were hold at runtime. That can be things as simple as I expect this variable to always be an integer, or this variable to always be a string. I think that's normally what people think of when they think about things like type-safety.
+
+
+Really, type-safety can lead to so many more benefits as it relates to modeling your business logic and ensuring that your application never ends up in inconsistent states or impossible states. And things like that. That first piece of my talk title is basically about leveraging the type safety of another programming language, Gleam, in order to write LiveView applications that are easier to reason about and prove properties about than the equivalent Elixir code would be.
+
+
+[00:07:46] JE: Man, this was a great, great person to bring in for the first part. To me, it's exciting, like, different languages in the mix. LiveView is obviously super-hot. Eric was telling me in our back channel that my LiveViewConf joke did not land. We'll have to re-record that. Can you tell us a little bit about the process of putting together a talk for the conference. And what you may have learned or discovered that was maybe not going to make it into the talk that you were super-duper excited or surprised by?
+
+
+[00:08:19] QW: Yeah, absolutely. This has been an adventure for me. This is the first large English conference I’ve ever spoken at. I spoke once in Korea, but the audience didn't speak English, so I don't think it mattered. I haven't really had any idea what I have been doing as I wrote this talk. One of the big learnings has been that I only have half an hour, but there's probably a month worth of content I want to get through. I am kind of in this vicious spiral right now of writing more and more demos, showing off all the things that I want to do, but I haven't actually started any of my slides yet. I think I really — 
+
+
+[00:08:54] JE: You haven't started your slides yet?
+
+
+[00:08:56] QW: No. I keep changing my mind on what I want to talk about, because I keep getting better at Gleam and better at Elixir and learning more things I want to show off.
+
+
+[00:09:04] SM: That's amazing.
+
+
+[00:09:05] QW: I really need to switch that around and cut down the scope of my talk and make the presentation first, I think.
+
+
+[00:09:12] JE: I’m laughing with you, because this is exactly how I did my talk in 2017.
+
+
+[00:09:20] EO: I will also admit, I have about four slides that are copy pasted from ones I’ve done previously, but it doesn't really count.
+
+
+[00:09:27] QW: Yeah. I’ve heard the same from other people. I think this might be a really common problem. If you're talking about something you're really excited about, you don't really want to take the time to slow down and distill what you're learning into something for other people — when you just want to keep going and learning more. I guess, next time I do this, I will try to slow down quicker, so that I can put together the context for what I want to talk about and make sure I have a finished product by the time the conference is ready.
+
+
+[00:09:57] JE: Slow down quicker. I love that.
+
+
+[00:09:59] QW: Slow down quicker. Yeah, I guess that's what I said.
+
+
+[00:10:01] JE: You put this really nicely like, “Oh, I need to take more time to think about how it's going to go, because I’m really passionate about the subject. “Well, I’m just procrastinating.”
+
+
+[00:10:11] QW: I keep talking to a friend of mine and he's like, “What are you doing tonight?” I’m like, “Oh, I started work on the disassembler that I’m going to be showing off.” He's like, “Sorry, are you working on a disassembler now, or have you done any slides yet?”
+
+
+[00:10:21] JE: What is a disassembler?
+
+
+[00:10:22] QW: Oh, okay. One of the demos that I’m giving off during my talk actually — I was trying to think of things that are really difficult to do and dynamically typed languages. One of the things that came to mind was virtual machines, or emulators, programming languages, that sort of thing. There's a old programming language from, I want to say the 70s, called Chip 8, that was designed to run on some very old hardware gaming consoles, basically, to play games like Tetris, Space Invaders, Pong, that sort of thing.
+
+
+I am building a virtual machine for that language in Gleam that I am then rendering in LiveView, so that people can visit my site and play all these old games inside their browser using a LiveView driver that is calling out to Gleam for all of the CPU emulation stuff. As I was doing that I, of course, started running into bugs where some of my instructions wouldn't work properly and so on. Clearly, the next step was to write a disassembler for this programming language, so that I could find where my code was going wrong. Then I just went down the rabbit hole of building more and more tooling to work with this programming language. And to debug the program that I was trying to show off for ElixirConf that was probably far too ambitious to choose as a demo for a 30-minute talk.
+
+
+[00:11:33] EO: That's incredible. Yeah, so one thing to make sure you don't do is, like, live demos is — it's a little different now that it's virtual, I guess, because you probably have hardwired, or at least less overloaded Wi-Fi. That's definitely — you don't want to do too many demos.
+
+
+[00:11:53] QW: I think I might pre-record the demos, just in case I need to play that recording.
+
+
+[00:11:59] JE: That’s smart.
+
+
+[00:12:00] QW: I’ve had that advice from a few other people now and I think it's probably the right call.
+ 
+[00:12:04] JE: This site with all the games, it's not up yet, is it? Is it launching at the talk?
+
+
+[00:12:11] QW: There is a very work in progress GitHub repo up, but I don't have it hosted anywhere yet.
+
+
+[00:12:16] JE: Okay, because we do play games on the shows sometimes, just in the middle of the show.
+
+
+[00:12:21] QW: It's not quite ready. You can see the games. You can run some of them. Space Invaders works a little bit. Yeah, right now, one of the things that I am trying to figure out is how to get clock timings and input handling to work really well with LiveView, so that I can have the CPU running at the correct speed while reading user input from the user. Like a consistent rate and so on, but without overloading the process mailboxes by sending processes to the LiveView instance every 2 milliseconds to render a new frame or something. I’m doing a lot of work there right now to try to get that a little more reliable. If you were to play it right now, I think some of the input handling would be a bit finicky.
+
+
+[00:13:02] EO: That's just wild.
+
+
+[00:13:05] QW: It's been a lot of fun. Actually, my girlfriend and I went to the beach on the weekend, but I couldn't stop coding, so I had my laptop on the beach working on it.
+
+
+[00:13:14] JE: You're going to have a lot of people to stock. Everyone, this is great. Yeah.
+
+
+[00:13:19] QW: Don't tell me that. I’m nervous enough as it is.
+
+
+[00:13:23] JE: Well, no one's going to show up. Never mind.
+
+
+[00:13:25] QW: Perfect. That's exactly what I want.
+
+
+[00:13:28] EO: All right. I guess to — we'll save the rest of your talk for your talk, so go buy a ticket and see the rest of this. During the conference, what is another talk that you're excited about though?
+
+
+[00:13:41] QW: Yeah. There's one that Steve Bussey is giving — and I really hope I said your name right, Steve. I don't remember the exact name, but it is about how Elixir and Monoliths are a really great fit for each other. I don't know exactly what he's going to be talking about, but some of the cliff notes that he's given me make it sound like it's going to be a really enlightening talk. 
+
+
+Yeah, I don't want to spoil too much of what he's talking about and I don't know too much, but I think the idea is to be a little bit of a pushback against the move towards microservices for everything, and instead, leveraging a lot of the properties that the Beam gives you and Elixir in particular for project organization — to build really cleanly separated Monoliths that have the benefits of microservices, without the deployment overhead.
+
+
+[00:14:28] JE: You just sold me. I’ll be there.
+
+
+[00:14:30] QW: Yeah. It's something I’m very excited about personally. Steve is an incredibly smart guy, so I’m sure the talk is going to go over very well. That's one of the first ones I’m going to make sure I make.
+
+
+[00:14:41] EO: That's ‘The Joy of an Elixir Monolith.’
+
+
+[00:14:43] QW: Yes. Thank you.
+
+
+[00:14:45] JE: Where are you calling us from, Quinn?
+
+
+[00:14:46] QW: I am calling from the Bay Area in California.
+
+
+[00:14:49] JE: Oh, wicked. Yeah. No, Steve’s going to give a great talk. He was on the show this season and was much beloved by the audience. I’m sure that his talk would be — and I’ve seen him talk before and he's just a great speaker. Is there anything else that you would want to share about? I mean, we're trying to be protective of people's talks, because we don't want to give things away. At the same time, if there are things that you want to share that you can preview.
+
+
+[00:15:14] QW: Yeah. Like we touched on earlier, my talk is very much a work in progress with about a week and a half left to go. I don't know that there's too much I can spoil. Based on what I have said so far, what sounds most, or least interesting to you? Is there stuff that you would like to hear more about?
+
+
+[00:15:32] JE: Well, we're definitely planning on having a static versus dynamic typing royal rumble here eventually, featuring people who have strong opinions on that. That's fun, just participating in that battle. Gleam sounds super interesting to me. I don't know, Eric?
+
+
+[00:15:47] EO: This — writing your own VM and including a disassembler is just — I think that’s the most interesting.
+
+
+[00:15:55] SM: Yeah. I think that's what I know. Yeah, I think that's what I know the least about, so I think I’d be most interested in seeing that but — just because I recognize that as the word that I didn't know the most.
+
+
+[00:16:06] QW: Fortunately, it's a fairly small instruction set. As far as emulators go, it's probably the easiest one you could implement. My goal there was mostly to demonstrate that this Gleam-Elixir combination I’m experimenting with is useful for more than just your really basic trivial “Hello World” apps. I would still like to have another demo in there in the middle that's maybe closer aligned with what people normally use Phoenix for.
+
+
+I haven't decided what that will be yet. I might be writing a little chat server with the chat server written in Gleam and then call it from LiveView or something. I’m still working on some of the details there. Really, what I want to be showing off is this ladder of complexity, where I start with a really basic demo to show off how the interact works in the first place, move on to something more immediate that might represent what people do on a daily basis with Elixir. And then finish off with the emulator as just an argument against the idea that Gleam is a very new language without a large ecosystem, or community. And trying to fight against the idea that that means that it's not useful for real, complicated work. I’m really excited by the emulator from that aspect of things.
+
+
+[00:17:19] JE: Well, we're going to wrap it up here, so we can move on to the next segment. Definitely, we want to give you a few minutes to plug anything that you want. Shameless self-promotion is encouraged. The floor is yours.
+
+
+[00:17:31] QW: Okay. Yeah, I guess this is probably to be expected, but right now the thing I’m most excited about is honestly Gleam. I got involved with it a couple months ago after code beam, I think. It's an extremely welcoming community. There's probably only a dozen or so of us writing Gleam regularly, but we get a lot of work done. The issue tracker is always getting new issues added to it that are accessible to people who don't know Rust, or never built a programming language, or worked on a compiler themselves before.
+
+
+It's just a really welcoming environment for getting your hands dirty with a lot of these really cool ideas, like parsing, or type checking and that thing. If that's something you're interested in, we would love your help on any of the things that we are working on. There's a lot of cool stuff coming down the pipeline.
+
+
+[00:18:19] JE: Tight. That was a great plug. Really good plug. People sometimes don't know what they're going to plug. They don't know how they're going to pitch it. You did a great job. That's super cool. Yeah. Well, Quinn. Thank you so much for coming on the show. We're looking forward to your talk at ElixirConf 2020.
+
+
+[00:18:34] QW: Yeah. Thank you for hosting me. It was a great time.
+
+
+[00:18:36] SM: Yeah, thanks for being here.
+
+
+[00:18:38] JE: Next up, we've got Dan Lindeman from Very, back on the show, from the last time we had him on a live show. His talk is titled ‘Short Circuit IoT Development Time With Nerves’. Dan, so glad to have you back.
+
+
+[00:18:53] DL: Hey, really glad to be here. Thanks for having me again.
+
+
+[00:18:55] JE: Yeah. We were a little bit surprised that you accepted, because the show is so traumatic to be on. I understand there's a lot of pressure, a lot of people watching. Thank you for —
+
+
+[00:19:05] DL: — Like I said, I was really nervous if I would get an invite back at any point in time. Super excited.
+
+
+[00:19:09] JE: How is Grand Rapids, by the way?
+
+
+[00:19:11] DL: Oh, we're doing okay. It's been super nice weather. I actually get to be outside, which is a good change of pace and super hot, usually pretty muggy summer. Yes, trying to get outside as much as I can. Obviously, I’m currently outside soon enough.
+
+
+[00:19:24] SM: Nice. Dan, we would love to know if you could give us a general, “What's your talk about and what might we learn or get out of it?” If we are able to attend?
+
+
+[00:19:36] DL: Yeah. The 10,000-foot view is it's about development patterns and just ways that we approach things. I work at Very, it’s an IT consultancy. The joke there is that you have a full stack and then you have a full list stack, because we'll go all the way from hardware and then straight through your full stack. And then we also prepare data pipelines and data engineering for machine-learning and those sorts of things. We basically just take your regular everyday stack and extend it quite a lot. The thing that you learn when you do that a lot is that you already have most of the toolkit at ready. This is like this. 
+
+
+From a 10,000-foot view, just telling you it's either the most or least informative talk, because it just tells you things that you already know, but translates them into the world of IoT. A lot of the talk will be about the hardware aspects of it, since this project has the custom hardware that we built based off of some of the [inaudible 00:20:33], but we built a Nerves system for it.
+ 
+Then it wasn't quite new. It's unseeing the hardware IoT development cycle and just realizing it was best practice when development all along, the Scooby-Doo villain. Yeah, so we can all get like the easy things to get [inaudible 00:20:51], just like, you don't have to develop on Raspberry Pi to develop for a Raspberry Pi. That's one of the things about Nerves and Elixir that you can do. You can play around in the sandbox, just like you always do, but then you can parse down your deploy and make your build artifacts really tiny, because when you’re making firmware you don’t get to be really big. That's one of them.
+
+
+Then once you customize your system, what can you do with those things? I talk a lot about what — for this project since it's a solar micro-grid, they get deployed to some pretty remote locations.
+
+
+[00:21:30] JE: You said solar micro-grid.
+
+
+[00:21:32] DL: Yeah. This is a component in a solar micro-grid. I don’t have their names yet, because it's [inaudible] and everything. Yeah, so the deployments are devices that are in very remote locations. We're talking small villages in Africa. We're talking remote locations in possibly Canada, things like that. You might not get internet, unless it gets brought to you in a backpack, via satellite, for a little while. Some of the things we did were checking, do we have the internet? Surprisingly, they're very familiar to anybody who's developed any other application that uses Linux.
+
+
+[00:22:12] JE: I wanted to ask a little bit about that, which is who is the ideal audience for this talk in terms of experience level with hardware, or firmware or IoT?
+
+
+[00:22:21] DL: At first, I definitely — yeah, right, exactly. The fullest stack. At first, I thought that this would be advanced only, but as I kept thinking about what the real good bits were to take on, it seems appropriate for anybody. I was like, “Oh, well, I mean,” but to your beginner dev would say, “Yeah, I’ve heard about test-driven development. I’ve heard about verifying things from software docs.” Really just none of the things that you're learning at any stage are all that much different. You just have to learn to speak the language of your nearest — just like it seems to be JavaScript aware, if you're doing a Phoenix app. Or it's really nice to understand your operations if you're deploying a back-end, knowing how to chat the lingo with the next neighboring layers is always a good skill set. We just talked about some of the things you see when you're developing hardware or novel hardware, especially, for those devices.
+
+
+[00:23:19] EO: I’ve got two questions. First one, please tell me that you are, or will soon have a slide that has a Scooby-Doo villain getting the mask pulled off.
+
+
+[00:23:29] DL: Yeah. I think that's absolutely the theme of the talk, which is the things you didn't know you already knew. Yeah, I will for you specifically, even if I didn't already have this live prepared, I’m going to pretend like I definitely had that. Yeah.
+
+
+[00:23:44] EO: Perfect. Awesome. Then second, was there anything — as part of this. It sounds like you probably knew most of it going in, but was there anything that you learned while putting this together that was surprising to you, or anything like that?
+
+
+[00:24:01] DL: I would say for myself on this project, and I’ve been on a handful of IoT projects but I got to work with Justin Schneck and Daniel Stoppard. When we’re working with those two, it’s just like having your brain attached to a rocket. I kind of feel like I got to learn almost everything. Justin has a really good way of taking the topics and saying, “Well, what do you need? This is the way the one thing works, but it really works like this the other way.” I felt like I was just learning a ton, also spending a lot more time with hardware docs than I thought that I would. Yeah. The thing that's juicy there is that software docs lie all the time. I mean, Rumor isn't any different. We're all terrible at documenting, how things work.
+
+
+[00:24:46] EO: I feel like hardware docs, at least to me they feel they would be a lot worse, just because they — it seems like it would be a 200-page PDF with size 5 font.
+
+
+[00:24:57] DL: Yeah. We do a little bit better.
+
+
+[00:24:58] EO: With lots of tables.
+
+
+[00:24:59] DL: Yeah, software does a lot better at making them something that's easier to navigate, like hack socs. or something, where you just poking around a website. They are PDFs. They're all multi-megabyte, almost gigabyte PDFs. That much is true. Navigation is a little bit more difficult.
+
+
+[00:25:15] SM: I imagine they change less, yeah?
+
+
+[00:25:17] DL: Yeah. That's a really interesting, is that — well, you can get a pretty good picture of what's going on with one mill, I’ll be pretty close to similar. Yeah, because they have different tolerances and things like that. Yeah. Then I think probably, the last thing that I was really grateful to learn was that these parts of our deployment and development process, actually had a nice story-like narrative, which is always really helpful when you're writing a talk. That they all tied into one app.
+
+
+Yeah, I would say, every project, you always learn a ton. This particular project just had a nice through-line we could pull out and say, look, it's — I think that hardware and emergency development is very scary. When I first got my teeth testing automotive info-tainment systems.
+
+
+[00:26:05] JE: How did you cut your teeth? Were there like wires involved or?
+
+
+[00:26:09] DL: — Yeah. No. The figurative cut my teeth. I miss-wired something and we actually had a — the fire alarm bulb. This came in first forward and downwards. I know how scary it is, because I think that that was in the first year as a developer of anything. I mean, you [inaudible 00:26:32] pull on you. That happens less nowadays, which is great.
+
+
+[00:26:37] EO: That has to be a similar feeling to deleting a production database.
+
+
+[00:26:43] DL: It is a similar feeling, especially when you're outside with your colleagues and you're just sitting there. It's the hot feeling on your cheeks and the back of your neck, where it’s like — 
+
+
+[00:26:54] EO: I’m just going to go home now.
+
+
+[00:26:56] DL: Yeah. Or just, I’m going to be silent and really touchy for the next couple of hours. It's scary, but it doesn't have to be so bad. You can use the tools that you know to make it less scary. We use TDD to reduce risk in software.
+
+
+[00:27:11] SM: Yeah. I’m excited that you're saying that and you're taking that approach as somebody who's never worked in hardware, or gotten a chance to work with Nerves. That's really cool that you're branching out to all different levels too, as the target audience for your talk. That's really cool.
+
+
+[00:27:26] DL: Yeah. I think it's very important to have little breadcrumbs for the folks who are already into hardware and firmware development, but brought large — I mean, the only way we can grow our ecosystem is by having new people try it out. Every talk can't be for the most advanced of the most advanced. At some point in time, we've got to get some new people. Especially too when you're working on a framework like Nerves, or working with Nerves Hub.
+
+
+One thing I think a lot of people don't realize is that a way to give back to an open source project is by using it and having problems with it. Even if you're just commenting on an issue, that's like, “Oh, I saw that too. It was using the BeagleBone, whatever, and anybody else?” [Inaudible 00:28:09]. It's a huge way to get back.
+
+
+[00:28:13] JE: I think this is primarily how I contribute to open short. Submitting issues. Yeah.
+
+
+[00:28:19] DL: I tried something, it didn't work. Anybody else? Yeah, there’s probably dozens.
+
+
+[00:28:25] SM: Nice. I’m curious, is there another talk at ElixirConf that you're really excited to hear about?
+
+
+[00:28:32] DL: Yeah. Besides my teammate’s talk, so Jenn Gamble also works at Very and Justin Schneck. I’m always excited to see friends of my colleagues step up on the stage. Julian Helena has talked about Elixir for a better Java dev. I’m very much a chocolate and peanut butter type person. I think that different languages help us learn and understand the world better, learning, and understanding ourselves. Also, [inaudible 00:28:59] sometimes. I’m very excited just to see other languages put [inaudible 00:29:04] in Elixir light.
+
+
+[00:29:06] SM: Awesome.
+
+
+[00:29:07] JE: That is an awesome little shout out you did for your colleagues there. I like that. That was very subtle and very well done. I want to give you some time though to wrap up and plug anything that you want. A shameless self-promotion is encouraged. The floor is yours.
+
+
+[00:29:23] DL: Yeah. My SoundCloud, you should check it out. I’m just kidding. I do not — there’s no SoundCloud. I would say, the main thing I’m looking to get across this was really the main big lesson. We already mentioned it earlier, the top of the segment was developing Nerves Projects can be done on your laptop. The idea of you don't have to do it in a pie to make it for a pie is just, you can get used to it. It's very familiar to you. It's very Elixir-y. You don't have to make the full plunge. 
+
+
+If you want to start getting LEDs to blink and stuff like that, sure, yeah, buy the thing. But you can get your feet wet and you can get pretty far into the Nerves ecosystem on your laptop. I’m saying that's a plug. Use Nerves. Use Nerves stuff if you're going to be maintaining, hopefully. It makes a lot of things that are easier to get right.
+
+
+[00:30:14] JE: Awesome. Dan Lindeman, thank you so much for coming back on the show. He's working over at Very. His talk is titled ‘Short Circuit IoT Development Time With Nerves’.
+
+
+Next up, we've got Jeffrey Utter from Bleacher Report. His talk is titled ‘Debugging Live Systems on the Beam’. Thank you for joining us, Jeffrey. How are you?
+
+
+[00:30:36] JO: Hey, I’m good. How are you guys?
+
+
+[00:30:38] JE: I’m doing great. Thanks for asking. Nobody really asks us. That's nice. I feel like I’m on the other side of the table. You're calling us from Topeka. You've got this talk, ‘Debugging Live Systems on the Beam.’ I think this is probably something a lot of people are going to be interested in. Do you want to give us the 1,000-foot view, the elevator pitch for your talk?
+
+
+[00:30:57] JO: Sure, I can do that. Yeah, debugging live systems on the Beam. What we're really talking about is your last line of defense in troubleshooting production systems. A lot of people have good logging in place and maybe some APM stuff, or tracing through Datadog or something like that. Sometimes, problems arise that you just don't have the info that you need to figure out what's going on and how to track down the problems.
+
+
+Yeah, the talk goes through some tools that are built into the beam and one library that's built on top of the tools that are built into the beam to get some introspection into systems while they're running. If you'd like, I can go into a scenario of when you might reach for said tools, which I’ll talk about in a second.
+
+
+I’m sure most people building stuff on the Beam deal with asynchronous stuff, either tasks or they're processing background jobs and maybe Obon, or something like that, or dealing with Kafka, RabbitMQ, something like that. Things happen outside the path of a web request. Occasionally, you'll get into a situation where the web request works fine, a user makes a request to, I don't know, pay for something. It's supposed to trigger some behavior on the back-end, maybe update some values in the database or something, but it doesn't happen. You look at your logs, nothing. Everything looks good.
+
+
+It shows there's traces, but they're all green. Everything looks good and happy. Something is going wrong, but maybe it's not wrong enough to raise an exception. Could be a business logic bug or something like that.
+
+
+What a lot of people do, and I know I used to do this back when I worked in Ruby, your live defense is inserting log statements and then deploying the production and playing log whack-a-mole. The Beam has some really great tools built in to introspect running systems. There's, in the sys module, there's the trace function, which is what everything else is built on top of. It's really low-level and probably not the tool you want to reach for when you get into these situations, but it can do a few things, like you can tell it to trace a certain module. A function in a module whenever it gets called and do something with that right. That's where the danger can be in with that.
+
+
+There's also the debug module, which builds on top of that a little bit. It has a little bit more safety around it. Yeah, my talk, I just go through an example of how you use those tools, how you can define calls to certain modules and functions in a running system. I also talk about match specs, which is perhaps the most powerful part of that. Let's say, you know there's a problem only when a certain user does something. It gets to this module and function, but you don't want to log out a 1,000 calls to that. You just want to match when that user's UUID gets passed in or something like that. We talk about match specs and how you can use that to really hone in the debugging.
+
+
+Well, yeah. I don't want to give away the punch-line yet, but we cover Freddy Bear's Recon Library, which wraps those things in a really, a good, safe, battle-tested interface that stops you from shooting yourself in the foot when you try to introspect this stuff. We talk about what that actually gives you and how you can use it. Yeah, that's what the talk goes over.
+
+
+[00:34:17] SM: Awesome. If you had to gauge what the level of experience for the audience would be for your talk, what would you say that would be?
+
+
+[00:34:25] JO: I think, to use everything that I’m talking about, probably intermediate, but I think there's value to beginners too. Just to be aware that these tools are there. You can test them out on non-production systems. You can try them out locally. Anywhere you can get an Elixir or lying shell, you can use these things. It's certainly something that anyone of any experience level should be familiar with and know that those tools are there. You might not need to know all the syntax and ins and outs off-hand, but certainly just being aware of them is helpful for anybody at any level.
+
+
+[00:34:58] EO: Yeah. We had a client that was on Python, I think, a few months ago. It was so weird to go back to not being able to introspect. The Beam is pretty amazing for that. All right, so was there anything interesting, or surprising that you didn't know before starting writing this talk and doing research?
+
+
+[00:35:22] JO: Yeah, I think so. There's one thing that I didn't really know and then a couple things that have come out of this that I’d like to dig into more. One thing I didn't really know, I learned this, I don't know, technique I guess, initially using the Recon Library. And I didn't really know how capable the built-in tools were, the sys-trace module and particularly the debug module. There's still some ways you can shoot yourself in the foot using those, because they're a little bit lower-level and they're not as batteries included, I guess.
+
+
+If you are rolling onto a new project that doesn't have Recon installed and all you have is the built-in stuff and you can get a shell and there's a problem, you can definitely tackle it without the higher-level tools. Then the stuff I’d like to follow up more on is, I’d like to dig more into what Recon really gives you and it's a really well battle-tested library. I’d like to learn more about what that gives you on top of the other options.
+
+
+Recon, doesn't do distributed tracing. It only works on a single node. It seems like it would be possible to build something that worked in a distributed system better. I imagine it's a lot harder than you'd expect, because the part of the problem is there's a lot you have to clean up when you shut down a trace, or even if your shell disconnects, you don't want to leave processes running that are introspecting all of your production traffic or something like that. That can add a lot of load to your system.
+
+
+Recon handles that all really well on a single node. It seems like there should be ways to build that work distributed, but it's probably a lot more work than I would think, but I’d like to look into that a little bit more.
+
+
+[00:36:56] JE: Can I just jump in real quick and ask you how you came up with this idea to talk about this?
+
+
+[00:37:00] JO: Yeah. I’ve known about these tools for a while. I guess, usually it just comes up from time to time at work. Somebody else will have a problem where this happens a lot with dealing with Kafka consumers and stuff. I want to be publishing a message on one side and then it doesn't work on the other side. You don't know, like, “Is it not being published? Is it not hitting the consumer? Is it hitting the consumer and then blowing up?” This tool can be really helpful once — it could just be like an environment configuration. Maybe your environment variables point to the wrong topic or something like that.
+
+
+It can be something that simple, but it's something that you can't really recreate locally. That happens a lot. Not a lot. It happens at work sometimes and it can be really frustrating to debug, so it's one of those tools that I reach for and I maybe take for granted. Like how much exposure to it other people have had. Yeah, that's why I’m giving the talk is to help other people get that exposure.
+
+
+[00:37:51] SM: Awesome. Speaking of talks, are there other talks that you're excited to hear, or attend yourself at ElixirConf?
+
+
+[00:38:00] JO: Yeah., I was just looking over the page earlier. First off, I just want to say the lineup looks great. There's so many good speakers and such a variety of talks. I’m really impressed at the lineup that they've scheduled out. If I just had to pick a couple offhand, I’m looking forward to Luciano’s talk. He's talking about building a new data structure. Particularly in the end of his blurb, he said something about using protocols are “Enumerable and collectible.” 
+
+
+Collectibles are one of those things where I’m like, I think there's some really cool things I could do with this, but I never know what to reach, when to reach for it, so I’m looking forward to seeing a good example of that. Then also Catalina’s talk about gRPC and Elixir microservices. We do some stuff at Bleacher Report with protobufs. We don't use full gRPC, but I’m just curious on another take of coordinating services, using something else other than JSON over HTTP.
+
+
+[00:38:51] SM: Awesome.
+
+
+[00:38:53] JE: Yeah. Luciano might be coming on the show right after this. Yeah, he will be flattered to hear that you're looking forward to his talk. I don't know. Will we tell him though? We're not live, so it's not like he would know, unless we told him. We should tell him.
+
+
+[00:39:08] EO: We should tell him.
+
+
+[00:39:08] JE: We should definitely tell him. Hey, it's nice to hear you on the show. We'll be happy to hear that. Very cool. Well, listen. We've got a little bit of time left. I want to make sure that you've got a platform to plug anything that you want to plug. Shameless self-promotion is encouraged. If there's anything else that you wanted to say about your talk that, without giving away the gander, or — that's not a saying. I just make these sayings up. Yeah, the floor is yours.
+
+
+[00:39:30] JO: Yeah, I don't have a ton to talk about. I’m not doing a lot of open source work right now. One thing I do want to plug though is the KC Elixir meetup group. It was just a local in-person group, but given the state of the world, we’ve gone remote and you can go to kcelixir.com and see what talks are coming up. You can join our Slack and join the talks too if they fit your time zone and everything.
+
+
+It's a really great group. Some really smart people. A lot of them speak in the community too. It's just an awesome group. If you can fit that in your schedule to come to some of our meetups, be super great. It's a great group.
+
+
+[00:40:03] SM: Nice.
+
+
+[00:40:05] JE: That is a very, very worthy plug. Absolutely. Thank you so much, Jeffrey, for joining us on the show. That was Jeffrey Utter, everybody, from Bleacher Report. His talk is titled ‘Debugging Live Systems on the Beam’. Check it out at ElixirConf 2020.
+
+
+Next up is Luciano Ramalho from ThoughtWorks. His talk is titled ‘UintSet: enumerable, streamable and understandable. Luciano, welcome to Elixir Wizards. Thank you for coming on the show.
+
+
+[00:40:32] LR: Well, thank you very much for the invitation. I’m honored to be here, because I’m also honored to be selected to speak at ElixirConf. It’s going to be my first international talk about Elixir.
+
+
+[00:40:43] JE: Well, we are looking forward to your talk. Jeffrey Utter, who was just on before you, said that your talk was the talk that he was most looking forward to seeing.
+
+
+[00:40:53] LR: Oh, that's awesome. That's cool.
+
+
+[00:40:55] JE: No pressure.
+
+
+[00:40:58] LR: I’m very, very glad to hear that.
+
+
+[00:41:01] JE: Let's just start right at the talk. What is your talk about? Give us the elevator pitch.
+
+
+[00:41:06] LR: Okay. Basically, the idea of the talk is — I was reading actually a book about Go, The Go Programming Language, which is one of the finest programming language books ever written, in my opinion. I have a bunch of them. It's written by — well, one of the authors is Kernighan from the K&R. K in Kernighan, in K&R. Anyway, Kernighan is a great author and the book is awesome.
+
+
+One of the examples that they have there is a set type that holds integers, but instead of holding each integer in its own word, it uses just one bit per integer, because it uses a bit vector. I thought that was a really cool idea. Then I started implementing it in other languages to see how that goes in other languages. The first language that I implemented it is in Python, which is my specialty. Then I implemented it in an Elixir.
+
+
+Python and Elixir are very interesting, if you do this exercise of implementing this set type, you discover that it's much easier to do it in those languages, because both languages have arbitrary precision integers. Basically, what they did in Go, using an array of UInt to hold the bits, in Elixir, we use just one integer. The integer holds the entire set of integers. How does that work? If bit 0 is 1, that means 0 is a number in the set. If bit 0 is 0, then there is no 0 in the set and so on. That's the idea. This is a fun, interesting way to think about how to implement a set.
+
+
+Then the idea of the talk is to show how to put on top of this implementation that's completely different from the implementation of map sets in the language. You can put an interface on top of it that looks exactly like a map set, with the difference of a single method. This wasn't the elevator pitch. Anyway, so the difference was a single method, which is the method size becomes length, because of the convention.
+
+
+That in my case, I have to actually go through all the bits to count them in order to answer the size, or is it the length? I forgot now. Anyway, one of them is supposed to work when you have the answer directly, regardless of that size of the collection. The other one which you have to traverse.
+
+
+The elevator pitch — how you can implement data structure that is idiomatic Elixir, using the API that you can get inspiration from another existing data structure. In order to do that, you leverage protocols and you also leverage streams, which are two cool features.
+
+
+[00:44:07] SM: That's really interesting. If you had to choose an audience, or if you had to give an idea of what audience, beginner, intermediate, advanced, what would you say the audience would be for this talk?
+
+
+[00:44:20] LR: I tagged it intermediate, because I think understanding, anybody who uses Elixir is using protocols, but they may not know. I think one of the things that differentiates somebody that's a beginner from an intermediate programmer in a language is when the person starts to understand how the main abstractions actually work. The intention of this talk is actually to show that. How do you implement a protocol and how do you implement a streaming API?
+
+
+[00:44:51] JE: Eric?
+
+
+[00:44:54] EO: Was there anything as part of giving this talk, and I mean, I guess maybe it was just as part of writing it in Elixir, was anything interesting or surprising that you were doing that you learned from researching this?
+
+
+[00:45:07] LR: Yeah. I think the first pleasant surprise was to see that it has this arbitrary size integer, which makes the implementation super easy. Then it was actually my excuse for myself to learn how to implement protocols. I think it's a very good way to understand how these things work, if you can do it, do something of your own that uses them. It doesn't mean that in our daily lives, we as Elixir programmers are going to be implementing new protocols all the time. But it's important to know how the protocols that exist work. Also, if you work in a product company that wants to create libraries, or exposed APIs, then it's important to understand how to do interfaces that are idiomatic. Basically, you write idiomatic code by imitating code that's considered idiomatic, right?
+
+
+[00:45:58] JE: This is what I was going to ask is with such a new language and ecosystem, how do know what's idiomatic? Do you have any resources that you use to develop a sense of what is idiomatic Elixir?
+
+
+[00:46:11] LR: Well basically, looking at the standard library. I think that's the best way to see idiomatic code, I think. The advantage of this example of mine over map set, which is in the standard library, is that the implementation of UIntSet is much simpler. Of course, it's much more limited, because it's a set where you can only put numbers, integers. You can't put anything else.
+
+
+Basically, pretty much the vast majority of the functions in the interface are one-liners and short lines at that, because for instance, how do you compute the intersection between the two sets? It's just a bitwise end. That's it. Basically, it's three ampersands that you import from bitwise module. Then you put the bits of one set, three ampersands, the bits of one and the other set — intersection, done.
+
+
+[00:47:07] SM: Great. This is maybe an interesting question, but what are you hoping to gain from, or what are you hoping the audience gains from your talk?
+
+
+[00:47:17] LR: My claim to fame so far is that I’ve written a book about Python called Fluent Python, okay. The book was very well-received. It was translated to eight different languages. I wrote it in English, but it was translated to several other languages. When I taught Python over the years, I taught Python to a lot of people coming from Java for instance, or C++. Then these people were always looking for things that they missed in their languages and sometimes not finding other things that Python provides, because the approach is different.
+
+
+My focus, as I studied Elixir, is the same. I think when you approach a new language, you have to be humble. If there is something that you feel is missing, because you use this other language before and you don't find this feature in this new language, it's probably not a lack of vision of the design, of the new language, it's more likely that there's another way of doing it, another approach that solves the problem.
+
+
+My idea for this talk is to show, particularly protocols, I think, are very important for you to understand how a lot of the idiomatic data structures in the language work. Once you understand them, then I think you can leverage what's already there better and you're better prepared to create your own data structures when that's necessary.
+
+
+[00:48:49] SM: Great. Awesome.
+
+
+[00:48:52] JE: Luciano, we want to give you the rest of the time to plug anything that you like, promote your talk or any projects that you're working on, or any companies that you're working for.
+
+
+[00:49:05] EO: We’ll edit this out, but we do have one other question before that. What's another talk that you are interested in watching?
+
+
+[00:49:14] LR: Yeah. Well, thank you. I prepared for that, but it's super hard for me to pick one talk, because ElixirConference, for me, is always very exciting. I was there the last two years in person. It's exciting, because it's a language that is used in very interesting domains. IoT, for instance, there's a lot of stuff. It's also exciting, because if you pick a topic, like for instance, I know you just interviewed Japa Swadia. Sorry, I probably mispronounced her name. Didn't know.
+
+
+[00:49:48] JE: We actually didn't get — she had to reschedule today, so we're going to talk to her tomorrow and edit her in.
+
+
+[00:49:53] LR: Okay. Anyway.
+
+
+[00:49:55] JE: The audience is part of the show here, though.
+
+
+[00:49:57] LR: Okay. Anyway, her talk is ‘Domain-Driven Design with Elixir’. So, domain-driven design, everybody talks and has been talking about that for years in other communities. It's interesting. The Elixir twist for me makes it interesting. How do we approach this? Also, Stephen Bussey’s talk, ‘The Joy of an Elixir Monolith.’ I think it's super interesting when you see this whole movement towards Docker and cloud and Kubernetes and so on and they're basically reinventing everything that Elixir, or the Erlang ecosystem has had for more than 20 years.
+
+
+For me, as a consultant, it's interesting to understand how much does the Elixir ecosystem, or the urban ecosystem actually needs this stuff. And how do we interoperate with this other modern architecture? ‘The Joy of an Elixir Monolith’ sounds like a very good title for me, because no Elixir application is as monolithical as a Ruby application, or as a Python application, because of the very nature of the infrastructure.
+
+
+Yeah, so I was also interested in the case. The case is about using Elixir for COVID-19 monitoring and for monitoring hydropower plants with Nerves. Then LiveView is an exciting topic for me and also teaching. I love to teach. But I think, I said that I was at a Nerves meetup last year during ElixirConf. I said that as a teacher, I feel like Nerves is super cool. Elixir is also super cool. The ecosystem is geared towards engineers. How do you do a “Hello World” in Elixir? You have to learn a lot of tooling to do that.
+
+
+Of course, there are now terminals on the web that you can use to play around with Elixir. That's interesting. I think we should, as a community, I would love to see us develop something that is like processing.org. You know that? Processing.org is a very simple IDE that allows you to draw stuff using a very well-chosen subset of Java. It makes java accessible to beginners, makes it fun and there's this very simple API that's basically for artists to expressive. Yeah, did you like that?
+
+
+[00:52:24] SM: I used it in college. I did some really cool stuff. I generated some really cool art and then laser printed it on Plexiglas.
+
+
+[00:52:30] LR: Oh, that’s awesome.
+
+
+[00:52:31] SM: I think that was the most fun I ever had in college. Yeah.
+
+
+[00:52:33] JE: Processing.org is real?
+
+
+[00:52:35] LR: Processing.org is the name of the place.
+
+
+[00:52:38] JE: Well, when you said it made Java fun, I thought, it was like, “You're joking, you're just making something up.”
+
+
+[00:52:44] LR: No, no. I know. Same feeling here. This I know, it was a radical statement and it's true, isn't it, Sundi?
+
+
+[00:52:50] SM: Yeah. No. It was very fun. I’ll have to go dig up some of the art I made with that code.
+
+
+[00:52:55] LR: No, to begin with —
+
+
+[00:52:55] SM: The code is gone, but art is around.
+
+
+[00:52:57] LR: Yeah. Oh, cool. To begin with, you don't need to create a class to do anything. You're basically implementing methods, because there is a ‘god class’ that's an anti-pattern, but in that case, it's really great, because you create methods and then you – it works. It's great. Yeah, so I’m excited about a lot of stuff. I love this conference. I also like that there's a – I saw there's a Nerves talk. Oh, yeah. Eric, Eric Oestrich. Is that you? You probably have a lot less beard than I see here. Yeah.
+
+
+[00:53:32] JE: All right. We're going to save this. Luciano, thank you so much for joining us on the show. I want to give you a minute to plug anything that you want to plug, shameless self-promotion. Take it.
+
+
+[00:53:43] LR: Well, I don't know what to plug. I was at another conference the other day, [inaudible 00:53:46], where they have a hallway track in an online conference, which I really enjoyed. I hope we can come up with something like that during ElixirConf as well, because I love to meet people at conferences. If I want plug something, I would plug. Please come up with me and let's talk like we're talking now, maybe with a glass of beer, and I would really enjoy that. Okay. Thank you, Eric, for your talk. I think that's going to be super interesting. Beginner Nerves talk.
+
+
+[00:54:14] JE: Luciano Ramalho, everyone, from ThoughtWorks. Thank you so much. We're looking forward to hearing your talk, ‘UintSet: enumerable, streamable and understandable.’
+
+
+Up next is Melvin Cedeno from where? Where do you work, Melvin?
+
+
+[00:54:30] MC: Oh, I work at SmartLogic.
+
+
+[00:54:32] JE: Oh, really? How is that?
+
+
+[00:54:34] MC: That’s a consultancy. You might have heard of it. That's not too bad. Not too bad. They treat me good.
+
+
+[00:54:38] JE: They treat you good. They treat you all right. Is the team over there, are they smart? Do you learn anything?
+
+
+[00:54:45] MC: I hear the term is they’re Smart-logicians. Logicians, something like that? Who knows?
+
+
+[00:54:52] JE: Oh, man. It's not cringe. It's not cringey. Super glad to have you back on the show, Melvin. Yeah, that's right. Melvin works with SmartLogic now, so now we have an entire segment of just SmartLogic wizards here. Melvin, you're giving a talk at ElixirConf 2020.
+
+
+[00:55:10] MC: I am.
+
+
+[00:55:12] JE: What's it called? Give us the elevator pitch.
+
+
+[00:55:13] MC: For sure. It's called ‘Teaching Functional Programming with Elixir’ and essentially just things I’ve learned from teaching intro to Elixir classes over the past two years. Yeah, that's pretty much just — that's the elevator pitch.
+
+
+[00:55:28] JE: Can you talk a little bit about — I mean, it sounds like you've got a specific experience level that you're targeting. Can you talk a little bit about who should come and what they'd be getting out of the talk by attending?
+
+
+[00:55:39] MC: Yeah. I’d say, if your company has any training, where they are educating folks, it might be a good talk to attend, just because one thing I’ve learned over the years is that just because you can do something, doesn't mean you can necessarily teach it. I mean, this is just some of the things I’ve learned from teaching a couple of classes, yeah, over the past two years, give or take. Probably two years. Yeah.
+
+
+[00:56:02] SM: Yeah. I actually heard a hot take recently about how the worst person to teach something is an expert on it, or teach it to a beginner, because if you're an expert, you might overthink the way you teach it. So you have to really think about that. Be interesting to hear your take on that in your talk.
+
+
+[00:56:19] MC: It's been fun. It's been interesting trying to figure out what exactly my process is and how I came to it, but a lot of it's things I’ve learned from martial arts and playing guitar and leading chamber choirs and stuff over the years.
+
+
+[00:56:32] JE: You lead chamber choir?
+
+
+[00:56:34] MC: I did chamber choir for 10 years.
+
+
+[00:56:38] JE: Bro. That's the coolest thing I ever heard.
+
+
+[00:56:40] MC: I used to run the tenor section and the bass section. Music was a big part of my background. You had a guitar back there.
+
+
+[00:56:46] JE: Do you know about shape note singing?
+
+
+[00:56:48] MC: Shape note singing. I have not heard of this.
+
+
+[00:56:51] JE: Oh, man. Dude, when you come out here, we're going to go shape note singing.
+
+
+[00:56:56] MC: Okay. Fair enough.
+
+
+[00:56:58] JE: You're probably going to school me, because I don't know anything.
+
+
+[00:57:03] EO: I have a friend that does this. He's big into it. Yeah.
+
+
+[00:57:07] JE: It's really cool. I think anyone can do it. It's easy to learn. I actually don't even really know what I’m doing. I just sound it out. I’m not at all an expert, but I love to go when I can. Yeah, I was curious, Melvin, because you've got an interesting background, and so I thought that maybe you could touch on it — and how it led you to the genesis of this idea. You mentioned several of the hobbies, etc., that you have, but talk about the idea. Sundi’s cat is distracting me. Talk about how you came up with the idea and a little bit about your background that might have led you there.
+
+
+[00:57:37] MC: Yeah. I went to Turing. It is a coding boot camp type school. That's seven months long. During my time there, I got really heavily involved with mentoring. I still mentor folks. I have 12 or 15 mentees right now. At some point, I started teaching intro to Elixir classes, mainly because I wanted folks to have other things on their resumes that would help them stand out in their job hunt. The classes, people like them, and I like teaching them. I just kept doing them, whether it was just a big class, 20 people plus or one-on-ones, or two to three. Just kept doing them.
+
+
+I saw the ElixirConf. They were asking for speakers. I figured, “Huh. Well, I could probably do something on teaching classes, because I feel that's probably relevant, especially now that everything's remote.” So I had to do a couple classes remote and a couple of things I learned from that, which I thought would be a lot harder, but I think it made things easier in a way, if that makes any sense.
+
+
+[00:58:35] JE: Talk about it.
+
+
+[00:58:36] MC: I don't know. It may be a lot more focused. When I was in a room with folks, or in the basement of Turing, I’d rely heavily on the whiteboard and I’d just wing a lot of things. Now that it's remote, I have to be more cautious of people's time. It made me just really drill down and get my curriculum down, get the agenda, have all the timing set. It forced me to become more, what's the word? Organized. That's a weird little benefit that came out of the whole remote teaching is it just makes you like, all right, what exactly do you need, versus before, I could just talk to a room, have a whiteboard and then it would just go all over the place. They'd still find it useful, but I think the classes have gotten better.
+
+
+[00:59:20] JE: I can tell you, Melvin, from having worked with you now for a little while that you're probably the only person I know — and sorry to everyone else in SmartLogic, but Melvin will call me and he'll be like, “Hey, you have three minutes?” The call will take exactly three minutes. I’m like, “Yes. I have three minutes for you, Melvin,” because it's actually three minutes. That's awesome.
+
+
+[00:59:45] SM: When you were putting together, or researching for the presentation, was there anything that you found particularly interesting or surprising while you were researching?
+
+
+[00:59:54] MC: I was just trying to figure that out. Yes. I think a lot of it has been really me narrowing down, figuring out what is my actual process. Why do I teach the way I do? Why do I mentor the way that I mentor? A lot of it just comes down to all my experience and background in music. When you're teaching a piece, or teaching a musical concept, it's the same deal. I mean, I didn't realize how much of that overlapped. I started really breaking it down, because before I’d just be like, all right, I have a curriculum, I have some folks, let's do it.
+
+
+This talk has actually really forced me to think about why, because originally I was thinking like, “Oh, well. I have a curriculum. It's six hours long. I could take parts of that and make a 20-minute talk.” Really, it's like the talk's barely going to go into the curriculum at all. It's just going to be things that I’ve learned from teaching and having TAs, how to manage TAs, how to bring them in, make sure everyone feels the time that their spending is valuable.
+
+
+[01:00:56] JE: I bet that we have a lot of people listening right now that are interested in one day speaking at ElixirConf. I’m curious, if you can talk a little bit about how you pitched the concept to Jim and in the CFP.
+
+
+[01:01:09] MC: Yeah. I think I woke up on a Thursday morning and it's already something I’ve been doing. Went to the site and was like, “Hey, teaching into the programming with internal functional programming with Elixir.” I just gave them some snippets of my curriculum and just ideas of things I’ve learned. But it wasn't anything like I ever thought. I maybe spent 20 minutes on the whole pitch.
+
+
+[01:01:36] EO: Yeah. I remember we had an internal meeting of who all wants to speak. We pitched ideas of what we would want to do. This was two weeks before the deadline. Then I remember later that afternoon, Melvin was like, “All right. I’ve submitted.” We were all like, “Wow, that was fast.”
+
+
+[01:01:54] SM: That's amazing.
+
+
+[01:01:56] JE: My favorite ElixirConf talk submission story is that I submitted my 2017 talk the day after the deadline, thinking I definitely wouldn't get it. Then I had to get it and actually do the talk.
+
+
+[01:02:09] MC: It sounds so exciting.
+
+
+[01:02:10] JE: Yeah, I’ve gotten out of doing future talks by becoming the emcee, so now I just don't have to prepare. I can just show up. No, I’m just kidding. There's lots of prep that goes into being the emcee.
+
+
+[01:02:20] SM: Yeah, that’s awesome. Is there another talk that you're excited about at ElixirConf that you're hoping to attend?
+
+
+[01:02:26] MC: The testing one. I don't know who it's by, but that one and there's a meta programming talk. That's probably my new big jam right now is just meta programming. Been playing around with procs and stuff in Ruby lately, thanks to Eric. I’m at one-on-ones. That opened up the floodgates. It's been interesting just using procs, but also like, okay, I probably shouldn't be teaching my mentees what this is yet, because they don't know what it is and they'll just use it and then they'll get asked about it and that's fine.
+
+
+[01:02:59] JE: That's Nicholas Henry, ‘The Upside Dimension of Elixir, an Introduction to Meta-Programming.
+
+
+[01:03:04] MC: I think so. Yeah. That sounds right.
+
+
+[01:03:06] JE: Then, probably the test one is Brian Merrick, ‘Tricks and Tools for Writing Elixir Tests.’ There’s only one talk on tests at this whole conference?
+
+
+[01:03:19] EO: There's one on testing LiveView as well.
+
+
+[01:03:21] JE: Ah, I see it. German Velasco. Could be his talk. We're looking forward to all of these talks. It's going to be a great conference. Melvin, did we meet at an ElixirConf?
+
+
+[01:03:30] MC: We did. We've met at two of them. I think the first time we met, you were emceeing at ElixirConf. I just shook your hand and said hi.
+
+
+[01:03:37] JE: Last year?
+
+
+[01:03:38] MC: 2019. Yeah. Then at Lone Star, I think we officially hung out.
+
+
+[01:03:44] JE: Yeah, Lone Star we were hanging out. I remember Lonestar. I remember you saying that we met. See, I’m starting to put things together. Very cool. Well, we've got a little bit of time left. I want to make sure if there's anything else that you wanted to talk about your talk, or ElixirConf, or any of the things that you're looking forward to there. Or you've got as much time as you'd like to plug anything that you'd like to plug. Shameless self-promotion is encouraged. Advertising for SmartLogic is definitely encouraged, if you want to score points with the big boss, that might be an optimal strategy. The time is yours and I will yield it to you.
+
+
+[01:04:18] MC: For sure. Two things. Definitely check out SmartLogic. We're great, as you can tell. Then another thing is I’m going to be teaching intro to OTP class, probably in the next couple weeks. If there are any senior devs out there who are willing to volunteer a Saturday afternoon/morning, a couple hours, I’m going to buy you coffee. We'd love to have you. It would be helping to teach current boot camp students, so they might be a couple weeks in, a couple months in. It'll be very introductory.
+
+
+[01:04:50] JE: Melvin Cedeno, everybody, from SmartLogic. His talk is ‘Teaching Functional Programming with Elixir.’ Say hello at ElixirConf 2020. Looking forward to your talk, Melvin. Thanks for coming on the show.
+
+
+[01:05:02] MC: No probs.
+
+
+[01:05:04] JE: Next up, we have Japa Swadia from Podium. Her talk is titled ‘Domain-Driven Design with Elixir.’ We've been talking a lot about domain-driven design this season on the show, Japa. Can you sell us on your talk a little bit? Give us the elevator pitch.
+
+
+[01:05:19] JS: Sure. Yeah. Hi, everyone. This is Japa. Like you mentioned, I think domain-driven design is, in a certain sense, is a pretty common topic. Of course, Phoenix introduced that in version 1.2. It's been around for a while. I just felt the need to resurrect it for this year's ElixirConf, because I think I’ve learned so much over the past couple of years with just applying domain-driven design to the code that I write.
+
+
+This is mainly because what I was working before just years ago, did not have a lot of domain complexity. The whole DDD concept, when I first read about it, it didn't really apply to what I was working on. I couldn't quite relate. Once I started working on a new product, which involved a ton of domain complexity, and it just grew over time, I could really see the benefits of using DDD, especially with context and schemas in Elixir.
+
+
+I’m a big fan of them. I am sold. What I’m trying to do with my talk is trying to sell to the viewers, especially beginners who are looking into creating apps that are maintainable, easy to refactor, easy to collaborate on and have clean internal and external APIs.
+
+
+[01:06:40] SM: Do you think that you could maybe do a high-level definition of DDD? We've done that a lot on the show in previous episodes, so love to hear your definition of it.
+
+
+[01:06:49] JS: Sure. Yeah. Let me just put it this way. DDD as a philosophy, it's a pretty simple concept. It just means building your application centered on the domain. The domain would be the real-life use case. If say — if you're a bike shop, and that's the example that I’m going to use in my talk, your domain is a bike shop, you don't care about anything else. That's your domain. Then if you're talking about the software, or the CRM, or anything that you do for your bike shop, it has its own context. You have the context of a product, which could be a bike, could be a part. Then you might have context, like a sale, or a rental. Those are two different contexts, because you might have a customer that wants to rent a bike, as opposed to buying a bike.
+
+
+There might be some things that would be different in terms of the use case for that piece of logic, or for that functionality in the system. I think it's domain-driven design, you don't have to follow it step-by-step. If you just think about your domain, do a little bit of initial leg work and just think about what different contexts your domain would have and then start writing code, I think that is really helpful. It draws a solid foundation to your app, or any piece of code that you're wanting to write.
+
+
+I guess, I might have ranted off a little bit here. Yeah, I think for me, domain-driven design is just thinking about the domain of your app and just figuring out the different contexts that you might have. Also, going one step further and thinking about your APIs and those could be internal or external. I think that really helps if you have the domain in mind.
+
+
+[01:08:32] JE: Can you talk a little bit about the target audience for your talk? Who should come to domain-driven design with Elixir?
+
+
+[01:08:40] JS: Sure. I think beginners should definitely attend, because — and speaking from personal experience and also, I’ve seen a lot of — I’ve onboarded a lot of junior engineers and beginners on my team with Elixir. This is what I’ve seen, they don't really know where to start. They know how to write the code, but they don't really know where that thing goes. What I always urge them to do is to go to the directory structure. I think in Elixir, it's pretty clear and readable. You have your business logic on one side and then your web interface is in a separate directory. It's really easy to just walk through.
+
+
+That's what I always tell them is just go figure out what different context we have and then see if you can make sense of where your new functionality should live. Yeah, so I think that's also an interesting point that comes up in code reviews as well. Definitely would encourage beginners to come to this talk. I won't be talking in depth about domain-driven design as a philosophy. I know there's a book written on it, but it's more about using DDD in Elixir, using context and schemas and other Ecto-goodness, like change sets. Really honestly, anybody else can attend too. If they are working on something that's super technical, but wanting to switch to writing something that's more domain-oriented, then yeah.
+
+
+[01:09:57] EO: One question, possibly might be in your talk, do you talk about how you can use schemas to point at the same table in different contexts? Have you done that? Is that something that's useful to you?
+
+
+[01:10:10] JS: I don't have an exact example. I was going to talk about, I guess, shared context and dependencies between schemas, how we can have associations, and just have those relationships be defined in the schemas. I was going to talk about that for sure. I don't think I have an exact example of what you just mentioned.
+
+
+[01:10:31] EO: Yeah. I’ve just seen it tossed around as something that's possible with Ecto and I’ve tried it before and had weird experiences. I was just curious if maybe not in your talk, but at Podium if you've done that at all.
+
+
+[01:10:45] JS: Yeah. Just to reset your question, it's using two different schemas to point to the same [inaudible 01:10:51]?         
+
+
+[01:10:52] EO: Yeah. Each context will have their own local schema.
+
+
+[01:10:56] JS: Right. Oh, like an embedded schema thing, where it's —
+
+
+[01:11:00] EO: — Yeah. Not an embedded one. In your example, if you have a bike table, like bikes table. The rental might have their own bike schema and the sales might have their own schema. Then there might just be a bike schema that manages both, or I don't know. That's what's been tossed around as an option and just curious if you've done that before.
+
+
+[01:11:21] JS: I have done that from an API-layer point of view, where you have these different schemas that validate the data that is related to that context. For example, there's a sales context and there's a rental context. Then for those schema for the product, or the customer might be different. Yeah, on the API layer, I’ve definitely used change sets to validate those. Then further down in the business logic side when you actually want to do inserts or updates, you might be casting that to a different schema that is related to the actual database table. Yeah, definitely on the API layer and I’m a huge fan of using those for validations.
+
+
+[01:11:57] EO: Cool. While you're putting together this talk, was there anything that was interesting, or surprising that came about through researching?
+
+
+[01:12:05] JS: I think a little bit of research that I did was go through the old pull requests in the core libraries, because I know they did some work to refactor some of the modules to be more domain-driven. That was pretty interesting seeing how they just picked a file and then they literally cleaned it up and created these different contexts and made it so much easier for the other modules to be able to use them. That was pretty interesting. I’m actually still researching for more of the refactoring work. I really want to show the audience what changes the core team has made.
+
+
+[01:12:40] SM: Is there another talk that you're really excited about attending as well?
+
+
+[01:12:43] JS: Great question. Actually, I had a bunch of talks that I was interested in. I think one of them was a solar panels being powered using Elixir. I don't remember the title. I need to check that out. That one is really interesting.
+
+
+[01:12:58] EO: There’s the hydropower one. Is it that one?
+
+
+[01:12:59] JS: The hydropower one. Yes. Not solar. My bad. That sounds pretty interesting. There's also one with — that has Phoenix LiveView. I have a few co-workers who are really into LiveView. Yeah, I’m excited for that. Actually, have them listed out here. Oh, yeah. The other one that was interesting was using ‘Elixir in WhatsApp to Launch WHO's Global COVID-19’ response. I think I’m looking forward to that one as well.
+
+
+[01:13:29] JE: Yeah. It seems like they really knocked it out of the park with talks, despite this being a virtual conference. The lineup is extremely nicely put together; yourself included, Japa. I’m curious how when you framed your CFP, is there anything you think you did really well that got your talk accepted, because I’m sure people are watching this, or listening and wondering, “Well, how do I get a talk accepted into a big conference like ElixirConf?”
+
+
+[01:13:54] JS: I honestly did not expect that my talk would be selected. Mainly, because I felt that the topic might be a repeat topic. Because I know other Elixir conferences, people have spoken about domain-driven design and everybody has different opinions, viewpoints. What I put in my proposal was also me and my experience with domain-driven design. I’m hoping that my personal storytelling aspect of it and my experience with going from an app, which had no domain complexity to building something that has a ton of domain complexity, and my journey with learning all that, and being sold on context and schemas is what I thought would could be the winning element for my proposal.
+
+
+[01:14:41] JE: Well, I think it's a very hot topic in the community right now. I know we've been talking about it non-stop for this whole season, which is a very long season of Elixir.
+
+
+[01:14:51] EO: We will keep talking about it, because we've got a bunch recorded that we keep asking.
+
+
+[01:14:56] JS: Right. I did have advanced topics in mind, but this is actually my first time speaking at the global conference level. I thought I would just keep something that's more in my comfort zone and also that comes from my experience, so that I can also answer questions if there's any. Yeah. I’m excited.
+
+
+[01:15:17] JE: Well, we are looking forward to your talk and hopefully, maybe we can have you back on the show to dive even deeper into this subject for a full episode. I want to give you the last few minutes to plug anything that you want to plug, shamelessly self-promote, anything you want to shamelessly self-promote. The floor is yours.
+
+
+[01:15:36] JS: I don't have anything to self-promote. Yeah. I mean, Elixir Conference 2020, if you look at the talks, they sound really interesting. If you are a beginner, or even if you're not a beginner, but looking to refactor your apps, want to learn some tricks to make your apps be more maintainable, easy to collaborate on, write cleaner APIs, then yeah, just come check out my talk. I hope to do a good job, but I would also love to know the thoughts from everybody in the community on how they do domain-driven design, or their experiences, so which is what I think is making me more excited for the stuff. Yeah.
+
+
+[01:16:14] JE: Awesome. Japa Swadia, everybody from Podium. Her talk is titled ‘Domain-Driven Design with Elixir.’
+
+
+That's it for this special episode of Elixir Wizards. We hope you enjoyed this sneak peek of ElixirConf 2020. Go buy a ticket. Thanks very much to my magical co-hosts, Sundi Myint and Eric Oestrich. Eric Oestrich, my oldest friend and beloved co-host, Eric Oestrich. Once again, I am Justus Eapen.
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new and interesting projects, building web applications in Elixir, Rails, React, infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you. If you have a project we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally 
+@JustusEapen and Eric, @EricOestrich and Sundi, @SundiKhin. That’s S-U-N-D-I-K-H-I-N. Check the notes for links to all those and join us again next week on Elixir Wizards.
+
+
+[END]
+        © 2020 Elixir Wizards

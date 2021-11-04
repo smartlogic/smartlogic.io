@@ -1,0 +1,574 @@
+EW S4E9a                Transcript
+EPISODE S4E9a - Council of Wizards
+
+
+[ANNOUNCEMENTS]
+
+
+[0:00:05.2] EO: Just a quick note before we start the show, we’ve got two things to share that we want everyone to know about. First off if you hadn't heard, the Elixir Ecosystem Survey is out. I encourage everyone to fill it out. It's a community project and all the data will be made publicly available once collected. The survey is open through August 11th and the results will be revealed at ElixirConf. Get your response in before the cutoff, which again is the 11th of August. We'll drop a link in the show notes.
+
+
+Okay, and secondly, we've added transcripts to all the episodes in season four. We expect there may be some errors as the transcribers are not Elixir specialists, but the good news is that our website where the podcasts are hosted is a public github repo. If you spot any typos or inaccuracies, just submit a pull request and we’ll happily update them. We'll put a link to the repo in the show notes as well.
+
+
+All right, that's it for special announcements. Now here's the show.
+
+
+[INTRO]
+
+
+[0:00:53.2] JE: Hello and welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore, Maryland. My name is Justus Eapen and I’ll be your host. I’m joined by my co-host, Eric Oestrich.
+
+
+Today’s episode is very special. It was a live show called the Council of Wizards that we recorded with a number of guests earlier this summer. Today, you'll hear from our conversation with Andrea Leopardi and René Föhring. I hope you enjoy this Council of Wizards edition of the Elixir Wizards Podcast.
+
+
+[CONVERSATION WITH ANDREA]
+
+
+[0:01:33.6] JE: Andrea, maybe you can introduce yourself for the audience and let them know who you are, what you're working on, what you're best known for in the community?
+
+
+[0:01:42.2] AL: Sure. My name is Andrea. I’m part of the Elixir core team. I think that's probably one of my best credentials in the community and I’ve been in the core team for four years and a half, around four years I think. I can't remember, but around four years. I’ve written a few libraries, like Redix as pretty widely used and Mint together with Eric from the core team recently. Those are I think my most known things. I speak in a lot of conferences. In more normal times, so that's also I’ve met a lot of people through doing that too.
+
+
+[0:02:20.4] JE: Well, this is like a conference.
+
+
+[0:02:22.2] AL: Yeah, I guess. I didn't prepare anything, so no.
+
+
+[0:02:25.8] JE: It's like a panel at a conference right now. Nobody prepares and –
+
+
+[0:02:29.6] AL: Nobody prepares. Very winged. Yeah, this is great. Not having to prepare is always great.
+
+
+[0:02:38.0] JE: Speaking of being unprepared, so there’s this great backstory behind this that maybe Eric can tell, because he'll probably tell in a funnier way. Last night, I reformatted my computer and I’m rebuilding my dev environment from scratch. My question to you is if you had not a brand new developer obviously, like I’ve been developing for a while, but someone who had a brand new machine and you were going to encourage them to try some tooling, what would you recommend?
+
+
+[0:02:59.8] AL: One of the tools I use the most is hub. It was a wrapper for that. Now they made the official CLI for github, like GGH I think it's called. Now I use that. That was a very nice tool. I always do hub clone and you don't need to give the whole path, you just give the repo name, or the owner/repo name. It's tiny, tiny, tiny things. Then another thing that I really like is Z shell. Now I don't have time to do any of this anymore, but when I was a young developer with lots of time and lots of passion to build my environment, I did stuff, like set up my Z shell pretty well. Luckily, it still works. I just live with that.
+
+
+Nice stuff, like for example, I see a lot of people type history enter, or history space, pipe space, grab, or when they want to search something, so that's crazy. I have a plugin for Z shell that I could have typed something and if you press Ctrl P to go up, it searches that string in the whole history and it just goes through commands that use that string. That's probably my number one favorite thing on my computer in the terminal always.
+
+
+[0:04:07.8] JE: Well, that's what I’m looking at right now. You just reminded me to pull hub down, because I love hub. I used to have both.
+
+
+[0:04:12.2] EO: Yeah. There's another one called FZF, I think is –
+
+
+[0:04:15.3] AL: Oh, yeah. Fuzzy finder.
+
+
+[0:04:17.8] EO: Yeah. I use for bash. If you do Ctrl R, at least in bash, ZSH went there too. You can hook this thing in and it's a lot fancier.
+
+
+[0:04:26.3] AL: Yeah. I think it's probably a similar principle. Yeah, super useful. Then now, I really don't like whatever floats your boat. I’m not the guy. I’m not very focused on developer tooling and this stuff anymore. Now whatever, I hand those works.
+
+
+[0:04:39.8] EO: Are you a VIM, Emacs, or VSCode or something else person?
+
+
+[0:04:43.7] AL: I was all of those. I used VIM for a long time and I became very good at it, but then I couldn't VIM script, so I wanted to customize it a lot. VIM script is really weird. This was before Neovim. Now I don't know if it's better, but then I moved to Emacs and then Emacs definitely, you can write a lot of e-Lisp, so I did that. But then I couldn't stand that it's horrible to look at. We're in 2020 and this thing is just horrible. It doesn't have pretty icons. It doesn't have pretty colors, like I wanted prettier editors. I started using atom and then it feels like it was abandoned a little bit.
+
+
+Maybe VSCode feels like took over completely the user base of atom, so I just switched to VSCode, but at that point I’m not a pro user of VSCode. It does what I need. It does good elixir integration. I became a mouse person. I went from being very good at the keyboard to just reading a lot more code. Now I just prefer to scroll down.
+
+
+[0:05:38.5] EO: The manager phase.
+
+
+[0:05:40.1] AL: I guess. Yeah.
+
+
+[0:05:45.3] JE: Oh, man. Shots fired.
+
+
+[0:05:48.5] AL: Oh, but it's. It’s true. This is something.
+
+
+[0:05:50.4] JE: It’s like, once you become a manager, you start using the mouse more?
+
+
+[0:05:52.9] AL: I don't know about manager, but definitely when you go higher up and the responsibilities and having to review more code, then having to just looking at more stuff, instead of just cranking code, then you definitely read more and write less.
+
+
+[0:06:05.6] JE: I want to tune into whatever conversation is happening on the Twitch, but I also want to ask you, Andrea, what are you working on right now in elixir land? Are you doing any core development? Is 1.9 really the end of elixir, so there's just nothing to do?
+
+
+[0:06:18.9] AL: 1.10 came out a month ago, so definitely 1.9 was not the end. The 1.10 is not the end either. I mean, 1.11 is going to come out. It's going to come out a little bit later, because we decided maybe that for the best to not bombard people with software updates during this phase. I mean, we don't have a lot to work on in elixir figure-wise and even not wise, but pretty stable at this point, so there's not a lot of work to be done in general. The time that I spend in elixir is not a lot and it's mostly on reviewing code and triaging issues and stuff like that.
+
+
+Personally, I’m working on not much open source. Right now, I’m mostly focusing on mint until now. That was my big project. I’m happy that got shaped. I’m happy that this is being used by finch, this new HTTP line that's what where I’m putting my hopes on. Then I’m writing a book that's about testing elixir. That's public information, I think, I hope. Doing that for quite a while, yeah, but we're approaching —
+
+
+[0:07:23.0] EO: Is that with Jeffrey Mathias?
+
+
+[0:07:24.3] AL: Yeah, that's with Jeffrey. Yeah. Co-writing with Jeffrey. Oh, yes?
+
+
+[0:07:30.3] JE: I think so. I think he was season one, is that right Eric? Yeah. Season one feels like a long time ago. How's the book coming? How far along are you?
+
+
+[0:07:39.5] AL: Close to beta, I think. So pretty good point in the book, I think.
+
+
+[0:07:44.5] JE: I was told by someone in the know that if you offer to review the book, they will sometimes ask you for a blurb after the review. This is my original offer to review your book and I promise, it will be a good and 100% accurate review.
+
+
+[0:07:57.6] AL: Sounds good. I’ll keep that in mind. Now that's appreciated. It's not that easy to find a lot of reviewers, but we'll see.
+
+
+[0:08:03.9] EO: Justus is looking for the easy way to get on the back-cover of a book.
+
+
+[0:08:07.6] JE: I really want to be a blurb guy. I just can't believe how I’ve never been asked to give a blurb on a book yet. I really want to do that.
+
+
+[0:08:15.8] AL: I’m telling you, if you really do can give a really good praise, we can put you in the praise section too.
+
+
+[0:08:21.4] JE: Yes. Actually, the long-term objective is to do so many blurbs on so many books that eventually I can make a book of my book blurbs.
+
+
+[0:08:28.9] AL: Oh, nice. Blurb many more. Okay.
+
+
+[0:08:33.0] JE: Then all the blurbs on the cover will just be myself.
+
+
+[0:08:39.9] AL: Will they have blurbs from other people?
+
+
+[0:08:43.0] JE: Maybe it'll have blurbs from everybody that I blurbed for.
+
+
+[0:08:46.2] AL: Ah, that's mind-blowing.
+
+
+[0:08:48.5] EO: We have how to code live is asking, RSpec versus xUnit. Go.
+
+
+[0:08:52.7] AL: It's bold of you to assume that I know RSpec. No, I used it. I used it. I’m just kidding. What am I supposed to say? Definitely xUnit. xUnits. But because I don't like magic xUnit. xUnit has a bit of magic, but I mean, I think the necessary evil amount, like less than that and then you're just going to write. It's not going to be very helpful. More than that and then it's going to be a mess. I think it has really good balance. I really like it. I like that it doesn't let you shoot in the foot very easily. It doesn't let you overcomplicate things very much. It's pretty bare bones. You want to write more complex stuff, you write it on top of it. Most people don't, that's the good news. They use it very vanilla and I think it works very well.
+
+
+[0:09:35.3] EO: Yeah, I remember, I think when I first started in I guess, it was around elixir 1.2 or 3 maybe is when we started elixir and there was no describe blocks. Then just as they popped in and then you can't nest them. I remember there's a few people who were upset, but I feel like that's a good thing from some of the architects I’ve seen.
+
+
+[0:09:57.1] AL: I think so too. Yeah, I think so too. The fact that you have, when you have this set up blocks, you can pass a little function name, instead of passing a setup block, or a list of function names. It makes it really easy. You just do all the setups and functions and then you say, “Oh, this describe block should be set up with this, this, this and this set of functions.”
+
+
+Usually, that's the use case for nesting more, right? Nesting setups is not really through for documentation organization. I don't think that's so. I think that's the right compromise. I mean, macros for example, like having a cert to be a macro, it's really nice because you don't really have to think about what should I use, like assert, equal assert, greater than assert, this and that like you just use one most of the time. That's also good. I like it.
+
+
+[0:10:45.5] EO: We got how to code live is also asking, are you going to go into testing live view in the book?
+
+
+[0:10:50.5] AL: TMI. I don't know. I don't know.
+
+
+[0:10:55.1] EO: Buy the book to find out.
+
+
+[0:10:58.1] AL: It will be in the table of contents. If we do it, it will be in the table of contents so you'll know before. I’m not sure yet. I’m not sure what the literature on live view is going to be. I’m not sure what live view is going to be itself. We’re watching. It's a very, very early stages of the product. I don't know that we have patterns on testing live view that are established and that we feel confident also advertising and pushing on the community. I’m not sure yet. We will see.
+
+
+[0:11:22.6] EO: Yeah. Writing in stone of sorts.
+
+
+[0:11:25.0] AL: Yeah, yeah, yeah. I mean, in general for a bunch of stuff, one of the hardest thing is making sure that the patterns that you're advocating for are really good patterns and they're not just your preferred patterns, or at least that's something I always struggle with. With live view, I have no idea yet. I personally didn't even have a chance to use it for anything other than playing with it. We'll see. We'll see. Jeffrey's co-writing the book, so maybe he has ideas in this, but we'll see.
+
+
+[0:11:50.2] JE: Well, we'd love to hear from Jeffrey again. I think that it might be overdue to have him on for another episode, because he was pretty interesting, I think, if I remember correctly. I think he was probably our biggest episode in season one. I don't know if I’m allowed to say that.
+
+
+[0:12:02.4] EO: Yeah, I don't remember the stats off the top of my head. I have been talking with him recently, so maybe we'll get something brewing.
+
+
+[0:12:09.0] AL: Yeah. I work with him now and co-write the book with him now.
+
+
+[0:12:12.4] EO: Awesome.
+
+
+[0:12:13.2] AL: I’ll not listen to that podcast. Can't listen to that guy anymore. Just kidding. Just kidding. I love the guy. I love the guy.
+
+
+[0:12:22.0] JE: We like to ask people for their hot takes and rants. Do you have anything that's top of mind that you've just been wishing that you had a platform to rant about?
+
+
+[0:12:30.2] AL: No.
+
+
+[0:12:31.0] JE: Go off queen, please.
+
+
+[0:12:35.6] AL: No, I don't. I make a very, very big conscious effort to not be negative on stuff. Otherwise, I would have a lot of stuff, but I can't think of anything. I don't want to open the Pandora box. I’m sure, I could think about something, but I can't think of anything on the top of my mind. One thing I will say, I don't like computers that have slow interfaces. Every computer as of today has low interfaces for everything. 
+
+
+I don't think I’m very fast, but when I opened Alfred and I do command space or spotlight and I write some stuff, it always misses the first two or three keystrokes. It should be fast software. Same with the iPhone. When you don't have face ID and you swipe and you type in your passcode, guaranteed, the first number doesn't catch it, because it's animating that it's showing this thing and it doesn't get your first number. This is definitely things that makes me want to run for hours. This is just if you're writing interfaces, please, please just make them fast.
+
+
+[0:13:32.2] JE: My prediction is that in 10, 20 years, we'll see a Tesla OS come out and that will be the new –
+
+
+[0:13:39.8] EO: We have one client who consistently tests whatever app we're writing for him on his Tesla to make sure that it works.
+
+
+[0:13:46.2] JE: We'll need to get it to Tesla.
+
+
+[0:13:47.1] EO: I think we've asked about that and [inaudible 0:13:48.5] has not agreed to it yet.
+
+
+[0:13:50.5] JE: I will subsidize it if I get to be the keeper of the Teslas. Yeah. No. Slow interfaces are definitely a problem –
+
+
+[0:13:58.6] EO: Todd is saying that Temple OS is the future.
+
+
+[0:14:01.4] AL: Oh, sure.
+
+
+[0:14:02.0] JE: He also says, Tesla won't exist in 20 years, which is our true lock day.
+
+
+[0:14:07.5] EO: Man, it’s a hot tank.
+
+
+[0:14:08.9] JE: Yeah. Well, you have those Tesla shorts have really worked out, right?
+
+
+[0:14:11.5] AL: This Tesla what?
+
+
+[0:14:13.1] JE: The Tesla shorts.
+
+
+[0:14:14.1] AL: I don't know what they are. I’m missing it.
+
+
+[0:14:16.6] JE: When you short of stock, it means you basically are investing in the chances that the stock will go down.
+
+
+[0:14:20.7] AL: All right. Okay. Okay. I’m horrible at companies and investing in stuff like that.
+
+
+[0:14:27.2] JE: I was saying, this isn't a financial show. I guess, Todd was a Tesla short. I am very long Tesla and working out for me. Elon likes to move debt around. Yeah, well don't we all? He likes to move pockets around Todd. Yeah, I think the interface problem is huge. I think a lot of people have been noticing it. It's become noticeably worse since electron became a thing.
+
+
+[0:14:51.5] EO: Yeah, do you think iOS and Android are going to switch to electron? It's going to be all React Native, but just React, I guess.
+
+
+[0:15:00.8] AL: I hope not. I mean, I’m fine with – I don't write code for mobile apps in any form, but I’m good with Java and with Swift being the only two real things that people use, if they have to write mobile native apps, I mean. I would rather have an operating system that supports one of these two languages now than to have – Again, those are good languages. They do their job and that's my take. I’m not saying that we should only have Android or iOS. That's probably bad, but those languages are fine.
+
+
+We're in the age of transpiling and compiling to the same bytecode or stuff like that, right? We're on an elixir show and that's a language that compiles to another language. There’s always room for improvement in that space.
+
+
+[0:15:43.6] EO: Android has Kotlin. Swift is a better objective C, I think, right?
+
+
+[0:15:50.4] JE: This is a good question. How to code live asks, what are the chances of us seeing elixir running on mobile?
+
+
+[0:15:59.8] AL: Why would you want to do that? First question. I don't know. Very close to zero, my guess is. Maybe if you had an elixir to a Wasm compiler and then Wasm –
+
+
+[0:16:08.7] EO: Yeah, can we get a lumen target to arm and then you can use up all the Samsung phones are all eight cores and all that fun stuff, right? All those android phones.
+
+
+[0:16:19.1] AL: Yeah, I guess. It's just not I think – I don't know. I don't think Erlang was thought to run with interfaces. I mean, you use observer for example, so it's –
+
+
+[0:16:28.7] EO: Well, it was written for phones, right? It's just the next step.
+
+
+[0:16:34.5] AL: Yeah, definitely true. Yes. I don't know. Maybe with Wasm or something, we'll be able to actually run some links to code through the browser and on mobile phones, but I’m not sure that's – I mean, for the sake of doing it, sure. I’m not sure that's going to be useful in any form.
+
+
+[0:16:49.6] EO: Can we put that in a feature for elixir 2, a feature request?
+
+
+[0:16:54.7] AL: Sure. Elixir on mobile. Yeah, it sounds good.
+
+
+[0:16:57.7] JE: We can use it to mine Bitcoin. I love the conversation going on right now on the stream chat. People don't know that. We can use it to mine Bitcoin. I think it's actually, somebody wrote a bit miner in elixir, didn't they?
+
+
+[0:17:07.6] AL: I think so. There's an amazing amount of cryptocurrency stuff going on in elixir and it's so surprising to me.
+
+
+[0:17:14.7] JE: There's that, I don't want to call him a kid, but I remember when he came to ElixirConf, he was 19 and he had written an Ethereum clone in elixir. I think it’s elixireum. I was like, “Wow.” My hero.
+
+
+[0:17:27.8] AL: Yeah, that's pretty impressive.
+
+
+[0:17:29.4] JE: Do you have any cryptocurrency interests, Andrea?
+
+
+[0:17:31.5] AL: No.
+
+
+[0:17:33.1] JE: None? Zero?
+
+
+[0:17:34.2] AL: No. I just know what we're talking about, but I’m not invested in any form in this. No. Never took the time to learn about it enough to be able to feel like I know what I’m doing if I would be buying some cryptocurrencies. Then I feel I missed out and now I feel I have too much backlog to learn and to get into this world, so I just dropped it in there.
+
+
+[0:17:58.0] JE: We just had the halvening, which if you don't know what that is, it's when Bitcoin miners every four years or so, the number of Bitcoins they get for mining a block gets cut in half. The graphs are pretty startling. Every time that happens within two years, the value is just 10X. Just throwing that out there.
+
+
+[0:18:16.4] AL: Good times.
+
+
+[0:18:17.2] EO: I just read an article the other day that was talking about someone who invested a ton and then investment firm went belly up, because Bitcoin lost 35% of its value in a month or something. I don't know.
+
+
+[0:18:30.1] JE: They invested in a mining company?
+
+
+[0:18:31.8] EO: I don't know. Some financial – I don't know these words and I don't pay attention either. I like to watch news that Bitcoin is failing. That’s better.
+
+
+[0:18:48.1] JE: Shot in [inaudible 0:18:48.4]. That's the whole thing. Well, we are coming up on the time where we will be joined by another guest. I want to give you, Andrea, the time to plug yourself, your company, your book, any shameless self-promotion, any asks that you have for the audience, now is a good time.
+
+
+[0:19:07.7] AL: Okay. I’ve not prepared for this either. I don't feel like I have anything to plug. Maybe my book, our book of course, the book that Jeffrey and I are writing. That's going to be out. That's going to be nice to plug, but it's not out yet, not even in beta. It's going to be soon, but keep an eye out for that. That's what I would say.
+[0:19:24.2] EO: Go check out finch?
+
+
+[0:19:25.4] AL: Go check out finch. Yeah. Or mint or finch. Give it a try. Mint has been pretty stable, so I’m happy with that. Finch is in the very early stages of development, so definitely we need to bottle test it. That's going to be a long process. It takes years to make a library really, really, really robust.
+
+
+[0:19:42.6] EO: I just set up a new finch. One of our projects, we were talking to Stripe and I used finch instead of, I think mojito was the one I used before. Then before, that was HTTP poison or something. Yeah, so far it's great.
+
+
+[0:19:55.0] AL: Yeah, yeah, yeah. No, it works for sure. It works. I’m just like, I want a lot of people to use it, because those edge cases that you get from when you do a 100,000 requests per minute, or maybe you do a request to a server that does something weird and only some people in Uganda will find out, because they have some conventions different than – I’m just making up countries. But I know that that happens and sometimes people say, “Oh, but this is blocked in Russia, for example.” I don't know. That stuff is good to test out on a lot of big user base, so that we catch all the things.
+
+
+Yeah, last shout out just to my company is called community.com. We have a messaging platform for community leaders, like celebrities. If you ever had one celebrity say, “Hey, text me at this community number,” maybe you saw this in extra bunch of music artists are doing it, then that's us. We do messaging that scale for community leaders and celebrities and artists and all sorts of people with communities following them.
+
+
+[0:20:53.7] JE: All right. That's it for our conversation with Andrea. Next up is our talk with René Föhring, author of Credo and friend of the show.
+
+
+[CONVERSATION WITH RENE]
+
+
+[0:21:06.5] JE: It's been a long time, René.
+
+
+[0:21:08.2] RF: Yeah, absolutely.
+
+
+[0:21:09.2] JE: What have you been up to since we saw you last on the show?
+
+
+[0:21:11.3] RF: I’m doing Credo naturally. It's like what Andrea said with one thing I’m probably most known for is Credo. I’m also doing the elixir weekly newsletter, which had its 200th issue come out, I think last week, or the week before, which is pretty amazing, not because of my personal achievement by any means, but this has been going on for four years and it's kept me sane through some episodes of my life, where work has been crazy or private life has been stressed in general.
+
+
+It absolutely amazes me, because when supposed nobody Credo, I could still get some credit for it, you know what I mean? In CV form or something, because this amazing thing I built, but with elixirstatus.com and elixirweekly.net, which I both run, if nobody would use them, then that would be pointless. It's also a great place to get the pulse of the community and how it's actually grown, because I remember four or five, six years ago, we all thought, “Oh, will this take off? Will this become the next Ruby?” Many of us thought.
+
+
+[0:22:22.5] EO: Will become the next Ruby or the next Dart.
+
+
+[0:22:25.1] RF: Absolutely, or the next dark. It's also a thing.
+
+
+[0:22:29.4] JE: Well, I hope you didn't be the next dark, or dart, but do you think we might be on our way to becoming the next Ruby?
+
+
+[0:22:36.7] RF: I think, so at the conference where I got this wonderful hat, somebody told me, I think even it was Jeffrey, that we're in the niche of a niche and that's not wrong. It's very special, also in terms of how diverse the people are regarding their technological background and their educational background. We have a lot of misfits like myself who never learned properly how to code and were self-taught, but we also have these computer scientist people who have crazy ideas and actually go through with it, which is one thing that I always admire about the community that you have all these ideas, which are front and center, as opposed to some communities where the people are front and center and where you have this celebrity culture.
+
+
+Also, that people are not only talking about their great ideas. I really don't want to take pity on any community, but there are some academic communities around programming concepts that are not used in the real world and they have this aura of seven buttons.
+
+
+[0:23:37.8] JE: Oh, I think they would appreciate your pity actually.
+
+
+[0:23:41.9] EO: Did you just subtweet Haskell with that?
+
+
+[0:23:46.8] JE: Oh, my gosh. We just lost to some viewers.
+
+
+[0:23:50.8] RF: Right at this moment, I am building a JavaScript desktop app using electron, so I won't – I won't raise my voice.
+
+
+[0:24:03.3] JE: I’m going to take this personally and ask why.
+
+
+[0:24:05.6] RF: Because I get money out for it.
+
+
+[0:24:08.3] JE: Ah, I see.
+
+
+[0:24:09.8] RF: You see, that the nature of that window that's paid for by JavaScript at the moment, but I also have the next elixir project in the pipeline. I hope this will be cool. Because to come back to your question, I think elixir is special in that there is a certain type of problem that it solves so well and there's nothing that can touch it for that problem. Elixir is not a good hammer for everything.
+
+
+[0:24:36.7] JE: Is Ruby a good hammer for everything?
+
+
+[0:24:38.6] RF: Probably not.
+
+
+[0:24:40.1] JE: See this is the point is that my impression was that the elixir solves the problem that Ruby solves, but it solves it better and to such a degree that it would make sense as a placement for pretty much any new startup looking to build web applications.
+
+
+[0:24:55.2] EO: Yeah. I would say definitely, the web applications. But if you're just doing a tiny little script, I would probably still use Ruby versus elixir. I think it's definitely a different space.
+
+
+[0:25:06.1] RF: For example, if we look at Python, or Python, or whatever, I don't think that elixir comes close, or will ever come close to Python in terms of scientific computing, just because the libraries are so rich and they have such an advantage in terms of mind share in the scientific community, because there are lots of chemists and biologists, etc., who can't code in the traditional sense, but they can write the Python scripts to crunch the numbers that they need. You're probably right. When Ruby is used as a back-end for mobile apps, or as a delivery mechanism for web apps, that's probably a use case that elixir serves better in the long-term.
+
+
+[0:25:46.5] EO: Since we were asking Andrea about this, what do you think of the possibility of elixir on a phone?
+
+
+[0:25:53.3] RF: Well, the one thing he noted is Wasm and I think that seals the deal. Then you also have to take into account this hammer and nail argument. I think with lumen, we might actually work on front-end stuff things with elixir and that’s I think, all it showed that with scenic that it's a really good paradigm for front-end and component-based systems, which trigger some action. Then half of your user interface crashes, but the other half doesn't.
+
+
+I’ve actually tried to replicate that in JavaScript, because that's the nice thought that you say, “Oh, this button is dead.” I don't know. With phones, it's very important to be resource efficient and not drain the battery like you start the app and then you have five minutes.
+
+
+[0:26:47.0] EO: Especially if they're doing Bitcoin mining. What's new in Credo? Is there anything exciting that you want to share?
+
+
+[0:26:53.9] RF: Yeah, absolutely. Since I was last on, I think Credo 1.2 or something was scheduled to come out and now we have Credo 1.3, 1.4, currently working on 1.5. We do now have Hexdocs, which is amazing, with guides to guide people in their beginnings of their usage of Credo. We now have parameter validation for the config, which is amazing, that if you misspell a parameter to a check that you get told, “Oh, that's wrong.”
+
+
+[0:27:27.4] EO: One of the things that always bugs me with Credo and it's a very tiny nitpick, I wonder if you can guess this, but –
+
+
+[0:27:35.1] RF: I guess, it might be a feature of 1.5.
+
+
+[0:27:37.7] EO: Awesome. Because you generate a new config and then it says, “Oh, I’ve disabled map into and lazy logging.” Then you go find it in that config and you do false.
+
+
+[0:27:48.0] JE: What would that be like? A global config that is for you, or how is that going to work?
+
+
+[0:27:52.3] RF: No. The thing is you want to have a config that basically says this project uses these set of checks point. Today that's not the case. Today, because I thought that was clever, you take the config in the current directory and then traverses the tree back up to your root and collects all the config on the way up and then it recursively merges them. While this is not necessarily super bad, that means that because of at the end of this chain, there is the default config from Credo itself. You cannot see which checks you actually have enabled and which don't have enabled solely from the config.
+
+
+[0:28:36.3] JE: When you develop this, you thought the implementation was clever and now you’re recognizing that maybe he doesn't do exactly what you want at the end of the day?
+
+
+[0:28:43.2] RF: Yeah, absolutely. Because I think it's okay to be proud of your work, but you also have to reflect upon what was simply did not work. I think what worked amazingly well with Credo is the sentiment and what it stands for and this is something that I already found in the elixir community and was able to contribute a small part towards. Then again, there are so many big and little things where I had to be convinced of making it work better. For example, for a very long time, we did not have these comments, which let you disable Credo for the next line, because I find those basically horrendous, because then you litter your source code with control config statements for linter.
+
+
+At the end of the day, okay, that's probably what sometimes you would prefer over rewriting your code just to accommodate Credo. There are other things where I simply was wrong and that's completely fine.
+
+
+[0:29:43.3] JE: Can you talk a little bit more about that objective that you think that you were able to contribute to around – I think what you were saying is around teaching people best practices and can you talk a little bit more about what your vision was in the beginning and how that’s evolved as Credo has become pretty much the default solution for this in elixir?
+
+
+[0:30:01.5] RF: Yes. I think the point is – so lintels are tools and lintels are not our masters, so to speak. I encounter so many young programmers who have started their career in an environment where CI system basically linted all their code from the get-go. Especially when those programmers write most of their code at work and are not one of those crazy misfits who also developed through the entire night, then there's a scoot perception that this linter always has to be correct and that it also gives a sense of security. Maybe a false sense of security, but security nonetheless.
+
+
+That was something I really disliked about linters, while I saw the value of these tools to give me a broader base for my decisions, which I would have to make as a human. Too many people were treating as something almost religious, like no, you can't do that. That's not in our rule set. I wanted to build something that is more along the lines of another project of mine, which is called Inch, which was a Ruby project, which tried to approach documentation analysis in a way where it says, “Okay. An undocumented object is nothing bad, but I want to tell you it's undocumented, but there is no judgment here.”
+
+
+I always thought in the Ruby space where RubyCop predominant linter that we would need something that's a bit softer for code linting as well, which can provide a richer analysis and a deeper explanation to be able to empower the human being to make its decision.
+
+
+[0:31:38.7] JE: I think Eric has some feelings about the go gap. Is that right?
+
+
+[0:31:41.3] EO: I do not like it.
+
+
+[0:31:44.1] JE: I don't know if you ever talked about entirely. Can you tell us why?
+
+
+[0:31:47.4] EO: It's so mean. Also, it's wrong about single quotes. Biggest issue.
+
+
+[0:31:53.1] JE: Oh, what do you mean?
+
+
+[0:31:54.0] EO: I hate them. Just always use a double quote. I don't need to think about when if I want to turn this into an interpolated string, I don't need to swap my quotes. That is one amazing feature about elixir that I don't think I’ve ever mentioned is that it's only double quotes. There's just no choice.
+
+
+[0:32:12.0] RF: Yeah, but the elixir single quotes are simply another data type, which is also something that you have to learn at some point and then you interact with some online API, which expects a char list and you give it a binary and then you spent half an afternoon and lots of coffee discovering, “Oh, single quotes. Yeah.”
+
+
+[0:32:30.6] JE: Yeah. I’m pretty sure that was the first thing I learned writing in elixir and the most challenging first thing to learn.
+
+
+[0:32:36.1] RF: I’ll give you an example without throwing anybody under the bus, but in the company I work for at the moment, we recently had to build a rule for the ES Linter, rules of thing, which is the JavaScript equivalent to Robocop and. We decided in the team that we wanted our impulse, which are basically aliases from elixir just in JavaScript. It's not a correct comparison, but suffice us for this purposes. We wanted to have them in a certain order and we wrote a rule for that and the person who wrote the rule made the linter error message import order wrong, exclamation mark. I hope I have contributed to the fact that most people in the elixir community would consider that a bad error message.
+
+
+[0:33:22.8] EO: Yeah. We have some more questions. What are some must have rules and some never have rules for a linter?
+
+
+[0:33:30.2] RF: I’m very pleased that we can now deactivate all the checks that the formatter covers. Credo 1.4 also broad text, so you can now exclude a certain tech, like formatter from the analysis to just say okay, I’m using the formatter. Therefore, I don't need these checks. With 1.5, I had also planned to detect the .formatter.exs file to just deactivate them by default, and so that you would have to explicitly re-enable them.
+
+
+I learned this in the very, very short space of time where I wrote elm, that I cannot live without an auto-formatter. The moment that elixir got one was one of the happiest moments in my professional life. I was discussing with Chris a couple of years ago at a ElixirConf EU, where he said, “Yeah, I also like it, but I have my qualms with one or two of the roots.” I was like, “No, doesn't matter.” If it's not one statement per line or something crazy like that, I don't care. I just want to press command S and be done with it.
+
+
+[0:34:39.5] JE: Are you talking about Keithley McCord or some other Chris?
+
+
+[0:34:42.1] RF: McCord.
+
+
+[0:34:42.9] JE: Do they have any other – we do though. Chris [inaudible 0:34:44.1]. Probably other Chrises in the outskirts.
+
+
+[0:34:49.4] RF: I just wanted to name-drop somebody.
+
+
+[0:34:54.1] JE: It’s the show for name-drops. I want to talk a little bit more about this. I know that it's not elixir related, but I want to know if this is recently in electron right now, is writing something in Electron as awful as running something in Electron.
+
+
+[0:35:08.9] RF: I guess, you're in an environment that was never intended to be used for this purpose and you have to be more careful what you do and what you don't do. The app I’m writing is replacing an app solely written by students who had basically zero work experience using all the best practices from all the blog posts by the other 20-year-olds. It's hard.
+
+
+Writing, working app in that space is actual work. I think typescript is actually a good development in that situation. It's a blessing. I’ve built JavaScript apps for most of my professional life at some point or the other, because I always was the janitor guy who had to do the maintenance work for the existing project. I was at my former company for 16 years and I learned basically all of what I know there through the janitorial work and my mentor who gave me bits of wisdom, like you can make every project fun. Just because you have to use Java, doesn't mean that you can't have fun at the space. I think that it passed to electron as well.
+
+
+[0:36:21.0] JE: I want to ask one more question before we get time to plug whatever you want, which is how have you taken functional programming concepts and then how are you applying them to this project that you’re ready in the leg drop?
+
+
+[0:36:32.2] RF: That’s funny, because I think when you learn something new, like a new paradigm, you should not try to program Scala in Ruby, or elixir in Ruby, or for that matter, purely super functional in JavaScript. Javascript is pretty functional. You have functions as first-class citizens. I think the approach I’m taking is things that benefit from being object-oriented. Object-oriented are classes with instances, etc. Everything that doesn't benefit from it is just a function, which takes data as input. Not an object, but rather plain old Java objects as instruct and transforms that really has enabled me to write pretty easy unit tests around okay, if I get this thing in, then hat's the output. If it isn't, then it's wrong. That's definitely something that I did not learn during my time before elixir.
+
+
+[0:37:27.4] JE: Well, René. We are super glad to have you on the show again and we would love to have you back for another interview at some point, whenever you're ready. Do you have any final plugs, asks for the audience?
+
+
+[0:37:38.6] RF: Naturally, we have to have this one more thing-thing. I would encourage listeners to try Credo Master, because I rewrote the runner. The module is actually at this moment still called experimental runner and I reconfigured how the tasks are split up and executed based on a talk by Devin Estes in Berlin last year. For some code basees, you can see a 10X improvement in speed.
+
+
+[0:38:06.6] EO: Wow.
+
+
+[0:38:07.2] JE: Wow. Yeah, Devin's a really smart guy. We really enjoyed having him on the show as well. Name drops everywhere. René Föhring, everybody. Thank you for coming back on the show.
+
+
+[0:38:17.3] RF: It's been a pleasure.
+
+
+[END OF EPISODE]
+
+
+[0:38:19.0] JE: That's it for this episode of Elixir Wizards. Thank you again for joining us. Thank you to our guests, Andrea Leopardi and René Föhring and my co-host, Eric Oestrich. Once again, I am Justus Eapen. Elixir Wizards is a SmartLogic podcast here at SmartLogic. We're always looking to take on new projects, building web applications in Elixir, Rails, React, Kubernetes, React Native, all of the cool new tech.
+
+
+We'd love to hear from you, if you have a project we could help you with. Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally @JustutsEapen and Eric @EricOestrich.
+
+
+Join us next time for more special live episodes of the Council of Wizards, a special edition of Elixir Wizards.
+
+
+[END]
+        © 2020 Elixir Wizards

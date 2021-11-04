@@ -1,0 +1,645 @@
+EW S4E6 	— 	Transcript
+EPISODE S4E6
+
+
+Justus Eapen:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile application development shop based in Baltimore. My name is Justus Eapen, and I'll be your host today. I'm joined by my co-host, Eric Oestrich, and this season, season four of Elixir Wizards, we are talking about system and application architecture. Today's special guest is none other than Sundi Myint. Hey, Sundi. How are you?
+
+Sundi Myint:
+Good. How are you guys?
+
+Justus Eapen:
+I am excellent, thank you for asking. Eric, how are you?
+
+Eric Oestrich:
+Doing great.
+
+Justus Eapen:
+We like to start with some lighthearted banter, and the first question that I had to ask was that ... You have the best Instagram of any programmer I've ever seen. Like by far, it's not even close. I'm curious, what's your strategy on Instagram? How do you make it so aesthetic?
+
+Sundi Myint:
+Yeah, I guess. I mean, I have no goals for it. I'm a big food person. I did have a lot of photography background in high school, a little bit of college. I don't know, at some point I was just sharing what I was cooking a lot, and my roommate right after college, she said, "You know, you should really create a hashtag for this." So #cookingwithsundi was born, and I thought, "Maybe I'm going to buy that domain name, I don't know." There's no strategy here, exactly.
+
+Sundi Myint:
+I will say that after working at CAVA, which is a very food, aesthetic, people see that food and they want it because the photography is nice and the food is so delicious. I did learn a a lot from how to present food, and how to plate food a little more. Hanging out with chefs will do that to you. It maybe stepped up a little after that, after working there. Maybe that was part of it, but no real strategy.
+
+Justus Eapen:
+Are you professionally trained in food in any way, or did you just teach yourself how to cook?
+
+Sundi Myint:
+Taught myself how to cook. My parents had a big influence. I'm a Burmese-American. My parents came here from Burma. My grandmother has a lot of recipes that I picked up. My mom, my dad. Honestly, if running a restaurant wasn't so hard, I think my family would love to do it. We're so in tune. Even my little brother, he's on point with his plating and his presentation. He's real into vegan food right now. No professional training, just a lot of experimentation, a lot of gadgets, and a lot of eating, really.
+
+Justus Eapen:
+Well, we'll have to have some kind of Elixir Wizards dinner. That would be such a good idea, actually. Do a council of wizards but with dinner, that would be awesome.
+
+Sundi Myint:
+Absolutely.
+
+Eric Oestrich:
+All right. How did you get into programming?
+
+Sundi Myint:
+Yeah. I actually have kind of a roundabout background. I was a CS major at the University of Maryland College Park, and the first time I ever programmed was actually during my second semester, with an Intro to Java course. I know it's one of the best programs in the country, but for some reason the content just didn't stick with me, and I was also struggling in other classes, particularly calculus, so I wasn't able to really concentrate on my CS courses the way I should have been, and it really put me behind.
+
+Sundi Myint:
+I actually didn't think I was cut out to be a programmer back then, but I still somehow got my first internship through the CS program there, and right around the time I was thinking about switching majors, that first internship I had, I had a manager who let me know that I didn't need to graduate with a CS major to continue doing the work I was doing. I just needed a degree. It was a huge burden that was lifted off my shoulders. I ended up switching out of the major that summer. I was actually an art major with a digital media concentration, and the entire time I was in college I was doing coding for internships, or dev work through various jobs throughout college. I basically was painting during the day and coding at night, and it was kind of like I hacked college, but it was a blast.
+
+Justus Eapen:
+Wow. That makes ... Have you read the book Hackers and Painters?
+
+Sundi Myint:
+I have not. That sounds very on brand, though.
+
+Justus Eapen:
+Yeah, I think it's very on brand. It's also just a great book for anyone who works in tech. Also just, I think the non-traditional path is becoming a lot more popular. We have had several guests on the show this season talk about having a non-traditional path, and it definitely sounds like you hacked college. Can you talk a little bit about your start in Elixir specifically?
+
+Sundi Myint:
+Yeah. I had never worked in Elixir before I got hired at CAVA. CAVA's back end is written in Elixir, and the front end is in React and React Native. So I had a lot of React experience. They came in knowing that I wouldn't know Elixir, but that I had the capacity to learn it, which is how I think a lot of people hire Elixir devs these days, which is really great. As long as you have the passion to learn Elixir, that's great.
+
+Sundi Myint:
+So I went in ready to learn it. I did about eight weeks or so on my own, and on-the-job training kind of thing, and then I actually went to Lonestar Elixir in 2019 and took Bruce Tate's OTP training at that conference on training day, before the conference started. That was when it really clicked for me, and I started really ramping up from there, after having taken that training course.
+
+Eric Oestrich:
+I think that Lonestar was where we first met you too, right?
+
+Sundi Myint:
+Yeah. I believe so.
+
+Eric Oestrich:
+That was a fun conference.
+
+Sundi Myint:
+Yeah, for sure.
+
+Eric Oestrich:
+Was there anything that got you interested in being a programmer? What made you start a major in programming, even if you switched off? But obviously you're still here, so yeah.
+
+Sundi Myint:
+Yeah. It was kind of a strategy for applying to college. I didn't think it was a good strategy to apply to college at the time as undecided, and maybe the first real time I thought I might have an idea for what I wanted to do for my life was in fifth grade. I was a big Sims player, and I really thought that working at EA would be just the dream job, working on the Sims game. That just sounded so cool. I don't know, when I was a high school senior I was looking at my options. I was a big yearbook person, did a lot of design. I designed entire yearbooks, and a lot of photography back then too, and I thought, I might have the vision to do this so maybe I can just give it a shot. My parents really wanted me to be an engineer, also. That great push from the parents.
+
+Sundi Myint:
+So I went ahead and applied to college with the CS degree intention. For any aspiring college grads out there, I think that knowing where I was, my SAT scores, how I was in math at the time, I actually don't think that applying with an intention of CS degree helped me too much, because I actually had a lower designation on the list of being admitted to college. I think because of how competitive the CS program was. I think it's even harder now than it was back then. I don't know that I'd recommend that now, but in my head at the time it was a tactic to get more noticed in my college application. It was like, I have this intention with this degree.
+
+Justus Eapen:
+Do you still dream of working for EA?
+
+Sundi Myint:
+I have heard interesting things about being a video game programmer and the hours they work. I don't know. I like the work I'm doing now. It doesn't really matter what field I'm working in. I've worked in the food industry, travel industry, talent acquisition, software. I mean, maybe if they were using Elixir. I seem to be a very tech stack driven person these days. I really am drawn to the technology more than I am the product.
+
+Justus Eapen:
+Can you talk a little bit more about that very first paid programming job? Like how you got it, what you were doing, what the tech was like at that time?
+
+Sundi Myint:
+Oh yeah. You mean the internship or the first job?
+
+Justus Eapen:
+First one that paid.
+
+Sundi Myint:
+Okay. Yeah, yeah. Internship. That was a very funny one. I had just gotten involved with a volunteer nonprofit organization, IEEE, which I think you might want to ask me about later too. But I felt like as a sophomore in college, I was good. I had a volunteer position. I didn't need an internship yet. I went to the career fair specifically because I was a broke college student and I needed a water bottle. I specifically was like, "I'm going to this career fair because I want a water bottle."
+
+Sundi Myint:
+But I got there late, and so most of the Appians and the Google and Amazon tables, their water bottles were gone. So I was just like, "Okay, who has a water bottle? Who has a water bottle?" Then I looked over and this one company, AIS, Applied Information Sciences, they had water bottles on the table. I walked over and they said, "Hi, are you looking for an internship?" And I looked at the water bottle, I looked back at him, and I go, "Yes."
+
+Sundi Myint:
+That actually escalated pretty quickly. They liked me, I guess. That first job, the technology was Windows 8, that Windows UI design. The squares.
+
+Eric Oestrich:
+Metro, was that ...
+
+Sundi Myint:
+Yeah, Metro sounds right. I don't really remember now. I don't even know if you could call what I was writing JavaScript? It feels like it was. I should remember these things. Yeah, I remember I was learning a ton. I learned a lot about agile scrum process there, and the traditional waterfall method. I mean, the technology was Windows. Definitely Windows. I actually named my computer Tanky, because it was huge, like a huge Windows computer that would run that software.
+
+Justus Eapen:
+I've got a huge Windows machine right here. It's so funny how different people get their first jobs, or even their current job. I applied to Smartlogic because they had pictures of their office, and there was plants. I was like, "Oh, I could sit in an office where there are plants. Make it work."
+
+Sundi Myint:
+Yeah.
+
+Justus Eapen:
+Talk a little bit about Elixir resources, if you have any good recommendations for people either getting started or maybe more intermediate. What are your favorite Elixir resources? Anything especially that's underrated, or maybe the unsung heroes of learning Elixir?
+
+Sundi Myint:
+Yeah, for sure. I wouldn't call this underrated, but very powerful. Maybe not considered as an option for people who are getting started, but since I got started with Elixir on the job and I actually got to do that training with Bruce Tate's class, I realized that for me at least, I'm not a books person. I get books for reference, but I don't cover to cover read them. I actually really benefit from taking those training courses, and of course, not everyone has the budget to get to a conference and pay for training, or maybe they don't have the time, or maybe there's global pandemic that makes it so people aren't traveling, you never know what's up.
+
+Sundi Myint:
+But that was a great way for me to learn, a great resource for me, and luckily now Bruce is doing his class through his company, Groxio Learning, and I actually just took a LiveU class with him. It's a really great environment. It's like four to six people. We all took turns driving and writing the code ourselves, learning from each other's questions and mistakes. Very important. It's really my favorite way of learning, and it was super remote friendly, and it was just a few days. I gained a lot of knowledge there, and I think a lot of people, a lot of teens who are getting started with Elixir, maybe especially if they have a company that's backing them or a little bit of a budget to be able to really invest in themselves and take a class like that, because I think that is a really accelerated way of learning, much more so than videos or books.
+
+Eric Oestrich:
+Yeah. I've seen, he tweets about upcoming classes a lot. I think they're booked fairly far out at this point, but it looks like July maybe is open, based on what I can tell. I don't know.
+
+Sundi Myint:
+I always got the impression that there might be a space or two available, and that really if you work with him or you work with Maggie, hopefully there's a way to take the class. He's really excited about getting students from all over in, so it's just a great experience.
+
+Eric Oestrich:
+Awesome. What are your impressions of LiveU in general? How are you liking it?
+
+Sundi Myint:
+I have to say that I watched the video of Chris McCord making a Twitter clone in 15 minutes, and about 8 minutes in my jaw was on the floor. I can't with that. That's so amazing. It's really cool to just be able to spin up so quickly. I think maybe the only thing for me is, it's almost too magical, where I have to really dig into everything to understand how something happened. I'll actually be looking around between controllers and views and being like, "Are these things hooked up? Oh, okay, they just work. Cool."
+
+Sundi Myint:
+The nice thing is, you can actually dig in and see. You can actually inspect into all the helper functions and dig in deeper, and see how everything is working and functioning, which is great. But yeah, at face value you're just like, "Okay. I literally ran the terminal command to get this project spun up, and now I have nothing to do but deploy it." That's how it feels when you get started with LiveU. It's really awesome.
+
+Justus Eapen:
+There does seem to be some pushback against it on that basis, that there's more magic involved. Eric, is that right? Am I making that up? I feel like we heard that from another guest at some point.
+
+Eric Oestrich:
+Based on the words you just used and also the fact that there's a 15 minute Rails demo, it gives Rails-y vibes, for better or worse I guess.
+
+Justus Eapen:
+For the record, I'm kind of pro Rails vibes. I think I'm the one person in the community saying we need to aggressively pursue toppling Rails as the default stack for new startups and that kind of thing. But we don't need to get into the revolution, it will not be podcasted.
+
+Justus Eapen:
+I think what might be one of the best technical blog posts I've ever read, ever, which is History of Emojis ... Can you talk a little bit about that blog post? The process for writing it, the impetus for writing it? Then I'll ask some follow up questions.
+
+Sundi Myint:
+Yeah, for sure. I mean, also, thank you, high praise there.
+
+Justus Eapen:
+It really is, it's such a good post. I bookmarked it.
+
+Sundi Myint:
+Oh, thank you. I am a big emoji person. Anyone who's ever worked with me knows that I start on day one and import all my own Slack emojis. I will make emojis of your face, everyone knows it. I make several of people's faces with different emotions. It's a thing. My history with emojis, how this came about, was I was actually at a meetup, The Joy of Programming, hosted by Optoro at the time. I was speaking with the meetup organizer, and she runs the DC Tech slack.
+
+Sundi Myint:
+I was teller her about this funny little emoji I had added to the Slack, that was of a colleague of mine whose face is on top of Party Parrot. That was before the generator was a thing, so he's just on this party parrot and he's moving around, and he's rainbow colored and whatnot. She'd seen it, she'd seen it in the wild. People had used it. It's called Party Brown. If you don't know him, and you see it, you're just like, "Who is that guy? Why is so happy, and why is he partying on a parrot?"
+
+Sundi Myint:
+I was just joking around with her about the history of this emoji and how it appeared in DC Tech. I was pretty sure she had seen it before. And she was like, "You know, that's just really interesting, like the history of emojis in general. The origin story behind different emojis." Then she said, "That's an interesting talk. You could do that here. You should do that talk here." I was just like, "Oh, did I just walk myself into a ... Oh, okay. Got it, got it. Cool, cool cool cool."
+
+Sundi Myint:
+I went home, and for the next month, I researched everything about emojis that I could find. How it got started, its origins in Japan, its origins on pagers, and how it got universalized with Unicode, and how they actually have a consortium where they meet every year and decide on which emojis are deemed worthy to be added this year. This year, ironically, we got toilet paper, which is killing me, because they decided that before that was important. That's coming out, or it has already come out in the June release for 2020's Unicode update, so I think that's crazy.
+
+Sundi Myint:
+But the blog post came about because I was working at Upside Travel, and they were really hoping that we would really build out a very robust engineering blog system. Every engineer was given the space to come up with something they really wanted to write about, and I had all this research under my belt, and I gave a lunch learn, and they said, "Yes, please do this as a blog post." So I wrote it. They actually hired a professional editor to help tweak some things, let me know where I needed to be captioning pictures and stuff.
+
+Sundi Myint:
+And I got to write that. It was actually really fun. I think it's due for an update. There have been quite a few updates to the history of emoji timeline now, especially that whole hamburger debacle.
+
+Justus Eapen:
+What was the hamburger debacle?
+
+Sundi Myint:
+It was like, Google put the lettuce underneath the patty, and it's supposed to be on top. Then they switched it, or something.
+
+Justus Eapen:
+Oh my gosh.
+
+Sundi Myint:
+Of course, your operating system decides what to show you, so this is why it's a water gun on one place, and then a regular on another. It's a very interesting debate on what shows where. This is why you saw blobs sometimes, or sometimes you saw the different styles of smileys and whatnot. It's all operating system driven.
+
+Justus Eapen:
+Do you know why, when my parents send an emoji, it's just a square?
+
+Sundi Myint:
+That happens to you in 2020?
+
+Justus Eapen:
+I mean, they're boomers, so yes.
+
+Sundi Myint:
+That's interesting. That means that your phone can't recognize the emoji that they sent, but I haven't seen that since 2007.
+
+Justus Eapen:
+It happened recently. I don't know if it was my parents. It might have been in a group text, too. There's weird cases where it happens.
+
+Sundi Myint:
+Yeah.
+
+Justus Eapen:
+They might have been copying something from another place. I don't know. You know how parents always mess it up.
+
+Sundi Myint:
+There's a whole debate about foreign language characters, and how we have all of this support for all of these dead languages, math languages, and not a lot of support for certain Japanese characters, Chinese characters. It's possible that if you're copying and pasting another language and you don't have that font installed, sometimes you won't see it because it hasn't been added to Unicode. I mean, that's more likely the case than it being an emoji that your phone can't see.
+
+Sundi Myint:
+Because in 2020, they've really normalized out those emojis, to the point where toilet paper, you'll see it, they'll see it.
+
+Justus Eapen:
+Yeah. I've been thinking, there's some emojis we still don't have. We don't have a grass emoji, so when someone mows your lawn and you pay them on Venmo for mowing your lawn, there's not a good emoji ... Because you know that your Venmo gets categorized by the emoji that you put there? I don't know if everybody knows this. For example, instead of doing lawn, I put home, right. Then when my Mint reads my Venmo transaction, it categorizes it as home, even though it's actually lawn.
+
+Justus Eapen:
+Anyway, so that's the whole thing.
+
+Sundi Myint:
+That's crazy.
+
+Justus Eapen:
+I'm curious, because you said you emojis. Can you make some Elixir Wizards emojis for me and Eric?
+
+Sundi Myint:
+Sure. It already looks like you guys have some pretty cool art, that looks exactly like you. It's kind of crazy.
+
+Justus Eapen:
+This is a new idea, but I want to get a Marvels Avengers style shirt made, with all the Elixir Wizards guests on it, so that might happen, who knows. What is Unicode, and how does it relate to emojis?
+
+Sundi Myint:
+Yeah. Emojis are literally Unicode. Unicode is a universal code language that your operating system gets a code, and it knows, or it chooses how to render it based on that code. It will take that code, put it together, and see what needs to be shown to the user. I think a good example is a flag might have a particular code, and then if you add the code for French or something, it will show you the French flag. It combines those two things.
+
+Sundi Myint:
+The codes get added so that everybody who's a provider of an operating system, so Mac OS will show you something based on the code. They're all part of the consortium, so that they can be up to date on when codes get released, so that they know that they need to make the art in their style, to be able to display everything properly. What happened was, there was a time period that I'm sure a lot of people remember, where they were actually just getting the squares. If me as an Android user sent an emoji to my friend who's an iPhone user, they would just get a square, because we weren't both on the same system.
+
+Sundi Myint:
+Once emojis got added to Unicode, that was normalized. To give a clear reason as to Unicode before emojis is to show languages. I was talking about Japanese and Chinese. There was a time when you also had to install a font on your computer to see specific languages with characters that you didn't have. Now, I don't know if you noticed, but sometimes if you click on an article and it has other languages, you can see it without having to install those languages. It's because those languages have now been added to Unicode, and so your operating system now knows how to interpret those characters, and show them to you how they're supposed to be seen.
+
+Sundi Myint:
+If anyone didn't think about that, but noticed that they could see foreign languages on their computer all of a sudden, that's where that came from.
+
+Justus Eapen:
+Wasn't there a time where in order to get emojis on your iPhone, you had to download a special app, and copy and paste them out of the app or something like that? Am I making this up?
+
+Sundi Myint:
+I actually wrote about it in the blog post. It was when Apple wanted to get their iPhone into the Japanese market. They specifically added emojis to the keyboard in the Japanese keyboard. Because emojis started in Japan. They were most popular in Japan first. It was their way of trying to get into the Japanese market, but they didn't think that everybody would want them, so people were specifically downloading the Japanese keyboard on their phones no matter what language they were typing in, just so they could have access to the emojis. Then that's where they were using it.
+
+Sundi Myint:
+If there was an app after. But that's what people were doing.
+
+Justus Eapen:
+That makes sense. That seems right.
+
+Sundi Myint:
+Yeah.
+
+Eric Oestrich:
+All right. This season is themed around application and system architecture. One thing we've been asking everyone is, what does architecture mean to you?
+
+Sundi Myint:
+Yeah. I really think that architecture is really the system level design of an application. I think of it as the unchangeable parts of an application, so when you're getting started with an app, you really think about how applications are going to function, and how they're going to interact with external APIs perhaps, and that the architecture is really how you set everything up so that ... I don't think you can change it later. Not very heavily. That's at least my opinion about the way that architecture is, and I think that's actually the difference for design, is that the design of it is how you build up from there. But I think it's a lot to do with where you get started.
+
+Justus Eapen:
+Do you have any opinions on domain-driven design, and if you do, also could you define it for the audience? Because I've found that everybody has different definitions.
+
+Sundi Myint:
+You know, if I've used domain driven design, I didn't use it with knowing that that's what it was called. I'm actually not sure if I'm the best person to define it. I did look it up beforehand, and it seemed to be the idea of designing your application with the business logic incorporated, or the business idea incorporated, and designing it around that? The thing that confused me about maybe that concept is that I feel like most applications are built around the idea of what you're building. I mean, like an example-
+
+Justus Eapen:
+You're the first person to speak what's been in my head the whole time we've asked this question, so thank you.
+
+Sundi Myint:
+Okay. It felt a little buzzword-y when I was looking it up. I don't know, maybe this is an unpopular opinion, but from what I was looking at in examples ... I was working at CAVA. The code was all centered around being a food ordering app. It is a food ordering app. There are definitely cases where you have to write code that don't have to do with that, for example security code, authentication code. Maybe that doesn't have to do with ordering food.
+
+Sundi Myint:
+But I think the important thing is that there's this philosophy that any line of code you're writing should point back to a business need, right? You should be able to at any point in time be writing some code, and understand how it's helping the business. If it's like one off code, throwaway code, no matter what it is, it should be pointing back to something that your business needs are. If your business is very good at defining OKRs or quarterly goals, you should hopefully be able to look at the exact ticket you're working on and point right back to what you're working on.
+
+Sundi Myint:
+Even if you're working on something authentication related or security related, and you're working on a food ordering app, it should still be helping the business goals in some way. Yeah.
+
+Eric Oestrich:
+Business goals of not being in the news for leaking credit cards.
+
+Sundi Myint:
+Yes, exactly. I'm probably not the best person to speak on it, because I maybe have not been writing my code with domain driven design in my intention. I think maybe the way that I have coded in the past is test driven coding, where I do a lot of the tests up front so that I can write my code around that. That's a concept I know I've used.
+
+Justus Eapen:
+Can you talk a little bit more about that, like dive into your workflow, and maybe your code design strategy?
+
+Sundi Myint:
+Yeah. I mean, this doesn't always happen, but in an ideal world, you have an idea for a feature, but maybe you don't know how it functions exactly. But you know what you're starting with. You know what your input's going to be, and you know what your output should be. You know what functionality you want out of that. So in theory, you could write a test before you wrote the feature, or the bug fix, whatever it is. So test driven development.
+
+Sundi Myint:
+It's very driven around writing the tests up front, and then writing the features from that. I actually find that gives me a lot of clarity, and I write the feature a lot faster. When I don't do it that way, which does happen, because I'm trying to move fast, I could write the feature and not really know what I need to do with it, because I haven't thought too much about the end goal. Writing the tests first definitely gives me that clarity.
+
+Justus Eapen:
+Can you talk about coverage? Do you aim for 100% test coverage? What is your philosophy on testing more broadly?
+
+Sundi Myint:
+Yeah. I don't really look at the numbers of the full project often. But what I like to do is when I'm writing a feature, I believe there's a sweet spot between under-testing and over-testing. I do believe there is a place where you can over-test. An example of where you can over-test is writing 15 tests for one controller function, and then changing something later, maybe a core design feature, and then having 15 tests to change in different places that maybe weren't related to the change you made, and then that's just maintenance work, because you over-tested.
+
+Sundi Myint:
+To maybe highlight why I think that's possible, is because the way I like to test is, I like writing tests specific to features that are very specific to what that feature is doing. The way I like to organize my modules are public functions at the top, private functions that feed into that public function but only one public function exposed. Then that test will have one describe block that's testing that function, and at least three cases. The happy path, the not happy path, and the error cases I'm expecting. Those will be the tests inside that describe block. That's very specific to what that function or that module does.
+
+Sundi Myint:
+Then, if that module or that function is a context of some sort, maybe I'm calling that context in a controller, and my controller test needs to test that function worked properly. I'm not re-testing. I'm not re-writing. I'm not copying and pasting the exact functionality, but now I'm incorporating connections, right? I need to do a very controller-specific high level test to make sure I'm getting the OK tuple that I'm expecting, or whatever I was hoping to achieve that I'm getting from the controller.
+
+Sundi Myint:
+It's like separations of concern, testing exactly what you're expecting, and then that's on the broader end, the controller, and then the context is the middle. Maybe the context was calling a module that does HTTP requests. That would be a case in which the HTTP request would be in its own helper module, and then that module would get tested specifically to make sure that the calls are going out properly, and I'm getting the data in the way that I'm expecting it to, and encapsulating it in a way that no matter how that API might change in the future, my code always knows how to handle it. That's a good way of abstracting the code, and then testing it specifically for that.
+
+Sundi Myint:
+My context tests wouldn't be testing the response of that data. In that case, that would be mocking it.
+
+Eric Oestrich:
+Speaking of mocking, what do you end up using for that? Originally Elixir was one of the ... On the Elixir blog, it was talking about, "Don't mock stuff, do it this way," which was like modular attributes that changed what the live module was. Then mocks came out. Do you use either of them to do that?
+
+Sundi Myint:
+I have use mocks in the past. It was quite confusing at first, but then I got the hang of it, probably to the point where I can't spell behavior the American way anymore. I only spell it the English way.
+
+Eric Oestrich:
+Yeah. I do the same.
+
+Sundi Myint:
+I can't spell it without the U. But yeah, I am quite familiar with mocks. I actually like the idea of mocking, and for this specific case. Let's say, a lot of things had to happen to get to the point in your code that you're testing, right? Maybe you had pulled something, called something, needed something in a certain state. Then all it did, all this function does, is take all of those things that happen in a real production environment, with all of these cases that you know to be true, because you tested them individually at all different stages, right.
+
+Sundi Myint:
+Maybe it makes an external call or a bunch of other things that need to be set up. You could write a bunch of code to set it up, right? You can write factories, you can write helper functions that mock that situation out. I don't like that so much, because that's code that you could also be writing bugs into, if you're writing helper functions to mock that out. I actually like the idea of, you know these cases to be true because you've tested them elsewhere, so it is absolutely fine for you to use something like mocks to just pretend that this came back okay.
+
+Sundi Myint:
+Then what happens? You're testing what happens when it comes back okay, or you're testing what happens when it came back with an error. You want to make sure that your error handling is proper, and you're testing what came back properly. You don't need to test that everything that happened before worked, right? Because you've already done that, hopefully. That's why I actually really like mocks. I appreciate it especially when you're testing out those calls, like I worked with the Stripe API. You don't want your test suite to be making actual calls to the Stripe API even in a dev environment, because that's going to slow everything down. You want to mock out the return you're getting based on their API.
+
+Justus Eapen:
+I want to maybe expand the question even further, which goes into before you even start writing tests, before you even start coding, what does your planning process look like? I'm especially curious around when you're talking to stakeholders, and trying to establish product requirements or specifications. How do you think about structuring that conversation, and getting ideas onto paper?
+
+Sundi Myint:
+I think as far as talking to stakeholders, a big part of that is just getting a really good understanding of what is the ask, in the most simple terms possible? Then once you have that answer, kind of just taking it to a whiteboard. I am a big whiteboard person. I think the most productive I've ever been in my life is when I had a whiteboard desk. Everything in my head and everything on the desk was super clear, all the time. I don't know what it was about that desk.
+
+Sundi Myint:
+Especially with Elixir, drawing the way models relate to different modules relating to your database and how you're expecting things to interact. It's actually easiest to draw that out, and planning features is easiest for me at least when I have an idea of how something is going to work in a diagram form. You can plan very complicated things out if it's not just living in your head. You really do have to export it from your head onto something that you can see, so that your brain isn't processing it anymore, your eyes are.
+
+Justus Eapen:
+Are you starting with a list, or are you kind of mind mapping and then making connections? Or what does it look like?
+
+Sundi Myint:
+It's usually starting with something that you know needs to happen. You have this end goal of, I want this module to have this functionality, and then you can say, "Okay, this module already acts like this." So you write the module name down in a box, and you draw an arrow, and then say, "Okay, and I need its state to change to this when this happens." Then you write down the precondition for that, and the side effect of what happens. Then from there you kind of have an idea of the steps you need to take in order to make that happen. If you know your code well enough, you know where these changes need to be inserted based on that diagram.
+
+Justus Eapen:
+Can you talk a little bit about how your process has evolved over the years? Do you do anything differently, or have you learned anything that would be helpful to someone else that maybe was earlier in their career?
+
+Sundi Myint:
+That's a difficult question. I was not good at this whiteboard module drawing until I started writing Elixir. I don't think I could do that right now, for a JavaScript API, but I don't know why. I had this discussion at a DC Elixir meetup, actually. Elixir is just very human readable. It translates very well to English. I think that if you write good Elixir code, somebody who doesn't even know how to code could probably read your code.
+
+Sundi Myint:
+I think the biggest thing is that Elixir, for somebody who's not very math driven, for somebody who's very strong with the visual inputs and understanding things visually, Elixir has really helped me visualize and understand the way my data is moving, the ways my modules interact with each other, because it's more human readable. I think if I were to give advice to somebody who was trying to figure out how their code ... I mean, not language agnostic advice, but learning Elixir has been a really great thing for me to really wrap my head around that.
+
+Eric Oestrich:
+I think just being modules, functions, and data helps simplify things a lot. Maybe that's partly why it's easier to whiteboard things, where it's just like, data transformation pipelines is most of what we end up writing.
+
+Sundi Myint:
+Yeah, and it's easiest to visualize with the pipe, right? The pipe operator. Of course that's what's happening. But you could write a similar chain of events in JavaScript with a .then, right. From the return of a promise. It's doing the same thing essentially, and it just doesn't read the same way. Maybe there are too many parentheses, I don't know. It's just harder to read.
+
+Eric Oestrich:
+It's time to add the Ruby pipeline operator to JavaScript, so that it could just be a new dot notation.
+
+Justus Eapen:
+It's coming. Well, Sundi. We want to give you the opportunity to close out with any plugs or asks for the audience that you have. Shameless self promotion is encouraged.
+
+Sundi Myint:
+Sure. I obviously have a blog post that you could read if you'd like. It's called Emojis: A History. A play on Hogwarts: A History. I've already talked about Bruce Tate's Groxio Learning LiveU class. Please check that out, if you are looking into learning about LiveU, Bruce's other classes, they're all a great way to get started, great way to get a leg up on your Elixir learning, it's super great.
+
+Sundi Myint:
+I'm also one of the co-organizers of DC Elixir. We've had both Justus and Eric at our DC Elixir meetups to speak, and I'm hoping to get the DC Elixir meetup on a virtual trend, so that we can have some more meetups this summer, and further down the line. Some great talks. Working on that, so if you're on Meetup.com, please check us out. As for me, I am in the market for an Elixir job. So, you know, if anyone's interested, let me know. It's great to speak to you guys.
+
+Justus Eapen:
+Great, and we will have contact information for Sundi in the show notes, so check those out. Find her online, follow her everywhere, and reach out if you're looking for a great Elixir developer. Thank you for coming on the show, Sundi.
+
+Sundi Myint:
+Thank you for having me.
+
+Justus Eapen:
+Before we close out, we've got to share another edition of Pattern Matching with Todd. Friend of the podcast Todd Resudek is asking members of the Elixir community five questions to help us all get to know each other better. Hope you enjoy it.
+
+Todd Resudek:
+Thank you for joining me today for this episode of Pattern Matching. Today I'm joined by one of the biggest names in the Elixir community. He has presented at conferences all over the word. He's a member of the Elixir core team, and the author of Redix and StreamData, and the co-author of Mint. Taking time away from his work at Community.com, please welcome Andrea Leopardi.
+
+Andrea Leopardi:
+Thank you, thank you for having me.
+
+Todd Resudek:
+All right. Thanks for being with me today, Andrea. Before we get started with the five questions, I introduced you as having presented all over the world, and just a short list from what I can remember. I know you've presented in Colombia and Buenos Aires, Mexico City. Where else have you been? I think you've been to Japan or Asia.
+
+Andrea Leopardi:
+I've been to India recently, and then I've been to ... I think it was my last conference before the quarantine, actually, that was in India. Then I've been to Brazil, it was pretty cool. Been to the US, a few places around the US, and in Europe as well, a bunch of places in Europe too. But those are the highlights.
+
+Todd Resudek:
+Four continents' worth of conferences from you, just in the last, probably what, two years or so?
+
+Andrea Leopardi:
+Yeah, actually.
+
+Todd Resudek:
+All right, we're going to have to get you to a conference in Africa soon.
+
+Andrea Leopardi:
+I should be there, yes. I'm looking.
+
+Todd Resudek:
+Ah. I think Elixir Kenya was having a conference today. But yeah, obviously you can't make it down there right now.
+
+Andrea Leopardi:
+No, I can't make it anywhere right now, not even outside of my house too much. That's a bit ...
+
+Todd Resudek:
+Well, speaking of your house. Let's talk about, where were you born, Andrea?
+
+Andrea Leopardi:
+I was born in a little town in Central Italy. It's called L'Aquila. So L-apostrophe-Aquila. It means "The Eagle." Small town in central Italy, up in the mountains. That's my birthplace.
+
+Todd Resudek:
+Okay. That's where you live now, right?
+
+Andrea Leopardi:
+It is, it is. I've lived here most of my life. I had brief relationships with other places. I traveled a lot, like a lot, in the past few years, and I lived in Sweden for a year, year and a half. Then I came back here. I like it here. It's quiet.
+
+Todd Resudek:
+Yeah. It's nice. You're up in the mountains, right?
+
+Andrea Leopardi:
+I am, yeah. I'm up in the mountains. About 700 meters of altitude, that's half a mile? A little bit less than half a mile of altitude. It's not too ... It's nice. It's lots of nature, lots of mountains.
+
+Todd Resudek:
+Okay. Yeah, I'm 6,000 feet at my house, but I'm not in the mountains.
+
+Andrea Leopardi:
+Oh, wow.
+
+Todd Resudek:
+I don't know. If you translate that to meters, 6,000 feet is what. 2,000 meters?
+
+Andrea Leopardi:
+2,000 meters, around, yeah. About a third, yeah.
+
+Todd Resudek:
+Okay.
+
+Andrea Leopardi:
+That's pretty high, yes.
+
+Todd Resudek:
+That's Colorado for you.
+
+Andrea Leopardi:
+That is Colorado.
+
+Todd Resudek:
+You live there by yourself, right? You don't have any kids or significant others with you?
+
+Andrea Leopardi:
+No. I have a significant other, but she doesn't live with me.
+
+Todd Resudek:
+All right. What about pets?
+
+Andrea Leopardi:
+I do not have any pets. I wish I had a dog, but I do not have a dog. Because by myself, I was traveling a lot recently in the past few years, and I could not take care of a dog myself.
+
+Todd Resudek:
+That makes sense.
+
+Andrea Leopardi:
+But one day.
+
+Todd Resudek:
+All right. That makes sense. Just a mountain man, up in his cabin, by himself.
+
+Andrea Leopardi:
+It's more like a normal apartment, close to a normal city, but sure.
+
+Todd Resudek:
+Oh, huh.
+
+Andrea Leopardi:
+I think that image is more picturesque, so let's go with that.
+
+Todd Resudek:
+Okay.
+
+Andrea Leopardi:
+I feel like, to relax from programming I can go chop wood. Let's go with that image.
+
+Todd Resudek:
+I've known you for a while now. That's what I've always imagined, so. All right.
+
+Andrea Leopardi:
+I'm so sorry. Let's say I lied and that's what I do.
+
+Todd Resudek:
+Okay. Moving on, question number two.
+
+Andrea Leopardi:
+Yes.
+
+Todd Resudek:
+Have you had any careers before you were a programmer?
+
+Andrea Leopardi:
+I did not. In university, yes, I tried physics for a couple of years before studying physics, but then I got into programming, and I've only been paid for programming in my life. I realized this recently.
+
+Todd Resudek:
+If you weren't a programmer, have you ever thought about what you might do?
+
+Andrea Leopardi:
+I have, I have. I think that, I like photography a lot. I would like to be some sort of photographer. It's a pretty tough environment, and I don't think that I have the creativity to be a photographer professionally, that makes money off of it. I think that's a career that I would have liked, and maybe something like interior design, like something where you do some creative stuff. But I'm not a very creative person. Probably that's why I'm interested in that.
+
+Andrea Leopardi:
+More down to earth, I think that I always liked the idea of owning a little business, like a restaurant, a shop, something like that. I realized that I really like to keep things tidy and to do things my way. I realized that I do the same in programming, yeah. When a library, it's my library, I really like to keep it tidy, to keep it nice, organized, so I guess it translates to that as well, yeah.
+
+Todd Resudek:
+That's interesting. On the creative front, so I've seen some of your photography, and I know you post some of it up on Unsplash. I think you've traveled a lot of places, so you have a lot of really interesting pictures. I think the logic side of programming is typically thought of as being a pretty left brain activity, whereas the creative endeavors are very right brained. Is that just a good outlet for you to express your right brain side, or do you think it helps you become a better programmer?
+
+Andrea Leopardi:
+I don't know that ... I've never thought about this. I don't know that it helps with programming, but it definitely helps with not using the left side only. Not just using that. I'm not a very creative person, and photography, I only can do it when I travel, for example, because that's the only time where my right brain is tickled. Otherwise I'm not a super creative person that sits here and thinks, "Oh, what sort of art can I do?"
+
+Andrea Leopardi:
+I think that helps me tap into the creative side a little bit, but I don't think I would be able to make a career out of it, honestly.
+
+Todd Resudek:
+Interesting, interesting. I think in my observation, the people that are the most interesting presenters at conferences and stuff are the people that are more balanced, I guess. They do creative things. I think of people like you, or Brooklyn Zelenka, for instance. People that can do artsy things as well make for interesting talks, I guess. It's not always just technical. There's some more, maybe personality in it.
+
+Andrea Leopardi:
+Right. Well, I started drawing my slides for the past few months, and it's been going great. See? There you go. Prove you right.
+
+Todd Resudek:
+I love them, yeah. I used to do that, but then I thought, "Ugh, that's just a total ripoff of Andrea, so."
+
+Andrea Leopardi:
+No, I did not come up with this. Actually, I can't remember where I saw this.
+
+Todd Resudek:
+Fred A [crosstalk 00:40:35] did it.
+
+Andrea Leopardi:
+Oh, Fred. Yes. Sorry, Fred, yes.
+
+Todd Resudek:
+Okay. Yeah, his are a little bit more manicured than yours. Yours are-
+
+Andrea Leopardi:
+Yes, I'm very ... wood chopping.
+
+Todd Resudek:
+It's a little bit sloppier, it's more of your personality on your drawing.
+
+Andrea Leopardi:
+I love my drawings, yeah.
+
+Todd Resudek:
+I think it's good, not an insult, so. All right. Well, let's move on, in the interest of time here. What is the genre of the last song or album you listened to?
+
+Andrea Leopardi:
+I suck at music. I just absolutely suck at music. I don't have very big music culture. I guess pop. I usually open Spotify radio and just let it go.
+
+Todd Resudek:
+Just whatever? Okay.
+
+Andrea Leopardi:
+Let it stream. Just whatever. Yeah. I don't like a bunch of genres, like I'm not a big metal fan, for example, or dance fan. But I'm good with most things. I'm not a very big music guy.
+
+Todd Resudek:
+Interesting. All right. Is there a movie or a TV show that you'll watch every time you come across it on television?
+
+Andrea Leopardi:
+Yeah. I like movies a lot, but I haven't watched a ton of them. I really like a bunch of classics like Lord of the Rings. I'll always watch that if it's on. And I like a lot of very very creative and strange movies. I like a lot of stuff by Wes Anderson. I like Scott Pilgrim Vs. the World, that's one of my most favorite movies of all time.
+
+Todd Resudek:
+Really?
+
+Andrea Leopardi:
+Yeah. TV show wise, I am a big fan of niche sitcoms. I don't know how niche they are, but I really like Community, for example. It's not very big here, but that's one of my favorite shows ever. Then I'm a big Office fan, like a huge Office fan too.
+
+Todd Resudek:
+Okay. Sort of more dry comedies, I guess.
+
+Andrea Leopardi:
+Yeah, yeah yeah yeah. Like creative sitcoms that explore a bunch of stuff. Community does, or Rick and Morty does the same thing, I really like that too. They explore what you can do with the format, and it's pretty cool. I like those.
+
+Todd Resudek:
+Interesting. Yeah, I think Community ... I don't think it was ever super popular in the US either. It always seemed to be more of a cult classic, I guess, or cult favorite than anything.
+
+Andrea Leopardi:
+Yeah. Yes.
+
+Todd Resudek:
+All right, so finishing up. What project are you most excited to be working on next?
+
+Andrea Leopardi:
+I'm excited about a bunch of stuff. One thing that I'm excited about is this book about testing Elixir that Jeffrey Matthias, my co-author and co-worker, are writing together. I'm really excited to get that to a stage where it's out. Then I'm excited about the work that's happening with HTTP in Finch, this new HTTP client based on Mint, that Chris Keathley I think is leading the development, but he's definitely involved. Let's say, it's under his username on GitHub. That's an HTTP client based on Mint, and I really really like how it's going, and I'm really interested in working on the HTTP/2 side of it, because right now it only supports HTTP/1. Yeah, I experimented with HTTP/2, and just pooling in HTTP/2.
+
+Andrea Leopardi:
+One practical thing that I really want to do soon is adding HTTP pooling in Finch. Hopefully making it become good complete HTTP client that people can use, performance.
+
+Todd Resudek:
+Okay. I've been using Mojito on top of Mint for a while. Is this Finch going to replace that, or sort of be, I don't want to say competitor, but be analogous to Mojito?
+
+Andrea Leopardi:
+That's a good question. I think it's roughly going to be analogous, but it's like a slightly different design where it's based on NimblePool, which is this library that has been put out by Dashbit. It does essentially the same thing that we have enacted where the HTTP connection is checked out to the process that needs to make a request, so that there's no copying of data when you do requests between processes. So it's really fast. I saw the benchmarks, and it's really really fast, so I'm very excited about it.
+
+Todd Resudek:
+Wow, yeah. I'm excited about it as well. I know, all of those Nimble libraries that Jose and Dashbit have been working on are all very concise, but they all are really really good at what they do.
+
+Andrea Leopardi:
+Yeah, absolutely. I think that's the goal, and I think they nailed it, yeah.
+
+Todd Resudek:
+Well, cool. Probably worth mentioning again is, you are currently working on a book about testing in Elixir, and that's in some form of pre-beta status. Any idea when that's supposed to be released?
+
+Andrea Leopardi:
+No. I don't want to say stuff that I will regret, so no.
+
+Todd Resudek:
+Okay.
+
+Andrea Leopardi:
+Let's say that no, I have no idea. I have some idea, but let's keep it for myself. But not too far in the future.
+
+Todd Resudek:
+All right. Well, to the listeners, keep your eyes peeled for a pragmatic programmer's book from Andrea and Jeffrey Matthias about testing in Elixir. Cool, well, thanks for joining me today, Andrea. It was great to get to know you a little bit better.
+
+Andrea Leopardi:
+Oh, it was my pleasure to speak with you too.
+
+Todd Resudek:
+Thank you very much.
+
+Justus Eapen:
+That's it for this episode of Elixir Wizards. Thank you again to our guest Sundi Myint and my cohost Eric Oestrich. Once again, I'm Justus Eapen. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects building web applications in Elixir, Rails and React, infrastructure projects using Kubernetes, and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with.
+
+Justus Eapen:
+Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. You can find me personally at Justus Eapen, that's "just use a pen," and Eric at Eric Oestrich. Join us again next week on Elixir Wizards for more on system and application architecture.

@@ -1,0 +1,604 @@
+EW S4E22                Transcript
+
+
+EPISODE S4E22
+
+
+[INTRODUCTION]
+
+
+[00:00:05] JE: Welcome to a special edition of Elixir Wizards; it’s a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. I am Justus Eapen and it is my pleasure to bring you the season 4 finale of Elixir Wizards.
+
+
+The theme of this season has been system and application architecture. One of the most interesting through lines of the season has been an ongoing conversation about domain-driven design. We came up with a concept — “Whose Design Is It Anyway?”
+
+
+It's a show, a discussion, a game show, perhaps, about domain-driven design, complete with points that don't matter, hosted by myself, Justus Eapen and my co-hosts, Eric Oestrich and Sundi Myint. We are honored to have as guests on the show, Chris Keithley from the Elixir Outlaws; Japa Swadia, Senior Engineer over at Podium; Mark Windholtz, the owner of Agile DNA and Miki Rezentes, a Senior Engineer over at Frame.io.
+
+
+Without further ado, please enjoy the season 4 finale of Elixir Wizards: Whose design is it anyway?
+
+
+[EPISODE]
+
+
+[00:01:18] JE: All right. Well, welcome everybody. We should probably do a quick around the room and introduce ourselves. Everyone's been on the show before in some way or another, but this is going to be a different episode. I’ll start. My name is Justus Eapen. I am the host of Elixir Wizards and a developer over at SmartLogic. I’m really glad to be here moderating Whose Design Is It Anyway?
+
+
+We're joined by my co-hosts, multiple co-hosts now; Eric Oestrich, who you all know from the podcast and Sundi Myint, who's just joined us over at SmartLogic. Sundi, you want to introduce yourself to kick us off?
+
+
+[00:01:56] SM: Yeah, sure. Hi, I’m Sundi. I’m a developer at SmartLogic, primarily Elixir dev, but also have been working in React. Happy to be here. Happy to meet everyone.
+
+
+[00:02:08] JS: Hey, everyone. I’m Japa. I am a Senior Software Engineer at Podium based in Utah. Been working there for almost four years now and yeah, writing code in Elixir for four years as well. I love the language. And it's great to be here on Elixir Wizards. Thank you for having me.
+
+
+[00:02:28] JE: Eric, you're next up in my field of vision.
+
+
+[00:02:32] EO: Yes. I’m Eric. I am an engineering manager here at SmartLogic and podcast co-host.
+
+
+[00:02:39] JE: Great to have you back, Eric. Miki.
+
+
+[00:02:41] MR: Hi. I’m Miki Rezentes. I’m a senior software engineer at Frame.io in New York, currently working back-end Elixir.
+
+
+[00:02:48] JE: Welcome back to the show, Miki. Mark.
+
+
+[00:02:51] MW: Oh, Mark Windholtz. I’m a freelancer and I’ve done a lot of work in Agile processes and Rails and Elixir and been working with DDD for quite a long time in a whole bunch of different technologies.
+
+
+[00:03:07] JE: Very great. Very great to have you back, Mark. Last but not least, Chris Keithley.
+ 
+[00:03:12] CK: Hi, yeah. I’m Chris Keithley. I work at Bleacher Report these days, mostly doing back-end engineering stuff for them and I don't know. I work on plumbing most of the time, just general Elixir tooling. Been around in the community for a long time. 
+
+
+[00:03:28] JE: Okay, not literal plumbing though. Not copper and PVC.
+
+
+[00:03:32] CK: Well, I don't know. It depends. I move things from one place to the other. What is plumbing, if not moving things?
+
+
+[00:03:38] MR: Through pipes.
+
+
+[00:03:39] JE: We are going to get into these deep philosophical notions. This is a very special episode. We wanted to do something different for our season four wrap. One topic that came up in the course of season four, which the theme of season four was application architecture system and application architecture. One question that came up a lot and was a hit of a question and we wanted to explore it further to close up the season is domain-driven design.
+
+
+We're going to talk about domain-driven design today. DDD. We're calling this special, Whose Design Is It Anyway? Because we are going to — myself and Eric and Sundi — are going to be giving you points based on how good your ideas are. And they don't mean anything and there are no winners or losers, but you want to do your best anyway, because that is just a way to do things.
+
+
+Okay-dokey. First of all, we're going to ask the question. I’m just going to throw it out there and feel — we're going to have an open conversation, but we will mute people who talk over other people, so help me God. What does DDD mean to you? I’ve got Japa to my right. Why don't you kick it off, Japa?
+
+
+[00:04:47] JS: Sure. To me, I think DDD is more like a mindset, which helps me write applications that are more manageable, readable and that can be evolved. Yeah, I think it's a really cool ideology and I think it really complements well with different architectural styles that we see these days.
+
+
+[00:05:10] JE: 10 points for DDD as a lifestyle. Mark has joined us on the show before to talk about DDD. I’m sure he's got an answer lined up. What does a DDD mean to you?
+
+
+[00:05:21] MW: I’m okay with that mindset. I like that answer too. Within that mindset, there are tools to use to make those things happen. There are patterns. There are practices and then there's techniques. But it's about building cleaner code and it's about finding the most important part of your code that is making your company money. And making that part the cleanest part of the code.
+
+
+We have finite resources. We need to find the most important thing. Then when we find that most important thing, we want to build it in a way that the business and the technology people communicate well. All of that is wrapped up in that mindset.
+
+
+[00:06:06] JE: Miki, I’ve got you next in my field of view. What does DDD mean to you?
+
+
+[00:06:10] MR: DDD is an attempt by the tech to cover up the fact that they undervalue certain skills and try and take those skills and make them into a system that anyone could employ in order to — for so long, we have undervalued conversation, or being able to get down to the bottom of issues. What has happened is that when people figure out, when people that are communication challenged get together and they figure out, “Hey, when we do these steps in this order, we end up with communication on the other side.”
+
+
+They look and they say, “Hey, this pattern produces communication.” Therefore, we're going to call this domain-driven design and everyone should do it this way. When I think foundationally, it's a crutch in a lot of ways. People that are good communicators, or that have these skills — and it's like, is engineering an art or a science? This is the same thing, is communication an art or a science? Domain-driven design says communication is a science. If we put these things on top, that we will get to the final outcome.
+
+
+I’ll also argue that what domain-driven design does, is it tries to say that things are new that have existed for millennia. The idea of ubiquitous language. This is in a book on the Seven Laws of Learning written hundreds of years ago. I’m having a hard time getting back to it's — to me, domain-driven design is nothing new under the sun. It's an attempt to make art into a science that anyone could replicate.
+
+
+[00:07:26] JE: Oh, my gosh. I love this so much. Okay, everyone who's got a response to that, I’m coming back around to you, because we got to get to Chris. What does DDD mean to you, Chris?
+
+
+[00:07:34] CK: Yeah, nothing. Here's my problem is, I agree with everyone who's spoken so far. I actually do fundamentally agree with everyone's points on DDD. The problem is, I’ve tried to read that book three times and I actually can't. I mean, don't tell anybody, but I think that book is maybe not that well-written. Unfortunately, which is why it needed a secondary book.
+
+
+Simultaneously, I want to make it really clear, I think that book is probably genius in the way that it took 500, 600 pages to explain a dude's thought about the whole thing. I think to both Mark's point and Miki’s point, the point of it is that it's not just about — “Here's the five rules that you can apply. Here's the three patterns that you need in enterprise software.” Which of course, we all know are singleton in factory and abstract factory, in order to build any system.
+
+
+It's not about you that it takes 500 pages to explain it because there's all of this context that you need to understand. And it's about this way of thinking about the problem, which really does boil down to — yeah, if you want to get really reductionist, it’s like, “Yeah, just freaking talk to people.” Yeah, okay. I get it. But also, having a framework for talking about that and then making that transition into software is really interesting.
+
+
+That all said, I am not good at that, nor have I ever necessarily become a zealot for that. I’ve worked with people who have been zealots for that and I never quite got it. I’m hoping to be enlightened.
+
+
+[00:09:15] JE: Okay, I want to give 50 points to Miki for lighting a fire. Where there's smoke, there is a hot take. I see that we've definitely got some responses lined up on the right side of my screen. Mark, do you want to go first on just continuing this part of the conversation, what it is and what you agreed with what you heard and what you didn't agree with?
+
+
+[00:09:33] MW: Sure. Yeah, to Chris’s thing, yes. It's big. It's a big thing and it does take a lot of context. Glad you pointed that out. Part of what it's addressing is that we have a culture in the industry of just going right to the tech and avoiding the context. Because that makes delivering code a little bit harder. I mean, if you just ignore the context, you can put out some code and it might be right and it might be wrong. That's actually the whole — is part of the point is trying to get more context into our work. It's messy. It's super messy.
+
+
+Yeah, there's other books that talk more specifics about here's some more patterns, here's – There's a book by Scott Millett, Patterns, Principles, and Practices of Domain-Driven Design. There's a lot of more mechanics about that. The reason it's taken 10 years to take hold is because it's just been hard to have short conversations about it. There's no bumper stickers for this.
+
+
+To Miki’s point, I loved it. Like you, I hate it when everybody agrees. If you go to the original part of the Pattern’s Movement way back in the 90s, the whole point was, “No, that none of this is new.” The Pattern’s Movement was just about, “Hey, we found these things. We've seen them in five different working systems and we want to write a little bit of a description about what this thing is we found.”
+
+
+If somebody says they invented a pattern, that's just not a pattern. That might be an algorithm, or something. Patterns are found as working things in other systems. Some of this, I don't think there's ever been a claim that it's new, or even that it's a science. A lot of the talk and techniques about communication are listening and listening for words that are not in your vocabulary. Listening for words that the user says that you do not have represented in your domain. That's not really a science. That's listening.
+
+
+[00:11:33] MR: Matthew would call that “Song for the unknown,” though. So I would say that there's some science to it.
+
+
+[00:11:38] MW: Okay. I’m not great at making a distinction between the two. I don't know if that's helpful for me, for my thinking. Just saying that there's probably nothing new here. Eric Evans who wrote the original book had an enormous amount of experience in the trading world and building big systems. A lot of his examples are from systems he worked on. It's not invented. It's, “Hey, I discovered this and I’ve worked with teams that did that.” Since I’m talking a lot about listening, I’ll do that now.
+
+
+[00:12:10] SM: I just have to say, 10 points to Mark for coming to the table with references and book titles ready to go. I’m actually curious if anyone else has other — nice. Mark is holding up the book right now. I’m curious if anyone else has other books other than the big book. Are there any other resources, or anything else that you'd like to plug that you've read about, or seen that helped you inform your decisions and your opinions on DDD?
+
+
+[00:12:34] MR: The Seven Laws of Learning. I think his last name is Gregory. It's an old book about teaching. I think it talks a lot about the communication that comes up a lot when you hear ubiquitous language. It's a very similar thing, as referencing an old — because I think my background in teaching is what makes communication work.
+
+
+[00:12:50] JE: Japa, do you have anything to add before we move on to our next topic of conversation?
+
+
+[00:12:54] JS: I agree with Chris. The book, I feel there's a lot in there, but — and I haven't read the full book either. Full disclosure. I think, I really like some of the ideas, which I can take and apply that to Elixir in particular. That's what DDD is to me, just I know there's a ton of things that make up DDD, but I really like some of the core concepts, like bounded contexts and I guess, collaborating with domain experts and just planning out those context boundaries. I really like taking those and applying that to the Elixir applications that I write. Yeah, I think that's the way I see DDD as it's not just DDD, but an intersection of DDD and Elixir.
+
+
+[00:13:42] JE: I lied. I’m not going to move this on to our next question, because I want to dive into what you're talking about with the way that influences our Elixir development, because I think the audience will really find this interesting. Could you maybe just dive a little bit into that? How does it inform your Elixir development and your thought processes around designing code, or architecting a system? Just pull it apart a little bit more for me.
+
+
+[00:14:05] JS: Sure. Yeah. I think, like I said before, I really like deriving some of the concepts of DDD before I start writing an Elixir application. When it comes to architecture, I think it complements that. Because like I said, it's more of a mindset and not really something that's just established. That's something that you just need to do. It really depends on your domain on your application.
+
+
+When you think of Elixir, it's a functional programming language. Unlike object-oriented programming languages, like Java, there's no set pattern of writing something. It's really just a bunch of functions inside module. When you introduce the idea of domain-driven design, especially context and bounded context. It's really useful to figure out your boundaries, figure out the boundaries within your application, which make the most sense for how you're going to use that application.
+
+
+For example, APIs. I think APIs are, for me, the best thing that can take the advantage of using context, because if you have — you can have better designed APIs if you have the right founded context. In my experience, this has also helped make for applications that are manageable as they evolve. Because I’ve written applications that started out really small, but then they grew into these really big products and platforms. Just using DDD, or not DDD entirely, but some concepts of DDD in Elixir have made for those applications to be more manageable.
+
+
+Also, as the team grows, we've had different engineers contributing to the code base and just having those set boundaries and having that right domain knowledge really helps when they collaborate and also, makes for a cleaner code, cleaner code base.
+
+
+[00:16:05] JE: 20 points for bringing up boundaries and contexts. I think that's really important. I would love it if Mark could dive more into the specific aspects of DDD that one, a developer for example, would use when in the context of Elixir, specifically applications. A lot of commas in there, I just realized. I didn't know you could —
+
+
+[00:16:23] MW: — Yeah, say it again.
+
+
+[00:16:24] JE: Yeah. The question is if you could specifically speak about some of the features of DDD that you would impart to Elixir developers, in particular.
+
+
+[00:16:33] MW: Well, I don't know about features. I mean, the tools, there's the patterns, like Japa was talking about the bounded context. One of the things when you go into a big system — is nice to do to get a great idea of how everything works together and especially like with microservices architectures, is to find your bounded contexts.
+
+
+A lot of times, a bounded context will have one or more microservices inside of it. Then you do a thing called context mapping. Context mapping shows the relationships between those bounded contexts. We think of the relationships between microservices a lot of times in terms of APIs, but there's something else going on. APIs change over time and APIs imply a model of what that API is giving out.
+
+
+What a context map will do is will help you understand who actually owns the changes in that API in that model. A bounded context, inside of a bounded context, you have a model. Every bounded context is free to change its model internally. But as they relate to each other, those changes, prolific — okay should have taken a drink of water before trying to say that word. They proliferate through the system. A context map will show you how those changes will go through the system, over time.
+
+
+API is a static thing. It's today, this is what this API is doing. But there are power relationships between the teams of who owns the model and whose model are we going to use when we're talking to each other. That's what context mapping does. That's on the big level, a very cool tool to be able to use. It's not just Elixir developers, of course, but across a big system.
+
+
+[00:18:25] JE: When you say model, you don't mean model like, model view controller. You mean model in the conceptual sense?
+
+
+[00:18:32] MW: A conceptual model of how your internals relate to itself. Right. We're talking about systems that change over time. I think one of the things that DDD tries to address is not just building something for one time, but how it changes over time and how the relationship of how it changes relates to other parts of the system. At that strategic level, that's one of the tools we have to work with.
+
+
+[00:18:58] JE: Chris, you look like you're holding something in.
+
+
+[00:19:00] CK: No, I’m just thinking about it. I actually hear more about that, because design to me, one of the primary goals, especially when I’m doing large system design stuff is thinking through, and not really tactical stuff, not deep into any given service. But when you're talking about multiple services interacting. When I say services too, I don't mean the way that programmers use the word service, which means a bag of functions, or whatever. I don't even know what service means.
+
+
+I mean, a physical service, a single entity. When I’m doing that system design stuff, a lot of what I’m thinking about are, one, the trade-off between leverage and autonomy. For any given thing that you run, if it's general purpose, anyone else can utilize that thing up to some point. The more general a thing is, the more reusable it is in a wider context. It also makes it, provides a bunch of trade-offs, which are that it's less typically less performant. You have to get the API really right for it to function as a general-purpose tool.
+
+
+The trade-off though is that if you need to coordinate with another team, all your productivity dies, because that is — just generally speaking. If you ever need to work with another team on anything, that is where all your productivity goes to die. As opposed to you collaborating with your own team and just moving ahead. Because now you got to coordinate schedules and timelines, you've got to have a meeting and get everybody in the room, or on a Zoom call, or whatever.
+
+
+If you take advantage of someone else's service, you're leveraging it up to the point where you can't and then you need to coordinate with them. You always have this balance between getting more leverage, or getting more autonomy. Whether it's better just to build yourself the thing. I think a lot of times, we make the choice, well, I don't know, every company is different. Leaning one way or the other is leaning too hard one way or the other is bad, depending on your organization, typically speaking. Because you're giving up some power one way or the other. You're either giving up time, or you're giving up flexibility.
+
+
+The other big thing is that you want to build, or at least in my mind, one of the primary goals of design is to allow for change and to allow things to adapt in the future. I’ve always found it really hard to do that in a DDD context when I hear people talk about it. Simply because what I see people doing in DDD terms is doing what it sounds like, taking the domain and modeling it as — or at least, incorporating parts of that domain into the design in the system, which necessarily creates a more concrete realization of that design.
+
+
+Concretions are much harder to change. When you go and you build a specific service that does this one thing, for this one use case, based on your knowledge of what it's supposed to do. It's not reusable. So you get no leverage out of it. It's only useful in that one way and it's much harder to change it. I’m interested, because I just heard Mark say the opposite, that it allows for change. I’m super curious to understand why I’m wrong about that.
+
+
+[00:22:13] EO: Before we move on, I just want to quickly give Chris 10 points for a service as a bag of functions.
+
+
+[00:22:20] MW: Okay. A context map may not necessarily allow for change, but it more specifically names the kinds of relationships between your bounded contexts. Some of the things you were talking about, as far as general purpose and specific and teams working together, it has names for those kinds of relationships.
+
+
+One of the benefits is when you map out your whole system and you name things. Like the partnership of different teams together, whether they're sharing an understanding of the model, do they have to share the model between themselves? Which means they have to coordinate. Or do you build an anti-corruption layer, which does a translation from one model to another. With the context map, you just draw that all up in a piece of paper and you walk around and you talk to the teams and you say, “How do you relate to this team?” You name those relationships.
+
+
+Yeah, I don't know if it's going to make it easier to change or not. I think it does, just from the fact that now you understand it. Then you can say, “Hey, these two teams are working too closely together, they don't need to share the same model. Let's build a translation layer in there and let them go in their own ways.” You can start making decisions on which is more appropriate, because it is a trade-off and it's about appropriateness of each of the strategies.
+
+
+If you just look at some of the books, even the shorter books on context mapping and types of bounded contexts, there's some of the things they do at the DDD conferences is somebody comes up and says, “Hey, I’ve got a new context, a new relationship I’ve learned about between different microservices and here's a name for it.” There's maybe 20 different names for different kinds of bounded contexts and how they relate to each other. Then as soon as you name it, you understand a little bit more about what's going on. Does that make sense?
+
+
+[00:24:20] JE: This is my first time hearing about DDD conferences. 50 points for that.
+
+
+[00:24:25] CK: Immediately, my brain was like, “What is a DDD conference like?” I immediately started thinking about it.
+
+
+[00:24:32] JE: Well, devops gather there.
+
+
+[00:24:35] MW: Well, they just did DDD Europe. They just put all the videos online. They have the last three years, they used to meet in Denver before we all had to go home. They've got three years of conference videos in Denver. Yeah, that's a great way of clicking around and surveying what topics are being talked about.
+
+
+[00:24:56] JE: I want to give Miki a chance to respond, because we've been talking a lot about how domain-driven design can make it either harder, or easier to change your code in the future. I’d like to take some time if you want to talk about that at all.
+
+
+[00:25:08] MR: I think the starting point is further ahead than where I’d want to be, because domain-driven design isn't the first structured communication, or some expounding of patterns and communication that's existed. Historically, we've had predecessors towards, like, “How do you have conversations,” or retros. Like Agile said, “Oh, we should have retros, because this is a way we can communicate and it will make things better.” It's right, retro is making things better.
+
+
+I would say, founded context makes things better. Ubiquitous language makes things better. I feel like we're starting — basically, what we do is we have these underlying problems in tech. Rather than dealing with the underlying problem of devaluing soft skills, like communication skills, and overvaluing tech skills when we're hiring people, or creating environments where people can't have their questions answered, because they lack psychological safety in the environment. Because they haven't taken care of the soft skill side of things, they're very tech-oriented, and so people can't get their questions answered. Now you have divergence in models, because people aren't voicing their concerns.
+
+
+Instead of dealing with these underlying problems that create the need for the system in the first place, we talk about how well the systems work. When in reality, we have a homogeneous skill set in tech and that skill set always tends to be very techy, or we downplay communication, or we downplay the admin role within teams. These are often either invisible language, or invisible labor, or undervalued labor on teams.
+
+
+That's why teams slide this direction. They slide the way of not communicating, because companies and teams don't value the communication. What do we do? We try and develop a system to then cover up the fact that we can't do these things very well. Instead of talking about the fact that we have a very homogeneous workforce that has a very homogenous skill set and they're trying to put this scientific — not scientific. But some better, structured approach to communicate, because we haven't valued communication from the get-go.
+
+
+I think turning towards and talking about this system of communication, while they all have great things to offer, takes the conversation away from — “Why do we need it in the first place? Is there something intrinsically wrong with what we're doing in tech that leads us to need these type of systems?”
+
+
+[00:27:12] SM: I just have to put, that's so cool. Sorry, 20 points to Miki for just putting that. I’ve never thought of DDD as a system that was in place because of the lack of communication, or any communication system that companies need, that teams need. I’m curious if everyone else shares, or disagrees with that concept that these systems are put into place because teams need structure for how they write their code, because of a communication thing, more than because they needed it from a tech perspective. Super curious about this. Anyone could jump in.
+
+
+[00:27:48] JS: I really like that take. Honestly, it's refreshing to know that communication is at the root of having these patterns in place. Yeah, I never thought about it that way, so that was a great point.
+
+
+[00:28:02] SM: I guess, Miki, my question is, do you think that, if in a perfect world teams communicated very well, that there was a balance of soft skills and tech skills, would we still need DDD?
+
+
+[00:28:15] MR: I think that you would — the APIs develop on their own when people are free to ask the questions. This is going to sound like I’m not answering the question, but I am. I’m going to say that with a certain set of people, and as they're free to express these things, you're going to end up with exactly what DDD is. It’s — you’re gonna have very similar concepts. They're going to talk the same way, because that's how those people interact and that's how they choose to think about these things and this is how they model their world.
+
+
+But in another closed set of people, who have the psychological safety to ask all the questions. And they don't feel pressured to start working before they understand something and they're not afraid to ask the question about not understanding that something. How that communication pattern lays out — what they call different things that doing, like context mapping, or bounding a problem, or developing ubiquitous language. These things will have different terms.
+
+
+Foundationally though, the communication is the same. The systems are going to have different implementations. It's like, you have principles and you have implementation details. Principally, we'd want to have, let's just say, dry code. Now how that implements in one language versus another might look slightly different, but the principle is there.
+
+
+I would say the principles that underlie DDD would exist in environments that can communicate. Would they be named the same thing? Would they have the same liturgy, or like I would say, retro is Agile liturgy. You have these processes you walk through. Would they have the same processes? Maybe not. Maybe they would look slightly different. Foundationally, same.
+
+
+[00:29:40] SM: Interesting. Chris, you look like you're noodling on this.
+
+
+[00:29:43] CK: Yeah, I don't know. Yeah. I mean, I feel like taking the flip of this is taking the side of not communicating. And I’m not on that side.
+
+
+[00:29:52] MR: That's a false dilemma though. I don't mind if you have a nuanced answer. I’m not going to feel like you're rejecting it in total. Even if you want to step a little farther and take a stronger stance to have something to bite down on, I’m good with that too. I won't take it personal.
+
+
+[00:30:05] CK: Yeah. No, no, no. I’m just trying to think of how to frame it. I think, I agree fundamentally that many programmers that I have worked with, in my life, have undervalued communication skills. I have no disagreement on that. I think we need to be communicating more, both internally, both with all the people that we work with, product people and whatever. You need to understand, you're paid money to work at a company for the most part and your job, the reason they pay you money is to provide value. And they have a view of what that value is going to be and you need to actually understand that and then work within those parameters.
+
+
+It doesn't do you any good to run off and install a Kubernetes if no one needs you to install Kubernetes, just because that doesn't bring value to the company, or whatever. Insert your least favorite technology, anything with the word Kubernetes and we'll be fine. I agree with that wholeheartedly.
+
+
+I think if the goal is for more programmers to have soft skills and to have the ability to work with the business, I guess, I mean, granted, I’ve never been able to make it through the book, so I’m not one to really defend. I’m not really here to apologize for the big blue book. It strikes me that a lot of what folks in the XP community were doing, in DDD community, and all these overlapping, this big overlapping Venn diagram of multiple groups. It seems to me what they were doing was trying to teach each other how to do that.
+
+
+In some ways, I think that was part of the goal maybe. Because the thing is, communication is actually pretty hard. Facilitating communication is actually pretty hard. Learning how to facilitate good communication that is constructive and doesn't cost the company five hours’ worth of everybody's time on every day, because they're crappy at communicating, that's expensive. If you suck at communicating, you're costing your company a ton of money.
+
+
+Being good at communication, people study that, in the same way that people study how to be teachers, or study to be programmers, or study to be whatever. You can study to be good at programming, sorry to be good at communicating and facilitating communication. That's the more important thing, facilitating how people can talk in a constructive manner.
+
+
+I guess in some ways, I’ve always viewed the DDD thing as attempting to do that. It's attempting to give programmers who don't have these skills these skills. I think it's trying to work towards that. I’m not sure if there's a way to get below that problem. You could obviously take a very first principles approach to it, but that's much harder to do and it's outside of your address impossible to be able to actually just do that.
+
+
+[00:32:46] JE: First of all, I want to give 10 points to both Miki and Chris. 10 points each, not five points. Not five points each. That'd be messed up. Mostly, because it sounds like what you're saying is that the people who talk good should get paid more. I agree with that 100%.
+
+
+[00:33:01] MW: Talk Justus. That’s talk well.
+
+
+[00:33:03] JE: Yes. Thank you, Mark. I prefer it medium-rare. Mark, but I think you probably have something to say about how DDD does impact systems of communication and processes of communication on teams. I mean, you teach DDD, so could you talk a little bit about how DDD does affect communication strategies on teams?
+
+
+[00:33:25] MW: I’m having a hard time seeing a conflict there. That's what I’m struggling with, so maybe I don't understand the concern well enough. Because it seems like what Chris says, these are — I think we're aligned in terms of that's the goal, is to get more people involved in the process of coming up with good ideas for the system. And getting non-technical people and getting diverse sets of ideas and diverse people with diverse backgrounds.
+
+
+Maybe DDD doesn't address HR policies. And everything else that needs to change to make that happen. Within what we've got to work with, I think it is expanded, the playing field from, just go write your code, to — “So, here's some techniques to go talk to users. Here's some techniques on how you — what you should listen for.” In the training videos, if you get the training videos from Eric Evans, he's got little scenarios where the technical person is talking to the user and then he backs off and he analyzes that communication. “What could the technical person have done, rather than what they did do?” Yeah. Basically, I think we're trying to — I think we've all got the goals of better communication.
+
+
+[00:34:46] JE: I’ll throw this out there. We may be contriving the disagreement for the sake of entertainment value.
+
+
+[00:34:52] CK: Well, I also — I want to push a little bit on this idea that just talking is enough, because I actually don't know that I agree that it is. I agree that it is on two equivalent teams that have equivalent amounts of experience and equivalent amounts of know-how. All other things being equal, the team that talks more openly and earnestly is going to have a better time.
+
+
+I don't think that's enough. I do think you actually have to cultivate the technical skill, because at least in my mind, a huge part of the proposition here is that the business doesn't care about half of the decisions that you're about to go make. Although my new decisions that you're about to go make and your job is to somehow discern what the actual requirements are and figure out how to verify that you've got those requirements right. And then go and build a thing that supports those with all of the other requirements that no one actually asked you for. Which is that it's going to work under load. It's going to work if a 100 users use it, or if a 1,000 users use it, or if 10,000 users use it, whatever the case may be in your business.
+
+
+It's not going to throw your data away every week. It's not going to have all these other problems that no one's going to think to tell you, but that you know are important. In that regard, it seems to me that you have to have someone on the team who's able to do that determination. And to know that stuff and that's where the experience part of it comes in. And to know what you don't care about and to know that, “Ah, we actually don't need to worry about this. It'll be fine.” Because you've just done it enough that you know that.
+[00:36:32] SM: When you're doing this requirements gathering and you're picturing the application you're going to build in your head, I’m curious if there's anything about Elixir specifically that makes it easier, or not easier to approach architecture with the DDD mindset, or if that just comes with the territory of being more experienced of a developer?
+
+
+[00:36:52] MW: That is something I would love to talk about. Yes, Elixir is a tremendous fit for DDD. One of the DDD patterns is what they call a value object, which is basically, they've gone around in a big circle and they said this is an immutable thing. They have to tell object-oriented people, there's value in having this very special thing, we're going to call a value object because it's an immutable data item.
+
+
+Then there's a part of the book where he talks about the benefits of building with these things. The more you can have these immutable things in your code, the easier it is to understand and work with your code. And it's easier for people to understand when you're talking about it. Well, that's our world, isn't it? That's just really fundamentally what makes Elixir a great fit. Because so much of what we do is pure code and side effect-free. That's what I’ve been pushing teams that I work with to do is to build more domain models that are pure. There's completely pure domain models that are so much easier to reason about.
+
+
+I’m just super delighted to see that people are coming to this from a whole bunch of different directions and coming to the same place. Bruce Tate and James Gray's book on Designing Elixir Systems with OTP has their layered model. Then they have the functional core and the data and the boundaries. I look at that and I say, this is almost a DDD book that never mentions DDD. I just love it. I wish I saw more systems built like that, because that is at the tactical level.
+
+
+We were talking at the strategic level on microservices talking to — on the tactical level, that is from a whole different angle what Elixir should look like in a good system. And that's what DDD advocates too. That's where that's such a good connection. It just naturally happened. I’m just super happy to be working in Elixir and advocating DDD, because it seems just a beautiful world.
+
+
+[00:39:10] JE: I want to ask a question about adoption, because I think part of what I’m having a hard time grasping about DDD is when you first learn Agile, there's three things you need to pick up. One is daily stand-ups. Another is weekly iteration meetings and the concept of sprints. Then the last thing is respond to change as necessary on a weekly basis. What are —
+
+
+[00:39:39] CK: — That was in the manifesto, sprints, if I remember correctly. It's line three, I think, in the manifesto is sprints.
+
+
+[00:39:44] JE: Yeah, I was just reciting —
+
+
+[00:39:44] CK: Before it’s scrum master.
+
+
+[00:39:46] JE: Scrum master. Okay. Yeah. I was just reciting from memory the entirety of it. No. I mean, this is my point is how do we condense this down? Miki, if you want, you can shoot this and just be like, “No, we don't want people doing this more regularly. DDD is bad.” but I think from maybe the slightly more pro-DDD side of the room, I’m asking, what are the packageable nuggets of actionable wisdom that people can take and apply to their work and their teams?
+
+
+[00:40:18] JS: I would like to take this one. That's a great question, because yeah, I think DDD as a philosophy to me is so huge. There are definitely some concepts that I like and that I like to use when I’m writing code in Elixir. Especially if it's more of a product and not a platform. By product I mean, maybe it could be SaaS, or really anything that has end-customers.
+
+
+Collaboration with domain experts is one thing that I value, because I think you need to have that connect between the engineering team and product managers are really the stakeholders, or people who know the domain better than you do. Because we as engineers are tech experts for sure, but we might not know the full picture when it comes to the domain or the product.
+
+
+I really think that collaboration, and again, that also ties into the communication piece that we were just talking about is having that shared vocabulary. And just nailing down the different pieces that make up your product, or your application. I really like that idea. And I’ve had experiences on the other side where there was a disconnect between the teams. It was really hard to grasp what we were trying to do when it came to implementing a functionality, because of that disconnect in the vocabulary and the lack of communication around that. That'll be the first thing.
+
+
+Second thing is — I keep saying this all the time, but it is the bounded context. Just having those boundaries and starting small with your models that make up your domain. And then going on to create those contexts and translating those into code is what I really liked, because pre-DDD there was — I didn't have a concept of how to maybe arrange the code, or arrange the application in a way that made sense. But also made it reusable and manageable. I think with the use of context and having those in place, it definitely made it a lot better. I wouldn't say it's perfect, but I think it really works with Elixir.
+
+
+[00:42:34] JE: Can someone maybe explain in very, very simple terms what bounded contexts are and why they're important? I mean, obviously, I’m not talking about context in the Elixir context. I’m talking about bounded context in the domain-driven design context. Mark, you could take this one. You might be muted. Now we get to make it up. Chris.
+
+
+[00:42:53] MW: Okay, there we go.
+
+
+[00:42:53] JE: Oh, wait. Never mind. Mark —
+
+
+[00:42:54] MW: Is that working?
+
+
+[00:42:56] CK: I was going to say, I can go for it and then Mark can correct me, because I actually have —
+
+
+[00:43:02] MW: You might be right.
+
+
+[00:43:03] JE: That's a good pedagogical tool. Let's try it.
+
+
+[00:43:06] MW: Early on, I was in my career, I worked for a computer company that was international and they tried to unify all their purchasing systems. They brought people in from Switzerland and Italy and everywhere and they spent tens of millions of dollars on this project to have us build this one model for the purchasing and delivery system of the entire company. It flopped badly. It was terrible.
+
+
+One of my friends in Switzerland, he said — he was the representative for international. They brought him to Ohio and he was going to be — and he was supposed to represent international for how they did purchasing in international and he said, “I’m not international. I’m Swiss. I can't tell you about what happens in Portugal. Talk to them.”
+
+
+Basically, the failure of a lot of systems is that we try to have one model for everything and we try to get this canonical, like Chris was saying, this general solution for everything. One of the insights of bounded context is to say, “No. You have, within this world of Switzerland, you design your own purchasing system. And then we will have an interface to some other things. And let those models evolve independently. Let those teams do their own thing and find their own solutions to their own unique problems.”
+
+
+Its bounded context is a way of within that, a ubiquitous language is within a bounded context. Those two are connected. You don't have a word that means employee inside of one bounded context. That is the same concept as an employee within a different bounded context. They are completely different and you have to completely understand which context you're talking in when you hear the word.
+
+
+[00:45:00] JE: Chris, is that what you were going to say?
+
+
+[00:45:01] CK: Yeah. Well, I might have more detail, but that'll suffice, I would say. Yeah, that's super interesting.
+
+
+[00:45:09] JE: How do you apply it? I’m asking you, Chris, specifically. It's in your day, do you apply this in your work when you're — this concept of — I’m a little bit curious about how you do it, like how do you get everybody on board. That, “In this context, this word means this thing, but in this other context, it means this other thing.”
+
+
+[00:45:25] CK: Yeah. I can answer the first part really quickly, which is that I don't. I don't do this. This isn't how I think about design. Not to say it's a bad way to think about design, but that's not the way I think about design. It's also not the layer in the stack that I work in. For the most part, my customers are the every other programmer at Bleacher Report.
+
+
+When I’m getting insight from them, it's like, I’m fairly — not fairly far removed, but I’m enough removed from actual business requirements. Like written out business requirements that I just don't think about it in these terms.
+
+
+[00:46:04] JE: But if your domain is developers —
+
+
+[00:46:08] CK: — Yeah. Well, I won’t say my domain but the customers are developers, basically.
+
+
+[00:46:12] JE: It's like you are in that domain and driving the design.
+
+
+[00:46:17] CK: Yeah. I mean, in a sense. My read on it as a neophyte here is that you have to do all of it. You're looking for the three words that you need to take home today. I reject the question. I don't actually think there's three words. I think you need to read a 500-page book and internalize it. I’m saying it in a jokey manner, but I actually do mean that. I think that that's actually what it takes is you need to internalize it. You need to internalize what double E was trying to teach you and what he was really trying to get home. That's why it took 500 pages.
+
+
+It's not a blog post. It's not a blog post, because it, you need to remap your brain to think with all this other — to use a really overloaded term at this point, context. You need to rethink about how you're going to approach the entire problem, not just programming, but talking to people and analyzing the problem and all of that. If you don't do all of it, all you're doing is grabbing the factory pattern, or whatever. You're going to go grab a fly weight, you don't even know what that is. You're going to grab any — yeah, it's one of the patterns in the OO book.
+
+
+[00:47:24] MW: Which I read.
+
+
+[00:47:26] CK: Yeah, totally. No, I really think you have to — I think you have to do all of it. Or at least, you have to be aware of all of it. You may have to do all of it, but you need to understand all of it and understand why all of it exists. I don't think you can cherry-pick. That's my read on it. Because when you cherry-pick, then you end up with, that's where you get the bad memes. People cherry-pick stuff out of like, “Oh, the database you use doesn't matter.” It's like, “What? Have you ever built anything? Of course, the database matters.” It's like, “Yeah, but that's not really what it meant, because you're just cherry-picking stuff.”
+
+
+It's like if people cherry-pick event sourcing and they're like, “We'll just latch onto event sourcing.” It’s like, “Yeah, but you had to understand everything else around event sourcing to even get why you did it in the first place.” That's my read on it anyway.
+
+
+[00:48:11] JE: Miki, do you have anything to add here?
+
+
+[00:48:13] MR: Oh, I’m going back in time, because I’m going to give a hot take. Earlier, Chris said that you can study to be good. I think this underlies a big fallacy in tech. A big fallacy is that smart people can do anything. “I’m smart. I can go learn anything and go learn it and I’ll be good at it.” I think that that's fundamentally incorrect and I think it's a lot to do with a lot of software developers who have been smart their whole life.
+
+
+Oftentimes when we were in school and other places, you're in enough rooms where you're in the top part of the IQ in that room and you get used to it. Then you think that these other skills that people have outside of yourself, you're smart enough to learn those things. I think it really takes away from communication being a core skill that software engineers need to have. From the beginning, it should be married in. It shouldn't be added back in later, or trained back-end to think about later to bring it in. It's one of these things that's supposed to be there alongside the tech skill the whole time.
+
+
+Can you study to be good? Well, maybe. People tend to grow in areas that they're already good at. When you're trying to get someone to grow, oftentimes, you don't point at their weakness. You look at their strength and say, “You could really grow in this area, because people end up making big leaps in areas they're already good at.” There is a natural hierarchy of specific skills, like communication, or maybe someone's very, very technically gifted.
+
+
+I feel like, sometimes when we take these systems, like domain-driven design, or we take these systems of communication, what we're saying is that everyone could become just as good of a communicator, because we're smart people. Since we're smart people, we can all communicate. Since we can all communicate, we end up devaluing the people that are really good in communication. It's not reflected on their tech. That it's weeded out as not a tech skill.
+
+
+I’m going to argue that that is absolutely a tech skill, not a soft skill. Not everyone can study that to be good. That until the industry itself values this as a fundamental skill that is required of all software engineers, we're going to continue to need these systems to fix the problem. I’m not against the systems. I’m not against the system itself. Yeah. Sorry. Go ahead. I keep interrupting you.
+
+
+[00:50:12] SM: No. I was just going to say, 10 points to Miki for a hot take and 10 points to Chris for providing the hot take that created the hot take. Please continue.
+
+
+[00:50:19] MR: I also want to say that you're right, the business doesn't care about all these little decisions you're making until they do. When they start caring because you made little decisions about the communication, man, because shit starts falling down. They really, really care then. I don't think that it's just as simple as businesses don't care what you're doing. Oh, they do. The problem is by the time they finally figure out what a cluster it is, the people that actually made the cluster aren't there.
+
+
+So yeah, in one respect, usually you can postpone it and you can move on and you're not there left to deal with the cluster, but businesses do care about all these little decisions. They just don't know it until they really, really know it.
+
+
+[00:50:57] CK: Yeah. I mean, I agree with that.
+
+
+[00:50:59] MR: This is mostly for entertainment value, Chris. Remember this.
+
+
+[00:51:03] CK: I agree with that, but I don't think that that changes the point. I’ve talked to a product person yesterday and I was like, “We're going to have to load hed and here's how we're going to loadshed using this math.” Guess what? They don't care at all about how you do that. Actually, what they say is, “No, because I want you to serve all my requests.” It’s like, “Well, that's not physically possible. That's literally not math. We're not going to be able to do that.”
+
+
+Then yeah, that is a discussion. At the same time, to assume that everyone is involved in all discussions and that's how the communication works, I don't think is realistic in any way. Namely, because I don't think it's cost effective.
+
+
+ [00:51:39] MR: I mean, how do you mean everyone involved in all discussions? That's a very broad statement. I need you to scope that down.
+
+
+[00:51:45] CK: I think if the presumption is that — well, so a couple things. If I’m hearing you correctly, one, we shouldn't bother to learn how to communicate, because we don't have those innate skills and it's just our program, or arrogance that tells us that we should learn to communicate.
+
+
+[00:51:59] MR: No. That's not what I said and that's not what I meant.
+
+
+[00:52:02] CK: Okay. I’m just clarifying. Then two, there are a thousand choices we all make every day that we simply — if we were to communicate all of them, discuss every one in a large enough — on a maximal way of looking at that, that would be untenable, right? We’d all assume that, right?
+
+
+[00:52:24] MR: Well, I think that you can create a problem like that where it is like that. The fact of the matter is systems grow over time. It's like having kids. People say, “I could never have — I have five kids.” They're like, “I could never have five kids.” Well, I didn't have them all at once. The people that do, God bless them. I don't know how they do it, but you get them one at a time. These systems, while they could be huge at some point, they build over time.
+
+
+Those thousands of discussions, or thousands of decisions we're making, yeah, I mean, I’m not going to broadcast that to my whole team, but there should be some fundamental core principles of your team that guide a lot of those decisions. When the decisions fall within those core principles, there's no need to surface that to anyone. You're making the decision based on very set criteria that everyone knows about. It's the one-offs you have to worry about. It's when you're making a decision on new information, or something that's nuanced, or different, or some interaction that's not previously defined.
+
+
+Because if you're talking about all the things you make decisions on, how many of them are defined? Many. How many of them aren't defined? A few. Those ones are the ones you want to push out there. I’m not saying that people don't have to learn how to communicate. What I’m saying is that the problem is that we don't require people to learn how to communicate till they're like, I don't know, sometimes never, apparently.
+
+
+This should be a skill that's ground into juniors and mids all the time, because I’ve met plenty of people that — they can't communicate to save their lives and they've got big titles. I don't know what they're doing, but they should have, from the get-go on a team. If you're a developer and you have to work with other people, that should be a key skill on tech skills. Oftentimes, what you find in a lot of reviews and a lot of waiting on software engineers, the communication part doesn't weigh in. They're really worried about tech early on, not communication.
+
+
+[00:53:50] JE: Promote the podcast hosts. Eric, do you have a question to wrap us up here?
+
+
+[00:53:59] EO: Yeah. I guess, now that we've had about an hour's worth of discussion, just curious if anyone's opinions about DDD has changed at all? Yeah, let's start with Mark.
+
+
+[00:54:10] MW: No. No, I like it.
+
+
+[00:54:16] SM: Maybe a better question is, has anyone here said anything that made you think about something differently? Or not maybe change your opinion over the whole thing, but just make you think about something differently?
+
+
+[00:54:27] MW: Well, yeah. I am looking forward to listening to this over again and listening more closely to what Miki said and trying to understand it better. In terms of, I think communication is important, and I’ve been assuming that this improves it. And I want to re-evaluate if that's enough. Yeah, I’m curious a little bit that I might be missing something that we could be adding to the whole process.
+
+
+[00:54:54] JE: It's the points.
+
+
+[00:54:56] MW: Yeah. I don't think you've been giving me points. I’ve been —
+
+
+[00:55:00] JE: A 100 points for Mark for calling me out.
+
+
+[00:55:02] CK: Whoa! That's all you have to do? You just have to ask for them?
+
+
+[00:55:05] JE: About time. Someone had to call out this charlatan hosting this fake, Whose Line Is It Anyway? Not as funny as Drew Carey.
+
+
+[00:55:16] MW: Awesome. Winner.
+
+
+[00:55:19] JE: This is like the end of the Hogwarts school year, where they suddenly pull magic points out from Gryffindor.
+
+
+[00:55:26] CK: “Oh, I guess just Gryffindor’s just going to win again, huh? When's it going to be Ravenclaw’s turn? All right.”
+
+
+[00:55:33] SM: No. Hufflepuffs forever. Sorry. Japa, anything that you've learned today that might have changed your mind about anything?
+
+
+[00:55:40] JS: I think the communication part was definitely a great reminder on how we need it, and not just tech skills. But other than that, I think I’m going to stick to my idea of DDD plus Elixir. Yeah, it's a great discussion though.
+
+
+[00:55:58] SM: Miki, super curious.
+
+
+[00:56:01] MR: I would say that I still would say we're having — I think, the DDD discussion, I want to make clear, I’m for DDD. It's a system of communicating in one sense, and the way that you're defining your communication patterns and people need that. Every team needs to figure out how they're going to communicate and that's great.
+
+
+The problem you run into with any system is that by joining a certain system, when people come in if they don't know the system, they can be afraid to communicate. If you're not addressing the psychological safety necessary to engage with a new system, you would be possibly creating another hole within communication.
+
+
+Also, the idea that a system can make up for having good communicators, or having people with those gifts, like you could just teach them because they're smart enough, I think that's a fallacy. I think as long as you're not running into those areas, you're not doing it wrong. DDD isn't doing it wrong. It's just that fundamentally communication is bigger than DDD.
+
+
+[00:56:48] JE: Chris.
+
+
+[00:56:49] CK: Yeah. I think if DDD is working for you and it's part of your team's culture and it's something that helps you build systems that you can work in, other people can work in. And you're deriving value from that, then that's great. I might read the book. I might try. Maybe fourth time's a charm. Get through it and yeah, we'll see. I don't know. Until then, philosophy of software design is still going to be close to my heart. We'll see.
+
+
+[00:57:15] MR: I do have one more question for you, Justus. How many apples grow on an apple tree?
+
+
+[00:57:20] JE: How many?
+
+
+[00:57:21] MR: All of them.
+
+
+[00:57:24] JE: Actually, I’m going to tell you why that's wrong, because you can graft an apple branch onto a different fruit tree and it will still bear apples, which means some apples grow on orange trees, Miki. Mic drop.
+
+
+[00:57:36] MR: How do you determine what type of tree it is? Because if we're going to get into what has to have a branch of that, at what point is the actual vegetable part of the tree coming to place? Because you have the branch, you got the trunk, which one determines what it is?
+
+
+[00:57:49] JE: Everybody, we're going to link to your accounts, Twitters, socials, whatever you want to plug, whatever you want out there in the world, we're going to link to it in the show notes. We're so glad that we were able to have this special episode of Elixir Wizards. I am Justus Eapen, and have a lovely rest of your day.
+
+
+[END OF EPISODE]
+
+
+[00:58:08] JE: This has been another episode of Elixir Wizards. Thank you so much for joining us for this wonderful conversation, featuring our special guests, Miki Rezentes, Mark Windholtz, Japa Swadia, and Chris Keithley. Find links to them and their work in the show notes. Thank you again to my co-hosts, Sundi Myint and Eric Oestrich. Once again, I am Justus Eapen. 
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web apps in Elixir, Rails and React, infrastructure projects using Kubernetes and mobile apps using React Native. We’d love to hear from you, if you have a project we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. If you enjoy the show, leave us a review. We love those reviews. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. Please, most of all, join us again after the break for season 5 of Elixir Wizards. 
+
+
+[END]
+
+
+        © 2020 Elixir Wizards

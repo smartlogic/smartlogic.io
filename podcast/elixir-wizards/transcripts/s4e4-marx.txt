@@ -1,0 +1,316 @@
+EW S04E04 - Transcript
+EPISODE 4 - Guest Ben Marx
+
+
+Justus Eapen:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen, and I'll be your host. I'm joined by my cohost Eric Oestrich, and we're joined today by our special guest, Ben Marx.
+
+Ben Marx:
+Thanks for having me.
+
+Justus Eapen:
+We're glad to have you, Ben. Our theme this season is system and application architecture, so we're going to dive into all that, but first we want to talk about a very, very mysterious new gig that you've got, Ben. We know that you used to be at Bleacher Report, and that's how we know you from the conferences. But for the last several months you've been working on something new and I think you're ready to go public with it? Is that right?
+
+Ben Marx:
+Yeah, there's a few articles released on Wall Street Journal and VentureBeat about the company and it's called Subspace. And basically what it is, is a network for low latency, low jitter applications, such as gaming or multimedia, these kind of things. So basically, especially with multiplayer games and competitive gaming, you need to have a low latency. Even if I have 10 milliseconds will be a big difference to professional gamers, apparently. And so basically this mission is to provide that stable latency internet for these type of applications.
+
+Justus Eapen:
+Oh, I'm asking if you can just dive into that a little bit. When you say a network or a new internet, what does that mean?
+
+Ben Marx:
+It's basically a way for, I guess one way to describe it is a pathfinding for the fastest paths and the most reliable paths based on what your application needs might be. So yes, essentially it's a private network. Yeah basically it's two co-founders, Bayan Towfiq and William King is the CTO, and they have a lot of experience in the gaming and network and telecom area. And they realized that this was a problem that needed to be solved, and all this was well before the coronavirus pandemic and these kind of things.
+So as it turns out that when we're stuck at home, we use the internet more and the internet becomes slightly less reliable and these kind of things. So it's a problem that was already needed to be solved, but with the pandemic then it's become ever more crucial. And that's why we came out of stealth earlier. So it's really interesting. We're using Elixir for a lot of the networking stuff, as you might imagine, and it's really nice in use case, and it's really interesting fits. And it's quite busy. We're quite busy with all the things that are going on.
+
+Justus Eapen:
+So we have a question here from a friend of the show, Steve Bussey, who, Steve is a great guy, Bleacher Report is known in the community for being a huge proponent of Elixir, and that uses a lot of Elixir. Can you talk a little bit about the move from a company that is a major Elixir influencer to a brand new company? Is this changing your view of the language, doing open source? Do you have a lot of Elixir going on at Subspace?
+
+Ben Marx:
+Elixir was... Jenna, who reached out to me initially about the job, did a very good job of summarizing what Subspace was in a very generalized way, because it was still not to be talked about. And so she mentioned that it was using Elixir to solve these low latency type problems. And so for me, it's an ideal fit for Elixir, and this is what William and I talked about in an interview as well. So we use a lot of Elixir. It's an ideal use case for language. And there's lots of conference talks I think that are brewing that we would like to talk about once things get back to normal. It's just that things are... We want to, I think, have a similar impact in the community that Bleacher Report has had.
+
+Justus Eapen:
+Oh, really. So you think you'll still continue to be as involved in the community as you have been?
+
+Ben Marx:
+Yeah, I think so. And hopefully we'll have other people speak as well, other people involved. We have lots of, like I said, we have a really small team, we're doing really interesting things, and so there should be some good talks that come out of that. So, yes, I think that involvement will continue.
+
+Justus Eapen:
+Can you talk a little bit more about the engineering staff? Do you have any other names we might recognize working on the team over there, or I guess also, just since this is an architecture conversation eventually, how do you divide responsibilities working on a private network, such as Subspace?
+
+Ben Marx:
+I would say that, I don't think that anyone else has spoken at conferences, but hopefully that will change and we should have some more people get out and tell some of the really cool stuff that they're working on. As far as responsibilities go, it's more, since it's a startup, it really depends on what the day is, really. When my boss, Dan, interviewed me, back before I started, we were talking about the network and talking about lower level stuff, L2, L3 type stuff, and I was saying that I'm not familiar with any of that, below UDP. I have not really gone below that. And he's like, "It's fine, you'll learn."
+
+Justus Eapen:
+I'm sorry, what is UDP?
+
+Ben Marx:
+UDP, sorry. Like TCP/IP, UDP.
+
+Justus Eapen:
+UDP. Pretend I'm five and tell me what that is.
+
+Ben Marx:
+Sure. So TCP/IP, so you have to do a connection and do all that handshake and all this, and UDPs are just packets that are just sent forward without any connection whatsoever. So you're just sending them along. Maybe that's not a very good way to explain.
+
+Eric Oestrich:
+So the User Datagram Protocol is what that expands to.
+
+Justus Eapen:
+User Datagram Protocol. Is that something I'm supposed to know, Eric?
+
+Eric Oestrich:
+Likely. The video that we're using right now is probably sending UDP packets. So it's TCP has an, I send you something and you ACK it back that you got it. This is just blasting into the wild. So it's a lot-
+
+Justus Eapen:
+Oh okay. So there's no deliberate confirmation. Okay.
+
+Ben Marx:
+There's a lot better latency because it's just sending data. Missing packets is fine for video generally, so that's why it exists.
+
+Justus Eapen:
+Well I'm sure that there will be some no-nothing like me listening who will benefit from that.
+
+Ben Marx:
+But yeah, like Eric was saying, you have TCP and UDP. Streaming applications will tend to use UDP because you can drop it back here and there and it's not such a big deal. But basically we had a conversation like that, and he's saying, "What do you know about this or that?" And I'm like, "Not much." And he's like, "It's fine. You'll learn." And so that's been a lot of it has been learning on the job and it's been really rewarding as well, just because it's something that I've never done before and it's a really supportive group, so it's been a lot of fun.
+
+Eric Oestrich:
+Something else to look up for UDP before I forget, the HDP3 is supposed to use UDP, I think. It's through QUIC, however you say that. If anyone is curious to look more into that. So one of the things in season four that we want to do is also kind of deep dive into you. So how did you become a household name in the Elixir community and what was that journey like?
+
+Ben Marx:
+Well I don't think that journey has started yet really, so you'll have to get back to me at a later point. I don't know, it's silly. Probably writing the book with Bruce and JosÃ© was pretty great. That was a really rewarding experience. For whatever reason, I had always wanted to write a book, and when I pitched the book to Bruce, because we met in Mexico City at an Erlang Factory Lite a few years ago. And then by the time I had the first chapter round, he's like, "Hey, JosÃ© also pitched a similar book. Do you want to work together?" I'm like, "Well, I guess so, if I have to." No. But it was really great, I really enjoyed the collaboration with them and the friendships that came out of that.
+I think part of the reason, actually, I'm a fairly introverted person, so if I go to a place where I don't know anyone, I'll stand on the corner. But if you give a talk, then people will come up and talk to you afterwards. That was one of the reasons I enjoyed giving talks because that's how I met a lot of people, which I wouldn't have done otherwise. So I guess that's... And just giving talks, I guess, I don't know.
+
+Justus Eapen:
+Do you remember how we met, Ben?
+
+Ben Marx:
+We met at a Lone Star, right?
+
+Justus Eapen:
+Maybe, but I think the first time we met was actually at the 2018 Elixir Conf speaker dinner.
+
+Ben Marx:
+Oh, okay. That was in Seattle, right?
+
+Justus Eapen:
+Was it in Seattle? I think it was, yeah.
+
+Ben Marx:
+Or Bellevue?
+
+Justus Eapen:
+Bellevue, right.
+
+Eric Oestrich:
+It was hotdogs.
+
+Ben Marx:
+Hot dogs, yes.
+
+Justus Eapen:
+It was my first time speaking at a conference and I went to the speaker dinner and there was a table, where it was JosÃ© Valim, you, Lance Halvorson, Chris McCord was sitting there, Jim Freeze was sitting there, and there was one seat empty at this table. And I just remember, in terror, in positive absolute terror taking that seat and sitting with these giants. And you were so friendly, you were so friendly. You and Lance both were very, very friendly. Everybody was friendly and welcoming, that's how everybody in the community is, but I remember specifically you and Lance were extremely friendly and welcoming and it made me feel right at home, so thank you.
+
+Ben Marx:
+That's great. Similar things for me were the first time I gave a talk or the first time I went to a conference or whatever, people were super nice. And Chris McCord, especially, one of the first talks I gave was at Lone Star. And after the talk he was like, "Thanks for all the work that BR does to use Phoenix and make a good use case for the community." And so that's really nice. I think, like you said, it's a supportive community.
+
+Justus Eapen:
+Yeah. And I don't think every program community is like that. At Elixir conf last year, a gentleman came up to Jim Freeze and I, and he said that he came from some other program, I don't want to say PHP, PEARL, something like that. And he just said that the vibe was completely different and he felt so welcome and that he just was thanking Jim really for encouraging that. And yeah, that's a real thing at Elixir. So if you're thinking about picking it up, that's one good reason.
+
+Eric Oestrich:
+Yeah.
+
+Ben Marx:
+Yeah. I think it will be interesting over the next few years, especially because a lot of the talks have been around how we use Elixir or how we convinced our team to use Elixir. But I think that the next few years, hopefully we'll have more talks around, this is what we're doing with Elixir, this is what we wouldn't have been able to do with another language, or this is how we've used Elixir in a way that other people haven't used it, get to a next stage of Elixir use cases.
+
+Eric Oestrich:
+Before we get too far away from this, you mentioned you're introverted and a great way to get people to talk to you at a conference is to give a talk, because then afterwards they come up. I also use that cheat code. I specifically remember that. The speaker dinner was my first time talking as well, and Justus went to me and says, "There's one seat left, I'm going sitting there. And I was like, "No way am I going anywhere near that table." So it's definitely, if you're interested in becoming a, I don't know, if you're also an introvert and can stand in front of people, it's a great way to meet people. They just come up to you afterwards.
+
+Ben Marx:
+Yeah. I don't enjoy necessarily giving talks, you know what I mean? It's not something that gives me a lot of, something that I look forward to, but immediately afterwards it's fun, because you get to talk to people, but it's not something that comes easy. But it's also, I think one of the interesting things about speaking, as well, because I always assumed that whoever was speaking was an expert matter on everything related to the language, or the concept that they were talking about or whatever. And it's really, I think anyone can give a talk if you just find something that you're interested in, and can come up with a coherent message for 30, I think 30 minutes is probably a good conference talk, then you should definitely submit a talk. And the more people that we have speaking about different things, the better the community will be, I think.
+
+Eric Oestrich:
+Okay. So season four is also about architecture and system design. So what does architecture mean to you?
+
+Ben Marx:
+Generally speaking, it's just, I think people maybe think of architecture as a static thing, but in software generally, and then architecture specifically, I feel like it's a dynamic thing, or even a production. People are like, "Oh, don't deploy to production." But we do deploy to production all the time in most jobs. So I think of it more as a, architecture is more of a biological structure than static building, even though a building itself, obviously it's not static either. You have people coming in and out, and carpets changing, and pipes changing all these kind of things. But yeah, I guess.
+
+Justus Eapen:
+Could you elaborate on that a little bit? Because one answer that we've received to this question was that architecture or the parts of your system that are hard to change, but you seem to be implying the opposite, these are the things that will change.
+
+Ben Marx:
+Not necessarily. They're not easy to change necessarily, just adding a third floor to a building is not an easy thing to change, but I think if you think that your architecture is finished or completed, then you're looking at it in a way that precludes you from seeing different opportunities or different changes. Actually, that was one of the interesting things was, I had been there for a long time, or especially in the early days we hired people and taught them Elixir on the job, and they would come up with a different pattern that I wouldn't have thought of doing. And that was really cool because it was like, "This is someone who has come to this language and they've applied other things to it and come up with a different solution." And so if we had stuck with this ideal of what our architecture would be, we might not have changed it to include their plans or their changes.
+
+Justus Eapen:
+Can you talk a little bit about the difference, if there is any, between architecture and design?
+
+Ben Marx:
+I guess design is more of the abstract concept of what the architecture should be. And then architecture is what your system actually is, perhaps.
+
+Justus Eapen:
+Do you have any opinions on domain driven design?
+
+Ben Marx:
+I'm not really a big fan. I'm not a fan of using all of these words to describe something in a more highfalutin way. I'd rather speak plainly about something than using these terminologies that mean one thing to one person and another to another. So I guess the way that I would... How do I feel about domain driven design, is that what you're saying? I think that makes a lot of sense. It sort of also, instead of going domain driven design just saying what the piece of architecture does, it's a little bit easier to express it.
+
+Justus Eapen:
+So maybe you could tell us what the domain driven design mean to you, because the other thing is, not everybody agrees on the definition. So what is your definition of it?
+
+Ben Marx:
+Well, my definition is probably wrong because I'm not too well versed in what the domain driven design is, just sounds like it would be domain driven design is what is this, you have something, and you're wanting to do something with that according to some requirements you have.
+
+Justus Eapen:
+So letting the requirements drive it.
+
+Ben Marx:
+Yeah, to some degree. Correct me and tell it's the correct definition?
+
+Justus Eapen:
+Oh, I wouldn't correct you. I would not correct you. I've been trying to ask, because I think part of the question is what... Because there's obviously the book on domain driven design that has the canonical response, right? And so if you were the type of person that was very pedantic, you would reference that definition. But the real definition of a thing is what people believe it to be. And so I think that your opinion on what it is, is actually much more heavily weighted, in my view, than what this book says versus this book, because your opinion is actually how it plays out in real life, which I'm sure that the authors and the credentialed experts would all... I'm sure that they're pulling their hair out right now and throwing their phone across the room, but I couldn't care less.
+
+Ben Marx:
+But you make a good point. How do you make sure, if you have the expert's view, I don't want to speak generally about experts, but experts in this very slim case. I feel like a lot of words in software are tossed around very loosely. And so then it becomes much harder to understand precisely what the other person is saying. If you're not steeped in domain driven design, but then people toss around the word without that expertise, then it becomes much harder to reason about what that is.
+
+Justus Eapen:
+Right. I will say that my understanding of domain driven design is pretty close to what you described, which is that the architecture is derived from the business logic of the domain, which I think is almost a tautology in a sense, because how do you generate an architecture that is not derived from the requirements of the domain? Elixir we have contexts. I think contexts all lend themselves to domain driven design in a way then, like an MVC architecture or like object oriented design doesn't necessarily lend itself to that.
+
+Ben Marx:
+Yeah, it's basically the scientific method, right? You have a hypothesis and you want to prove it, and if it doesn't work, then you adjust it and then there's your domain. And then it's data driven. It's just the scientific method, isn't it, to some degree?
+
+Justus Eapen:
+Yeah, I like that a lot.
+
+Ben Marx:
+I don't know. And this is why I don't get tied up with these fancy terms.
+
+Eric Oestrich:
+Yeah. So before we get into some specifics, we have one more general question about how you might lay out an application. So one of the big concerns, typically with most web apps or just applications is authentication and authorization. So where do you typically place that? Is that at a controller, or is that at a context, or where might you stick that system?
+
+Ben Marx:
+Well, I guess it depends on the scale of your company. If you can put everything into one application all the better, but if you have a distributed system, then I imagine that that would live in its own service. And then you would communicate somehow with the other systems. We didn't really use contexts as such at Bleacher Report because all of our Phoenix apps were pretty old, before contexts where a thing. But I imagine that I would probably, this is probably a bit old fashioned at this point, but put it in the controller. And I can't even remember what the function would be that we would use, but just have some check before a controller action, I suppose, for the authorization, for the identification, perhaps somewhere else.
+
+Justus Eapen:
+Can you talk a little bit about your time at Bleacher Report, obviously whatever you're able to talk about. Specifically we want to talk about lessons that you learned. I'd also really like to hear about a narrative history of when you started there, maybe what did the architecture look like and what were some of the bigger decisions and turning points?
+
+Ben Marx:
+When I started, I sort of talked about this in talks and such, but more specifically, it was an interesting time. It was a transition from one period of BR to another. And now I think BR is doing another period with new group of people as well. When I started, it was more about aggregating information from different spots and pulling that into one place. And then as the user base grew, that became harder to do. So, part of the first couple of years of my time at BR was around moving off of Ruby and onto Elixir, and part of that was rewriting the structure of the applications and how they communicate, and also, as we brought on new people, they were also given a responsibility to take control of this application or these services or whatever, and do similar type things.
+And then now what BR is doing is, if you look at the app, you can see that there's the whole social aspect about connecting with people and about sharing the experience with that. So maybe you have someone else to talk about what they're doing now. But I think that the big transition, as far as architecture, was pulling things into, I guess, into their own domains, in the sense that before it was a monolith-ish type of thing with a couple of services, and then over the next couple of years, it was, how do we break these into single responsibility services, not microservices, but services that can stand on their own and to be more resilient?
+
+Eric Oestrich:
+So would you say they were microliths?
+
+Ben Marx:
+They were services that could stand on their own. No, I know. Was it microliths? Is that the new thing? Or no, macro service, that's the new thing.
+
+Eric Oestrich:
+I've seen macrolith, and yeah, just...
+
+Ben Marx:
+But this goes back to what I'm talking about, about speaking plainly. Like who cares, just call it what it is, just a service that does something. I'm just becoming a curmudgeon, I guess, but...
+
+Justus Eapen:
+Become a curmudgeon. I'm a curmudgeon. Join the curmudgeon club. I'm over here like, if you're trying to build a microservice architecture and you don't have a serious use case for it, stop, just build a monolith, just put it all in one repo, it will make your life so much easier. I don't know why everybody's trying to servicetify everything.
+
+Eric Oestrich:
+I saw something recently that was like, "You probably don't need a microservice because Amazon went for seven years or up to 2001 or something doing a billion dollars a quarter in a monolithic application. If they can do that, you can do that.
+
+Justus Eapen:
+Isn't Facebook still just a big PHP app? I'm sorry. But go on Ben, what were you going to say? You're the guest here.
+
+Ben Marx:
+No, no, no. What was I going to say? I think probably one of the reasons that we've come up with these new names is because people want to have a catchy thing for them to be associated with. And now I came up with this term. It's in any industry, you're like, anything to have the zeitgeist. Now we're doing microservices. Now we're doing macroservices. Now we're doing monoliths, et cetera.
+But speaking from experience, BR had a pretty large scale and Subspace also has quite a high scale. And I've worked at companies with smaller scales and the cognitive overhead of bringing on another service is actually pretty high. And also the fact that you have to deal with the communications between services. You're probably using AWS or GCP or something. And we've had some interesting, at different companies, had some interesting experiences when things react in different ways or when requests get lost somewhere. And so if you can keep everything into a single service, all the better, I think. Might not be as exciting, but you don't want exciting when you want to have something run stably, I guess.
+
+Eric Oestrich:
+One thing, I'm curious, I think Bleacher Report used Kafka based on what I've heard filter out. What was your experience using that? Because mine currently is just trying to set one up for production and I believe it's impossible.
+
+Ben Marx:
+Kafka-esque. I also don't know why they called it Kafka. Because Franz Kafka is all about labyrinth and mindless bureaucracy and people metamorphosizing into cockroaches.
+
+Justus Eapen:
+I think engineers are absolutely the worst possible people at naming things. I just found a library. I'm going to just rant about this for two seconds, which is AOL has a library called Moloch. Moloch is the Canaanite god of child sacrifice. What could possibly compel you to do something so idiotic as naming a major part of your like library, Moloch. It's like if I named it Hitler or Mao or... What are you... Anyway. It's just so bad. Kafka, absurdity and confusion, is that what you want in your library associated with?
+
+Ben Marx:
+Cassandra too. Cassandra, she was a Trojan prophetess who tried to warn about the Greeks attacking and everyone ignored her. I don't know what that says about Cassandra, but interesting choices. Well, Kafka is pretty heavily used. You would have to maybe have someone who is at BR now speak about what they're doing with it, but all things equal, I think that I would try to, unless you have a good use case for it, or have the ops team or outsource, have a third party company maintain it for you, then I would not use Kafka, just because, again, it's more overhead. And what are your use cases you really need it for? Why you are using Kafka? Can you speak about your experience with or why you would use Kafka or why are you using Kafka?
+
+Eric Oestrich:
+So this was for a client who wanted to use it. I think they didn't have a particular use case at the time. It was just like they needed a queuing system to talk to because they have some Python services and Elixir services and they just picked Kafka. And then I think we're asking like, "Oh, why Kafka? Why not RabbitMQ or this other thing?" And then it just stuck with Kafka. And apparently just to give the answer that the person who named it, named it because it is a system optimized for writing and he liked Kafka's work.
+
+Justus Eapen:
+So he had bad taste. Actually, Kafka is great actually, I'm just messing around.
+
+Eric Oestrich:
+Actually the Erlang library for Kafka is called Brod, and it's, Max Brod was one of his friends and I believe he was supposed to burn all of Kafka's writings after Kafka died, but instead he published them.
+
+Justus Eapen:
+Wow.
+
+Eric Oestrich:
+There's also, I think a secondary library in Elixir called Elise or Eliza or something, that's his wife or something like that.
+
+Justus Eapen:
+Let's let's circle all the way back to the beginning, talk a little bit more about the work you're doing at your new role, specifically about what you've been learning because you said you've been learning a lot, and specifically, jump into it, tell us, and feel free to dive deep because our audience is mostly technical and they love the nitty gritty.
+
+Ben Marx:
+There's not so much that I can say openly quite yet, because we need to figure out exactly what we're going to talk about. But I suppose at some point, hopefully conferences begin again and we have some interesting stuff to talk about, and I mentioned L2 and L3, so L4 to L7 is sort of the application layer with the TCP/IP, UDP, all this stuff. L3 is the routing layer, so routing between switches or peers or these kind of things, and then L2 is the data link layer. And then, L1 is actual physical layer where you plug stuff into routers or switches or whatever.
+So a lot of it's been me just, "Hey, here's this concept, what is a peer or what does that mean in networking?" And I had no idea what that meant. So a lot of it was actually learning about what BGP is, what gateway protocol is, how packets get routed around the internet. If we're working on this low-latency network, then I probably need to know how that happens. And we have a network engineering team that's full time working on the network itself, and so we've been partnering with them, because they'll ultimately be using stuff we write to make the network be that much more efficient. And so it's been a lot of fun, but I feel like in some ways like the first day of university or something where it's like, I have no idea what I'm doing, so can you show me this? And then I'm asking you all these questions.
+And so a lot of it has just been about learning how packets get sent around the internet from one place to another. And what happens if these packets get lost? Why is the internet efficient at all? Or why is it inefficient at all? And a lot of these things have been around for a long time. So I asked, before the interview, I was like, "What should I study for? How should I prepare?" I was sent a bunch of articles about different things, about how... And one of the interesting things that cut out to me was that different nation states can take these packets, impersonate them, and redirect traffic to different parts of the world, so that they can basically introspect the traffic that's coming to them and do stuff with it.
+And then even some of the funnier stuff, "funnier", but I think in Pakistan they accidentally turned off part of the internet because of YouTube or something. And so then half the internet in Pakistan was unreachable for a while. And I'll send you the link afterwards so I can verify what I'm saying, but mostly it's been around how does the internet actually work at a lower level?
+
+Eric Oestrich:
+I was actually, you mentioned nation states redirecting traffic. I was going to ask you a slightly joke question. So that's the border gateway protocol is what does that. I was going to ask if your service could alter that? Because I think it's fairly insecure and you can just send packets.
+
+Ben Marx:
+Cloudware and maybe like the CNCF, Cloud Native Cloud Foundation or something. I think it's RPKI is what it's called. Yeah, Resource Public Key Infrastructure is a new thing to help make the internet more secure, or make BGP routing more secure.
+
+Eric Oestrich:
+And the other thing I wanted to mention was that you had said layer one through seven. For people who may not know and want to look up more, that's the OSI model of networking. And we'll have a link to the Wikipedia.
+
+Ben Marx:
+How have you been doing with that? Do you have quarantine where you are? Shelter at home or whatever they call it?
+
+Justus Eapen:
+Yeah. Maryland has got some of the strictest policies, but some of them have most lax enforcement, which is a really nice. I disagree with the strict policy, but I agree with the lax enforcement. But it's a nice gray area where, plenty of room for institutional malfeasance. I'm curious, because one thing that came up before the call was working from home and your process of going to a new role right in the middle of this whole thing. Can you talk a little bit about that?
+
+Ben Marx:
+Yeah, sure. We moved to LA. We moved down from the Bay Area. We had a baby last year and Allie and I were talking about next steps. What will we do? And I was like, well, we need to find a new place, because our current place wasn't a good size for a baby. But no new job and I'm not going to do anything crazy. And so then we ended up moving and got a new job with a baby all at the beginning of the year. And so the transition actually was pretty pleasant. Subspace was super helpful in getting us down here and making sure we were well taken care of. But then, we worked, we have a very light process and a very analog process actually, for tracking work. And so then suddenly we had to go remote, but we were pretty good about taking that very lightweight process and turning it into a digital process and keeping, we basically keep all of our information as close to the code as possible, so in a pull request or something.
+And that's one of the nice things as well about Subspace is that you have a lot of ownership of your system that you're responsible for. It's literally called, responsible engineer. So you get to, there's a lot of latitude and also a lot of expectations that come with saying, "This is what my system needs, or this is what we need to do, or this is how these two systems should integrate." And it's really a bottom up driven organization. We're a very small company, so there's not that many layers between like CTO and anyone else. It's really nice to have that flexibility and responsibility to drive things forward.
+
+Justus Eapen:
+I'm curious, how do you, it's come up in recent conversations, Sophie wrote a piece, Sophie DeBenedetto wrote a piece on how now all developers are project managers, because once you're forced to be home, you have to manage your own priorities and everything. I'm curious, do you have rhythms or practices that have helped you communicate and stay organized?
+
+Ben Marx:
+Yeah. We have daily check-ins, which are pretty useful. That's really the time that we touch base with everyone to make sure that we're all on the same page. And then people who are working on the same system will typically be on, they decide how they want to communicate with each other, whether that's on a video conference or whether that's just checking in on Slack or whatever.
+Also, one of the things as well, there's a ton of stuff. It's a startup and we have pretty ambitious plans. So there's tons of things that we need to get done, but one of the things that our boss said was make sure that you take time, don't turn this into, work isn't the only thing. Make sure that you have a day like you would before. Take a break for lunch. Stop in the evening, spend some time, because otherwise your days are going to bleed into each other. And I think that's something that was super helpful. And also really nice for him to just come out and say. He says this probably once a week, maybe. Just saying that, make sure that you have the time. Because right now it does feel like an endless day. I think today is Tuesday, but you could say it's Thursday or Wednesday or any other day, and I'd probably be like, "That sounds right."
+
+Eric Oestrich:
+I definitely woke up this morning and thought that it was Saturday, I think. Like, oh good, it's a free day, I can do whatever.
+
+Ben Marx:
+Yeah. Well you have a baby, so there's never a free day, right?
+
+Eric Oestrich:
+He's at the age right now where you can just kind of set him on the couch next to you and he's just going to sit there and just sleep probably. So we probably have another month of that, maybe.
+
+Ben Marx:
+We never had that. He was always active, he always wanted to be held and entertained. But back to the work stuff. It's also actually been really nice because since Allie, she is taking care of the baby. Now that I'm at home, every so often I'll get up and take him for five, 10 minutes, I can help with lunch, I can help with the breakfast, help with dinner. So that's actually been one of the nice things about working from home, is just get to see them more often.
+
+Justus Eapen:
+I love the baby talk. I wish people talked about their kids more often in the industry. It's really a light. So talk a little bit, before we close out, we're going to give you, we'd love for you to talk about your book. Why should we read it and who should read it? Are you writing another one? Would you write another one? And then also just feel free to use this time for any shameless self promotion, any plugs, any, where can people find you, that kind of thing.
+
+Ben Marx:
+Sure. Let's see. First, another book, maybe someday, things are busy right now with work and the family. But yeah, I have some ideas, hopefully, and I enjoyed writing the book. It's something that, like I mentioned before, for whatever reason, I've always wanted to write a book, and writing a book is not necessarily an enjoyable process, like giving a talk, right? The preparation for it and the duration of it is, for me, not pleasant, but the finishing it is nice. Probably most people who've written the book would probably agree with that.
+But we'll see how things go over the next year or so. And then, Adopting Elixir, who should read it? I think a lot of the things that we wrote in the book still hold true about how to organize your team, how to build a team, not even from an Elixir standpoint, but from a general standpoint. How to build a team with a new language, how to convince or how to support your argument that you should try out this new language because it is incredibly expensive to try out a new language.
+And I think, I would be curious to see how many more people start using Elixir, because we see in Elixir Weekly or Elixir Radar, these newsletters, these different companies trying out Elixir. I'd be curious to see more case studies from... And I guess it's sort of a catch 22 because a lot of companies don't, large companies won't say that they're using a language or experimenting with a language until they already are using it. But I still think that what we've put forth about why you would want to use Elixir or why it would make sense for you to use it, those still hold true.
+And I think also, more generally, or more specifically, I suppose, with Phoenix LiveView and Phoenix 1.5, I think those make compelling arguments to use Elixir and Phoenix, because it's super simple to get up and running with Phoenix. And Chris and the Phoenix team have done a really great job of lowering the bar and adding in many more developer friendly features around migrations and setting up a database and these kind of things.
+So I think even for smaller companies or even for programmers who are just getting started, like Elixir and Phoenix, I would find it hard to pick another language, I guess.
+
+S04E04 - Transcript
+Ben Marx
+
+Justus Eapen:
+And do you want to make any final requests or plugs for the audience, where they can find you, where they can find your new gig, that kind of thing?
+
+Ben Marx:
+Yeah, sure. We are looking for maybe one or two senior Elixir people in LA. So if that sounds interesting to you. And I'll share the article about the company in the show notes, so you can get a little bit more about it. And if that's something to interest you, you can reach out to me on Twitter, my handle is BGMARX, or send me a message at ben@subspace.com, and we will try to see if that would work out. So yeah, that's probably about it. I don't really have too many things.
+
+Justus Eapen:
+Awesome. Elixir Wizards, this has been an episode of Elixir Wizards. Thank you, Ben Marx and my cohost Eric Oestrich. Once again, I'm Justus Eapen. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, We are always looking to take on new projects, building web apps in Elixir, Rails and React, infrastructure projects using Kubernetes, and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with. Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook. So add us on all of those. You can find me personally at Justus Eapen and Eric Oestrich for Eric. And join us again next time for more Elixir Wizards on System and Application Architecture.

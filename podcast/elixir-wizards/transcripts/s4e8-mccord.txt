@@ -1,0 +1,443 @@
+EW S4E8           - 	Transcript                                                                       EPISODE S4E8
+                
+
+
+[0:00:05.0] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host. I’m joined by my amazing co-host, Eric Oestrich. How are you doing, Eric?
+
+
+[0:00:19.5] EO: Good.
+
+
+[0:00:20.4] JE: We’re joined by today's special guest, the inventor of Phoenix, Chris McCord. How are you doing, Chris?
+
+
+[0:00:26.5] CM: Good. Thanks for having me on.
+
+
+[0:00:27.8] JE: This is Season 4, where we are talking a lot about system and application architecture. Since we've got a very special guest today, Chris McCord, the inventor of Phoenix, we're going to focus on Phoenix, broadly speaking. 
+
+
+Chris, it's so glad to finally have you on the show. We wanted to start off by shaming you publicly for taking four seasons to get on. What took so long?
+
+
+[0:00:48.4] CM: I think, Justus, you had tracked me down at probably half a dozen conferences or more on having me on. I think to my credit, I believe we did in Austin, Texas I forget what conference, we made a brief in-person interview. Yeah, it's my bad for not connecting. It's usually just right place, right time. I actually just reached inbox zero, so you caught me at the perfect time where I was like, “Okay. I got to get through this unanswered e-mail.” Happy to be on. Happy to make it happen.
+
+
+[0:01:20.6] JE: You know what? You're totally right. You were on the first ever launchisode, which was our biggest episode for multiple seasons, until we had probably, José on the show. Now I expect this will be our biggest episode ever, which is super exciting. 
+
+
+So, yeah, I'm a liar. You've been on the show before. But now we've got you on for a whole episode. I was actually think it would’ve been really have been really funny if you were just like, “Well, you never invited me.” Then what am I going to do? I couldn't be like, “Yeah, I invited you 50 times,” and make you a liar.
+
+
+[0:01:45.9] CM: Yeah. Just thinking about it. Yeah, I don’t know what you’re talking about.
+
+
+[0:01:48.5] JE: You never invited me. How did you get into programming, Chris? When you were just getting started as a young person, what was your introduction to programming generally?
+
+
+[0:01:58.2] CM: Yeah. I think these are still in use today, but as I get older, I don't know. The TI-83 plus calculator is where it all started for me. TI-basic, just like my calculator in I think eighth grade, I had that throughout high school as well, but I think eighth grade I just realized that – I forget how I found out about. I don't know if it was a classmate, but it's where I discovered that you could “program.” TI-basic is where it all started. I didn't know anything about programming at that point. TI-basic was a great starting point for me. It's an incredibly limited language, but that's what got me in a calculator games. I would “cheat” on my math test, because I would write a program to calculate Pascal's triangle, or whatever.
+
+
+The caveat is I had to actually learn how to solve that problem. I didn't really need the program by the time it was done for the test, but it's what got me started. Then from there, I got in a little bit into assembly programming for faster games on the calculator. I really had no idea what I was doing. I would hack my way through. Yeah, it’s worth it to get TI-Basic –
+
+
+[0:03:04.0] EO: Yeah. I had a similar start. I remember printing off all of the assembly instructions and looking at them and then going like, “What?”
+
+
+[0:03:14.9] CM: Yeah. I think I checked someone else's source out. I mean, it's been so many years. I think it was a call Z and a call in Z. I realized, I looked at the someone's source and I was like, “Oh, this is a truth e-call and this is the else branch.” It was just enough of that hodgepodge together that I was able to make a tennis game. Those were some interesting time. Anyway, from there I got into C programming in Java and then ultimately, HTML and PHP. It's quite the journey starting from TI-Basic.
+
+
+[0:03:47.1] JE: Place us on a timeline about how old you were at each point of transition there and what you were doing with the different technologies.
+
+
+[0:03:54.8] EO: Yes. The timeline, so eighth-grade TI-Basic. Then once I got into high school – so I think from there, I got a Learn C in 21 Days from the library, just because I was like, “Okay, programming, cool.” That's just the book that I happen to pick up off the shelf and I didn't really know anything about what language to choose. I stumbled my way through C, not successfully. But from there –
+
+
+[0:04:17.7] JE: Seems like it’s worked out though.
+
+
+[0:04:19.2] CM: Yeah. Played around with Java. But anyway, this is all say, somewhere around maybe 14, 15-years-old I wanted to build web applications. No one will probably know this, but there was a site and maybe it's still up. It was davesite.com. It was a guy named Dave made – He taught HTML. It was a free HTML course. That's what started my foray into web programming. I learned HTML and made a static website with 400 pages, but it was all I copy pasted into Notepad and I didn't know how to make dynamic web applications. I got into web programming and did it all statically.
+
+
+I was always thinking, like when I went to a homepage of msn.com back in dial-up days, when they showed the current time or date, I was like, “There must be some piece of code that runs there. How are they doing that?” That's when I got in – I discovered PHP. PHP, it perfectly mapped to my mental model of how the web programming would have worked, because it was just like, “Oh, it's just HTML. But then of course, there's just code that runs right here and inserts this in the page.” It was my progression into web programming.
+
+
+[0:05:24.1] JE: More or less self-taught. Did you take in college any computer science courses?
+
+
+[0:05:29.4] CM: Yeah. I do have a CS degree. I say that maybe the last quarter of my college experience was possibly worthwhile. I don't feel that was a great time investment, but everything was self-taught in high school. Then I mentioned that website. I made a flash game website, when flash games were a thing. That jump-started my programming career and knowledge from there. Started a little flash game company in high school.
+
+
+Then in college, went the CS route which was natural, but it was mostly just waiting for stuff to get interesting and fun. But it was my senior year of college, I was trying to convince my teammates to use version control. Pretty much sums up my college experience, like e-mailing it to each other, like CPP files back and forth. Interesting.
+
+
+[0:06:19.3] EO: That sounds about right. I'm curious, I also had a very similar progression of TI-Basic to PHP. Did you use – it was called hudzilla then. Now it's hackingwithphp.com. That was the book that I just click through to learn my –
+
+
+[0:06:38.0] CM: No. I don't even remember the PHP official documentation, that purple background is my – it's ingrained in my memory. but I think it was just hodgepodge of Google searching that got me there.
+
+
+[0:06:51.1] JE: What was your first paid programming gig?
+
+
+[0:06:54.6] CM: Yeah. To not go on a tangent, but so anyway, I broke my back in high school, yeah, so playing football. My sophomore year high school during two-a-days, I don't know. I mean –
+
+
+[0:07:07.3] JE: You can talk about this. Talk about this, please. This is great.
+
+
+[0:07:09.8] CM: Yeah, yeah. I don't know if I took a bad hit. I mean, at some point I took a hit. I mean, I don't remember the exact incident. I have a stressed fracture in my L-5 vertebrae to this day still. Anyway, so that happened so I know I'm not a large person anyway. I didn't have a prosperous football career, but that's what made me go into full-time computer nerd mode, because I had a lot more free time. That's when I decided to build a website.
+
+
+As far as paid programming, this little flash game website became a business. I incorporated, I think was 2003. I think I was 16 and ended up making a little bit of money in high school, doing my self-taught hosted PHP server. It’s like, yeah, a dedicated server – Anyway, it was a lot of poking around, but that was my first – technically, first paid programming gig was my flash game website.
+
+
+[0:08:03.2] JE: What was the business model? Did people subscribe?
+
+
+[0:08:06.3] CM: Yeah. This is actually great question, because I think this is why open source resonates with me so much. My business model was how can I spam people with enough ads that they are forced to look at them or click on them? I was not positively contributing anything to society. It was just ad-based revenue. I feel using programming and benefiting from it, but it wasn't particularly beneficial to the world.
+
+
+[0:08:34.0] JE: Then how did that lead you to open source?
+
+
+[0:08:36.7] CM: It took a long time to get into open source. There was – Not a brief time. There's a chunk of time there, where I after I graduated college, flash games, flash has gone away, so I started working in Ruby professionally at a consultancy. I did that for six years or so. I was working with Ruby and throughout that Ruby experience, I wanted to get into open source, but I never made the leap, so to speak. Then finally 2013, I just made it a goal to speak at a conference and start contributing to a project. It took me several years to get there.
+
+
+[0:09:15.4] JE: Let's talk a little bit about what you're currently doing, because I'm sure that people will be interested after hearing the biographical background. Also, you'll have time at the end to plug everything. Yeah, tell us about what you're currently working on.
+
+
+[0:09:27.1] CM: Yeah. Probably won't surprise most listeners, but LiveView, Phoenix LiveView has been the majority of my focus this year. I'm just continuing to refine programming model, add more features. If folks saw my EU virtual presentation, I talked about the recent additions, but it's mainly just new features, new optimizations and then trying to work towards a 1.0, but we don't know when that might happen.
+
+
+[0:09:55.0] EO: For those who may not have watched that, I didn't, what is new in LiveView?
+
+
+[0:09:59.7] CM: Yeah, so all kinds of stuff. Old features feel new to me in that – so I was heads down this year trying to get Phoenix 1.5 out with a bunch of new LiveView features. We had a lot of new features that were added and not necessarily publicized, because we relaunched Phoenix website. I did that 15-minute screencast. I was heads down for a long time. Some of these features have been around for the last several months, but not really talked about much you were following the changelog.
+
+
+Some of them would be live navigation, so being able to do push date in the browser without a full page reload. We added deep change tracking optimizations. We'll be able to track if you're rendering a deeply nested structured map. We won't send that whole thing over the wire, execute all the template code. When the map changes, we'll just track all the deeply nested keys. That was a pretty big feature for most people.
+
+
+A lot of people didn't know that that was expensive before, but now it's better. We added ability to patch the title, ability to – let me see here. I have a list. It's been a long time coming, but as far as what folks have not seen.
+
+
+Yeah, another one would be a static asset tracking. This one's pretty cool. You probably wouldn't even know this is a problem until you needed it. Imagine you update your LiveView to send a new template structure down. When you deploy that code, you also have new CSS styles that those markup tags need to look right. Previously if you push that code out, the LiveView wouldn't refresh the browser. It would just reconnect, re-render your template and then your page would be broken-looking.
+
+
+Now we actually will be able to track your JavaScript tag and CSS tags and say like, “Oh, the static-digest changed,” and we'll be able to force reload the page, only in the case where a cold deploy actually changed one of those files. A lot of little neat features like that, so just give you an idea.
+
+
+[0:11:49.9] EO: Yeah, that's pretty slick, because I have definitely written the thing that force reloads, like it just checks every 15 minutes, like, “What's the version? What’s the version?” Or people just leave that tab open forever.
+
+
+[0:12:02.4] CM: Yeah. Now you get that for free. Now, you have to say PH extract static on the asset tags that you want to track, but the Phoenix new generates those by default. It would just work without you even knowing that you needed to do anything if you generated a Phoenix project with the live flag.
+
+
+[0:12:18.5] JE: Of these new features that are, they’re already out?
+
+
+[0:12:22.3] CM: Everything I'm talking about is out. Yeah.
+
+
+[0:12:24.3] JE: What was the most fun for you to work on, or what were you the most excited about?
+
+
+[0:12:28.9] CM: Yes, so the optimizations we've been able to do have been the most exciting, because I talked about this I think last year. When I first showed off LiveView, it was a worse is better approach, where the programming model itself was everything you wanted, but it was expensive on the wire, expensive on the server. 
+
+
+Now it's like, with the optimizations we have, it's the same programming model, but it can beat the best handwritten SQL page app in some cases. Being able to show that data on the wire is better than the best handwritten JSON fiddling single-page app that you could write is what's most exciting to me. Because the program model is you write the most naive code and what falls out somehow is incredibly optimized. It still impresses me even when I write an actual application with it. It doesn't seem like it should work, but it does.
+
+
+[0:13:17.0] JE: Have you seen any really egregious abuse of this power yet?
+
+
+[0:13:21.7] CM: Oh, yeah. Absolutely. 
+
+
+I mean, some of the games have been pretty fun. I mean, what I'd like to see is people solving those boring business problems. The LiveView games is split. A lot of people complain that people just are using LiveView for games and you shouldn't be doing that. For me, it's fun to see people push the limits. It's like, you don't want to make a first-person shooter with LiveView. You’re doing around trips to the server. The fact that people are able to push the limits and it's viable is really interesting to me.
+
+
+One of them was a flight simulator using canvas to render 3D map, going back to the server and it works. It was playable for me over the Internet. Those have been really fun. The abuses are super fun to see. It's fun just to see any examples. I vicariously live through my Twitter LiveView search and I see demos come up. I'm excited by the boring business problems, but equally it's fun to see people just playing around and experimenting.
+
+
+[0:14:20.7] EO: I just found this. It looks like it was from the Phoenix frenzy, the simulator. This seems pretty insane.
+
+
+[0:14:27.5] CM: Are you flying? Is it working?
+
+
+[0:14:29.2] EO: I didn't have the instructions up, so I'm just idling forward. But now I see – yeah.
+
+
+[0:14:34.4] CM: The map is –
+
+
+[0:14:36.1] EO: I’m moving.
+
+
+[0:14:38.3] CM: Yeah. That’s all server-rendered. It’s canvas scene, so every tick is going to the server. Anyway, I wouldn't build a commercial product with it, but the fact that it's viable is awesome.
+
+
+[0:14:50.5] JE: Speaking of commercial projects, the theme of this season is system and application architecture. We didn't really think that this episode had to be about that, but this is a great segue, which is how do you think about laying out a large LiveView codebase? Do you have any patterns that would be helpful to people?
+
+
+[0:15:06.7] CM: Yeah. This is a great question. There's fantastic documentation for LiveView today, but we don't have guides yet. Guides are something I'm waiting on, because some of the larger architecture patterns are to be determined. I think the obvious ones would be making use of pub/sub. In the demo that I showed, being able to do distributed pub/sub out of the box where you can just subscribe to say, “I want anytime a new tweet should show up in my timeline,” you just subscribe and you render the new tweet and it just works.
+
+
+I think pub/sub is a central part of a larger programming model for an effective LiveView application. There's a lot of interior details to figure out that I don't have a full picture yet. One would be component communication with a hierarchy of components on the page; what's the most effective way to communicate between them? Whether it's sending data down through the entire tree, or messaging directly. I do have some experience with React and some of those patterns, but I'm hesitant to just say like, “Oh, that looks good,” and throw it into LiveView.
+
+
+A lot of it is I need to see what people are doing in the wild and try to build ever more complex things to figure those out. It's a little bit's experiment as you go. I think we'll have a better picture as we one, are able to focus on those problems, but also as we see what people are doing in the real world.
+
+
+[0:16:26.0] EO: I've got a friend who is part of a fairly large live view codebase. I guess right now, it seems like they're trending towards the fat controller problem. Is there anything that comes off the top of your head that's like, how do we keep that skinny, or whatever? Or is that even a problem?
+
+
+[0:16:41.5] CM: I haven't run into that myself. I think standard suggestions apply, whether we're talking controller, or just a regular gen server. If you have a huge module with a lot of responsibilities to move that code and isolate it to a module that's responsible for those things. I know that's easier said than done, but I don't think there's anything drastically different in LiveView. I mean, it's stateful. That would be the difference. But that doesn't mean you can't write pure functions that take data and do something with it and return results.
+
+
+Yeah, so I can't really speak directly without seeing their codebase, but I would say standard rules apply. If you find LiveView is getting large and it's a lot of responsibilities, you could split up into components. We're just talking if it's just handling a lot of events, then you could just put that into component and compartmentalize that markup. If it's a ton of business logic there, then my recommendation would be to move that out to context and standard rules apply there.
+
+
+[0:17:36.8] EO: Speaking of LiveView being a stateful, so I have this written eons ago, like I don't know, early 2000s or whatever, so forever in Internet time. We used to have heavily stateful things and then something happened where the pendulum swung from stateful to stateless and now, I guess we're swinging back. Do you see that as a problem, or how can we make sure that we stay in the middle since there's problems on either edge?
+
+
+[0:18:02.3] CM: Yes. I guess, when you say eons ago, other than Corba and Java, if anyone remembers that. In your mind, what was eons ago, stateful applications? I didn't have that much experience.
+
+
+[0:18:12.6] EO: Yeah. I mean, neither did I. This was entirely from I've been to Rest Fest. This was early Rest Fest. One of the core organizers was like, “The first thing you should do in your API is turn off sessions.” I'm just assuming somewhere in enterprise land, there's things like, I'm sure you've used it to where you’re like, you have to sign into an API and push a cookie around. That's weird. Stuff like that. It's just, I don’t know, a heavily stateful, or just look at wind forms where your entire state is sitting in a form, that's the thing underneath body.
+
+
+[0:18:46.1] CM: Yeah. I can't say whether that's a problem, because I didn't have any experience with that prior. I will say that in my view, so ignoring the history, I also think a stateful application in what we're talking about previously, they weren’t running Elixir or Erlang. I will say, we didn't have a great platform historically to write stateful applications in for one.
+
+
+I think a big part of the problem prior to this is if you wanted to build a stateful application, it was just difficult because the primitives weren't there. For me, the platform matters. We've seen almost every mainstream languages had a LiveView inspired project, which is been actually really exciting to see, but I think it's a similar thing there, where re the stateful platform is everything that makes this really a viable thing.
+
+
+I think I don't see it as a problem. I see it as it's what I've been trying to work towards when I found Elixir what, seven years ago. For me, Elixir is a platform to be able to do this thing. I think having distributed pub/sub, distributed communication, like all the things that you need if you're running a stateful system are there for us. I think we are in a unique position to make this pendulum swing, so to speak, actually a great experience.
+
+
+[0:20:00.4] EO: Cool. I think our last LiveView question, I saw somewhere on, I don't know if this is a thing now, but are we renaming just statically rendered templates dead views? Is that official now?
+
+
+[0:20:13.5] CM: I think it is. I don't know if – I'm going to say, that's José, if he started that. I don't know where it started, but it has stuck. It's a fun thing to say. Dead views are dead to me, that's what I said in my talk a couple days ago. If it's not a LiveView, it's a dead view. I don't know that it's in the documentation anywhere yet, but that's what we refer to them as. I mean, they're still great. They're still there and they’re not going anywhere.
+
+
+[0:20:38.8] JE: There's no gray. They're just dead.
+
+
+[0:20:40.2] CM: Yeah. They’re not live.
+
+
+[0:20:42.9] EO: Are they going to be called zombie views at some point?
+
+
+[0:20:45.6] CM: No. I mean, I think they'll be there till the end of time. You can still render dead views from a LiveView as well. Another feature we added was co-located templates, so you don't have to define a dead view to render something outside of your Elixir code. If you wanted to render some complex hierarchy of templates, you can still put that in a regular Phoenix view. They're not going anywhere. They have a purpose.
+
+
+[0:21:06.8] JE: Okay. Yeah, that's hilarious. I thought that was hilarious change in terminology. I want to know, before we wrap up with LiveView, because I think that you've probably been fielding a lot of what I think would be perceived as criticism. I want you to steal, man, the opposition. What are the most valid critiques of LiveView and Phoenix more broadly?
+
+
+[0:21:28.2] CM: Yes. The most valid would be the offline mode isn't supported. It’s specifically for LiveView. Offline isn't supported for Phoenix, because it’s a web server. Except people running on nerves, on-premises. It's still a muddy thing. In general, yeah. If you need offline support, someone drives under a tunnel then obviously, LiveView is not going to work. I've tried to be very clear upfront in all my presentations on where it's a bad fit.
+
+
+I think they’re a standby for the vast majority of us, the vast majority of applications we build, it's suitable. I think the vast majority of single-page apps that we build today, also don't work offline. Offline support is actually an incredible amount of complexity to opt into. It's great that you have options if you need it, but you can't just say, “Oh, I built a React or an Ember app and therefore, I get offline. That's not how it works. That would probably be the most valid for LiveView.
+
+
+For Phoenix, it's a harder – I don't know if I – I mean, maybe it's because it's my baby, but maybe if you can give me an example of valid criticism, I could tell you whether it's the most valid. I don't know if there's a particularly valid criticism of Phoenix in Elixir itself, other than the typical, whether it's community size, or harder to hire for. I can't think of a most –
+
+
+[0:22:40.0] EO: Number crunching was a –
+
+
+[0:22:41.9] CM: Yeah. Number crunching, but then it’s like, it's not really a Phoenix thing. If you give me an example, I'll tell you if it's fair.
+
+
+[0:22:49.0] JE: I haven't heard anything that I would perceive as valid. The ones that you mentioned, I think are the most common. Eric, is there one that I'm missing?
+
+
+[0:22:57.6] EO: I think the other one that I see pop up is comparisons of frameworks. Phoenix is just in them and it's always like, “Oh, these two Go servers are super-fast.” But then you watch the charts and they peak and then they fall over at some point and Phoenix is just like, “I'm doing good.”
+
+
+[0:23:14.7] CM: Yeah. That would be the tech and power benchmarks. That's what I would actually say is an unfair criticism. I've spent more time than I care to remember trying to figure out why Phoenix does so poorly in their setup. I've just given up.
+
+
+[0:23:29.5] JE: Like you weren't able to duplicate their results, or you weren't able to –
+
+
+[0:23:32.2] CM: Right. The code that they're using is checked in to a repo. I've gone in there and it's been years since I looked at it. Initially, logging was enabled. The problem with any benchmark, it's like, they have these Go micro frameworks that just respond to a git request and then send, put response header, text okay and then you're like, “All right.” It's so fast, but then the default Phoenix app has logging and just logging on its own will crush your performance doing that IO.
+
+
+Initially, there was all kinds of things that weren't just one-to-one if we were comparing request ID. All the phoenix middleware that is explicit in your endpoint, but it's not the same thing that was being measured. We did send pull request. It has been probably three plus years. Then the next round generated high error rate. Anyway, so I've given up. I don't think they're representative of the framework, but it's not worth my time at this point. I hate seeing that. It always comes up. If it's on Hacker News, someone will link to those benchmarks and be like, “Why Phoenix is so slow?” It's like, “All right.”
+
+
+[0:24:30.6] JE: Is there a definitive rebuttal of that yet?
+
+
+[0:24:33.4] CM: I mean, empirical evidence for me, it's like, if you look at the success stories people are getting whether it's that log stash – there’s a guy running, he just tweeted yesterday, I think. I forget how many tens of thousands of requests per second that he's running through his Phoenix server. But I think we see enough demonstrative examples of success in the wild that people bleach report, people are tired of hearing of that. People that are actually exercising the framework and doing real work hitting the database, seeing incredible performance. For me, it's the real-world versus the benchmark.
+
+
+[0:25:05.4] JE: Okay. When somebody posts that on Hacker News, we don't have a link we can point them to, to just be like, “Shut up.”
+
+
+[0:25:10.9] CM: Not a aggregated link of here’s a example of scalability. Someone should put one together.
+
+
+[0:25:15.9] JE: Yeah. One thing we like to do in the show is give people who are listening little opportunities to contribute to open source into the community. That's one example. You also mentioned several earlier on with adding dead view to the Phoenix docs. I do want to give you a chance, because I think that you probably also have lots of examples of invalid critiques that if you haven't yet gotten the opportunity to just savage them mercilessly, now would be a good time.
+
+
+[0:25:43.3] CM: I see. Yeah, it's probably a large list. I think just by virtue of having the name framework associated causes people to think Phoenix is bloated or heavy. I feel in the last couple years we've been able to get past that. Enough people in the community correct others that come in and say, they don't want to use a bloated framework. That is something that I fought from day one, that Phoenix is somehow heavy, or has a bunch of code that someone doesn't need.
+
+
+I took my experience with Rails and tried to make implicit things explicit. I think even out of the box, if you don't want a request ID generated, or cookie session, it's like, you just delete a line from your own code. I think those are probably the most unfair is just whether it's uploaded framework or heavy.
+
+
+[0:26:30.4] EO: That's really funny to me, because I always thought that my impression of Phoenix has been it's so ludicrously light.
+
+
+[0:26:39.4] CM: Yeah. Well, like I said, I think it's all just – has a name framework in the name, which I think is a good thing. I think it's a developer thing, right? Then you have the term micro-framework, which I really hate, because to do anything useful, it's like, you want a valid base to build things from. Then you have these micro-frameworks that provide you very little and it's like, “What's the point?” Anyway, yeah, that's probably the most unfair. The benchmark thing was another example that is what it is. I'm trying to think. 
+
+
+I mean, another thing that really grinds my gears, so if your future listeners, in case people have requested that I extract channels from Phoenix. As one example of just like, “Oh, it's bloated because it has channels feature and they don't need to use channels. For me, I really dislike premature extraction of code and dependencies.
+
+
+I think, José – shouldn't speak for him here, but I think José instilled in me early on when I started collaborating with him prop – like good open source decisions. I think a cautionary tale is I see people extract too early, where they want to have this really extensible base, but then you almost get trapped in your own dependency web, where it's like, just to do one release. We see this with plug in Phoenix and LiveView. It's just a few dependencies. Then if you coordinate features, it becomes hard to manage. I've been very careful to not prematurely extract things.
+
+
+Then channels is one example where well one, I built a framework to have Phoenix channels. That was the feature I wanted, so it's my baby, but also it's not a large code path. It's probably, I had to guess less than, I don't know, a couple thousand lines of code with documentation. If you're not using channels, it's not hurting you to be there.
+
+
+[0:28:23.0] EO: Yeah. You just delete the line and the endpoint.
+
+
+[0:28:26.1] CM: Yeah, yeah. It's not hard. It's very simple to not use. One example that would make sense to extract though, so on the flip side of that, one area I would extract now in 2020 would be the Phoenix template layer. It's come up in the real-world where people want to render an e-mail template and then they don't want to depend on a web framework, which is absolutely valid. That is something at some point that we plan to extract, but then if that's what the dependency and then Phoenix view needs to still work for people running Phoenix 2.0, so maybe things to able to split that. That's the most, I think, unvalid criticism so far.
+
+
+[0:29:03.3] JE: Is there anything regarding LiveView that you wanted to talk about that we haven't touched on yet?
+
+
+[0:29:08.9] CM: I don't think so. I think, one thing that's been interesting with LiveView is just the amount of feedback from other communities that we've seen that's really surprised me. I was listing them in our Slack room yesterday, but it was Clojure – someone's working on one in Clojure, someone's working on there's stimulus reflux for Rails, there's a Django project doing LiveView and then LiveWire for PHP. Someone on Haskell is working on one. I constantly see people being inspired by it. It seems like it's resonated with developers at large at this programming model, so that's been pretty cool to see.
+
+
+[0:29:43.9] JE: What about excluding LiveView? What else is new in Phoenix that you'd like to talk about that the audience should know about?
+
+
+[0:29:52.3] CM: Phoenix itself is quite baked at this point. All the interesting things have been happening outside of core. Probably the most notable Phoenix 1.6 – Phoenix 1.5 is out right now. Phoenix 1.6 will include the Phoenix gen off generators for an authentication system. If folks missed the Dashbit blog, so José Valim’s company, Dashbit, released this drop-in authentication system, where it's not a authentication dependency, it's an authentication. It started as José wrote a Phoenix project and built authentication in that project, how he would like an authentication system to look. Aaron Renner at Dockyard, who I work with is turning that into a Phoenix generator.
+
+
+For people that are used to a authentication solution, is a dependency that does all this stuff for you, it's more like a starting point code generator for you to extend with a few libraries. Those libraries do password hashing. That's probably the most notable quality of life improvement for Phoenix 1.6. Other than that, we just have small tweaks. Phoenix itself is yeah, pretty stable at this point.
+
+
+[0:31:01.0] JE: When can we look forward to 1.6 dropping?
+
+
+[0:31:03.8] CM: Near future. I don't think there's a lot of blockers. 1.5 was a pretty, not large release API-wise, but large release feature-wise. We included the live dashboard, which is again, outside of core, but it ships with new projects. I think all the interesting things happening will be Phoenix live dashboard related, living on that dependency, or the authentication solution. Core itself is quite happily stable. You might see minor API editions, but Phoenix itself, yeah, I don't have any large features planned.
+
+
+[0:31:34.0] EO: Is Phoenix 2 going to come when Elixir 2 comes?
+
+
+[0:31:38.6] CM: Yeah. It's basically the same plan. I think if you look on the issues tracker, there is a 2.0 milestone with maybe two issues. I can't even tell you what they are at the moment. You want to look very small. It's like things that like, oh yeah, this would be nice to do, but we don't want to break things. There's no timeline. It's not we are going to pull the rug out from everyone and say, you have to upgrade now. At some point, I'm sure it will happen, but there's no nothing that's holding us back, breaking API-wise.
+
+
+[0:32:03.4] JE: One question I've been asking a lot of folks and I never get the answer I really want to hear. I'll ask you anyways. In comparison to Rails, do you think when and if we will ever beat Rails in terms of popularity, especially in the startup community, I think you're a more likable personality than certain other framework developers, who shall not be named. Yeah, what is your take on this?
+
+
+[0:32:28.7] CM: Yeah, it'd be interesting to compare community sizes at this point. I've been out of the Ruby community for several years, so I don't have a good stance on where they're at. Yeah, I don't see any reason why we couldn't see the same adoption that they've had or more. I think one thing that Elixir has done is for me, it seems like it's made functional programming more approachable. I think that's one of our selling points to other functional languages, I think a lack is it looks to – This is just my biased view. But at least for me, personally trying to come into functional programming, I don't want to say too academic. It just looked unapproachable to me.
+
+
+[0:33:03.1] EO: I'll agree with that.
+
+
+[0:33:04.4] CM: I want to build things was my goal and I just couldn't get into it. I think as we continue to bring folks across that chasm into functional programming, I do think that we have a unique opportunity to grow quite large as a community. I feel the current growth, it has been – we're not plateauing. I stopped tracking Phoenix downloads a long time ago, but it's at a exponential growth at this point. I think we're comfortably growing still, but I'd love to see us take over the world, but we'll see where we land in a few years.
+
+
+[0:33:36.1] JE: Okay. If our podcast plateaus in downloads, it's our fault, not yours. I do want to – I do want to ask you to expand a little bit on that though, like outside of the size of the community, which I guess is actually the output of this function that I'm asking about, but what are the systemic blockers that you think are creating friction in terms of adoption?
+
+
+[0:33:56.9] CM: I think for a long time, it was just reaching critical mass. For me, Phoenix is six-years-old now. Elixir is seven. Well, 2013 is when I got into Elixir. I think José started in 2011 or 12. I forget when he technically became Elixir. For a while, it was just proving that we had critical mass and was worth relying on something that you would want to be around five plus years. I think for several years, we've crossed that point. It's been a shift from – For me, I've taken this ride myself. Just trying to get anyone to listen to take a look at this was step one.
+
+
+Then step two was getting people to bet their business on it and we had enough success stories there that's caught on. I think at this point, it's just for me is evangelizing the community and just using that to grow and get people interested.
+
+
+I think we have enough success stories now and I think Elixir, I don't know if they've added it yet, but they're going to add a case study portion to their website. I think we're seeing this transition to as far as how I view the marketing from a Phoenix standpoint is attracting people on our merits now. We know it's a good bet. It's a safe bet, so to speak. It's still young. We're still new, but we're a much safer bet than we used to be.
+
+
+Instead of convincing developers to give us a try, it's the companies now see us as a strategic advantage. I know the question was about blockers. I'm just going through what were previous blockers. We have companies now that see Elixir as a strategic advantage and that was a big milestone initially, because the blocker was a risky bet on a new technology. 
+
+
+So, at this point, the only blocker I've seen professionally, as far as our work through DockYard as a consultancy is just companies still have a concern over the ability to hire Elixir engineers. They still know it's a good technology, but they're still like, “Java is a safer bet for us.”
+
+
+We have seen some of those concerns, which go back to day one where how am I going to hire people? Those are less of a concern. Then we have had for political reasons, we have lost contracts to other languages, just because a company is unwilling to retrain you and if they believe in the technology. I don't know that that's a direct answer to your question, but I don't think technologically there's a blocker there. I don't think we're lacking libraries at this point. I think it's just a matter of proper evangelizing and growing to a point, such that it becomes an easy de facto choice.
+
+
+I think we're on our way there and it's become much easier for me to sell Elixir personally. I don't want to try to beat Java, so to speak, as far as enterprise adoption. The blocker would be – it just becomes an obvious choice, where people don't have to go through this political game of trying to get Elixir in the door.
+
+
+[0:36:33.7] JE: Right. Yeah. It keeps coming up and we keep having this conversation on the show and outside the show. I do not see any good reason why any startup getting built on the ground right now would choose Ruby on Rails over Elixir and Phoenix, except for the prevalence of talent, which I think is actually a bad reason. Because I think the better developers want to go work in Elixir. That's where I land on anyway. 
+
+
+Talk a little bit more about the future. What does the future of Phoenix look like? What do you want to see from the Elixir community more broadly? What do you aspire to?
+
+
+[0:37:09.6] CM: Yes. That's a good question. I don't put goalposts super far in the future. Things just keep tending to happen organically. One example would be Phoenix presence was a year of work of my time that just came about like, “Oh, we need to solve this problem that most people have.” Then that was a year plus of work. Then Phoenix LiveView came about and that's been a year and a half, two years of work at this point.
+
+
+I think from this point, it's pretty clear that LiveView is going to continue to grow. I mean, we're not 1.0 yet. I think there's a lot to be done there, especially around larger architecture designs, like what that looks like. What features it makes sense to add. I think LiveView itself will continue to grow and I think become a bigger part of the way people build web applications in Elixir. 
+
+
+Outside of that, we do have some plans. We have for a long time had a plan for a pub/sub 2.0, so a Phoenix pub/sub rewrite to split it into smaller building blocks. That's something that's we've had a couple of false starts there, because I think pub/sub is doing quite well on its own. It would be nice at some point once I have time on my hands to be able to take pub/sub and split it into an RPC mechanism.
+
+
+Basically, José is really good at looking at things that I build and finding smaller building blocks of everything that I hodge-podge together. One example is Phoenix pub/sub has a process group built into it, but José realized that we could split that out into a RPC mechanism to talk between servers. Could use that to build on a process group, which is what Phoenix tracker and Phoenix presence is built on.
+
+
+By doing that, would then have this distributed programming toolkit for people to build unique things on top of service discovery, or distributed counters. We've had this idea for a few years now. We just haven't really – Distributed problems are pretty time consuming to solve, so we haven't really been able to focus on it. If I had to put a goal post on if I find myself having solved all the other problems, that's what I would focus on.
+
+
+[0:39:08.6] EO: Is this what fire nest was aiming to be?
+
+
+[0:39:10.9] CM: Yes. Exactly. Yeah, we were originally going to write Phoenix pub/sub as a project called fire nest. The only reason being, we were worried that Phoenix pub/sub would have the stigma of being Phoenix related, even though it has nothing to do with the web framework. We were worried that having Phoenix in the name would somehow make people think like, “Oh, it's not this general solution to this distributed programming toolkit.” That was originally the plan. But then like I said, a pretty big initiative, so we didn't quite get there.
+
+
+Some of the ideas that came out of that did make it into, I think I misspoke. We did ship pub/sub 2.0, but some of our grander features would be a pub/sub 3.0. We did take some of those fire nest ideas and rewrite portions of pub/sub to make it more efficient. Our grand vision has TBD there. We'll see what happens in the future.
+
+
+Outside of that, I think for Elixir itself, we have a couple interesting things happening there. I mean, there's all kinds of interesting things happening for one. I think nerves is one example where I think we'll continue to see really interesting problems being solved on hardware, which I think is a unique position to be in. Very rarely is a language good for web products and also running on device. That's exciting to me. Then we have libraries like annex for machine learning.
+
+
+Jason Goldberger, another one of my co-workers at DockYard is working on a machine learning library for first-class machine learning in Elixir. I think that would be as far as the checklist of things, companies may ask like, “Well, can I do this?” I think we continue to innovate in pretty much all the domains that are necessary to be successful, even though we don't have to. It’s like, we can still be successful if we were just a web programming language. I think we're uniquely suited to be successful on tiny embedded hardware, on massive servers and machine learning fleets and everything.
+
+
+[0:41:01.1] JE: Wow. I am sad that we are out of time, Chris. We do want to give you a chance to make any final plugs, or asks for the audience before you go; where people can find you, how people can support what you're working on or get involved, the time is yours.
+
+
+[0:41:15.5] CM: Yeah. I think the only thing I'll call out would be ElixirConf is going to be going virtual for this fall. I think September 3rd or so is when it's going to take place online. The CFP just opened, so we'd love to have folks submit talks for that and deliver those virtually. I'd say if you were ever hesitant to give a talk at a conference, this would be a great dry run. I think it's maybe lower stakes, or maybe higher stakes for people to deliver a speech online, but it would be a great time to get involved in the community and submit a talk.
+
+
+[0:41:44.4] EO: The deadline is July 18th. I think this will come out the 9th. Hopefully when you're hearing this, I'm correct. You also have a little bit left.
+
+
+[0:41:55.4] CM: Okay.
+
+
+[0:41:56.5] EO: To apply.
+
+
+[0:41:57.8] CM: Yeah. As far as supporting me, I have to plug DockYard. DockYard is a consultancy that I work for. They support me working 75% of my time on open source. That's what's able to allow me to do cool things like LiveView and still have a personal life and a sane life at home. Check us out at dockyard.com. We're happy to chat about design development and what have you.
+
+
+[0:42:20.0] JE: Awesome. That's it for this episode of Elixir Wizards. Thank you again, Chris McCord and to my co-host, Eric Oestrich. Once again, I'm Justus Eapen.
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic we are always looking to take on new projects, building web applications in Elixir, Rails, React, Kubernetes and React Native. We'd love to hear from you, if you have a project we could help you with. Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all those. You can find me personally @JustusEapen and Eric @EricOestrich.
+
+
+Join us again next week on Elixir Wizards for more on system and application architecture.
+
+
+[END]

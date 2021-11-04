@@ -1,0 +1,519 @@
+EW S4E14                Transcript
+EPISODE S4E14
+
+
+[00:00:04] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile app development shop based in Baltimore. My name is Justus Eapen, and I'll be your host today. I’m joined by my cohost, none other than Eric Oestrich. And this season on SmartLogic’s Elixir Wizards, we are talking about system and application architecture. We’re joined today by a special guest, Mark Windholtz. How are you doing, Mark?
+
+
+[00:00:31] MW: Doing great. Doing great. 
+
+
+[00:00:34] JE: Super glad to have you on the show. We met after the first time at Lonestar Elixir this year. It’s a really good time. And we’re going to talk a little bit about that, your talk at Lonestar. But first, I saw that you tweeted out about the SpaceX launch. Tell me, are you as fascinated by SpaceX and the race to Mars as I am?
+
+
+[00:00:54] MW: Well, yeah. Yes, certainly. Race to Mars, I'm a little skeptical about it. We’ll see how that turns out. But, sure, all the other stuff they're doing is pretty astounding. 
+
+
+[00:01:03] JE: Skeptical in the sense that you don't think we can do it or –
+
+
+[00:01:06] MW: Yeah. I don't know. It's a massive leap, right? All that radiation. I don’t know what they’re going to do about all of that. 
+
+
+[00:01:13] JE: Radiation.
+
+
+[00:01:14] MW: Yeah. That happens in space. Yeah, that happens in space. Yeah, I don’t know. I’ve read a bunch of things about how will they possibly be able to shield the astronauts on that trip from ah – I don’t know, mutating into – I don’t know, X-Men or something. I don’t know what they're going to turn into. It might be good. 
+
+
+[00:01:37] JE: Do you have any thoughts on like how SpaceX has been so successful so far at like sort of reinvigorating the American space industry?
+
+
+[00:01:46] MW: Well, yeah. I think that might actually lead right into our talk, because their approach to engineering is just – It involves a lot of feedback and a lot of evolution and a lot of modeling basically, right? They try ideas at a super rapid rate and they try them out in reality. And first principles thinking that Elon talks about. I’ve really been fascinated by that. It's really hard to kind of nail down any good sources for what exactly is first principles thinking. 
+
+
+[00:02:17] JE: Can you maybe give us your understanding of that? Because I think – I mean, I'm sure a lot of people in tech have heard of that. But I also wonder what does that actually mean. 
+
+
+[00:02:26] MW: Yeah. Not being an expert. In some of my local DDD talks, I actually put up a little clip of an interview with Elon. He was being interviewed by a YouTuber called The Everyday Astronaut. I think that's what his name was. This guy asks Elon, “What's your approach to engineering?” And Elon says, “A great engineer will just take apart and get really good at optimizing that part.” And the real question is a lot of times that that part should not even exist. And that's that holistic – The holistic view of the entire system and not just making each little piece optimal. That's actually a sub-optimization on the system level. Where I think that leads into, domain-driven design, is that’s what we’re trying to do also with creating good models, is find the system optimization. Not the feature optimization. But we can do that as we go forward. You wanted to talk about SpaceX, and –
+
+
+[00:03:34] JE: I could talk about SpaceX all day, but I know that our marketing department will get upset at me for digressing into not Elixir things. But I know Eric – Before we get into DDD, because we do want to get into that. Eric, can you segue us into some biographical stuff?
+
+
+[00:03:49] EO: Sure. How did you get started with your company, Agile DNA? And what kind of work do you do there?
+
+
+[00:03:56] MW: Well, it's a one-person shop. So, it's me. I've been doing consulting in various forms. Started as an extreme programming consultant, and that’s where I got started, ‘99 or so. That was before the word agile was invented. We’re leading some agile teams, and then we realized we needed to call them agile. 
+
+
+But in those days it was extreme programming, right? And I did that because there just really wasn't a consulting organization or a company that actually did that kind of work at that point. Now, a lot of people are doing agile, but still not a whole lot of them doing the extreme programming style. And that's a little sad to me, because that was – It was very effective and very successful.
+
+
+[00:04:46] JE: We’re going to jump around a little bit here, because I think it's important to get definitions as we go. What is extreme programming?
+
+
+[00:04:53] MW: It is one of the original agile processes. Similar to Scrum, but it adds a number of practices. Scrum is mostly seems to be focused on the business and scheduling of a project, and extreme programming adds engineering practices. And in my mind, those engineering practices are what make, in a lot of cases, the business practices possible. You can't be flexible in your business if your software is not flexible and under control, right? So, the engineering practices really make it possible to do agile on the business side. But that's sadly been underemphasized in a lot of agile, modern agile. 
+
+
+[00:05:41] JE: And so what are some of the key practices here, and how does Elixir kind of come into what you do at Agile DNA with extreme programming training?
+
+
+[00:05:53] MW: Yeah. In the last couple of years, I've been doing Elixir, and that was kind of started I guess in – I’m trying to look at the year. 2016. I gave a talk on doing domain-driven design and Rails. It's a hard thing, because Rails with its active record way of dealing, active record can be really efficient for a lot of kinds of problems. But for deeper modeling and more complex modeling, it becomes quite difficult to do subtle modeling with active record. I had wrestled with that for five years, right? How can I do DDD in Rails? 
+
+
+And I gave a talk at a conference and I thought I was doing just super. I thought, “Yeah, at the top of the mountain, at the top of the craft.” And the few sessions later at that talk, I saw Chris Keathley give a talk on Elixir, and just blew my mind. Because here I was struggling with Rails and trying to make it do these design concepts and. And Elixir, some of them are just given. It's part of OTP. It's part of how you put programs together. The concepts of how you do design and the implementation technology of Elixir are just a tremendous fit.
+
+
+[00:07:13] JE: Okay. So then let’s back it up even further, because like let's assume our audience doesn't even know what domain – I mean, we ask everybody this season like what is domain-driven design, and we get different answers every single time. In fact, that's why someone recommended, “You got to talk to Mark about this, because he’s the man.” 
+
+
+So, you’ve been mentioned as the Elixir community’s resident domain-driven design expert. What is domain-driven design? Just give us like the simple, naïve, sort of explanation. 
+
+
+[00:07:41] MW: Well, if we had a video on this podcast, you'd see me blushing right now, because I'm – There's plenty of people who’ve have been talking about the domain- driven design in Elixir at conferences. I wanted to call out Rob Martin and Andrew Hao. Not sure to pronounce his name, but they were at ElixirConf 2017 in ElixirDaze 2018. And they've put some of these ideas into the water already. But I still appreciate the opportunity to talk about it. 
+
+
+So, domain-driven design is an approach for tackling complicated software and to simplify complexity in large complicated problem, problem spaces. It has a set of practices, principles and patterns. So, it's a hard thing to just have a little talk about. And I think one of the reasons so many people have a hard time trying to understand it is that there's a lot to it. I think there's a reason there's a lot to it because it's a hard problem. If it was a simple problem, we could have a little couple of slogans in a thin book and it wouldn't be a problem anymore, but big complicated systems. 
+
+
+DDD develops a new vocabulary and new levels of abstraction in terms of how we think about big systems. And so some of that takes a while to sink in, right? For instance, the two people I mentioned, Rob Martin has an Elixir framework called Perhap. And that's the technology, right? That’s some technology to make it happen. But DDD isn't just about technology. It's also about how you talk to your users. It's about how you involve your users, and once you involve the users in and gives you techniques for making that work with domain experts easier. So, is that helpful?
+
+
+[00:09:40] JE: Yeah. I think we want to get even deeper into this, because it’s come up so much in the season. I mean, so we were going to ask you what is architecture mean to you and how is architecture different from design? Maybe you could start there as like a place to say, “Well, this is what domain driven design is not.” We can ignore everything else that we like outlined here to talk about, because absolutely, this is like the most important thing I think that we’ll able to talk about in this show.
+
+
+[00:10:11] MW: Excellent. Sure. Yeah. Again, I'm not an actual expert in architecture, but what I see architecture – Well, to backup. Decades ago, Fred Brooks wrote a book called Mythical Man-Month, right? One of his great insights was that we are dealing with two kinds of complexity; accidental complexity and essential complexity. The accidental complexity is our frameworks and our programming languages and our compilers and all that kind of stuff. That's not really part of the problem we’re trying to solve. The real part of the problem is the essential part. How do we get this invoice tracked through the workflow, right? What are the business people talking about? The business concerns? That's why they're paying us to build the system, right? To do something for the business. 
+
+
+Business people really shouldn't be – It's not in their problem space to talk about database tables or fields or Boolean flags. They have a whole different language. And that's the essential complexity, right? So, I kind of think about architecture in terms of it takes care of the accidental complexity, your servers. How many servers? What's your performance? Your capacity? Your uptime? How much is it going to cost you to run these things? And really important thing that architecture should do is carve out a space, a safe space so you can build your essential complexity.
+
+
+[00:11:43] JE: Oh my gosh! This is so good. I see Eric, who knows – He’s just much smarter than me. Nodding. So, he agrees. 
+
+
+[00:11:50] MW: And that safe space is where I want to work in, right? There are great minds and a lot of people that know how to do uptime and cost and performance. And I want to work with them. Give me that safe space where I can handle the business requirements and come up with a really deeply profound model of the business that we can model in that area. That also – I mean, when I see Elixir. To bring it back to that. When I see elixir, I see there's a lot of facilities for that. With Ecto, you can hydrate in any shape you want. You can bring into the database and out of the database. With GenServers, you've got processes where you can model your business in processes rather than in active record things coming back from the database. You can build disconnected, safe, pure, right? 
+
+
+As Fred talked about and my talk about testing, was pure functions. You can build domain models with more pure code. That's where Elixir really shines. It gives you facilities to build disconnected pure code.
+
+
+[00:13:06] JE: Okay. Okay. We’re talking about domain-driven design is I think you said a set of patterns and principles that you can apply within the safe space that architecture is making. I think the metaphor I’m thinking of here is the painter doesn't really care how the paint is made or how the brush is constructed or where canvas comes from, but they want to be able to paint the picture and like hone that skill. Me, as like the web developer, I don't want to be concerned with like the DevOps, the infrastructure and all that, etc. I want to be concerned with the quality of the code in the code base. Am I getting all this correctly? 
+
+
+[00:13:40] MW: Well, in any way. I wouldn't say not concerned with. I would say we want to handle them in two different places. As a developer, you have to handle all of that stuff. But if you try to handle it all, going way back in the fat controller days in Rails, they did everything in a controller action. And you don't want to do everything. You want to separate those things, right? So, separation is in the march of technology and in programming. Separating different kinds of things is how we’ve learned to solve more complicated problems. 
+
+
+[00:14:18] JE: Okay. And yes, because here on Elixir Wizards, we do know all the things necessarily. I'm curious though. If we’re looking at DDD in the context of the safe space, what are – And maybe you have to group them into chunks in order for it to make sense. But like what are some of those principles and patterns that we are applying in that space in order to – I guess the objective is to write good clean code that people can read.
+
+
+[00:14:45] MW: No. It's to make money, right? Okay. Yeah. Let's do the principles.  Yeah, actually, I think to do – We have to define some words before we actually say the principles, because the principals use those words. One of the concepts is a ubiquitous language. Ubiquitous language – And at first I thought, “Well, that's kind of a highfalutin word.” But then I realized he picks words that actually have a precise meaning, and that's a lot of what we are trying to do in domain-driven design, is have very precise meetings and have words that we can all agree on and use. 
+
+
+For instance – And we talked about it a little bit. Developers have their own tech jargon, right? We talked about GenServers, and tables, and functions. But business uses their own jargon of adjudication or depreciation or market share. And when we sit together to try to come up with a design for solving their problems, there is a slight linguistic divide between these two camps. And a lot of times we just kind of paper over that and people just like – The business expert will say something and the tech developer will say, “Well, GenServer.” And then they’ll just both nod, not agreeing, not understanding each other and they’ll go off and code it. 
+
+
+[00:16:07] JE: Oh my God! Yeah.
+
+
+[00:16:09] MW: Right? 
+
+
+[00:16:10] JE: Happens the whole time.
+
+
+[00:16:12] MW: And you kind of like – You don't want to be rude and say, “I don't understand what that means. Be more specific.” You want to get along and you want to just go do the work. And that ends up causing muddled concepts and later on turns into bugs. 
+
+
+With a ubiquitous language, what we’re trying to do is come up with some precise concepts that are shared between business and developers and just really hash that out. Really come down and talk about what these things are and how they relate to each other. Put them in a glossary, and those names should be reflected then in the structures and the functions and the processes so that when your business user wants a new requirement, they use a word with that concept and the developer looks in the code and it's there, and we’re talking the same language and we’re bridging that. And that's what good abstractions can do for us. 
+
+
+That's not the same thing as a big mistake that was made early on in object-oriented, which was trying to model the real world. That's not the thing. This is still an analysis model of the problem space. This is still – We still have analysis concepts, but they are the analysis concepts that the business user will be able to use and understand, right? So, we’re speaking leaving language. 
+
+
+[00:17:39] EO: We've been trying to push a lot. Like as we spin up new projects during like the sales process, we’re trying to make sure terminology is like number two thing that we do. Yeah, just trying to make sure we precisely define. Like one of our clients has like sports stuff. So like what is a match? Is our codebase using the same concept of a match as that other codebase that you guys are writing? Let's make sure that's the same thing and whatnot. It sounds like we’re headed towards the right path. 
+
+
+[00:18:17] MW: Well, you just gave me a great segue, because the next concept is a bounded context. Okay. So a bounded context is a language space, and it's – You say, “Within this space, the words mean something.” And I kind of wrote down some examples. You’ve probably seen a dictionary of American English. You know what that context base is. You're not going to go to Britain and use that, or a dictionary of Bavarian German. There are very specific words in there that other Germans may not even – They’ll just laugh at, right? So those are bounded contexts. 
+
+
+The other concept we have here is that within this space, this is what this word means. So your example, Eric, if you’ve got two different programs and they’re coordinating with each other, you may run into some frustration in saying that this thing means this match, means the same thing in ours as in yours. They may need it to do something else. They may need other fields in it that you don't need, right? So, that's where you want to carve-out different bounded contexts and say, “In our bounded context, a match means this very precisely. In your bounded context, a match means that. Now we get to make another decision on how do we bridge this.” 
+
+
+We can both evolve match anyway we need to without the frustration and friction of working with the other team. But we have to figure out a contract basically on who owns that. Who owns the definition or do we do translation layer for that? There are a number of different strategies on how you manage that communication. And those are different kinds of bounded contexts. You brought your example. I wrote down one about it, insurance policy. An insurance policy could exist within the underwriting context or the inspections context, or the claims context. The policy does not need to be the same thing among all of those different areas of the program. 
+
+
+I think that's a real key insight. I think I'm trying to remember back what you said about writing good designs or writing clean code. Once you've got your contexts and you know which ones are more important and which are less important, you can spend time on the more important ones, right? The goal is not to write clean code everywhere. The goal is to find the most core areas of your software. The most core important parts that you need to model and do that really, really well and put all your emphasis into getting a deeply profound model of the core part of your business. And it's not quite as important to do that everywhere, right? Something, some parts of it are not central to how you make money. And so that's the other kind of insight, is that not all software is well- designed, and actually we kind of like free ourselves from having to get too neurotic about making sure all of it is. And we take that extra energy and make sure that the central part of our system is really, really good. That's kind of a balancing act. 
+
+
+[00:21:55] JE: So, I think the two concepts that we’ve talked about so far are ubiquitous language and bounded context. I think the contexts for the Elixir community makes perfect sense. How that overlaps. Now, if these are some of the definitions or the main concepts that we’re working with, what patterns are we applying and thinking through in order to use them properly?
+
+
+[00:22:20] MW: Yes. We've actually also touched on – The other thing is a domain. The other main concept is a domain, which is a sphere of knowledge. The domain is the problem space. Okay? So the basic principles of DDD is to find and focus on the core domain. And that's what I was saying. Like the other parts of the system don't need as much attention. Find and focus on the core domain. Explore models within the domain in collaboration between business users and developers and speak in the ubiquitous language. So we also defined that, right? That exploring of models then kind of takes us to what are models and how do you explore it, right Is that kind of where you wanted to –
+
+
+[00:23:10] JE: Yeah. I think so. Yeah, especially, I mean, from a very nice point of view, that was going to be a question that I was going to ask. Like what is the domain model? What does that mean?
+
+
+[00:23:20] MW: Right. We split things up between the strategic patterns and the tactical patterns. An the strategic patterns are the ones we've kind of been talking about, about separating out-bounded contexts and finding out what your main domains are and what your subdomains are and generic domains. There're different kinds of domains. All of that strategic stuff is to try to get you to understand how things connect together. And it's not on an API level.
+
+
+A lot of people have done great work on making good APIs. This is the level of how power structures work between teams and how semantics move between teams. And you want to develop a model of that so you can understand when you make a change. What semantics trickle through all the rest of your bounded contexts? 
+
+
+The thing I want to also make sure we get is the Phoenix contexts are not exactly what we’re talking about. Phoenix contexts are in a different context than bounded contexts. Sorry. I had to do that. Because the Phoenix contexts are in the context of building code and organizing code. And a bounded context is in the context of words and meaning and communication. You can actually have an entire Phoenix application within a bounded context or maybe two applications within that bounded context. They're not the actual context. The Phoenix context code organization mechanism is a good one. It's a good one. It's doesn't deal with the words and the naming and the semantics that we’re trying to get at with DDD. So we need to make sure that we know that they’re different, right? Was that in any way clear?
+
+
+[00:25:24] JE: I think so. I think so. And I am trying to move us toward the – This is a very abstract conversations, and so maybe if we can move it toward like a pragmatic, like this is kind of how you apply this at the beginning of a project. that might help make it clear.
+
+
+[00:25:37] MW: Well, let's do some of the tactical patterns, because when we’ll walk through those, you’ll see. So, some of the tactical patterns, one of the easy ones is a value object, which is basically a way for object-oriented people to understand immutable data. Value object is most every struct we ever built. You create it at creation. It is built at like a date or a currency or something. 
+
+
+And then an entity pattern, the entity tactical pattern, is something that is long-lived and probably persisted in the database. It has an ID and the attributes on it change. It has a lifecycles. It’s created, deleted, updated. Now it starts getting interesting, because those are basically – Yeah, sure. An aggregate is a cluster of entities and they have consistency rules, which are enforced within transaction boundaries, and the interface to all the entities is the aggregate.
+
+
+So, let me simplify it. It’s a GenServer, right? Right? A GenServer comes up and you send it a message. They’re all synchronous. Everything happens in their synchronous. Once your message comes out of it, you were assuming that the state of the GenServer is consistent and obeys all of its consistency rules, right? That's one of the things. When I saw my early talks on Elixir, I said, “You have to code an awful lot in Ruby or anywhere else. But if you have the actor model, an aggregate is a GenServer.” Or that is one implementation of it. But it seems like a pretty clear mapping there. 
+
+
+So those are the tactical code level things that we can start using. And then there're lots of discussions about how to make aggregates. Okay I did also want to make sure we understood the transaction that I'm talking about in a – GenServer or in an aggregate is not a database transaction. Okay. So when you call into a GenServer, since it synchronous, that's one transaction, right? It either returns something or crashes. Those are the only two things it can do, right? But within that boundary, you could be inconsistent in your data. But when the synchronous call finishes, it should be transactionally complete. So far so good?
+
+
+[00:28:20] JE: I think so. I realized getting into the vocabulary that this is like what you do. You consult and you train people on what this all means. I mean, I'm obviously getting a lot a free value here, which is awesome. And so is our entire audience. I hope that they come for more training to you. But also, I’m curious, like how do you – Like a teacher explains concepts and then they get like practices or some sort of exercises to drill those concepts on. I’m curious how you do that in the context of training teams, especially around some of these different types of contexts that you're discussing.
+
+
+[00:28:58] MW: Well, a lot of times it's just let's go build a system. These are just ways to build the system. One of the claims I wanted to make at the beginning. So, one of the things that I point out to kind of job your thinking a little bit, is that most systems should not have a user concept. I mean, just to just kind of think about that. Okay, that's sounds pretty ridiculous. Every system has a user concept. If I'm running a pizza store and somebody walks in the door to buy a pizza. Do I say, “Hey, great! A new user,” right? Right? Or even an e-commerce site. Somebody is working or somebody comes to buy a book on the e-commerce site. They’re not a user. This user is not a domain concept. Right? I mean, that kind of is – What's the consequences of that? I bet we've all been there where the user object just had like hundreds of fields. And you wake up one day and they –
+
+
+[00:30:12] EO: I was about to commend on the users are typically the God object of your system. 
+
+
+[00:30:17] MW: Yes, and that's the consequences. That's just one. That's just one concept that we all have in every system, right? You can't do that kind of an example with any domain because we’re not sharing a domain now when we’re having this conversation. But user is a concept we share. And the consequences are it bloats and it grabs everything. And when you go to test it, you need to like fiddle around to make sure it's in the rights state before you run a test. That has nothing to do with the state of the user. Okay. People should know that Eric and Justus are grinning right now, because yeah, this is – Okay. So I’m hitting home, right?
+
+
+[00:30:58] JE: Yeah.
+
+
+[00:30:58] MW: This is the consequence of not having precise language and not using domain thinking. What would it be? What would some alternatives be to this user? Well, if we were in a sales domain, we would have a customer. If we’re in shipping, we would have a recipient. If we’re in building, we have an account. If we’re in marketing, maybe you have a segment or an audience. These are more precise on what you're getting at. And so what happens if we have to go from one of these contexts to another? We have to make a decision. We have to think about how do we translate that. 
+
+
+This is an important thing to do, rather than just glamming everything together. We have to find our boundaries and make decisions on how we translate them. And then, then we have nice little tests with concepts of a customer or a recipient or an account and they’re precise and they’re smaller and they don't get these big balls of mud around them. That's the consequences of not – Well, there is maybe in Elixir particularly, a place where you'd have user. 
+
+
+[00:32:10] JE: So, I want to kind of ask may be a tangential question, which is that – I mean, the whole point of this ubiquitous language concept is such that you can interact with clients and there's less friction and translation going on between the two languages. How do you get, laypeople, to like stick to the language once it's designed, right? Because I'm just trying – Right now, I'm having a challenge with clients not understanding the difference between a dev environment and a staging environment and a production environment, right? And it’s like you kind of tell them like over and over and over and they do the thing that you mention where they nod, like they understand. They say, “Yeah. Okay. I get it.” And then like a week later, it's like they didn't get it. How do you train people to do the thing to stick with the language once it’s architected into the system?
+
+
+[00:33:03] MW: Well, in your case, those are not things that are interesting to them, right? Yeah, good luck. Or you find out a way to make it business meaningful. But I mean, what we're shooting for is the language that they find meaningful. And so they will more likely want to work with it. Where that does kind of where you do have to teach them how to do this is sometimes they don't even know like different departments may use the same word. And so it's not just business talking to tech. It’s one business unit talking to different business unit will run into the same problem like we talked about with the insurance policy, right? But more likely in that world, insurance has been around for a thousand years or whatever. So they know that there're different kinds of policies, right? But you always have to be on alert to say, “Hey. Wait a minute. Does that word really mean the same when those people are using it or when these people are using it?” Yeah, that's a part of the training and that's part of just talking to people about it. 
+
+
+[00:34:12] JE: And then you have the contexts. So you're able to sort of distinguish like, “Are you talking about this from a marketing perspective or from BizDev perspective?”
+
+
+[00:34:20] MW: Yeah. You can say it that way too. Yeah.
+
+
+[00:34:22] JE: Very cool. We got a little bit off of the crash course direction. When you're teaching teams how to do this stuff and you're applying it to like – I imagine that you’re just going in and kind of applying to whatever they're currently working on. Some of these concepts .Is that right?
+
+
+[00:34:38] MW: Sure. Yeah.
+
+
+[00:34:38] JE: What are like some of the biggest challenges or hurdles for developers trying to understand?
+
+
+[00:34:46] MW: Yeah. I think it may be kind of comes back to that, that we're really ready to go to code and also maybe not as willing to change the concepts when we realize they’re a little bit off. So, one of the really important things or understanding some DDD is we're going to let ourselves get better. A week from now, I'm going to have a better understanding of the business than I do now. And that I don't want to burden that me a week from now with my current understanding. So, we will need to update the glossary, update the vocabulary and then go re-factor the code to reflect that. 
+
+
+So, that is a technical issue on coordinating teams and re-factoring the code and changing the database, and all of that stuff is a pain and it actually leads to a much better understanding over the long term. And it's just a necessary part of developing a deeper and deeper understanding. Because if you get this right – And I started by saying it really is about making money. If you have a good codebase, if you have a good core, your feature code is a lot thinner. Your feature code doesn't have to do is much work, because the core model is making sure that you've got data integrity and that your rules are in place and that things just don't get broken. That's one of the payoffs overtime. 
+
+
+I guess that's maybe another thing developers are struggling with. I don't know if they don't get it, but they’re struggling with, because our processes, a lot of times our agile processes are just all feature-based. Feature. Feature. Feature. Feature. Right? And you don't get rewarded for fixing something fundamental. And so just adding a Boolean flag, the domain expert comes and says, “I want a Boolean flag on my attendance page to say if I'm present or not.” And what's the answer? Sure. I can do that in one point. But the real thing a developer should ask is why? Why? Why? Why? Why? Why? And it's really annoying and it takes courage to do that. But when you have that conversation – Instead of just on the surface making them happy for today, we provide better value by looking at what is the point to this and can we handle it in some way other than a Boolean flag, which is almost always the wrong answer, right? 
+
+
+[00:37:35] JE: Wow! Yeah. It's amazing. I feel like you're making me a better consultant in this podcast interview. I mean that. It’s great. 
+
+
+[00:37:46] MW: Well, I’m blushing again. 
+
+
+[00:37:50] EO: Yeah, one other thing. My new role is assisting people more often. And like a lot of the times people will be like, “Oh, I’m in this weird rabbit hole and like this isn’t working.” And then so like the question I have been trying to get myself to ask more is like what are we trying to do. And like why this like type of thing? And then like let's do the thing that is better or like take some steps back. Kind of look at everything again and then go back at it. It sounds sort of – Yeah.
+
+
+[00:38:24] MW: Well, you would come up with a scenario for how it's used, right? And then whiteboard your model and see if that scenario can be supported by that model. And then set that aside and try another model. The modeling process, that's the part we haven't gotten to. We’ve gotten some of the tactical patterns. But there's actually modeling approaches. And one of the things we want to do is model more and throw more models away and do more than one model. Not just, “Yes. This will work.” But can we model a couple of times? Because a lot of times it's just whiteboards or now some remote website where you can draw altogether and explore multiple ideas, because those ideas are so much cheaper than writing the code and then writing another feature on top of it. That feature-feature thing is just – It's really not what Agile was supposed to be, right? Just write features until you hit a wall. That was not how it was envisioned.
+
+
+[00:39:30] EO: You don’t want to throw chores in there, because then that slows down your velocity. So you just ignore them. 
+
+
+[00:39:34] JE: Oh my God! Do not get me started on the chores. Not having points. I hate that .It's crazy to me. 
+
+
+Mark, we want to give you a little bit of time to talk about something that I think we probably care a lot about, which is that team efficacy and like what are management teams doing wrong? What are development teams doing wrong and how can we lower our stress levels?
+
+
+[00:39:59] MW: Well, yeah. I think when we talked about it earlier on, my kind of worry is that we’re not setting the bar high enough. That we haven't really – A lot of development is done in little bubbles, right? So seeing high-performance, professional high-performance teams is not something a lot of people have experience with. And because of that, we don't know what's possible. And things like extreme programming and DDD give you tools to move teams to very higher level of efficiency. And it is hard to like show people that this is possible, because not a lot of people have had experience with. And that's my rant, is that I wish we had a way of explaining that development can be a lot more fun and productive. And that stress is actually an indicator that we’re not organized well enough. We can be productive without that. Or destructive stress, right? I mean, a little bit of – Yeah, stresses is helpful. But if it gets destructive, it’s not.
+
+
+[00:41:11] EO: Yeah. We met you at Lonestar, and there is I think two talks that were pretty similar to that core concept there of like I think both the Thomas’s ended up talking about that, but at least – I think it was Zach Thomas. His whole talk was like make sure you're having fun, because that probably means you’re doing something right. 
+
+
+[00:41:32] MW: Yeah. And you can be more creative, and the creative part is when you come up with a better model. And when you come up with a better model, you write less feature code to get the thing done. Yeah, it’s a good feedback loop.
+
+
+[00:41:45] JE: So, Mark, this has been a really good conversation and I think we’re going to have to have you back on to get even deeper into some of these topics. The DDD thing has been an ongoing conversation this season, and I think that you might be the definitive voice in this community. I want to give you the chance to make any plugs or asks for the audience. Any sort of shameless self-promotion. This is your time to shine. So, take it away. 
+
+
+[00:42:11] MW: Well, thank you very much. Thanks for the time. And if any of these things are things you want to talk about for the teams you’re working with, I'd love to continue that on a consulting basis. My company is Agile DNA, which goes to my LinkedIn page. So, you can contact me there. And will you have the spelling of my name somewhere in the notes? 
+
+
+[00:42:36] JE: Indeed.
+
+
+[00:42:36] MW: Okay, and that will by my –
+
+
+[00:42:37] JE: And LinkedIn and all the things. 
+
+
+[00:42:39] MW: Okay. Good. Because that’s messed up sometimes. But thanks. Yeah. Be happy to help people out with this, because I think within Elixir especially, this is a great opportunity. The connection between the technology and the development approach makes this a really wonderful stack to work in. 
+
+
+[00:43:00] JE: Before we close out, we've got to share another edition of pattern matching with Todd. Friend of the podcast, Todd Resudek, is asking members of the Elixir community five questions to help us all get to know each other better. Hope you enjoy it.
+
+
+[00:43:11] TR: Thank you for joining me for another installment of Pattern Matching With Todd, where I ask your favorite Elixir personalities five questions in an attempt to get to know them better. My guess today needs no introduction. You've heard him on his own podcast, Elixir Talk. Welcome, Chris Bell.
+
+
+[00:43:28] CB: Hey, Todd. Thanks for having me. 
+
+
+[00:43:30] TR: Thanks for joining me today, Chris. So, I want to get into the five questions. But before I start, I just want to throw you a shout out. I was just starting to learn Elixir towards the end of 2016. And one of the things that really clicked for me and got me really, really psyched about starting to work in Elixir professionally was your talk at Elixir Conf that year entitled Selling Food with Elixir, where you were talking about how you could sling pizzas with power of OTP. Honestly, it was just like one of the first talks that really resonated with me that I really understood why Rails was no longer cool and OTP was going to be the wave of the future. 
+
+
+[00:44:14] CB: Amazing! Yeah. 
+
+
+[00:44:15] TR: So, thanks for doing that. 
+
+
+[00:44:17] CB: Yeah. That feels like a lifetime ago at this point, but I still weirdly have people be like, “Oh! That talk was really great.” And now looking back, I'm like, “Oh my God! What was I doing?” Yeah, I'm really happy to hear that it was one of the things that got you on this path to where you are today in some weird small some. Yeah.
+
+
+[00:44:35] TR: Yeah. Thanks for contributing that. All right. Well, let's get started on the five questions. 
+
+
+[00:44:41] CB: Let’s do it. 
+
+
+[00:44:42] TR: I noticed you have an accent. So, where were you born?
+
+
+[00:44:46] CB: So I was born east of London. I was born in the UK, first of all. I say London, but I preface that with the UK. And I was born about an hour outside of London. And the county where I'm from is called Essex. It's very well-known because it's effectively the Jersey shore of the UK, which in a way that is very trashy. And I try and like separate and distance myself from that as much as possible, which is why I’m all the way over here. Just been [inaudible 00:45:15].
+
+
+[00:45:15] TR: Okay. Yeah. So I was looking up at the town that you said you’re from on the map, and I couldn't find any primarily teams that were out that way. The closest I could find was maybe Arsenal or QPR or somebody. Who do they root for in your hometown?
+
+
+[00:45:33] CB: I grew up supporting a team called Southern United, where I used to – You have a season ticket and they were in the second division, I believe. I think at one point they got to the fast division, which is like two divisions below the Premier League. That’s the local team. Yeah. 
+
+
+[00:45:51] TR: Okay. So the premiership, champions division and then the first division.
+
+
+[00:45:56] CB: Yeah. But they were mostly in division 2, and I’m sure they’re in division 2 right now. But yeah, that was like the big team in the area. I say big, pretty small. 
+
+
+[00:46:06] TR: That was your local squad. Okay. And obviously you don’t live there anymore. So where do you live now?
+
+
+[00:46:12] CB: Now I’m in New York. Most specifically, I live in Brooklyn. And more specifically, I live in Brooklyn Heights, which is just over the river from Lower Manhattan. It’s like it was the first commuting neighborhood in New York, if you wanted to know a tidbit of history. 
+
+
+[00:46:28] TR: Oh, okay. Can you take the – Was it like the R-Train or the N-Train [inaudible 00:46:33].
+
+
+[00:46:33] CB: Or we can take the F. We can take the EC. We can take the 23. We can take the 45. We’re stacked on the trains. It’s great. 
+
+
+[00:46:42] TR: Okay. If you get on the train, you start heading south. You pass White Hall. You go under the water. Then you’re at Chris’s house. 
+
+
+[00:46:49] CB: Exactly. Literally, I don’t have like some kind of amazing city view or anything as well by the way. I don’t want anyone to think that like there’s some kind of like massive luxury going on here. But yeah, the city is just like a stone’s throw away, which is really nice to be distanced, but so close as well.
+
+
+[00:47:06] TR: Okay. Well, the listeners won’t be able to see this, but I see a very ornate subway tile back splash behind you. 
+
+
+[00:47:13] CB: Yeah. It’s quite a nice apartment. Yeah. But it’s not luxurious by any means. We have a tiny kitchen because we still live in New York.
+
+
+[00:47:21] TR: Okay. All right. I believe you. And you are able to park your helicopter there at the building or nearby?
+
+
+[00:47:29] CB: Oh! We actually just keep it on the roof obviously. Quick access. Yeah.
+
+
+[00:47:34] TR: I should expect that. Okay. Great. Okay. Cool. So have you had any careers before programming?
+
+
+[00:47:39] CB: No, actually. I am one of those boring single-track people who I did a CS degree like 11 years ago at this point, and I took a programming job and I’ve never really looked back. So, yeah, just ended up doing this. I weirdly had this like love for computing stuff from quite an earlier age. I was building computers and I was building websites. And then building websites led to learning code. And then learning code led to being like I don’t know what I want to do when I grow up. So I’m just going to go and do computer science at school. And then I’m here. So, yeah. 
+
+
+[00:48:18] TR: Okay. Were you one of these kids that like started on the frontend? Like updating your friend’s MySpace pages? Or [inaudible 00:48:26] pages. Is that how you got into it?
+
+
+[00:48:28] CB: Actually, I was building clan websites. We used to play a lot of CounterStrike and a lot of the First Call of Duty online, and we had a gaming clan, and I used to host like stat servers. And then that turned into like, “Oh, we want a way to view all those stats online.” So I was building websites for that. Yeah, just went from there really.
+
+
+[00:48:49] TR: Cool! All right. Let’s say that you couldn’t be a programmer anymore. What do you think you’d do? 
+
+
+[00:48:56] CB: It’s such a hard question, because it’s like I weirdly – I think that’s the side of me where I’m like, “I’m not good at anything else,” which is really self-deprecating, but I also feel like it’s really true for me. But I always wanted to do history. That was something where I had a very deep passion for. And if I didn’t go to school to do CS, I like to have thought that I would have like gone and done a history degree or something in some way.  
+
+
+[00:49:23] TR: Okay. Any specific time period or part of history? 
+
+
+[00:49:28] CB: I really love the First World War and everything around that kind of era where Europe was really changing. Specifically, I really like naval battles of the First World War. And I often find myself in like epic Wikipedia host reading about ships. 
+
+
+[00:49:45] TR: Okay. That’s interesting. I think over here on this side of the pond, we don’t get as much into the First World War as we do until the Second World War since we were such late entrance and like none of it really took place on any of our soil. I feel like all of our studies over here are Second World War and on. But the First World War is definitely an interesting period of time. Like you said, changed the landscape of Europe enormously. 
+
+
+[00:50:15] CB: Yeah. The thing that’s like super interesting about the First World War is like you have this matchup of old kind of battle techniques and then there was all of these innovation, like the tank and you have planes for the first time and you have this whole new way of fighting the war. Everyone thinks it’s just this like very static kind of like trench warfare was like all that ever happened. But actually if you read a lot more about it, you can find out that there was a lot of the techniques that weren’t too dissimilar to what happens today. I listen to a lot of like history podcasts as well. That’s something I really enjoy. Yeah. 
+
+
+[00:50:51] TR: Yeah. I discovered a YouTube channel which plays the First World War in real-time. Well, near real-time. It goes like every episode covers one week of that year during the war. 
+
+
+[00:51:04] CB: Oh, amazing. Yeah. There’re a couple of Twitter accounts that do the same kind of idea, especially on the Second World War as well. There’s one that does like real-time every single day. They post something that was happening. 
+
+
+[00:51:16] TR: Yeah. I’ve heard about that. Yeah, that’s pretty cool stuff. Did you see the feature film 1917?
+
+
+[00:51:22] CB: You know what? I haven’t, and it’s something in my like must watch list, because obviously is supposed to be incredible. Yeah. I know. I can’t believe I missed that so far. But yeah, I will watch that. 
+
+
+[00:51:35] TR: Yeah. Obviously you won’t be able to see it in a theater, but it’s streaming now.
+
+
+[00:51:39] CB: Yeah. I saw it on Amazon. So I might go and watch that at some point in this week. 
+
+
+[00:51:44] TR: Yeah. You definitely should. It’s very, very, very, very well-done. All right. Well, let’s move on. That’s history. So what’s the genre of the last song that you listened to? 
+
+
+[00:51:55] CB: I had to look this up, because I was always like I listen to like a lot of like indie rock. But I wanted to get more specific than that. And more specifically, it was dream pop, which is I didn’t really know it was a genre until I looked it up. But there you go.
+
+
+[00:52:12] TR: Yeah. I think it’s like a sub-genre of Brit pop, to be fair.
+
+
+[00:52:17] CB: I mostly listen to bands like Real Estate and – Do you know those bands? It’s like kind of indie rocky, like surfy, like twangy guitar stuff? That kind of thing.
+
+
+[00:52:27] TR: Okay. Yeah. The band that like seems to define dream pop is Galaxy 500. 
+
+
+[00:52:36] CB: Right.
+
+
+[00:52:37] TR: Yeah.
+
+
+[00:52:38] CB: Is this like the 80s kind of side of things or like the early 90?
+
+
+[00:52:42] TR: I think it’s more of like 90s. It was like Dean Wareham’s band before Luna. 
+
+
+[00:52:48] CB: Yeah, this has like lost on me honestly. I’m not that great with knowing a deeper amount of music. And I stick pretty much to like a single genre and just like play the same kind of Spotify playlist day-in, day-out. And now my daily mixes have basically been so optimized. So like five bands that is incredible.
+
+
+[00:53:11] TR: Yeah, that will happen. If you keep listening to the same thing, it’s going to keep feeding you the same thing over and over again. 
+
+
+[00:53:16] CB: Yeah, it’s great. But I’m okay with that. I really enjoy like getting deep into like the same kind of songs and just keep listening to them. I know that some people hate doing that. 
+
+
+[00:53:25] TR: Whatever floats your boat, Chris. All right. Is there a movie that you’re going to watch every time you come across it on TV? IF you’re flipping through the channels, like if you were watching something else, you see this movie is on. Put everything else down and continue watching that. 
+
+
+[00:53:42] CB: Any Star Trek movie, more specifically all of the Even ones just because that’s where the goodness is. But Even more specifically. Star Trek First Contact, which is I think it like hit its 25-year anniversary or something. Maybe it kind of been 25 years. Maybe less than that. But yeah, it had an anniversary. 
+
+
+[00:54:01] TR: I think ’95. I think it came out in ’95.
+
+
+[00:54:05] CB: Oh, well. Okay. Cool. 
+
+
+[00:54:07] TR: So you’re older than you think. First Contact, was that the first one with Picard?
+
+
+[00:54:12] CB: No. That was Generations. But good try.
+
+
+[00:54:15] TR: Okay. I just remember, vaguely remember going to see Wrath of Khan with my old man when I was little kid. 
+
+
+[00:54:23] CB: Wrath of Khan is an incredible movie, and I rewatched it the other day and it holds up. It has this like really cool kind of submarine-y element to it where there’s that scene and they’re like on top of each other but they don’t know where they are and they’re like trying to figure out the positioning. Yeah. It’s just like such a great war movie. 
+
+
+[00:54:43] TR: Okay. Well, the last time I watched, it was probably when it came out in 1982. I guess I remember –
+
+
+[00:54:48] CB: You need to rewatch it. You need to get back in there and watch it again. But, First Contact is really great, because it’s got this like amazing battle, but then it’s got time travel and it’s got the Borg who are like an epic nemesis of the Federation. It’s got some really great lines. It’s jam-packed full of goodness. 
+
+
+[00:55:08] TR: Okay. Well, let our listeners. Watch Star Trek: First Contact. 
+
+
+[00:55:14] CB: Yeah. Definitely.
+
+
+[00:55:15] TR: All right. Well, let’s wrap it up. What project are you most excited about working on next?
+
+
+[00:55:21] CB: We’ve been playing a lot of Settlers of Catan in quarantine. I’m most playing online with friends. But some of the online services that I’ve been using have been pretty bad. And that’s kind of like got me to this point where I’m basically going to write my own version of it. And I really wanted to use LiveView to do that, because it feels like a great project to do LiveView. I think anything with games and like multiplayer and all of that kind of idea I think is like it’s perfect for something like live view. So I really wanted to dig in and kind of explore building Settlers of Catan using Phoenix LiveView. So, that’s the plan. 
+
+
+[00:55:56] TR: Cool. Have you done much LiveView so far?
+
+
+[00:55:59] CB: I want to be like, “Yeah, of course, Todd.” But the answer is actually no. I’ve explored the docks and I haven’t ever spun up anything on my own yet. But yeah. 
+
+
+[00:56:10] TR: All right. Well, no time like the present. 
+
+
+[00:56:12] CB: I know, right? I know. 
+
+
+[00:56:13] TR: You’re one of those guys that likes JavaScript though. So maybe you’re not the target market for this. The rest of us have been dying to do something that happens on the frontend without actually having to write JavaScript. And this has been our godsend.
+
+
+[00:56:25] CB: I like the fact that I’ve got that reputation now. But yes, you’re right. I do like JavaScript. I don’t think it’s as bad as everyone thinks. But I’m really, really curious to try out the alternative and play around with LiveView and see what kind of power I can get with that. So yeah I’m excited.
+
+
+[00:56:41] TR: I’ve seen some really amazing stuff happen with it so far, including the Live dashboard that just came out a few weeks ago now.
+
+
+[00:56:48] CB: Yeah. Super cool. Super, super cool. I love that as an example of just showing like the complete power of Phoenix and Alexa and kind of all of these libraries coming together and just dropping in dashboards and then that’s that. It’s like that’s incredible. 
+
+
+[00:57:03] TR: Yes, definitely. Very cool. All right. Well, thanks for answering my questions today, Chris.
+
+
+[00:57:09] CB: Thanks for having me, Todd. It’s weird to be on the other side of a podcast. But yeah, definitely enjoyed it. Thanks for having me.
+
+
+[00:57:17] TR: All right. Well, hopefully this won’t be the last time. 
+
+
+[00:57:19] JE: Rock and roll. That's it for this episode of Elixir Wizards. Thank you again to our guest, Mark Windholtz, and my cohost Eric Oestrich. Once again, I'm Justus Eapen. Elixir Wizards is a SmartLlogic podcast. Here at SmartLogic, we’re always looking to take on new projects, building web apps in Elixir, Rails and React. Infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project you think we could help you with. Don't forget the like and subscribe in your favor podcast player. You can also find us on Instagram and Twitter and Facebook. So add us on all of those. You can find me personally at Justus Eapean. That’s justuseapen, and Eric at @EricOestrich. And join us again next week on Elixir Wizards for more on system and application architecture. Mic drop.
+
+
+[END]
+        © 2020 Elixir Wizards

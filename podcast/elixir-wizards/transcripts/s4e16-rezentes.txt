@@ -1,0 +1,537 @@
+EW S4E16                Transcript
+EPISODE S4E16
+
+
+[ANNOUNCEMENT]
+
+
+[00:00:00] JE: Greetings, wizards. We need your help. We’ve got a listener survey out right now. It’s very short. It should take you no more than 5 to 10 minutes of your time and it will really help us make the show better for you and for all of the little Elixir Wizards out there listening. In exchange for filling out this survey, we’ve got a special 50% off discount code, good for all products and all formats over at Manning Publications that we’d love to share with you.
+
+
+Head on over to smr.tl/podcastsurvey to fill that out. We have a link to the survey in the show notes as well, and we'd love to hear from you. Thank you very much.
+
+
+[INTRO]
+
+
+[00:00:39] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore, Maryland. My name is Justus Eapen and I’ll be your host today. I’m joined by my co-host, Eric Oestrich. This season, we're talking about system and application architecture. We're joined today by special guest, Miki Rezentes. How are you doing, Miki?
+
+
+[00:01:01] MR: I’m well. How are you doing?
+
+
+[00:01:02] JE: I’m so well. Thank you for joining us. Eric, how are you doing?
+
+
+[00:01:06] EO: Well as well.
+
+
+[00:01:08] JE: I’m actually a stickler for that. I always say I’m well, because apparently saying I’m good is grammatically incorrect. Although, I couldn't tell you why it's grammatically incorrect.
+
+
+[00:01:16] MR: Because well is an adverb. How are you doing? Well. Well describes the verb doing. I happen to homeschool all five kids, and so I’ve taught grammar. I don't know how many times. Well is an adverb, that's why you use it to describe how you're doing.
+
+
+[00:01:29] JE: Oh, we've had a number of homeschoolers on the show lately. Do you want to talk about — a little bit before we jump in on that, just what homeschooling is like in the middle of the homeschooling renaissance that’s taking place right now?
+
+
+[00:01:40] MR: Yeah. So, I was early to that game. In the fact that I have three adult children and one that's just finishing up. My youngest is 16. I did things in a weird way to a lot of people's order. I met my husband and got married by the time I was 20. I got married, like, right after I turned 19. 
+
+
+I had four kids by the time I turned 26, had my fifth before I turned 30. Then I didn't become a software engineer until I turned 38. I had a whole life of raising my kids and homeschooling beforehand, which, interestingly enough, better prepared me for software development than anything else. All the other people that I meet, the homeschooling having to figure out so many things and be responsible for so much, actually goes really well with software development.
+
+
+[00:02:22] JE: Can you dive into that a little bit? Because we don't hear that very often.
+
+
+[00:02:26] MR: What is software development? I did two things prior to software development. The first one was I homeschooled my kids. The other thing is that I was a math major. I’m a very good math teacher, and so I did a lot of tutoring around my table for students, not just my own kids. Other people pay me actually a lot of money to math tutor their kids, because math is just one of those dicey subjects.
+
+
+What is all of homeschooling and all of math tutoring? It's removing unknowns. It's identifying unknowns and removing them. Then when you transfer over to software development, what is it? You have a problem you have to solve. You have unknowns and you have to solve for those unknowns. It turns out, it's all the same thing. Being able to account for what you're trying to figure out, being able to account for what you don't know.
+
+
+With homeschooling, it’s like, you want to get your kids to be adults. What do they not know? What unknowns you have to make sure are filled in their heads before they can get there. Very similar to math, very similar to software.
+
+
+[00:03:16] JE: Wow. That is a great way to start the show, because it's just completely unusual for us to hear something like that.
+
+
+[00:03:22] MR: I say a lot of unusual things. Get ready.
+
+
+[00:03:25] JE: I can tell. This is going to be sweet. You had a conference talk. We were going to open up with this question, which is you had a conference talk called ‘APIs All the Way Down.’ I’ve heard this phrase ‘all the way down’ a few times. I was wondering what you're referencing when you say that.
+
+
+[00:03:38] MR: I’m definitely referencing turtles all the way down, which references the Greek myth about how the world's on a turtle, which is also on a turtle, ad nauseum. Yeah. So that's what that is referencing. So what it is — is as software developers and people that write tech, a lot of times we very much think about how our software is interacting with other things. We'll think about those APIs between my web server, somebody else’s web server, or my microservice and — whatever. We'll think about how those things are going to interact.
+
+
+Oftentimes, we don't think about those APIs and how they work with people inside an organization. We think about how our services work together, but we don't think about how our people work together. For example, your team gets a feature request and it's not going to work. How do they throw that air? Do they swallow that air and not say anything? Do they raise an air to someone, letting them know there's a problem? What happens when the protocol that one person is using to communicate doesn't match? Do you ever talk about it? Is there any resolution around the fact that these protocols don't match, or these expectations don't match?
+
+
+Because a lot of times, many of us are very technically gifted and we can do all kinds of things. When you start working with other people, it gets dicey, because other people have APIs and other teams. You put four people together and now that team API is different than any one of those persons, individual APIs. The best example that I had in my talk, I think, was; imagine you had a team of 10 people and nine of them were ex-military and one of them was civilian. When they're talking, the civilian is going to feel on the out sometimes. And they're not going to use the same words and they're not always going to know what's going on, which makes sense if military lingo is very core to your product offering and the success of your business.
+
+
+But if military lingo isn't core to the product success of your business, then why do you want to make someone's success within your organization dependent on this thing that doesn't really matter to the business? Evaluating those APIs and the requirements and dependencies of those APIs, to make sure that people can be successful for things that make your business successful.
+
+
+[00:05:33] JE: I want to talk about this a little bit more, because it's been occurring to me a lot lately that people come from completely different paradigms and those paradigms that really influence the words that they use and the language. I think the example that you gave is a good example, because it's very clear. I think in real life, you've got lots of different backgrounds and paradigms. How do you tell where someone's coming from and how they communicate?
+
+
+[00:05:57] MR: This internship that I’m running right now, I’m training three little, younger developers how to do stuff. The answer that I tell them is the answer that every senior software engineer gives to a question, is the same. It depends. It's funny, because these little developers, I call them little, because they're junior to me, but they really embrace this.
+
+
+And sometimes they do sound really smart, because they'll answer “It depends” at the right time. You’re like, “I don't know. Do they really know what they're talking about, or are they just trolling me?” It depends and this is why. Because, I don't know if you've read a book called Crucial Conversations. There's a concept in there called the shared —
+
+
+[00:06:28] JE: Oh, I have actually.
+
+
+[00:06:29] MR: You know the idea of the shared pool of knowledge. You're trying to build this shared pool of knowledge and know how to interact with it. On one hand, you have contributed to that shared pool of knowledge. On the other hand, you have interacting with people outside of yourself. It's a weird thing. You can get someone to engage with one, but not necessarily the other. It's this full holistic approach. You're trying to get the communication fixed.
+
+
+When you meet someone, you're trying to figure out — basically, I’m constantly solving for the unknown in my life. When someone says something that I don't understand, I think one of the reasons I’ve been very successful is because of the fact that I’ll ask them what they mean. And I’m not afraid to ask them what they mean, because I feel confident enough that it's okay not to know something that I don't mind asking them. I’ll continue to ask them with questions, which ironically, sometimes makes people very uncomfortable.
+
+
+It's a double-edged sword and it's trying to walk that in between, between knowing the person you're dealing with as a person, a whole person and trying to get them to — they're smart people, in general, and they believe things for reasons, and trying to get to the same point where you understand why they believe something. It really is almost like being an archaeologist with people. “Well, your question was very hard, because I don't think it was scoped down small enough for me to answer, because it does depend so much on the environment you're in, how often you're working with them, how often will you be working with them, because it's almost like you have to have predetermined APIs for people that you're not going to work with all the time. You've got to have some basic level that you both understand how you're going to interact with. The more closely you work with someone, you get used to how they interact. You short circuit some of those things, it becomes more efficient. It's hard to say.
+
+
+[00:07:58] JE: Yeah. I think my curiosity was really around when you're getting to know someone, what are the exploratory routes that you take to find out — what are their, I don't know, what their language is how I’m thinking about it.
+
+
+[00:08:10] MR: Yeah. I think, I learn the most by doing the normal everyday tasks and watching people. How do they behave and stand up? How do they tell you about your issue? How are their questions in Slack? It tells you a lot about people just to observe those, because oftentimes, as much as you don't want to do this all the time, sometimes mirroring somebody makes them feel more comfortable, and so then during mirroring, you're picking up on what they're doing, that helps you communicate back to them.
+
+
+[00:08:30] EO: How did you go from doing homeschooling to programming? What was that journey like?
+
+
+[00:08:36] MR: That felt like needing money. That's what it felt like. What happened was I had been tutoring on the side and homeschooling the kids. My husband had been running out. This is out of house. So my husband was home, I was home and we were with the kids a lot. That was great, because I do think that that was the right choice for us and to have all that time with kids, because quantity time means a whole different thing than quality time, and quantity time counts for something.
+
+
+We got to the point where it's just we needed to change something. We sat down and talked about it and this seemed like a good path to be able to — it's a large family. It's a large financial responsibility. It seemed like a good way to go. I finished school in two years. I returned and finished through a community college locally to me, and then also Thomas Edison. It's in New Jersey. It's a online college. I finished there. By being able to get my degree there, right as I was finishing up, a local school who I tutored a bunch of kids from needed math and a teacher to finish out about seven months of instruction, for a junior class. I went and I taught the juniors and a couple other classes to finish out the year, and also to show that I could survive outside the house.
+
+
+I was worried that employers might not think that a homemaker who'd been home for 20 years, or whatever, would be able to go to work every day. I wanted to get that off the table. I took the job teaching and that was great. Loved teaching. Would have kept teaching. The pay is really bad. Not really enough to raise a family on, so I needed to do something else and that's why I went and did software. I love teaching. I’ve coached, I don't know, somewhere close to 20 high school sports teams. I have two state championships. I’ve taught math for 20 years. I’ve been a skating instructor. Now, I’ve been skating for seven years now and I’ve taught students probably for the last four years. I’ve done a lot of teaching and I love it. Just pays peanuts.
+
+
+[00:10:18] JE: Can you dive into that transition moment? How did you learn how to code — because my math and program are related, but not the exact same things. I’m curious how you made that transition.
+
+
+[00:10:28] MR: Pretty much the way everyone else does with Google. When I was younger and first graduated college, or high school and I went to college, I took a computer architecture class. I also took assembly while pregnant. I don't recommend that. It was really hard. My brain was already struggling and the assembly —
+
+
+[00:10:44] JE: You’re taking assembly while doing assembly?
+
+
+[00:10:47] MR: Nice. Yeah. Yeah. Something like that. Then I had taken Pascal and a couple of other — these are just old programming things. When I went back, I had asked around to software developers that I knew. I didn't really get much guidance. I went back and learned about databases and did a lot of database work and then went to Thomas Edison and did Java and all this stuff. At the end of the day, it was just a grind finding my first job to hook into. That was what I was looking for. When I finally got that, it's just — on the job learning is where I’m best, when I’m actually solving real problems. That's where I feel like I learn the most. It was just really hard getting that first job.
+
+
+[00:11:22] JE: Was there anything that surprised you going into technology that was counter to your expectations?
+
+
+[00:11:28] MR: I thought someone would know what they were doing. I mean, this is the unfortunate reality. It's not about knowing what you're doing, it's about knowing how to figure out what to do next. Everyone wants to act like they understand everything that’s going on. I’m not saying there isn't some level of understanding anywhere. It's just that it’s way lower than people play.
+
+
+[00:11:47] EO: There's an XKCD comic about software voting and every software developer in the world's like, “Don't.”
+
+
+[00:11:53] MR: I know. Okay, so I’ve worked in security before. It's awesome, because you learn all kinds of stuff about security. Then you find out that maybe a security product is being used somewhere and you're like, “If we don't protect that properly, there's going to be some serious fallout.” Then you think back to all the security problems you dealt with and it scares the crap out of you, because you realize how easy it is. It's just so easy to miss one thing and one thing that's all that's needed for someone to get into a system, or a network, or something like that. It's a little terrifying when you realize how many threats you're really up against. Sorry, that got really serious really fast. It was not my intention.
+
+
+[00:12:27] JE: Eric is our resident paranoid person.
+
+
+[00:12:30] EO: Except, we do have a co-worker who's given me a run for my money, but yeah. Definitely have some tin hat installed.
+
+
+[00:12:39] MR: You have to. If you don't, it's okay. Yeah, you can survive that way, but you really are super vulnerable. It was interesting. When I was at the security company, at one point, I was in a one-on-one with the, at the time, the CTO. He's a security expert. I mean, super-expert. He had Alexa on at his house. I’m like, “Help me out here, man. I don't understand. You see what we see every day. How can you have Alexa?” He said, “Because there's a threat. There's definitely a threat.” The trade-offs to him were worth it. That's what it comes down to is you have to be able to assess the threats and trade-offs.
+
+
+Now he was actually qualified to assess that. He put it in his house. Then sometimes I’m thinking, well, “Maybe I am too much,” because it's Ryan [inaudible 00:13:18]. I respect him a ton as a technologist. He thinks it's okay.
+
+
+[00:13:24] JE: Yeah. I feel one aspect of security that people don't take into account as much, well okay, the paranoid people don't take into account as much is security matters more as there is more to secure.
+
+
+[00:13:35] MR: Right, but you don't know what your life holds, right? Right now, you're a nobody. Tomorrow, somehow, you end up as a somebody. Then you can't retroactively secure your life. I’m not saying you're nobody now. I’m just saying like, let's imagine —
+
+
+[00:13:47] JE: Oh, no. I took it that way.
+
+
+[00:13:48] MR: — That the world at large, there are no hackers that are interested in you. Then you become like, what is it? The governor of Maryland, or whoever that was that came out and said, “Anonymous could never hack us.” Then the next day they were hacked. Who was that?
+
+
+[00:13:57] JE: That was Baltimore City. Yeah.
+
+
+[00:13:59] MR: Yeah. He was nobody before. They didn't pay any attention. Then all of a sudden, he was somebody, or he got their attention somehow. And now he really needed to pay attention and he didn't have time to backtrack, so that's where I approach it from.
+
+
+[00:14:09] JE: Just in the last year, two of my credit cards have been used by someone else. No, three. It's three. One of them was a physical theft and the other two were — somehow they got the numbers, or whatever.
+
+
+[00:14:21] MR: Do you ever use the same password multiple places? Number one way to hack people.
+
+
+[00:14:25] JE: Oh, I won't tell you what I use, but I use different passwords everywhere. I’m pretty good with password security.
+
+
+[00:14:29] MR: Do you have a UV key, or do you require — you have a second —
+
+
+[00:14:33] JE: A what key? I don't even know what that is, so no.
+
+
+[00:14:36] MR: Do you use two-factor auth?
+
+
+[00:14:37] JE: Yes.
+
+
+[00:14:38] MR: Always? Religiously? Okay, whether you're not using it. You can't use two-factor auth some of the time. You got to use it all the time, or it’s nothing.
+
+
+[00:14:45] JE: I definitely don't. Now everybody knows that. So, onward, what have you got?
+
+
+[00:14:51] EO: You mentioned your first programming job. What was it and what was the process of getting that?
+
+
+[00:14:57] MR: I feel the process was luck. It was an educational company and I was a teacher and I had had years of teaching. And I’ve been classically trained in education. There was a little bit of overlap there. That felt pretty at home. Also, though, the team itself, it was a great place to start. They weren't super, super technical, so they didn't have that really technical focus on the interview and that was helpful. I really do feel in the end with the overlap of interest, and I think that I felt like a good fit to the team. And so that was why I got the job. It was less on technical anything else and more culture fit type of thing. Which, interestingly enough, my first team was three women, other women with me, which is very — since that point, I went years without working with another woman.
+
+
+It was really weird to enter your first job on a team of all women and go nowhere. It was education and we were all in that space. We were the developers. We were developing a tool that teachers could use to make lesson plans. That was how I got my first job and I felt very lucky to get it. Nine months there and then realized that it really wasn't teaching me the things that I want to learn. I wanted to be more technical and conquer some bigger problems. I went on to Toshiba for nine months, and I worked on a point of sale system, which was interestingly archaic, along with the version control system I had to use was insane. If you go to Kroger and you look at the scroll bar that's on the right side of the screen as you're adding items, you've seen my work. There's that.
+
+
+[00:16:19] EO: That's amazing. I believe I’ve seen that scroll bar before.
+
+
+[00:16:25] MR: It's so ugly, but I had to rewrite it to account for a little bit of spacing one at the bottom. That's when I learned about scroll bars. I was writing that and I actually got hired there, that was an interesting fliparoo. I got hired as a web app developer and got the switcheroo on day one — Java Swing. Which if you're familiar with the two different things, very different, very —
+
+
+[00:16:45] JE: — Java Swing?
+
+
+[00:16:46] MR: Java Swing is the UX component of Java, which it was not what I thought I signed up for, let's put it that way.
+
+
+[00:16:54] EO: I did a little bit of that in college for classes. Yeah, it's definitely different.
+
+
+[00:17:00] MR: Yeah. You do not want to stay there, so I did not. I did not stay there. I went on to work at Rally, which I think Rally was a really formative team. I had a very good team. We were working on Node.js at the time. I probably ended up learning the most in my career in the time at Rally. Because I went from not knowing much to doing full web app and the Node.js thing and we're doing data, we have a pipeline. It was pretty intense. Had an amazing team there. Really solid team. Learned a ton from them. I think that's really where I became a developer.
+
+
+[00:17:28] JE: What is Rally?
+
+
+[00:17:30] MR: Rally was a software company purchased by CA Technologies eventually. Basically, it was a startup. Rally was a startup that competes with Jira, in the sense that it does ticketing and Kanban boards. A very Agile company. I learned a lot about Agile while I was there, which was nice.
+
+
+[00:17:45] JE: Very cool. What is ICFP?
+
+
+[00:17:48] MR: That is the International Contest of Functional Programming that happens annually. People from around the world sign up. Sometimes, you're up against teams from MIT, and then sometimes you're, literally, I think, some of the winners in a recent thing were two guys from New Zealand that were just friends and teamed up and did it two years ago on the 3D printing problem. Which was really interesting. I really liked that problem, 2018's problem.
+
+
+Every year, starting about four years ago, James Edward Gray, JEG2, he contacted me to join the team. I flew out to Oklahoma and competed with him on that. That was a lot of fun, because it's very different when you're programming for fun. I hadn't really programmed for fun. That was the first time doing that. It was a lot of fun. This past weekend, we wrote a virtual machine, which I hadn't done before, so that was — it's really cool. You can experiment with things and JEG knows all the things. He's a great guy to have there working with, because you just learn so much.
+
+
+[00:18:41] JE: Was that this year's contest, or how did this year's —
+
+
+[00:18:43] MR: Yeah. This year's contest was good and bad. It's like, I learned a lot and I hadn't used Elixir in a while and we did it in Elixir. That was great. We were putting on a UI with Scenic. It was cool. I learned a lot of stuff. It was disappointing, because we didn't do a full submission. 
+
+
+Now two years ago, we wrote a 3D printing thing, where you have these shapes, you had to 3D print the shape and that was a lot of fun. We did that in Elixir as well. I think that's my favorite contest so far, because I skate and I was making these 3D printer bots that would go next — they would make lines. Instead of using one bot to make one square at a time, I was figuring out how to break shapes down into full size lines, so you could print faster in these lines as opposed to printing individual dots. I don't know why I get so excited about solving problems, but that was a fun problem to solve. Very exciting. You had to think really hard to get there. Loved it.
+
+
+[00:19:34] JE: Do you want to tell us a little bit about your current work, where you're at right now?
+
+
+[00:19:39] MR: Yeah. At Mode — Mode is at an interesting place in their history. All startups go through this growth phase, where you're like, at first, you're throwing stuff out the door, because you're trying to make money. Then you realize that you really are solving an important business need for people, and so you get more customers. Now you're adding on features, and so you're putting them on, so you can ship out the door. You get to a point where you realize, this thing it's solid. People like it. People like the business concept. Now we have to go back and make the code base reflect that.
+
+
+[00:20:07] JE: This is Mode. Mode is doing — I want to call it a data science platform.
+
+
+[00:20:12] MR: Yeah. Basically, how it works is you sign up for Mode and you have a data warehouse, or a database somewhere. You hook into that database, you import your data into this product we call Helix, which basically is this in-memory database that can crunch things really fast. You can do really fast manipulation of the data, analysis of the data, you can add your own calculated fields to the data, do all the stuff and then put it on charts and graphs and then ship it to places.
+
+
+We make the data analysis part. It was founded originally by data scientists trying to solve the problem of “How to analyze for data scientists” type of thing. And how you collaborate across a whole company, as opposed to just the data scientists being able to see the stuff. It solves an important business problem. But architecturally, we're at this state where we're needing to catch back up. We have shipped a lot of great stuff and now we need to make that. We need to harden that. We need to scale that. We need to get going.
+
+
+[00:21:03] JE: Are you using Elixir over here?
+
+
+[00:21:05] MR: Unfortunately, not yet, but I am in talks. I’m always in talks for Elixir. Even when I was Tanium, which is like, no Elixir. And I can't imagine a reason to use it at this point. I was always in talks for using Elixir. I love the Elixir.
+
+
+[00:21:21] JE: What kind of case are you making for adoption, out of curiosity?
+
+
+[00:21:24] MR: I really like the ‘burn it all down story.’ I like when something gets in a weird, funky state, that it dies and spins back up. I love that for Elixir. Also the hot-patching and how you can deploy and have it up and not — you’re changing versions, but it's not quite the same as other languages. Now you're taking something out, but it's something else up. It's literally on the fly.
+
+
+I like the ‘burn it down,’ how things just — the gen server crashes and the gen server will bring it back up. I like that. I like the OTP-ness, how you can have huge apps that are communicating with each other. It is a monolith, but it's not a monolith, because it's not like they're also connected, the OTP messaging. I like that a lot. Anything where I need high availability and servicing lots of people, I’m going to reach for Elixir if it's up to me.
+
+
+[00:22:08] EO: Now that we're talking more about Elixir and whatnot, this season is architecture and application stuff. What does architecture mean to you?
+
+
+[00:22:17] MR: Well in general, I would say architectural — I always think of it as the high-level view, as if I’m flying over something. I think it has different layers. If I look at a system, a full system, and Mode, we have a monolith web app and then we have other services. I would say, the architecture includes that whole thing. Then at another level, there are times where I’m just working within the web app that we have, the monolith that I would — and I’m talking about the architecture as just that monolith. It's like, what's your problem? What are you looking at? Now climb up a ladder a 100 feet, now look at it. That's how I consider architecture; stepping back away, seeing how the big pieces fit together, how are those APIs of the big pieces working.
+
+
+[00:22:56] JE: Are you saying it's architecture all the way down?
+
+
+[00:22:59] MR: I am. Basically, I figured out there's a base case from [inaudible 00:23:03] sequence. You're getting down to where it's either zero or one. This is our base cases. What are the base cases of all in life? Solving for unknowns and turtles all the way down.
+
+
+[00:23:14] JE: What's the difference then, in your view, between architecture and design?
+
+
+[00:23:18] MR: Architecture is more like the tangible output and design is planning for that, or lacking the plan for that. I think design happens — I don't think it's either you design, or you don't design. You either design well, or you design poorly. Not designing isn't not designing. Not designing is just doing it really badly.
+
+
+[00:23:36] JE: I love this opinion. Some people are afraid to make any value judgment and ever say, like a thing is bad. I’m like, sometimes things are bad.
+
+
+[00:23:44] MR: Tofu is bad.
+
+
+[00:23:45] JE: Yes. Oh, my gosh. Eric, you're fired. She's my new co-host.
+
+
+[00:23:51] MR: Be careful what you wish for. That's all I’m going to say, because it's all fun and games when it's novel. What about when you live with something regular? It's a different story.
+
+
+[00:24:00] JE: I really like this. We've been asking this question all season and I don't think I expected it to be such a slam dunk of a question. But every single time we get a very interesting and novel answer. People really look at these words differently, architecture and design. I really like the way you described architecture as whatever level of abstraction you're at, just go above it and look at it from the top-down and that's architecture. I like that a lot. Then design being the process you go through to get there. Really cool. Do you have any opinions on domain-driven design?
+
+
+[00:24:29] MR: I think it's wrong. I don't go far enough. So what I did there is I actually kind of trolled you a little bit, Justin. The reason why is because I knew you like strong statements, so that's great. I gave you a strong statement, but I’m going to tell you why. I don't think it gets to the right level. I think that when you're talking about domain — when I looked up domain-driven design, and I looked it up, because of the fact that you can't trust whatever you think something means.
+
+
+When I look online and it's basically talking about modeling the domain and the software after the business. I think that that's where it goes too far. I think, I gave my very first talk at Gig City Elixir, ironically enough. I covered this idea called domain-aware data. Now this talk was not recorded, so you can't see this anywhere. You'd have to – it's gone forever. The idea of this domain-aware data is where it comes down, because for me, the domain should really affect how you model the data, how those things are set up, how they interact, how they're associated in the database — and that makes a lot of sense.
+
+
+In my experience, whenever I’ve seen products getting in the land of determining engineering architecture, man, things go badly fast. If they don't go badly fast, they become unmaintainable in the near future. Because oftentimes, how things — knowing how the concepts fit together is the data model. Knowing how to make that actually manifest value to customers, that's software.
+
+
+I am loath to have product people who should know all the things about how that data talks to each other and what the association is, because it determines the bounds of future product. I’m very hesitant to have a say in whether you use Kafka, or whether you have a distributed SQL database, or you're using just one instance of PostgresQL. These implementation details, not only — they're just so qualified to make. Oftentimes, many people that are in the positions where they feel qualified is because they used to do that job. And they don't anymore, but they still feel completely qualified. They weigh in and it becomes a problem.
+
+
+[00:26:23] JE: This is really interesting, because one problem that I find a lot of is not the product people necessarily defining what the internal technicals are, but defining what the process is for getting out there. Do you have a similar vibe?
+
+
+[00:26:38] MR: It's all turtles, man. It's just all turtles. I’m going to go back to another turtle. Have you read Sandi Metz’s book, Practical Object-Oriented Design in Ruby?
+
+
+[00:26:49] JE: It was the second technical book, probably, I ever read.
+
+
+[00:26:51] MR: Okay. When you read this, one of the things she talks about is Agile and talking with customers. Now customers don't always know what they want, and so you don't want to over design, because they don't know what they want. When you read the book, you're thinking, “Oh, this is a consultancy. She's been hired by someone to make something and she's going to work with them.” Then you're thinking, like, “Okay, if I was a company, my team, the people that are having to work with customers is myself, my product manager, my designer. These people are all my team and we're working.” Yes, that's true. You're serving customers outside the company.
+
+
+As a developer, I always see myself on a team as my designer and my product manager are my customers. I have to do this same process on a smaller level with them, where they're telling you what they want, but I’m trying to keep them from getting too far ahead. Until I can prove out the basic thing. Taking the approach that I’m trying to iterate with them Agilely through developing the software, it's the same thing you use externally. I use that same concept all the time, because we always think we're maybe behind the wall and now we're with our team and we're all — it's never that way. You're making something of value for someone who values it. Treating that relationship Agilely just works the best. That's how I found the best way to manage it.
+
+
+[00:27:53] JE: Yeah. We should probably do a whole season on just how agencies and people on engineering teams can interact with stakeholders and whatnot. I want to jump back into architecture just a little bit and hear, when you're starting from the very top of a project or a feature, how do you go about — what's your literal practical process of like, are you using special tools or not-so-special tools?
+
+
+[00:28:17] MR: Funnily enough, are you talking about going back to Greenfield, where someone just says, “We want this thing.” You don't know anything, you're going 100% Greenfield? Where are you in the product space? You already have a product with that feature?
+
+
+[00:28:27] JE: This could be totally like Greenfield project. It could also be a new feature on an existing project. Yeah.
+
+
+[00:28:33] MR: For me, it's really about getting the mental model right. What I’m trying to do is work with product design, anyone that I’m working with to make sure that we're all on the same page. This is going to look like a metric ton of questions, because I’m going to try and get down to the very basic understanding. I’m trying to drive them down to the point, where we share the same mental data model. How the things interact with each other, how they are connected, the constraints upon them. I’m trying to drive it back and that's going to happen through conversation.
+
+
+I write a lot of actually, just blank text editor. I like to get people in a Zoom and open up a text editor and write down the things that I think are true. Then go on to the next line and write down the things that I think are true. As we move like, “Oh, you know what? Line seven is not right.” Then we have to move back. Basically, I’m developing this shared pool of understanding around how these things will interact.
+
+
+After that, I’m going for bare-bones. I was working on a new product at Tanium called performance for a while. The developer that I was working heavily with, Trevor, he was working on the back-end side. I was writing the entire front-end. Oftentimes, we had no features coming up, and we would determine the API between the feature. We'd hard code that API response in the back-end, he would build from the back-end towards that API response. I’d go from the front-and off that API response and eventually, would flip them out. We’d just remove that hard-coded response. That's the next piece.
+
+
+First, you get your shared pool of knowledge and then you start working on these end-to-end things, going all the way through slicing through, making sure you can make this stuff work, hammering out the API of each thing first and then building to it and then next API, build to it, next API, build to it. It's more turtles.
+
+
+[00:30:04] JE: Have you read Gödel, Escher, Bach?
+
+
+[00:30:06] MR: No.
+
+
+[00:30:07] JE: That's where I first heard this turtles metaphor, is in that book.
+
+
+[00:30:11] MR: I taught Greek myths to five children. Greek myths is some of my favorite parts of the homeschool process. I have D'Aulaires Greek myth book is amazing. Love that thing. Yeah, I love the Greek myth and that's where I first heard about the turtles. I don't even know if they're Greek myths now. There's some mythical thing, but I’m not sure if they're Roman or Greek now.
+
+
+[00:30:29] JE: This sounds like a Greek myth. I’m also a big fan of the classics. Talk a little bit more about Mode and the way that you're designing, developing things over there. Talk about yourself, your role in the team.
+
+
+[00:30:39] MR: Oh, sure. It's an interesting thing. When I interviewed at Mode, my manager asked me — my current manager asked me, describe a problem that you are faced recently, because I had already told her that I just built this whole new product at Tanium. “Describe a problem that you faced recently.” She was looking for a type of problem and then the explicit implementation of that problem. I’m like, “Oh, it's people problems. Hands down, people problems are the worst,” because tech problems what are they about? They're about, maybe you don't know the whole problem, maybe you tried something that doesn't work. All that's just data. You take that data, you get, you put it on the table again, you get the right people around the data, you try again. It doesn't work, you try it again.
+
+
+It’s just an iterative process and a grind sometimes, but it's easy. People problems are just so much harder, because going back to the APIs all the way down part, like when you asked, “How do you get to know someone's API.” That's a really hard thing. I would say, and how this ties into the question you asked me is that people problems is — I feel like a lot of the work that I do right now is helping the team communicate, so we can go from this point where we are on a product that needs to grow and change, because the needs of business have changed.
+
+
+Our customer base has changed. Our stuff has to change as well. In order to do that, we all have to have the same pool of knowledge and we all have to be shooting for the same goal. While a lot of some of the stuff is like, I’m building a new API right now for the front-end to use. That's designing that API and getting with them and making sure that we're on the same data model, that's all been stock problems, stock engineering problems.
+
+
+I would say, the unique thing about organizations is the people you're working with, how the organization's been structured and how do you actually get things done, because once you go past a team of say, 12 developers, getting things done becomes harder and harder. How do you work within a team of 30, 40 and still get things done? I think those are the problems that I spend most of my time on.
+
+
+[00:32:22] EO: Can't you just throw more people at it and then you solve things quicker?
+
+
+[00:32:26] MR: Yes. If you put eight women in this room with me, we could make a baby in one month. It's true. Totally doable.
+
+
+[00:32:34] JE: Yeah, sorry. That was funny.
+
+
+[00:32:36] MR: We could assemble that baby in one month.
+
+
+[00:32:41] JE: I had a question and now it's just the humor that has pushed it out of my head.
+
+
+[00:32:45] MR: Sorry.
+
+
+[00:32:45] JE: No worries. Well, we have more questions here about architecture, different patterns, your opinions on various patterns, microservices, micro-lifts, monoliths. What do these words mean and what is your opinion on them?
+
+
+[00:32:56] MR: I’m giving you my opinion of all of them at once. That if you're trying to use a process or an architecture to solve your people problems, it will never work. Most of the time when people are trying to introduce technical solutions, they're introducing technical solutions to people's problems and that's why they don't work.
+
+
+Does a monolith work? Well, maybe. Does a microservice work? It's possible. There are different applications for different things, but oftentimes if you just take a problem apart from the organization that is dealing with it, or a problem apart from the teams that are handling it, the solution to that problem can look different across the board. And yet it can still be a valid solution. The problems really come in dealing with people, dealing with orgs they've been around. I tend to not have tons of opinions on whether you should be a microservice or a monolith. I think there are a lot of other factors there. I have tons of opinions on how people should communicate.
+
+
+I see over and over, there are a lot of really smart tech people in tech and really emotionally, IQ type of bottom-out in tech. They just don't get the people side of things, and that's what's holding them back. They see this problem and how they solved every other problem in the past architecture; “this must be badly designed.” No, you're just doing it wrong. They're trying to fix the fact that they don't have a shared pool of knowledge. They're trying to fix the fact they don't have a shared data model, or maybe they aren't actually solving the problem they think they're solving. They're trying to fix that with architecture, but you've got to back up and have the conversations. What is my data model? What is the goal?
+
+
+Because you can make a lot of architectures work for lots of problems. I don't think it's super common that the problem is dependent on the architecture being exactly one way. There's a lot of room for movement, they’re depending on the people involved.
+
+
+[00:34:27] EO: Well, you talked about this in a few other — it has come up before. I don't remember the exact name, but it's something about your architecture.
+
+
+[00:34:35] MR: Conway’s Law. Yeah, it's very much like that. Basically, if you look at a code in production for companies, it will mirror in many ways the organizational structure of the company. If you have a bunch of small teams that maybe talk to each other and provide routes for each other, just lots and lots of microservices, that's what you're going to end up with.
+
+
+You're going to end up with a bunch of small teams that talk to each other and have services for – you end with microservices. You have one huge flat team, monolith. Because of the way that's structured, you're just going to shift the same problems in your architecture that you have in your org. If you're not communicating in a monolithic org, your model is going to have the same problems. If you're small teams that are building microservices, can't talk to each other to figure out requirements ahead of time, you're going to ship the same type of microservices.
+
+
+[00:35:18] JE: I remember the question that exited my head earlier, which was that when you were talking about the problems that a team growing past the size of about a dozen developers faces. And that is a problem that I’m sure there are a lot of teams that are just about to encounter that specific problem. I was curious if you have any suggestions, thoughts, like how does one, especially a leader on a team, think tactically about growing a team past that particular — I feel like it's the 12 to 15-person range, where you're going from it's very easy to manage a team of five, it seems to be very hard to manage three or more teams of five.
+
+
+[00:35:52] MR: Right. I think it all comes down to managing expectations. I mean, because in general, people I believe – I’ve worked with – I think I might be nearing thousands of teenagers at this point. Between teaching and coaching and everything else, I’ve worked with many, many teenagers. You're going to say, what does this have to do with anything?
+
+
+Well, having worked with hundreds of teenagers and many, many adults, I don't see much different, between working with adults and working with teenagers. Because teenagers are very similar. Oftentimes, the best results you get are when you are making very clear expectations. Because inherently, people want to satisfy expectations. If you want them to do something that's like – they want to do that thing, they want to be successful. A lot of developers, they want to give you what they want, what you want, because they want to do a good job, they want to get a raise, they want a title. It's about making those clear expectations.
+
+
+I think a lot of leaders, where they fall down flat is they don't know how to have an opinion, that they put out there as the expectation, without feeling that somehow they're unqualified to do so. A leader needs the people that he's leading, or she's leading, need to know what's expected of them. As things get bigger, the number of bike shed topics increase. As a team grows in number of people and especially those people are diverse, the needs of figuring out how to interact, the expectations around interaction.
+
+
+Not just about setting technical expectations, but what are your expectations around interacting with other people? If you're setting up these expectations, for example, should a manager have to go to a person to find out there's a problem? Or are they expecting that person to push that problem to them? Is the person supposed to do a push, or is the manager going to pull? What are they expecting? Make that very clear. How do you get another team to do something?  How do you submit that request? How do you make that happen?
+
+
+Now the problem is this sounds like process. I don't really like adding layers of process, because process is just sidestepped by people that know each other. Friends end up sidestepping the process or whatever. There's in between where leaders have to have visions of how they want orgs to behave. They have to be able to articulate specifics about that vision, so that people can take that specific and implement it. You can't really specify every specific. It's hard to know all the exact ways, but sometimes we have really good examples of how they're supposed to behave, then they can do that. It's really about the leaders having clear expectations and wanting something.
+
+
+They have to be able to have an opinion. They have to be able to say — people are so squishy. It's very irritating to me. I wish they would just come out with it that they want. I don't mind working with someone I disagree with, but at least, get a backbone. Come on.
+
+
+[00:38:05] JE: Yeah. I agree, 100%.
+
+
+[00:38:06] MR: I don't even know if I answered your question. I’m sorry.
+
+
+[00:38:09] JE: Setting clear expectations, I think. Also, being willing to voice that. I mean, setting clear expectations, being willing to put that out there, having some opinion and I mean, decisiveness is definitely I think a critical leadership ability. I think a lot of people think that it stems from some arrogance, but I often think that leadership is time-bound, and so that decisive — It's better to make a decision and the decision to be wrong, than to not make a decision because not making a decision is almost always wrong.
+
+
+[00:38:36] MR: Real fast.
+
+
+[00:38:37] JE: Yeah, move quickly.
+
+
+[00:38:38] MR: I’m ready to say something more controversial, if you want to hear it.
+
+
+[00:38:41] JE: Please.
+
+
+[00:38:41] MR: When orgs are growing from 10 to whatever, at some point in the growth, people have Peter principled out. To act like your organization isn't going to have someone that Peter principled out that has reached the top of their game.
+
+
+[00:38:53] JE: Peter principled?
+
+
+[00:38:55] MR: Are you familiar with Peter principle? When someone gets promoted so high, they don't know how to do their job anymore.
+
+
+[00:39:00] JE: Oh, yeah. Okay. Right.
+
+
+[00:39:01] MR: Yeah. What you have on startups —
+
+
+[00:39:03] JE: Peter. Who is Peter in this —
+
+
+[00:39:03] MR: I don't know who Peter is, but that guy got a rap of huge sorts right there. My working theory is that startups are great when they're small and you get the small teams and they're making decisions and everything's going well. They're hiring more people, hiring more people. At some point, you have to stop and say, you haven't done this before. You need someone else there. You need someone that knows what they're doing.
+
+
+Instead, what often happens is they basically insulate their position politically. Then they make the culture such that you can't challenge it. Then the company itself pays. I believe that there's always these parts of company. There's pieces in history where things change dramatically. I’m going to say between when you go from eight developers to more than eight developers. When you go from less than 30 developers to more than 30 developers. When you go from over a 100 — there are these points where everything grows and you hit these pain points in businesses.
+
+
+I think those pain points usually indicate that the leaders aren't skilled in that area. The company, it's in their best interest to make sure that they have skilled people in those roles, and that the people are actually able to do this stuff, and that people aren't Peter principaling out.
+
+
+[00:40:03] JE: Yeah. I found a little bit about this. It's Lawrence Peters, who it's named after. Definitely going to include some links to that in the show notes. Eric, do you have any other questions?
+
+
+[00:40:12] EO: No. I think that was good.
+
+
+[00:40:14] JE: We want to make sure that we give you as much time as you would like to make any final plugs, or asks for the audience, any way that people can support you, what you're working on, find you and your work. The time is yours.
+
+
+[00:40:29] MR: I would say that right now, I’m pretty stable, well at least work-wise. Mentally, it's a whole different story. Don't want to paint too broadly there. Right now, my work is stable. I do believe my next role will be in Elixir. It is on my roadmap for the future. I just don't know when that's going to happen, because if you're at a good gig and you got a good setup, I don't necessarily need to go looking for trouble. At the same time, I do eventually want to get back to Elixir. I just don't know when that's going to be. I also find that I like full throttle, fast-paced environments. It's how I skate, really pushing the envelope. Love it. That's in the future for me, but I don't know what that is yet.
+
+
+[00:41:07] JE: Very cool. Mode sounds like a pretty cool gig. One of the questions on here was if seeing if you could get me a license, so that I could play —
+
+
+[00:41:14] MR: They have free studio licenses. You can get one.
+
+
+[00:41:17] JE: Yeah. Well, I think I might. Miki Rezenes, everybody. Thank you so much for joining us on the show today. We're going to have to have you back on again. I think there's a lot more that we could talk about.
+
+
+That's it for this episode of Elixir Wizards. Thank you again to our guest, Miki Rezentes, and my co-host, Eric Oestrich. Once again, I’m Justus Eapen. Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects, building web hats in Elixir, Rails, React, Kubernetes and React Native. We'd love to hear from you if you have a project that we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. Please give us those ratings and reviews on iTunes and Stitcher. We will love you more for it. You can also find us on Instagram and Twitter and Facebook, so add us on all those. You can find me personally @JustusEapen, and Eric @EricOestrich.
+
+
+Join us again next week on Elixir Wizards for more system and application architecture.
+
+
+[00:42:25] MR: Okay. What does a pepper do when it gets angry?
+
+
+[00:42:28] JE: What?
+
+
+[00:42:29] MR: It gets jalapeño face.
+
+
+[END]
+        © 2020 Elixir Wizards

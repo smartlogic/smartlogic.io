@@ -1,0 +1,658 @@
+EW S5E17                Transcript
+EPISODE S5E17
+
+
+[INTRODUCTION]
+
+
+[00:00:40] SM: Hi, everyone. Before we get into today's show, we wanted to let you know about a fun new event we have coming up, the Elixir Wizards Conference. The first ever Elixir Wizards Conference will be online, June 16 and 17th, and the call for speakers is open now. More details to come soon. But head on over to smr.tl/conf to learn more and submit your talk ideas. All right now here's the season finale.
+
+
+[EPISODE]
+
+
+[00:01:12] JE: Welcome to the Season 5 finale of Elixir Wizards, a podcast brought to you by SmartLogic, the custom web and mobile development shop based in Baltimore. Ostensibly, based in Baltimore, we have gone forward, but just like the rest of the world. My name is Justus Eapen and I will be your host today. I'm joined by my incontrovertible co hosts, Sundi Myint. Hey, Sundi.
+
+
+[00:01:33] SM: Hello, hello.
+
+
+[00:01:35] JE: And my Uber Nutralite producer, Eric Oestrich.
+
+
+[00:01:39] EO: Hello.
+
+
+[00:01:41] JE: This season's theme has been adopting Elixir and we're joined today by a special guest panel featuring Anna Neyzberg, who is the second-best podcast host in Elixir land. I don't know who the first one is. I'll leave it up to the audience to decide. Founder of ElixirBridge which helps underserved communities learn Elixir and a developer at Carbon Five. How are Anna?
+
+
+[00:02:04] AN: Good. Excited to be here. Thanks for having me.
+
+
+[00:02:07] JE: Thank you for coming on. We've got Sean Lewis, a Senior Architect over at Genesis Block by way of Devi. He's an old friend. He's got a lot of experience on rapidly growing teams and rocket ship startups. How are you Sean?
+
+
+[00:02:19] SL: Good. Well, thank you.
+
+
+[00:02:21] JE: So glad to have you back, Sean. And finally, René Föhring, the creator of Credo, helping new Elixir developers write stylistically acceptable code since 2015. Hello, and guten abend, René.
+
+
+[00:02:35] RF: Yes, hello, Justus.
+
+
+[00:02:37] JE: That was all of my German. René is joining us from all the way in Germany. So, he it's very late, where he is, hence the guten abend, which means good evening.
+
+
+So, the theme is Adopting Elixir. The first question that we want to ask is, how did you discover Elixir? Anna, let’s start with you.
+
+
+[00:02:56] AN: Yeah, oh, my God, this was a long time ago. I think I was just six or seven, six years ago, long while ago. I started to dig more into just functional languages in general. And a friend of mine was really excited about Elixir. And so, I started to play around with it. It was kind of by chance, actually.
+
+
+[00:03:13] JE: What kind of play?
+
+
+[00:03:15] AN: I mean, it just started like he was really excited about it. So, we're like, “Oh, let's just build a toy project together.” And it was really fun. It was really easy. I'd been doing a lot of, like, Ruby and JavaScript stuff. And so, it was fun to kind of explore and make a system a different way of writing code at that point in my career.
+
+
+[00:03:30] JE: Do you want to name drop your friend and shout them out on the show?
+
+
+[00:03:34] AN: I don't think he listens to this show.
+
+
+[00:03:35] JE: Oh, my gosh.
+
+
+[00:03:37] AN: Only because he — I don't know that he's doing much more Elixir these days. He's at Amazon doing some infrastructure stuff. That's the only reason I see.
+
+
+[00:03:45] JE: Rock and roll. We're going to ask what's changed since that time, but I first want to hear from René, how did you discover Elixir, René?
+
+
+[00:03:55] RF: So, also, a couple of years ago, I wanted to learn a new programming language. And after some searching, my colleague and mentor suggested Elixir because, in his words, there's little difference with Go and Ruby and C++ conceptually. Those are all object-oriented programming languages and he basically told me, “If you want to actually learn something new with an emphasis on the learn and not the new, then you should try a paradigm shift and look at functional programming.” And I wish I could say and that's what I did and I never looked back. But I still get paid for the occasional JavaScript snippets.
+
+
+[00:04:34] SM: I want to say don't we all? I don't know if that's true, but basically —
+
+
+[00:04:39] AN: It’s true.
+
+
+[00:04:39] JE: I think Eric pays to avoid writing JavaScript. Sean, what about you? Do you remember how you discovered Elixir?
+
+
+[00:04:48] SL: I got my start in my career in Ruby and Python, primarily Ruby. A lot of the Rubyists at the time, they were looking at Elixir kind of in its grassroots movement as a transition away from Rails and over to Phoenix. But this was way back in the day. So, this was like 2013. Yeah, Elixir was pretty new around the time. And so, when I was making a job transition, I ended up working in Go for a while, but while I was picking up Go, I might as well learn Elixir, because it's pretty similar to Ruby at the time. So, that's kind of how I picked it up.
+
+
+[00:05:19] JE: Pick it up, one language, why not learn a second at the same time?
+
+
+[00:05:23] SL: I get them confused, depending on which one I'm writing in at the time. So, it's fun.
+
+
+[00:05:27] JE: Rock and roll. The second question I want to ask is about how it's changed since you guys got into the community. And so, if you could just all go through, I mean, the biggest change, or the one that stands out to you the most, maybe the one that has caused you the most headaches, that would be interesting to learn about.
+
+
+[00:05:43] SL: So, I may have just been really new to programming at the time. But I distinctly remember Elixir not having Enum yet, when I learned it. And so, you had to manually head tail through everything, and then you had to have recursion built in because you didn't really have any loops built in for him — as a first-class citizen of the language. So, it really forced you in the functional paradigm, back in the day. Whereas now you can really just iterate through everything with Enum and move on with your life. It's very interesting that since then, that's changed a lot.
+
+
+[00:06:15] SM: That’s fascinating.
+
+
+[00:06:17] EO: Yeah, I don’t know we started before Enum was a thing. So, I think everyone at SmartLogic has always had that and I can't imagine anything different.
+
+
+[00:06:27] SM: Yeah, and I remember learning that tail is like a party trick.
+
+
+[00:06:31] AN: Totally.
+
+
+[00:06:32] SL: Yeah, I could be completely mistaken here. And I may have just not read the manual properly. But I distinctly remember wanting to do loops, and not being able to do loops and having to use recursion back in like 2013.
+
+
+[00:06:45] AN: I remember that. I remember that being confused about that.
+
+
+[00:06:47] SL: Yeah, I appreciate that. Okay, I felt a little crazy from —
+
+
+[00:06:49] JE: René, biggest change since you started writing Elixir?
+
+
+[00:06:53] RF: That's a great question. I think dealing with dates has gotten both simpler and more frustrating, because we still don't have all the things in the standard library that I would wish or hope for.
+
+
+[00:07:09] SM: What do you hope for with the time manipulation? Like, is there somebody that or some language that does it really well that you can point to as a good example?
+
+
+[00:07:18] RF: That's a trick question. Just the other day, I was working on Credo 1.6, where we have a very small portion that involves reading a date. And now, I'm left with either using Timex as a dependency or implementing the relevant functions on my own. And just the other day thought, okay, that may be the last thing that I'm missing from the standard library. Because quite frankly, everything else has gotten so much better. I also don't recall the Enum list dates.
+
+
+I've built my first Elixir project in around the summer of 2014 and Enum was definitely there. But there's so much that has changed in that seven years. And without sounding too rosy, but I think like 9 out of 10 things have changed for the better.
+
+
+[00:08:08] JE: I want to hear about that first project. And I will ask everyone else that same question to us. But René, what was the first project in 2014.
+
+
+[00:08:15] RF: So, I got interested in Elixir through that colleague and for me, I had a niche project in the Ruby ecosystem called Inch, which is a documentation analysis tool. And that was quite a fun starting point for me and Elixir to just implement the same functionality in a completely different style and paradigm. And it also involved a good amount of pipes and pattern matching. So, it was a really cool starting project.
+
+
+[00:08:47] EO: I think you might be going into a niche project, at least. I remember stumbling across it when we were still primarily Ruby and setting up our one open source app for it. So, I think that you probably give yourself a little more credit there.
+
+
+[00:09:00] RF: I'm not sure how to react to that. Thank you.
+
+
+[00:09:05] SM: Anna, have you thought of what's changed for you since the start of it?
+
+
+[00:09:07] AN: Yeah. I think to René's point, I think a lot has changed, I was just thinking about that, especially in the context of Elixir ratios, I've invested so much time with that. And that's thinking back to when we first started in creating the curriculum and how painful it was to even make it easy for us to deploy a simple application. This wasn’t long, like many, many years ago. And so, the deployment infrastructure has probably gotten so much better and so much easier.
+
+
+As far as first applications I was really interested in, back in the first wave, this may sound terrible, and people are going to judge me, but I was really interested in crypto. And so, trying to essentially build out — as I was learning, like the concepts of OTP, I was able to kind of build out effectively a fake blockchain ecosystem using GenServer, et cetera. So, it was an interesting learning opportunity.
+
+
+[00:09:51] SM: Justus’ face is completely lit up right now, and —
+
+
+[00:09:56] JE: — I'm saying “Yes, yes,” in the evil, in the Palpatine voice. Sean, can you both tell us about your first project and defend crypto?
+
+
+[00:10:04] SL: Oh, absolutely. How much time do you have?
+
+
+[00:10:08] JE: We have all day, buddy.
+
+
+[00:10:11] SL: My first project, yeah, it was actually comparing performance between Go at the time and Elixir at the time. I wrote a ball clock in Elixir. And I wrote ball clock in Go. And I used GenServers and agents to store the state of each ball in each queue. And for those of you that don't know what ball clock is, essentially just keep track of a certain amount of balls in a handful of queues. And they're supposed to represent like seconds, minutes and hours. And then, if you count them all up, you can figure out what time it is.
+
+
+[00:10:39] EO: Is that used for time?
+
+
+[00:10:40] SL: Yeah, exactly. But it's really fun. It's really interesting because it's deterministic — or it's probabilistic. And so, you can know, like, if you and I both have a ball clock, we should have the exact same state and the exact same balls in the exact same positions after 40 days. So, it's very easy to test if someone did their ball clock correctly, or if it's performing out to a hundred days from now. So, it's a very interesting problem to solve with new languages and it's kind of my favorite one to go to. So, yeah.
+
+
+[00:11:10] EO: Do you want to defend crypto?
+
+
+[00:11:11] SL: Oh, defend crypto. I guess what am I defending it from?
+
+
+[00:11:16] EO: I don't know. Anna implied that she would get a bad look, if people knew she's interested in crypto.
+
+
+[00:11:20] AN: I was at the time and — I still I happen to still do consulting. So, I've worked in a couple of crypto projects since. I think it can be controversial.
+
+
+[00:11:28] JE: What’s your hottest alt coin.
+
+
+[00:11:29] AN: — Political and climate standpoint, my hottest alt coin, I'm so not paying attention right now.
+
+
+[00:11:36] SL: I think that's interesting, because especially this year, I think crypto has become more of a household name, whereas it's kind of in a black sheep pretty much any other year other than 2020, like late 2020 and early 2021. So, it's really interesting to see it kind of grow out of being this hacker only scam thing into something where PayPal is buying into it and other large companies are producing swathes of crypto in order to facilitate cryptocurrency payments. It's very interesting.
+
+
+[00:12:04] AN: It is interesting. There is some controversy, which is why I don't know how folks feel about it. Which is why I qualified it.
+
+
+[00:12:13] JE: What's the deal Elixirium? Has anyone got the updates there?
+
+
+[00:12:19] SM: I don’t think I heard of it. But that’s a great name.
+
+
+[00:12:21] JE: I think it was ElixirConf 2018 when I spoke, but didn’t MC. And a young man, I think he was like 18, did a lightning talk on his Ethereum, but in Elixir clone. And it seems like —
+
+
+[00:12:37] AN: — I feel like there are a couple projects out there that are doing something or there were a few years ago, I'm not as up to date on that. There were a couple projects that were trying to leverage Elixir.
+
+
+[00:12:46] EO: There's ethereumex, RPC case, Elixir client for the Ethereum blockchain. There's a something called Mana, I guess, I don't know if it evolved to be an Ethereum blockchain client.
+
+
+[00:13:02] JE: Manna like food from heaven?
+
+
+[00:13:04] EO: Yes. M-A-N-A.
+
+
+[00:13:09] JE: Alright, let's move on. I'm a crypto fan. So, I'm not judging you. Don't worry about it.
+
+
+[00:13:14] AN: Okay. I appreciate it.
+
+
+[00:13:15] JE: If anyone’s judging me. I don't care. So, talking about these early projects. I mean, the theme of the season has been adopting Elixir. I think one big question that comes up constantly is how do you persuade stakeholders? Does anyone have an immediate reaction to this idea of persuading stakeholders and the question of Elixir adoption? Sean’s nodding his head, vigorously.
+
+
+[00:13:36] SL: Yeah, I mean, I guess my main selling points for Elixir is going to be walking the fine line between developer productivity and developer happiness. And honestly, performance, if that's something you can trade off, having been from Ruby land. I'm sure it's better these days. But we spent a lot of money on infrastructure, just to handle a Rails app at scale and it was not cheap, right? We had to spin up a DevOps team to deal with the myriad issues you get with Rails in production, you know, methods on nil everywhere.
+
+
+You end up like, you're always trying to optimize for one of these functions and I think Elixir does a really good job about walking the line between happiness, ease of maintainability, and then also the performance side. So you can deploy it to production and be happy with it. Engineers will be happy writing it and I don't think it's that difficult to pick up either. So, I think that's pretty easy sell in that direction.
+
+
+[00:14:32] JE: René is raising his eyebrows, like the word, easy.
+
+
+[00:14:35] RF: So, I think this goes into the same direction, but in a not so technical way. I think arguments based on immediate benefits seem to work much better than promising better scalability once you have to scale up and once your startup reaches internet scale. So, for example, showing how you build a so-called self-healing system that actually works and avoids lots of the headaches that we all know can be more effective than talking about how to code swapping and zero downtime deployments. So, sometimes the pro-Elixir list is just the checkboxes from the beam, like hot code swapping. But I don't know anybody who's done that successfully or between the —
+
+
+[00:15:21] AN: Agree, or uses that.
+
+
+[00:15:24] RF: So, zero downtime deployment is also something that really big jobs need. But most operations can live with like three seconds of downtime. So, just showing that you can also have immediate benefits, for example, just saving on server costs. You need five servers today, we were a Rails show, I was at a Rails shop before, as well. And with Elixir, you maybe just need too. And that might not be huge savings, but there are benefits that you can reap today, and not in the distant future when you need to scale up and, “Oh, we would need fewer servers once we hit product market trips.”
+
+
+[00:16:01] SM: Anna, you’re you're nodding your head, what do you think about that?
+
+
+[00:16:03] AN: Yeah, I agree with a lot of that. I mean, most of my work has been with clients, because I've been in consulting for a while now. And it's hard, especially if you're working with smaller companies, or smaller startups. Scale is something that they can't — it’s really actually, they shouldn't even be worried about yet, right? If they're still looking for the right fit, but they're still trying to ramp up in tech, et cetera. And so, the immediate benefits, what they might get, and especially what costs are, I think, are a big, big selling point.
+
+
+[00:16:30] JE: So, I’m clear, what I'm hearing is that you guys have found that the argument around immediate benefits is more effective at persuading stakeholders. And, I mean, because I just have a hard time — like, obviously, the ability to scale easily is like a prerequisite to being a successful startup, right? Like Instagram was able to scale so quickly and with eight employees, type of thing, right? Am I understanding this correctly? The argument?
+
+
+[00:16:54] AN: I think it depends on the context that maybe you are working in. But in context that I'm working in, that was a more persuasive argument. I imagine if you're at a larger company that has other concerns around scale or a growth company, that's really trying to move to scale quickly but they have other concerns. Because I think, like, whatever software we're working with consistently, there are always trade offs. And it always depends on the context. And so, in the cases that I've been, and that's been persuasive. If you're super early, yeah, scale is great, but hopefully at that point, that's a good problem to have. You have money, you have resources, that's a problem you can solve if you even get there.
+
+
+So, that's a very different set of constraints than you're there, and you're trying to move from one application to another. And so, I think you kind of have to sell it differently.
+
+
+[00:17:36] SL: Yeah, I want to jump in on that, because if we think about it historically, from successful software companies, it's really hard to name one who fell over when they had to scale 10X and disappeared or went bankrupt. A lot of scalability problems. Robinhood had scalability problems. Robinhood has scalability problems. And so, you have many companies who — I mean, Slack was originally built on PHP, right? Who fail to start on something that's, “scalable”, and then have to pull that trigger in production later in life when they are actually a hundred x-ing. And, you know, they usually get away with it. Slack is still around. Robinhood is still around and I think that holds true for many other companies.
+
+
+[00:18:20] AN: These got a lot of PHP?
+
+
+[00:18:22] SL: Exactly.
+
+
+[00:18:23] SM: I'm also curious, as Elixir devs, we've heard the naysayers, you know, say, the naysays. And I'm going to toss out a couple of phrases, some things I've heard maybe on this podcast this season, but also just in the wild, just a few. And then I want some people to jump in on a phrase that they might feel strongly about. So, one of them is, “Yes, we really liked Elixir. We built everything out in production, but only three people here know it. And I'm just afraid that we're not going to be able to support it in a production environment — or in production issues. So, we're going to move back to our old legacy language.” That's one. Two is, “We couldn't possibly hire an Elixir, too niche of a language. We can't find developers in that area.” And three, “I've really never heard of this language. I don't really know about it. The support for it, I don't know what it's like in production. I don't really feel very comfortable looking into this for production development kind of experience.”
+
+
+So, if there's anything that stands out to anyone, please jump in.
+
+
+[00:19:28] RF: So, I would like to jump in on the first one because it's, in my mind, the easiest. The easiest one to both understand, and then maybe counter, because, naturally, if you have a system that works, there has to be a lot of persuasion to change that. So, if you have a team of say, 60 developers that are work in Python, and then you say, “Okay, but there's just this small squad of three developers who build out this tool, maybe even in their free time to show off a prototype, but we can't bet the company on it.” Then that's actually not that unreasonable from a business perspective.
+
+
+But that also ties into showing immediate benefits and producing actual results that helped today. Building out a mission critical system as a very resilient part of the backend. And many of us are now working in microservice environments. Because we've been drinking the microservice Kool-Aid, for I think, 10 years. And Elixir fits in with that in a very great way and you can build a system where people can actually see, “Oh, damn it, like parts of it restarted a dozen times last night, and it didn't go down in flames.”
+
+
+I adopted for my last preservation talk at our company, I adopted such as, talk from Chicago from I think two years ago. And I just showed people how there were lots of processes running and it produced like, I think 10,000 workload results per second, but also a hundred runtime arrows. And the latter part was what got some people who were coming from the node slash JavaScript background, because runtime exceptions are the performance death there.
+
+
+So, I think when people say that they can't jump in full steam ahead, then we have to do a better job of solving their immediate problems today, and identifying the small parts of the system where Elixir can really shine.
+
+
+[00:21:47] AN: I mean, I totally agree with René. I think in the cases where I've seen companies have successfully adopted Elixir, it's been in that exact scenario. I think it probably wouldn't be prudent for a large company, like he was saying, just to switch over. But being able to slice off pieces, slice off a small service, slice off a few people so that the stakes aren't as high to prove that there's value, really helps build adoption. And like PagerDuty, an example I give — all of their microservices are in Elixir these days. But they didn't start right away. A lot of services didn’t start that way.
+
+
+[00:22:18] SM: Sean, I feel like you probably have some thoughts on the hiring pieces too, having grown out of big teams.
+
+
+[00:22:23] SL: Oh, absolutely. Yeah, I mean, just to piggyback on the adoption aspect, I think the best way to approach new languages, because again, in computer science, new languages are coming out all the time. And the paradigm is shifting constantly. And so, the second you write something in language — or flavor of the month, today, it's old next month. So, it's really important to stay up to date with what the community is doing, and where things are going and why people are making these decisions. And then, once you’ve — even if you've had to flush something out in Java, or PHP, at least you've crystallized your business domain around what has happened there. And so, you can take those learnings, and you can take your rudimentary model, and you can refine it in a language that's more suited for whatever particular task you have.
+
+I'm a huge fan of the right tool for the right job. So, I think it's really important to iterate on your ideas and your business as you move forward, as opposed to, limping a Java monolith into 2021. So, yeah, I think that's really important. And then, insofar as building a team for it, I think the best thing you can do now is hire for aptitude, not skill set. I said this last time I was here, but a huge mistake that people fall into, and I routinely try to interview just to keep my ear to the ground on what people are doing and how they're interviewing. And more often than not, a lot of people try to interview me for a language skill set X or some niche thing Y, right? I think that that's a huge problem because especially the more experience you get, as a software engineer, it becomes less applicable to what you've done, or, sorry, exactly what you've done, and kind of how you do it, and what your approaches to solving these problems. Because again, software is always changing, and so, if you're just stuck in doing PHP or Python, in Python 2.7 or something, like you're not staying up to snuff, you're not staying up to date.
+
+
+So, I think it's really important to dig into the type of engineering assets, who are always trying to learn and trying to maintain a humble attitude towards learning. And if you can hire people who love to learn, and if you can hire people who like to stay up to date, it's going to naturally push that envelope in the right direction, technologically, for your company. But you need to fight the urge to rewrite everything all the time. So, that is a double-edged sword. I don't want to say that it's a cure also. But yeah, I think it's really important to hire people based on their aptitude and not their skill set.
+
+
+[00:24:46] JE: Anna is nodding along. You have anything to add to that?
+
+
+[00:24:48] AN: Yeah, I mean, I think I totally agree with that sentiment. I think hiring for aptitude is really important. I think, to Sean’s point, which is just balancing that against the realities of the business. I love Elixir. I love working in Elixir. It depends on what you need, right? If you're looking to scale a team, and you need to hire 200 engineers by the end of the year, that might be hard in Elixir. And depending on how quickly you need to move and train those people. I think Sean's approach is right and if you're in that scenario, and most of the time, hopefully we are in that scenario where we can just hire for aptitude and you can choose the right tool for the right job, but that’s not always the case, right? So, it's hard.
+
+
+But I think if people at your company are excited — if you have at least a couple people who are excited, who have some experience, who can hold the torch, you have somebody moving forward, you can do anything. I mean, again, it's like anything else. It's a learnable skill. So, kind of just depends on where you are. We teach a lot of young people early in their career, none of them are really young, but people who are early in their career and who are always asking me, “Well, am I going to do a boot camp? Do I need an infrastructure job in trying to switch careers? And should I learn Elixir?” It's actually a hard question to answer. I feel like, now I become more comfortable saying there are more jobs. But two or three years ago, I was like, “I love that you're learning this language. But if I'm being honest, and I want you to get your first job as a programmer, it's hard for me to say, learn Elixir because there aren’t so many jobs available.” So, that also looks like a two-sided marketplace, right? Companies are happy and willing to hire for aptitude and not skill, so that people can then go and get those jobs and build the skill.
+
+
+[00:26:17] SM: It's not even just that there maybe are less jobs in Elixir, because I don't even know that that's the case. I feel like —
+
+
+[00:26:22] AN: Well, that was just a few years ago. I feel like it's changed now.
+
+
+[00:26:26] SM: Yes, very true. And even like my job search last summer was pretty terrible, but also 2020. Summer 2020. But also, just in general, like for this use case that you're talking about, you're talking about junior engineers, essentially, looking for jobs in Elixir. And I can't see that I've ever seen a job listing. For me personally, I know they've existed, we've hired, but I've never personally seen an Elixir listing for junior engineers. And I think that's an interesting topic, too. I don't know if anyone has thoughts on that one.
+
+
+[00:26:58] JE: I feel like we heard an anecdote. Sundi, I want to say maybe you were in on this where the person was encouraged to learn Elixir, and it was maybe their second language and it turned out to be a great decision.
+
+
+[00:27:11] SM: I think that was Alexandra. We were talking to Alexandra earlier this season about diversity and Elixir. She mentioned that she was —  so she did a boot camp with Turing of Denver, and could be misquoting, which is going to real bad look for me. But I believe in the boot camp, she learned Ruby. And then also, like Weedmaps —
+
+
+[00:27:32] JE: Melvin, right?
+
+
+[00:27:35] SM: Yeah. Weedmaps came in and did like talks and stuff and then they learned Elixir. I think she said that her husband is also a developer, and that he was like, “Oh, Elixir won't get you your first job.” And then she landed her first job in Elixir.
+
+
+[00:27:48] AN: That's awesome. I love it. I love it.
+
+
+[00:27:52] JE: I mean, the counter argument to the ‘learn and obscure language early on, because no one's hiring you for it,’ is learn an obscure language because it makes you look smarter. I feel like someone comes with SmartLogic and they're like, “Yeah, all I know, is Lisp.” “Oh, you’re hired. We can skip the table interview.” You know what I mean? Just because it's like, what you're talking about Sean, aptitude, like we definitely do hire for aptitude. We don't find a lot of Elixir developers who've got experience, so we hire people that are smart. And I feel like if you're trying to hire 200 Elixir developers to scale team, you can just hire 200 really smart Rails developers, and they’d do a pretty good —
+
+
+[00:28:25] SM: You’ll make their lives better.
+
+
+[00:28:27] JE: You’ve hired 195 really smart Rails developers and SmartLogic, you'll be on your way. Subtle plug there.
+
+
+Moving on. So, I do want to kind of get more specific though, with persuading stakeholders. Do any of you have like an anecdote that you could tell us about actually doing it? And maybe what the experience was like trying to persuade a team to adopt Elixir?
+
+
+[00:28:51] AN: I do actually have an experience. Well, do you want it to be a successful experience?
+
+
+[00:28:57] JE: No, it doesn't have to be. We have no rules here.
+
+
+[00:29:00] AN: I think we were working with a client, who was essentially building — we’re building some tools for automated trading, and helping them build into this automated trading. And in that scenario, we thought, given the speed, given the setup that we needed to get into redundancy, Elixir would have been a good language. But the company was growing pretty quickly and despite the fact that our product owner and the people on the team actually really did see the benefits, the company had kind of, as a whole, adopted core technologies. And there were like some security implications to how they were using those technologies. And so, they were just like, “We can't.” So, even though there were the benefits and the team saw it, there were powers that were — like we were able to persuade them because A, the speed, B, the fault tolerance, those were aspects that really informed the project view. But there were larger powers at play.
+
+
+[00:29:52] JE: You wrestled with powers and principalities. Any other stories or anecdotes? That’s super helpful, because I mean, I think sometimes we want something to happen, and just can’t. It’s beyond us. But any other like experiences or anecdotes that we could touch on?
+
+
+[00:30:08] SL: I've been fortunate enough that most companies that I've worked at, they've already had the decision to move to Elixir, and then it was my job to make it work. So, I've been on the receiving end of that after the fact. I mean, the only other one is, while I was working at Nav, I think they were a polyglot. So, they had a lot of languages everywhere, but they were traditionally Java and Ruby. And I think they started to branch away from Ruby into Elixir, primarily because they had to design this very complex rule engine to satisfy myriad different configurations for like a customer and like a business to configure ways that people can consume credit offers and things like that.
+
+
+But it's so dynamic, that I think it landed itself really well to something that's not as static, because at the same time, they were also growing up their Go side. And Go ended up replacing Java. And then for the most part, I believe Elixir ended up replacing the Ruby side. And so, it's a very interesting migration, you can clearly see like the two, I don't know, the two most contemporary languages that I'm most familiar with, Go and Elixir kind of compete for similar market share. But then kind of diversify into where their niches are most easily used, I guess. And that's kind of the same argument I have, is like, when I write Go, I have a hard time with Middleware, because it's so explicit, and it's really annoying. But with Elixir, Middleware is so nice and there are so many things that are handled for you that I can do a lot in a little amount of time. Whereas with Go, it ends up being a lot more pedantic. It’s how I look and called it.
+
+
+So, yeah, I think it's really interesting to see that migration, and it was a very clear path for the company and they ended up building out that Elixir team further. And that Elixir team is still going strong. So, yeah, it's pretty interesting to watch it migrate from Ruby to Elixir and stay that way.
+
+
+[00:31:53] SM: I'm also curious about another thing, that's just more on the fun side. We're all developers. We usually have friends who are also developers in other languages, and the situations where we're just hanging out chatting, and they're like, “How's work? Oh, you're working in Elixir? How's that?” Everyone, I feel like, has a bragging point, like, “Oh, I didn't have to do this”, or “I was able to do this quickly.” I'm curious what all your bragging points are. I'm always looking for more ammo with my friend.
+
+
+[00:32:19] SL: I'm a huge fan of GraphQL. And again, this is where Go falls apart. At least several years ago, when I was doing GraphQL and Go, it's kind of the same issue. It's so static. It's kind of really difficult to adopt a flexible schema, to your very static structs in Go. And that's why it's so nice to deal with GraphQL and Elixir because everything's a lot easier to massage. And so again, like you can spin up a very complex absent schema, and ship it that same day, and it's just super easy to use. It's well documented, because it's GraphQL. And the front end — you and your front-end team, we don't ever have to talk because we talked through GraphQL — ‘leave me alone’ — and I think that's the strength of Elixir.
+
+
+So, when I talk to people who are using Rust still, which blows my mind. When they're still using and they're suffering through all the pains of individual endpoints here and there, or people who are using GraphQL and more static languages like Go, I get to brag about how easy it is to stand it up in Elixir.
+
+
+[00:33:17] EO: I will hop in with one comment about GraphQL. Just because it ships with auto documentation, it does not mean anyone ever looks at it. So, they will still be talking to you.
+
+
+[00:33:25] SL: No, that's fair.
+
+
+[00:33:27] SM: René, do you have any bragging points?
+
+
+[00:33:28] RF: So, I think my main bragging point with my developer, friends, and colleagues is always peace of mind that I can sleep at night, at least when I'm thinking about my Elixir projects. Not so much with the Ruby and the JavaScript ones.
+
+
+[00:33:43] SM: Very true. I don't miss my PagerDuty thing going off at 3 AM. Anna?
+
+
+[00:33:49] AN: Yeah, I would say probably that.
+
+
+[00:33:51] SM: It's a hard thing to describe, especially like, when I first got into Elixir, I knew I had this peace of mind. I felt it, in my day to day, but I couldn't necessarily explain it as a new Elixir developer, why I felt like I was in a safe space. I just knew it was there and it was stable. So, that's a fun one.
+
+
+[00:34:13] SL: I think that’s the view of something like Elixir is, well Elixir and several more contemporary languages. But really, like, running away from OOP, and object-oriented programming saves you from a whole class of issues that you just don't have to deal with anymore. And you know, coming from Ruby, coming from Java land, I remember how awful it was to debug some of these issues that would crop up.
+
+
+[00:34:35] EO: Callbacks.
+
+
+[00:34:36] SL: Oh, my goodness, yeah. And then, even if something does explode, you don't get a call stack or a stack trace that helps you understand it. You have to somehow replicate it with some mystical incantation. And then at that point, you'll be able to reproduce the error units and ship it. But now it's been a week since it's been annoying you on PagerDuty. Whereas on Elixir, usually pretty much every error is in production, right? I can look at it, I can look at the stack trace, and I can be like, “Oh, that's easy. Go whip up a test for it, solve it, ship it.” It blows my mind. That's such an easy thing to take for granted in Elixir, and then you go back to these other languages and you're like, “Oh man, I just learned abuse in the previous languages. So, that's great.”
+
+
+[00:35:19] RF: That's also some dimension of performance that we haven't talked about yet, like personal performance benefits from Elixir because of its functional style. Because there's just no magic, there's no protected instance variable that gets changed on a life cycle, who can narrow it from an abstract parent cloud, three layers up to the left, in the abstraction hierarchy. You don't have that. It just functions all the way down.
+
+
+[00:35:42] EO: That example came out of you so fluently, René, that that feels like that was the thing that happened.
+
+
+[00:35:47] RF: Way too specific to not be a memory.
+
+
+[00:35:51] JE: So, I want to ask about your first experiences with Elixir in production. And I've briefly touched on this amazing deployment. It's much easier now than it used to be. But I'm curious what it used to be like has changed. And obviously, production isn’t limited just to deployment, but reliability, scalability, maintainability, all these questions, I think relate to running apps in production. What was the first app that you saw in production and what can you tell us about it? René?
+
+
+[00:36:19] RF: So, for me, it was elixirstatus.com, which is a small website I built where people can post their Elixir creations. And that is one of those projects. It's a simple crud app where you create, read, update, delete posts of projects into a database. We talked about Twitter API and sort of RSS feeds, and there's also a newsletter. But I can tell you, for example, Ruby projects, that would not have meant that I wouldn't have run into weird corner cases anyhow. Because, for example, active record callback things. And with ElixirStatus, that was a really mind-blowing experience, although it's just a side project, a niche project. I built it without really knowing Elixir in about a week, I think. Because my then girlfriend, now wife, was going on a vacation and the site — it did not exist. And then she came back and the side with life, and that one was really — it’s just humming away on the same server for like seven years.
+
+
+[00:37:27] JE: So, this is actually a great question, because you actually told us about this on the very first season of Elixir Wizards, which was about Elixir in production. I'm curious, in the, I guess two years or three since we had that episode — is anything have changed at all for you since then, on ElixirStatus?
+
+
+[00:37:42] RF: I did do a rewrite around. I'm not really sure. Three months ago, or something like that, and LiveView, just don't drink that Kool-Aid. I'm a bit late to the party.
+
+
+[00:37:55] JE: I don't think you're late to the LiveView party. But we'll move on. Anna, what about you? What was the first app that you saw in production?
+
+
+[00:38:01] AN: So, actually, it was for a client, a while ago, and it was a pretty small client. And we're doing a pretty simple rewrite. And we weren't actually using a lot of the benefits of Elixir at that time, it was really migrating and making some new updates. Similarly, the client did not have a lot of funds — it’s like an arts related website. And so, there was not a lot of complexity there. But in a similar story that we write, it’s costing the client, and still running pretty stable, and it’s costing the client a lot less money than even like Rails before.
+
+
+[00:38:38] JE: That's a good story. Sean?
+
+
+[00:38:40] SL: Yeah. How have things changed? I guess the biggest, I think the most nasty skills in the closet for Elixir and deploying to production has been umbrella apps, and how big of a nightmare they have been overall. Yeah, so I got my big start in Elixir at a company — and this was a Divvy. We were in umbrella app at the time. The sad fact of umbrella apps is they just weren't really supported by the community super well. So, I had to, like, write custom tooling just to get coverage to report properly on the whole umbrella app. And then it just got worse from there. So, starting at coverage and it just branched out into weird umbrella app issues.
+
+
+[00:39:15] JE: Divvy was the first app that you worked on in production?
+
+
+[00:39:18] SL: Yeah, so it was the one that I was mainly involved with. And right before I was at Nav, I was writing Go, but I was working with our Elixir team. But the Elixir wasn't my problem at the time. But at Divvy, it very much was. And so, I think that's a very interesting evolution. I think everyone's mostly gone away from umbrella apps at this point. I think they're still sort of supported. But yeah, it's just one of those things where you have to be very careful, because I also think, again, the benefits of an umbrella app are so — they're there, but I don't think the fences are well enforced. If umbrella apps actually enforced like code separation, because right now, you can essentially call anything inside of your umbrella as if it was just another module. If it prevented you from doing that, it would put you in a really good place where you have to essentially talk to the forward-facing API for that umbrella.
+
+
+But the issue that we saw at Divvy was people would call out from underneath other umbrella apps and it just led to spaghetti mess. And it was really hard to enforce and really hard to deal with. So, that's a really funny one that's like grown up, it like shipped — and then you should probably not do it, moving into the future, unless you're ready for the custom tooling aspect. But yeah, other than that, I think with mixed releases, deploying Elixir has gotten a lot easier over time. So, it's nice to see progression in that direction. Because, yeah, being able to just build a release locally and ship it, is so nice, or build one on a build server and consume it locally, and know that what you're consuming locally is the same as what you're consuming in production. You don't have any runtime magic going on. It's super nice.
+
+
+[00:40:46] EO: Do all of your developers run Linux or does your production servers run Mac? Because I think that's the only, like, the architecture change, between the two is kind of the big sticking point left, which I don't think we'll ever fix.
+
+
+[00:41:03] SL: Yeah, a good chunk of us actually run Linux and a good chunk of us run OSX. For the most part, we've been able to be free of environment specific issues. I know that there was — the one big one I ran into, and this was probably mostly Postgres and less Elixir, but there was like sorting specific problems that would happen. And it would be like deterministic sorting on a Linux machine versus deterministic sorting in Postgres on an OSX box. And so that was really fun to deal with, because it led to super flaky tests. And so that's something to watch out for from environment to environment is sorting specific in databases. That was super fun. But other than that, really no.
+
+
+[00:41:38] EO: Just to clarify my statement, the built release will only run on the architecture that it was built for. So, if you build it locally on your Mac, which is probably what most people have, you can't run that in Linux production. So, that's the one thing. Also, just because it's bit me once before, if you do have a Linux machine locally, say you have an arc machine and arc likes to upgrade open SSL fairly early and often and your server is Ubuntu, which doesn't like to upgrade. You might not be able to run your release one day because of open SSL version. So, keep that in your back pocket.
+
+
+[00:42:20] AN: Good to know
+
+
+[00:42:21] SM: Words of wisdom from Eric. We've had, I think, everyone here on a previous episode, kind of chatting about what they've done with Elixir. And so, we'd like to check in. How are you using Elixir now? What's up? What's new? Sean, you want to start?
+
+
+[00:42:36] SL: Sure, yeah. So, pretty much exclusively been using Elixir in a FinTech environment. At Divvy, it was for business credit and credit cards and business money management, I guess. It's been so long because — since I've been there. So, it’s wild. And then over at Genesis Block, we're doing, essentially bridging the gap between traditional consumer finance and crypto and helping people get into cryptocurrency and earning really great interest rates that are available.
+
+
+So, it's all FinTech. It's all FinTech all the way down. So, it's really fun to be in Elixir and continuing to do financial tech on Elixir. I don't think that really much has changed other than I've learned a lot of better practices around utilizing behaviors as really good interfaces between services in Elixir. I think that helps to keep your app super neat.
+
+
+[00:43:27] SM: The regular behaviors or behaviors with a U?
+
+
+[00:43:32] SL: Behaviours, yes. Behaviors with the U. Exactly. I think they're super useful. And I've been using mocks and hammocks like no one's business, it's just been insane. The amount of mocking that we're doing. But yeah, so I think really just mocking has increased a lot. And so, tests have gotten a lot better, and tests have gone a lot faster. Yeah, I think that was another thing that I learned in production recently. We had very slow tests that Divvy, and I figured out why over time. And then essentially instituted guard rails to keep us from having slow tests again. Again, I'm talking my everyone's ears off, but I think that’s kind of a weakness in Elixir is a lot of the libraries or things that you'll read on Elixir, they kind of just hand wave, setting everything to async false. Because these people only have a handful of tests. But when you're running a production application with thousands of tests, your test suite ends up being 20 minutes long, because everything's async false.
+
+
+So, you need to start from kind of an async true perspective, if you're going to be writing lots of tests, or you will have a 20-minute test suite very easily. And I think that's something that's easy to fall into in Elixir currently. But that's one of the things I've also learned recently. So, yeah, it's been good. It's been great. Our test suite takes 20 seconds. That's about a thousand tests. So, it's pretty good.
+
+
+[00:44:45] SM: 20 minutes to 20 seconds, not bad.
+
+
+[00:44:49] EO: I'll start off by — that's incredible. Second, one of the benefits of using Elixir is that a “super slow” test suite is 20 minutes and not an hour and a half. But just so far, Rails projects have gotten relatively bad before, mostly due to Cucumber. But, yeah.
+
+
+[00:45:06] SL: Absolutely agree. At Instructure, it was really funny. We essentially had a small team built out and their whole job was essentially to write Jenkins automation to try and optimize price points on AWS containers or AWS EC2 host. Just because of how expensive it was for us to run our test suites and deploy our Rails app. It was cost efficient to have a team to like, really try and squeeze every penny out of buying those easy EC2 instances. So, that was really fun.
+
+
+[00:45:36] EO: I am in a state of shock.
+
+
+[00:45:38] JE: Anna, what are you working on these days that you're allowed to share with us?
+
+
+[00:45:43] AN: My current project, I actually can't really talk about, but it's not in Elixir. So, it doesn't matter. Actually, not for a little while. So, the only real work I'm doing in Elixir these days is mostly we kind of stopped — like Elixir stopped during the pandemic. Both of us got really busy and we just stopped. But we have spent, we’re recently starting to like revive it, which is requiring quite a bit to revive it. It's been a while. So, we’re revamping the entire —
+
+
+[00:46:04] JE: — You say both of us. Who is the other person?
+
+
+[00:46:06] AN: So, the person I’m doing it with is Matt Mills. He’s a friend of mine who started Elixir Bridge with me. And so, we recently talked about — and starting to think about revamping, which is a requirement in the language and ecosystem have changed quite a bit.
+
+
+[00:46:20] SM: Do you need some help with Elixir Bridge? Is this a good place to plug for volunteers to kind of contribute? Or is it just something you've got to work out on your own first?
+
+
+[00:46:30] AN: Totally? I mean, I think soon we will. I don't think we will need help soon. Maybe not quite yet. But yeah, at some point, we will probably need help just anybody who's written anything like that, knows the amount of opportunities.
+
+
+[00:46:43] JE: I'll say what I was going to ask for the next question, actually, because I want to hear from René what he's working on these days.
+
+
+[00:46:49] RF: So, in my day job, we're using Elixir and a couple of internal systems that relate to the administrative tasks of the company. And last year, we built a prototype of something that might become a value-added service on one of our products as a future, which I can't talk about here. In open source and Credo land, I also experienced the amazing test fastness of Elixir with async tests. Because the full Credo test suite, which actually does end-to-end integration tests that runs all commands, which includes even setting up a Git repo, and then doing the new mix Credo diff thing takes about 20 to 24 seconds. Which led me to mix alias test fast to exclude those checks, because 20 seconds is way too long for tests in Elixir land.
+
+
+[00:47:44] JE: René, could you touch a little bit on how Credo might be useful to either new Elixir developers or teams that are trying to train new Elixir developers or just Elixir adaption in general?
+
+
+[00:47:56] RF: So, I think the the main selling point of Credo has always been that Credo tries to be a mentor rather than a supervisor who tells you how to do it and that you should do it. Or yells at you if you don't do it, but rather tries to explain its reasoning and give you a choice to make an informed decision. And from the feedback I'm getting, this has been, let's say, to not be corrected later, wildly successful — definitely not a niche project. And people had great success onboarding new developers. And I think the next frontier for Credo will be to enhance the experience of introducing Credo to existing projects. Because we have now, like, Sean pointed out, we actually have legacy Elixir projects today.
+
+
+And if I wanted to introduce Credo to one of those, I think I could need a bit more help. And would want to do something like come on Credo, let's just move forward from this point in time or from this comet. And just tell me what's been getting worse since then. Because everybody who's been active in Ruby and Rails knows when they tried to introduce RuboCop to a legacy code base, and you get these 1,800 RuboCop warnings and then you're simply left with a decision to just stop using RuboCop or edit an 800-line config file.
+
+
+[00:49:27] SL: Yeah, I got to jump in here, because René has saved me so much time. And I mean, all the organizations have spent so much time on bike shedding and silly discussions on style or how we should do X or how we should do Y. It's just so nice to have it enforced in Credo. We have a really, really strict Credo conflict. In fact, I was hunting around in current master Credo, I was like, “What new strictness do you guys have? I want to — I want to pull it in.” And the guy actually ended up adding some more. So, it has saved so much time and so much effort and it really helps to educate newer developers who are coming into it, who may have that aptitude but they don't have a skill set yet to understand what, and try to get a feel for what good Elixir looks like, and again, it saves so much time. When Credo fails them on their on their CI pipeline — and they can go and they can iterate, and they can see very easily what to change. It is amazing, and it's a really great user experience. So, thank you.
+
+
+[00:50:20] JE: I wish the audience could see the look of fatherly pride on René’s face right now. Really, really priceless gold. The next question is specifically for Anna, because I want to know about how to make Elixir accessible to entry level programmers. So, either people who are trying to teach themselves how to program or maybe right out of college. And so, they've got a lot of adjacent knowledge but aren't really productive yet. How do we make Elixir adoptable by non-programmers and, specifically, you mentioned on Elixir Bridge, helping people get spun up on their machines and deployment and getting things deployed? So, if you could just kind of touch on how you've handled that in the past?
+
+
+[00:50:59] AN: Yeah, I mean, what do you mean by non-programmers? People like learning to program?
+
+
+[00:51:03] JE: Yeah, I'm imagining the person that's prepping for a boot camp, or maybe slightly ahead of that would be the person that just graduated with a CS degree.
+
+
+[00:51:13] AN: Right. Especially to the folks that are just new to programming. I mean, I think we've tried. I can't say that we've always been successful, but to their credit, Rails Bridge, which is what Elixir Bridge is modeled after. And did a really good job, very much step by step tutorials. And explaining the things that seem, especially if you’ve been programming for not even very long, seem intuitive, right? I think the hard part with writing this curriculum is making sure that you explain all the pieces that might seem like a given — so that people can — We've tried to make them accessible in a way of making sure people could follow them on their own, like not having to control workshop, not having to have somebody explain them. But really having them be step by step enough. So, that we are essentially trying our best to write out exactly what is happening, to give them like an understanding — not just, “Do these things.” But understanding of what’s happening. And trying to provide as many real world — instead of outdated analogies of what they can compare it to.
+
+
+This is why in personal trips are easier so when you have a conversation, you can provide an analogy, that somebody can relate to, based on their current understanding of context. And their experience that usually helps them relate and understand the concept. It's harder when it's in writing. But that's kind of what we've tried to do.
+
+
+[00:52:25] JE: I had a quote from somebody on the difference between learning by analogy and learning from first principles, but I don't remember. Do you have a specific example in mind when you talk about some of these kind of stumbling blocks that people have, getting spun up on Elixir?
+
+
+[00:52:39] AN: I think, like, a big stumbling block that really early on, like pattern matching, which seems right and intuitive, right? Was a big stumbling block, mostly because it's not exactly the same thing as assignment. So, if you're coming from a different language like Ruby, or like, “I'm just assigning variable memory.” So, shifting that constraint a little bit to exactly what's happening, and having them understand, explaining like — when I say analogy, it's not just learning by analogy. It's actually understanding what's happening underneath. So, trying to combine those concepts. “How was the number being allocated? What's happening? And this is kind of what you can think about it as, so you have a better way of grasping them.”
+
+
+[00:53:19] JE: I'm getting notes from Eric right now. I don't know if he wants me to. But he's talking about — and this is, I think, true for myself personally, which was early on learning. The terminal is a huge stumbling block.
+
+
+[00:53:30] EO: My wife, she was starting to look at doing kind of a Rails journey and she did Rails Bridge, and like, the biggest thing that she got out of that, I think, she'd done like the various different programming Rails books. But, like, until she went to the course and had someone kind of walk her through it, just the terminal, there's so much stuff that I don't know, to tell her or like, whatever. Where it's just like, “I don't know, just do it.” She’s like, “Well, what's wrong?”
+
+
+[00:54:03] AN: Yeah, I mean, and that's the stuff to explain that you take for granted, like even the terminal. How do you open it? What does it do? Why is it there? What are some of these commands? What are some of these unit commands, right?
+
+
+[00:54:12] JE: What is the difference between Z shell and bash and the terminal?
+
+
+[00:54:15] SM: The terminal looks so scary to people who've never seen it before, especially for people who mostly just watch movies where hacking is like a dramatic thing with a bunch of, like, crazy music. And it's just always a really interesting time to show somebody terminal for the first time, when it's really, you're just running your test suite.
+
+
+[00:54:35] AN: But an interesting thing about that though, it's so day to day for us is it's just a tool that we use. But for folks that are just starting out, just empowering them to even be able to do a few things, get some of the people who maybe don't feel confident that they would even be able to learn programming or are super very intimidated by it. It can be a strangely like a super empowering moment, down in the workshops. So, to Eric’s point.
+
+
+[00:54:58] EO: Yeah, we just all have to remember that the NCIS scene where it’s two people, one keyboard.
+
+
+[00:55:04] AN: Always, two people, one keyboard. I think we referenced that, Go versus Elixir topic on point and it’s so funny.
+
+
+[00:55:13] JE: Sean, do you have anything to add on this question of helping, like brand new programmers learn? Specifically, how do you learn to program with Elixir?
+
+
+[00:55:23] SL: Absolutely, I think the best you can do and something that's so easily overlooked, especially for impatient people like myself is it's easy to jump onto their keyboard and start doing it for them. But honestly, the discipline of watching them attempt and then iterating through their attempt is really how you submit this knowledge for people. Doing it for them is not going to help them learn. Very few people are quick enough or even understand what a terminal wizard is doing to sit there and pick up whatever the heck magic you're waving in VM. And on your terminal and all that fancy stuff.
+
+
+So, I think the discipline is sitting down as an experienced engineer with someone who's less experienced, and just trying to get them to do what you would do with your hands with their hands. And being very empathetic to their learning process and their journey there. And trying to explain everything as excruciatingly, like, simple as possible in whatever terms that they understand. I think that's the best thing you can do for new people on any language — and especially on Elixir.
+
+
+[00:56:19] JE: So, René, I want to ask you kind of a similar question. You already touched on how Credo can be helpful to an emerging developer. But I'm curious just from your personal experience, learning Elixir, developing on Credo, and specifically, Sean was talking a little bit about training new folks. I want to know about, like, resources for autodidacts. What are we missing in the community for those people?
+
+
+[00:56:43] RF: I'm not really sure that we're missing all that much. So, the question is always, if we want to talk about training novice programmers who don't have all those concepts of object-oriented programming in their head, like the base class is an animal, but that's an abstract class. And then we have a dog and a cat and all that, quite frankly, nonsense. But if you have people who are not tarnished by this notion, and who just can accept that every computer program is data in, and transform, and data out. I'm not sure that Elixir is that hard to adopt in comparison to Ruby or Python. And on the other hand, the terminal is really a scary tool, even for people who have been programmers for 10 years, in some cases. If you're used to an IDE that does everything for you. The terminal is this thing, where you know those three Git commands and that's it.
+
+
+[00:57:42] SM: Great. We do want to wrap up here, and we actually have a fun question, not Elixir related, for all three of you. If you weren't a programmer, what would you be? Let’s start with Anna? She has the most confused face on.
+
+
+[00:57:57] AN: Well, let’s think of this. I almost went to medical school. When people say they go to medical school, they're like, “Oh, I almost went.” I literally almost went. And so —
+
+
+[00:58:05] SM: You got in and you find out you were about to go and then like before you go on your bus.
+
+
+[00:58:09] AN: Yeah, I was about to go and interested to go for reasons, but probably something related to healthcare. It's something I still care about. Healthcare and tech is something I'm super interested in. It's just hard for us to get things done. Do something like that.
+
+
+[00:58:25] SM: René?
+
+
+[00:58:25] RF: Do you mean a job outside of IT or what other job in IT I would have if I weren't a programmer?
+
+
+[00:58:33] SM: If you weren't hands on the keyboard programming, what was another life path you could have taken? Could still be in IT, but you know, a vastly different something, the butterfly effect, it changed, you diverted. Where did you end up?
+
+
+[00:58:49] RF: I think I wouldn't be a professor at some kind of small college somewhere. I actually thought about doing that and then I took another life path.
+
+
+[00:59:00] SM: I can definitely see that. And also, I think it would be fun to take a class from you. Like if you were to do training at a conference, I'd probably sign up. If that worked with this schedule, I can definitely see that.
+
+
+[00:59:13] RF: Thank you.
+
+
+[00:59:14] JE: What would you be if you weren't a programmer?
+
+
+[00:59:14] SL: I think I'd be some sort of like industrial engineer nerd. That’s what I do in my free time. I play games like Factorio and Dyson Sphere Program and all those. I like to organize things for fun, crazy sort of person stuff. So, that's what I would be. So, yeah, if I wasn't programming, I'd be doing something like that.
+
+
+[00:59:35] JE: Anna, since you’ve gotta, before you leave, do you have any final plugs or asks for the audience wherever they can find you, et cetera.
+
+
+[00:59:44] AN: At some point, in the next month or so, we’ll probably ask some GitHub related stuff around the Elixir Bridge curriculum. If they are interested to know. But that's all I got. This was super fun. Thanks for having me.
+
+
+[00:59:56] JE: Thanks for coming on, Anna. René, what about you? Plugs?
+
+
+[00:59:59] RF: Only the usual Credo benefits from our contribution. It gets — just have a look at the current list of issues, submit a proposal for new feature on the proposal repo, and watch out for Credo 1.6, which should probably drop in April.
+
+
+[01:00:17] SM: Any plugs, Sean?
+
+
+[01:00:19] SL: Oh, yeah. I'm working in a Genesis Block right now. It's great, because it's all Elixir on the back end. So, if you're interested, hit me up on LinkedIn. Or you can also apply through genesisblock.com. So, yeah, let me know. It's a great company to work for. We're very inclusive and diverse. I think we have almost half of our engineers are women, which is pretty crazy. Especially for Utah. So, it's a low bar, but in Utah, it's even a lower bar. But yeah, if you're interested, hit me up on LinkedIn. Just let me know that you're coming from the Elixir Wizards podcast and yeah, let's chat. But we're always hiring and it's a really great place to work and it's in Elixir, so what's not to like?
+
+
+[01:00:55] JE: Cool. That's it for this episode. This Season Five finale of Elixir Wizards. Thank you again to our guests, Anna Neyzberg, Sean Lewis, and René Föhring. My co-hosts, Sundi Myint, and my producer, Eric Oestrich. Once again, I am Justus Eapen.
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects building web apps in Elixir, Rails and React infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project, we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. You can also find us on Instagram and Twitter and Facebook, so add us on all of those. Join us again next time on Elixir Wizards for Season Six of Elixir Wizards.
+
+
+[END]
+
+
+        © 2021 Elixir Wizards

@@ -1,0 +1,478 @@
+EW S5E10                Transcript
+
+
+EPISODE S5E10
+
+
+[INTRODUCTION]
+
+
+[00:00:00] JE: Hold it right there. Before we get into today's show, I have a quick announcement for you, here at SmartLogic we are currently hiring. Specifically, we're looking for a Senior Software Project Manager. A Project Manager should be someone with expertise in Agile Project Management, and they should have a track record of delivering projects on time and on budget to satisfied clients. If this sounds like you or someone that you know, we'd love to hear from you. Head on over to smartlogic.io/jobs to learn more and apply. Okay, now back to the show.
+
+
+[EPISODE]
+
+
+[00:00:07] JE: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Justus Eapen and I’ll be your host. I’m joined by my superhuman co-host and acting producer, Sundi Myint. How are you Sundi?
+
+
+[00:00:59] SM: I am good. How are you Justus?
+
+
+[00:01:01] JE: I'm doing delightful. Thank you for asking. This season's theme is adopting elixir and today we're joined by special guest, Alexandra Chakeres. How are you doing, Alexandra?
+
+
+[00:01:11] AC: I'm doing great.
+
+
+[00:01:12] JE: Thank you so much for coming on the show. Sundi, you bumped into Alexandra somewhere on the internet. Can you just kind of tell us how this all came to be?
+
+
+[00:01:20] SM: Yeah, it was summer of 2020. It was actually, ElixirConf, right? Elixir comp just happened or it was in the middle of happening. Brian Cardarella had just given his talk about his ElixirConf community survey results. And we got that mind-blowing statistic of 2% of Elixirists are women. And we kind of took a look at that and then either a few folks, or it was you, Alexandra, who opened up that channel for women in diversity and Elixir. And because you were involved or took initiative, I was like, “I want to talk to that person. That person cares about this.” So, please tell us about that.
+
+
+[00:02:01] AC: Yeah, that was pretty much exactly what happened. When I see something like that, I really like the women's community that we have from the boot camp that I went to — Turing School is like my favorite Slack channel on there, is our private women and diverse genders channel on there. So, I was thinking if there's only a few hundred of us or something in the Elixir community that we got to figure out how to band together and have a good place to get it all out. And just yeah, network and all that.
+
+
+[00:02:32] SM: Yeah, absolutely. This is probably something that we've seen in the tech community a lot. And we'll probably get to it, or we were definitely going to get to it in a little bit. But just curious about your personal path to programming and your background. Maybe you can sprinkle in other times you've seen that. And you know, you mentioned Turing, so that's a great place to start to.
+
+
+[00:02:53] AC: Yeah, so I guess the first time I did any programming was for an embarrassing middle-school Angelfire page that I made about me and my friends that may or may not still exist on the internet. But yeah, aside from that, I was a chemical engineer for about 10 years. So, I did MATLAB, like fancy math stuff in college and grad school, and did a lot of VBA and for Excel, again, doing crazy math stuff. I was a chemical process engineer, so we would simulate different processes and use macros and whatever to automate, like running a bunch of different scenarios of things that wasn't something that the software could like inherently do. 
+
+
+So, yeah, solving those kinds of tough problems that everybody in the group struggled with was something that really, I liked about programming. I think what I didn't like about chemical engineering was I studied it to work on renewable energy, and very quickly got pigeonholed into oil and gas. So, after six years of trying to get out of there, I decided to do a software boot camp and have a lot more flexibility in industry and location and all of that. So, yeah, that's how I decided to go to Turing school in 2019.
+
+
+[00:04:16] JE: And, you know, our good friend Melvin Cedeno from Turing?
+
+
+[00:04:19] AC: Absolutely. Yup.
+
+
+[00:04:20] JE: How do you know Melvin? Tell us a story about Melvin.
+
+
+[00:04:25] AC: Well, so Melvin definitely had a hand in me getting into Elixir. He was really into it before I had graduated even. I think he was maybe a few months before me. And Weedmaps had come into Turing to do like a talk a little bit about Elixir, a little bit about themselves. They were going to do an Elixir workshop for beginners. And my husband's a software developer and when he heard about that, he was like, “Why are they teaching you guys this Elixir thing? I've never heard of this. They're wasting your time.” And then, of course, a few months later, I got a job offer for a company that has Elixir services.
+
+
+[00:05:05] JE: What was the “I told you so” moment? Was there an “I told you so” moment that you can share? He won't listen to the show. He's probably salty Elixir.
+
+
+[00:05:11] AC: No, he’s not salty. I just happened to get a job using Elixir. And then, like, a week after that, Melvin was hosting with Weedmaps guys in Denver, another workshop for Elixir for Turing students. So, yeah, that was my first exposure was reading tiny bit of the docs and then making some kind of little, like, URL shortener app in Phoenix.
+
+
+[00:05:39] SM: That's amazing. And we know that Melvin's really passionate about intro to Elixir, that was his whole ElixirConf talk. So, shout out to Melvin, for really being passionate about that. When you were first getting started in the program at Turing, what was exciting to you about it? You'd come from a different industry, and you were moving into software, what made you passionate about it?
+
+
+[00:05:58] AC: Turing in particular, I really liked that they are a nonprofit, that they have, like, a really strong social justice mission. And the thing that really drew them to me in the first place was, when I was looking at different boot camps, particularly in Denver, it seemed like they were the hardest and I always want a challenge. So, I really liked her for that. I really liked that they have either a front-end or back-end program versus being full stack. Front-end doesn't interest me that much. And I like that it was kind of sold as like, getting really in-depth on to one thing versus being like jack of all trades, master of none.
+
+
+[00:06:42] SM: Yeah, I always wonder about that. I mean, I've taken a bootcamp class myself, and I think it was full-stack. I don't think that's what the name was. But I was wondering for, like, somebody who doesn't know anything about the industry, if they looked at front-end and back-end, how would they even make that decision? I'm sure the description was — something in the description of that class must have enticed you more than the front-end one, right?
+
+
+[00:07:03] AC: Yeah, I think that I'm just very — with that engineering background, I'm very into problem solving, logic stuff. And I know that there's a ton of that on the front-end as well. But I'm not a very good design-oriented person either. So, yeah, back end definitely drew me in more.
+
+
+[00:07:24] JE: When you were first getting started with, I want to say Elixir, specifically. But I'm also curious about just programming in general, since you have that sort of nontraditional background. What were some of the extracurricular resources outside of Turing that you remember as being especially helpful?
+
+
+[00:07:40] AC: So, I'm somebody that really likes to learn by doing, so I haven't been somebody that's leaned on a lot of courses or books or that kind of thing. When I first started Elixir, I did a few of the exorcism stuff. But really, like, I just kind of jumped into it at work, like, yeah, just kind of learning by example of what we already had in our microservices. And kind of building on that. I think like going to meetups and learning little tidbits there has been hugely helpful too.
+
+
+[00:08:13] SM: Have you been going to a lot of meetups during the kind of 2020 shutdown, is what I'm calling it?
+
+
+[00:08:20] AC: Yeah. I tried to go to the Denver Elixir Meetup every month. I just became an organizer, but I haven't really done anything for it yet.
+
+
+[00:08:28] SM: It's a lot of work. I'm running the DC Elixir one. And I'm like, trying to take some feedback we got from last year and apply it to this year, and I have so many ambitions. But time, time is always the obstacle there. So, I wish you luck with that.
+
+
+[00:08:42] JE: Well, I wanted to hear about this first job that you got, that gave you the opportunity to use Elixir and like what was the process like for you getting the job and sort of assimilating into a completely new professional environment?
+
+
+[00:08:55] AC: Yeah, so my first job was at Dispatch Health. And they have Ruby on Rails, Monolith, which was kind of their original application. And then, over the last couple years, they've been building all of their microservices, whenever they have like a big new chunk of functionality that they can abstract away, they've been doing that in Phoenix. So, it was a really good intro for me because Ruby on Rails is what I had already learned in school. So, I was able to kind of like weave one into the other, get a nice onramp of the things that I was already familiar with. Build on that. And yeah, kind of have those examples of what they had already built and just get off the bat.
+
+
+It was kind of interesting, though, seeing the Phoenix apps built by people that were used to Rails and I'm sure this is a very common transition. But yeah, it felt like we were kind of trying to make Phoenix and Elixir more like Ruby on Rails. We were using Gen servers for a lot of things that probably shouldn't have. Just trying to force things to kind of act like an object, if that makes sense.
+
+
+[00:10:05] SM: I don't think I've seen that myself. But I'm really curious now. Justus, have you seen that?
+
+
+[00:10:11] JE: Yeah, it's not, I wouldn't say a super common refrain, but it's definitely something that has come up before. Especially early on, I think before, like, 1.3 or something. One of the early Phoenix versions had a directory structure that I think it was an MVC directory structure that kind of looked a lot like Rails. So, I want to say this came up on a recent episode.
+
+
+Anyway, I was also curious, just about like, you're interviewing for the first time. What were your initial impressions of — most people have like this sort of a reaction to tech interview processes and I'm curious what yours was that first time around?
+
+
+[00:10:46] AC: I feel like I cheated the first time, because I had done a project in school, at Turing, for their demo competition that they have every couple of months. And we got, like, second place in that competition. And my husband, who's also a developer posted about that on LinkedIn. And one of his old coworkers saw that and was like, “Oh, we’re hiring.” So, I pretty much got an interview through that and took the first offer that they got. 
+
+
+[00:11:16] SM: That is not called cheating. We call that networking.
+
+
+[00:11:19] JE:  Yeah, that’s exactly how it’s done. My first job in tech, like, I just showed up at a guy's house every day for like a month and worked for free until he was like, “Alright, fine. Here's a pittance, just stay.” That's super cool.
+
+
+Well, so you were learning Elixir, that first job, but then you've moved on, I think. And so, where are you now? And how are you using Elixir at your current role?
+
+
+[00:11:39] AC: Yeah, so pretty soon after the lockdown stuff all started, I started up at Blinker. And yeah, kind of mid-level engineer there now. I guess as a kind of a background, Blinker, is — we help with user-to-user auto sales. Right now, mostly on Autotrader. So, we're kind of taking over their part of their site where they do user to user auto sales versus like, they don't really have a dealership on either end of it. But yeah, it's way more secure than Craigslist, or that kind of thing, helps with financing and that kind of thing too.
+
+
+[00:12:17] SM: Can you talk about how Elixir is helping you build that stack in a way that leverages Elixir resources? Or, you know, why did you guys choose Elixir, I guess?
+
+
+[00:12:27] AC: Yeah. So, I asked today so that I knew the history a little bit was that they had been using Elixir a little bit for several years, probably like three or four years, starting out, not really client-facing stuff. But about a year ago, I think they started building the application that we're working in now. We have an Elixir umbrella app that they started fresh last March or something like that when they kind of shifted gears in the business. So, yeah, our main back-end is an Elixir monorepo. That's been working out really well with us. I really like the way that we've been able to design that.
+
+
+[00:13:07] JE: So, you said it is currently a number lap or it was like the first? Could you just go through that again?
+
+
+[00:13:14] AC: Yeah, so originally, they had done some like little small projects in Elixir. But now, like, since last March, when they started building the repo, we went live with this product with Autotrader in November. Our entire back-end, except for a couple little microservices that we have in Rust is an Elixir monorepo.
+
+
+[00:13:38] JE: Okay, so it is a number lap currently?
+
+
+[00:13:40] AC: Yeah.
+
+
+[00:13:40] JE: Okay, this is definitely a digression from the script. Because umbrella apps come up occasionally on the show. And usually the opinions are very like, “No, it's not a good idea to use an umbrella.” And so, now I'm really curious, like what your experience has been like, what's your take on using or not using an umbrella app with your projects?
+
+
+[00:13:59] AC: All of the non-umbrella apps that I used at my previous job were pretty small pieces of functionality that didn't feel like they needed that. But yeah, the experience that I've had so far at Blinker with our umbrella app has been really good. I mean, we have separate apps for — we have like a web app and core app that has all of our business logic and persistence that does have all the communication with the database and one for like, external API's and some other stuff.
+
+
+But yeah, I don't know. It's worked out really well for us. It was definitely some growing pains initially with how we had things set up versus, like, we definitely had to do a lot of refactoring to get it how we wanted it. But now it's pretty simple to add on to. So, that's really great.
+
+
+[00:14:47] SM: It kind of sounds like the way a lot of people use microservices, but you get the benefit of that within a monorepo. Does that sound about right?
+
+
+[00:14:56] AC: Yeah, it's really nice that you can just reference a function in another app without making an HTTP call.
+
+
+[00:15:04] JE: Okay, so the growing pains that you had moving into the style of architecture were from the — you were taking these micro-services and moving them into an umbrella app?
+
+
+[00:15:15] AC:  No. Not necessarily. We basically built this entire app from scratch.
+
+
+[00:15:21] JE: Okay, so when you talk about those early refactoring hurdles, what did you learn from that process that might be useful to someone who's listening who might be considering using an umbrella app for whatever production problem that they're trying to solve?
+
+
+[00:15:35] AC: I guess one of the hardest problems that we had with it was like, kind of establishing a lingua franca between the apps, if that makes sense. We ended up making an entire app that we called entities for, like, this is kind of the shape of data that the web layer knows about, that business logic layer knows about. So that we could kind of pass those around, those struts around as like a common expected data structure.
+
+
+[00:16:06] JE: Is that pattern working for you?
+
+
+[00:16:09] AC: Yeah, it's worked pretty well. There's like a couple of weird things around, like, factories for inserting things, kind of what level do you put some of the logic at? I don't know.
+
+
+[00:16:22] JE: I feel like this is a problem that so many people are going to run into. I mean, right now, I'm working with a buddy on a side project. And so much of the questions that we run into are, like, “How do we structure a thing with a complete blue ocean of possibilities?” So, I think it's probably going to be really helpful to somebody to hear.
+
+
+[00:16:37] SM: I actually get really intimidated by blue ocean. I'd rather be there, like, something to follow. I rather know where things are, and then I can have an idea in my head. So, you know, hats off to you for that.
+
+
+[00:16:49] JE: Well, that's how Rails became such a successful phenomenon was convention over configuration, right? And I think it might be what, you know, I always like to ask people, and please tell me what your thoughts are on this, but like, what is the Elixir ecosystem kind of missing? And this, I think, will lead into the adoption question, right? Like, what are we missing to make it more accessible to people, especially kind of newer developers who are just getting started?
+
+
+[00:17:12] AC: I think the thing that I missed the most out of Rails is active record, like, just being able to very easily get to all of this associations, and everything for a particular record was really nice. That I miss when I have to write things much more like query-oriented in Ecto. Yeah, I don't know. The Elixir is more customizable. I mean, I guess in Rails, you can do customizations for that kind of stuff. But by default, it kind of leads you into that structure that ends up getting really unwieldy in the long-term. And just that whole thing of like making one little change, cascading and down into a million different places, and just makes it feel really brittle, having like a really big Rails app, which I think is a common problem.
+
+
+[00:18:03] SM: A similar question, but on the non-technical side, what do you think the Elixir ecosystem as a community is missing, maybe for helping people adopt into Elixir, or just, I don't know, feel confident in asking questions, places?
+
+
+[00:18:18] AC: I think that the community has been really good. One person that I talked to about this said, “We're such a small community that we're always super excited when somebody new is at the meetup.” I feel like it is very welcoming and we have the Slack group and Elixir forum and that kind of thing. I think that all of that is really positive. There's definitely a lot of different courses. And I did a little bit of research on, like, which kind of free courses online and free books and that kind of thing that there are and it seems like pretty solid.
+
+
+[00:18:52] SM: Have you ever tried to let a friend know or maybe, like, another colleague from Turing, “Hey, you should check out Elixir. It's like really cool.” Do you ever hear pushback or anything? I know, I've seen it with my friends in the dev community sometimes. So, I'm just curious what your experience has been with that.
+
+
+[00:19:11] AC: I haven't really heard pushbacks against Elixir itself. I do kind of have the opinion, and have heard this from other people as well. As far as, I'm not sure that I want to encourage, try and get their first job in Elixir, just because the community is so small that it's hard to tell somebody when the first job is obviously your hardest one to get ever to go pigeonhole yourself into this tiny little community. But it doesn't always do a ton of hiring of juniors.
+
+
+So, yeah, I don't know. I've been kind of hesitant to push people to get really into it further before they have some experience under their belt. I think it does, it's great for, like, learning those functional paradigms. It’s awesome. I think I would write much better object-oriented code now than I did before I learned Elixir.
+
+
+[00:20:08] SM: It's interesting. We talked about this a little bit on the season as well about Elixir communities, kind of — not hesitance towards hiring juniors but just the fact that they kind of haven't. I don’t know how to address this, but we've had a few conversations about like, we've been trying to get to the crux of the issue, which seems, I don't know, maybe this is just like me recapping, like a midseason recap. But I'm thinking about how a lot of people are, like they're smaller companies, and they say, “We need to ramp up quickly. So, we need a mid-level engineer to be a little jump on really fast.” And I know I've mentioned before that when I was job searching last summer, I actually only saw senior roles. You could tell these recruiters weren't as knowledgeable. They'd be like, “Yeah, you need to know Elixir for 10 years.” And I'm like, “It's not 10 years old yet.”
+
+
+I think as of today, the 10-year anniversary was like two days ago or something. I think I saw that this morning. I think José posted something on January, today's the 14th. I think it was on the 11th. It was a blog post about “Happy 10-year birthday.”
+
+
+[00:21:10] JE: Yeah, that question of how to grow sort of the entry-level side of the community is an ongoing question. SmartLogic is the organization behind this podcast, and they do a terrific, terrific job of that, in particular. Meaning they go out of their way to hire people who are a little bit more junior and train them up. And we've had apprenticeship programs, that kind of thing. So, it's definitely a major concern for SmartLogic and it's also really hard, especially in the remote world, to bring people up in that way. And there's not really a ton of, from a profit motive, you don't have a lot of incentive to do that. Which is why they don't do it so much at a — it’s not like Facebook or whatever is hiring boot camp grads to level them up, unless they're really smart already, or have some kind of Ivy League background, right?
+
+
+[00:21:55] AC: Yeah, it's really hard, because I feel like a lot of the diversity problem in tech, if we're only ever hiring people that are already in the tech community, we're never going to change those demographics and that kind of thing, too. So, it's like, I don't know, it's a hard question.
+
+
+[00:22:11] SM: So, do you think one of the core entry points of the diversity problem that we'd have to tackle is with the hiring juniors? Do you think that's like a big part of it?
+
+
+[00:22:20] AC: I think so. Yeah, I think that hiring in general, I did a little bit of poking through some of those Elixir system survey results. And like, all of the women and non-binary respondents, the majority learn Elixir, because it was at their job. Most people were coming into Elixir because of a job opportunity, not because of like some blog poster side-project or whatever. So, yeah, I think, like, within Elixir, and just in general, and check that out, we can't change anything, unless we actually change something.
+
+
+[00:22:59] JE: There is this question of, like, whether or not the objectives are kind of at odds, right? Is it coherent for someone who's just getting into — you were saying, you wouldn't recommend them necessarily to pursue Elixir, because it'd be harder for them in order to acquire a job. And then I think about the people that go toward, that gravitate towards Elixir, who are concerned with issues of functional programming or scalability, things like that, that you would only be concerned with if you were already a developer or an entrepreneurial type of thinking person. So, yeah, these are really challenging questions. I think that probably we want to talk a little bit more about that survey, because that's what brought us here today. And also, like, specifically around diversity inclusion. How do you — I have this question as to whether — we talk about diversity and inclusion. It seems it must be diversity of something. And so, something that it’s of would, I think, maybe affect how you want to gain progress in that dimension. 
+
+
+So, I'm curious if you have any thoughts on that, if that makes sense. Does that question make sense? Right, like if it’s diversity of sex, there's probably different approaches to solving that problem than diversity of race or diversity of anything. 
+
+
+[00:24:04] AC: I'm not sure I have a good answer to that. But yeah, I mean, I think it does depend on kind of what you're targeting, because I think one of the main ways that companies can go about hiring more diverse folks is to — obviously, you can't be like, “We are only hiring women,” or whatever. Like, “We don't want you if you're white,” or whatever. It's much more effective and legal, obviously, to go after hiring out of, like, a historically black college or university. Or like putting on a workshop for Society of Women Engineers or National Society of Black Engineers or that kind of thing.
+
+
+[00:24:47] SM: Yeah, and there's some newsletters too. I know, at least in the D.C. area, we have a DMV based newsletter called Diversified Tech, where a lot of people can post their job posting to that if they're — well, I guess, to bring it back to the beginning, a lot of it is pipeline, right? The pipeline of candidates coming in are not, there may be like one kind of person, one demographic from one school. That was maybe an Ivy League, they're all from Stanford. They're all from Carnegie Mellon, right?
+
+
+So, that pipeline is kind of important. So, having those kinds of diverse newsletters is helpful. You mentioned that you were in a woman Slack channel, or was that Turing specific?
+
+
+[00:25:26] AC: Yeah. There is like a women — woman in tech Slack group or something like that, as well. But yeah, mostly active in that Turing, Joan Clarke Society.
+
+
+[00:25:38] SM: Yeah, I noticed that in the DC area, we have Women Who Code D.C, and, you know, I'll post the links or job posts there, too. That's just a little difficult. I noticed, it's a niche language. It's hard. Yeah, I mean, this is a hard question. That's why we wanted to have this conversation and talk about it. So, since the survey results came out and we made that channel. Do you feel like that was effective? Or do you feel like there's more things we could be doing within the Elixir Slack to kind of perpetuate more conversation or engagement? 
+
+
+[00:26:10] AC: It's hard to say because, yeah, like we've kind of discussed, a lot of these things kind of fall on to the business to actually make them happen. What is like, “the Elixir community?” I guess, you can kind of think of it as the open-source community, maybe conferences, meetups, that kind of thing. Podcasts, obviously. But yeah, I think that some of the things that we could do around those levels, like, I think that ElixirConf was really awesome for, like, highlighting diverse speakers. I think that that's something that we can do more on podcasts and meetups and that kind of thing. Just seeing somebody that's like you, gives the next person coming up the feeling like, “Oh, I can do this.” And I think that that has a big impact.
+
+
+There are some things around having a code of conduct or diversity policies, or that kind of thing. I don't know. I looked at Python, and I think Homebrew and some others have kind of a diversity policy. But I'm not sure if it's something that anybody ever really looks at. But Elixir does not have that.
+
+
+[00:27:25] SM: The language or the Slack, because I know that that can kind of be a thing in communities, too.
+
+
+[00:27:32] AC: Yeah. I looked at the language. I'm not sure if the Slack group has a code of conduct or something like that.
+
+
+[00:27:39] SM: I don't know. Justus, you've probably interacted more in there than I have. Do you know if there's one?
+
+
+[00:27:42] JE: The Elixir-Erlang Slack? I have no idea if there's a code of conduct.
+
+
+[00:27:47] SM: I feel like we’re lurkers.
+
+
+[00:27:49] AC: It's weird, because that kind of community level things  just feel kind of surface level. It feels like things that either people in business do or individuals do when interacting with other human beings are the things that really make an impact.
+
+
+[00:28:06] JE: Yeah, anything institutional like that. So, I'll tell you a funny story. Because it's very recent. One week ago, today, I asked, because Sundi has been coming up with many — a myriad of good ideas for how to improve the accessibility of the Slack channel via emojis. And so, I asked, who runs the Slack organization in the general channel thinking like, “Oh, maybe I'll get in touch with them and pitch Sundi’s idea and claim it as my own.” And no one responded, except for this one guy, Paul, who said, “Who runs Bartertown?” Which I don't know what that's referring to. And I didn't Google ‘Bartertown.’ So, now I'm regretting even bringing it up, because it would’ve been bad.
+
+
+So, in this case, a code of conduct, sort of precluding Bartertown references probably would have been helpful. But yeah, I guess what I'm saying is I don't even have, like, the cachet to get names out of the general channel.
+
+
+[00:28:55] AC: One thing that I heard — feedback from somebody about, specifically meetups, and that kind of thing can be more inclusive is having an email address or something like that, like some kind of dedicated channel to report when there was some troublesome person at a meetup. Or something during the meetup made them feel uncomfortable or that kind of thing. And also, having one thing that we have in the Denver meetup that's been really awesome is we have, each meetup kind of has, like, introductions. And then we have, like, a “beginner track” talk. That's like something that somebody brand new to Elixir can pick up pretty easily. And then the main or advanced track talk, and it's really cool that everybody goes to both. Anybody that comes whether you are brand new is going to have something that they can interact with and understand, talk with the group about, ask questions without being totally over your head.
+
+
+[00:29:58] JE: I remember we did that sort of thing in the Ruby community back in the day with, you know, having a beginner talk and a more advanced talk. That definitely, I think you have to be intentional about making the community accessible to new developers. I remember, I used to ask this question, I was like, “When do you think that Elixir will sort of, like, replace Ruby on Rails as like the default option for startups?” And that sort of thing. And overwhelmingly, I would ask multiple people this question, they almost all said, like, “That's not a worthy objective,” type of thing. And I began to realize, I actually disagree completely. I think that that is an absolutely worthy objective, because it gives you incentive to make your community accessible. It gives you incentive to develop the materials needed for new developers to learn how to program on your platform.
+
+
+So, I'm going to die on that hill. And for instance, much smarter people than me disagree with me. So yeah, apparently, I can't be persuaded. I think we need to intentionally do something about that. I'm curious. I want to reel back ends, we mentioned Rails again. And you also earlier in the conversation mentioned a little bit about learning like functional programming through Elixir. And I'm just curious, since we're talking about adoption and accessibility, can you talk about your experience learning, coming from Ruby on Rails, object-oriented background, learning functional programming, a new paradigm? What were some of the hurdles that you remember having to leap?
+
+
+[00:31:18] AC: Honestly, I thought that it was, like, super logical. I feel functional programming is more math, so with my engineering background, yeah, non-computer science, engineering background.
+
+
+[00:31:35] JE: Is chemical engineering, mathy, math-ish?
+
+
+[00:31:38] AC: Sometimes. I solved some partial differential equations in my day.
+
+
+[00:31:44] JE: I'm a very rare dumb engineer, which is actually, I think one of the ways that the Elixir community is very inclusive, is that they include me. So, I'm just like, “Wow.” I'm constantly blown away that you would let me in here. What's that great saying, “You wouldn’t want to be a part of any club that would allow me as a member?” Who said that? I don’t know. Anyway, I like this idea that it is logical. I think that that's true. What about the sort of language features are concerned when you're first learning Elixir, do you remember what any of the like more challenging concepts were for you?
+
+
+[00:32:14] AC: I mean, I think everybody kind of struggles with like, OTP Gen server stuff when they first start out.
+
+
+[00:32:20] JE: OTP, what is that?
+
+
+[00:32:22] AC: Don't make me explain it, because I try to avoid it at all costs at this point.
+
+
+[00:32:25] JE: Really, that's kind of fascinating.
+
+
+[00:32:30] AC: Yeah, actually, I feel like we barely — I'm not sure that I can even think of a single Gen server that we have running in our effort now.
+
+
+[00:32:39] SM: It took me a year of working into Elixir to write anything Gen server related, and I broke the whole app the first time I did it, in the system. So, not everyone comes across it. And when they do, maybe they never want to again,
+
+
+[00:32:56] JE: Like most of my code, the first Gen server I wrote was me just copying an entire class that Eric wrote wholesale, just completely copying and pasting from Eric.
+
+
+[00:33:08] SM: That actually reminds me, I took Bruce Tate's LiveView class last year. And we actually had in that class, a first-time programmer who's learning Elixir as his first language. And he picked it up so well, I was actually really, I was super impressed. I could not tell he'd only been programming for eight months. I think I mentioned him before. And at some point, we were saying something about, like, “Oh, this is like real developer work or something.” And he said, “I don't really ever feel like a real developer. I've just been copying and pasting code all day.” And then we all kind of looked at each other. It was a Zoom class, you know, we all looked at each other. And then somebody was like, “Do we tell him?” It was a good moment.
+
+
+But I think about that kind of situation a lot. Because you mentioned, you know, going back to what you said, that might you not recommend Elixir as a first language, because it might be harder to get a job. We've also heard people say that hiring in Elixir can be an advantage, because you kind of get more people with a greater passion for programming, because they found it, somehow. You know, they found Elixir, that means that they're not the average run of the mill JavaScript, or Ruby dev or whatever. So, I don't know, do you think there's another side to that possibly?
+
+
+[00:34:20] AC: Yeah, maybe. For example, talking about Melvin again, like he was gung-ho into Elixir for months. And he was able to give some talks at conferences and the meetup and that kind of thing. And really get his name out there within the Elixir community. Yeah, I think that it's like a small enough pond that if you are really into it, you can be very visible versus in JavaScript or something where there's a million people going after the same jobs, I guess.
+
+
+[00:34:53] JE: Yeah, but do you really want to be even seen writing JavaScript?
+
+
+[00:34:59] SM: Our running shtick on the show to make fun of JavaScript. So, that was our one take for today.
+
+
+[00:35:06] JE: I don’t even really mean it. I think JavaScript is a real programming language.
+
+
+[00:35:10] AC: I thought of something else, though, that was hard for me like switching into Elixir, with some of the different paradigms for like, what's the word for it, control structure. So, changing from using wild loops and that kind of thing to having to use recursion all the time, those kinds of switches were kind of more difficult for me to make. Or switching from doing more conditional logic to using pattern matching, and multiple function heads and that kind of thing. I think that those were some of the things that took a bit of getting used to, or at least, I kind of peripherally knew them, but being able to actually internalize and be like, “Oh, I should do that here.” Took a long time for me to figure out.
+
+
+[00:35:56] SM: Yeah, absolutely. I think that's similar for any language, really, you learn the cool things, and you want to use them. And then when the opportunity arises, use them, you forget that you had it. I always noticed that, like, when I'm interviewing, and I have to do a silly code challenge that's like, “Go to the end of this game board. I always default to a four loop. Why do I do that? I've never used it in real life. So, I just think that's kind of funny, how we forget things sometimes even though we really do know it.
+
+
+If you had one thing to tell somebody who was of a minority, or was a woman who was trying to enter the Elixir community, what's some advice that you would give them?
+
+
+[00:36:37] AC: I think a lot of it is, one thing that I've been able to do in the Elixir community that's made me feel more included is, like, myself stepping forward to make that Slack channel. Or, like, we just kind of did a similar thing over at our Blinker Slack, we just made a woman Blinker group. Kind of being the change that you want to see in the world or whatever. Sometimes, as much as the impetus should be on the people of power to make some of these changes at the same time, if it's not happening, sometimes you've got to step up to make the community that you want. Going out and finding the other people that are inherently part of that community, but maybe you didn't even know about so that's been pretty cool.
+
+
+[00:36:37] SM: Yeah, we'll definitely have to chat in that channel more. I'm going to definitely see if I can get some gifs in there, some emojis. Well, make that happen. We'll do it.
+
+
+[00:37:37] JE: We're going to make the emojis happen, Sundi.
+
+
+[00:37:40] SM: Please. That's all I asked for 2021 is to get emojis into the Elixir-Erlang Slack. That's all I want.
+
+
+[00:37:46] JE: Very cool. Alexandra, any final plugs, asks for the audience, shameless self-promotion. The floor is yours.
+
+
+[00:37:53] AC: Definitely send me a DM in that Elixir Slack. I think my handle on there is Chak, and I can get you added to the private channel for women and diverse genders on there. Yeah, I guess, final takeaway, as far as diversity in tech, in general, is it kind of falls on all of us to, like, one person that is really making an effort and being a good listener — and that kind of thing can make the team feel much more inclusive. And the same way one person that is just putting out a bad vibe or like making rude comments or whatever can totally ruin somebody's experience at a company or in a meetup or whatever.
+
+
+So, yeah, kind of falls on all of us to be good active listeners and make sure that people that are less privileged are being heard and that kind of thing. People to actually make the changes that they need.
+
+
+[00:38:54] JE: Excellent.
+
+
+Hey, thank you for joining us on Elixir Wizards. Before we close out the show, we'd like to share another quick mini-feature interview with you. It's a brief segment where we showcase somebody from the community that's working at a company using Elixir in production, and we'll learn about how they're using Elixir. Hope you enjoy it.
+
+
+[00:39:17] SM: Hello, and welcome to our new mini-features segment of Elixir Wizards. My name is Sundi Myint and today we're speaking with Bill Peregoy, Software Engineer at Instinct Science. Welcome to the podcast.
+
+
+[00:39:27] BP: Hey, thanks for having me.
+
+
+[00:39:29] SM: Thank you for joining us. So, we're all Elixir enthusiasts here and we would love to hear about your background in Elixir and how you got started in Elixir and in programming in general.
+
+
+[00:39:40] BP: I'm not going to share my age here but my programming experience goes back to writing Fortran on punch cards in high school. And then I got a TRS 80 and quickly learned BASIC was boring. So, I learned the ADA assembly language and went from there. And most of my career has actually been in the hardware world. I was designing semiconductor chips for many, many years. Then maybe five or six years ago, I decided I wanted to move into pure software. So, I jumped into the Ruby world, which led me to the Elixir world because of the similar syntax.
+
+
+[00:40:11] SM: Awesome. And if it makes you feel any better, that's not the first time we've heard that on the podcast. Great. Could you give us a little background on Instinct Science? Give us maybe like a quick elevator pitch on what your company does?
+
+
+[00:40:25] BP: Yeah, sure. We are an alternative medicines company. And we're a startup about three and a half years old. We initially focus on one small area of that problem, which is treating machines, basically patients in the hospital for a long period of time, they're getting these regular treatments every few hours, that's largely still done on paper with clipboards right now, which is error prone, and dangerous. So, we jumped into that field. And we now have about 200 hospitals using our software. And we're slowly expanding to be a full electronic medical record system.
+
+
+[00:40:56] SM: That is no easy task. So, props to you guys. How does Elixir come into the mix? What do you use? Is it your entire production system or is it just some internal tooling?
+
+
+[00:41:07] BP: All of our back-end is in Elixir. Everything is there from Elixir with an API using AppSense to a little bit of LiveView code here and there, but we use nothing but Elixir on the back end. Just super cool.
+
+
+[00:41:19] SM: Interesting. So, you mentioned LiveView. At this point in time, we haven't run into too many people who have been using LiveView in production. So, is that sort of something that you guys have been doing?
+
+
+[00:41:28] BP: It's something we're brand new with. We have one sort of niche product that gives a portal for our referring hospitals to use and that seemed like an ideal place with a fairly small project, we didn't need a really interactive front-end. And it seemed a great time to give LiveView a try on a pretty low risk project.
+
+
+[00:41:47] SM: Awesome. It sounds like you guys aren't really afraid of taking risks and kind of trying out the new thing. How do you guys pitch a new technology or bringing on something like LiveView when you want to integrate it into your systems?
+
+
+[00:42:00] BP: We're all kind of like programming geeks, and we try stuff out in the side projects, we bring it back to the team, and then we look for someplace that we can try something out that's relatively low risk. We don't want to change technology in our core project in a big way. But when we find something that's pretty low risk, we just prototype it and decide to back out if it doesn't work, or we just move forward if it seems to be working.
+
+
+[00:42:22] SM: I guess, what is your criteria for that decision-making process? How do you decide to back out, I guess?
+
+
+[00:42:28] BP: It's kind of a gut feel, at some point, you go through the process. And, you know, like I said, we try to pick small enough projects, where it's not something we feel like we're going to back out on because we're not using any corner case features of LiveView. We're using pretty much mainstream stuff. So, I feel like we don't have a set criterion, but it's kind of like try things out small, do enough to know it's going to work and then forge forward.
+
+
+[00:42:52] SM: Nice. So, onto some more Elixir specifics. Are there some perks using Elixir or challenges that you've run into that are maybe top of mind?
+
+
+[00:43:03] BP: What I love about Elixir, most I think, the simplicity using the functional paradigm makes it very, very simple. And we end up having a lot fewer dependencies than we would in a Node or even in a Ruby environment. So, I love having fewer dependencies because you control more of your destiny that way.
+
+
+[00:43:19] SM: I definitely agree. I've also run into that same gut feeling myself. What about some challenges?
+
+
+[00:43:24] BP: Challenges, I don't know if there's any real challenges. We've been pretty happy with it. I mean, a lot of people talk about hiring challenges. But we found it a big plus for us because you have this much smaller pool to draw from, but usually a pool that's very dedicated and excited about getting an Elixir job. So, we found very few challenges to it. I don't think there's anything that says, “I wish we were using Ruby or Node here.” We just love Elixir.
+
+
+[00:43:48] SM: Yeah, I think similarly, we've seen that a lot in the industry, people will say that a lot. When you are able to hire somebody, who's interested in Elixir, do you normally go for somebody who is experienced in Elixir? Or do you hope to find somebody who's just like a smart engineer, and then they can pick it up?
+
+
+[00:44:04] BP: Yeah, we're a startup right now. We have five back-end engineers right now. So, we're looking for experienced people and people that have come on board and jump into Elixir immediately. So, we've been looking for experienced people. I'd love in the future to be able to train people up because I think one of the downsides to looking for experienced people in Elixir is your bias towards people who have time to play on their own and learn languages on their own. So, you may not be getting as diverse the population as you'd like. So, I'd love in the future to get more diversity in the company by being able to train people up who might have a different background.
+
+
+[00:44:35] SM: We've also talked to a few people on the podcast who say that you get — it’s a really interesting, you're talking about, like, there's a small pool that you pull from but even just the pool of people who are interested in Elixir, maybe the ones who aren't experienced in it are also usually just a group of smart people who are really dedicated to their craft. So, that's cool to hear.
+
+
+[00:44:54] BP: I’ve seen the same thing and hiring for alum, like all the little fun niche functional languages. They have these dedicated fans who use them on one side projects, and just wish they could do it day to day. So, when they find a job, they are awesome.
+
+
+[00:45:06] SM: Yes, absolutely. We always hope to find those people. If you get to that point where you're able to pull on some people, are there resources you hope to use? How would you go about onboarding those engineers?
+
+
+[00:45:18] BP: These newer people who don't have Elixir experience?
+
+
+[00:45:21] SM: Yeah. For the folks at home.
+
+
+[00:45:22] BP: I'm guessing we probably do — I haven't really thought much about this, because we haven't gotten here yet. But I think we would do onboarding around, I don’t know. There may be some training classes we use and things like that. But I find normally, if you get a smart person who's familiar with something and you dole out projects at a reasonable pace, given a small project, learn the language and move forward from there, on the job training is usually the best way to go.
+
+
+[00:45:45] SM: Absolutely. What is the future of your company's projects looks like with Elixir? Is there something that you're really excited about with Elixir that you're hoping to use in a future project or anything like that?
+
+
+[00:45:58] BP: I think one thing for us, we've been pretty conservative about what we use that Elixir. We don't use a lot of OTP and things like that yet. So, I think a lot of errors, we could improve things quite a bit by having more processes, and having a little more robust product because of that. So, I see some of that. We aren't making great use of subscriptions in AppSense yet and we'd love to be doing more of that. So, we're just making fewer API calls, because we're providing data when it's needed versus polling.
+
+
+So, a lot of shortcuts we took to get to market quickly resulted in us using a lot a smaller subset of Elixir, and I'd love to just get a little fancier and do some things that will make our product better.
+
+
+[00:46:38] SM: Yeah, that's awesome. I think like the first thing that I took a look at when I was really getting into Elixir was pattern matching and I just kind of went all in on that for a while and kind of ignored the other pieces. So, it's always nice to have things to look forward to. You can't know everything about language, unless, I guess you wrote it. Cool. So, our last question is just a fun question. If you weren't a software engineer, what would you be?
+
+
+[00:47:03] BP: Well, if I had all my dreams, it would have been an astronaut, of course. I grew up during the Apollo program and was obsessed with that. I think that's where I really got my love of math and science is through that. So, probably that would be where I would go. Unrealistic, but cool.
+
+
+[00:47:18] SM: No, you dream it and then that's how you make it a reality. So, nothing is unrealistic in my book. Awesome.
+
+
+Well, thank you so much for joining us today. To all of our listeners. If you or your company are using Elixir in an interesting way and want to come on the show for a mini-feature. We'd love to have you. Reach out to us at podcast@smartlogic.io with your name, your company's name and how you're using Elixir.
+
+
+[00:47:40] JE: That's it for this episode of Elixir Wizards. Thank you again to our guest, Alexandra Chakeres, my co-host, Sundi Myint. And once again, I am Justus Eapen.
+
+
+Elixir Wizards is a SmartLogic podcast. Here at SmartLogic, we're always looking to take on new projects building web apps in Elixir, Rails, and React infrastructure projects using Kubernetes and mobile apps using React Native. We'd love to hear from you if you have a project we could help you with.
+
+
+Don't forget to like and subscribe on your favorite podcast player. Find us on Instagram and Twitter and Facebook, add us on all of those. Join us again next week on Elixir Wizards for more adopting Elixir.
+
+
+[END]
+
+
+        © 2021 Elixir Wizards

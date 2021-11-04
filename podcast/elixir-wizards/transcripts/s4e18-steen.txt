@@ -1,0 +1,624 @@
+EW S4E18                Transcript
+EPISODE S4E18
+
+
+[INTRODUCTION]
+
+
+[0:00:04.6] JE: Welcome to Elixir Wizards, a podcast brought to you by Smart Logic. Custom web and mobile development shop based in Baltimore. My name is Justice Eapin and I am your host. I’m joined by my co-host, Eric Oestrich and this season, we’re talking about system and application architecture, we’re joined by a special guest, Mr. Eric Steen. How are you Eric?
+
+
+[INTERVIEW]
+
+
+[0:00:25.2] ES: Hi.
+
+
+[0:00:25.9] JE: We have two Eric’s on the show today, that’s exciting. It might have happened before. I think it’s happened once but this time is going to be the best time, we’re trying to make every episode the best episode we ever done. Eric, before we started recording, we were talking a little about programmer burnout and how it happens and how to cure it, what’s your take on this?
+
+
+[0:00:46.4] ES: Yeah, you know, it’s been something that’s been on my mind. I’ve been watching a couple of YouTubers that kind of deal with this subject and I’ve been trying to wrap my head around it, doing 10 years of Ruby on Rails, kind of becomes a little mundane for me, particularly. I’ve been trying to figure out okay, learning new technology, moving onto — shift onto another role within an organization that’s not quite, you know — doing emails and all these kinds of mundane tasks that you end up doing a lot of times. It kind of leads you down a frustration hole of like, “Can I do anything creative or is it always going to be these mundane tedious routine things that I have to do over and over?”
+
+
+I’ve been kind of throwing that around and how to deal with that and in my view, you know, from what I’ve studied over the last month or so, it seems like you have a couple of options. You either go into management as an engineer to change it up or you go, like I said to another, that’s a designer or as — something else that you're interested in or product manager. 
+
+
+[0:01:48.4] JE: When you say programmer burnout, you mean like, some people say burnout. They mean, “I’ve been working a lot of hours for, like, a long time and I just need like a vacation.” You're saying burnout from the profession.
+
+
+[0:01:59.2] ES: Yeah, I think kind of — a lot of people get burned out on tech. I’ve met people who say, “I did the tech thing for a while and I just — I was underwhelmed with how things are run. And things like that and I had to get out and change careers.” And some guys who have been in for a long time 30, 40 years now are struggling with LeetCode thing and how you have to do these kind of old 70s algorithms to get a job. Where you’re not ever going to use a lot of these algorithms. I mean, now with machine learning kind of conquering our jobs and the code generation of program synthesis that’s going on at the highest level of our universities and our organizations. How are we going to compete with these machines and things like that. It becomes a real problem and something I think we need to figure out how to deal with.
+
+
+[0:02:45.0]JE: Yeah, I’ve been preaching the commoditization of Ruby on Rails-style development is imminent.
+
+
+[0:02:53.2] ES: Yeah, like Webflow and things like this like hey, the marketing department can throw up a membership based website and you know, a day or two based on these new technologies. Ruby on Rails is kind of going away at the dinosaur it seems.
+
+
+[0:03:06.5] JE: But, you’ve been working in Elixir, we’re really excited to talk about one of your projects that you’ve got on GitHub, it’s called Automata. We’re not going to get there yet because Eric’s got some questions before we get to it but I’m really excited to talk about it because that’s sort of what introduced you to us and it’s a really cool project.
+
+
+[0:03:24.2] ES: Yeah, great.
+
+
+[0:03:25.1] EO: Tell us a bit about yourself. Where you work, et cetera.
+
+
+[0:03:28.1] ES: Sure. I just left Hippo Insurance and I’m looking for a role actually. If anybody’s hiring for an Elixir developer, I’m available but I’ve been doing Ruby on Rails mostly for the last 10 years. And have been working really hard. This is kind of related to programmer burnout, working really hard in my free time and on the weekends to upscale myself and get a lot of AI expertise and a lot of Gain, Go, and Python and Swift for Tensor phone, these kind of new technologies that are really coming on the scene, to build the next level of scalable intelligence systems as envisioned by Carl Hewitt at Stanford University. And with the Apple Glasses coming out and things, we got to start to try to rethink how we build these things.
+
+
+Ruby on Rails, to me, is not the way to do it and I’ve been trying to shift off that and it’s pretty difficult.
+
+
+[0:04:14.3] JE: Can you talk about that Carl Hewitt comment, I’m not familiar with his work.
+
+
+[0:04:19.1] ES: Carl Hewitt, he invented the actor system at MIT, I think it was the media lab, the early days with Minsky when he started the whole AI Lab at MIT. Which was the first of its kind and he invented the actor model which is a way of doing — it’s kind of like, it’s a framework for building systems kind of like object or inner-programming. It's functional programming, it’s just a different way to think about it and in my view, it’s a really powerful way to think about it. And I think Elixir is really well situated to handle these multi-cores, obviously.
+
+
+As they come on the scene, this thing is prepared, well prepared for that. And apparently the actor model is really one of the primary methods by which those at the high-level of the universities are now thinking about possibly having optimal scalable intelligence systems which the whole world is trying to build. China — every major country is trying to build these large, scalable intelligence systems that have AI kind of baked into them and so. We’re in a good spot here with Elixir, we got the Matrex library, we got Tensorflex, we got a lot of new interesting pieces and parts and building blocks coming on the scene. So it’s a good time.
+
+
+[0:05:28.0] JE: I’m a little bit of an AI enthusiast. Hobbyist might be another word. You’ve got in our show notes here, a note about Gene Sher’s book. Can you talk about that? It’s one of the coolest books and nobody talks about it.
+
+
+[0:05:41.2] ES: Yeah, you actually — we talked about it when we first talked. And I hadn’t really looked into it, I had seen it before but I had never really gotten interested until I talked to you and then I took a look deeper, I actually bought the book and went heads on.
+
+
+[0:05:51.9] JE: $150 book.
+
+
+[0:05:53.3] ES: Yeah, it’s really expensive but it was worth it because that guy, he walks you through from beginning to end. How to build your own neural evolutionary system, for basically evolving neural networks. And this is really interesting work because we’re constrained in Elixir. We can’t do back propagation, we can’t do really high dimensional functional proximation. Being able to evolve or feed-forward neural network without any back propagation is really exciting and something that I want to get into ahead.
+
+
+[0:06:23.6] JE: Why can’t we do back propagation?
+
+
+[0:06:25.0] EO: And what is back propagation?
+
+
+[0:06:26.8] JE: Right, yeah, what is back propagation?
+
+
+[0:06:28.3] ES: Back propagation is a way to basically, approximate the way to neural network and bias using the neural network by — after you’ve fed forward through the network, at the end of it, you basically feedback through the network and set what the weights would have been, had you known what the outcomes was at the end, right? It’s kind of a long-winded way to explain it. But essentially that’s what it is and so, what that does really is that kind of constraints you because you have to do really high dimensional number crunching with some kind of high dimensional linear solver. — Does the linear algebra at the really low level. 
+Elixir’s really been missing, we don’t have that kind of thing, it’s not that great with flow. I guess a float is a float is a float. It’ll compute a gradient or whatnot but — it won’t compete gradient but it will compute two floats, just like Ruby or just like Python or just like anything else but we don’t have kind of the NumPy, right? You need the NumPy.
+
+
+So Matrex looks interesting, I haven’t dug deep into it but there are a couple of projects, Tensor flex and Matrex that gives us that. But we don’t need it, essentially we can evolve these things, feed for neural networks without back propagation, using something like what Gene Sher is proposing in his book. It’s called, Handbook of Neuroevolution Through Erlang.
+
+
+[0:07:45.0] JE: Right. Yeah, we’ll link to that, it’s a great book and somebody actually implemented what he builds in the book in Elixir.
+
+
+[0:07:54.1] ES: I believe there’s probably 10 libraries out there  that have done something with it.
+
+
+[0:07:58.8] JE: Really?
+
+
+[0:07:59.3] ES: Yeah, some of them are better than others but yeah, I’ve done, looked, and searched in GitHub and there are a number of people who are trying to bring it. A lot of them are older and abandoned so I’m putting it into an Automata, this potential automaton, and it’s a multi-agent heterogeneous system. So I’m trying to build something that allows us to, just like the real world, have what you would call “neural diversity.” Or different agents because if you look out there, a lot of the multiagent work is using homogenous agents which is basically all the same type of agent. You know, whether it’s a decentralized, partially drivable Markov decision process or something similar and they’re all kind of the same little organism and —
+
+
+[0:08:41.1] JE: We’re going to ask a lot of naïve questions here, you just described a partially observable Markov process. Can you maybe parse that out a little bit for us?
+
+
+[0:08:50.0] ES: A mark off decision process is a way to, if you have a state space, say a grid world, you have a Pacman grid world, then a Markov decision process, what it does is it kind of lets you predict what your reward and the value of a particular state, next state would be based on only the current state’s information, right?
+
+
+You don’t have to look back in the past and look at your history and go, figure out, like, what past actions made any sense for what I want to do next. You're basically just looking at where you are. And what the value would be in the next state. That means, what it does is, it looks stochastically through the environment and figures out which spot in the distribution of possible actions makes the most sense in terms of long-term reward, if that makes any sense.
+
+
+[0:09:38.1] JE: I think so, we’re going to ask a lot of questions like this as we go along. I think now is a great time to kind of just talk about Automata. But before we do, let’s try to get through the general questions. I think that we’re going to have a lot to go into on Automata. What does architecture mean to you?
+
+
+[0:09:53.8] ES: Architecture means, to me it kind of means and implies more of a higher level than design. Because design and architecture are two kinds of overlapping concepts that we talk about all the time. And I think to me, architecture would mean, you could architect an app, I think. But then that would be like a high-level of the app — How do I do it? Do I do it with microservices? Do I do it with service mesh? Do I do it with just a monolith or microservices within a monolith, perhaps?
+
+
+Or, if we’re talking about design, we’re talking about maybe the functions and the modules and the design patterns and how these particular couple of components fit together, things like that. Design to be lower level to me. Architecture would be more at the machine — kind of Amazon Web Services, we’ve got a couple of microservices out there and a big data pipeline and the land architecture over here and this and that.
+
+
+That’s kind of how I think about it.
+
+
+[0:10:39.8] JE: Is that district from infrastructure?
+
+
+[0:10:42.5] ES: When I think about infrastructure, I think yeah, we set up, we have a bunch of machines, and we’re procuring machines. And we’re thinking about it from the network level of just machines and abstractly, we don’t care about what’s inside them for infrastructure. Terraform in Kubernetes and these kinds of things — STO and these kind of new technologies for managing the network from a very high-level — you don’t even care what’s on it. But what architecturally, we talk about the architecture of a project, you’re talking about — the actual business domain comes into play more. Yeah.
+
+
+[0:11:12.7] EO: One of the things we’ve been into asking across everyone and in addition to architecture, what that means to you is do you have any opinions on domain driven design? 
+
+
+[0:11:23.2] ES: Yeah, I really loved it. Ever since I discovered it, I thought, it was kind of the holy grail. And I don’t think anybody does it per the book. But I think the concepts have been really valuable that people have taken. But you use the language — the ubiquitous language, for example, and the bounty context, which are two of probably the most prominent concepts that came out and really took hold in the industry. And so I think, speaking of, we were speaking of architecture I think. And so, the bounded context really comes into play there, right?
+
+
+[0:11:55.3] JE: Now, let’s talk about Automata, what is it and how will I use it, why would I use it?
+
+
+[0:12:02.0] ES: Okay, it started out, I was reading a great book called the Elixir and OTP Guidebook. He makes a worker pool in that book and he walks you through how to make a standard kind of worker pool. And so I was all the way through the book and I was looking at — kind of the whole appy building. Something, I guess I squinted, and said, “wait, can I turn this into a multi-agent system? Can I repurpose this thing?”
+
+
+So I started working on it, I just started toying around with it. And it took a few weeks and I kind of molded it into what I thought would be an excellent multi-agent. Heterogeneous system. It started as a behavior tree only and I said okay, “I’ll just build a behavior tree.” So I don’t know if you want to go down that rabbit hole yet but —
+
+
+[0:12:46.5] JE: Sure, tell us just a quick explanation of what a behavior tree is.
+
+
+[0:12:49.7] ES: Okay, behavior tree is a way to build an autonomous agent when you know kind of what the behavior is. Versus reinforcement learning or something where you don’t really know what the — you want the agent to explore on its own and figure out what the optimal behavior is. With a behavior tree, you know what you want the thing to do, how you want it to behave and so you encode that into the behavior tree and let it run.
+
+
+[0:13:14.7] JE: Like a set of nested conditionals?
+
+
+[0:13:16.4] ES: Yes, it’s very much like that, it’s just basically like a finite state machine but more broad and more kind of — because they were using that in gaming, finite state machines forever for their AI’s and they transition to behavior tree, I guess 10 years ago. And they’re using utility AI about now, we’re moving beyond.
+
+
+[0:13:34.1] JE: Automata starts out as what? A framework for building behavior trees with Elixir?
+
+
+[0:13:39.6] ES: Yeah, that’s what it was, it was going to be a framework for building behavior trees. But then I was like, “Why not do the loon-shot Elon Musk thing, let’s go”. I just went crazy and I just started abstracting everything out, bringing it out. And now it’s a research experiment to see if we can build the heterogeneous, multi-agent system with the number of different types of agents that interact — and are controlled at a meta level to carry out specific goals that you want to carry out.
+
+
+I think — our teams are neurodiverse, we have people that are very neurodiverse, working on our teams. And so, if we’re going to build AIs that are going to help us, entertain us, and manage our pain and things like this, we’re going to need neurodiversity because what’s pleasing to you and what’s pleasing to me are probably two different things in an agent, right? In an intelligent thing that’s going to be my robot and help me achieve things — which I think is where we’re headed. 
+
+
+And it seems very much in my studies of AI that we are definitely headed pretty rapidly in that direction and so we’re going to need neurodiversity and I think neuroevolution is. And novelty search, which we can also get into, are going to be key ways to achieve that.
+
+
+[0:14:48.7] JE: What is, like, an agent in the context of the system? Are you saying that they can be neurodiverse? Meaning they can behave differently — or have different sort of behavior models, I guess. What does an agent kind of consist of in Automata?
+
+
+[0:15:03.2] ES: An agent would be a state space representation. Kind of a data model, it could be a graph, it could be something simpler or something more advanced. Could be a neural network alone, it could be a neural network in combination with other tools and building blocks. 
+
+
+But it’s essentially an automaton or an agent, I’m using those to mean the same thing. Would be — one agent could solve possibly one task or — think of a soccer game. And we have the goalie. We have a more — those are the common multi-agent systems. We also have to take into account, from a higher-level, what each different thing is doing in relation to the whole and the goal for the whole team. That’s where the Automata piece comes in. We have a boundary at that level to kind of — and a decrypt for any signal that comes in to optimize the goal of the entire team. Whereas each one of those things might have individual objectives and goals to do.
+
+
+But in these things — most people find that it’s more important to think about it from the higher level. Because why would you be doing a multi agent system if you weren’t concerned with the higher-level objective, right? But then, when we talk about novelty search in the work coming from Uber Air labs and Kenneth Stanley from you University of Florida, we’re talking about an entirely different way. We don’t even talk about objectives, we talk about novelty, and new interesting behaviors. And they found that this stuff outperforms just being tied to one objective goal and trying to achieve it, instead, trying to achieve maximum diversity and behaviors.
+
+
+That way, these things learn — they learn quicker that way, oftentimes. Like teaching a bipedal to walk, learns quicker if you say, “Do whatever you want to do, try anything, as long as it’s not the thing you just did last time.”
+
+
+[0:16:50.6] JE: This is out of Uber’s research lab?
+
+
+[0:16:51.7] ES: yeah. Well, it’s kind of Stanley who works at Uber research lab. And I don’t think it’s a heavy part of what they do at Uber. And maybe part of it, but he did most of it at UCF in Florida before he worked at Uber, I think. A lot of the research and it’s really interesting, we actually wrote a book about it. I forgot the name of the book but we can look it up. It’s Kenneth Stanley.
+
+
+[0:17:12.0] JE: We will look it up and we will include it in the show notes.
+
+
+[0:17:14.9] ES: Great.
+
+
+[0:17:16.1] JE: Let’s talk a little bit, could you dive into the architecture here, like, Automata. We were reading the documentation, you’ve got this idea of environment versus reasoning, versus knowledge. Can you talk about what these are and how they play into Automata and I’m also just curious, how do I use it, right? Do I pull it into a project, do I use it as sort of like a framework to build these agents?
+
+
+Maybe just talk about in practical terms, what the process is.
+
+
+[0:17:45.1] ES: The idea would be to kind of build these interchangeable environment models so data models for — to match up with different types of agents, there would be kind of a library of different ways of managing that level control of the entire Automata. Or there would be that — also that individual control of each automaton that would be an interchangeable reasoning component at that level. We would have reasoning components for different types of agents available to mix and match. And they would match based on the environment.
+
+
+If we have, for example, a stock market environment or in an economic environment and a fundamentals environment and a volatility environment, whatever kind of — me, I’m into finance, I really like to analyze, financial stuff and do stock trading. We could have different environments for that.
+
+
+[0:18:34.4] JE: Environment is like ‘the stock market’s data’ streaming into your system?
+
+
+[0:18:39.6] ES: Yeah, I went with the lingo of the industry, we call them worlds, right? Reinforcement learning, we have a world. And we have — that world can pull data from a feed and provide it to the system. We’ll have ways of black boards, knowledge bases and black boards, that’s how it works in AI. 
+
+
+You don’t think about a database as you know, relational model. You think about it as — “Here’s the knowledge I need for intelligent behavior, how can I best capture that and provide it,” you know? In a good, efficient way, things like that. That’s what’s fun, right? Outside of work, we can do database relational model all day but outside of work, we want things that do what we need done. It’s not usually like a CRM.
+
+
+[0:19:18.3] EO: Yeah, I’ve messed around with behavior tree stuff a little bit in one of my side projects but it sounds to me, what I wrote in a single weekend is way less complex than what Automata is doing. But I have a very important question for you, when you type behavior now, after working in Elixir, do you always add the ‘U’?
+
+
+[0:19:39.8] ES: No, I actually have a behavior module for Automata, because a behavior tree has a behavior component. But absolutely, I had that struggle in the beginning, I did mistype it a number of times. But yeah, behavior with U, ‘behaviour’. It says right in on somewhere and that’s how you plan the behavior of a tree node.
+
+
+[0:20:00.8] EO: How do you define these behavior trees? Right now, the way that I’ve done it is just like effectively a big JSON file that kind of gets read into data. And it’s ridiculously verbose. Do you have a better way, are your trees also super verbose?
+
+
+[0:20:18.7] ES: Hopefully not, I really hope not but they could become that way. Because I want to provide as much customization as possible. I’m allowing people to define like a module that uses Automata and I recently read that the Elixir community is kind of moving away from the use macro and unfortunately, I have to dig deeper into that. 
+
+
+But I’m using the ‘use macro’ everywhere so I have to take a look at that. You would use Automata, provide a bunch of configuration, and provide an update function which will run asynchronously to give you a reactive behavior tree that will react in real time to any signal that it receives. And proactively explore an environment, essentially.
+
+
+That’s the unique thing about behavior tree is they provide a state space representation and an action selection mechanism in one complete unit, so to speak.
+
+
+[0:21:14.9] JE: Have you seen anyone use this in the wild yet?
+
+
+[0:21:17.3] ES: Have I used it?
+
+
+[0:21:18.4]JE: Yeah, have you used it to build anything or has anyone else used it that you're aware of?
+
+
+[0:21:21.8] ES: No, it’s still in very early stages, it’s really a research experiment, it’s not ready for production. It probably will be within a year or two but I definitely want to take, talking about the whole novelty search thing, I definitely want to take an open-ended creative approach to this and a long term view. That would be Jeff Bezos inspiration of the long term, you know?
+
+
+Really take a long-term view and try to build something really of high quality. I’m really trying not to rush things so we'll see how that works out but it’s kind of going against the grain of what we’re used to doing in a day to day. But I think it will pay out in the long-run, let’s see.
+
+
+[0:21:59.2] JE: I’d really like to see if I could use this for chat bots. And somehow, may pull some of your modules into virtuoso. And especially once you get the novelty thing working out because that’s the hardest part of natural language is like generating something novel and interesting, for the bot to say.
+
+
+Super duper challenging. I mean, it’s challenging even if you have a huge corpus of data. Just because even the massive corpus of conversational data doesn’t really encompass a lot of — like, the conversation we’re having right now is the only time this conversation has ever happened, right? No one else has had this conversation.
+
+
+To try to generate what the next thing would be in the conversation is just regular. You got several reinforcement learning, neural network concepts that you’re either — that are already built in or going to be built in. Can you talk us through maybe like, progress, where you are and what’s coming up next?
+
+
+[0:22:58.3] ES: Sure, I went really divergent. I don’t know if you’ve read the Google Ventures Sprint Book or anything like that. You go divergent brainstorm and then you go convergent and kind of narrow down a path to achieve the objective, come over the coherent plan. I’ve been really divergent for the past few months since I started it. And now I’m starting to converge and narrow down. Because I want to do, like, informed search and a bunch of the kind of the lower-level things you learn in college when you’re learning AI. But I don’t think these are going to be useful to people. So I’m just going higher-level and going with the things that I think the community is going to want, once this thing really gets mature.
+
+
+I’m pretty committed to it. I’ve been known to start a few projects and just leave them but I’m pretty committed to this one. I could really use help in, kind of like, we have this idea of the operator. And it’s going to just spin up the world and handle failures from these different agents and things. 
+
+
+That’s a piece that I really need help with somebody who is really good with the more logistical side of programming, I suppose. Where I’m the more abstract kind of programmer, I guess. And I really want to work on the neural networks and the neural evolution piece going forward mostly as well as the deck pump, DP. Which is a decentralized Markov, partially observable architect decision process.
+ 
+[0:24:12.1] JE: I’ve got a, sort of a loose idea what a Markov process is. But like all the parts, words before that, like ‘partially observable’ — can you give us, like, any kind of insight into what some of that is? I feel like everything in machine learning is like, here’s like a basic concept, a neural network and then here’s like a bunch of words that modify that concept in complicated ways.
+
+
+[0:24:32.4] ES: Yeah, that does that for the Markov decision process we talked about, this like, knowing what to do from one state only. And it’s basically, what it’s saying is that it’s decentralized so that you know, each agent can act on its own without breaking — if it fails, it doesn’t bring down the whole system and things like that. 
+
+
+And it also means that — which Elixir is perfect for by the way. Such a great language. The other part of that is partially observable, which just means you have a world. Say you guys are in your office world. There is a whole world outside your office but you are just programming for your particular office. So that would be ‘partial observability of the world.’ We are not taking into account the cars driving by outside and things like that. You are only programming for that particular but partially observable environment. 
+
+
+[0:25:17.9] JE: Okay and then talk about, because you got a number of other concepts, reinforcement learning concepts, neural network concepts — it sounds like you are maybe so banded — it is TD learning, deep learning, the deck palm DP, then the TWEANN. We’ve got all these kinds of concepts listed out here. It sounds like you are kind of leapfrogging the first few because you wanted to focus on the Markov decision process. And also this — ‘evolving your own network’ concept. Can you talk us through, like, it sounds like you are working right now on the evolving neural network.
+
+
+[0:25:48.1] ES: Yeah, getting that up and running and yeah. 
+
+
+[0:25:51.2] JE: Go into it a little bit like it is partially inspired by the work of Kenneth Stanley, probably from this book that we were talking about earlier. 
+
+
+[0:25:59.2] ES: That is a direction that I definitely want to go the novelty search direction. It just makes a ton of sense. And I actually think — the reason they wrote a book is they saw what is incredibly useful for better performance of their genetic programming. Whatever they are doing with genetic programming, which is where that falls into, by the way. And we can talk about that if you want but — 
+
+
+[0:26:18.5] JE: What falls into?
+
+
+[0:26:19.7] ES: The novelty search actually falls into the genetic programming component of the neuroevolution so — 
+
+
+[0:26:25.1] JE: Because it is evolutionary. 
+
+
+[0:26:26.2] ES: Right because it is evolutionary because neuroevolution is inevitably part — it is a subset of evolutionary computation. So genetic programming is used to evolve these things based on — generate a population of neural networks and then you create offspring and you mutate the genes, the genotype. 
+
+
+[0:26:42.9] JE: Has this been used in the real world to accomplish anything useful? Because it is such, like, a one-to-one abstraction of a biological concept that I am trying to figure out like how valuable it would actually be.
+
+
+[0:26:55.7] ES: Yes, I think one of the best examples is there’s — I am pretty sure they are using neuroevolution for this, if they’re not, something similar but they are actually building a bridge in Europe that is just — no humans involved. 
+
+
+[0:27:06.6] JE: Oh yeah, I have seen this. Adobe right? 
+
+
+[0:27:09.4] ES: Yeah, Adobe and they are doing — and the auto-desk is really heavily into this type of thing. Where they are building new novel things out of just the computer just generates this new novel ideas about how to optimize, like, tires for cars and things, right? 
+
+
+[0:27:21.8] JE: You know I have seen — they have made an antenna for NASA where they try to find the optimal shape using evolution and it came out with a really weird shape like you never would have never figured it out on your own. 
+
+
+[0:27:34.3] ES: Right.
+
+
+[0:27:35.0] JE: Yeah, they definitely use that for some practical things but it is not like we’re not using it for web development yet. 
+
+
+[0:27:41.6] ES: Right with the Automata, it’s possibilities. We’ll see if we can get there. I think we can. 
+
+
+[0:27:46.6] JE: What is an application you’d like to see someone use Automata for like early on?
+
+
+[0:27:50.9] ES: Oh you know, I have all kinds of ideas about this but I am really into crypto trading. I mean, I think the crypto thing opens up a whole new market for people to really play around with and see how they can, you know you are never going to be a bazillionaire doing this but it is a lot. You can definitely manage your risk and make a little income perhaps. I mean there are a lot of people trading with their brain full-time for a living. 
+
+
+And so you can automate that, like everything else we are trying to do, then great, right? So that would be something I’d really be interested in getting involved with. If anybody out there wants to do that. 
+
+
+[0:28:21.7] JE: I want to ask a question because it came up earlier, the programmer burnout conversation. And you are working on this really fascinating project and you are living right in the middle of Silicon Valley. Does it feel like, to you, things have stagnated in terms of really interesting stuff to do? Like there is always like a new social media thing or someone is trying to build real time chat with people from all over the world or whatever. 
+
+
+You know when we are talking about this actually interesting problem of, like, artificial intelligence and centralized systems, the only thing that it seems to be being really useful is like, adding , recommendations on Netflix or book recommendations on Amazon. It is always a recommendation engine. 
+
+
+[0:29:03.2] ES: Right. It seems like it is a lot of yeah — a lot of mundane stuff that is used for it. You know I do think that’s changing and I think if you look at Swift potential for example, the kind of things they’re doing that directly into mobile apps that record observations of the things you’re doing. It is like the old thing of adaptive websites and adaptive you. You go on a membership site or something and the whole interface just adapts to you, everything adapts to you. 
+
+
+That has become more of a reality with some of these new tools. So that is one direction. But, for what we do day to day, right? And I think people are going to build a lot of interesting things with that. 
+
+
+[0:29:36.7] JE: Is Elixir picking up steam in the Valley? 
+
+
+[0:29:38.7] ES: It seems like it to me, yeah. I mean Triplebyte is the big recruiter thing and they have been mentioning Elixir a lot in their blog and added it to kind of their marketing materials. 
+
+
+[0:29:48.4] JE: It feels like it is accelerating to you?
+
+
+[0:29:50.3] ES: Yeah, it seems like it.
+
+
+[0:29:51.3] JE: That’s good to know because then our downloads will keep going up and hopefully we’ll get more business too.
+
+
+[0:29:55.4] ES: By the way, thanks to you guys for what you do. I really appreciate what you do. You know a lot of programmers are introverts and so on. Like, me included, and networking may not be at the top of our priority list and what you guys provide for the community is hugely valuable. So thanks a lot. 
+
+
+[0:30:09.9] JE: Well, we are really glad to have you on and we really appreciate you coming on talking about — I mean, it is really hard to come onto a show and to talk about very complicated ideas. And yeah, so we really appreciate when people take the leap and do that. I want to give you time to plug anything you want, shameless self-promotion, ask the audience anything you like. The floor is yours. 
+
+
+[0:30:34.5] ES: Okay, sure. So yeah, I am looking for a job in Elixir or Python. I have been doing Ruby on Rails for a lot of years and looking to move on beyond that to something with a better garbage collector. And a little bit more scalable, and a little bit more concurrent, a little bit more fun to work in. And I am running my side hustle, which is www.cryptowise.ai and please sign up. 
+
+
+[0:30:56.8] JE: Give us the elevator pitch on that. What is CryptoWise?
+
+
+[0:31:00.1] ES: CryptoWise is a platform framework for analyzing and researching crypto, not only technicals of — quant-type technicals but also fundamentals. And trying to build out a community that really enjoys financial analysis and wants to get involved with other people and do that on a collaborative basis. 
+
+
+And I think one the long-term visions for Autonoma would be, for example, to incorporate Horde and things like, right, things like Horde and Libcluster and these things that are going to progress to a point where we really do have a really unique distributed platform to build on. And I think that is a few years away probably for Elixir but that’s the goal, right? You are going from flow to you want to help programmers get distributed. 
+
+
+And that is what Jose talks about. So I think if we can collaborate together and so we could have different types of analysts, analyzing different segments of the market and somehow incorporate all of that into a meta-level framework for analyzing the companies that we work with in the United States and elsewhere. Global companies and trying to figure out how to do financial work on that. 
+
+
+It is hard to describe but the vision is definitely collaborative and it is very engineering focused. So you have a ton of financial websites and platforms that are more like social networks and these kinds of things. This one I wanted to be really focused on the quantitative aspects and the computationalize aspects and the AI aspects of analyzing financial information, economic information. 
+
+
+[0:32:36.6] JE: So it is not content, it’s like analysis software. 
+
+
+[0:32:39.9] ES: It would be like a collaborative analysis, platform ecosystem for bringing together various entities that want to specialize on different aspects of finance, yes. 
+
+
+[0:32:49.2] JE: Very cool, I was so into crypto a few years ago. And then I just sat on my investing. You know it takes a lot of time to follow every shift but I was really interested and wondering if this has happened yet. Like, has anyone built an exchange like on a chain of any kind yet? 
+
+
+[0:33:05.8] ES: Oh, there are so many exchanges I swear. There’s got to be something. There’s got to be. 
+
+
+[0:33:10.2] JE: I was figuring it’s got to at some point be basically like a meta-coin that basically allows you a decentralized blockchain-driven ledger that allows, like, exchange-driven trading on the chain. 
+
+
+[0:33:26.3] ES: Oh there was. I think, look up EquiTrader. I am pretty sure — 
+
+
+[0:33:29.2] JE: EquiTrader?
+
+
+[0:33:29.9] ES: Yeah. 
+
+
+[0:33:30.3] JE: Okay so I have been out of the loop for a while because — it is. It just became out of control. It became completely out of control where it’s like so many things and, you know, I am still basically a Bitcoin purist. I’m like, “Look, if Bitcoin is Coke, Etherium is Pepsi and everything else is just a thing,” right? It’s Tab. So I’ve been buying Coke and Pepsi. 
+
+
+[0:33:53.6] EO: Grocery store brand.
+
+
+[0:33:55.2] ES: Right and then BloXroute, check it up. 
+
+
+[0:33:56.8] JE: BloXroute, okay. We’ll definitely try to get these on the show notes. The other one that I thought was actually interesting was Hollow Coin I think. I don’t remember, it doesn’t matter. Anyway, thank you so much for coming on the show. Everybody, go check out Automota on GitHub. It is a really cool Elixir project, checkout cryptowise.ai. Before we close out, we’ve got to share another edition of Pattern Matching with Todd, a friend of the podcast. 
+
+
+Todd Resudek is asking members of the Elixir community five questions to help us all get to know each other better. Hope you enjoy it. 
+
+
+[END OF INTERVIEW]
+
+
+[0:34:28.7] TR: Thank you for joining me for another installment of Pattern Matching with Todd, where I ask your favorite Elixir personalities five questions in an attempt to get to know them better. My guest today is probably best known for his library, Jason, which has been downloaded over 18 million times, taking time away from his duties at Whatsapp, Michał Muskała. 
+
+
+[0:34:48.7] MM: Hi Todd.
+
+
+[0:34:49.2] TR: Thank you for joining me today. I am looking forward to getting to know you better.
+
+
+[0:34:53.2] MM: Thank you for having me. 
+
+
+[0:34:54.2] TR: All right, so let’s get started. Where were you born?
+
+
+[0:34:57.6] MM: So if you thought my name is hard to pronounce, I will give you a curveball now. I was born in a city called [inaudible], which is the middle of the south of Poland. But I moved, probably when I was one and a half or something like that so I have no recollection of living there. But I moved not far away to a neighboring city of Katowice and grew up there.
+
+
+[0:35:20.7] TR: Okay, I have seen it on television, Katowice. It looks like a beautiful city. What kind of industry is in that area? How did your parents end up there?
+
+
+[0:35:31.2] MM: The traditional industry is coal mining and smithing and this kind of heavy industry or smelting, right? I think that is more appropriate. So yeah, heavy industry but neither of my parents worked in those industries. So they’re both economists. 
+
+
+[0:35:53.4] TR: Oh, is there a university or somewhere that they worked in Katowice? 
+
+
+[0:35:56.9] MM: Yes, there are actually two Universities. There’s a university and then a technical university as well. 
+
+
+[0:36:03.4] TR: Okay, too far off the rails here but did you go to school in Katowice?
+
+
+[0:36:07.7] MM: Yeah, I did. 
+
+
+[0:36:08.6] TR: All right, so you were born in Hazuv, you moved to or grew up in Katowiceand where are you living now?
+
+
+[0:36:17.7] MM: So in August last year, I moved to London and I have to say, I was really enjoying the city and everything that it offers until everything closed but yeah, I am pretty happy with the move. 
+
+
+[0:36:33.1] TR: Oh great. Got a lot of really good programmers in Poland but also a lot of really good programmers in London. So hopefully you’ve had time to connect with at least some of them. 
+
+
+[0:36:43.3] MM: Yeah, there’s quite a few Elixir in there like people here in London. So the meet-ups are always fun to hang out with people. 
+
+
+[0:36:52.6] TR: I heard the meet-up is, like, 100 people show up every month, is that true? 
+
+
+[0:36:57.0] MM: Yeah, it is really crowded. It is really crowded, it is really big. 
+
+
+[0:37:01.5] TR: That is amazing. I don’t think I have ever heard of an Elixir meet-up that’s had more than maybe 40 or 50 people. So that’s really something. So moving on, have you had any careers before programming?
+
+
+[0:37:15.7] MM: Not really. So basically, my first job I ever got right after high school and before I went to university and it was doing Ruby on Rails for like a small startup. It was all extremely shady and weird but I learned a lot mostly about what not to do. 
+
+
+[0:37:38.2] TR: Had you done Rails before that just in your own time?
+
+
+[0:37:41.5] MM: Yeah, I did Rails on my own before that. I had basically a friend in high school working as a programmer for quite a while by the time we graduated and like he knew I was doing some stuff and needed some help. So I joined him.
+
+
+[0:37:59.4] TR: Okay, so was Ruby like your first programming language or have you been doing other stuff before that? 
+
+
+[0:38:05.1] MM: Probably touched a bit if PHP before doing Ruby but Ruby was the first language that I would say I was proficient with. And the interesting bit about my friend who introduced me to working with Ruby is that he is now doing Elixir as well. 
+
+
+[0:38:22.5] TR: Oh really? Do you want to give him or her a shout out?
+
+
+[0:38:26.0] MM: Yeah, well thank you Arthur for helping me to work as a programmer. 
+
+
+[0:38:31.5] TR: And now he is asking you questions about Elixir I assume? 
+
+
+[0:38:35.7] MM: Ah, we talk every now and then. 
+
+
+[0:38:37.5] TR: That’s good. Okay, so you haven’t had any other paying jobs besides programming but let’s say you couldn’t be a programmer anymore, what do you think you’d do?
+
+
+[0:38:46.6] MM: So when I went to university, I actually started with a physics degree. I switched to computer science only later on, when I was — got more interested with it. So I’d like to imagine that, if I hadn’t switched, I would be today at CERN doing particle physics experiments. Or something crazy like that. And yeah, let’s just say that I like to think that.
+
+
+[0:39:16.6] TR: Okay, I am sure you would Michał. I mean you are an extremely smart person. So if anybody has a chance to do that I am sure it is probably you. So what made you get out of physics and into computer science? Did you just lose interest? Was it getting too hard? Was it not you thought it was going to be? 
+
+
+[0:39:34.0] MM: So I think it was mostly that the program was targeted very hard and it is creating scientists working in the lab, as I said somewhere, right? I didn’t really feel like that’s something I’d like to do for a career for, like, the next, I don’t know 40, 50 years. And I think programming gave me this opportunity to create things, to be more hands on in the things I am doing. It is still not as fun and hands on as I work in hardware or something like that. But I think software still allows you to do a bit more concrete things. 
+
+
+[0:40:16.2] TR: Yeah and the nice thing about software is you are not confined by as many constraints as hardware. So, physical space, the most fundamental laws of physics, like electricity applies but you don’t have to worry about gravity, photons or any of that other stuff generally.
+
+
+[0:40:35.4] MM: Yes and depending on what part of software you’re doing, it might not also really care about memory and speed and things like that, right? Most of the time.
+
+
+[0:40:45.8] TR: Yes, indeed. Yeah that is a really good point. All right, shifting gears here, so what’s the genre of the last song or the last album that you listen to?
+
+
+[0:40:56.9] MM: Yes, so I actually have to think about this question for quite a while because I usually listen to a lot of different things. I listen to pop, rock, classical music, some harder things as well. They are usually not on my own but I generally don’t have a very set music taste but recently, I discovered a new Polish artist called Ralph Kaminski and I listen to his song, kosmiczne energie. To translate this, cosmic energies, I think. It sounds equally weird in Polish as well and yeah that is for heavy rotation for a while. 
+
+
+[0:41:40.0] TR: Okay, yeah I listened to some of his stuff and watched his music videos and his videos are very artsy. I don’t know if you have asked any of his videos. 
+
+
+[0:41:48.2] MM: Yeah, they are. Yeah, I have seen his work. It is described as alternative pop. Or, a term that is pretty common in Poland at least, which is like ‘Sank poetry.’ 
+
+
+[0:42:00.7] TR: It makes sense, yeah I mean I thought I didn’t understand any of the words but the music itself sounded pretty cool. So is there a movie that you’re going to watch every time you come across that are on TV? 
+
+
+[0:42:11.9] MM: So I am not really big on re-watching things and similarly I am not big on re-reading books. I know some people have books they read but not every year but very often, right? And come back and same with movies but there’s probably only like a handful of movies that I’ve watched multiple times. Probably, like, the original Star Wars trilogy and Lord of the Rings, around those lines and they’re not very original I guess. 
+
+
+[0:42:46.7] TR: Well, those are pretty popular movies for sure. So I am guessing you were born after the original Star Wars trilogy came out. Hopefully, we are talking about the same trilogy.
+
+
+[0:42:56.3] MM: Yes. 
+
+
+[0:42:57.2] TR: Okay. So how did you end up on those versus like some of the newer ones? 
+
+
+[0:43:02.6] MM: I’m actually not sure how did I end up. It mostly it just happens through pop culture and them playing on TV. Or in some other places but yeah, I definitely did not get opportunity to watch them in the theater, on the original release dates. 
+
+
+[0:43:22.9] TR: Yeah, okay. All right, shots fired.
+
+
+[0:43:28.0] MM: That is not my intention.
+
+
+[0:43:30.5] TR: So out of the original three, which is the one you like the best? There is a right answer by the way and there is definitely a wrong answer.
+
+
+[0:43:38.6] MM: There is a right answer and wrong answer. I know I actually didn’t watch them in quite a while now. So I don’t remember that much to be honest and now I don’t want to give the wrong answer. 
+
+
+[0:43:51.2] TR: Too much pressure, okay. For the listeners, Episode Five is the right answer.
+
+
+[0:43:56.1] MM: That is the one I am thinking about but yeah, I wasn't 100% sure. 
+
+
+[0:44:00.3] TR: I wasn’t trying to trap you or anything. All right, well finishing up our time here, so is there a project that you are most excited about working on next or something maybe you are working on now that you’re looking forward to continuing working on or finishing up? 
+
+
+[0:44:14.0] MM: I am quite excited about the things I am working on right now at work, in particular, finishing up the project creating form matter for Erlang. But also the bigger project where we are trying to build a static-type system for Erlang. Hopefully, we’ll be able to talk a bit more publicly about it soon. For now, we are trying to figure out, even within the team, what it is that we want to do. So it is hard to talk about it publically.
+
+
+[0:44:45.6] TR: Okay, let’s not try to talk about that too much but I am excited for the Erlang code formatter. Are you prepared or have you garnered feedback on how you think things should be formatted from other members of the community or are you going to yolo this one and expect some feedback?
+
+
+[0:45:04.6] MM: Right now it’s the phase where I am gathering feedback from some key people. So I am talking with some people that I want some feedback and then later on, I want to release it more publically and gather feedback from the community before settling on some final choices. Though for the most part, I wanted to work in the similar spirit and principles that the Elixir formatter is using because I think it works pretty well. 
+
+
+[0:45:37.8] TR: Okay, yeah I would agree. Although I don’t fully understand the algebra that goes into all of it. I tried but couldn’t quite make sense of it. But yeah that’s great. I think that would be a great project for the Erlang community and maybe hopefully draw some more people over from the Elixir side and feel a little bit more comfortable in the Erlang world. 
+
+
+[0:46:01.2] MM: Yeah and like, in general, things I am thinking now, nowadays a lot is after switching from Elixir from working day to day with Elixir and working day to day with Erlang. I have some ideas about things I’m missing and things I’d like to be improved, although from what I understand the Erlang tooling improved a lot over the years. I still think there are a lot of gaps between Erlang and Elixir especially around testing but if you compare the output on the test failure you got from X units. 
+
+
+With one you get from a common test even though with the rebar patches and then improvements it is still a big difference. I won’t say more but yeah, I’d like to see it changed. 
+
+
+[0:46:48.7] TR: Well cool and I think I speak from a lot of people when I say I am really glad that that’s something that you’re looking into or that you’re considering working on. 
+
+
+[0:46:57.9] MM: Yeah and one thing that really surprised me about common test and the whole testing set up in Erlang was that in Elixir, it is very easy to make test run in parallel, right? You basically at like passing through and it just works, right? And in Erlang or at least in common test it is really hard and you actually the level or paralyzing that X units leverages, which is running multiple modules in parallel within the single module. This is not possible at all in common test. So yeah, for concurrent language, it was very surprising that support for concurrency test is not very good.
+
+
+[0:47:46.3] TR: Wow, well it is good to see that Elixir took so much from Erlang. It is good to hear that people are taking things from Elixir and moving it back the other direction.
+
+
+[0:47:56.5] MM: Yeah, definitely. I think both the communities can only benefit from working closer together. 
+
+
+[0:48:02.3] TR: Definitely. Well thank you so much for joining me today Michał. It was great to get to know you a little bit better. 
+
+
+[0:48:08.0] MM: Yeah, thank you for having me. It was really fun to talk to you. 
+
+
+[END OF INTERVIEW]
+
+
+[0:48:11.8] JE: This has been another episode of Elixir Wizards. Thank you again to Eric Steen for coming on the show and to my co-host, Eric Oestrich, for being so patient with me and once again, I am Justus Eapen. Elixir Wizards is a SmartLogic Podcast here at SmartLogic, we are always to take on new projects, building web applications and Elixir Rails and React infrastructure projects using Kubernetes and mobile apps using React Natives and we’d love to hear from you, if you have a project we can help you with. 
+
+
+Don’t forget to like and subscribe on your favorite podcast player. Share us on all of the interwebs, you can find me on Instagram, Twitter and Facebook, so add us on all of those. You can find me personally @justuseapen and Eric @ericoestrich and join us again next week on Elixir Wizards for more system and application architecture.
+
+
+[END]
+        © 2020 Elixir Wizards
