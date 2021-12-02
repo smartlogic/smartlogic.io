@@ -1,0 +1,238 @@
+EW S7E5 Transcript
+EPISODE 5
+
+[EPISODE]
+
+[00:00:07] AH: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Alex Housand and I’ll be your host. I’m joined by my co-host, Sundi Myint. Hey, Sundi. How are you doing?
+
+[00:00:19] SM: Hey.
+
+[00:00:20] AH: And my producer, Bonnie Lander. This season's theme is Impact of Elixir, and we're joined today by a special guest, Yiming Chen. Welcome to the podcast, Yiming.
+
+[00:00:29] YC: Hi everyone and Yiming I’m in Beijing, China.
+
+[00:00:34] AH: It's great to have you. Thank you for joining us, because I know that the time difference is a little crazy. A developer’s worst nightmare, time zones.
+
+[00:00:42] SM: Yes. We are so excited to have you. I think this might be if not the first, like one of the rare instances where we're recording across three time zones right now. So, this is a fun time for all of us. But we made it happen. Especially, Yiming, we've been hoping to have you on the show for a while. So, glad we're finally here and making this work. So, thanks again for being here today.
+
+[00:01:06] YC: Thank you for having me. I’m a longtime listener. I think I started listening from season one. And now we are season seven. So yeah.
+
+[00:01:17] SM: That's crazy. Thank you. Cool. So yeah, let's just get started here. How did you get into programming? We'll get into like the Elixir path after, but just like, started the path. Where was that?
+
+[00:01:29] YC: Yeah, I Majored in Computer Science in college. But I got a fun story way back when I was a child. So, I learned building websites using Dreamweaver, Firewall, or Flash, these three things back when I was a child, but I didn't learn any HTML or CSS at that time. Because these three things, are what you see, is what you get web building tools. So, I usually wonder what if I started learning HTML and CSS at that time? Maybe I ought to become a front-end developer earlier, and never get into back end.
+
+[00:02:15] SM: It's super fun to hear you actually say what you see is what you get. Because I've only ever heard WYSIWYG, and I didn't know what it stood for, for so long. I don't know, Alex, did you know it stood for? Oh, I think Alex is realizing it right now.
+
+[00:02:30] AH: I was like, doing it on my hand as if I was counting through the acronym. Nope. I had no idea what it meant.
+
+[00:02:36] SM: Oh, that's fun. You heard it here. Alex's epiphany.
+
+[00:02:40] YC: Actually, I don't know how to pronounce the acronym. So, I looked what it stands for, so I can pronounce it as a full.
+
+[00:02:52] SM: And that's probably fine. Because honestly, we have too many acronyms. Just so many acronyms. If you can spell the whole thing out. Just do it. Like that's my opinion these days. Cool. So, you majored in computer science, how did you kind of navigate from like, traditional computer science path to Elixir?
+
+[00:03:12] YC: Yeah. So, in college, we taught Java C, perhaps Python or all this stuff. But I learned Ruby at my personal time and got into my first job as a Rails developer. In the day, I ran into it Elixir later.
+
+[00:03:33] SM: Was that something that happened from like a work thing? Or did you just happen to come across it on your own?
+
+[00:03:38] YC: You mean, Ruby, or Elixir?
+
+[00:03:40] SM: Both, I guess.
+
+[00:03:42] YC: Yeah. So, Ruby was a personal thing and Elixir as well. So, I found Ruby, like, when I search for a web framework and learning TDD. So, I ran into the softballs cause advocates, I think, so they taught TDD being in Ruby and Rails. I started learning web development from there.
+
+[00:04:08] SM: Cool. Well, it's always really exciting to talk to people who've discovered Elixir in different parts of the world, because I'm always really interested to hear where I almost like want to see a heatmap like who's using Elixir, because like when ElixirKenya came up, for example, I was just so fascinated. I was like, “Okay, so there's a group of people using Elixir in Kenya. That's awesome.” Is there a larger like large-ish group of people who are using Elixir near you, or is it like country wide, region wide?
+
+[00:04:39] YC: Well, there is definitely not ElixirChina yet. So, we have a WeChat group in China for Elixir and it's about 400 people and not all of them are using Elixir for work. They are mostly interested in elixir, and maybe using Ruby or something else for work. So, I really hope we can have something like elixir China in the near future.
+
+[00:05:08] AH: I know that for me, similar to what Sundi was saying, seeing how people are using Elixir across the world is really interesting. And you just mentioned that a lot of the people in the WeChat group are using Elixir for personal reasons as opposed to professional reasons. What are some cool personal projects that you've come across that people are using Elixir for? I know, that's a hard question, because there's a lot of cool things.
+
+[00:05:37] YC: Yes, the most reason why I can think of is the [inaudible 00:05:42] by Quinn Wilton where she put together the script or Elixir project to bundle the beam application into our executable. So, I think that's cool. I haven't got time looking into that yet, but I think I will.
+
+[00:06:00] SM: Yeah, I think actually, this episode will release probably after Quinn does her amazing Code Beam talk. But I believe she's keynoting. I believe, at this point, there have been some people in the community who like previewed the talk, and are given it the hype train. So, if you're going to Code Beam, or if you want to Code Beam, this future tense, past tense thing is drive – it’s just, “Oh, gosh.” But you know, Quinn. We love her. She's awesome. You actually started learning protocols because you you started doing some stuff based on Quinn's research, right? Is that true?
+
+[00:06:34] YC: Not actually based on her research. I think we work on our own projects at the same time and we had similar solutions to different problems. In the way, I watch her talk. I reached out to her on Twitter and saying, “Hey, I think we are using a similar approach.” And yeah, and I was really excited about it. Because it's really happy to see that it's not only me that’s using protocol in this way.
+
+[00:07:07] SM: That's awesome. Do you want to talk about that first project?
+
+[00:07:11] YC: Yeah. So, there's a project I built for Tubi, the company I work for. So, at Tubi we manage our video processing pipeline in Elixir, so Tubi is a company that serve movies and TV series free. So, we manage our video processing pipeline in Elixir and this project I build is to move all our videos from one cloud provider to another. Let's say S3 to Google Storage. So, Tubi’s scale, you would have millions of video files and each file can be gigabytes of large, so you maybe have petabytes, or even more video file to move. That's very challenging.
+
+So, I built these projects with protocol heavy to decompose different logics like moving files, and then you need to check if all these files are moved correctly, and then no network issues happen during the transmission. And after that, maybe you need to copy database records that track these files and use protocol to decompose all these responsibilities. So, that's a cool project I worked on.
+
+[00:08:38] AH: And it led you to creating your own library, correct?
+
+[00:08:45] YC: Yes, that's Promox. And that's what I use for testing these projects. Because when I built this project, I found it really hard to work protocol functions in Elixir, because in Elixir, protocol has this consolidation at compile time. So, when you add runtime, you cannot add more protocol implementations which you might need during testing environment. So, I built do Promox so we can work protocol functions in our test script during runtime.
+
+[00:09:24] AH: Was it very intimidating to go about deciding to write your own testing framework? Or was it an easy decision when you realized you needed something else?
+
+[00:09:36] YC: I think it's less intimidating because I didn't think of it as a testing framework. I just built it as a tool I used, and I've always wanted to build a library. And actually, it was extracted from some functions and helpers I wrote in our test shoot. So, I think that can make the decision easier.
+
+[00:10:00] SM: Yeah, I think that's the way to do it. A lot of the time you hear people say, “Oh, I want to build the next crazy good app or popular thing.” And usually, when you find something that is really helpful and super useful, it's usually born out of a need that you yourself needed to create and implement. And then you have a greater impact on the people who are using it, because you needed it yourself. I always find that to be the more interesting way.
+
+When I hear people are just sitting there, like, “I want to build a library. I don't know what to build.” And then they make the next to do app, I don't know, just a funny example. But it's cool. Yeah, I think it can be less daunting that way. So, that's really awesome that that's how that came about. One reason that I was like, really curious about your talk, and I was sad I was traveling the day that you did it live. But I did my talk at ElixirConf on Mox, which is testing through behaviors. And the entire time I was researching for the project, I kept hearing like the buzz in the community was like, “Behaviors are out. Protocols are in.” I mean, nothing is that decisive, right? But people were getting hit to the protocol. And it was kind of fun to hear that there were other approaches. Can you talk about how they're the same or different between Mox and Promox? Maybe the name is just the same.
+
+[00:11:28] YC: Actually, I picked the name Promox right after Mox, because I wanted to provide basically the same API as much. So, Promox can be used in a similar way, or familiar way, by users. And besides the similar API, the only difference is that Mox lets you mock behavior functions, like you said, in the prologues, lets you mock protocol functions. I think you are right that behaviors in the protocols are basically just ways to achieve what we need to implement. And it's really, depending what we need and what problems we want to solve.
+
+[00:12:15] SM: Yeah, and maybe to bring it back even simpler for maybe folks who are just starting, or haven't had a chance to even delve into behaviors or protocols at all, can you give a very basic description of what a protocol is in Elixir?
+
+[00:12:30] YC: Yes. So, protocol is basically a way to defy polymorphic logic in Elixir. So, from its official documentation, I looked it up when I'm preparing my talk. So, the official doc says, a protocol specifies an API that should be defined by 80 implementations. So, that's saying that we can have a shared API, maybe we can define public function like moving something, moving a file from somewhere to another place. Once this public interface is in place, we can define different implementations for it, and which implementation to use in runtime is depending what data structure you use. So, for protocol, we can define different implementations for different struct and we can have polymorphic behavior in Elixir. It's actually implemented with behavior, with some nice additions to it. And I think it's really cool and we should use it more often.
+
+[00:13:46] AH: If you were to, like, give a pitch for why you think that we should use it more often, try and sway people say, who are maybe not in that team, what would you say?
+
+[00:14:00] YC: Well, I think the most interesting thing, or most useful feature of using protocol to implement this kind of polymorphic behavior or shared interface is that with protocol, you can define this interface very explicitly and also use it very explicitly. So, always behavior defining callbacks as using these add callback and add behavior annotations, and maybe some of them are hidden behind use macro.
+
+So, when you’re trying to find where in our code base, are we using maybe, let's say, a behavior like Gen server? Well, for Gen server, we are all using use Gen server, so that might not be a question. We can just search it for use Gen server. But or some other behaviors, we might not use that consistently, maybe someone is using ad behavior. And maybe some ways using use that behavior. In the way, calling these callback functions, what we usually do is pass module as variable. So, we are calling maybe a module door handle something, handle callback, or something. Different people named their modules for writing prose differently. So, it's hard to searching or gripping, these kinds of usage in our code base with behavior. But with protocols, we are defining these interfaces with dev protocol. And for example, with inner map, we can always search for inner map, and we can get almost all the usages in our code base for this public interface.
+
+[00:15:57] SM: I'm curious, what does Elixir provide specifically, that makes protocols really good? I mean, I'm guessing that there might be something like that in other languages. I don't know if Ruby has anything like it. But is there something that elixir does particularly well?
+
+[00:16:10] YC: I think protocol in Elixir is modeled after protocol enclosure. So, it's very similar. And one thing I love about it is that the protocol usage can be very incremental. We can define the protocol first with a bunch of public API's, and then define our implementations for all the data structures we have. So, for example, we have this enumerable protocol and once we add a new struct, we can add a new implementation for this enumerable protocol, and we don't need to divide everything upfront. That's what I love about protocol the most.
+
+[00:16:57] SM: Cool, that's really exciting.
+
+[00:16:58] AH: I kind of wonder what – Sundi, what do you really love about using Mox? You gave attack at ElixirConf by Mox. And I would kind of like to know, what do you think the pitch would be for Mox?
+
+[00:17:10] SM: So, the pitch for Mox and what I like about Mox, I think, might be different, because the thing that I like about Mox, Mox Library for those who maybe didn't catch the talk, is that it is really just pretty annoying. I got this quote from Jeffrey Mathias, the coauthor of Testing in Elixir, but Mox is just annoying enough that if you find yourself using it, and you really have to make a decision, do I really – is it more annoying to put my tests into behaviors and mock this behavior than it would be to just do it? You weigh yourself at that time. You weigh your actions and your decision to do it or not. Like that’s sort of the reason.
+
+So, the thing I like about that is that I really like the structure of putting together a behavior and having like a defined type spec around it. I probably am the personality type that would like types. I just haven't worked in a language that's very heavily typed yet. But yeah, that is kind of the reason that I like it is that it's so explicit, and there's just so many, like things – there are rules around it. I like think I like rules. I think I can admit that to myself.
+
+[00:18:18] AH: Doing some typing –
+
+[00:18:21] SM: Please, no. We’ll see. Yeah, so I think I like the rules part of it. But I don't think that's the pitch. Because I don't think the people like it, because it's annoyingly set up. I think the pitch for Mox is truly when you just have like a very complicated tests that has so many lines of setup, where your implement, you're creating a customer and then creating an order and creating checkout ID, and like all of these things that you need to create in your test in order to put yourself in the environment in which you can actually test the code that you want to test. That's when I think that the pitch for Mox is really nice, because then you can just wave a magic wand and then have those things set up and then do the thing. Yeah, so what I like in the pitch, totally different.
+
+[00:19:09] AH: Yiming, how did you come to find Mox as a library? What drove you to end up using it?
+
+[00:19:15] YC: So, as I said before, I used Ruby before Elixir. So, in Ruby community, we have this very popular gem called Aspect and also Aspect has these mocking functionalities, expand stub or doubles and so much more. I think there's also mocking library for many tests as well. So, in Ruby, it's very common to defy Mox or stubs in our tests. So, when I started learning Elixir, I always wanted such as sing for Elixir as well. But at that time, Mox didn't exist. The way Mox came out with these great blog posts from [inaudible 00:20:01], explicit contract, I think, so I was really excited. And I started learning and using Mox right away.
+
+But as Sundi mentioned, using Mox is a bit annoying. Besides this set up, we also need to manage the processes, which process can use this mock? Or should we allow a sub process to use this mock? Something like that. So, this part always annoys me because I think, using Mox in Ruby, it's so easy to just log everything. So, I think that's also a reason that leads me to Promox.
+
+[00:20:45] AH: You, I feel like have a relatively similar common path to a lot of Elixir developers, which is they came from Ruby, what do you think – do you think Elixir has advantages over Ruby? Do you think Ruby has advantages over Elixir? Do you prefer working in one over the other? Yeah, all of those questions, I suppose.
+
+[00:21:05] YC: I think, one advantage of Elixir over Ruby is the concurrency. So, I actually was searching for an alternative other than Ruby, where I saw a very slow test use, almost every Ruby or in Rails app I worked with has a very slow test suite. It takes minutes to run. With Elixir, we can run all these tests in parallel. So, we can speed up the test process very much. And in our local machine, even with less powerful MacBook or something, I can still get all the tests running thousands even in just several seconds. So, that's very impressive when I study learning Elixir and using in production. Also, I think, Ruby has these kinds of parallel tests recently. I think that's what Elixir brought to the community as well.
+
+[00:22:10] SM: That actually just reminds me, I think we skipped over. You said that you had done Ruby and Elixir personally, but you are now using Elixir at Tubi. So, how did you bridge that gap? How did you find that first Elixir job?
+
+[00:22:22] YC: Yeah, so I think Tubi organized this kind of Elixir meetup in China from time to time. I was using Elixir in my personal time and I learned LiveView and Phoenix and everything. So, I came to that meetup in the gave a talk about LiveView. So, I introduced how LiveView worked to Elixir developers in China, and I got to know Tubi and joined Tubi as an Elixir developer.
+
+[00:22:54] SM: Was this back in the days of in-person meetups, or was it completely virtual?
+
+[00:22:59] YC: I think that, virtual, after the pandemic.
+
+[00:23:03] SM: As they all are, I think. It's kind of an interesting world for meetups right now. Me and some of the other Elixir meetup organizers have been talking about how we definitely have had a lot of cross meetup interaction where people at the Birmingham meetup know me now and I'm planning on hopefully speaking to the Denver one at some point soon, and Denver folks have spoken at mine. It's just a really crazy, like cross section time where it's actually kind of more enjoyable because we get to talk to more people. And I think that is one plus that we've gotten out of the pandemic, we have gotten good things. I was trying to remind myself about the good things.
+
+[00:23:46] YC: Yeah. If not for this virtual meetup, I wouldn't be able to speak at ElixirConf this year. Yeah, maybe at full, a little much later.
+
+[00:23:56] SM: Yeah, very true. Very true. And I think that generally, on a broader sense, remote work for engineering has gotten overall better. I think there are still a lot of things that we're all learning still. But it's been interesting to reflect on the last 18, 20 months. Oh, my gosh, I can't count time anymore. To see where we started with remote work and to see where we are now, it's interesting. But I think from like a community aspect, it is very interesting to see how we've been able to grow over virtual meetings and meetups. It's nice. I've gotten like a whole group of Elixir friends that I didn't know was out there before we went virtual basically.
+
+[00:24:41] AH: Yeah, the tools are better. I'm spending more time on Twitter, which means I'm seeing and meeting more people in the community on the internet. It is pretty crazy, honestly. But the tools are definitely better than they used to be even like 25 months ago. That is weird to say, poof.
+
+[00:25:02] SM: Don't say 24 months. Let’s just call it 20. Speaking of your ElixirConf talk, how did it go? This is the first time I guess the community is hearing from you after your talk. Did you get any cool questions? Or was there any kind of community engagement after your talk?
+
+[00:25:18] YC: I especially want to thank the community, because I've got very positive feedback after my talk. Even right after I finished my talk, I got applauses, and appreciations from the audience. So, that even with virtual conference, I think that's very powerful and encouragement for me as a speaker. 
+
+[00:25:43] AH: That's so great to hear.
+
+[00:25:45] SM: Yeah, same.
+
+[00:25:47] AH: Yeah, that's one thing I really enjoy about the Elixir community specifically, is I feel like it's full of a lot of encouraging people. They're really excited to see what people are doing in Elixir, and for the language. So, it's great that everybody can continue to be so supportive, even virtually, where it can be a little bit harder to I think, sometimes give that feedback.
+
+[00:26:07] SM: Yeah. And I felt very supported in my talk as well. I felt like I had some good questions, and I had like my supporters up in the front row, which was really nice. I actually forgot to mention that you mean, your talk influenced mine a little bit. I was trying very hard to be very aware of the other talks, because I didn't want to step on different topics, if they were going to be covered later. So, I did mention actually, that you know, that protocols are becoming really popular, and people are starting to use them or pick them over behaviors for various reasons. And I was like, if you're curious about what that is, pretty sure there's a talk on that Promox later. So, it's nice to try to be aware of what the community is doing and being able to raise each other up and give shout outs during our talks and stuff.
+
+[00:26:56] AH: Yeah, I was going to ask Yiming, do you have any plans for Promox to continue working on it? Have there been any requests or cool ideas that people want to see?
+
+[00:27:07] YC: Well, actually, for Promox, it's a very simple library and it's been stable for a while. We've been using it now ins our test for quite some time. So, I don't have any new features to add, not unless I have new things to add to my projects that maybe I will consider extracting it again, to the Promox library.
+
+[00:27:31] AH: You mentioned earlier that you had come upon, I think, maybe Elixir, because you were looking at TDD. Do you always follow a test-driven development rule? Do you always write your test first? I know that there's some waffling, I think about how people feel about it, and sometimes you don't maybe want to write the test or maybe you don't need it. But it wasn't actually something I learned in school. So, coming upon it as a developer in the real world was kind of a shock, I guess. What are your feelings on it?
+
+[00:27:31] YC: Yeah, so the feeling is much complicated as it's always been with TDD in the community. So, as I mentioned, I started basically learning web development with TDD. So, I started doing all the TDD stuff. From the beginning, I started writing all my tests first, then my production code later in getting my tests red, green refactor, and all this stuff. But nowadays, I follow, I think the rules are getting loose and loose. So maybe, sometimes I will do some experiments with production code and see how it goes. And then when I'm comfortable with the design and the function, the feature, I would then start writing my tests, and maybe the date or the proof of concepts called I wrote in converting them into tests. So, I don't strictly follow TDD nowadays. But I think the chase spirit of TDD still lives in my code.
+
+[00:29:14] SM: That's so crazy to me. I just realized, Alex, what you just said, and then you mean how you kind of follow that up. TDD feels kind of natural. It lives with you in spirit. I think if you were at a college that gave you code, where you had a project, and you had to write the code to make the red bars turn green, it only like just settled into my brain that that was test driven development, it’s just that I didn't write the tests. I remember doing that and having to like, make all of those bars go green and it was like basically a quiz. And if I didn't get all of my tests green, it didn't mean that my project failed or whatever. It was just that like, my grades suffered. Oh my gosh, this is such a – this is a moment for me. I'm picturing it. I think what was it in Java? Oh my gosh, I'm like completely blanking.
+
+[00:30:09] YC: J Unit?
+
+[00:30:11] SM: Yeah, it’s that. I could tell it was that when you said it because there was a pit in my stomach. It blossomed. Oh, wow. Okay, so we've all been doing TDD for a while now then.
+
+[00:30:25] YC: Yeah, I think coming up with a great solution, the first step is to ask the right question, or coming up with the right quiz, as you said. So, at college, maybe we are doing the quiz that someone else come up with, and maybe out of college, when we do in the real world, we need to find that quiz, that problem we need to solve by ourselves. So, maybe we should use TDD this time and then maybe we should use other approaches next time. So, it's like behavior and protocol, but they are for different purposes and that we should choose between them depending on the situations.
+
+[00:31:10] AH: Yiming, you learned Java and C Sharp in college, is that correct?
+
+[00:31:13] YC: No, C Sharp. It’s Python.
+
+[00:31:20] AH: I also learned Python in Java. Did you have any experience with any functional programming languages in college? Or was that something you came to on your own?
+
+[00:31:30] YC: I think the only functional language in college I came to was Lisp. So, I learned Emacs and all the crazy lectures on online. So, they are talking about this crazy language talk called Lisp, and how powerful it is. I only learned that and Elixir after.
+
+[00:31:56] AH: that something I wish I had learned more of in college, just that there's a variety of other languages out there than Java.
+
+[00:32:06] SM: Don't you think like a history of class would be great before you really get into the nuances of a code language, like what Quinn is doing with like history of erlang? I would love to have a non-technical, like these are the different programming languages. This is how they came about. This is why you use them. These are the categories, O vs. FP you know, like, that would have been great. Somebody's going to make that.
+
+[00:32:35] AH: Sundi, next talk.
+
+[00:32:38] SM: Just history of all the languages.
+
+[00:32:39] AH: History of all programming languages.
+
+[00:32:43] SM: Oh, was the talk two hours? Am I actually filming a documentary?
+
+[00:32:47] AH: It's actually going to be all day.
+
+[00:32:50] SM: Oh my gosh, so good. So good.
+
+[00:32:53] YC: It seems there's functional programming language documentary talk from maybe ElixirConf 2020 or 2019. I don’t remember, exactly, but I think there's one.
+
+[00:33:07] AH: that sounds fascinating.
+
+[00:33:10] SM: That sounds really fun.
+
+[00:33:12] AH: Yeah, definitely going to have to check that out.
+
+[00:33:13] SM: I've said it before on the podcast. I love me a good history of. I think honeypot does a lot of those like history of Elixir, history of, I think when I watched it was like Ember maybe, where they interview the founders and talked about like the specifics of what was going on and how it was created. I love it. Give me that over, anything else any day. I know Alex is into the the documentary type is called. You like the documentaries that are trying to remember?
+
+[00:33:39] AH: Documentaries that are true crime related, cult related. I love a good cult. Yeah. Always. Will watch any of it.
+
+[00:33:50] SM: It’s interesting to see the content we consume when it's like Elixir, and then not technical at all. Because mine is usually like Elixir, Elixir, Elixir, Avatar podcast.
+
+[00:34:04] AH: Avatar?
+
+[00:34:04] SM: Yeah, Avatar, the Last Airbender. There's a whole podcast around that. Go through all the episodes. They review it. It's great.
+
+[00:34:10] AH: I've never seen it.
+
+[00:34:10] SM: Okay, we'll talk about it later.
+
+[00:34:13] AH: Don't come at me everybody. I've never seen Avatar, the Last Airbender. I've also never seen Avatar the fancy long movie.
+
+[00:34:20] SM: Very different. Very, very, very different. I'm a huge Avatar, the Last Airbender fan, though. Cool.
+
+So, we talked a little bit you know about how you found Elixir. And we also talked a lot about at the beginning here about like the impact that one elixir meetup that Tubi had on you, personally. How is Elixir doing in China overall? Do you see it growing? Do you see it shrinking? Is there like – are there more companies popping up? They're using it. I'm just like, we very rarely have the opportunity to talk to people in like a different region to talk about Elixir. So, what’s up?
+
+[00:34:57] YC: I think the community is still quite small in China. So, as I said, the whole WeChat group is only like 400 people. And we found it really hard to hire Elixir developers in China. And also, maybe you find, on the other hand, from developers’ perspective, it's really hard to find Elixir companies, good Elixir companies to work with. So, I think we are still having a long, long way to go in China to grow these Elixir community to bring this great language, these great frameworks to our people in China.
+
+[00:35:37] SM: Yeah. And can you speak to, you know, if you were to convince another company in China or elsewhere, that Elixir has been great for you. How would you describe that impact that Elixir has had on you and your programming style, if you were doing that elevator pitch for someone else?
+
+[00:35:54] YC: I think, if I want to convince a company to use Elixir, I will just start from like, it's more, the application would become more easier to maintain. With technologies like LiveView, you can have a sole developer that can develop a single page application by maybe one person or a small team and the team moves really fast with that technology. But for me, personally, Elixir also change how I think of programming. So, I think these are the really great tool to use to level up the whole team's ability to solve different problems. It’s great too.
+
+[00:36:41] AH: That’s so great that you say that, because you are not the first person to say that using Elixir has changed the way that you program in general. I think in the season intro, Eric talks about how writing Elixir, he noticed that he writes different, maybe better JavaScript. What are some things that you've noticed that you've taken out of Elixir and used in other languages like concepts? How differently do you write your code, I guess?
+
+[00:37:13] YC: I think the aha moment came to me when learning Elixir and Phoenix where I read this great book Programming Phoenix. So, in Programming Phoenix, they’re modeling the whole HTTP server endpoints as a function. So, when we call website call API maybe, so it's like calling a function. The parameters we gave to these HTTP endpoints, these parameters we gave to this function, and what we get from this endpoint is the return result.
+
+So, when we model the whole HTTP server as a bunch of functions, we can do the same as different levels of this applications. So, as a top level, we have these different services, and then each of this service can be seen as a function, and each service has a bunch of HTTP, API endpoints. And the each of the endpoints can be seen as a function. Each endpoint is composed of different parts, plus hours or functions. And the functions can be broken down into more functions, and it's all functions all the way down. 
+
+[00:38:35] SM: It’s so good. I don't actually think I heard that it's turtles all the way down phrase until Bruce Tate said it in class, maybe, when I was taking his LiveView class, but really appreciate that you worked that in there. That's so good. Cool. What do you think, like the future of Elixir will be if you had to predict the future right now? Or what do you hope it'll be? What do you hope to see from Elixir in 5 to 10 years?
+
+[00:38:58] YC: I think Elixir itself is a very stable and simple language and that’s also why I love it. And so now, I think we are not adding more features to Elixir itself. It's just more improvements to compilation in the code, formats, things like that. But I think when we use Elixir, we're just scratching it surface. Take protocol as an example. Not many people are using protocol in the past few years. But recently, we see more and more people using protocol to do all the fancy stuffs. So, I think my biggest hope for Elixir is to find more of these kinds of patterns and to leverage OTP more so we can get more cool applications like LiveView and more frameworks like that in the future.
+
+[00:39:59] AH: I would agree with you. I think we've really only just scratched the surface, especially like in terms of community size, even things like that, right? It's still a pretty small, not widely used. So, there is a long way to go yet. The future holds endless possibilities. Yiming, do you have any final plugs or asks from the audience and our wonderful crew of listeners?
+
+[00:40:24] YC: Yeah, so as I said, I worked for Tubi. And Tubi hiring for Elixir developers in both the US and in China. So, if you are interested in managing the complex video processing pipeline with Elixir, feel free to reach me on Twitter, I’m @dsdshcym on Twitter. That would be put in the show notes as well.
+
+[00:40:53] AH: It will definitely be in the show notes. I know our producer Bonnie Lander is great with compiling those. Thank you, Bonnie. Well, guys, that's it. Thank you so much, Yiming for joining us across three time zones. We have managed to record this episode. So, thank you so much for coming on the podcast.
+
+[00:41:12] YC: Thank you for having me.
+
+[00:41:12] AH: It's our pleasure. That's it for this episode of Elixir Wizards. Thank you again, Yiming Chen for joining us today.
+
+Elixir Wizards is a smart logic production. Today's hosts include myself, Alex Housand, and my cohost, Sundi Myint. Our producer is Bonnie Lander and our executive producer is Rose Burt. We get production and promotion assistance from Michelle McFadden.
+
+Here at SmartLogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails, and React, Kubernetes and more. If you need a piece of custom software built, hit us up. Don't forget to hit like, subscribe and leave a review. Follow @SmartLogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord, just head on over to the podcast page to find the link. Don't forget to join us again next week for more on the impact of Elixir.
+
+[END]
