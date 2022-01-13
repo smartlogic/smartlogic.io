@@ -1,0 +1,263 @@
+EW S7E9 Transcript
+EPISODE 9
+
+[INTRODUCTION]
+
+[00:00:06] AH: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Alex Housand and I'll be your host. I'm joined by my guest co-host today, Dan Ivovich. Hello, Dan. How are you?
+
+[00:00:20] DI: Hello, it's good to be here.
+
+[00:00:21] AH: It's great to have you. I know you're a little nervous, but it's going to be great. You're going to be great. My producer, Bonnie Lander. This season's theme is the Impact of Elixir. Today we're joined by a very special guest, Brooklyn Zelenka. Brooklyn, how are you? 
+
+[00:00:35] BZ: I'm doing well. Thanks for having me back. 
+
+[00:00:37] AH: It's great to have you on. I think this is your fourth time on? 
+
+[00:00:42] BZ: Something like that, thereabouts. 
+
+[00:00:44] AH: Thereabouts, excellent. What's been new with you since the last time you were on?
+
+[00:00:49] BZ: It's actually been a while since the last I was on, like maybe almost two years. Spent pretty much the entire pandemic in between –
+
+[00:00:55] AH: A lot has happened in the pandemic –
+
+[00:00:57] BZ: Lots been going on. Yeah. Lots of keynotes, also panels, I've been getting really involved in decentralized web stuff, the interplanetary file system, which I'm sure we'll talk about through this. Got involved with Decentralized Identity Foundation, and have been really excited now as we seem to be slowly, hopefully exiting the pandemic to be traveling again. I'm actually in Montreal right now. I'm normally based in Vancouver, but enjoying the cold or not enjoying the cold, depending on the exact day. 
+[00:01:25] AH: Yeah. That's fair. What people cannot see is that you are in an, a 19th century? 
+
+[00:01:31] BZ: That's right. Yeah. This building that we're I’m staying is all old stone walls. It was built in the mid-1800s. It's actually older than Canada. It's a cool, little fact. 
+
+[00:01:43] AH: That is cool. You're based in Vancouver, usually. What's colder Vancouver or Montreal? 
+
+[00:01:48] BZ: Colder. Oh, definitely Montreal. Vancouver has the same weather as Seattle, essentially. Rainy, but not that cold, and not that hot in the summer. 
+
+[00:01:57] AH: Lovely. That sounds great. –
+
+[00:02:00] DI: It’s not that hot in summer is all about. That's –
+
+[00:02:03] BZ: Right, yeah.
+
+[00:02:04] AH: Not that hot. Was Vancouver hit by the heat wave that recently swept through the Pacific Northwest. 
+
+[00:02:11] BZ: We had a couple days of that and a lot of forest fires, for the last couple years, which is not so fun. There was a couple, smaller cities or towns in the interior that just aren't there anymore, because wildfires just swept through. Things are definitely – it's amazing how many once in a lifetime disasters you can have in a couple of years, right? They seem to be stacking up. Yeah. Not great, so it's normally quite cool in Vancouver in the summer, but less so now. 
+
+[00:02:40] AH: It's so true and also so sad. You're like, what did I experience this year? A Pandemic, forest fires, something else, another thing, yeah. Not to be too depressing. You're at Fission, right now. Fission, Fission.
+
+[00:02:56] BZ: Fission.
+
+[00:02:57] AH: Fission. How long have you been there? 
+
+[00:02:58] BZ: Since 2019. I guess, coming on to three years soon, two and a half years, I guess now. I'm one of the Cofounders and the CTO there. Yeah. We're an applied research company focused on Webtech, Edge applications and Hot Data. Data that's moving around, rather than stored in place. I guess, if you want to put it a broad category on it, we're working on the new internets and trying to move that needle forward. 
+
+[00:03:24] AH: Cool. What was it like being at a company, I guess, starting in 2019 and then the pandemic hit? Was that hard, difficult, easy, not? 
+
+[00:03:35] BZ: Yeah. It was. I mean, I think, it was weird for everyone, because a lot of things changed, but we had already been a fully distributed team. Myself, my co-founder are in Vancouver, but we have people in Europe and all through the US and Toronto. Not being able to go into the office was a non-issue, but it's definitely accelerated some things. People know what QR codes are now, just like everyone, because you go to a restaurant, if you're in a place that has restaurants open again and you have to scan on menu and all this stuff.
+
+It's been interesting how some of the tools that we're using in 2019, that nobody knew about are now just super commonplace. In a lot of ways being an early stage company and venture backed, it meant that we weren't really taking payment from customers at the time anyway, so it didn't really affect us from that angle. But it also makes it when there's big world changing events, people sometimes wants to just stick with the things that they already understand and they already know. It's been a bit good and a bit bad, which I think is the theme for the last two years for everyone.
+
+[00:04:44] DI: We read in the interview that you're very into fermenting things, or you've been fermenting?
+
+[00:04:49] BZ: Yeah. So that was my pandemic hobby. I think a lot of people developed, arts and crafts things when stuck inside. I've been making Tepache, just like a pineapple beer and ginger beer at home. It's actually, shockingly easy. Nothing has gone too, too bad. Though I have a colleague who was also doing this, but with berries, and that exploded, and was not possible to get out of the walls and have to repaint and all of this stuff. I've not had any disasters, which is thankfully. Yeah. It's nice to be able to than really customize what you're drinking, the exact spices, how sweet or dry it is, we can get it pretty much down to almost a sparkling wine. I actually have, I was just putting this together a few days ago, because somebody was asking for it. I have a now PDF Tepache Recipe that I can always share. If you want you can put it in the show notes.
+
+[00:05:44] DI: Sure. Yeah. Everyone's looking for new hobbies. The last two years were certainly a case for that. I did experiments a little bit. I’m on the sourdough train, a little late in the pandemic. 
+
+[00:05:52] BZ: Nice. 
+
+[00:05:53] DI: Yeah. Fermenting, I did beer back in the day, haven’t in a while. Exploding bottles, definitely a concern. Yeah. Then as someone who spent a lot of the pandemic painting my walls, I do not envy having to do that, again. Glad that I have not exploded any fermented projects onto my walls. That's super interesting. We love talking about people's hobbies. All right, so an Edge app. Talk to me about, we're talking about distributed computing, you've alluded to a lot of different ways in which you're pushing things to the edge. What does that mean to you?
+
+[00:06:26] BZ: Yeah, so edge computing serve broadly, is about moving all the primary resources, so storage compute, etc. closer to a user, to give them a faster experience, because you don't have to wait for latency of all of these messages moving around below the speed of light, right? If everything sitting in US East one, then both, it can take some hundreds of milliseconds to get there, a couple 100 milliseconds to get back and when those servers go down, they break the entire Internet. If you have something that's a little bit more distributed and closer to users and we're really talking down the block within some a small number of kilometers or at the extreme, what we've been mostly working on directly on device, you can get down to zero latency. 
+
+So having things be extremely snappy, which hasn't really been explored as much in web apps, but native apps. So the apps on your iOS or Android device for example, a lot of them already work this way, right? It's been difficult to do on the web, because we haven't had the APIs for it until quite recently. Some of the techniques to do distributed databases things like that, that go all the way down to a client device are quite new, so quite bleeding edge. So getting to push that forward. 
+
+You can think of the model roughly as the exact opposite of Phoenix LiveView, right? In LiveView, you're sending all the data, there's a single source of truth in a database, and it will calculate the updates to some state and then send back either Delta on the state or even maybe some HTML back over the wire. Everything's really happening at the server and you're getting small amounts of it back. With edge computing, you're doing everything locally and only sending to others the small amounts that they need to stay in sync with you. So there isn't a single source of truth anymore. 
+
+There's the overall states that everyone who's, if you have a collaborative app, or you need to push data somewhere else. Only the stuff that they need to do, to make the update for their machine, but you can do everything completely locally, offline, with poor connection, poor connection, no longer matters, because your machine, that should be your iPhone, your laptop, whatever, it has everything baked into it. Or, if you're using Edge infrastructure, so something like an Edge datacenter, or an Edge PoP, Point of Presence, it might be literally down the block from you. 
+
+When we take that again, right down onto the device, the other advantage is you don't have to learn the entire stack anymore. You don't have to maintain a back end, maintain a database, learn DevOps, Kubernetes, any of that stuff is just directly on your machine, and then having some method for synchronizing the data underneath. It's obviously very different from how things work today, which is why I think, it breaks a lot of people's brains. Again, this is the absolute bleeding edge for that space.
+
+[00:09:33] DI: When you talk about some mechanism for synchronizing, that's what you're expecting the platform, the SDK layer is handling that for you in that scenario? 
+
+[00:09:41] BZ: Yeah. Exactly. In the same way that we use, say Postgres, and you're not a expert in the internals of how Postgres does data storage or the exact data structures and how it's going to serialize it to disk, these SDKs. So for example, our SDK is called Web native and it's knows how to store and address data in a distributed manner, and also keeping everything offline first or local first.
+
+[00:10:08] DI: So then, as a developer have to make that decision around what is local versus what is an Edge node versus what is maybe on a further away Edge node, or how does that network balance?
+
+[00:10:19] BZ: Yeah. So the core idea, at least for our approach is the location no longer matters for the data. There's a few details in there that I'm glossing over about, like how exactly we do that? The short version is, if everything should be completely local first and run directly on your device and we recognize that there's at minimum speed of light latency between things, we're making lots of updates. We need already then to be able to update separate bits of data that are now diverging. 
+
+In the same way that you have a, your main branch on a Git project and then you have all these branches that come off of it. Then a mechanism for merging them back together again, if we have an automated way of doing, then it doesn't matter where the data lives anymore, but we care about is what the data is, right? This is part of how we to do this, is something called Content Addressing. 
+
+In traditional systems, what most people are using today, you have a URL that is really a underneath, that's an IP address. It says, go to this computer, and ask it for this file, right? So that's saying, go to this specific street address and ask them for the book that is on shelf three, this far into the bookstore, content addressing says, this is the data that I want. I want whatever file has this hash associated with it, for example. I don't care which bookstore you get it from, go into any bookstore and ask for Warren Piece, and they'll be able to hand it to you. 
+
+If I have a copy, you have a copy, there's one of the library or one of the bookstore, it doesn't matter anymore. We get a bunch of niceties from that. So being able to move these resources around transparently without having to at least at the base case, without having to say move this here, and move this there, because they're just copies. I don't only have to get it from one place. Just how BitTorrent works and you can get little parts of it from many sources and maybe they're very close to you or somebody that has a local cache, because they've looked at it recently, we can do the same, but for all data on the web.
+
+[00:12:37] DI: Cool. The old style brain of mine is wondering about security and protecting from a malicious somebody malicious on the network, because we've talked about no centralized trust, so where does the trust play in, in that scenario?
+
+[00:12:52] BZ: Yeah. Absolutely, so when we were first exploring this space, we're looking at the tools that existed. That was the big glaring hole, right? That nobody had solved. We spent a bunch of time investing in exactly that. Users control all of their data or whoever originates the data that could also be to a company or whoever, right? Each bit of data gets encrypted directly. Now, in order to get into any particular file, you need it's key and this is the same level of security as you'd get with top secret clearance for US military, right? So very high security all baked into browsers these days, it turns out actually. 
+
+Some techniques, for example one called a crypt tree that lets you avoid having to manage thousands of these keys, right? You can only have one or two and then that will manage quite a few more for you. The upshot of this is, even today, when you have data sitting behind a server that has some check to say, okay you have the right bearer token to see this record in the database, there's data breaches all the time, right? You can have bad authorization logic, people can get into the server, you can have a disgruntled employee, download a copy and release it. This happens literally on a daily basis. 
+
+[00:14:09] DI: There's a good chance, someone listening to this podcast right now, just got an email about a data breach.
+
+[00:14:13] BZ: Exactly, yeah. By breaking it up into this more granular system where every file, every directory has its own keys, it's a minimizing of trust, so that we're no longer saying it's this server that needs to do all of the heavy lifting. It's baked right into the data, even as it's moving around in the network. As a service provider, say Fission, or whoever down the road, it’s like Twitter were to do something like this, they could also hold private data without being able to see what's inside of it. If someone were to get, into to say, my account, they wouldn't get into your account. It really minimizes the blast radius of a data breach. 
+
+[00:14:54] DI: Wow. Okay, so super interesting. Pull us a little bit back towards Elixir. I know we talked about this is very much in the browser product. Probably not using Elixir for a lot of this implementation. Curious about functional programming styles, if that plays into how you think about this, if that has influenced the style of an edge app?
+
+[00:15:14] BZ: Yes, definitely. We're really focused on the browser, or at least have been, but there's nothing preventing you from being able to – you've solved the really hard problems, right? So you can now walk this back into Edge PoPs, or all the way up to cloud, right? You can run this and say, it’ll be less. Really, the backbone of all this stuff is distributed systems, which Elixir is very good at. I would say, it even encourages you to think this way, right? The actual model, if you have process locally, or process remotely, they're not identical, but they're pretty similar, right? 
+
+A lot of people in the ecosystem, so not just the language and the tools itself, but actually the people working on projects are interested in these things, right? There's a lot of people who are doing CRDTs or Broadway as a project. Actually, doing things in high parallel or moving data around between machines, it's like the exact space where we're playing in functional programming broadly for this is a huge help, because you can't have some central resource when you're doing work. You can, but it becomes a bottleneck, right? When you're doing these distributed systems. 
+
+One of the major downsides of [inaudible] of programming is that it hides state behind interfaces and they're locked there in space, right? You have to go over here to this machine at this address and find it. Functional programming exposes states and moves it around that way. Even in say, a gen server, right, we're always exposing, well, this is the current state that I'm going to update, and then I'll return the new one, right? We pass things around. Yes, sometimes there will be in an actor over here, there's a bit of say, and that's going to manage it, but we can also pull that out and move the data around and that's completely okay. 
+
+We can copy it, send versions somewhere else, receive more of it and that entire model works really, really well when you're thinking in factors and in immutable data structures, especially. Mutability is very difficult when doing distributed systems and having that baked in as, I would say really, that's the main core idea of functional programming is exposed state and immutable data, right? The rest of it is really nice hardware functions, all this stuff and we call it functional programming, because we to think of it as the thing doing the actions on it, but really at its core, it's about the immutability.
+
+[00:17:51] DI: Great. You gave a talk at ElixirConf is year. Could you tell us a little bit about what that was? What the concepts were? With a few following questions. 
+
+[00:18:00] BZ: Sure. I gave one of the keynotes at ElixirConf in Austin, which was actually the first time I'd been out of Canada in two years, that was exciting. The talk was called The Jump to Hyperspace, which is about all the things we've just been talking about. Edge computing, the speed of lights, and how that's a barrier, how that in effect becomes a network partition not just latency. Some of the changes that are already happening with things like Low Earth Orbit satellites, things like Starlink, how that's changing the network and the responses that's the industry moving all the way out to software to take advantage of these changes to the network and changes to some of the newer techniques that we have now. 
+
+That means, that we don't have to rely on the same, I really don't have to rely on the same ways of doing things as we've done for the last 30 years, but that we've taken that style, really, as probably as about as far as it can go without having to make some fundamental changes. You said you had some follow on questions that might be a good jumping off point. 
+
+[00:19:10] AH: I've got one. The full title was The Jump to Hyperspace Lightspeed, antientropy, and moving past the cloud, did I pronounce antientropy correctly? I actually don't know.
+
+[00:19:21] BZ:  Antientropy. Yes. 
+
+[00:19:23] AH: Antientropy. Sure. Could you give a brief layman's terms definition, if you will, for our listeners? 
+
+[00:19:31] BZ: Sure. Absolutely. I touched on, not all of this, but some of this earlier. Entropy as a concept is the tendency of information to become disordered over time or really any systems become disordered over time. Antientropy is a class of techniques to resist or reverse disorder. Make them more ordered again. The one that we're most familiar with as developers is Git, right? You have your main branch and then you’re forking off of that or branching off of that, and that is a less ordered state, right? There's more versions of that file now. Then you need to go and merge it back in and that's making it less disorder, we have fewer branches and those are coming back together. 
+
+The main technique that uses this, or the most famous one these days is a conflict free replicated data type CRDT, which is essentially doing Git merges on data structures, without needing somebody to intervene. Instead of having a PR and then you have to hope that the Git merge will work. Then you have to manually handle anything, this will just do it for you automatically and get everyone into a consistent state. 
+
+So doing updates on say, two databases or two devices, running the same software even could even be different software will keep it simple, running the same software and they're both offline, you're both editing a document and you come back online, and they sync up again, you should get a consistent view of that documents at the end without needing a central server. Antientropy is that merging back and resisting having many different possible views of some data, it's getting it back into one consistent state. 
+
+[00:21:11] AH: I love Git, as the high level example. Earlier, when you mentioned reference systems and books, I thought also, that is an excellent real world example like makes it paints a very clear picture, which I appreciate. 
+
+[00:21:23] BZ: Oh, thank you. 
+
+[00:21:24] AH: You're welcome. Do you feel being at a research and development company and being the CTO you have to be able to come up with really good, very clear examples that are non-tech related for potential clients? 
+
+[00:21:36] BZ: Oh, yeah. Very much. Nevermind the potential clients for just literally anyone, right? My CEO, Oris has a technical background, right? He has a CS degree. He's worked as an engineer and come in on Monday morning, having read a couple papers on the weekend. I was like, “Okay, how can I put this in normal people terms for anyone else to explain why this is important for us to work on? It's from, everyone from my, mom doesn't know what I do, so I have to explain it to her, all the way up to literally my co-founder. So yeah, absolutely. 
+
+[00:22:10] AH: Yeah. The meme of like what my parents think I do. What my boss thinks I do. What I really do. Yeah. Absolutely. 
+
+[00:22:17] BZ: Yeah. 
+
+[00:22:18] AH: Something that really struck me about the talk that you gave at ElixirConf in Austin. You had this graphic that had circles around, where cloud infrastructure is, but where people are, and makes me think a lot about tech equity, which is something that is always continuously a problem. How do you think that we as engineers, really anybody in technology can work to create more tech equity, I guess, make it more accessible? 
+
+[00:22:47] BZ: Yeah. It's a big problem, right? It's hard. 
+
+[00:22:50] AH: Yeah. 
+
+[00:22:51] BZ: Sometimes things get solved at different layers. Then whatever any particular teams working on, but the core problem is, if you look at, and I'll just pick on AWS, because they're the biggest, about half, maybe more than half of their Data Centers are in North America and Europe, right? There's one AWS Data Center in Africa, for all of Africa, right? Which is about one and a half billion people and a massively growing market for technologies, smartphones, all that stuff, right? The leapfrogging effects as well, of not having to go through dial up modems, right? 
+
+It's like suddenly, everybody's online, all of a sudden, and they have one Data Center, which will take billions of dollars to build a new one, right? only if there's demand for it, right? Like economic demand for hosting things there. What ends up happening is people end up with really terrible service with hundreds of milliseconds of latency at best, with really awful video call quality and really expensive resources, right? You want to store something in, the one server they have in Africa is in Cape Town, right? 
+
+There's only so much storage there and it's not, each region has different pricing. That is not the cheapest region. Not that it's secure all, right? But Edge computing has the advantage where you can spread out your resources across geography much more easily. Take it – again, right down to the single device, have an ISP put in roughly the size of a fridge, and top with a little bit of storage and a little bit of compute on it, where you can send jobs or a little bit of storage too, which is really close to people and where we're trying to get to. So this is a little bit further out, is in the same way that we've had open source where you can look at other people's code. We want to have open infrastructure, right? What's sometimes called Commons Networks. 
+
+Why can't I, when my laptop is sitting idle, provide Compute and Storage for other people? Why can't I just buy or use my old desktop PC and just let it sit there and be connected to think of it almost a data center equivalent of BitTorrent? Where we spread this out across all of our idle devices, that's not 2022 thing, right? That's a little bit further out. But these are all things that we can do to make access to tech more equitable. 
+
+[00:25:29] AH: Do you foresee any, I can't think of the word it's not misgivings, hardships, I guess, in gaining the trust of people for something like that? One of the, it's another follow up question. I think, they're related, is like how you gain people's trust for things like you mentioned in your talk, remote surgery or autonomous cars? How do we gain population trust for things that are starting to be created, but are a little faulty and convince them that they are worthy, I guess?
+
+[00:25:58] BZ: Yeah, totally. Those are all things that people should be worried about, right? It's very different to have a pair of robotic surgeon hands operating on you from whatever, three to 5000 kilometers away versus somebody in person, right? We've had in person surgeons for a while, right? So this stuff is all quite new, we should be skeptical of things self-driving cars, right? Because there's all kinds of issues with them and not just from the sheer tech side, which there is, but even from the ethical side, and how do we encode trust into those things, right? 
+
+So for all of this stuff, we have to get to the point where we've seen it used in practice in small amounts and had it work and then have that expand out. There are some things that I'm skeptical of just in general, there's a lot of attempts right now to do online voting, right? You can see the appeal, it’s you know, you no longer have to stand on the line. It's much harder to prevent somebody from actually voting, right? The underlying technology totally makes sense, but if there's anything wrong with that, well, right, now we have a really great audit trail with paper and it works.
+
+ I don't want to hand over the control of a democracy to something that has a harder way of auditing, right. All of these technologies that are coming up, so keeping it just the edge stuff remote surgery, self-driving cars, a distributed machine learning, right? All of this stuff, local for software, personal data, self-sovereign identity, all of these things, need to be proven out in small, successful applications that then grow. If we can't show them working in on the small scale, then they shouldn't survive, basically or maybe that technology isn't right for that area and maybe it has other uses. 
+
+On the remote surgery, one, which is I think, everyone gets interested in this specific case. There have been – this has actually been done in practice, I believe, at least once with a human patient, now in China, where the surgeon was in another city. The advantage, obviously is that you don't need to train as many surgeons and the ones you do have, you don't have to fly them around or you have you don't have to bring patients in, right? You can now serve remote populations and all kinds of stuff, right, this is fantastic. 
+
+They did this with a 5G Network. It went through fiber cable, to a station up into the air back down. So very straight lines, right? You're not sneaking through fiber in the ground, very straight lines back down and it was under, I can’t remember the exact numbers, I think, under 20 milliseconds or something latency. Very, very fast, very responsive, and was success in the one trial case, right. So very promising, but very early and especially something like health care, we need to be very careful with it. 
+
+[00:29:02] AH: Do you know what the type of surgery was before I let Dan take over for a second? 
+
+[00:29:07] BZ: I can’t remember it. They've definitely done literally, a minor brain surgery as one does. Yeah. I'm trying to remember if that was the one that I just described in China or not. They've also done some of these with, I think, the euphemism is animal models as well. Human one, I think, was a brain surgery, but I’d need to double check. 
+
+[00:29:26] DI: We can leave that as an exercise to the listener. Take a look up, Crazy Remote Brain Surgery. So to bring back to some maybe some language specifics, we're curious about Haskell. I think those who know Haskell, seem to love Haskell. Those who don't know, Haskell maybe love the idea of Haskell. How do you feel about Haskell?
+
+[00:29:42] BZ: I really like Haskell. I mean, I wrote the Witchcraft suite of libraries in Elixir, which is essentially porting a lot of the ideas from Haskell into Elixir. Our CLI Tool and back-end at Fission are written in Haskell. I'm a fan and I think it has a bit of an aura around it of like, “Ah, scary monad thing,” right? Yeah. There's no way around it. There's a learning curve, that's not actually that different from rust. I've been picking up rust more and more recently. They feel actually shockingly similar as languages. Things that I like about Haskell are it's obviously very, very functional. It has the best concurrency story that I've seen in any language, just blows everything else out of the water. The type system makes it very easy to prototype in and think about things in both small chunks, but also in the large. 
+
+So doing refactors, for example, is essentially a non-issue. The type system will lead you around and in the same way that if anybody's had experience with alum and it can be very helpful in suggesting. This is broken over here, that's broken over there, that's very helpful. There's an old adage about a language that if it compiles, it just works, and that has been my experience, right. Especially very, very early on, when it was just me or me and one other person, it was the secret weapon to stay really just super productive when you're doing a lot of heavy lifting code. 
+
+Then all the other stuff that comes nicely with functional programming, right. You get this really nice clear separation of concerns, the type system also makes it very easy to track that separation and how you can then take these separate pieces and snap them back together again. Yeah. But again, it does have this learning curve. The learning resources are getting a lot better. I've had to train a couple people as they've started at Fission, who didn't have the previous background, and they've been successful with it, because the main problem is, historically that there weren't any good books or there was nobody really to ask. That's much easier when you have a guide or nowadays a lot more learning resources online.
+
+[00:31:51] DI: So the theme for this season is the Impact of Elixir. As you're working in Haskell or TypeScript for your browser based work, how do you see Elixir influencing what you're doing or is there a place for Elixir in your tech stack currently?
+
+[00:32:05] BZ: Yeah. Definitely on the backhand side of things, essentially everyone at Fission, I'm not sure if almost everyone at Fission, when I think about it, has some Elixir background. Again, the distributed systems side of things, there's so many people who are already thinking about, how this works? Thinking about the problems in the right way, realizing that the locality of your data matters and that freeing it from that is very important, and how to keep your data stateless and passed around, right? 
+
+One of the things I hope came across in the keynote in Austin, was that, because this community has the experience with distributed systems, that is an excellent fit both the existing packages and the experience that we have. The way that Elixir makes you think about problems is a really, really nice fit for this area. There's definitely some things that would have made it easier for us to adopt for what we're doing at fission. I know that there's some efforts to having a web assembly back end for Elixir. 
+
+Doesn't exist yet in a really production form and that might require some changes to Elixir the Language, right? We'll see how that evolves. But there's really nothing putting on my programming [inaudible 00:33:28] hat, right? There's really nothing that says that you can't do that, you might lose some of the fault tolerance guarantees, because you're no longer running inside of a single VM. I think, WebAssembly is going to be extremely important in the next five years at minimum, and that, things like that will really, really help with that adoption for those use cases, which is not just WebAssembly, the old saying about this is, is neither web nor assembly, so people are running it on servers, they're running on desktops, right? It's just everywhere and so that would really, really help. 
+
+Especially, because the actor model in the way that it looks or thinks is a really nice fit for the web, because the web is a distributed system, Right? Years ago, I used to teach Elixir, like corporate classes for teams that were hoping to adopt it, right. I would often use the analogy of, it's like having each of your processes its own REST server, right? It's now extended to absolutely everything in your language. Thinking about things in that granular way, is super, super helpful when doing things with distributed systems or especially edge in particular.
+
+[00:34:40] DI: Yeah. I think one of the things I'm just enjoying listening to you talk about all this is you're coming at this with such an approach around, it's about the ideas and not the language, not necessarily the implementation, but that we're at a point where the ideas of distributed computing are the ideas of an actor model, or the ideas look, we can take these and apply them in other places. So even though you are doing work in Haskell or in TypeScript you're leveraging knowledge, experience and patterns from previous places. I'm curious with that where were you before Elixir? What were you working in there? Was Elixir, your first introduction to functional programming or what was your journey?
+
+[00:35:18] BZ: For sure, yeah. So my main, I guess, professional experience prior to Elixir, was obviously JavaScript and Ruby. I started, worked at Ruby for a number of years, and was doing Elixir on the side and decided I wanted to do that full time and got a job that was specifically looking to do Elixir in 2015 or so. So did that full-time for a few years, and taught, etc. Prior to that on the side, I had, I really love programming languages, I'm a primary language geek, and would collect them or try different ones out and write little projects with them and try to compare and contrast them. 
+
+My first, you can really, again, it's about the techniques more than the language. One of my first languages, second language actually was Clojure, so I learned JavaScript and Clojure about the same time. We were, so the first startup I was at, actually, and we were using this framework that was based on the JVM, so you can use all the JVM languages, and that company was definitely using all of the JVM languages. I had to pick up JRuby and Groovy and Java, and all of these languages really quickly, I found, I really enjoyed that. So in the first year or so I had picked up about 20 or so and just kept going and would go and play with FORTRAN or C++ or whatever. 
+
+Bit of it, very atypical journey into Elixir from there, but part of what got me into Elixir in particular was, I mean, yes, the Ruby background. There's some very surface level similarities, doesn't really go past the syntax, I think. My closure background, my lisp background, really drew me in more, because you have Macros, it is Homoiconic. You do have all of these, it's in a lot of ways, it's essentially a lisp with a better syntax, right? That felt very familiar.
+
+I was running the functional programming meetup in Vancouver at the time, and lots of people were interested in, that we're coming in mainly from Ruby, because lots of Rubyists. They were interested in Elixir and in Haskell, and specifically they wanted to know what a Monad was, or a Functor was. I said, “Well, you know, I can probably teach this by rewriting those things in Elixir for you and then you can learn both at the same time, and hence the very beginnings of witchcraft.” Right from that and then I just took that much further than I think anyone thought I would. Yeah.
+
+[00:37:49] DI: Very interesting.
+
+[00:37:50] AH: Really just like going above and beyond. I love that. 
+
+[00:37:53] BZ: Yeah. 
+
+[00:37:55] AH: I feel like we've talked a lot about, a lot of the benefits of Elixir. What do you think are some drawbacks? 
+
+[00:38:01] BZ: I'm not a person who thinks that you must have a type system in the language, but it can also be really helpful, especially if it is an optional thing you can turn on, dialyzer doesn't quite capture quite the same thing. There is this challenge, where if part of your program is typed and the other part of it isn't, you don't really get the benefit. It's the more of it that really the better. Having the ability to have a type system, more than type specs would be extremely helpful. I know, there's been a couple attempts at that, that, I guess, just haven't panned out.
+
+The ability to easily reason about side effects, right? They're just hidden. They're really side effects. Managed effects of some kind would be really nice. OCaml these days has a nice way of handling that. Pulling in some of those ideas might be nice. It's something that if I ever am not at a scrappy startup that needs all of my time, that I might try to build something towards. The lack of a Wasm support today is a challenge, right? Trying to integrate it with other tools and other ecosystems.
+
+One of the amazing things with Wasm is it has become a – or is increasingly becoming a thing that people won't say no to, of like, well, they have a Go project, but you've got some Wasm blom, and so you can just plug that in, and it's fine. They don't care what is written in inside. Being able to compile down to Wasm would be a huge, huge help. There's been improvements, definitely, to performance, but it still runs inside of a virtual machine. It's quite slow compared to Haskell, Rust, Go, and the ones that are more on the native code side. Being able to target native code, as soon as you’re targeting Wasm, you may as well also target native code and get some speed-ups there.
+
+[00:39:47] AH: I completely lost my question that has been floating around in my mind for easily 45 minutes, but I do have a very random one for you. If we jump back to the title of your talk, the Jump to Hyperspace, would you rather go into deep space, or go to the deep sea?
+
+[00:40:06] BZ: Ooh. I think, there's probably way more interesting stuff in the deep sea.
+
+[00:40:11] AH: Yeah. Probably. You could see giant squids. Yeah.
+
+[00:40:13] BZ: Right? Yeah.
+
+[00:40:17] DI: Yeah. Go to a place where you know there's life, as opposed to a place where there may be life, right?
+
+[00:40:21] BZ: Exactly.
+
+[00:40:22] AH: Exactly. Exactly.
+
+[00:40:23] DI: That's a good argument. Good argument.
+
+[00:40:25] AH: People make fun of me, because one of my greatest fears is space. I think, it is a well-placed fear.
+
+[00:40:32] BZ: Not a friendly place to be. It's true.
+
+[00:40:35] AH: Exactly. Brooklyn, do you have any – If people are really interested in getting into edge computing, learning about it, do you have any good resources for those people, or good recommendations, places they can just start from square one?
+
+[00:40:48] BZ: Yeah, absolutely. I mean, distributed computing in general, there's a couple of really great books. There's Designing Data-Intensive Applications, which is mainly about databases. When you think about distributed systems, it's really about the data and how to get that distributed and access it efficiently, and all these things. I would say, it’s probably the best introduction to distributed systems book out there.
+
+In terms of some of the things we're talking about before, like content addressing, if you go to proto.school, they have lots of things there about immutable data and content, address data, and hash rate data. Come to the Fission Discord. We have a very active community that are asking questions on posting papers on the regular. We have calls most Thursdays as well, community calls, where often, somebody will be giving a presentation about things that are related in our space, which often end up being, as you can imagine. It should be computing related, and show up to those and there's lots of interesting things to learn there.
+
+[00:41:53] AH: That is open to anybody to join?
+
+[00:41:56] BZ: Absolutely. Absolutely, anyone. Yeah, so come join the Discord. We post links to those every time. We also have a – it’s called Luma, which is a new platform for scheduling events. We post those events on Luma, lu.ma. I believe, you could then search for Fission inside there and find us.
+
+[00:42:16] AH: Cool. That's amazing. I love that that's open to anybody to join. That's super awesome. I love that. Well, Brooklyn, do you have any final plugs, asks for anybody, where people can find you on social media, the projects you're working on, etc.?
+
+[00:42:32] BZ: Sure. You can find me pretty much anywhere on the Internet as ExpedE, E-X-P-E-D-E. I'm on Twitter. You can also find my company, Fission, @fissioncodes codes on Twitter. Witchcraft, always looking for more contributors, maintainers. I'm pretty distracted right now, changing the way the Internet works. If you want to get involved in witchcraft, please drop me a line, or just go directly to the repos. The organization is github.com/witchcrafters. Open issues, or even just drop an issue and to say hi, and that you're interested in starting to take a look at some stuff.
+
+[00:43:09] AH: Awesome. It's been a dream of mine to be involved in the magical wizarding community ever since I was a child. Besides being on Elixir Wizard, maybe now I will also become interested in witchcraft.
+
+[00:43:22] BZ: Amazing.
+
+[00:43:22] AH: All related things. Dan is laughing at me, as he should be. I'm so sorry, everyone, for making bad jokes. But not at all, actually.
+
+[00:43:31] DI: No, you shouldn't be. That’s fine. You be you, Alex. It's great.
+
+[00:43:35] AH: Thank you, Dan. I appreciate your support. Well, everybody, Brooklyn, thank you so much for joining. It was really great to have you on. I feel like, I've learned a lot more even though, I think, a lot of it has still gone over my head, but I feel more comfortable now after getting this chance to talk with you after listening to your talk. Thank you so much for joining.
+
+[00:43:53] BZ: Amazing. Thank you so much for having me.
+
+[00:43:55] AH: It was really, truly our pleasure. Thank you everyone else for listening. That's it for this episode of Elixir Wizards. Elixir Wizards is a SmartLogic production. Today's host include myself, Alex Housand, and my wonderful co-host, Dan Ivovich. Our producer is Bonnie Lander and our executive producer is Rose Burt. We get production and promotion assistance from Michelle McFadden.
+
+Here at SmartLogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails and React, Kubernetes and more. If you need a piece of custom software built, hit us up. Don't forget to hit like, subscribe and leave us a review. You can follow @smartlogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord, just head on over to podcast page to find the link. Don't forget to join us again next week for more on the Impact of Elixir.
+
+[END]
