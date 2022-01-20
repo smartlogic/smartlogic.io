@@ -1,0 +1,338 @@
+EW S7E10 Transcript
+EPISODE 10
+
+[EPISODE]
+
+[00:00:07] SM: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint and I’ll be your host today. I’m joined by my cohost, Owen Bickford. Hey, Owen.
+
+[00:00:18] OB: Hey, Sundi.
+
+[00:00:21] SM: And my producer, Bonnie Lander. This season’s theme is Impact of Elixir, and we’re joined by a very special guest today, Meryl Dakin. Hi, Meryl.
+
+[00:00:28] MD: Hey, Sundi. Thanks for having me here.
+
+[00:00:28] SM: We’re so glad you could be here. And also, it’s real fun, because we actually just recently saw each other so it’s fun to see each other again. The world is maybe combing back to normal. 
+
+[00:00:41] MD: Cross your fingers. Knock on wood. Yeah.
+
+[00:00:44] SM: Absolutely. Right out the gate, we’re recording this like mid-December. You just mentioned Netflix Christmas Universe. What’s up with the Netflix Christmas Universe?
+
+[00:00:56] MD: Okay. I don’t know if you guys are on this train yet. But if you want some content that you don’t have to think about, Netflix has about a thousand movies out. A lot of them seem to be interrelated. Like you’ll watch one and another one is playing in the background on a TV, or they have like this made-up country that’s referenced throughout all of the Netflix movies, just to like, I guess establish that this is a real place. I’m pretty sure that this is going to become like embedded in my brain as a real place at some point. But I can highly recommend The Night Before Christmas as a time traveling holiday watch. There’s like some advent calendar Christmas. I’m just honestly consuming all of the Netflix Christmas specials right now.
+
+[00:01:38] OB: Single All The Way is one of those. Is it in the same universe?
+
+[00:01:42] MD: Yeah, I need to get to that one. But I bet you that it is. If they mentioned Aldovia in it, then yeah. Have you watched that one?
+
+[00:01:48] OB: I did. But I did not – I wasn’t aware of this whole universe concept, so I wasn’t looking for clues or anything like that.
+
+[00:01:56] SM: Yeah, like I’ve seen the hints, but I never really thought about it too much. I think I watched, I don’t remember what it was called. But it was with Nina Dobrev, and Jimmy Yang, The Vampire Diaries’ girl. I remember I think there was something going on TV in the background and me thinking, “Hmm.” But I also, 100% grew up thinking that Genovia was a real place from the Princess Diaries.
+
+[00:02:16] MD: There you go. Yeah, there’s one. I think the most popular one is the Princess Switch, which is not Princess Diaries, but it’s similarly someone goes to a place called Aldovia and becomes the princess there.
+
+[00:02:28] SM: There are three of them now.
+
+[00:02:29] MD: There’s so many.
+
+[00:02:30] SM: Three princesses. They switch three times. It’s wild. It’s a ball. Amazing. Amazing. Well, it’s the season. We’re happy to have you. We’re being festive. Of course, this is going to come out like after Christmas, after the holidays. But anyways.
+
+[00:02:47] MD: Well, it will extend the season.
+
+[00:02:48] SM: Absolutely.
+
+[00:02:49] MD: And anybody who hasn’t gotten a chance can catch up during the New Year.
+
+[00:02:54] SM: Yeah. Meryl, you’ve been on the podcast before, but it’s been a little while. So just for our friends, our listeners. Do you want to just give a quick intro of you and like what you’re up to now? What’s new since last time we got to chat with you?
+
+[00:03:08] MD: Yeah, sure. I am a developer raised in Brooklyn. I have been working in Elixir since, I guess 2018. I went to a boot camp when I moved to New York, Flatiron School to learn how to code. Since then, I’ve worked at Flatiron School, both as an engineer and teacher at Frame.io. As recently as last Thursday at Knock now, which I’m super excited about. I’m just now getting into everything there. That’s kind of where I’m at. I also just recently, emceed Elixir Conf with my cohost, Sophie DeBenedetto. We had an amazing time, got to see you in person, Sundi, and that was really fun. So yeah, that is a high-level view of my involvement in Elixir and engineering in general.
+
+[00:03:58] SM: Yeah. And you implemented at Elixir Conf, this wonderful Elixir pets, the wonderful world of pets and Elixir.
+
+[00:04:05] MD: Yeah, we did. That was something that – it was one of the few things that we planned before Elixir Conf, was trying to get people to tweet pictures of their pets at us, which was more just because we wanted to see pictures of pets. But also, it gave us a chance to highlight some of the best ones at the conference. That was very fun. We also did some tarot card reading, which was also great. That is something that we’ve been striving to at everything that we host or talk about on podcasts. Hopefully people just ask us to host their conferences technical or not, because that was a blast.
+
+[00:04:41] OB: It was a lot of fun having you guys as emcees. The energy was good throughout and just kind of like a nice glue between all the different talks. So it was really nice.
+
+[00:04:50] MD: We honestly had a great time doing it. We didn’t plan a ton of things like I said, But Sophie is obviously a great person to work with and to refine with, so it was really fun to get to meet people and introduce everybody. And also, just kind of try to have some fun on the in between parts because it can get a little bit monotonous if we don’t have somebody just moving everything along. So, yeah, we had a really good time and I hope that we get to do stuff like that again in the future.
+
+[00:05:20] OB: Now I do have a super technical question just to kick things off. How many cats are in the Dakin family and what’s your beautiful idiot terrifying demon ratio?
+
+[00:05:29] MD: So great question, Owen. Thank you. These are the hard-hitting things that came on this podcast for. We have two cats in the household, baby cat and swamp cat. I would say, for us, it is definitely a one-to-one ratio. But I have observed households with greater number of cats, including my mom’s. I would say that once it gets above two, there’s more of a gradient of idiot demon, so you’ve got all kinds of things in between.
+
+[00:05:59] OB: Yeah, nuance.
+
+[00:06:01] SM: Yeah. We were just talking about how – I think we had a company meeting a few hours ago. And just like the first 10 minutes of the meeting was everybody’s cat decided that they needed cuddles right then and there. So the screen was just full of everyone’s cat and the cuddles, so it’s great. It’s great that we get to be able to hold them.
+
+[00:06:21] OB: Wall to wall cats.
+
+[00:06:22] SM: Wall to wall cats, absolutely.
+
+[00:06:24] MD: It’s a new world where I can be close to my coworkers in ways I never thought. Just know all their cats’ and dogs’ names now. They’re just as familiar to me as they are. I love it. 
+
+[00:06:37] SM: There’s absolutely a time where my cat coming on the screen in a call, an important call, a podcast interview like this, job interview like back when that was the thing for me. Just thinking about the idea of my cat coming interrupt it would have given me severe anxiety. And now, I just straight up sit in client meetings, and my cat is like, “I need belly rubs right now.”
+
+[00:06:59] MD: Yeah. And it’s actually a little offensive if they come up and the person you’re talking to doesn’t immediately stop what they’re doing and say, “Oh my gosh! What a cute cat?”
+
+[00:07:09] OB: Yeah.
+
+[00:07:10] SM: We’re excited for you and Sophie to have done the whole pet extravaganza. I hope this is a thing that continues forevermore. And yeah, just very excited for all the pet stuff. Owen also mentioned that this is – I actually didn’t count myself. Is this actually your fifth appearance on Elixir Wizards? 
+
+[00:07:29] MD: I have no idea. Is it? Did you count Owen?
+
+[00:07:33] OB: That’s from the podcast, like the episodes lists on the site. There was – I counted four. I did a quick Meryl search. So there were four, like you did a couple of like guest cohosts appearances at one point and then a couple of guest appearances. So yeah.
+
+[00:07:48] MD: Yeah. I mean, I don’t think there’s another Meryl in Elixir. If there is –
+
+[00:07:52] OB: I think it was Sophie and Meryl so that would be weird if like Sophie’s – I got another Meryl in her pocket.
+
+[00:07:59] MD: I would honestly feel a little betrayed. I’m just going to say that on the record that Sophie, you can’t work with any other Meryl.
+
+[00:08:07] OB: The Sophie to Meryl ratio is one to one forever.
+
+[00:08:10] SM: Yes.
+
+[00:08:11] MD: Exactly, exactly. We won’t talk about the idiot demon ratio in that one. 
+
+[00:08:14] SM: That is definitely probably easier to control than just like the Meryl ratio in the Elixir space. I 100% thought I was the only figure skater in Elixir, and somebody else at Elixir Conf was like, “I’m a figure skater too.” My mind was blown.
+
+[00:08:29] MD: That’s amazing. Wow!
+
+[00:08:31] SM: Absolutely wild.
+
+[00:08:31] MD: That’s incredible.
+
+[00:08:33] SM: You just never know what you’re going to get, so all good.
+
+[00:08:35] MD: I definitely welcome more Meryl’s into the Elixir space, more people generally would love that. Just not as a cohost with Sophie.
+
+[00:08:45] SM: Claimed your territory there.
+
+[00:08:45] MD: Yes.
+
+[00:08:46] SM: Speaking of that, actually, Owen, you mentioned this thing about this SEO, you want to talk about this?
+
+[00:08:51] OB: Yeah. I was kind of brushing up my knowledge on your company and did a quick search. As I was typing Knock notifications and seeing all the suggestions, it’s like, how am I ever going to find them? But you guys are right there at the top, like the first results, not even just the paid one. But like, you’re right there at the top, knock.app. So yeah, congrats on beating out all of the other self-help articles about managing your notifications, like specifically that Knock notification probably from Slack or whatever. So yeah, congrats on that. But that kind of leads me into like, yeah, there’s this new endeavor you mentioned a few minutes ago, you’re nailing SEO already. I think for anyone who isn’t currently searching the Knock app on Google, like what’s your introduction to this new company?
+
+[00:09:39] MD: Yeah, great question. First of all, so happy to hear that, that credit all goes to Chris and Sam. I would imagine both of them had a lot to do with that. Getting us at the top of SEO is amazing. Both of them are very talented, incredible to work with, so it doesn’t surprise me either. But basically, Knock is a flexible notification infrastructure. It’s for developers who don’t want to build in-house notifications, which when it comes down to it, no one, but us wants to build notifications. That’s kind of what we’re here for. I imagine like there’s a lot of people who have worked on notification systems within their own products, and the major pain to me with notification systems is that it doesn’t relate to your core product often. It’s something that you would rather have as boilerplate, you would rather know it works, you would probably rather outsource rather than spend engineer time and energy building from scratch something that has been done custom at many companies.
+
+The Knock system provides this developer-first, API-focused approach, which makes it really easy to be flexible, customizable. It can do pretty complex things with your notifications that you would maybe feel like you needed to do in-house. But actually, this covers. So something as simple as when someone makes a comment, we want to send a push notification, or when someone comments on something specific, I want to send a push notification and an email, but only if that push notification hasn’t been seen yet. Then I can get into more complex things like batching, so I can make sure that I’m not sending notifications one at a time, but putting them all in a batch for someone to see. I honestly can’t imagine working somewhere, and knowing this existed and still feeling great that I was working on my own home rolled notification system.
+
+It’s really fun to work on when this is the product, right? This is a cool space to be in. It’s a very interesting technical challenge and product challenge. But it’s a service and it’s something that I would have loved to use at places where I was working on notifications in the past. That’s the overall idea of what we’re doing right now. We’re already serving a number of customers, and sending out notifications for them. They’re using the product while it’s in the stage it’s at now before general release. I’ve just started working on my first project that I’m working on, is actually building out these premade templates. So that when you enter the app at this point, you don’t have – you kind of have a blank slate, so you can build as you’re going. Like, “Okay. I’m going to drag this guy. I’m going to have a notification on this trigger.” But we’re trying to make it a lot easier to just jump in and get started, have some prebuilt templates to go with. That’s actually the first thing I’m working on, which has been really fun.
+
+[00:12:39] SM: That’s really cool. And I imagine that building it in Elixir makes things like notifications easier. Are you using something like channels?
+
+[00:12:47] MD: We have an event bus that we’re using. We are also using infrastructure like Oban. We have Kinesis to help out with our scale as we’re working toward that. But yeah, it’s a joy to write in Elixir. I’ve been writing in Elixir since I was at Flatiron School, and so it was definitely looking to stay in this world. This is a really great use case for it.
+
+[00:13:10] SM: Can we back up for a second? Did you learn Elixir at Flatiron as like a part of the curriculum?
+
+[00:13:16] MD: That’s a really good question. And no, I didn’t. The Flatiron curriculum is, I think it’s still Ruby and JavaScript. So I was working in Ruby and JavaScript when I became an engineer there. But as we started to build out some new features, we wanted to spin off some micro services in Elixir, which was my introduction to Elixir.
+
+[00:13:40] SM: Cool. Yeah. Thank you for that clarification. That’s really awesome that you got that kind of experience like way at the beginning of your technical journey.
+
+[00:13:48] MD: Yeah. When I talk to people about their journey to Elixir, it is often a very similar story to mine, where it’s like, “Oh, yeah. There was this one guy who just loved Elixir and convinced us all to use it and then we all loved it.” Which is hopefully it’s becoming more common to pick up Elixir for the tool itself or knowing what the right use cases for it. But at that time, especially, I had never used it. Steven Nunez actually introduced it to the group that we were working at there. So we started writing in it, and it’s very familiar when you’re coming from Ruby especially, just because the syntax looks similar. I think he sold it to us like, “Look, it’s friendly. It looks a lot like Ruby.” I think getting into it, you understand there’s like the total paradigm shift of object oriented to functional and immutable data and stuff, which was a hurdle. But I think, like it was a really nice way to learn it for me is working on a project and having people to learn it with at the same time was great.
+
+We also had book clubs that we ran to help each other as we were going through it. That was my introduction to Elixir was at Flatiron School, but not through the program. I wish that more programs would teach Elixir. I think that’d be awesome.
+
+[00:15:04] OB: How long ago was this? Because it seems like that would be maybe 2016, ’17. It’s still kind of early for Elixir.
+
+[00:15:11] MD: It was actually 2018, I believe and into ’19, I want to say.
+
+[00:15:17] OB: Okay. So around the time that Elixir is like super stable, and not changing too much from underneath you.
+
+[00:15:23] MD: Yeah, exactly. I started as an engineer there in 2018, so it would have been after that that we started using it in the projects that I was working on. So yeah, I think that they had been using it before we started on the project that I was on, but in other capacities.
+
+[00:15:39] OB: Are their pain points that have kind of gone away, since you got started with Elixir?
+
+[00:15:46] MD: On a personal level or in Elixir itself?
+
+[00:15:49] OB: Could be like learning or just on a day to day like practical basis.
+
+[00:15:53] MD: Yeah, the learning curve with Elixir that I’ve seen does come from that shift I was talking about. Where you have to separate in your mind the idea that data is bonded to functions. And that I can call a function on a piece of data. That for some reason feels like the biggest hurdle from where I came from, and also seeing other people learn it. Once that becomes more embedded, it becomes a lot easier to grasp everything else that is going on and the way that it’s structured. I think like even understanding the difference between, “I’m making a class” versus “I’m making a module.” Stems from that basic premise of, I am acting on data. Data does not contain functions with which it can change itself. 
+
+That’s the biggest thing that I think I’ve seen change in terms of like ramping up to getting into Elixir. Then also, the amount of information that is out there. The community that has grown around it has provided so much more resources for people learning, and people who are retooling from another language that has made it a lot easier as well, to get people started in it and to come over from another language, which is most of the people that I’ve seen. I haven’t worked with anybody who has learned Elixir as their first language yet. 
+
+[00:17:19] SM: I think I’ve maybe run into one or two people who are junior engineers, kind of picking up Elixir as a first language. But if I’m having such a brain failure moment, then maybe I’m making it up.
+
+[00:17:35] MD: If you’re a junior engineer learning Elixir, hit us up. Tell us about your journey.
+
+[00:17:39] SM: Yes.
+
+[00:17:40] OB: When I was kind of getting serious trying to kind of get up to speed on development stuff a few years ago myself, I was trying to learn Elixir kind of at the same time as I was learning JavaScript and that was just a little bit too much. I had kind of learned that had to kind of like, as cool and as amazing, and like the talks are all great. And I kind of like set Elixir to the side for like a year while I got like fundamentals and kind of like baby programmer stuff. But like once I did come back to Elixir, things started making a lot more sense. Like a lot of people have said, it kind of ripples out to code that you’re writing even in other languages.
+
+[00:18:15] MD: I’m really interested in what made you feel like you couldn’t get the baby programmer stuff in Elixir, because I think that might be a really interesting like keys that we might be missing.
+
+[00:18:25] OB: I was tripping up on words. I think I was like seeing like stuff like immutability, and like trying to understand functional programming before I really understood like just even datatypes and stuff like that. And getting comfortable with the command line, and like the terminal and kind of more like stuff you might learn in first year of college, I don’t know. Didn’t go to college, so I don’t know what you would learn or when you would learn it. But yeah, that’s kind of where I was at. It was learning JavaScript at the same time as all the tooling around actually writing code.
+
+[00:18:59] SM: Yeah, I do think there is a beginning section of learning how to program that is learning how to learn how to program. You have to learn what the right questions are, instead of like, how do I do this? Just tell me. It’s like, what is this thing? How does this thing function? What does this look like when you do this? It’s like asking the right questions that you have to get comfortable with in whatever language you decide to go for. I think that the multitasking between the two different languages has been difficult. At least it was difficult for me when I was also straddling JavaScript and other languages. That’s at least what my mentors told me. But Meryl, since you also have done teaching, have you kind of given similar or different advice? 
+
+[00:19:45] MD: No, actually. I think that’s absolutely the advice that I would give to a junior engineer and it is something that I tell people who are graduating boot camps. Because there’s such a bevy of options when you graduate and you’re like, “Oh my God! Should I learn Python now? Should I like – I hear Rust is really cool, should I learn Rust?” I think that the best thing to do is to double down on what you’re most comfortable with. And coming from Flatiron School, they teach Ruby and JavaScript in different sections. People tend to gravitate toward one or the other, so whichever one makes more sense initially is so important to just delve in, and understand the basics and feel like you’ve got your footing there before moving on.
+
+The only thing that I wish for us as Elixir developers is that we were a part of that, because there’s no reason why Elixir can’t be a fundamental building block for a new developer. There’s no reason why that can’t be the first thing that they learn. I imagine, the reason it’s not is because, so many of us have come to it from another language, that most of the resources is geared to people who already have their footing somewhere else. That coming in and seeing the word immutable isn’t scary and it isn’t something I’ve got to go write down and look up later. It’s just, okay, yeah, I get that. That’s what I’m coming into. But I really think if we’re going to grow our community, and we’re going to have a pool of developers that can satisfy like the needs of the businesses that are using Elixir, we’re going to have to eventually get really good at introducing new coders to Elixir first. Because it’s, yeah –
+
+I remember the first thing that I was learning before Flatiron School even, I was at a short, like five-week prep course in New Orleans where I used to live. It was like a Hack Reactor offshoot that was there. We learned JavaScript, but not in the browser. We were just doing a lot of like, “Here’s a function, let’s make an algorithm. Let’s understand what all these parts are and these pieces are.” We didn’t apply it in any web developing way. We were just using it for algorithm purposes. But that’s something that didn’t have – we weren’t really learning it in an object-oriented way at the time or anything like that. I think that could easily be translated to something that we could do with Elixir, just starting off very small building blocks, and building into something like what the Ruby course looks like at Flatiron, which is, okay. Here’s your supplying data to the backend, and this is what it looks like.
+
+I do think it’s probably really overwhelming where it is right now with a lot of the resources that’s out there, I think there’s probably some good ones that are coming out. But yeah, I think that needs to grow for us to continue to grow our pool of people.
+
+[00:22:36] OB: This seems to be a theme, I’m hearing kind of similar conversations in some of the podcasts in the community, and maybe even in the forums and stuff. I think there is kind of brainstorming, kind of async brainstorming or something that the communities are trying to – like we’ve identified this need that Elixir is, it does simplify a lot of things for us as developers, and someone out there in the community needs to like start creating Elixir for complete noobs course or something like that. Like, here’s a computer, here’s datatypes and here’s how the internet works with Elixir.
+
+[00:23:15] MD: Yeah. And I would be remiss if I didn’t mention resources that are already there, like Elixir school that are very basic and it starts out very basic for understanding a lot of those things. But I have not personally looked at even something like that with the eye of somebody who has never walked into a terminal before. There’s probably lots that we can do to help that out. I think I saw a tweet today where someone picked up the book that Sophie co-wrote, the LiveView programming book and said that they were just starting to learn to program and using that book, which is very heartwarming. So shout out to Sophie.
+
+[00:23:51] SM: That’s awesome. I think a lot of people also, like I’ve said this before, probably the season, this very season. But we do have a really amazing, beautiful collection of Elixir books, and that just kind of sinks you into a hole if you’re a person who doesn’t learn by books. And I was really – I’ve recently been reading – I mean, it’s technically a book but doesn’t feel like one. I’ve been learning Flutter through a book that was released in October called the Flutter Apprentice. It actually is like an interactive – there are sections, it almost reads like some of those documentation tools, where they’re like left side has all the different sections. You click into them, and there’s like a piece of code that you copy and you put it into your simulator. It runs code. You see how it goes. And then it says, “All right.” Then it has like all these to dos that you’re supposed to fill in. They give you the code, you fill it in and you see what it does. And they explain why that did that thing, why that was helpful, why that was better than the thing that you had before.
+
+That was just like my perfect learning style, little digestible chunks of stuff that helped me figure out what I need to do. I’ve been like really taking my time with this book, because I really need to understand some key concepts, state management particularly. But when I was reading it, I was just like, someone needs to make this for Elixir. And then I remembered that we shouldn’t be saying someone needs to make this. It’s like, “Yeah, I’ve got to make it. Oh gosh!” Then you put pressure on yourself, and then –
+
+[00:25:25] OB: Yeah. Like we’ve got Live Book now. I think Live Book will help unlock that exact type of learning. Like you have a paragraph of markdown with an explanation and you have a chunk of code that someone who’s learning can like enter in whatever the answer should be, and execute until it works. So yeah, I think there’s some really cool possibilities there.
+
+[00:25:45] MD: Yeah, I think that that’s absolutely a lovely way of getting interactivity into our learning. I will say, the best way that I feel like I’ve ever learned is by teaching, or by not like capital T, Teaching, but creating presentations and encapsulating the things that I have done and understood in something that I think someone else will understand. And forcing yourself to write, maybe blog or create little presentations is also a way of delving into a subject that I don’t think that I would get to the depth of understanding that I have without, just because of the way that I lazy learn. 
+
+I learn enough to do it, and unless I force myself to tell someone else about it, I don’t think that I ever quite get to the fundamentals of what I’m trying to understand. I don’t blog anymore. But when I did, this was pretty useful. But I love making little like, even keynotes or presentations for meetups or anything like that, that I feel helps strengthen what I understand about something so that somebody else can understand it.
+
+So yeah, more of that too, in encouraging people to give talks as new speakers or junior developers plug for impacts coming up in the spring, which is always looking for junior developers or new speakers. Things like that I think are really helpful just as a to encourage people to do and also inspiring to other people who are like, “Oh yeah. I was afraid to say that I didn’t understand what that was until they talked about it and made me feel like I wasn’t behind. This is where I’m supposed to be.”
+
+[00:27:31] SM: EMPEX is in May in Salt Lake City.
+
+[00:27:35] MD: Yes.
+
+[00:27:35] SM: Cool. I think I was looking at the website earlier.
+
+[00:27:39] OB: I wanted to underline something you just said. One of the most important lessons I’ve learned becoming an engineer is the value of that statement, like I don’t understand. Like when you’re in a meeting, and you’re hearing like an explanation, like a comment, sometimes a long winded or like a kind of jargony explanation of something and you haven’t worked in that area before. As scary as it is, like if you can bring yourself just to say, “I don’t understand. I think you’re saying this. Am I correct?” That kind of thing. The answers you get after that tend to be really great.
+
+[00:28:09] SM: A great question I’ve gotten recently is, can you say that again, using different words? 
+
+[00:28:15] MD: That’s a really cool way of saying it.
+
+[00:28:18] SM: Sometimes somebody will explain something and I’ll be like, I don’t understand. Then they’ll say it all, again, using the same exact language. And I’m like, “Those words don’t make any sense to me in that organized, in that fashion, the way you arranged them. Please just try a different way. And yeah, somebody asked me that recently and I said, “Okay. I’m learning now, now that we’re all remote. Just everyone has a different communication style. I can’t just assume that the way I speak, the way I put sentences together is the way that people will hear things, and so I really appreciate this question. Like being very specific about what you didn’t understand has been really cool for me to help me get better at explaining things, but also when I don’t get it either.
+
+[00:29:02] MD: Yeah, absolutely.
+
+[00:29:03] OB: And you sound smart. Like it’s kind of like ironic, but you sound smart when you say, “I don’t understand what you’re saying.”
+
+[00:29:09] MD: Right. Now, I’m on my toes, maybe I don’t know what I’m saying either. No, that actually has happened when I was, very recently at Frame. I started working with somebody who was brand new to Elixir, but not a junior developer and brand new to our code base as well. There was a lot of pair programming that we did together, just to onboard them. And what we were trying to think of some kind of like helpful way of onboarding to Elixir while onboarding to the code base. So we had some resources, and we had some overall, like here’s basically Elixir in 20 minutes. Like, here’s some – it was iterative, so we’re trying to figure out how do we do this, how do we get new people on.
+
+But they were just amazing about the way that they approached learning, and approached asking me questions. They wrote a lot of things down and then clarified at every step. The confidence to do that is hard to come by, and so I don’t fault people for not having it right out the gate, but it is absolutely the best way to learn.
+
+Often, when we were working on a project together, when they would ask me to explain why I decided to take a certain direction, I was super helpful to walk through it, or to not immediately say, “Oh well. Your idea wouldn’t work, because we’ve already got it in this configuration.” But to actually step through together and think through the architecture together, because it would either expose a way that we could do it differently, or an opportunity to learn about the code and the language that they had like not gotten to yet. It can be so instructive on both sides to be open about that, and it is very scary to do, especially when you’re new at a company, but it can help everybody. 
+
+Also now that we’re all remote, Slack is our like Wiki for things that we haven’t remembered to write down yet. So asking in a public channel is so valuable, instead of DMing somebody. But something that people have done for me and I’ve done for other people is, if someone is not confident about asking something in Channel and DMs me, or this is happening like for me as well. The more senior engineer can ask a question in channel so that we still contain that knowledge, and then like, they get the question answered.
+
+[00:31:32] SM: We also recently at SmartLogic, we’re talking about the concept of asking for help. A lot of people did mention that they don’t want to ask questions that they feel bad about not knowing the answer to. That’s like a really good point, is that sometimes, like yes, from a project management, engineering management standpoint, you want people to ask questions in public spaces for documentation, for knowledge sharing. And then you like forget that the person who’s asking might just be terrified of asking it, doesn’t want to look dumb or spend 5,000 hours crafting the question. That’s a really great technique and I appreciate that you’ve talked about that, because that’s really a nice thing that you’ve done for somebody who’s asking you a question.
+
+[00:32:15] MD: Yeah. And this has happened, like for me too, when I was starting out at different places. But the other thing, it helps us for the senior developer to not have to rewrite that answer to the next person that comes along and asks. That has happened a bunch of times where you ask a question to someone, and they’re like, “Oh! I should really write this down, but here’s basically what it is” or like, “Let me copy and paste this from somebody else that I already answered this to.” That exposes something that should be in a public domain. We’re not always going to get documentation down in the right places in whatever we’re using. But at least, if it’s publicly searchable, yeah, it just helps everybody in that way.
+
+[00:32:54] SM: Cool. Jumping back to Elixir real quick. I was curious, because you did have background in other languages before you jumped over to Elixir. Did learning Elixir change the way you thought about programming in like overall, like the sense of overall programming?
+
+[00:33:12] MD: Yeah, it did. I actually made a short presentation about this at some meetup. I actually think SmartLogic hosted this meetup a long time ago, pre-pandemic times, in the before times.
+
+[00:33:24] SM: In a physical place?
+
+[00:33:26] MD: It was physically in-person in a place.
+
+[00:33:29] SM: In Baltimore?
+
+[00:33:29] MD: No, it’s in New York. I can’t remember if SmartLogic hosted it, or if they were a sponsor of it.
+
+[00:33:35] SM: No one on this call right now, other than you Meryl have a memory of this.
+
+[00:33:40] MD: Well, it was fabulous. 
+
+[00:33:43] SM: Okay. I’ll take the credit. We’ll take the credit.
+
+[00:33:45] MD: But yeah, I remember putting this together closer to when I had learned Elixir. And I remember thinking, as I was switching between Elixir and Ruby, how much writing Elixir cleaned up my Ruby code, because I had a better sense of encapsulation, after I had been writing in Elixir for a while. My Ruby code became a lot cleaner, and the data became a lot more stable as I was writing it. I think that that helped a lot as I was still writing in both languages, but then even going forward to my time at Frame, being full stack, the opposite thing kind of happened as well, where I started writing in TypeScript for the first time. 
+
+I had not written in any type language before, so writing in TypeScript, at first, the transition is a little painful. But once I did, using Typespecs, and being careful about typing in Elixir was so nice and it felt so good to take from that language and apply it to tools that we already have in Elixir that we can use. Because I really wasn’t doing a ton of that before and it wasn’t something that I had really learned was an integral part of writing Elixir in previous work.
+
+I think like moving between those languages, definitely helped clean up my code in both cases, and helped me feel like so much more confident about the data that I was using, knowing what was coming in and out and catching my own errors before my compiler took a little break or something like that. So yeah, those were both very instructive events. I think like we were saying earlier, it’s not great to learn too many languages when you’re first starting out, but getting to cross pollinate, once you feel comfortable in one language can really only be good for informing how you want your code to look and how you want to structure your code.
+
+[00:35:57] OB: A lot of us have come to Elixir not as a first language, and it’s usually like you said, it’s because someone can – there’s an instigator somewhere along the way, or in my case, it was just because like, the algorithm was like seeing functional JavaScript and like recommending Elixir talks related to that. I kind of wonder if there are other opportunities for us to introduce other communities to Elixir, like JavaScript developers who might be kind of bumping up against all the deployment complexity there. They might benefit from Elixir, and like, how do you kind of increase the visibility of Elixir to other communities? Not just wait for them to like discover us.
+
+[00:36:37] MD: Yeah. I mean, that’s a really good question. I think part of it goes back to what we were talking about earlier, with trying to create and surface resources that are geared toward people who are first time programmers. Because those can only help people who are coming from somewhere else as well. People are fine with learning new languages, they just don’t know if Elixir is going to be something beneficial to them, or they don’t know enough about it to want to delve in. But being able to surface that this company cares about training you and it cares about you feeling really confident going forward with this work, that can really help, and that can make a huge difference in people being willing to try. Because you just don’t, like we were talking about earlier, you don’t want to feel like you’re totally on the wrong foot coming somewhere. That’s very scary. That’s very hard to do. 
+
+Just knowing that we’re aware of that as a community, and we’re providing resources for people to transition is, I think, going to really lower the barrier for entry into those spaces, and to share those resources with each other. I know that we were working on something when I was at Frame recently that was, okay, what is like a ramp up look like in Elixir, generally? I’m sure that’s something that Knock is going to get to as well as we continue expanding, because we can’t just keep hiring only Elixir developers. So yeah, I think that those are two things that I’ve been thinking about a lot lately. It’s just within the places where we’re already in, taking advantage of those spaces. It’s always hard to reach out and get people to cold calling, basically. Like, “Come try this.”
+
+[00:38:14] OB: “Have you heard of Elixir?”
+
+[00:38:15] MD: Yeah. “Excuse me. Do you have five minutes?”
+
+[00:38:17] OB: “It’s really cool.”
+
+[00:38:20] SM: I’m curious, we’ve asked this question all season, just like what the impact of Elixir has been on your programming style and everything. But I’m actually, because you are way more involved in the community than maybe our average person off the street. How has Elixir impacted you as a person? And like, how has it changed your life? I mean, that might be a little more different.
+
+[00:38:43] MD: Oh man! I mean, I’m working at Knock now. I worked at Frame.io. I don’t think I would have done either of those things if I hadn’t been introduced to Elixir at Flatiron School. This is probably too touchy feely for what you were looking for, but just being in two places during a pandemic, where I felt very supported, met really great, people continue to learn and grow. I’m sure that I could have found those things in another language, but also the community aspect of feeling like this isn’t a huge community. It’s a big enough space that there are tons of people to me, there’s tons of resources to look at, but it’s not so big that you can’t make an impact and become a part of it. As somebody who only has, like what, four years of engineering experience.
+
+So getting to be involved in this community and being afforded the opportunity to be on podcasts like this, and emcee a conference and be involved in like lots of educational opportunities as well has – I really can’t imagine what my life would look like had I not found like this sort of niche when I was kind of starting out. So yeah, it’s been an enormous impact for me personally, and I really hope to continue working in it for as long as I’m writing code. Because it’s just something that has been enjoyable in itself, but also afforded me the opportunity to be around a lot of amazing people and in really caring, supportive work environments.
+
+[00:40:23] OB: And now you are a founding software — full stack software engineer at a brand-new company, where people get their notifications to the customers, so this is a really cool. I’m kind of curious now that we’re kind of maybe circling back around to Knock. Like these days, whenever you set up a new Phoenix Project, I think by default, you get like an email adapter or client, which I haven’t interacted with myself. I’m kind of curious, like for Knock as a service, like what’s the point – like if I’m running a product company, like at what point do I outgrow like the kind of the built-in tools that I get with Phoenix, like just an email package or an SMS package? At what point do I really need to reach out or something – is Knock something that I should be considering from day one with the new product?
+
+[00:41:12] MD: I would consider from day one. I mean, you get, I think it’s like 10,000 notifications for free. I don’t see a reason to not immediately start using it. Because if you’re starting a new project, the last thing you want to do is work on something that’s not product related, and notifications are that. I would immediately connect to the API, and it’s like an adapter model, like with Twilio or something, you would just get your credentials and connect with the API. And then you can immediately configure in your dashboard and run tests. It’s also version controlled. Like as I’m learning more about the product, it’s more and more interesting. It’s got so much capacity to handle more complex things and to grow in really interesting ways. You immediately don’t have to worry about any kind of product requirements that are going to grow notification wise, because those will be handled.
+
+The other nice thing is that, as you’re growing, one thing I’ve seen a lot of is that engineers are often tasked with changing notifications or changing how do we want someone to be able to modify their preferences? Or do we want to do we want to create a new different kind of push or SMS notification or something like that? This removes the need for an engineer to be physically involved in that at all times. Like a product manager can go in and start changing things and changing preferences, which is really more where that wheelhouse should live. 
+
+So yeah, I think like, now that I’ve seen this and have worked in it for less than a week, I would not consider in any capacity trying to do my own notifications. That might be a personal thing, but I think when you’re trying to get up and running, the most interesting parts of your product are your domain modeling and the things that you care about servicing. So either notifications become like an afterthought, or they take up a lot of time and energy. And honestly, database resources and infrastructure resources to maintain.
+
+[00:43:14] OB: So it’s not geared more towards transactional, like transactional notifications, or marketing or both?
+
+[00:43:24] MD: It’s developer-focused. It’s like an API-focused tool, so it can be whatever it needs to be for the product itself. There’s in-app push notifications, I think for Android and Apple and on web. And then there’s the email and SMS clients. I think I’m missing one, but I can’t – I mean, I really haven’t gotten this elevator pitch down quite yet.
+
+[00:43:48] OB: I’m sure there’s a list on a website somewhere.
+
+[00:43:52] MD: Yes, it’s on a website somewhere at knock.app. that you can find out all about it. There’s also a Twitter and a Changelog that we post so you can see all the new developments that are always happening. And yeah, constantly adding features and stuff.
+
+[00:44:07] OB: Are there some components that are being open sourced with us or activity?
+
+[00:44:10] MD: I have no idea, truly. No clue.
+
+[00:44:13] OB: Okay. Got you. It’s only been a week. Little projects I’m on after a week, I couldn’t have explained maybe anything.
+
+[00:44:24] MD: Yeah, another thing that I found is useful in general programming is being able to just say, “I don’t know.” It’s fine. You can go find out, I’m sure.”
+
+[00:44:33] OB: 100%.
+
+[00:44:34] SM: You might not know the answer to this, but for the name for Knock, I’m wondering, like I’m just drawing conclusions from Chris’ last name being Bell. And bell going to notification.
+
+[00:44:49] OB: Wow! Sundi, you’ve cracked the code. Wow!
+
+[00:44:51] SM: I’ve cracked it.
+
+[00:44:54] MD: I’m going to ask him about that, because I have not thought of that yet. I just thought about like a knocking on a door.
+
+[00:45:00] SM: The Slack knock, yeah, or door, yeah.
+
+[00:45:03] MD: I was actually thinking about a physical door, which is aggressive now that I think about it. I hope we never get into that.
+
+[00:45:09] OB: I’m imagining, Sundi’s got like a poster board with like Chris Bell, Knock app, and like red wires going everywhere, trying to piece it together. And today, at this moment, she caught it.
+
+[00:45:19] SM: Yeah.
+
+[00:45:20] MD: This is how I spend my free time when I have it.
+
+[00:45:24] OB: What does it mean? 
+
+[00:45:25] SM: What does it mean? We’ve talked a lot about like the Elixir community and just how you’ve grown with Elixir, how the community has changed around you. Do you have any biggest hopes, dreams to see for Elixir in the next five or 10 years?
+
+[00:45:41] MD: Yeah. Like the outcome I would hope to see is that Elixir becomes an easy first choice language pick for both junior devs starting their own little projects, and for founders who are starting a company. There are definitely really excellent use cases for Elixir. But general use cases for Elixir are also great. As somebody who works and lives in this community, I want to see it grow. I want to see it become sustainable in a way that the major programming languages are. 
+
+And we can really only do that by making sure that more people are involved and this becomes a no brainer pick to start something off with. I think it can happen with a lot of the things that we’ve discussed to this podcast, just more easy go-to resources for starting your own project. More from no code to some code, basic tutorials. And then also, very importantly, onboarding in companies that use Elixir for non-Elixir devs and using that as like a marketing tool.
+
+I think if we start to see that, it will become a lot more popular as well. Like we have an onboarding program to Elixir. That’s something that I think can catch on and like other companies will want to copy once that’s something that becomes a drawing point for people who are interested, but not sure that they can make the leap. I obviously just want to see this community grow and continue so that I can keep having a job and continue working and working in a way that I like to work. So it’s all very selfish. But that is what my hopes and dreams are for the Elixir world.
+
+[00:47:22] SM: We have this running joke in the community over all that like once we have you, we don’t want to let you go. So I think, our interests are aligned. I say our, like the royal our, the royal we. That’s great. I’m excited that this is a space that you enjoy being in as it is also a space I enjoy being in and I enjoy hanging out with you. So we’ll see lots of each other in the future. Yay!
+
+[00:47:46] MD: Yay!
+
+[00:47:48] SM: So great to have you, Meryl. Do you have any final plugs or ask for the audience, places people can find you on social media, places where they can catch up on what you’re up to?
+
+[00:47:59] MD: Yeah. A plug would be that Knock is hiring for product designers and developer experience. If you are in one of those categories, check us out. We are a fun group of people. And we use Elixir so you can learn that if you feel like coding. And then, I can be found on Twitter @meryldakin. But I don’t tweet a lot, I just sort of look at other people’s tweets. You can interact with me there, but you won’t see me post a lot, unless it’s about my cats.
+
+[00:48:29] SM: Amazing.
+
+[00:48:33] MD: Oh, one moment. I don’t know. I’m going to look it up.
+
+[00:48:38] SM: I think it’s empex.co/mtn. I think that was from a tweet earlier, May 6th.
+
+[00:48:46] MD: Yes, you’re exactly right. Let me get into it. empex.co/mtn. I can’t wait. I’m so excited to do this in the West. I think that will be so much fun. So yeah, our team is definitely going to be going to that and obviously, because Chris is organizing it. But yeah, I’ll be there, so come hang out. That would be really fun.
+
+[00:49:08] SM: Awesome. Well, thank you again, Meryl. This has been a blast. That is it for this episode of Elixir Wizards. Thank you again to our guests, Meryl Dakin for joining us today. 
+
+Elixir Wizards is a SmartLogic production. Today’s hosts include myself, Sundi Myint and my cohost, Owen Bickford. Our producer is Bonnie Lander and our executive producer is Rose Burt. 
+
+Here at SmartLogic, we build custom web and mobile software. We’re always looking to take on new projects. We work in Elixir, Rails, React, Kubernetes and more. If you need a piece of custom software built, hit us up. Don’t forget tot like, subscribe and leave a review. Follow @SmartLogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord, just head on over to the podcast page to find the link. Don’t forget to join us again next week for more on the impact of Elixir.
+
+[END]
