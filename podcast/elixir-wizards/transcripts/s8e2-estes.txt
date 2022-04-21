@@ -1,0 +1,261 @@
+EW S8E2 Transcript
+SEASON 2 EPISODE 08
+
+[INTRODUCTION]
+
+[00:00:00] SM: Hey, all. Sundi here. I’m excited to announce that here at SmartLogic, we’re hiring for mid-level Ruby on Rails, or Elixir developer, a product designer and for a staff engineer. Come join our team and enjoy working from home with great benefits, flexible hours, a work from home stipend and professional development opportunities. All right, now here’s the show.
+
+[EPISODE]
+
+[00:00:26] OB: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Owen Bickford, and I'll be your host. I'm joined by my co-host, Dan Ivovich, and my producer, Bonnie. Hi, Dan.
+
+[00:00:42] DI: Hello.
+
+[00:00:43] OB: This season's theme is Elixir in a Polyglot Environment, where we talk about how Elixir works with other languages. Today, we're joined by special guest, Devon Estes, from Remote.
+
+[00:00:53] DE: Hi. Thanks. For having me.
+
+[00:00:55] OB: Yeah, so we'll jump right in. I know, first of all, I wanted to bring up the point that the Elixir in a Polyglot Environment is actually Dan's idea for the theme of the season, so I wanted to get your impetus for why you thought this was a good area for conversation.
+
+[00:01:09] DI: Sure. Yeah. I think, when SmartLogic added Elixir to our portfolio of technology that we were using, we found that it really changed the way we did some other things. We have some clients where we're using both Ruby and Elixir, some clients where we're just using Elixir. JavaScript is kind of pervasive, and so I thought it'd be interesting to see how other companies have changed because of the Elixir, or how it fits into a larger puzzle piece, rather than keeping just a focused view on Elixir itself.
+
+[00:01:38] OB: Right on. With that out of the way, who is Devon Estes?
+
+[00:01:43] DE: Yeah, my name is Devon. I am American, but I live in Germany. I've lived in Berlin for seven years now. Yeah, I have two kids and a wife and a dog, and I write code on my computers. That's most of my life. Yeah, when I'm not doing that, I play chess, too. That's my main hobby, now that I haven't been to a movie theater in three years at this point. I used to love going to movies, too, and stuff like that. That's a bit harder these days. Yeah, that's mostly it for me.
+
+[00:02:12] OB: Some of your talks have been formative for me as a Elixir engineer, so I was getting into Elixir and coding at the same time a few years ago back in, let's say, 2015, 2016. I was scrolling through the list of videos earlier just to refresh my memory. I think your refactoring talk helped me have an idea of what good, friendly code looks like and how to shape code, so that it works well for myself and for other people on a team. I wanted to give a shout out. That was a great talk. The content delivery and everything was great, from top to bottom. Good stuff.
+
+[00:02:48] DI: I'm really happy people are still watching that. I mean, that's from 2017, I think. That was probably my first talk that I gave on Elixir that was recorded in a big conference and stuff. It's wild for me to hear people are what, five years later still watching that stuff and getting value from it. It's great. I'm happy that, I mean, A, that that's still valuable content. B, it’s interesting that most tech talks from five years ago are so outdated that you can't learn anything, but I guess Elixir is so stable that content from five years ago is still relevant today, which is a really nice plus.
+
+[00:03:20] OB: Right. Yeah, it feels evergreen. Like the refactoring. I'm rethinking about, I need to start maybe adding a couple of macros here and there to get those compilation advantages that you talked about. It's nice having videos that are still relevant from four or five years ago. You've done some talks since then. Are conferences starting to pick back up again, or are you looking at getting back into the conference scene?
+
+[00:03:43] DE: I did a talk, not the upcoming ElixirConf EU, but the last one, the one in Warsaw. I don't know. That might have been my last talk, to be honest. I've been doing talks for a long time. I have maybe one more talk in me, but it's more of a keynote thing. One day, if somebody invites me to do a keynote, maybe I'll do that. They take a lot of time, and I've done a lot of them at this point. There are a lot of other people out there that also have interesting things to say. Those two things together, it's like, I don't really need it anymore. 
+
+To be totally honest, a lot of the reason I did is, yeah, I like doing it. It's fun. I like that people get benefit from it. Also, for a long, long time, I was a freelancer, and so it was important for me to be out there and have people know who I was, so that I could get some work. I'm not a freelancer anymore, and I don't need that benefit as much. It might be time for others to share what they've learned as well. Also, in a way, the stuff that I've learned is becoming less and less relevant to everyday engineers, because the stuff that I've learned is there are very few people that have, gosh, at this point, seven years of Elixir experience.
+
+Most people are in the one to two to three years of experience. Most people are going to get more benefit out of the talks that are geared towards those folks, because there are just so many more of them, than there are the talks that I give. The one I gave at ElixirConf EU was about stuff that most people are never going to touch, but I think are really super cool.
+
+We're getting into the realm where my talks are not at all practical, but I think really cool, really cool stuff about the BEAM that no one's ever going to use, but it's still really cool to know about it and to know how it works and to be able to appreciate the BEAM and all the wild and crazy things that you can do with it. X-Unit, one of the key points of that talk is that we monkey patch X-Unit to do what we want to do. Like to make it do something that it really shouldn't do, which you can do. Not many people know that you can do, but you can do it.
+
+That's the stuff that nobody's going to do at work. It’s not helpful. No companies are going to want to pay for their engineers to go and learn that stuff. That's not a good investment on their learning budget, but it is super fun and I think it's really interesting. That's the stuff that I have to share these days. It’s less applicable to most folks. I'm sure that there are lots of other folks out there that have more equally interesting, but maybe more relevant and applicable stuff that they can share with the broader Elixir audience on these days. I still like going to conferences, when they are in person and hanging out and meeting new people and hearing about different ways that people are using Elixir, or the BEAM, or Erlang, or even other languages, too. Hearing what work is like and just meeting people.
+
+That's always fun, catching up with people you haven't seen in years. That was great for me for this last ElixirConf, going out to dinner with friends that you haven't seen in a long time and just being able to catch up with people is really great, because there are a lot of really nice people around. That's a great part of conferences for me.
+
+[00:06:47] OB: Yeah, I can definitely second that. Even a smaller conference like Big Elixir, I've met people from different parts of the globe. We had people come in from Australia, I think, India and then some guys from Uruguay and Brazil. Got friends all over the globe now that I wouldn't have had if I was doing a virtual conference only. You would meet them, but all of the outside of the conference stuff, all the lunches and dinners is where those relationships really get built up. Yeah, I'm really happy that we're getting more and more in-person conferences now. Dan, how long has it been since you've been to a conference?
+
+[00:07:23] DI: February of 2020. We had the virtual one, and I think I participated a little bit in ElixirConf and some things like that. It is a great community and certainly, Devon, the content that you've shared, super valuable and super interesting. I'm curious, so it sounds like, your topic of choice is mostly driven by personal curiosity and not your day-to-day.
+
+[00:07:47] DE: Most of the talks that I give break down into one of two themes. One is, “This is a huge mistake I made and here's everything I learned about it.”
+
+[00:07:59] DI: Sure. Classic. Classic.
+
+[00:07:59] DE: “I did this thing. It was really bad, but I probably learned some cool stuff along the way. Here's this mistake. Don't make this mistake again. Now, everyone else doesn't need to make the same mistake I did. You can learn the same stuff that I learned.” That's one topic. Then the other one is, “Here's this really interesting paper that I read that I'm sure none of you have read, because most software engineers don't go around reading papers, and here's what I learned about it that could actually be applicable to your daily work.” Those are the ones that are a bit more practical, although one of them was completely not practical, but still cool. Sort of the thesis that I was exploring turned out to not be true, but I did learn something else along the way. Like the talk on concurrency patterns. That's really practical. that comes from an old paper that was later expanded into a book, and half of them don't apply to us, but some of them do.
+
+I think it's important to give names to those patterns so that we know what we're talking about when we're talking about different concurrency patterns. Yeah, those are the two general themes is like, “This is a thing that I did that was really bad and what I learned. This is the paper that I read that's really cool that you probably didn't read, so here's a high-level summary in how it applies to your work.” That's usually one of those two.
+
+[00:09:07] DI: You've started at Remote, since I think you were last on our podcast at least. How does your day-to-day there involve Elixir, or do you find that there is a connection between your kind of, this would be helpful at work and your actual work?
+
+[00:09:19] DE: Yeah. I started at Remote in November of 2021. It's a big Elixir code base on the backend. There's, of course, JavaScript on the frontend. I'm leading one of many teams now. Yeah, it's me and a couple of Elixir developers and a frontend developer, who's actually using Elixir, which is also really cool, just because he wants to learn it. Yeah, I work with Elixir day-to-day. Most of my time is spent coding, but I also have a fair amount of people management responsibilities for my team for one-on-ones and making sure my team is developing, everybody's growing, all that stuff. The engineering manager part of the role.
+
+It's one of those dual roles, where you're still coding, but you're also in charge of a group of people and help making sure that they have everything they need to do their job really well and they're well taken care of and they're developing and learning and all that, which I really love doing. It's something I did a lot as a freelancer. Teams would come in and say, “We're new to Elixir and we want someone to come in and teach everybody, because we think it'll be a good fit, but nobody really knows it. Can you come and get us jumpstarted?” That sort of thing.
+
+Or, one contract, funny enough, was when I worked for a very large fintech that opened an office here in Berlin, they hired, I think, 250 engineers in Berlin in five months. It was an Erlang code base. You're not going to find 250 Erlang developers, much less 250 Erlang developers in one city. They just hired developers. They had this team of five and they were given this Erlang code base for their application and none of them knew Erlang, so they were like, “Can you hire someone to come in and teach us Erlang, because we have no idea what we're doing?”
+
+Yeah. There was a fair amount of that stuff in my earlier years. It's so fun to teach the BEAM and to teach Elixir and to see, especially people that don't have experience with it, to see them really light up when they see how cool it is and how it addresses so many problems that are in so many other languages. It's not always the case. There's always some resistance in those situations of someone that's reasonably spent 10 years becoming a master in Ruby. All of a sudden, the stuff that they spent 10 years mastering is not really valuable in their current job. Of course, they're going to push back on that a little bit. That's totally reasonable.
+
+Because it's different and things that are different don't feel great at first. With a little bit of time, it becomes second nature. Anybody that's learned another language, probably – like a spoken language knows that as well, where I know when I first started learning German, the way the syntax is in German for, especially in the past tense, the way they arrange words, if you were to literally translate a word in German, a sentence in German like, I brushed my teeth. In German it’s [inaudible 00:12:12]. I have my teeth brushed.
+
+When I first learned German, I was like, “That's insane. I am never going to get it.” Now, it feels extremely weird for me to not do it that way, because I practiced for years now. Like anything, it feels awful and different and not like what I'm used to at first. Then after time, it becomes second nature. Everything that's not similar to what we're used to is scary and different and hard, and we always assign those judgments of like, “This is bad. This is wrong, or this is nuts. Why would you do that?” It's just different to me, because it's different from what I'm used to. Now that I'm used to it, it's totally fine.
+
+[00:12:54] DI: Have you seen any particular like, this language to Erlang, or this language to Elixir, where it's extra challenging? Or is it really more a factor of how long someone's been doing something, or what their experience is than the language they're coming from?
+
+[00:13:07] DE: It's not even that. It's how open-minded they are. If they are extremely attached to their former language. If they were not making the choice often to do it, that's going to be hard. They're not going to want to get out of the mindset that they're in. They're not going to want to think differently. You have to have the desire to change. We are growing extremely quickly. Of course, again, there are a lot of Elixir engineers, but not enough. At Remote, we will hire people that are not Elixir engineers, that have no Elixir experience and we’ll train you up. Those people know what they're getting into. They are signing up for that. Those folks learn extremely quickly.
+
+We have someone in the most recent cohort from Java, from C-sharp, in the .NET ecosystem, from Ruby, from Python. All of them have jumped in and gotten it real fast. The major concerns that come up, frankly, are, it's difficult to say it without sounding mean in a way, but they get a bit caught up at how simple it is. They overthink things, because there are more patterns and more set up and more rules. I tell them, “It's just functions and data.” You don't need to think about it so hard. Pick a place to put it and it's a function. You call it with some data and that's it. You don't need to think about like, “Well, where should this go and how does that work?”
+
+It's in a way so simple that it trips them up, because they're used to complex and complicated patterns and designs and paradigms and all that stuff. Whereas with Elixir, it's just functions and data. There's some stuff in there around conventions, so that people know where to go for – where to find this thing and where that thing lives. That's just so humans can find code faster. Now that we have good language servers, you don't even really need that.
+
+[00:15:06] OB: You can definitely make it more complicated.
+
+[00:15:08] DE: Oh, yeah. Absolutely.
+
+[00:15:09] OB: You can add some crazy abstractions and make things a little bit more opaque.
+
+[00:15:13] DI: Well, that has me wondering, do you see people from maybe more complicated, or more configuration-driven backgrounds, bringing complexity in and you have to fight that urge?
+
+[00:15:24] DE: No.
+
+[00:15:24] DI: No?
+
+[00:15:26] DE: Because you can’t. What are you going to do? You only have functions and data. The only thing that they can bring in is maybe trying to add too much configuration, or something, but that's not really complexity. That usually just gets squashed at the review time, the same thing. Don't add a new configuration variable if it's only used once. Don't add more application config, unless you're going to use it multiple places and unless, it really needs to be defined at compile time.
+
+Otherwise, just chuck it in the module attribute right next to the functions using it, if it really needs to be compiled in at compile time, then sure. Even that doesn't really offer much of a performance benefit in most cases. If you have a literal assigned to a variable that the BEAM optimizes most of that stuff away for you. Or, it's the same level of performance as having a module attribute. Unless, you're doing something, like mapping over some stuff and then assigning the output to a module attribute, then sure, do that once at compile time.
+
+Yeah, it's very hard to add complexity in the small scale. You can add complexity in the large scale if someone that was coming from a different paradigm wanted to design the entire application in a way that matched their previous experience, then sure. Maybe that would be a problem. No, it's pretty hard to add complexity to a functional programming language, because what are you going to do? Put functions in the wrong place? It’s all you can do, really.
+
+[00:16:53] DI: Do you have people doing other things besides Elixir at Remote, either across the world, or on your team?
+
+[00:17:00] DE: At Remote, well, there's always – SQL is a big thing. I mean, there's some data folks. They're mostly working in SQL. I mean, spreadsheets, but increasingly fewer of those spreadsheets are – it's important to remember, the world's most popular programing language. Yeah, at Remote specifically, it is really just frontend JavaScript and then Elixir as the primary drivers. It is still a single application. It's not multiple applications. We don't have some weird microservicing go somewhere, or something that lots of companies seem to get stuck with. It’s like, “Yeah, we're a Ruby shop, but then we have that one Go application that nobody really touches.” Or, “We're Java, but then somebody did a Scala thing and that still runs for some reason.” Yeah, we just have Elixir at Remote, but I've done a lot of stuff in the past where it was multiple languages for lots of different reasons.
+
+[00:17:56] OB: No NIFs even.
+
+[00:17:58] DE: Nope.
+
+[00:17:59] OB: Okay. Cool.
+
+[00:18:00] DI: Was that Remote Elixir from the start, or are you there at the end of a rewrite?
+
+[00:18:05] DE: Nope. Day one, Elixir. It's a very young company. It was only started in 2018, or maybe even 19. Officially, the beginning of 2019.
+
+[00:18:15] DI: Good timing for world events, huh?
+
+[00:18:17] OB: Right. Yeah, the word Remote has become ubiquitous. You know what? That's a good point. We've mentioned the company a couple of times. What is it that Remote does, just so we look at the bird's eye view, what is Remote and how does Elixir play a part in that?
+
+[00:18:33] DE: At the high-level, Remote is a platform that allows companies to hire, pay and do everything that you need to do to have an employee in many countries around the world. I think, we're at over a 100 countries now. If you want to actually have an employee, you’re in Germany, in Germany, or Mexico, or Canada, or America, or England, or Thailand, or Malaysia, then you can. Actually, an employee, not a contractor, but an employee that is legally an employee. You are following all the rules. You are compliant with all the local laws and all that stuff. It basically takes all of the hassle out of that.
+
+Behind that, there is a web application that basically lets you do all the stuff. It's entering data and making sure people get paid and making sure taxes are taken out correctly and all that stuff is done. This is all done in the Elixir application. My specific team is integrations with third parties. We integrate with a third party, like HR software and hiring software, so that when someone is hired, that they just automatically get added to Remote, and so they're paid and all that, and all that's taken care of. Nobody needs to go and actually enter it in.
+
+People like it when their software all just works together nicely. That's my team specifically. Yeah, there's a lot of stuff that is done at Remote, but it's all around hiring and paying and doing all the things you need to do, time off, all that stuff with employees all around the world.
+
+[00:20:01] OB: I've recently seen a glimpse of how complex it can be, just in hiring in the US, using an HR system. Can't imagine how much more complicated it could be hiring across hundreds of countries and different states and requirements for each of those. All of that rules engine stuff is happening in Elixir?
+
+[00:20:23] DE: I wouldn't say rules engine. Like you mentioned, you can't abstract away all of the rules. There are people that are handling specific things in specific countries. When someone is actually hired and onboarded, there are onboarding specialists to make sure that all of the correct paperwork is done. You can't even really encode all of that, because also it changes all the time. A lot of it is very subjective, or you need to have the – Someone needs to look and make sure that the photocopy is of a sufficiently good quality of their driver's license and stuff.
+
+There are a lot of humans involved in the process. I mean, I think the company is up to over 1,000 people at this point. There are a lot of humans involved in the process. We try and make their job as easy and fast and automated as possible, and that they have a nice interface with which they can work, so that they can make sure that they quickly and efficiently do everything they need to do in order for these folks to be hired.
+
+[00:21:19] OB: Yeah. Yesterday, I was listening to an episode of Against the Rules with Michael Lewis, and he was talking about this software startup that was trying to help engineer away medical billing issues. Once they finally started talking to the experts who have been working in the industry for decades, they would go and do interviews with people and they would get to the office and just see post-it notes everywhere.
+
+I wonder if you, I don't know, it’s a remote company, I'm sure, so you might not be aware of how many post-it notes are just pasted on people's monitors. What you're describing sounds a lot like that, where these HR systems have a lot of rules and it can be engineered to a degree, but there's also a lot of just knowledge that is retained by people that have to go through and review and help get these applications and getting these people onboarded in a successful way.
+
+[00:22:11] DE: Well, I mean, it's not sticky notes. It's Notion.
+
+[00:22:15] OB: You can see them.
+
+[00:22:17] DE: Yeah. Yeah. They all have their rules and they know what they need to do. It's a very specialized skill, what they've learned, to know how to basically hire and do everything necessary and fill out all the forms in all of the various languages that need to be done. We have a lot of people that speak a lot of languages that work for Remote, because if you're filling out forms for Germany, it needs to be in German. Same thing in Denmark, needs to be in Danish. Everybody also speaks English. There's a lot of very specialized skill and knowledge in what they do.
+
+Also, there is a fair amount of it that can be abstracted. That's what we do. We make it much faster for them to do their work and much easier by providing some common abstractions around, “Okay, they're hired. We're going to need this and that and that and that and that.” There is some stuff where we know specifically what is needed for each country. Some of that stuff is necessary, but it's not a rules engine more than it is checklists. That whenever we launch in a new country, we make sure we have all the forms and stuff needed. Then folks need to actually look at them and make sure that if somebody submits a PDF and says it's a picture of their passport, it's actually a picture of their passport and it's actually them. You can't automate that too well. I mean, I guess people are trying to start doing that stuff with identity.
+
+Yeah, there's a lot of stuff around these that need to be just mainly manually reviewed and made sure that it's done correctly, because it's a pretty important legal process. Can't offload all of it to computers, but computers can help quite a bit.
+
+[00:23:51] DI: A lot of what the Remote backend that you're working on then is doing is just managing the flow of all this data as it moves through the various steps and approvals and checklists. Like you said, you're working specifically on integrations and keeping data in sync with a company's own HR systems. It seems like, while it may be all Elixir, and I certainly find that Elixir is really great at that data flow, data processing type of work, I'm curious, either through your own experience, or that of your team, has Elixir influenced how they think about things that are not Elixir? I mean, I’m most interested in how it impacts other language use, but also, just like, does Elixir give you patterns that you find able to apply in other ways?
+
+[00:24:35] DE: That's a tricky one. Because I genuinely don't know people that have written Elixir and then gone and written other stuff. I can say that I was someone who was writing in a very Elixiry style before I even knew Elixir existed. I was one of those people who was writing Ruby, in that very functional Ruby style, where you have all those objects and they have a call method on them. I did that, because that worked for me. That worked for my head and my mind. I liked the way that that worked. That was before I even touched any functional language.
+
+Then when I found Elixir, it just fit for me so naturally. That's the way that I like to think about coding and programming and solving problems, solving problems as data flowing through steps in a process. It's the way I've always thought about it. I know that there are some folks that have said that they've really enjoyed moving out of an object-oriented, mutable way of thinking, moving to this. It's just functions and data and data flows through functions and it's changed, and then it goes back to the outside world most of the time. They really enjoy that.
+
+I can't say that they've applied that to their object-oriented code writing, because they don't really write object-oriented code anymore. Most of the people that I've worked with are moving away from that and trying to move away from that. I mean, the only exception to that was, funny enough, that contract that I took where they hired all those engineers and those that knew Erlang, and I mean, as one would think, of course that application was rewritten in a language that they knew, which was probably the right choice.
+
+It was a small enough application. It was pretty old anyway, and so they said, “We'll just rewrite this in Python, because we know it and we like it.” Even that, I don't know if it was my influence, or not, ended up being a pretty functional inspired version. There was even some talk of using AWS lamb, which is really just a function.
+
+[00:26:42] DI: Right. It's hard to maintain state in a lambda.
+
+[00:26:45] DE: Yeah, yeah.
+
+[00:26:46] DI: You can do it, but yeah.
+
+[00:26:47] DE: Yeah. I think they had seen some of the benefits of not having to keep track of state. It's a hassle. Yeah, some people find some cognitive benefit to it. It matches the way they think about problems. I think for a lot of people, functions and data is simpler than trying to create these large, organic systems where everything interacts and everything knows what to do. These are, in theory, great ideas. I think, one of the original inspirations for object-oriented programming was cells in the body and how they all interact and they're all independent, but they can still interact by sending each other messages. Then when one looks at how unreasonably, almost, complex the human body is.
+
+[00:27:36] DI: Right, right. You got to be able to keep that system in your head.
+
+[00:27:38] DE: I don't want to work in that system. I don’t want to work in that system. It's impossible. Nobody knows what everything else is doing. It is the most complex system in the history of the world, I think. The human –
+
+[00:27:51] OB: Not fault-tolerant.
+
+[00:27:52] DI: Not fault-tolerant.
+
+[00:27:53] DE: Well, to some extent.
+
+[00:27:56] DI: Depends on what's faulty.
+
+[00:27:57] DE: Yeah. It can recover from a lot of things. We can't regrow limbs yet. We're not as cool as geckos, but there's a lot that we can do that's pretty cool, but it's extremely complex. It's much simpler to just be working at the level of a single cell organism, where stuff goes in, stuff comes out, some stuff happens in the middle. There's not a lot there. That's really what a function is. You're not building these huge systems. It might be an elegant idea and it might be an intriguing parallel and a great concept and great theory, but what I've seen in practice is that that complexity leads to problems, because nobody can keep everything in their head.
+
+You don't remember how everything interacts so when you make a change, you run the risk of introducing an unintended interaction and an unintended consequence. Whereas, when it's a little simpler, you have less of that as a problem, if you know what I mean.
+
+[00:28:50] DI: When I started my career, I mean, a lot of my formal training was very object-oriented. It was like, that was how everything was done. There was functional, but it seemed like this other thing. When I got exposed to functional, I was like, “Yes, I agree.” I started writing a lot of my object-oriented code in a very functional pattern, probably like how you were writing your Ruby originally, because that was just how your brain wanted to do it.
+
+I don't know if it's my community, the company, the people who I speak to now, functional is just so much more pervasive in that community, or if it actually is more pervasive in the world. When you're looking for developers, when you're bringing people in, do you think that the object-oriented to functional, like wrapping your head around that is as big of a hurdle now as it was five, 10 years ago? Or, is it still a hurdle, but people get over it and it's fine?
+
+[00:29:38] DE: I don't think it was ever a hurdle. Like I said, I think at its very core, functional code is simpler than object-oriented code. The hurdle is not the understanding of it. I also said before, the hurdle is the desire to understand it. For most people, when the world is dominated by object-oriented code, if you're going to get your next job you want to know an object-oriented language. You're really niching down to move yourself out of that world into a functional programing world.
+
+Probably, I don't know, 90% of the world's programmers write object-oriented code every day. Functional programing is a small niche in the broader scheme of professional software developers. For a lot of people, when that number was even higher, when it was 95%, they didn't want to write object. They don't want to write functional code. They wanted to write object-oriented code. Maybe it fit their brain well, and maybe it didn't. I mean, for most people, especially most younger people, which is still most software developers are probably under 25, 28, they're thinking of developing themselves and their career and what's best for them and a lot of them think that is becoming really good at object-oriented code and reading the design patterns, books and knowing all the terms and knowing how to design these really complicated object-oriented systems, and that's going to be what's best for them.
+
+Yeah. I don't think it's ever been more difficult to learn a functional language, especially one like Elixir, than it is to learn an object-oriented language. Maybe when functional languages were primary of the more mathematically inspired Haskell, ML, OCaml type of languages, maybe that was daunting to folks. At its very core, spreadsheets, everybody knows spreadsheets, and that's a functional language. That's what we got. There's no types there. There's nothing there, really. You don't even get to assign variables really, other than the cell names. That is, I think everybody can understand, is simpler than every other possible programing language. It's simpler than object-oriented. It's simpler than SQL. It’s certainly simpler than something like Prolog, any of the logic programing languages.
+
+It is, I think, the most simple form of computing that you can have. That's why it's at its very core, Lambda calculus is really simple. It's just functions calling functions. When you add all of that stuff up, eventually, you get to the higher-level stuff and you get to a Turing complete programming language that can calculate anything that can be calculated, which is great. That is still simpler than the additional stuff. Elixir is simpler than Haskell, for sure. I also think Elixir is simpler than every object-oriented language out there, be it Ruby, or Python, or JavaScript, or any of those things.
+
+Certainly, you start having types back into the mix, like Go and Java. Yeah, it's simpler than those. Definitely simpler than Rust. There's just less. There's less stuff to do. It is by definition simpler, just because there is less. It's just functions and data.
+
+[00:32:47] OB: It's not hobbled, because look, it's not hobbled as a result of the smaller surface area. You get a standard library and you get some external dependencies maybe that you might need to use for different purposes, but it's not like Elixir is less capable than object-oriented languages because of a smaller code base, or its simplicity.
+
+Yeah, I wanted to touch on something that crossed my mind a few minutes ago. We've envisioned this season as thinking about Elixir working with other languages in a polyglot environment. What you're describing is a different form of polyglot environment, where you have an international application that needs – it needs to go through translations for different languages. Is that also being handled inside of Elixir, where your Elixir app is itself a polyglot? It's outputting English and Spanish and everything else?
+
+[00:33:35] DE: A lot of user interface is mostly in English at the moment. A lot of the forms that need to be filed by humans are often in whatever language is spoken, or is official in the country in which that person is working. There is some translation of things, and I've done that in the past for sure. Translation. Another one of those things that is just a function. Data in, data out. Strings in, translate it, strings out. It's real, easy to do. Real, real easy to do, which is really nice.
+
+[00:34:09] OB: Do you ever find yourself going in to git text, or to add translations, or is that someone else's job entirely?
+
+[00:34:16] DE: Yeah, not me. Like I said, I'm only working on integrations, which is, one could say, a whole another language in and of itself. All of the ways that these different APIs that we are interacting with work and all of that stuff. It’s language in terms of domain language, too. We need to have not only our domain language and what we mean when we say an external employee, or an admin-admin, or a company, like what that means. Then, all of the same terms often having different meanings within the documentation of these other platforms. We need to know our internal business language and the business language of all of these other companies as well in order to be able to use their documentation and their APIs. That's a tricky thing, too.
+
+That's one of the benefits of writing, I think, is when you have a remote asynchronous company, most communication is written. That, I find, often forces you to be very specific and very clear in what you're talking about. Because when you write something down and you see a really vague sentence, you’re like, “That doesn't make any sense. They’re not going to know what I'm talking about.” You go back and you edit it to make sure it's really clear. It's a good thing.
+
+[00:35:26] DI: That's an important skill, right? Understanding who you're writing for and being able to think about that in that way. You were talking about the API integrations in the domain model, in the domain language. I think it was really interesting, and it's a place where I have found that functional languages, Elixir with pattern matching, things like that work extremely well to smooth over the decisions that some other team has made in how they have named their things, or how they’ve structures their APIs.
+
+I think that's interesting – while you may only be using Elixir, you deal with the repercussions of other people's choices a lot. Your team does a lot more than a lot of other people doing technology at Remote. Certainly not how some of your onboarding specialists have to deal with other people's decisions more so than probably anybody. Yeah, that's really interesting.
+
+[00:36:13] DE: Yeah. That translation is anybody that's ever worked with third party APIs, which I've worked with a lot of them at this point. I think, was it James’s book? James and Bruce's book, the worker bees book. I forget the name of it. It's James Edward Gray II and Bruce Tate's book, where they have – they say, you have your outer boundary and you do all of your basically, coercion of getting it into your internal data types at that point. You do everything at the outside. When it first comes in, get it into your internal shape of data, into your domain and do that translation once. Then from there on out, you should be good at the core of your application. That's, of course, what we do. We make an API call and we just immediately translate whatever that is into data that we know how to work with that works with our platform.
+
+That's an important thing to do because otherwise, if you start letting that stuff slip in, you weaken the abstractions that you have and you start having to have lots of if statements and pattern matches that you don't want to have all throughout the code, rather than in one place. You really want to immediately take that data and get it into – from their data to your data as fast as possible.
+
+[00:37:27] DI: Well, that's where I think my experience with Elixir as a functional language has really been able to draw those boundaries, and everything takes discipline. I think, so many of the patterns, it can be so easy to end up with a huge object, or objects that know too much about each other, because it's the only way to solve a problem quickly, or various things that you – patterns you box yourselves in with, or over years and decades of building Ruby that you're just like, “Well, this app has this now and to fix it is going to be a struggle.” I found that the boundaries I can draw with Elixir have always, for whatever reason, stood the test of time a little better, or at least been easier to keep clean, if they start to get a little messy.
+
+[00:38:11] OB: By the way, I did a quick Google search, the name of the book is Designing Elixir Systems with OTP.
+
+[00:38:18] DE: There you go.
+
+[00:38:19] OB: By James Edward Gray and Bruce Tate. Yeah. It's still available for sale. Wink-wink. As we start to wrap up here, anything exciting you're hearing about in the community? I don't know if you have thoughts. We haven't even mentioned Live View on this conversation.
+
+[00:38:34] DI: That's okay with me.
+
+[00:38:36] OB: It comes up almost every conversation. Anything out in the Elixir community that’s got you exciting, or interesting?
+
+[00:38:43] DE: Yeah. I mean, to be honest, the tech isn't what gets me interested these days. I'm happy that it is functionally stable. There's stuff that I think is really cool, but I don't think it is interesting from a technology perspective. I think it's interesting from a growing Elixir perspective. I am never going to use any of NX, or any of the machine learning stuff. It's not something I have any interest in, whatsoever. However, it is a problem that is, I think, uniquely suited to the BEAM. It's great that we are developing those tools, because I remember at one place that I worked, they had two brilliant data scientists, two of the smartest data scientists I've ever met. They were doing this work in Python and they were really struggling with like, “I have to do all this stuff, and it does one at a time. Can you help me write a bash script, so that I can chunk this up and run them in parallel?”
+
+I was like, “You want me to rewrite it in Elixir really quick, and then it'll work optimally fast with almost no effort?” He was like, “You can do that?” And I did. It worked optimally fast. I was like, “No, it will actually make sure that 100% of all your CPU usage is used, until this is finished.” The funny thing, I actually mentioned it in the last talk I gave, is we have a function in the Erlang Standard Library that will basically say, “Hey, if I have a cluster of nodes, run this function and distribute it optimally across the cluster.” One function will do that. Whereas, that's a dream for most people, most other runtimes.
+
+If you want to cluster together 15 big AWS machines to cram through a whole bunch of work and do it, it will optimally take care of that workflow for you, with no work at all. It's free. I think that is really important, even though it is something that I'm not really interested in and not ever going to use, but I do think it's an important evolution of the language. Of course, for the web, it's incredible. That's why Phenix was so early. For embedded, it's also really good and that's why Nerves was also really early. I'm really happy that both of those are there and continue to develop, because they're great use cases for the BEAM.
+
+I'm also now super happy that NX exists and that people are doing more work of making Elixir a viable language for data science, which it always was, but it just lacks the libraries. It lacks something like pandas, or scikit learn. That's the only thing it lacks. Those are extremely important. People expect that stuff to be there at this point. The BEAM itself, the runtime is so much better than almost every other runtime. Unless, if you count the fact that most of those languages and Python just shell out to C++ anyway. What the language offers is so great for that. I'm really happy that that's developing and developing more, because I think that's going to be great for adoption across the ecosystem.
+
+Also, it'll just be great for those data scientists that their lives will be a whole lot easier now. That's always a great thing. That I'm excited about, even though I'm never going to do it. I think it's really cool and really important though. I'm happy people are doing it, and that it's not me, because I have no idea what to do. It's well beyond my scope of knowledge.
+
+[00:42:03] DI: Yeah, that's an important reminder of the diversity of the community around Elixir, and the various ways that it's being applied and enhanced and extended. I think it's really easy in your day-to-day if you're doing data processing, or web applications, or background tasks, or whatever, that you lose sight of everything else that this technology is being applied to and how the community is growing. It's exciting and invigorating. I appreciate the reminder that that is one of the cool things that's happening with the technology we love here.
+
+[00:42:35] OB: As we start wrapping up here, any final plugs, or ask for the audience? I know that I think the most recent open-source project I remember seeing was Muzak. What's the status on that? Are you taking PRs?
+
+[00:42:47] DE: I mean, Muzak is the open-source version of a paid project. People still use that. It still exists. Muzak Pro is there. Funny enough, I still think mutation testing is important. Apparently, most people don't, but enough due to where it makes sense for me to keep it running. It's not so hard, because it's not something that needs a lot of effort. Because again, Elixir doesn't break. They don't have breaking changes. Muzak is going to keep running. If people want to look at and play around with it and learn more about mutation testing, great. 
+
+Yeah, that's to be fair, or to be honest, I don't do much open-source work anymore. Probably not much that isn't paid in some fashion. When I first started doing open source, I thought, “I'm helping people.” Then I realized that most of those people that I'm helping are actually companies. There is some open source that is really just consumer software that is free, which is great. Open office should exist. There's lots of stuff out there that's open source that is for people, that is free, and that it's good software. That's great.
+
+A lot of, most of stuff is really just companies getting the benefit from it. I don't really want to donate my time to companies anymore. I have some paid stuff. I have Muzak Pro. There is some other open-source stuff that I still technically own, but it's still done, like Assertions. I think I still need to transfer that to the Benji repo. I don't remember if I ever did. Benji, Toby just did a new release of that, which is great. I just don't really have the time for it anymore either, with the kids and everything.
+
+I have less time and I'm not doing as much of it and I got a little soured on it, just because all of these constant conversations around open-source developers burning out, not getting paid for it. I was like, “Well, maybe we should just charge for software again.” Like back in the 90s when you'd go to Office Max and buy a software on a CD and take it home and install it. Maybe that's what it should be. Maybe it shouldn't be, give it away for free and hope somebody donates. Maybe you should just be like, “Yeah, I put time into making this thing. If you'd like to use it, you can pay me for it.” I think that's a totally good thing to do.
+
+[00:45:00] OB: Looking forward to Muzak floppy disks or CDs in the next year maybe. Also, if people want to find you to follow up, or ask questions, are you available online?
+
+[00:45:12] DE: Yeah. I mean, Twitter is the best place to find me, although I'm also less active there these days than I used to be. Yeah, I'm @devoncestes on Twitter. Yeah, if anybody has questions or anything, I'm usually there. Yeah, more reading than putting out content these days.
+
+[00:45:29] OB: Cool. If people want to find out more about Remote, where would they do that?
+
+[00:45:32] DE: Remote.com is a good place to start. Yeah, I mean, we have an engineering blog. We're trying to do more up there these days. I think there's a couple of cool Elixir-ish things up there. If folks have questions, then they can also get in touch with me. Of course, like every company, we're always hiring Elixir engineers. If folks are interested, they can drop me a note, or apply through Remote.
+
+Yeah, it's a great place to work. Funny enough, I originally applied there and interviewed there a year and a half ago at this point. I had my interview. It was a much smaller company at that time. It was 20 developers or something, and now we're over a 100. I had the interview and they're saying all these things about how they take care of people and there's no rush and they're not going to push people and they're really people focused and the principles of the company. There are so many times where I've seen in interviews that those principles are more aspirational than operational. I was like, “I don't know if it's going to really be as good as they said it was.” So I went somewhere else.
+
+Then Tobi, my friend and fellow Berliner joined there. After a few months, he’s like, “No, it's real. They really do practice what they preach. It actually does work like that.” I was like, “Cool. Okay, good to know.” Then when I was looking for another job, I was like, “All right, cool. Let's do this now. I trust that this is going to be good.” Yeah, six months in, it's been great. I do like it there quite a bit.
+
+[00:46:57] OB: That's great to hear. This has been a great conversation, and surpassed my expectations. I hope you had a great time. That's it for this episode of Elixir Wizards. Thanks again to our guest, Devon Estes, for joining us today.
+
+Elixir Wizards is a SmartLogic production. Today's host include myself, Owen Bickford, my co-host, Dan Ivovich, and our producer is Bonnie Lander. Our executive producer is Rose Burt. Here at SmartLogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails, React, Flutter, and more. If you need a piece of custom software built, hit us up. If you're enjoying Elixir Wizards, don't forget to like, subscribe and leave a review. Your reviews help us reach new audiences and grow our fan base.
+
+You can follow us on Twitter at @smartlogic for news and episode announcements. You can also join us on Elixir Wizards Discord. Just head on over to the podcast page to find the link. Don't forget to join us again next week for more on Elixir in a Polyglot Environment.
+
+[END]
+
