@@ -1,0 +1,350 @@
+EW S8E3 Transcript
+SEASON 8 EPISODE 03
+
+[ANNOUNCEMENT]
+
+[00:00:00] SM: Hey, all. Sundi here. I'm excited to announce that here at SmartLogic, we're hiring for a mid-level Ruby on Rails, or Elixir developer, a product designer, and for a staff engineer. Come join our team and enjoy working from home with great benefits, flexible hours, a work from home stipend and professional development opportunities. All right, now, here's the show.
+
+[EPISODE]
+
+[00:00:25] SM: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint, and I'll be your host. I'm joined by my co-host, Owen Bickford. Hey, Owen.
+
+[00:00:36] OB: Hey, Sundi.
+
+[00:00:37] SM: And our producer, Bonnie Lander. This season's theme is Elixir in a Polyglot Environment, where we talk about how Elixir works with other languages. Today, we are joined by super, super awesome special guests, Cassidy Williams and Tobi Pfeiffer from Remote. Hey, how are you all doing?
+
+[00:00:52] CW: Hello.
+
+[00:00:52] TP: Hi.
+
+[00:00:54] CW: So good. I’m glad to be here.
+
+[00:00:55] SM: Thank you for being here. This is so exciting. I've been looking forward to this for a few weeks now. So, so excited to chat. Just off the top of everything, where are you calling in from?
+
+[00:01:07] CW: I'm calling in from close to Baltimore. I guess, relative to Tobi. I'm in Chicago. I've been there. Tobi, you're on the other side of the world.
+
+[00:01:19] TP: Well, not directly the other side of the world. I mean, real Berlin is quite far away and even the east side of Berlin. A bit farther. It starts.
+
+[00:01:28] SM: My brain, I just thought I was failing on geography when you just said you're close to Baltimore. I was like, “Chicago is close to Baltimore?”
+
+[00:01:36] CW: No, no. I would say, relative to Berlin. No.
+
+[00:01:39] SM: I mean, Owen is in Michigan. When I found out that Michigan is not in a different time zone than me, my brain broke.
+
+[00:01:49] CW: It's so confusing, because Indiana is also East Coast time, or Eastern time. But it's still very Midwestern me. Suddenly, just your clock is wrong whenever on a road trip. My goodness.
+
+[00:02:04] SM: Yeah. We have some folks at SmartLogic in Indianapolis. I also, just every time I think about — I mean, it's great to be on the same time zone as your co-workers, but also confusing. Fun times. Okay. Hot takes. We're going to just jump right in here. Centered app, was that what you want to talk about, Cassidy?
+
+[00:02:23] CW: Yeah. This isn't so much as a hot take as it is a gush period for Cassidy to talk about something. I found this app called Centered, and it's a productivity app, where honestly, when I first saw it, I was like, “Okay, it's a glorified to-do list. I've made one of those. How could this be special? Whatever. I guess, I'll try it.” What it is, is you put in your tasks for the day. It's a glorified to-do list. What you do is you assign an amount of time that you want to give for each of your tasks. You can say, “Okay, this will take me about 10 minutes. This will take me a half hour, whatever, whatever.” Then you say that you want to get into flow.
+
+What you do then is you hit that button and there's a little voice coach that says, “Okay, let's flow.” As you're working, it'll say like, “Okay, you have 10 minutes left on this task.” Or, “Okay, you're halfway through with this task.” Whenever you start doing something distracting, you can give it permission to whatever. It'll say, “Do you really need to be checking Twitter right now, or is this app distracting you in some way?” It's very good, because my mind tends to wander, especially in the pandemic when you're just on your computer, indoors so much all day. It's been really, really helpful to have something where it just keeps an eye on you and plays good music, and you can connect your Spotify to it, or they have one of those binaural music things. Have you heard of that? Where it has the consistent rhythm. It is something to listen to, but it helps you think better. There's science. I've seen other apps do this stuff, too.
+
+Anyway, between the coach thing and then just keeping you on task with the timer, I've gotten more done in a day than I will typically get done in a week, because I just actually am focused on it and it's been really helpful for me.
+
+[00:04:10] OB: On this music point, that's funny, because I find myself — I'm not using this app, but I will shuffle between music services, and I'll go into a playlist for instrumental music. Nine times out of 10, within an hour, I'm hearing voices come out of the speakers and I'm, “That's distracting,” and you try to code. This is low key background, just pulsing instrumental music. 
+
+[00:04:37] CW: Yeah. Yeah. Very, very not distracting music. I know, if I'm playing music where it's something I can sing along to, or back in my band nerd days, if I played it in an orchestra or something, I will be distracted by the music. It's nice to have something that sounds good, is fun, and helps keep me focused. There's other features too, where, for example, you can turn on your camera and then anybody who has a camera on, you’re co-working with them. Even though they can't see what you're doing, it feels like, “Oh, there's people around me. I should be a little bit more focused.” It's been very helpful in that regard.
+
+[00:05:11] SM: That's a wild concept. I totally identify with you on the music that you might have played in band, or orchestra. Everyone's like, “Why don't you just work to classical music?” I'm like, “You don't understand. When a key change happens, I just sit there and go baffled about this.”
+
+[00:05:28] CW: Right. You just sit there and appreciate and be like, “Ah, that transition it.” If you're into classical music, you know that that's not something that's not distracting.
+
+[00:05:38] OB: Speaking of, we've got some band nerds in the house. I don't know, Tobi, if you've got some musician skills as well, but I was in a high school band. I think, we need to back up just a little bit and hear about, who is Cassidy, who is Tobi? We'll start with Tobi.
+
+[00:05:53] TP: Who am I is a really tough big question. But hi, I'm Tobi. I hail from Berlin. I let people put a bunny lover on conference websites, because I happen to sit in a room with two bunnies, whom I do love very much. Otherwise, right now, so if job-wise, I'm a staff engineer at remote.com, which Cassie made a wonderful video of how fun it is to explain that you work at Remote.
+
+Otherwise, I do a lot of things. I do open source. I’m the creator and maintainer of Benchee, the Elixir benchmarking library, but also of SimpleCov, which is the Ruby code coverage library and a bunch of other like, let's say, smaller libraries in between. I've been running the Ruby user group in Berlin for, gosh, almost 10 years. I've been very active in the Rails Girls community of my summer Rails Girls project group about now. It’s called Code Curious here in Berlin. The Rubycons, although I haven't been there a long time, because now choose the evening always play D&D. I used to play keyboard, but not on a level like I didn't use the black keys. That level of playing keyboard, but I'm a huge music fan.
+
+When you were all just talking about like, “Oh, yeah. I got to have this music without anything in the background,” that's not me. I need to hear my punk rock, my hardcore, my metal. I need to have that in my ear to keep me going, to push me forward. Then if I hit a thing that I can sing along to, that just pushes me more forward. It's just like, okay, I'm into rhythm now. I'm coding. I'm delivering this. I'm doing this. Oh, and my favorite color is green. That is a very, very Tobi thing to know that my favorite color is green.
+
+If I go to the Ruby User Group Berlin and I don't wear green, people will look funny at me like, “What the fuck, Tobi?” Sorry, I always forget that I'm not supposed to swear when I'm talking to Americans. That is a thing. I got beat on thinking Elixir. I’m very sorry.
+
+[00:07:58] SM: Two Americans, specifically.
+
+[00:08:00] TP: I’ll try to control myself.
+
+[00:08:03] SM: Oh, my God. So good. So good. Cassidy, you also do a really good job of picking out your music when you're making your short videos, too. Who is Cassidy? How did Cassidy get into making these fun videos?
+
+[00:08:15] CW: Yeah. Cassidy is just a dweeb who likes memes. For getting into just tech in general, it was something that I discovered when I was young, like 13-years-old. I was walking home from school, and I heard a neighbor say, “Check out my website.” I was like, “Oh, you can have one of those.” Then started looking up how to make websites. That is how I got into tech. Ended up majoring in computer science. Mostly, I've done a lot of startup hopping and stuff since then.
+
+I've always been interested in the dev advocacy side, developer experience side. In college, I would speak at a lot of events for fellow students, whether they were high school students, or college students. I wanted to figure out how I could keep doing that once I had it my career. It looked like, all of these roles were just software engineering roles where I could code and that was about it. When I discovered the path of doing more dev advocacy stuff and being able to mentor people more and interact with people more, I leaned into that as much as I could.
+
+In terms of the silly videos, I mostly wanted to make fun of the concept of a 10X developer. I was producing all of this technical content in my own world in tech. Then suddenly, I made a meme and my mentions exploded. Where there is a point in 2019 where, I think, it was a VC that put out some articles saying that, “You want 10X developers on your team. 10X developers don't sleep. 10X developers code all the time. 10X developers actually don't have a good personality, but that's a good thing because they're coding.”
+
+It was so extreme like that that you got to make fun of it. I looked up what video editor could I use on my phone, that would be quick for me to just joke around about it, and that is how I discovered TikTok. I have been making videos ever since. It's been a fun way to relate to a lot of other developers, because so many people go through the exact same pains and exact same issues with code. Good things too, where you're just like, “Oh, I finally solved this after working on it for days.” It's hard to express it just with words sometimes. It's fun to be able to make silly videos, or jokes where people can be like, “Oh, I know exactly how that feels.” That's how I got into that.
+
+[00:10:36] SM: That's so fun. I have to say that I didn't know what TikTok even was in 2019. I saw your videos on Twitter and I was like, “Oh, that's fun. That's cute.” The videos were all cool. Then six months later, I found out that TikTok was a thing. Then maybe two or three months after that I was like, “Oh, is that what Cassidy uses? Oh.” It's a very delayed reaction. I'm very slow to pick up on the new trend sometimes.
+
+[00:11:04] CW: Well, and it's also just grown so explosively, too. Because honestly, it wasn't a lot of people on TikTok when I started using it. I truly was using it, because the video editor was good, not because there was such an audience to be had there. I think, again, in the pandemic, people were indoors and wanting to be entertained and there was a way to watch funny, fast videos.
+
+[00:11:25] SM: Yeah, for sure. You're both at Remote. I definitely want to dig into both of your roles and how that ties into Elixir. Can you just give us a blanket what is Remote, for those who don't know?
+
+[00:11:38] CW: Tobi, would you like to, or shall I?
+
+[00:11:39] TP: I mean, you can if you want to, but I can also go ahead. In unison.
+
+[00:11:42] OB: In unison.
+
+[00:11:45] CW: In unison. Remote.
+
+[00:11:49] TP: Okay. I can go. Remote is an employee off record. What that is, basically, we have our own companies in I think 62 countries now. We help people employ — we help, well, employers employ people worldwide. Because otherwise, you have this problem. You're in the US, right? Now you want to hire Tobi from Berlin. You don't want it to be a contractor. What you would have to do normally is you would have to set up a legal entity in Germany, so that I can be a full-time German employee for your company.
+
+Remote just has all of these legal entities. Technically, people will be employed at Remote. That's the legal basis. In actuality, they will be working for you. Remote just basically makes this possible. It allows you to have employees all over the world. We know we add on top of that, with services, some benefits and whatnot. Yeah, I think that's the gist of it.
+
+[00:12:51] CW: Yeah. I have this one friend who's a startup founder who is trying to hire someone based in Budapest, in Hungary. He has been working as a contractor for pretty much his entire career, because that's just what he has to do. She wanted to be able to hire him and he wanted to figure out, “Okay, could I work for you as a full-time employee?” But she's a startup founder. They've got a company of less than 10 people based in the US. Because she was able to use Remote, she was able to hire him. He has a full salary and benefits and has a full-time employer, which is really useful for buying houses, or doing other legal things anywhere. That is the advantage that is given to both employees and also, to employers who want to hire people internationally, without setting up entities in other countries.
+
+[00:13:39] TP: Yeah, it's a very complex problem to solve. Because all of these countries have all of their own laws and everything. at the same time, it's a very cool problem to solve, because by that, you also enable people to work for this country. As Cassidy said, both companies have access to more talent, but also, self-talent, especially let's say, in less privileged areas. For me in Berlin, I can find a good paying job that's from here.
+
+We also are open in I think, Nigeria. I think we’re open in Vietnam, or some other places that aren't as economically rich. They can work for, I don't know, you ask middle-European companies and make more money and hopefully, also bring that money back into their communities, which is something that I really appreciate. You know what? It's fun for me to work on as a product. It's not like at — I hope I don't offend anyone, but I don't want to get up every day and be like, “Oh, I'm delivering better ads. I'm delivering faster ads. I'm spying on people more.” That's not what I want to get up to do every day.
+
+[00:14:41] OB: Right on. Thank you for the intros and giving us a little bit of information about Remote and yourselves. I'm curious, is there a story behind the GitHub username @PragTob? Is this like a pragmatic Tobi? There's something else to it there?
+
+[00:14:56] TP: That is exactly it. I mean, the longest story is when I was — I lived an Erasmus in Sweden. While I was there, I wanted to participate in this program called Ruby Mendicant University. I looked at it and everybody had a Twitter account. All the alumni said, “I didn't have a Twitter account.” I was like, “Oh, I should have a Twitter account.” I was like, “Oh, what should I call myself?” Because at that time, the pragmatic programmers, the publisher, I guess, was my favorite publisher and also basically changed my life a little bit. Because before that, I wanted to be more of a security researcher. I did all of the security stuff in university and everything.
+
+Then I read a book called The Agile Samurai by Jonathan Rasmussen, published by PragProg. Also, now the Pragmatic Program and lots of other books that changed my view. I was like, “You know, I don't want to be this lone guy attacking a server and trying to break in. I want to build something together with people. That sounds way more fun and way more cooler.” I love them a lot. I looked at what I did with the handles. I think, Dave Thomas is @PragDave. Andy Hunt is PragmaticAndy. I said, “You know what? PragTob sounds fine.” Lots of people assume I just like Prague very much and I do like Prague very much, but actual origin is me stealing it from Dave Thomas.
+
+[00:16:25] SM: The TLDR. Stolen from Dave Thomas. Amazing. Cassidy, I wanted to ask you, you talked a little bit on Twitter about this, but for those who don't know, what does it mean to be the head of developer experience? What does that mean to you? What does that mean for the tech industry just all around?
+
+[00:16:43] CW: What's been interesting is that it's a somewhat new concept, even though it's been around for so long. I've done general developer experience things for a long time, and my job titles range from developer evangelist, developer relations, developer advocate, developer experience, developer experience engineer. It all comes down to what is the experience that the developers you have have, where if you can improve it in some way, where let's just say, your developers, whether they're internal or external, are using a CLI tool, and there's way too many parameters that the CLI needs. I think, I actually talked about that with Tobi when I first joined Remote. That's something that could be improved, so that way, they don't have to type things for so long.
+
+Or for example, if you have a platform like Netlify where I used to work, it's very easy to ship websites on Netlify. For some people, it's confusing. How can I make it less confusing for those developers? Solving those kinds of problems, so that developers can build the best they can build, to be the best they can be, is the high-level summary of it. It looks like, tutorials, it looks like videos, it looks like education. Sometimes it just looks like fixing certain product features. If you have a customer who's a developer, whether it's an internal one or an external one, you should focus on developer experience and a lot of companies are doing that now.
+
+[00:18:11] OB: What's the developer experience story for Remote when it comes to Elixir, or other languages? Are there APIs exposed that people can hook into?
+
+[00:18:22] CW: It's very new, both, because I am the first one working on it at Remote. Also, Remote is a startup that has grown so quickly. I first met the CTO, Marcelo, back in March 2020. I think, the company was 25 people then. Tobi, how big is the company now?
+
+[00:18:42] TP: I think, we are a 1,000 or something, but there's no more confirmed hires beyond that. There's another data point when I joined, which was roughly a year ago. I think, it was employee number 141. It has grown a lot.
+
+[00:18:59] CW: It's truly been hockey stick growth. Because the company has grown so much, it has been drinking from the firehose ever since I joined, because there's so many people who have joined, and so many new things that have started. Or where just like, “Oh, yeah.” We started that last year, but that was when we were only 300 people.” It was never really picked up and that sort of thing.
+
+Remote does have an API that was just released, I think just in beta for now, as we start to work on it, where if you wanted to integrate some of Remote's technologies and be able to do the actions that you want to do with Remote payroll hiring, that sort of thing, you could integrate their API into whatever tools you might be building. Then at the same time, something that I want to focus on in particular is the education side of things. Because right now, something that Tobi worked on actually and a bunch of other people at the company is there's an Elixir bootcamp, where if you come in knowing another backend language, you can take the Elixir bootcamp and then be up and running and work on Elixir in the code base.
+
+I want to, first of all, take the bootcamp. I have it open in a tab and I'm going to start it. I promise, Tobi. I want to take that and actually open source it, so more people can learn Elixir and hopefully, give us good insights, so that way we can not only hire more people, but also show Elixir more to the world. Also, figure out what other ways can we show people how they can be a better Remote worker in general.
+
+Especially in the pandemic, the company grew so much. Also, just Remote work in general has grown so much that we want to support that, because a lot of people, even though we've all been doing it in the world so much in the past few years, there's still a lot to know and learn when it comes to being a good remote worker and communicator and team member and developer.
+
+[00:20:52] SM: I was actually going to ask you both about the open source nature of what you're working on at Remote, because I recently chatted with Marcelo, or Marcelo.
+
+[00:21:00] CW: Marcelo.
+
+[00:21:01] SM: Marcelo. I chatted with him in January. I wanted to know so much about this handbook, this employee handbook that you all have on notion. Well, I think it was circulating at the time. There was maybe a little bit of a thing on Twitter. I was just fascinated that all of your practices on everything from how you progress into, from one engineer to another engineer, or how you do career trajectory, or how do you take a day off. All of that’s just out there. I'm also a big fan of notion, so that was really fun to read.
+
+It was just wild to me, and I was just very interested in what open-source opportunities you all might have gotten into, or were planning on getting into besides what you're talking about, Cassidy, about potentially open sourcing the Elixir bootcamp for either of you. Are there any other plans for open sourcing any other technologies? Tobi's laughing.
+
+[00:21:52] TP: Well, I am laughing, because I have this one thing on my mind, but I don't think I can talk about it yet, because I don't think we have it announced. There is something cool that we're doing, which is not on the Elixir side. It's more on the front-end side. I think, I'm okay saying that, and I'm excited about and it's a very cool project, but I don't think we have announced that we’re going open source with it now, so I can’t talk about it.
+
+[00:22:14] CW: Soon.
+
+[00:22:14] TP: Soon. Soon. Yes. Soon.
+
+[00:22:17] SM: Okay. Definitely no pressure to announce it on this podcast first, Tobi. None at all. None, whatsoever.
+
+[00:22:23] TP: I mean, we do have other stuff. We have this one generator for basic architecture for something. I think, it’s called Phoenix Gen Solid, or something. Cramer built it. That is out there. Of course, there's a lot of things that we could open source, or that I think we could open source. I also always believe that actually open sourcing brings it to a better architecture of the system, because then the responsibilities are much clearer. You have this thing to say, “Okay, this is not our core business logic.” It just deals with general structs, lists and maps or something, not for business logic entities. Then you can test that separately and you can release it separately and you just get it out of the craft. A preparation for that, we're already moving a lot of our, let's say, more general utilities into a separate namespace, so that they're then much easier to extract.
+
+As Cassidy has been saying, we've been drinking from the firehose a bit. It's not always easy to get that time to be like, “Okay, now we're open-sourcing this thing”, while the firehose keeps going.
+
+[00:23:32] CW: Yeah. It's something where we had an open-source org a little bit when I joined. Then it wasn't super, super active. Then we had to claim our username and there's a bunch of stuff that we had to do. There have been some really cool libraries that we pushed out. One that I really like that is it's on the frontend side, it's a React URL modal is what it's called. All it is is that if you have a modal on your page, it has its own dedicated URL. Because you know how sometimes you give someone a link to a web page and you're just like, “Okay, click this button, so the modal pops up and you can see.” All this is, is it gives your modals a URL, which is so nice.
+
+It's a simple little concept that we've turned into a library. Then by the time this podcast is published, we had the devs for Ukraine conference, which is a big conference that Tobi is helping us organize. It's for both front-end and backend to just raise money for Ukraine, to donate to some really great organizations. The entire website is open source, so you could see how we structured it, how we set up the Stripe elements for donations, how we set up Next.js and the structure of that whole website there, too. Those are some fun ones that we've open source so far.
+
+[00:24:45] SM: Cool. What's the stack behind that? Can you talk about it?
+
+[00:24:49] CW: That one, it's purely Next.js with some serverless functions. The front-end is mostly React and Tailwind. Then the database and everything is — It's all pretty vanilla. We don't use Elixir, I admit, for that one. We populate it all with Stripe. I think, it's just the donations and emoji reactions last I checked.
+
+[00:25:12] SM: Oh, my God. Emoji reactions. Yes.
+
+[00:25:16] CW: Very important things are stored in that database.
+
+[00:25:18] SM: For sure. Everything doesn't have to be Elixir. What we wanted to really understand by the season, specifically, was to talk to people and get a gauge for when is it correct, or when is it the most appropriate to use Elixir for things. Also, we don't ever get a chance to talk to people who work primarily in other languages, or other languages with Elixir that we don't normally talk about.
+
+We talk about Elixir and Phoenix, until our ears fall off. Tobi is laughing again. We want to know what else — what other combinations are out there. Endless possibilities, right? Do you all want to maybe speak a little to the stack at Remote? Tobi, I think you mentioned back in Elixir front-end. Nope. We got nothing. I forget.
+
+[00:25:57] CW: The front-end as React, I think.
+
+[00:25:59] TP: Yeah. Front-end as Next.js, like the devs for Ukraine website. We're pretty, I would say, standard. The backend is an Elixir monolith. Right now, there's a PostgresSQL database. That's it. Basically, there's nothing too fancy going on. From that point of view, let's say, and there's a rest API. It's not even GraphQL for those.
+
+I think, our tech stack is relatively simple, but our domain is so complex, which makes it really interesting to structure it. There's already so much that we have to wrangle with in the domain that I don't want to wrangle with a lot of stuff. On the tech side, it should just be there and it should just work. The interesting thing that I think about for us, it's also not tech choice-wise, we're not a very high throughput business. We don't get a million requests per hour, or whatever other number you think, where you often feel like, “I build stuff in Elixir if it has to be highly parallel and it needs to do all of these load spikes and whatnot.”
+
+You don't onboard someone that often, you don't — add your sick days, or your vacation days that often. I mean, of course, there's stuff going on. You check in with people. I know, there's payments happening and everything, but it's not super hardcore scaling. What's important for us is that we're up and that we're correct. Those are the most important things for us.
+
+[00:27:28] CW: What's interesting is every single country is different. There's so many exceptions to every single rule for every single country, where they might do payroll differently, or there might be different periods of resignation, or periods of onboarding. There's different vacation requirements, different maternity and paternity requirements. There's so many different things with every single country. You can't get too specific on like, okay, this is how this will be structured, this will be this, this will be that, and be very, very clear on it because it could change. The environment has to be very, very flexible and like Tobi said, correct, because these laws are necessary for people to get paid.
+
+[00:28:13] OB: This sounds like a use case for protocols and maybe behaviors. Are these tools that you're using in the backend in Elixir to handle all these dynamic requirements? Or is a different approach that you're taking?
+
+[00:28:28] TP: Right now, not a lot. We do have some behaviors, obviously, oftentimes now for using mocking with mocks and everything. We do not use a lot of protocols, although I'm sometimes thinking about if we might not be better served, or using the dispatch by protocols.  What we’re using a lot, really, is just plain old patterns. Because in our patent match on the country code, and then, this is what this country does, this is what that country does. Very, very explicit. Then, we'll often have one module that has one single purpose that's built media TransferWise details to get money to this point. Then it will have all the matches for all the countries that we have and it will implement all of them. I mean, sometimes we also split up differently. That's, for instance something that we use there.
+
+[00:29:19] SM: I imagine, your test suite must be massive. You have so many cases to cover. They're not even edge cases.
+
+[00:29:27] TP: Yeah, they're not.
+
+[00:29:29] CW: Laws change all the time. Things will change and we’ll suddenly get a bunch of tweets saying, “Hey, your rules for Romania are incorrect.” Then people have to change stuff. It's a lot. It's really, really interesting to witness, because you get such a global perspective, seeing how so many countries are paid differently. So many employees in different environments are worked with differently. But it is a lot. It's like you say, there's not a lot of edge cases, because every country is an edge case.
+
+[00:29:56] SM: Oh, no.
+
+[00:29:57] CW: Or so, none of them are.
+
+[00:29:59] SM: That does actually make me think of — since you're both from different countries, and question applies to both of you, is there a rule, or a law that you saw that you were like, “Wow, I can't believe they do that there”? Anywhere, maybe?
+
+[00:30:13] CW: I know, Argentina has some very specific payroll rules, where they get paid in USD, but then it's converted. Where other countries are just paid in their currency. Is that right, Tobi? There is something funky with that one.
+
+[00:30:28] TP: Something. There was a desire to also pay in US dollars for Argentinian employees, because the, I think, the currency is fluctuating so much. That's a feature we implemented. Then the weird thing that I think that Cassidy is referring to is that you can't just pay them in US dollars. It's a state law that all salaries have to be paid in Argentina's pesos or something. What needs to happen is, the contract, I think, specifies the US dollar amount, so that's okay. Then up in payroll run, it needs to be converted to the current pesos amount, which you need to get the official exchange rate from a website, from the government, somewhere in HTML, or in some Excel file or something. They need to use that on the day to convert it and then you pay them in pesos, but the contract is in US dollar and weird things all over.
+
+[00:31:21] CW: Your eyes are getting wide. We know it's chaotic.
+
+[00:31:25] OB: I mean, I can relate, because I've been working and just strictly US HR systems lately, and those are complicated in their own right. I can’t imagine dealing with multiple countries. That's so much.
+
+[00:31:40] SM: Forget developing for it. Signing up for health care is hard. Just picking it and then developing for it. This is something that may be where uniquely, the four of us here are uniquely familiar with.
+
+[00:31:54] TP: I mean, probably, you are. Because I think, generally, the thing that was most surprising for me was that I'm not sure if we're even available in all states of the US right now. Because apparently, you need to set up an entity and I don't know every state of the US, I need to treat all the states differently. I remember at some point, we were only in 27 states and I was like, “Wait. What?” In the US, you can just say, “If I don't have an office in, I don’t know, San Francisco, what? Then I have everyone to date. That's not possible.” That was my like, “Oh, okay,” moment.
+
+[00:32:24] SM: Yeah. I don't remember what the rule is exactly, because I've never owned a business, but I remember working at a company where we had a lot of salespeople and they traveled a lot. They had to report which states they went to, because our company was had a report that they did business in these states for tax purposes and whatnot. I was just like, “I'm glad I'm not traveling,” because I said, “This is too much for me.”
+
+[00:32:49] CW: Yeah. I remember that was actually something that my husband ran into a few years ago, where he had an offer from a company and they were just like, “Oh, yeah. You can work fully remote. This is great.” They were just like, “Wait, but you live in Washington? Ah, sorry, we can't offer it.” They had to rescind the offer, because it was one of the states that they couldn't operate in. We’re just like, “But why? We're all Americans here.” Yeah, it just wasn't working.
+
+[00:33:14] OB: Is that unique to America, or is that something you've encountered in other countries as well, like the state, or the province matters?
+
+[00:33:25] TP: We haven't encountered yet anywhere else. I'm also not that close to the old way of like, country onboarding team. I know, they could probably tell you stories upon stories for hours on end. I’m only in payments. My fun is figuring out some old XML format that you need to send to a bank to pay all of these people and all the different, weird restrictions that it has. Then we go like, “Oh, probably in all in Europe, it's the same.” Then, “Oh, no. This other restriction on this thing of it, and then that other thing.” I'm like, “Oh.” It is very fun to architect that and run it and then also, have the test to back it up, that none of these breaks.
+
+The moment I was the happiest there. One of my happiest pro tip is always like, if you have some kind of export, like this XML, or like a CSV or something, generate a file once. Write a test that is predictable in the data that it produces, and then just write a test that asserts completely the entire file content against a known good file. Because the cool feature of that is also — if you change something about the generation, you really see it as a diff in the test. X unit is very good at this diffs and then it's like, “Oh, yeah. That is different now.” Okay, I changed and then, even see it in the GitLab, or the GitHub diff. I was like, “Oh, somebody changed this test file, that we sort everything again.” These are the changes that does change results. Then that just gave me so much more confidence. Once we had that test, I was like, “Okay, now I'm confident that we don't break this.”
+
+[00:35:01] OB: Awesome. Yeah. This brings me to something I was gearing up for was, you're at a rapidly growing company on a country. What are some of the growth pain points that you've had, either technically, or just the coordinating between teams?
+
+[00:35:19] CW: Remote definitely does a lot of async work. They talk about it in our very open handbook. It's been interesting, and Tobi, I’ll speak to my experience, because I've onboarded recently, but I'm sure it was probably even different from when you onboarded. They've been very good at getting us up to speed, where before we even joined, there was an optional call where you could jump in and they said, “here's what your first week is going to look like. This is what your second week is going to look like. If anything changes, this is the channel that you should speak in and then we'll get you taken care of.”
+
+It was cool working for a company that does this onboarding for a business, because I felt very well taken care of as an employee. Then in terms of the stack and in terms of just everything, everything is a notion. Everything. If you want to find information about an all-hands that we had a year ago, but specifically one where the CEO spoke about the company valuation, you could find that in notion. Everything is in there. Because of that process, it's fairly good to say, “Okay, if I want to learn more about this end of the code base, there's documentation on that.” If I want to see that there's some RFC requests for comment somewhere, I can find that somewhere in notion. There's rabbit holes everywhere that you end up learning way too much about something they probably didn't need to, but it's super useful that way.
+
+[00:36:44] TP: Yeah. I mean, it is very useful. I want to say, the one thing that probably helps our growth be not as painful is really the values. That's part of the general handbook and this is value kindness. It's a really lived value. It's not some lie. You really go in Remote, and there's the most kindest, most helpful people look at every stop that helps you get along and that really listen to what you say.
+
+I had some of the most amazing experiences, where I would be complaining about something, or making suggestions about something that's not even my forte. Something that the people team is doing and they would welcome my feed and it would be like, “Oh, yeah. Okay. Yeah, you're right, Tobi. That's cool.” Then they would go and implement it.
+
+Yeah, growing this much is tough. Keeping everyone up to date, getting everyone up to date with the co-pays and especially, also, the business growing so much. Right now, there's always, you find these issues, something that was completely fine three months ago is now like, “Oh, no. We need to fix this now.” Because otherwise, there's all this pain for all of these people. There is a lot of work to do on these things that you don't see coming that early. Then on the Elixir side, compile times go way up. We have a very big application. We have a lot of files and a lot of stuff. We actually talked to Jose Valim, because I think, I don't know what’s official position is, but he's a technical advisor, something, something.
+
+[00:38:14] CW: Yeah. He’s an advisor of Remote.
+
+[00:38:15] TP: At Remote. We sometimes get to talk to him, which last time, actually was today.
+
+[00:38:19] SM: Oh, wow.
+
+[00:38:19] TP: Yeah. It's not that often. Just coincidence. Then we talked to them and then we look at libraries and whatnot. It's like, okay, these compile times. Oh, yeah. Then he is like, “Oh, this is the next thing.” Then we try it out with Elixir Master. Even now, we see, is it better now? How much better is it now?
+
+Test runtimes are not as big of an issue. I mean, they are an issue, but at least for me, it's not the biggest issue. I can still run them okay-ish on my own machine, I think like, I don't know, maybe 5 minutes or something. It's not super great. I don't run them all the time. Then, also the end-to-end test get in the build time for the image for deploy gets longer. That gets annoying. Then deploying all of it as a monolith and everything. We even run into a fund little problem, where I think we were producing out of memory during test runs. It was some format that we use.
+
+Actually, one of our co-workers, Joel, he actually submitted a patch to Elixir, only store test timings and see [inaudible 00:39:21] when slowest is used, and to reduce that memory usage that somehow got off of that. All kinds of fun, weird problems that you find some small, some big.
+
+[00:39:34] SM: Yeah. When you mentioned Jose, it reminded me that I wanted to ask about that technical advisor relationship, but also, how did you pick the tech stack for Remote? Did you have Jose’s — someone in your back pocket already, or did you pick it? Then that's how that relationship came about? Or, the decisions that companies make, especially when they're growing in a high-growth mode startup style, like Rocketship is always interesting to me. How do you pick a stack and then immediately go with it?
+
+[00:40:08] TP: None of us was there when Marcelo, Job and Eduardo made the decision at the time. I did see though, today on Twitter that apparently, there's a podcast, or some interview coming up from Elixir with Marcelo and Paulo. Paulo's our VP of Engineering. Just about that topic. I personally, small side story, a personally like to think that I had some weight in it, because in 2016, I was giving a presentation about Elixir and Phenix at RubyConf Portugal, and both Eduardo and Marcelo were in attendance. I like to think I had one small part to play in it, but they probably knew before that my…
+
+[00:40:47] SM: Well, you're telling the story right now.
+
+[00:40:50] CW: Claim it. You did this. Remote exists because of you.
+
+[00:40:55] TP: I always wonder, do Job and Marcelo ever go and listen to this, will Job ever DM me and will be like, “Hey, Tobi. The way you described our business was not correct.” Marcelo will be like, “No, I’ve done Elixir much longer than you.” I’m like, “Oh, okay.” Now, the one thing that I always like to figure is that Elixir is just an incredibly nice language to work in and model your business logic in. I come from Ruby, right? If I would have to think that we would have all of this with a standard Rails application, with active record and all the callbacks that people usually put into it, I would run away screaming, because I would have no idea how to debug anything, or how to do basically, much of anything.
+
+That explicitness that is very much ingrained into Elixir and also, the ease to follow what's happening, that immutability grants you I think is very well suited for such a complex business domain, because basically, it makes it hard to change things without noticing. It makes it easy to follow how things change and how things flow. I just love actual with the change sets that I can compose the way I can use it for validation almost anywhere. When candidates ask me this, I always say like, I wasn't there by that, but that's the reason.
+
+[00:42:12] CW: I wasn't there, but I did this.
+
+[00:42:16] TP: This I never told anyone. This is the first time I ever connect that story.
+
+[00:42:21] CW: This is a tell all episode now.
+
+[00:42:25] OB: I'm curious, you're hiring obviously a lot of people, and they're coming – I'm sure, some of these people are coming from an Elixir background. Some people are coming from Ruby, JavaScript, TypeScript, different areas. What are the things you're seeing as people are getting upskilled, or trained on Elixir either for the first time, or moving up from junior to senior with Elixir?
+
+[00:42:47] TP: Mostly right now for this particular pipe, we're only hiring senior, high-level, mid-level engineers that do not have an Elixir background and then train them in Elixir. What I see is as Cassie said, I wrote the self the first version of the training camp and I'm always there as a mentor and supporting it. It goes amazingly well. Really, people get to be productive much, much faster than I would have ever expected. If the training camp goes for a month, or something and basically, after another month, people are incredibly productive already.
+
+Not that they don't get to do anything before, but it's like, I will need help with an issue and somebody from a training camp that just joined two or three months ago will be the one that is like, “Oh, Tobi. I know how this works and here's how I can help you.” I will be like, “Wow, this is so cool.” It's really fun seeing these people around, and lots of them also is so happy about Elixir. I mean, I will maybe embarrass them a bit now, but Kevin, he was the first one who ever joined it. He just goes on and says, “It's just so fun.” Today in the call with Jose, he told the story of how he gave, I think, a lecture the university yesterday. It's like, did language choice ever impact your employer choice? He was like, “You know what? I saw Elixir and it was just this beautiful, wonderful language I went to work. I got to work at this place and it taught me Elixir and it was really, really great. I love it so much and it's really, really great.” He's just so happy.
+
+He came from, I think, yeah, he did C sharp before. That's pretty much universally what I hear. People are really happy with it. I mean, of course, there's always stuff that they think is odd, or weird, or like, “Why can’t I do this? I used to be able to do this.” There's obviously, always some of that. Overall, it's going really, really well. I'm super happy with it.
+
+[00:44:41] SM: Yeah, for sure. Cassidy, do you have a favorite front-end-backend combo currently before pre-boot camp? We might want to come back and ask you post-boot camp, but right now…
+
+[00:44:50] CW: Yeah. Ask me later and I'll have some strong opinions. Honestly, I did work for Netlify, so I have some elements of bias. If I can pick a stack, I typically like to do some element of front-end heavy, plus serverless functions if I can. I really like being able to build a mostly front powered thing that that is not necessarily all static, but is hydrated with serverless functions and stuff later. Just because I like the idea of a site being able to be served from a CDN while enhanced with other things. The site just doesn't go down if it gets a ton of traffic. It might have lots of loading spinners and stuff, but the site just doesn't go away as a result. That's something that I feel very strongly about.
+
+I've played with various serverless function languages. I've tried Rust a little bit and Go a little bit. If I'm being honest, JavaScript is where my comfort zone is. I stick to Node in JavaScript for a lot of stuff. What I want to do in the side project that is forever on the pile, once I've finally learned things, what I would like to do is to build a full site that uses React and Astro on the front-end. Then on the backend, uses Elixir and then Super Base as the database. I feel like that could be a really cool combination of things, but I got to learn some things first.
+
+[00:46:16] SM: All right. Well, the day you get into that, definitely live stream it. I'll come hang out for sure. That sounds fun. Cool. I’m going to move in to some of the fun questions. Tobi, can you tell us about your GitHub profile picture? He's laughing again.
+
+[00:46:34] TP: I'm always laughing. You mean the profile picture, right?
+
+[00:46:38] SM: Yeah.
+
+[00:46:38] TP: Yeah. Okay. I mean, I guess, for those that are just listening can’t see it. If I remember my profile picture correctly, I hope this is the one. It's basically painted a picture of some hunter that looks like me when I still had my curly hair, basically. It's holding a bunny in his, I think, left arm, or right arm.
+
+[00:47:00] SM: Oh, I missed the bunny. The bunny is the most important part.
+
+[00:47:02] TP: You missed the bunny? Wait. Am I talking about the right picture?
+
+[00:47:05] CW: No, it’s there. It’s there.
+
+[00:47:05] SM: No, no, no. You are probably.
+
+[00:47:06] CW: I just totally missed it.
+
+[00:47:08] TP: Okay. Yeah. No, there is a bunny there, which is usually — and that bunny’s name is Ghost. That bunny does actually exist and it's hopping around on the floor here right now.
+
+[00:47:17] SM: Yeah. We saw him earlier.
+
+[00:47:18] TP: That exists, because I was kickstarting a game which is called Fear to the Shattering, which is one of the secrets with my all-time favorite games. It was quite inexpensive, I think, for — well, for 150 British pounds, so I don't know what that is. Maybe $200 or something. I could have an image of my choice drawn, so basic of myself and I did choose this. If I was okay, I want to have this image of me as a ranger and me holding my bunny. I could design a quest. In that game, well, if you start as a hunter, you can basically start with my profile picture. You can also meet me in-game and a little boy will come to you and will be, “Oh, I have my uncle Tobiash.” It's a bit of Slavic name so it’s Tobiash.
+
+He's a bit mad and he's looking for his bunny. Then you can go to Tobiash, find Tobiash, and then Tobiash will task you if finding his magical bunny, Ghost. Then, there's three variations of that quest that I know of. While all very, very fun and very cool. Then if you manage to bring back the bunny, which is quite difficult, I must say, it's also more difficult quests than the game, then Tobiash might join your party. The game is a mixture of all of my, basically, favorite game types. It's a bit weird.
+
+It's 4X, which is Civilization sort of. Big hextile move around and stuff. RPG, very heavy RPG elements. You can fight, you can talk with people. This actually solved talking challenges and magic challenges as well. The way that the challenges are resolved is through a card game with your characters and your abilities that you have and the different weapons that you have. If they are influenced then what cards you can basically play and how strong they are. Then, it's also a rogue light game, where after you play, you unlock new stuff. You get some points and you unlock a new card that you can play for on your starting character. Then you can also start with a young elf druid, which is very overpowered as opposed to human. It's a beautiful Slavic…
+
+[00:49:28] SM: This whole sounds so fun.
+
+[00:49:32] TP: Yes. I do love that game very much.
+
+[00:49:34] CW: That's so cool.
+
+[00:49:35] OB: You know what sounds fun to me? I mean, absolutely, I've got a study on this game here and maybe do some downloads, but mechanical keyboards. This is a passion that I have flirted with. I've not sunk more than a couple hundred dollars onto keyboards yet, but I know someone in this group is a keyboard queen. Tell us about it, Cassidy. What do we need to know?
+
+[00:49:59] CW: You shouldn't have cracked open the door, because you've opened the box. I could talk about keyboards a lot. I have a handful of keyboards. I have a certain number that is large. They are awesome. For those who don't understand the appeal of mechanical keyboards, allow me to try to convince you. When I first got into keyboards, this was back in 2015, 2016, I thought it would be cool to have a keyboard that looked cute on my desk. Because every single keyboard you saw was basically like, the Mac keyboard, or just one of those black plain ones that you could get at any electronic store.
+
+I wanted to get something that looked cool. Thus, I opened the door to mechanical keyboards. It is a community that has grown and is thriving and is awesome. When I say mechanical keyboard, it means that there's an actual mechanical switch that is clicked when you hit the key and it makes the connection in the circuit. Back in the 80s, there is the IBM model that had a fantastic keyboard that is still being used today. You can use it and it'll work really well. I actually have a friend that found a keyboard that was made on the day that he was born, and that's his go-to driver keyboard.
+
+These keyboards are solid. They have these very powerful fox, where when you type on it, you're just like, “Wow, I could control spaceships with this.” It's so, so cool. As computers and thus keyboards became so much more popular, they were just much more cheaply made. Whereas, they became more cheaply made, they started having more rubber dome, or membrane keyboards, where it was just more of a capacitive circuit, where it was something just being pressed against a circuit, instead of a mechanical switch.
+
+The mechanical keyboard enthusiasts craving something more high-quality, they started saying, “Okay. Well, I'm going to use my IBM model, or I'm going to use these switches that you can still get from the cherry factory in Germany, and I can make my own mechanical keyboard.” The community started growing more and more, where QMK firmware is an open source firmware where you can custom program your keyboard to do anything, first of all.
+
+At first, it was just saying, oh, your HKJL could also be arrow keys, for example, if you wanted to go the vim route, or if you wanted to have layers in your keyboard. Now, you could do a stenography-based keyboard where you type with chords. You could change things to be like a Dvorak layout or something. You could even control MIDI sounds with it. There's so many options with just this firmware. There's so many options with PCBs and the electronics. There's so many options with the mechanical switches, where it's not just cherry. There's factories all over the world making such cool switches. I can see all of your eyes glazing over. Don't worry, I'm almost done.
+
+Because so many people are so into mechanical keyboards, it's become such a fun hobby, where enthusiasts will come together saying, “Here's how I've modified my keyboard this way. Here's how I've combined these different keycap sets.” Where even just in the time where I've been in the hobby, when I started getting custom keycap sets in 2016, it would take me a solid two years to get a keycap set, because it's such a niche hobby that it just takes a long time to manufacture and get everything out. You would need to organize a group buy of 200 of your closest friends to buy the keycap set with you. Now, there's businesses that actually do this for you and there's much more accessible options for getting keycaps and getting switches and stuff, where you can build the keyboard of your dreams that feels exactly the way you want it to feel, types the way exactly you want to type for much cheaper than ever before. It's awesome. The end.
+
+[00:53:48] SM: That is so amazing.
+
+[00:53:49] OB: I'm fascinated by the keycaps, because someone introduced me, I think last year to — I just started dipping matters in mechanical keyboards. I had mentioned to someone and they sent me a link to this site, where you can just pay ungodly amounts of money for these little keycaps. My problem is I would have an entire keyboard full of crazy keycaps that would not tell me what the key does. It just be little figurines all over the keyboard.
+
+[00:54:13] SM: I feel like we're killing Tobi right now.
+
+[00:54:16] CW: He’s just like, “What have you done?”
+
+[00:54:19] SM: This is fun, though, because I will say that I see @cassidoo on Twitter and I think TikToks and keyboards. I've always known that this was a thing, but I never actually heard the history of it, so that's fun for sure. Thank you, Cassidy. Appreciate it.
+
+[00:54:34] TP: I just have to add at this point that I didn't know that this was a thing with Cassie. Then we were talking about someone that I admire a lot, Aaron Pedersen. Then Cassie was just like, “Oh, yeah. I always used to go to the mechanical keyboard meetup with him at Seattle.” I was like, “Oh, no. What have I done?”
+
+[00:54:52] CW: Yeah. In Seattle, they actually, and granted pandemic thing, so who knows now? When I was out in Seattle, I lived there pre-pandemic, I helped organize the Seattle mechanical keyboard meetup. We had three or 400 people come just to show off keyboards. People would fly in to check out keyboards. It was awesome, because you could hear talks from manufacturers to say like, “Okay, here's how keycaps are made. Here's how the different plastics affect certain things.” It was like, here's how you modify your switches, so that way it's a heavier spring, but a lighter click. Or, here's how you can learn stenography, where you can type in chords and get words per minute of 250 words per minute.
+
+There are so many really, really interesting things, and just being around a bunch of nerds. There is a meet up here in Chicago that I went to. There's 20 of us. We will rise and grow. It's so fun to be able to get into a hobby that is niche like this, because people outside of it, they're just like, “Yeah, I just type on a keyboard.” The people in it, you're right, Tobi, there's dozens of us. It's so fun to be able to really get into the nitty-gritty of every single aspect of your keyboard, because it's like playing with Legos, but another level because you get to work on it every single day.
+
+[00:56:09] SM: I think, it's quite possible that all of us have something where this passion is about. It's so much fun to be able to give you the platform to talk about it. Speaking of giving you the platform, though, do you have any final plugs, or asks for the audience as we wrap up this amazing episode? Tobi, I can let you go first if you got anything.
+
+[00:56:29] TP: Top of my head, I'm actually — Oh, well, okay. If we're talking about things that passionate about, there is this brilliant author called Brandon Sanderson. He has this amazing array of books, which is the Cosmere. They're just so fun to read, and so well-written. He also really portrays, especially in some archive mental disabilities very, very well, to a point where when I'm feeling down, I can't read certain chapters of stone like the archive because of a certain main character is in his depression phase. I can’t read that, because that gets too close to me. It's really good. It's tough where to start with reading his books, but I always recommend people to start with Mistborn: The Final Empire first. It's one of his earlier works.
+
+It’s really good. The good thing about it is it stands really well by itself. If you read and you decide you don't like it, you've so read a complete story and that's fine. If you decide you want to read more, that's actually a trilogy. Then you read a trilogy and then you can go on afterwards to War Break, or Elantris and Stormlight Archive. Or, what's the one, the unbounded? Then you can go on to Mistborn era 2 and all of that. It's been really fulfilling. Well, I read those and I did something that I never did for a long, long time. I just stayed in bed all day reading The Well of Ascension, which is the second Mistborn book, because I just wanted to know how it ends. My partner left in the morning, came back in the evening and was like, “Are you still in bed? Really? Is this what you do?” It’s like, “Yes, it is so exciting.” This is something that I can always plug and encourage people to read.
+
+[00:58:13] CW: I just backed his Kickstarter for the secret projects.
+
+[00:58:16] SM: Oh, my gosh. That's the most amazing Kickstarter. I just hit my mic. The most amazing Kickstarter to ever happen ever. We will be talking about this all day, because I just finished real time. I am a budding Brandon Anderson fan. I can't even get into it. Cassidy, do you have any plugs or asks, so I can stop talking about this?
+
+[00:58:36] CW: Let me think. Okay. My shameless plug is I have a newsletter. If anybody would like to subscribe, cassidoo.co/newsletter. It is not Elixir heavy. It's front-end heavy. if you want to learn more about that, I have five interesting links of the week, four or five interesting links of the week of just news articles in the web space. I have a joke every week and I also have an interview practice question every week, too, so people can practice their lead code style interview questions, which was always fun to see when people respond for that one.
+
+Then in terms of books stuff, if we're talking about books, the current book that I'm reading is called Dark Matter by Blake Crouch, and it's really good. It's a multiverse sci-fi book that is really, really interesting. Basically, this guy wakes up in the world is not his world, or is it? It's been really interesting and fun to read.
+
+[00:59:29] SM: All right, now that I know that we have to pivot the podcast to book club, Bonnie you can take notes on that. I will have to say that this has been an amazing episode. Thank you so much for being here and chatting about all things Elixir, all things fantasy novels and mechanical keyboards and bunnies. I didn't know we were going there today, so that is awesome.
+
+That is it for this episode of Elixir Wizards. Thank you again to our guests Cassidy Williams and Tobi Pfeiffer for joining us today. Elixir Wizards is a SmartLogic production. Today's host include myself, Sundi Myint and my co-host, Owen Bickford. Our producer is Bonnie Linder and our executive producer is Rose Burt. Here at SmartLogic, we build custom web and mobile software. We're always looking to take on new projects. We work in Elixir, Rails, React, Flutter and more.
+
+If you need a piece of custom software built, hit us up. Enjoying Elixir Wizards? Don't forget to like, subscribe and leave review. Your reviews help us reach new audiences and grow our fan base. Follow @smartlogic on Twitter for news and episode announcements. You can also join us on the Elixir Wizards Discord. Just head on over to the podcast page to find the link. Don't forget to join us again next week for more on Elixir in a Polyglot Environment.
+
+[END]
