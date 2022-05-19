@@ -1,0 +1,909 @@
+﻿EW S8E6                Transcript
+SEASON 8 EPISODE 6
+
+
+[EPISODE]
+
+
+[00:00:07] SM: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint, and I'll be your host. Today, I'm joined by my co-host, Owen Bickford. We are recording from EMPEX in Salt Lake City. Hey, Owen. How are you doing?
+
+
+[00:00:21] OB: Hey, Sundi. I am doing great in this highly elevated state.
+
+
+[00:00:26] SM: Yeah. The elevation is something to pay attention to. Today, we are joined by a special guest, Digit, from SmartBit. Hey, Digit.
+
+
+[00:00:33] D: Hey, how's it going?
+
+
+[00:00:34] SM: Good. We do 100% have to flag that this is the first Elixir Wizards episode we are recording, maybe in a long time, if ever in person. Welcome. It is odd to be looking at you in person.
+
+
+[00:00:49] OB: There's no delay. It's just happening in real-time.
+
+
+[00:00:52] SM: Oh, my gosh. We can't say anything like, “You're on mute.”
+
+
+[00:00:57] OB: Can you see my screen? Can you see my screen?
+
+
+[00:01:00] SM: It's like, we've had blinders on our face this entire time. We were just lifting it now. Wild. Digit, you just flew in. Just got off the plane in –
+
+
+[00:01:10] D: I landed about 15 minutes ago.
+
+
+[00:01:11] SM: Then rolled over into this podcast setup. How was the flight? Where were you flying from?
+
+
+[00:01:16] D: I am actually just moved to Portland, Oregon. I got back a couple of months ago. I moved up there from Washington and I've been enjoying it quite a lot. Yes, I flew in from Oregon. Not a bad flight. About an hour. Little bit of bumps over the mountains, but nothing too bad.
+
+
+[00:01:32] SM: Cool. I feel like, I just read something about Portland. I was looking up the worst traffic ever in the country, and I feel like Portland was there, but maybe it was Seattle. I'm just –
+
+
+[00:01:42] D: Seattle's pretty bad. I used to live in Seattle. The traffic there is pretty bad.
+
+
+[00:01:46] SM: I could be totally quoting this wrong, but I think it's LA, Seattle, and then the DMV, the DC Maryland, Virgin area, which is what I live and breathe.
+
+
+[00:01:59] OB: I'm looking forward to my walkable city future, so I don't have to drive anywhere. That's where I want to be.
+
+
+[00:02:04] D: Yeah. I live in Northeast Portland, and it is extremely walkable. I haven't owned a car in years. I walk and bike everywhere. The carless life is stress-free.
+
+
+[00:02:15] OB: My list is getting so long now. I’ve got Kansas City. I've got Dallas. I've got Northeast Portland now.
+
+
+[00:02:21] SM: Yeah, we got lunch with Amos today. Shout out Amos from Binary Noggin. He's been on his, “Everyone move to Kansas City” trip right now, which is fun. Luckily, we'll be talking to a lot of people today, or this conference from a lot of places and you get to interview all of them and find out their pros and cons for their city, which should be great.
+
+
+Yeah, I just finished having a nice seven, eight years of no car. It was glorious. Back to suburban life for me. It'll be okay. I needed it, to go back to skating and just house things. Here we are. Here we are. Okay. I mean, we're here. You're doing the conference. Is this the first one you've been to since ElixirConf, or did you go to?
+
+
+[00:03:03] D: Yes, I didn't go to the big Elixir was in between this one and one other one. I forget which one. Yeah, this is the first one I've been to since ElixirConf.
+
+
+[00:03:14] SM: Me too. Owen, you’ve –
+
+
+[00:03:16] OB: I was at Big Elixir. Yes.
+
+
+[00:03:17] SM: Is there any particular talk you're super looking forward to hearing?
+
+
+[00:03:22] D: There's a couple. On the top of my list, though, Isaac's talk. I'm always interested into the weird corners of OTP that he digs into. I’m really excited to see what he's going to reveal this time. As I was talking about Zig at the last ElixirConf, which was phenomenal. I'm curious as his background is super interesting to me, and how he just stumbled into Elixir. I think that's awesome. I'm always curious about his perspective on things.
+
+
+[00:03:47] SM: For those listening five years in the future, what is DP?
+
+
+[00:03:50] D: I'm sorry. What?
+
+
+[00:03:51] SM: You said, you're super interested in DP?
+
+
+[00:03:53] D: Oh, OTP.
+
+
+[00:03:55] SM: OTP. Okay. Hopefully, five years in the future, whey know that is.
+
+
+[00:04:00] D: Oh, there's more people who know what OTP is in the feature.
+
+
+[00:04:03] OB: Oh, wait, wait. Pop quiz. What does it stand for?
+
+
+[00:04:06] SM: Oh, please. No.
+
+
+[00:04:07] D: It's the open telephony platform, or something like that?
+
+
+[00:04:10] SM: Open telephony? Telephony?
+
+
+[00:04:13] D: Telephony. That’s the one. Yeah. Open telephony platform.
+
+
+[00:04:15] SM: All right. We’re looking it up. We are absolutely exposing ourselves right now. Let’s see.
+
+
+[00:04:19] D: It's definitely telephony platform.
+
+
+[00:04:20] SM: I can't type the O. I'm getting an O. I'm getting an ITP. Come on. OTP. One-time password. No, no, no. Not that one.
+
+
+[00:04:28] OB: You got to OTP that is for Erlang, or Ericson.
+
+
+[00:04:32] SM: Oh. I don’t think I can say this one on air. Literally, none of them are correct. Let's try Elixir OTP. Elixir.
+
+
+[00:04:40] OB: My money's on open telephony.
+
+
+[00:04:42] D: Telephony? I pronounce it correct after I pronounce it wrong one time.
+
+
+[00:04:48] OB: Right. It's one of those words, you have to do it wrong, then the third time is a charm.
+
+
+[00:04:52] SM: This is embarrassing. Why is it so hard to find –
+
+
+[00:04:55] D: If you just type Erlang OTP, there's a Wikipedia article that should be –
+
+
+[00:04:58] SM: Open Telecom Platform.
+
+
+[00:04:59] D: Telecom. Not telephony. Okay. That was close. Way off. 
+
+
+[00:05:02] SM: For all of our listeners who were just screaming the answer into the void that is their homes, I am so sorry for you. Cool. You said you were looking for Isaac's talk. Is it based on his talk from before?
+
+
+[00:05:18] D: No. I think it's something completely new. Some feature, but I'm not super familiar with in OTP. I'd have to reread the description again, but I saw that he was going to dig into some feature that he hasn't seen used often, and I'm already interested. It has to do with global state and testing and even uses of that in non-tests environments. I'm pretty excited about that. Then, of course, I'm excited for whatever coin is going to bring to her talk, because those are always fascinating.
+
+
+[00:05:43] SM: I'm also going to shout out Quinn right now. Quinn, no matter what you do, no matter what, you could have made the slides 5 seconds go, it will still be brilliant. For any future anxieties, there might ever be about putting together a slide deck.
+
+
+[00:05:57] OB: We should have a pull bet on how many quotes there will be in Quinn's talk.
+
+
+[00:06:03] D: How many quotes are actually real quotes.
+
+
+[00:06:07] SM: Oh, I would love somebody to do a talk, where they just put in quotes, and you have to figure out which ones are real and which ones aren’t.
+
+
+[00:06:15] D: Do research.
+
+
+[00:06:16] SM: Yeah, I like it. I like it. Where the last slide is okay, 50% of those quotes are not real. You all have been duped. Thank you. Goodbye.
+
+
+[00:06:25] D: Pick up an answer sheet on the way out.
+
+
+[00:06:29] SM: Oh, how fun would that be? Cool. I mean, I think this is one of the first times I've just done a one-day conference, too. It's interesting that –
+
+
+[00:06:37] D: Yeah. I have never done a one-day. I didn't even know that was a thing, actually. I thought, I've been very used to multi-day, multi-track. Everything is just one track. Everybody's going to be in the same room for the whole time.
+
+
+[00:06:49] SM: Do you know how much more relieving that is to not think about making any choices?
+
+
+[00:06:54] D: It means that there's no hallway track also, which is an upside and a downside, I guess. Because I end up in the hallway tracking conferences when I'm in the same situation as you, or I’m like, I don't know what to do. Then I just end up talking to someone for 40 minutes.
+
+
+[00:07:08] SM: Yeah. Well, not to plug in on their podcast, but the hallway track books is always there, is the Elixir Outlaws.
+
+
+[00:07:17] OB: I know, Amos will be here.
+
+
+[00:07:20] SM: I think, somebody from every podcast will be here.
+
+
+[00:07:22] OB: Yes, that's true. Yes. I've spotted people.
+
+
+[00:07:26] SM: Yeah. Spot the podcaster. I think, the joke is everyone has a podcast these days. Not in tech, just everyone. Everyone started a podcast with their sister reviewing the latest Marvel movie.
+
+
+[00:07:39] OB: There's a podcast, or live stream, or YouTube channel for everyone that's going to be at the conference tomorrow.
+
+
+[00:07:47] SM: We mentioned at the top of the show that you're SmartRent. How is that going?
+
+
+[00:07:53] D: Oh, great. I started at SmartRent a couple months ago, and it's been super fun. It's a really interesting application to be like, serious a lot of Nerves, which is super fun. I get to work with Frank Hunleth, basically directly. It's a lot of fun to work with someone who's really deep into the Nerves ecosystem. We're applying it into a smart home and smart apartment applications, and it's super fun.
+
+
+The way I stumbled across SmartRent is actually really funny. I moved into an apartment that had SmartRent in it, and I had no clue that it was Elixir. There was Elixir-based stuff. I started poking at their app and making my own little interface for it. I realized that I was interfacing with a Phoenix socket, and I was just mind-blown. I was like, “Oh, what is this company?” And I looked it up.
+
+
+[00:08:37] SM: You realized it was all your best friends.
+
+
+[00:08:39] D: Yeah. I realized, “Oh, wow. There's a lot of people I know who work here.” They offered me a position to work on the firmware team. That's where I work now. I’m firmware engineer at SmartRent now. It's really fun.
+
+
+[00:08:50] SM: Wow, what a great origin story. I just figured, Frank talked you into it or something.
+
+
+[00:08:57] D: I mean, half that. Also, I went on Twitter and I was looking for a new position, and Frank reached out and said, “Hey, I have a cool team. Do you want to join?” And I said, “Yeah.”
+
+
+[00:09:05] SM: Oh, my gosh. How awesome.
+
+
+[00:09:06] OB: What is SmartRent? You hinted at this, but what is SmartRent at the high level for some –
+
+
+[00:09:12] D: At the high-level – I’m trying to think of the best way to summarize this. Basically, installing smart home technology into rental properties, such as apartment units, or rental homes, or even college dorms, things like leaks sensors, smart door locks, so you can do access control for guests. We do parking management for knowing if parking spaces are open, all sorts of IoT enabled properties, basically.
+
+
+We've been working on a bunch of Elixir Nerves-based stuff for door access controls, like the RFID tag, tag into doors, and things like that. That's going to be Nerves-based. I've been working on a fancy Flutter UI touchscreen thing. I can't talk a lot about the details of it right now, but I'm super excited that Frank told me –
+
+
+[00:10:01] SM: But we could talk about Flutter, though, right?
+
+
+[00:10:02] D: We can talk about Flutter.
+
+
+[00:10:03] OB: You will make Sundi’s day talk Flutter.
+
+
+[00:10:05] D: Flutter is really cool, and I've been trying to make it talk to Elixir on a Nerves device, which has been really interesting.
+
+
+[00:10:12] SM: Oh, my God. You are at the intersection of everything I want to talk about right now.
+
+
+[00:10:16] D: Well, we can talk maybe off the air, but I can't speak too much about details.
+
+
+[00:10:19] SM: Okay. That’s fine. I mean, no. Generally speaking, I've been working in Flutter for the last year. I'm sorry. I'm sorry for every Elixir fan who's listening. It’s just how it rolls. I've been working on Flutter for the last year more than Elixir. I think I know it better than Elixir right now. Maybe.
+
+
+[00:10:35] D: It’s really cool. I love how fast I could get a UI broken out. The most stressful part of anything software engineering to me is building a UI. Flutter just made it really easy, and it was super cross-platform, and it was super easy to get running on our prototype hardware, and it's just been a joy, honestly.
+
+
+[00:10:54] OB: I have not actually delved into Flutter yet. Is it a framework with pre-built components? Is that what you’re getting?
+
+
+[00:11:01] D: Yeah. It’s a whole it's a whole suite of tools for building UIs, mostly geared towards smartphones. It's a single-code base of, it's in Dart, so it's the language it’s in, which is a Google e-language.
+
+
+[00:11:16] SM: Google made Dart.
+
+
+[00:11:17] D: Yeah. Good made, or I think they contribute a lot to Flutter as well. Then they make Dart.
+
+
+[00:11:21] SM: Google also made Flutter.
+
+
+[00:11:22] D: I think. I remember reading somewhere that they didn't make it, but –
+
+
+[00:11:26] SM: Oh, but acquired it or something?
+
+
+[00:11:27] D: I don’t know. They're definitely involved a lot.
+
+
+[00:11:29] SM: Yeah. The reason Flutter has been so useful in the learning aspect for me is that Google is just so great at content creation. Their widget of the week videos on YouTube.
+
+
+[00:11:40] D: Those are so good.
+
+
+[00:11:42] SM: Their books are so good. Just the resources on it blew me away. I picked it up faster than I picked up anything. That could maybe speak to where like, I'm finally at a place in my life where I’m learning things faster. Also, I think it says something about how fast you can learn Flutter. I've also always wanted to talk about Flutter on the podcast. Not saying that's why we're talking about polyglot this season. Because I finally wanted to talk –
+
+
+[00:12:05] D: It’s a good topic.
+
+
+[00:12:06] SM: I mean, yeah. We talk about Elixir all day long, but I noticed at ElixirConf that we're all doing stuff in other places. Not taking credit for the season theme. This is Dan, yeah?
+
+
+[00:12:16] OB: Yeah. That was Dan. Yeah.
+
+
+[00:12:17] SM: Yeah. Dan at SmartLogic. Shout out to Dan.
+
+
+[00:12:19] OB: High-five.
+
+
+[00:12:21] SM: I was actually really excited when I saw the season theme being polyglot, because I was just –
+
+
+[00:12:24] D: It's a cool theme.
+
+
+[00:12:25] SM: It's a cool theme. realistically, we don't just write Elixir. A lot of us don't. That is sweet. I'm so excited for you. I'm also excited, generally speaking in that world, because what drives me nuts about smart home stuff is how smart it is. I want a dumb smart home, you know what I mean? I don't want it selling my data. I don't want somebody to be able to – I want it off network. I want it to not be hackable. Yeah. All of these things.
+
+
+[00:12:53] D: I totally get where you're coming from. I actually recently got a house in Portland. I did a big house purchase that was a whole big stressor.
+
+
+[00:13:00] SM: We can talk about that offline, too.
+
+
+[00:13:02] D: Oh, yeah. But I love it. It's been super fun. It's great to have a place of my own that me and my partner can just live our lives. It's nice. I've been investing in the smart home stuff, funny enough. I totally agree with you. I went full, build my own stack of smart home stuff. I've been doing Home Assistant with Z-wave devices, and so on a separate router with a separate network. It's super smooth. Even rigged up my garage door to it. It's so much fun. Yeah, I agree. smart home stuff, the off-cloud stuff is really fun and really great. I've been thinking about making a Flutter UI in Elixir with this to build on top of that.
+
+
+[00:13:39] SM: I mean, seriously, my house came with a smart screen that hooked up to the locks that had a – I don't know, it was always beeping. We ripped it out the wall. It really bothered me that we needed to call customer support to delete the users. The seller was still in it.
+
+
+[00:13:58] D: They should have cleared that out before they closed.
+
+
+[00:13:59] SM: I mean, they tried. They tried right in front of me. They tried right before my eyes, and they got rid of as many users as they could, but they really couldn't get it all. I just hate the idea that you're beholden to smart stuff and the software really controls your life and your home security at that point. I was so, six, seven years ago, just so excited. Everything was Google Home and Assistant and Hue and everything. My stupid Google Nest uses Oxy when I tell it not to, every other day.
+
+
+[00:14:31] D: One thing I learned from working at SmartRent is all of the really good, reliable hardware, because we have to deploy these things and then never have to touch them as much as possible. If you're ever in the market for a new smart thermostat, the Honeywell T6 is really good.
+
+
+[00:14:46] SM: Okay. I mean, I might be. You're working in Flutter, Elixir and Nerves.
+
+
+[00:14:52] D: Yeah. Flutter, Elixir, Nerves. Some C here and there, because it's inevitable when working with Nerves. It's a lot of fun. I love tasks that let me touch all different kinds of parts of the stack and all different things. Full system development is so much fun.
+
+
+[00:15:05] OB: Does Flutter give you – what's the WebSocket could support in Flutter?
+
+
+[00:15:10] D: It's basically dependent on Dart. It's fully there. You can do WebSocket. You can do HTTP. You can do raw sockets if you want, raw TCP, UDP. Really everything. Dart’s a really cool language. To be super honest, I have never touched it before Dart. It's my introduction to Dart. It's really cool. It's really well-made.
+
+
+Funny enough, I think the person who helped design it was someone who – I'm super bad at names, but they wrote the game programing patterns book, and then a book on building your own interpreter. Crafting Interpreters, I think it's called. It was a super good language and they’re really good.
+
+
+[00:15:48] SM: I follow him on Twitter.
+
+
+[00:15:50] D: I’m so terrible with names.
+
+
+[00:15:51] SM: Is it Ben Nystrom, or something like that?
+
+
+[00:15:52] D: Yeah. I apologize. I apologize to him for getting his name. But super smart.
+
+
+[00:15:58] SM: I’m not positive that I have that right, actually.
+
+
+[00:16:00] D: Fantastic language, though.
+
+
+[00:16:02] OB: While you're looking that up. Dart, functional, object-oriented.
+
+
+[00:16:05] D: It's object-oriented. I would say, it's closer to – it’s like, if you took the slider in at one end, you put Java and at the other end you put JavaScript and then you slid it to the middle, where you have loose types, where you can do var equals. I don't know if Java has – I haven't written Java in five years. I don't know if Java has those kinds –
+
+
+[00:16:24] OB: Probably for the best.
+
+
+[00:16:26] SM: Bob Nystrom. Here we are.
+
+
+[00:16:28] D: Bob. Thank you.
+
+
+[00:16:30] SM: Bob had a really phenomenal talk about Flutter, one of those Google keynote things that I remember just watching and being like, “This makes so much sense.” I think, I listened to him on a podcast. I don't remember what pod – Oh, I think the Flutter podcast, where he talked about getting into game development and how he really wanted to get into game development and how he couldn't do that, because they don't let you build games.
+
+
+[00:16:52] D: Yeah. I could feel that.
+
+
+[00:16:54] SM: You were dabbling in some game stuff, right?
+
+
+[00:16:57] D: I do, when I can. It's stressful, because it's a lot of work. I think games are some of – Okay, two of the hardest things I think you can engineer are distributed systems, but thankfully, Elixir makes that easy, and games. Games are super hard to engineer. I have huge respect to anybody who makes any game in any capacity. It's really hard. I have made one-quarter of a game for the multiple times for my entire life, yet to finish anything. It's just super hard. I'm hoping to actually start making small things as a hobby and actually get it out there.
+
+
+[00:17:34] OB: What's difficult about finishing a game?
+
+
+[00:17:36] D: There’s a just a lot to do. It's a lot of components. It's a lot of design. I get lost along the way. Mostly, I go down the spiral where you end up polishing one tiny piece of the whole thing and not focusing on the bigger picture, which is just my downfall every time. I really got to take some lessons on iterating faster on games. I do that with my other projects. Just games for some reason, I just get locked into one section, because there's just so many things you have to think about.
+
+
+[00:18:03] SM: What language stack is game development and for you specifically?
+
+
+[00:18:08] D: For me, depending on the phase of my life you ask me, I've done a language called Hakes, which was really cool, and something called OpenFL, which was ActionScript, but compiles to C. Very strange, but a really cool stack. Then more recently, I did some Unreal Engine 4 stuff in college, so it was a lot of C++. Then really more recently, I've been learning a lot of Unity. That's C-sharp. Maybe some lower level C++ if you're building lower level components, but mostly C-sharp. That's been fun. I've been learning Unity a lot more.
+
+
+[00:18:42] SM: I think, you tweeted recently that you were going to go real hard on Unity after this conference.
+
+
+[00:18:46] D: Yeah.
+
+
+[00:18:47] SM: Should we hold you to that? Should we check in on you?
+
+
+[00:18:49] D: Maybe. Yeah. No promises. I love giving Elixir talks and I love the Elixir community. I'm the person that I'll hop to all different technologies, all different languages. I'll still be around, and I'll definitely be working on Retro, but I'm also going to try and focus on some of my other projects.
+
+
+[00:19:06] OB: Is Unity its own language, or is it a framework?
+
+
+[00:19:10] D: Unity is a whole engine with a scripting layer with C-sharp. There's also a JavaScript layer. I wouldn't recommend that one. The main stack of Unity is the Unity game engine, whatever art tools you want to pull it in, there's a lot of plugins, and then C-sharp. 
+
+
+[00:19:26] OB: Cool. Would that be communicating with Elixir in some way, or is it just it’s own thing?
+
+
+[00:19:30] D: I have been thinking about using Elixir for building DSLs to generate content for Unity. Imagine using Elixir and macros and writing a little CLI tool in Elixir that lets you write dialog trees, or dialog decisions for a game in a DSL, where you could say, if the choice is this, then do this, trigger this function, or say this line of dialog, and then spit out a compiled file that Unity can read and parse and run.
+
+
+I've been toying with Elixir to write a DSL for generating something called a – basically, just 3D shaders. I've been writing a DSL to write 3D, to generate OpenGL shaders from Elixir, making 3D shapes using only math.
+
+
+[00:20:16] OB: Sometimes there's been some work around shaders in the Elixir space. I forget who else was, but those tweets have flown by. They’re not committed to memory.
+
+
+[00:20:22] SM: Yeah. I have no memory.
+
+
+[00:20:23] D: There's so many things that I have to queue. My brain only has so many slots. Currently full.
+
+
+[00:20:28] OB: That’s engineering life, I think.
+
+
+[00:20:29] SM: Yeah. You mentioned burrito. How's it going? You want to, for the audience, just to overview that for us?
+
+
+[00:20:36] OB: What it is.
+
+
+[00:20:36] D: Yeah. Burrito is –
+
+
+[00:20:38] SM: Other than making me hungry.
+
+
+[00:20:40] D: I swear, it's not my life goal –
+
+
+[00:20:41] SM: I don't believe you.
+
+
+[00:20:42] D: - to make you hungry.
+
+
+[00:20:43] SM: I think it.
+
+
+[00:20:44] D: I started Burrito back at my last job when I was actually working with Quinn. We had the requirement to package up our Elixir application, that was originally a Phoenix app into a command line tool that people could run on their Macs, or on their Windows, VMs, or just really hostile environments that don't have Internet access. That's a really tough challenge. Some of them you can't install Erlang. E-scripts are out, because you need Erlang installed and regular releases are out, because you would need both Elixir and Erlang installed. Burrito is this answer to how the heck are we going to deploy an Elixir application in an environment with no ability to install Erlang, or Elixir, or any of the dependencies required to run anything?
+
+
+[00:21:31] OB: No Docker even.
+
+
+[00:21:32] D: No Docker. Nothing. Nothing. We're talking Windows. Windows Server 2012 R2, no administrator permissions running off of a network drive. The most hostile environment a program could run from.
+
+
+[00:21:44] OB: Easy mode.
+
+
+[00:21:46] D: That'll be a fun talk tomorrow, trust me.
+
+
+[00:21:50] OB: Stay tuned.
+
+
+[00:21:51] D: Yes. Burrito was a way to – It was heavily inspired by Bakeware. Funny enough, written by Frank and John, and Connor, who I work with two of those people now at SmartRent. It's basically our own take on Bakeware, where we take the entire mix release and we pack it up and we compile a little wrapper binary for whatever platform you're targeting. You have a MACO for a Mac OS, or a PE executable for Windows, or an elf executable for Linux. We just compress that as tight as we can, and then that's the output.
+
+
+Then when you run on a target machine, that one little single binary file, it will uncompressed the payload into some writable location, and then execute it behind the scenes. It feels, runs and acts like a single file binary, but it's actually a big payload of Erlang and Elixir and all your BEAM code in the skies. It's usually around 8 megabytes or so, so a little larger than most binaries, but still lets you take the portability of the BEAM.
+
+
+[00:22:50] OB: It's all those dependencies in a trench coat, basically, is what you’re saying.
+
+
+[00:22:54] D: Yeah.
+
+
+[00:22:56] SM: When you started talking about it, before you mentioned that it was inspired by Frank and all, I was thinking that it does sound to me a little bit when we were playing around with the Nerves Livebook, it did remind me of that. That's what it felt like. We were loading the program onto the memory card that was on the pie and everything.
+
+
+[00:23:15] D: Yeah. It’s a similar process where you have this build step in your mixed release and it just packs everything. Nerves does a similar thing, where it inserts itself into mixed release and it builds an SD card image of OTP, the release for Erlang and all your BEAM code into the Linux kernel that it needs to run. Spits out an image and then you can write that to an SD card.
+
+
+Similarly, Burrito spits out just an executable for whatever platform. The key thing that Burrito did that was separate from Bakeware was, if you're on Linux, you can actually just target Windows, or Mac OS without setting up anything. You can cross-compile to any platform, from basically any of the other platforms. Mac, you can compile for Linux and Windows. Windows, we don't have a super official support for the Windows host build yet.
+
+
+Theoretically, and I've had some people in the community do this and show me that it works, which is pretty impressive, you can compile from Windows to Mac and Linux, or from Linux to Mac and Windows and just cross all of the options and –
+
+
+[00:24:17] OB: It's really cool.
+
+
+[00:24:17] D: Yeah, it's very cool. I wanted a really turnkey solution for us, because we only had access to a Linux CI machine at that job at the time, we needed to be able to build Mac OS binaries from Linux, which is not always easy and usually involves legal gray areas. Because the language we use for the wrapper, which is ZIG, it just cross-compiles anything, because it uses LLVM in the backend as its compiler. We can just target any of those.
+
+
+[00:24:47] OB: How long has Burrito been out now?
+
+
+[00:24:49] D: Oh, it's been open-sourced for maybe five months or so. Maybe five, six months.
+
+
+[00:24:54] SM: I was going to say, it's been making me hungry for at least –
+
+
+[00:24:57] OB: Right. I was going to say, run ElixirConf is what I think I started hearing about it.
+
+
+[00:25:01] D: Yes. I was talking about it behind the scenes at ElixirConf. It didn't have a name yet and it didn't – It wasn't open-sourced. I had to go through a ton of red tape at that company, because they were not open-source acclimated, and it was a big pain. Shout out to Quinn, who was my manager at the time, who led the charge and got that really done.
+
+
+By the time Burrito got out, it was already going to be transitioning over to SmartRent. Then Frank was super friendly and basically said like, “Hey, you can continue working on Burrito. It's a great thing for the community.” He was super fun and he said, “I'm super glad you made that, because I didn't want to really maintain inquire anymore.”
+
+
+[00:25:37] OB: You saved a lot of people, a lot of – Have you heard of people using Burrito out in the wild, since it’s been released?
+
+
+[00:25:42] D: Yeah, I have. I’ve had a few people.
+
+
+[00:25:43] OB: Anything, you can example that you can talk about?
+
+
+[00:25:46] D: I got approached by – I can look at it, but I’ll mention another one. I've had somebody who reached out today recently about an issue, where they're trying to make something that does a VPN software written in Elixir, so that they can just ship their program for their startup. I would love to pull it up in a moment here.
+
+
+[00:26:06] OB: Elixir for networking. Interesting.
+
+
+[00:26:08] D: Wow. What a concept.
+
+
+[00:26:10] SM: I never would have thought it. Novel idea.
+
+
+[00:26:12] OB: Cross-platform Elixir apps. Hmm.
+
+
+[00:26:15] D: Cross-platform. Look, I love Elixir. I know we all like to write web apps in Elixir, but I really like to use Elixir for other things, too.
+
+
+[00:26:26] OB: I feel like backend.
+
+
+[00:26:27] D: I think that it's a very useful language.
+
+
+[00:26:31] OB: Yeah, that's something that I think it comes up for me a lot is like, what else is there aside from the web apps that we've seen?
+
+
+[00:26:38] SM: Yeah. It’s why I love hearing about what Frank is up to, and just generally speaking, what the Nerves community is up to. I will say right now, it's like the Nerves team is holed up in Park City working on something. It just feels like, they're building something amazing. I feel like that little kid in The Incredibles that's waiting on the driveway and Mr. Incredible is like, “What are you waiting for?” He's like, “Something amazing, I guess.” That's what I feel like, because they're 40 minutes away in Park City right now. I'm just waiting for something amazing, I guess.
+
+
+[00:27:11] D: I have the name of the startup. Fire Zone. Fire Zone HQ on Twitter. They're doing VPN and Firewall for Linux, and they were looking for ways to distribute it. They had reached out and said like, “We really like your project. We're considering using it. It would be cool to see this be out in the wild.” Of course, my last company is using it in production every day, basically.
+
+
+I talked to some of my old co-workers and they say, “Yeah, we're still using it.” They're still going to be modifying and contributing to it every now and then. It's just really cool. I made it, because we needed a solution. Then I realized, “Oh, this is going to be really useful for other people, because I want this outside of my company.” I like to make tools for people to make the things that they want to make.
+
+
+[00:27:56] SM: Yeah, for sure. You're doing service. Thank you. You mentioned that there are other things you like to do with Elixir, other than web apps. Other than what we've talked about so far, is there anything you haven't mentioned yet that you like using Elixir for?
+
+
+[00:28:08] D: Oh, binary pattern matching is – using gaming terms, it's busted. By that, I mean, it's super powerful.
+
+
+[00:28:14] SM: I would not have thought that busted meant super powerful.
+
+
+[00:28:17] D: It means overpowered, basically.
+
+
+[00:28:18] SM: Oh, okay.
+
+
+[00:28:19] D: It's binary pattern matching. I have used binary pattern matching to do all sorts of crazy things. Taking apart game archive files, reverse engineering stuff. Super fun. Every other language is it's such a pain to try and keep track of the playoffs, and you're messing with pointers and C. Python is usually a go-to. But binary pattern matching in Elixir just – it feels super elegant to write binary file processing in Elixir. I hope more people do that, because I think it's super powerful. I told one of my friends about it and then he started looking into it. He's like, “Wow, this is really good.” Look more into the binary pattern matching. I think it's really overlooked a lot.
+
+
+[00:29:00] OB: I've dipped into the waters of binary pattern matching on look when I've had to. Yeah. I was intimidated at first. Then once I started to actually try it out and start practicing with it and stuff, I was like, “Okay. I can see this being useful.”
+
+
+[00:29:17] D: Yeah. It's, I go from looking at a table that describes a binary file format to a working thing that can take apart the information out of the binary file in fractions at the time it would have taken me in other languages. It's super great.
+
+
+[00:29:31] SM: It just makes me wish that everybody had, I don't know, a Live Book snippet of their favorite code. We all just submitted it to one place. It's everyone's top hits.
+
+
+[00:29:42] OB: Watch Elixir do this.
+
+
+[00:29:42] D: We need a Live Book social network, where you share your snippets and you can run them in the browser.
+
+
+[00:29:49] OB: What could go wrong?
+
+
+[00:29:49] D: What could go wrong? Just let people upload code to your server. It’s great.
+
+
+[00:29:54] SM: Read-only. It doesn't run. I don't know. I have no solutions for this. Jose, if you're listening, I'm so sorry. Or maybe not Jose. Who's it? Jonathan. Yeah, so sorry for this terrible idea. I don't know, but I've always thought Live Book is a really cool tool for learning. I'm trying to picture what you're talking about right now, and I can't, because I've been writing Flutter for the last year. I would love to see it, and in my head, the blank spot where the code would go is in a Live Book space around it.
+
+
+[00:30:23] D: You won't have to wait too long, because that code is in tomorrow's talk.
+
+
+[00:30:26] SM: Okay. That is what I want. That is what I want. Instant gratification. The world has trained me for this moment.
+
+
+[00:30:32] D: Don't get away too long.
+
+
+[00:30:35] OB: The other side projects that I've heard about and is also interesting is Macaroons. This is another Elixir project, right?
+
+
+[00:30:44] SM: That makes me hungry.
+
+
+[00:30:45] OB: Yeah. We’re snack round now.
+
+
+[00:30:47] SM: Yes. The first one that made me hungry.
+
+
+[00:30:48] OB: I’ve also recently discovered the magic of actual macaroons.
+
+
+[00:30:51] SM: What? You've never – What? Recently?
+
+
+[00:30:53] OB: This year, I started – I became a macaroon guy as my go-to snack.
+
+
+[00:30:56] D: They’re so tasty.
+
+
+[00:30:57] SM: Wait. Okay.
+
+
+[00:30:58] D: But I only once a week.
+
+
+[00:30:59] SM: The pronunciation for the different cookies are – are you talking about the almond flour colorful cookies, or the –
+
+
+[00:31:04] OB: Colorful ones. Yes.
+
+
+[00:31:05] SM: Okay. Is that actually pronounced –
+
+
+[00:31:07] D: They're both pronounced macaroon. They’re spelled differently. The paper uses the wrong spelling. They're called the wrong one, the actual security-based Macaroons. They're the wrong one for the image that everybody uses for them. It's a little backwards. It's spelled as if they're the ones that are just the ones with almonds inside of them, like just the pile of nuts. They use the colorful French Macaroons as the icon, which is not the right spelling. It's, I don’t know.
+
+
+[00:31:36] SM: I thought the colorful French ones were called macarons. I thought that’s what –
+
+
+[00:31:41] OB: I kept saying that too, and I kept getting corrected by people, not even at bakeries. I'd be like, “I'm trying to find macaroons, or macrons,” because I guess, the president of France.
+
+
+[00:31:49] D: They’re like, “Do you mean macaroons?”
+
+
+[00:31:51] OB: Also got me mixed up on that. They're like, “No, no, no. It's macaroons.” I’m like, “Okay. Where are they?”
+
+
+[00:31:55] SM: I mean, truly, they're both delightful. We are definitely on subject right now.
+
+
+[00:31:59] OB: Yes. Now, all right, before I ran out of this room to find the nearest pastry shop –
+
+
+[00:32:05] SM: I know where the nearest pastry shop is, by the way.
+
+
+[00:32:09] OB: All right. change of plans. Let's record there. Tell us about the Elixir version of Macaroons.
+
+
+[00:32:17] D: Yeah.
+
+
+[00:32:17] OB: Galston Elixir alcohol, I guess.
+
+
+[00:32:21] D: Implementing Macaroons in Elixir was just a small little side project. I decided to do that, turned into my first talk, which was on the Elixir Wizards Conference, which was really fun. It's been pretty low maintenance. Actually, Amos came to me the other day and was like, “I see it.” He’s like, “I connected in my head. I understand why Macaroons is the way to go for certain things.” I was just enthralled by the fact that you could have something other than just a token as an authorization concept. Because of that, I didn't know that was a thing that you could just encode – yeah, we have JWTs. Those have so many, I’m going to say foot guns where you can just injure yourself by setting out none, or something like that.
+
+
+[00:33:03] SM: Foot guns. Oh, my goodness.
+
+
+[00:33:06] D: It’s not great. I think, not a month goes by that I read that a security vulnerability, or there's been an exploit, or a disclosure, because someone set up JWTs incorrectly, setting algorithm to none, or not checking the validation at all, or any number of these things. Being able to say, oh, there's an alternative. For some reason, nobody's using it, was really frustrating to me, because I read the paper and like, these are literally the perfect replacement for something like a JWT. Why is no one using them?
+
+
+I decided, well, I'll just implement it in Elixir. I know the Elixir community is ravenous and excited, and I love everything about it. I'm just going to throw it out into the Elixir community and maybe someone will use it.
+
+
+[00:33:53] OB: What are some use cases? I heard, I think it was Amos talking about using it for file sharing?
+
+
+[00:33:59] D: Yeah, yeah, yeah.
+
+
+[00:34:00] OB: That’s an interesting one.
+
+
+[00:34:00] D: I usually tend to say, think about Macaroons authorization as a resource-oriented access, so like a file. If you have a file and you want to allow someone to read and write, then you can make a Macaroons that says, they can read and write. Then if that person who's holding the Macaroons wants to give it to someone else, like how GitHub, like you authorize with GitHub, log in with GitHub and it's like, this app wants to read your profile. You can add another little caveat to the Macaroons that you already have that says rewrite, and you can throw on another thing that says, actually, only read for this time to this time. Then give that to your friend. Now, they have guaranteed only the access you've given them and you don't have to talk to the server at all.
+
+
+[00:34:46] OB: Okay. I've got wheels. I've got gears turning right now, because I'm thinking about the EVO I’ve been working on, my side project.
+
+
+[00:34:55] SM: Okay. A side project. A side project. All right. All right. I was about to make noise if you're talking about a work project.
+
+
+[00:35:01] OB: No, no, no, no. A side project. I'm like, okay, limited-time access. My use case would not be file sharing, I don't think, but limited-time access to an application, or a zone in an application, or something.
+
+
+[00:35:16] D: Yeah, exactly. I bring up the concept of family sharing in certain applications. Steam, the game platform has the idea of where you can authorize a friend's computer or a family computer to share your game library. You could instead int Macaroons that says like, you can use this game from this time to this time. Then, even if your friend spills the beans and gives your token to someone else, they only have the scoped permissions that you gave them. It's not like you're giving them full access. You're giving them a really scoped down access. Then if they want to scope that access down even further, they have to work in that sub-scope you've already given them. It's a hierarchy of permissions.
+
+
+[00:35:59] OB: Does the recipient need an account? Is that tied to an account, or just –
+
+
+[00:36:04] D: No. It can be, but no. It's just authorization. Authentication is something else. Often, you'd use a token for a session. The authorization, you could use the Macaroons for.
+
+
+[00:36:14] OB: So speaking to a side project, same side project, I've been setting up web auth over LiveView. That was not documented. I'm using the WAX package, which helped me a lot. There are a couple of other alternatives. Not quite as documented as that one, but it was the examples were for a traditional controller. I had to shift the mindset to make it work over WebSockets and figure out where to store it. The challenge, so then now that's living in the process memory. Now, I think I need to have someone like Digit take a quick look at the security just to make sure I'm not setting authentication to none.
+
+
+[00:36:57] SM: Everybody knows what happens when we stop recording. The laptop’s out.
+
+
+[00:37:01] D: I'm super glad that you're using WAX and figuring this out, because one time I wanted to do this and I decided that I didn't want to invest my time in figuring out how to make it work over LiveView. Whenever you're done with that, you should publish that.
+
+
+[00:37:13] OB: Yes. That's the one thing I want to open-source next, or probably first is like, once I get this working, like abstracted out from the app a little bit and then –
+
+
+[00:37:21] D: Yeah, please. I would totally use that.
+
+
+[00:37:23] OB: Because it's so great. If you haven't ever heard of web auth then – so the way I'm setting it up on my app is I'm going to have a – I'm going to collect the user's email address and they're going to set a username, the email, so I can send them, if they need support later on and then username so they can talk to each other within the app. Then, whenever they hit register or sign up, they'll press touch ID, face ID, or a USB security key. They won't ever have to create a password. They will never have to reset a password.
+
+
+[00:37:52] D: That's the way to do it.
+
+
+[00:37:53] OB: That password can never be breached, because the application will receive a public key that is useless without the secret on that person's device.
+
+
+[00:38:03] D: I love my UB key security keys. I use them all the time. I want more things to support it. Yeah, definitely publish this, because I want more people to start doing password-less authentication. It's way more secure.
+
+
+[00:38:16] OB: All right. If it's not published, let's say by the end of the year –
+
+
+[00:38:19] D: I will yell at you.
+
+
+[00:38:20] OB: Track me down. I think there's some tie in with, I need to revisit the Macaroon project and –
+
+
+[00:38:29] D: Yeah, because you already have the authorization. You already have the authentication. If you want the authorization, you could use something like a JWT, or you could be cool and use a Macaroon, or you could be even cooler and use a Biscuit, but nobody's implemented Biscuits in Elixir yet.
+
+
+[00:38:46] OB: More foods. Sundi, what you got?
+
+
+[00:38:48] SM: I don't actually think we have time to talk about Biscuits. Because all of us have got a speaker dinner to go to. It's so weird, because we're beholden to a clock where we're all in one that same time zone. Two, we actually have – I mean, we always had things to do.
+
+
+[00:39:04] D: Obligations. There are physical people waiting a few miles away, I think.
+
+
+[00:39:08] SM: Yeah. Which is just such a weird –
+
+
+[00:39:10] OB: We got time. We have time.
+
+
+[00:39:13] SM: Okay. In two minutes or less, what is Biscuit?
+
+
+[00:39:14] OB: We can make a fashionably late entry.
+
+
+[00:39:16] D: It's basically a macaroon, but there's that a log inside it.
+
+
+[00:39:21] SM: Okay. Why do you think no one's used it yet?
+
+
+[00:39:24] D: They're fairly new.
+
+
+[00:39:25] Okay. How new? Like six months?
+
+
+[00:39:27] D: Not six months. Past few years. I love the concept of them. If you want to talk about data log, talk to Quinn about data log.
+
+
+[00:39:37] SM: Okay. We’re just going to hold Quinn out of our back pocket. Just magically appear.
+
+
+[00:39:42] D: She's literally a floor down, I'm pretty sure. We could –
+
+
+[00:39:46] SM: Probably.
+
+
+[00:39:47] D: Just yell down the hallway.
+
+
+[00:39:48] SM: Oh, the joys of actually being in the physical space and doing the thing. I do want to give you the floor for any shoutouts, or plugs that you may want to talk about?
+
+
+[00:40:00] D: Oh, interesting.
+
+
+[00:40:02] SM: Or hot takes. We skipped hot takes today.
+
+
+[00:40:03] D: Hot takes, I don't know. My hottest take on Elixir is that don't just build web apps with it.
+
+
+[00:40:08] SM: That's fair. It doesn't have to be an Elixir hot take, but that's a good hot take.
+
+
+[00:40:13] D: I guess, my other take would be just in general for engineering, don't behold yourself to the ‘agile philosophy’, strictly. Have a Kanban board, but that's where I find anything more than that, I find becomes useless to me.
+
+
+[00:40:29] SM: Fair. That's a really good thing for people to explore. I think people are actually exploring right now. For sure. Owen, do you have anything else that you want to –
+
+
+[00:40:41] OB: I mean, we could talk – The speaker dinner tonight, we're going to be talking, I'm sure, about authorization and happy hour. This is just going to keep going and going.
+
+
+[00:40:51] SM: The audience will not get to hear that. You did get a taste of this particular conversation now for everyone listening who is, or was, I guess, was in past tense, at EMPEX, I hope you got a chance to chat with you. If not, I hope you got to feel like you were here with us.
+
+
+[00:41:08] OB: This is the best part about going to a conference. Yes, you're going to see some talks. Those are also going to be online. It's all of the in-person conversations that you have that you can have over Slack, you can have over Zoom.
+
+
+[00:41:22] SM: You can definitely have in two-cam.
+
+
+[00:41:25] OB: You can have in two-cam. Yeah, just in-person, there's something – I don't know. It's just easier to capture the excitement. Those after-hours parties can go to 1:00AM, or 2:00AM, just because everyone's hyped up on.
+
+
+[00:41:40] SM: Elixir.
+
+
+[00:41:40] D: Elixir.
+
+
+[00:41:41] OB: Elixir.
+
+
+[00:41:42] D: Various Elixir.
+
+
+[00:41:44] SM: Where can people find you, or find info on your GitHub or anything, or Twitter?
+
+
+[00:41:47] D: Yeah. If you ever need to find me, I'm on Twitter and on GitHub under the username @doawoo. It's a pun on don't Awoo. I'll show you the image later, if you haven't seen it. There is also my website, which you can find, just puppy.surf.
+
+
+[00:42:05] SM: Amazing. That is not at all –
+
+
+[00:42:08] OB: puppy.surf.
+
+
+[00:42:10] SM: - impossible to remember. Kudos that. Great. Well, that's it for today's super special episode of a live recording of Elixir Wizards. Thanks again to our guest, Digit, for joining us. I'm Sundi Myint. My co-host is Owen Bickford. Our executive producer is Rose Burt.
+
+
+Elixir Wizards is a SmartLogic production. Here at SmartLogic, we build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. Need a piece of custom software built? Hit us up. Don't forget to like, subscribe, and leave a review. Your reviews help us reach new listeners. You can find us on Twitter @smartlogic, or join the Elixir Wizards Discord. The link is on the podcast page. See you next week for more on Elixir in a polyglot environment.
+
+
+[END]
+        © 2022 Elixir Wizards
