@@ -1,0 +1,466 @@
+﻿EW S8E7                Transcript
+SEASON 8 EPISODE 07
+
+
+[INTRODUCTION]
+
+
+[00:00:06] SM: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint, and I'll be your host. I'm joined by my co-host, Dan Ivovich. Hey, Dan.
+
+
+[00:00:17] DI: Hello.
+
+
+[00:00:17] SM: And my executive producer, Rose Burt. The season's theme is Elixir in a polyglot environment, where we talk about how Elixir works with other languages. Today, we are joined by special guest Jessica Kerr from Honeycomb. Hey, Jessica, how are you?
+
+
+[00:00:27] JK: I'm great. Good morning.
+
+
+[00:00:31] SM: Oh, is it morning for you? Wait, where are you? That's awesome –
+
+
+[00:00:34] JK: I just always say good morning.
+
+
+[00:00:36] SM: Oh, my God. I had a little bit of a turnaround. It's like this one Thursday. I said, “Happy Monday.” To somebody by accident. I think they wanted to kill me.
+
+
+[00:00:47] JK: Oh, that’s mean.
+
+
+[00:00:51] SM: Oh, my gosh. Okay, so now that I know what time it is. It's in the afternoon for anyone else who's wondering, almost 5:00. Where are you calling in from? That's always a fun one.
+
+
+[00:01:03] JK: Today, I'm in San Francisco in that Honeycomb office.
+
+
+[00:01:06] SM: Okay, so it is technically closer to morning for you.
+
+
+[00:01:08] JK: It is. It's just after one.
+
+
+[00:01:10] SM: Okay. Okay. Post-lunch. Gotcha. So you're talking to us instead of fighting the sleepies.
+
+
+[00:01:16] JK: True.
+
+
+[00:01:17] SM: I wanted to kick off with this real fun thing you just mentioned before we started recording. You wanted to talk about comparing how we work on our teams to game design. 
+
+
+[00:01:27] JK: Yes. 
+
+
+[00:01:27] SM: Can you tell us more about that.
+
+
+[00:01:29] JK: Okay. Okay. I read this book recently. Super interesting, this is very modern philosophy. It just came out a few years ago, and it was called Games: Agency As Art by C. Thi Nguyen. It points out that game designers work in the medium of agency. They design an agency for the players. They're like, “Okay, you're going to try to achieve this.” This is what you want, the wind condition, usually, it's get points. These are the obstacles that are in your way. These are the rules that you're going to follow. Take basketball. Your objective is to get points by putting the ball through the hoop, but you don't just grab a bunch of basketballs and run over there and dump the ball through the hoop. You're required to do this from within bounds. Only while the clock is running, without running with the ball, you have to dribble or pass it. 
+
+
+You also get abilities, like dribbling and passing and shooting. So, the game designer works in this medium of goals, rules, abilities and through this, you design and experience for the player. What the player gets out of it is the experience of playing. This illustrates the part where we play games all the time and we enjoy them.  We play them often for the experience a lot more than for winning, a good game is a lot better than a game that you won by a lot for instance, because of the experience of it. This shows that we can adopt agencies. As people, we can take on goals that are not instrumental in our life goals. At the end of the game, I don't horde these victory points and take them with me. I put them back in the box. Aiming for victory point is useful to me for the experience it gives me. 
+
+
+If I look at work, at work on our teams, we totally take on a goal of ‘make the software do this new thing’, for instance. It's not because it's like, I don't know, most humanity or our personal mission forward, it's useful to the company and we take it on and we get the experience of working in a team. We also get paid, it's important, but the experience is important too, especially in development, where we're doing this creative work that takes our whole brains and takes working together a lot like playing on a team in a game.
+
+
+I think if we look at our teams and the way we organize our teams as designing an agency for ourselves or for the people on your team, if you're a manager, then we can say, “Okay, we want to adopt these goals and we're going to follow these rules.” For instance, if your goal is delivering those features, you don't do that absolutely as fast as you can. You have code review, you write automated tests, you have procedures for deployment, and you also care that every other feature continues to work. They always leave that off of the requirements, but it's the hardest one. We put obstacles in our way and we also give ourselves abilities. If you have automations, those are abilities that we've specifically added to our teams. Our IDEs, our tooling, the different languages that we use give us different abilities. 
+
+
+If you're using Elixir or Erlang, you have this ability to write concurrent code and to really send messages instead of just pretending, like object oriented. We do choose our abilities in our tools, also in how we work together. Do we pair? Can we call each other on Slack? Can we tap each other on the shoulder? We set ourselves up for this.
+
+
+I think it's really healthy to look at it that way, as opposed to asking for people who are passionate about clean code. No, you shouldn't want to code this because you're just obsessed with coding and that's all you ever want to do. That's not healthy. We choose to take on the goal of coding this. Then, we can do it in a healthier way.
+
+
+[00:05:31] DI: That's really cool. I think that a lot, I think relevantly we've been talking a lot about professional growth and development, what that means. The things that are in service of the projects, but also things are a service of the individual, right? It is back to that. Yes, there's a goal, but the game itself should be fun.
+
+
+[00:05:46] JK: Yeah. 
+
+
+[00:05:46] DI: How we structure the team? How we work together? How our code is reviewed? What that experience itself is like? How we deliver feedback? A frustrating game, you just lose and there's no indicator as to how to get around the obstacle. I think there are –
+
+
+[00:05:59] JK: Oh, there's so many of those in big companies.
+
+
+[00:06:03] SM: Yeah. I was actually really interested where you were going to take that, because I know that some people gamify their tasks, because some people will do something fun every 15 to do checkmarks or something. Some people do that with their work tasks, because it makes it more fun. I don't know. Yeah, I totally thought you were going to talk about gamifying the work.
+
+
+[00:06:20] JK: Right? But gamification where you have little points or leaderboards or little animations to make things fun, that’s the superficial aspects of games. Sometimes those are appropriate and sometimes they're incredibly destructive, because people will go for the points if you set it up and then they'll like, “I pushed the most tickets.” Regardless of how many people they stomped on and how unreadable the code is. Gamification can be destructive or it can be mildly fun, but it's not the same as that deeper insight of 'we create our own experience’.
+
+
+[00:06:56] SM: Yeah. It makes me think a little bit of we use, “Hey, Taco.” It’s like a kudos thing. But then we also, we had someone come up with like a, HeyTaco spinoff that was HeyCake, which was like, I think, unlimited, right Dan? Was it unlimited? 
+
+
+[00:07:08] DI: Yeah. That was the – because you only get five tacos a day, give cake all the time, right? There's no leaderboard. It's just a way to create reaction. It was fun side of it. I think it is interesting, right? Because the metric is motivating only to a point and also, for any given metric, you can find a bunch of people who will figure out how to exploit it.
+
+
+[00:07:25] JK: Yeah.
+
+
+[00:07:26] SM: Serious about it. I worked somewhere that used, HeyTaco. Somebody created a private channel and they just spit, but it was a little bit of a troll, because they nominated somebody who never really historically got a lot of tacos. So, at the end of the month, they were like, “Where did this person get so many tacos from?" It's interesting. It's interesting for sure, but it's such an intriguing way to think about that.
+
+
+[00:07:49] DI: Branching off then from that really cool starting point, I’m curious for you to tell us more about yourself, your background, how you got into Elixir.
+
+
+[00:07:56] JK: I've been a developer for 22 years now. Started out in C, and then switched to Java and was super excited about Stack Traces. I've coded in a lot of languages since, because in about 2012, I got into conference speaking and generally just how interesting software is as a field, because it's a good job. It’s a very good job, but it's also conceptually fascinating, both the work itself, the idea of telling computers what to do, and the different language paradigms are super interesting. I wrote a bunch of stuff on functional programing. I think it was a functional programing in Scala talk at Code Mesh in London where I met Jose Valim. This is my connection to Elixir. Jose came to my talk and it was about enumerators and iteration and he was like, “Oh, I need to implement something this in Elixir.” So, we talk after –
+
+
+[00:08:51] SM: What cool feature do we have because of you? Please tell us.
+
+
+[00:08:55] JK: Iteratees. The concept of iteratees is when you're iterating through a list, you can do this with external control, like for [inaudible 00:09:04] less than the end of the list and externally you're like, “Okay, now I'm going to access this item in that item.” Or you can do internal iteration, like map. When you call map on a collection, the map method itself controls the going over the collection and you just tell it what to do and it applies your instructions to each element in the list. Might do that in parallel, might do that sequentially, you haven't specified that.
+
+
+Iteratees are a compromise between the two things. As you go through the loop, you give it both an instruction and the function you're applying. This would be something a map with stop where this would be an example. The map with stop method, you give it a function that returns both the value you're supposed to transform the list element into and whether you're done. Then whenever you say stop at the end, it would just break. So, in an external iteration, you could break out of the loop at any time. This is like that, but still governed by an internal method.
+
+
+[00:10:10] DI: I think I've seen that, where the return is like continued or stopped or continued or aborted. I can't remember the exact contexts, but it feels familiar.
+
+
+[00:10:18] JK: I think Jose wanted to use it for something internal within Elixir, but it's a neat concept. It's an important concept in functional programing, because it uses the conceptual tool of separating decision making from implementing the decision. You with the function you pass in, get to make the decision about whether to continue or stop, but that's implemented in the collection itself, which knows more about its internal structure.
+
+
+[00:10:45] SM: You have this talk. I'm just trying to frame, where he was with Elixir if it was out already or just –
+
+
+[00:10:51] JK: Oh, gosh, this is probably out, but early. This would have been 2014, 2015. 
+
+
+[00:10:56] SM: Cool. But Dan, when did we adopt Elixir at SmartLogic? I'm trying to remember now.
+
+
+[00:11:01] DI: Sometime around then.
+
+
+[00:11:02] SM: Okay, cool. We were having parallel lives. 
+
+
+[00:11:03] DI: Yeah. Anyone who was exposed to it through Ruby was just like, “Oh, this is great.” It took us a little bit to really give it a shot, but then once we did, we're big fans, long-time fan.
+
+
+[00:11:19] JK: It's a beautiful language, because it has the developer friendliness of Ruby on top of the incredibly solid and important Erlang runtime. 
+
+
+[00:11:29] DI: I think, for us, that hybrid as a company that came from one to the other and still maintains a lot of Ruby. We immediately saw an impact on how we write our Ruby code. It looks a lot more functional. So that's where I think an idea for the season of these things all influence other things, right? Really came from and how those things work together. It sounds like you've worked through a lot of different languages. So, at Honeycomb, what's your role there and what are you using?
+
+
+[00:11:54] JK: At Honeycomb, I'm officially a Developer Advocate, finally. It's my first official Dev real job. Our big languages are JavaScript/TypeScript, the usual JavaScript on its way to TypeScript and Go. Our backend is in Go, which Go is new to me. So, sometimes on airplanes I pull out the Go book and play with the toy examples. TypeScript, I've been doing for years. It's all okay.
+
+
+[00:12:22] DI: What's the elevator pitch for Honeycomb?
+
+
+[00:12:25] JK: Oh, okay. Honeycomb is observability, and it's like the original observability, now that everybody else calls their stuff observability, too. That's fine. We're still a state of the art. Honeycomb receives events from your application, and stuff like, “Hey, I got a request.” “Hey, it failed.” “Hey, in the meantime, I did these 18 database calls, and one of them returned this,” and so on. So we receive a bunch of events which you can think of as structured logs, but also representing a unit of work and correlated with each other into a causal tree. So, this lets us turn those events into distributed traces that show a little waterfall view map of how each request moves through your system. Super useful in any microservices environment, very useful in polyglot environments, too, because this is effectively a stack trace across processes. 
+
+
+The distributed traces are super useful, but how do you find what trace to look at whenever there's a problem? We also take those events and aggregate them into graphs. So, everything you would get from metrics except a lot more flexible, because we're doing all that aggregation at query time, so you don't have to decide, okay, we're going to count by host and by request URL. Actually, that would probably be really expensive in a metrics tool, because they would allocate a time series for each of those values, accommodation of values. 
+
+
+In Honeycomb, we're saving the original events. We're like, “Oh, you want to see it by URL? Okay, we'll sort it by that this time.” “You want only this host and only this query parameter? Okay, here you go.” We built our own data store to make this fast, and it is. You get everything you get from metrics and also everything you get from logs, except better and, most importantly, they're from the same data source, so you can move between them. Fabulous for debugging, fabulous for incident response, I really like how the traces express causality in software.
+
+
+[00:14:26] SM: I'm also curious about, you mentioned Developer Advocate. I think on your LinkedIn, it says Developer Evangelist is it –
+
+
+[00:14:37] JK: Yes, it is inconsistent –
+
+
+[00:14:38] SM: Creative technologist? Yeah.
+
+
+[00:14:40] JK: I think my employment contract says one of them and my record in HR says the other.
+
+
+[00:14:47] SM: Perfect. Exactly the way we like it.
+
+
+[00:14:51] JK: Consistent inconsistency.
+
+
+[00:14:53] SM: I am curious about it, because we just also, earlier this season, talked to Cassie Williams, who's also a head of developer experience. I was wondering if it's similar, if it’s different. What is it specifically? You said, “Finally.” So I imagine you've been trying to do this for a while.
+
+
+[00:15:08] JK: Well, in the sense that a lot of speakers are developer advocates. My job is to connect developers with Honeycomb to make Honeycomb easier for developers to use and adopt. A lot of that is integrations and documentation, but also go out and speak so that they know about it at all. To grow the market for Honeycomb in the sense that Honeycomb as a tool is most useful when you have continuous deployment and you have service ownership, both of which are directions that the industry is moving, but when we go less functions and I go out and speak about production excellence and how to be more effective as a team. We're moving the industry forward, which also happens to be where they can best use Honeycomb, because it's a tool designed for developers who own their software. 
+
+
+As a bonus, I do get to play around with work in the product and I spent three whole weeks on an engineering team the other day. Now I'm able to fix the bugs that really bother me. I don't have to wait for them to go through the backlog of the frontend inbox and get picked up by a team and go through design. I can just fix it. What is really bothering me?
+
+
+[00:16:22] SM: Oh, my gosh. There's nothing more powerful than being bothered by something and be able to do it yourself no matter what it is. Just like doing anything, anywhere.
+
+
+[00:16:30] JK: Right. Developers have agency. We have power in the world. This is why I love being a software developer, because so much of our world is computers. I mean, especially as for building software, everything we do is in the computer, but it just gives me such a sense of choice in the world. There’s a lot of things that bother me like, Mac not having a clipboard manager. This is something I can fix. I can download the software, I can figure it out, I could write one, if I had to. It may take me a lot of time and probably isn't worth it, but I could do it. 
+
+
+Anything I want my computer to do, it’s just a matter of how much effort it is to get it to do that. Now that we have open source and lots of sharing of software, it's probably less effort than it would otherwise be, but it still takes a ton of technical knowledge to take a piece of software that someone else wrote for their own use and make it work in your situation, really having that ability.
+
+
+[00:17:29] SM: I guess speaking of having these kinds of choices and abilities. Is there a stack of languages that you prefer right now, as like a dream team combo in 2022?
+
+
+[00:17:42] JK: I strongly believe that the best language to use is whichever one you know the best, whichever one your team knows the best. There are exceptions if you're doing data science you probably want to be in Scholar Python, because that's what the community is doing, data science. Again, it's about the people. It's about who understands the languages and is able to work fluently in it. Then as you're designing your experience of working on your team, the language makes a big difference there. If you have people who value a language that's friendly and has mostly happy surprises, then Ruby and therefore Elixir are going to be good choices.
+
+
+[00:18:21] DI: Connecting back to your pitch on Honeycomb, right? Is the distributed nature of this allows you to let each team pick the language that maybe best for them and remove some of those barriers to having a mixed language team, because if you're microservices, if you're ancillary services, if you’re integrations, if they're all using different languages, you can still observe across them, which for some teams may be a argument as to why to pick a singular stack.
+
+
+[00:18:45] JK: Totally, totally. Especially now that we have OpenTelemetry, which is a standard, it's like governed by the Cloud Native Compute Foundation. Now W3C has a standard for propagating trace IDs over web requests. There's no reason that your services in every language can't omit traces that are compatible with each other. There's a compatibility of the software outside of the language. Just the other day, I was talking to someone interesting and we noticed that having coding standards across teams is supposed to make it easier for developers to move across teams.
+
+
+Well, that's a fantasy, of course. It's never easy to move across teams. You're looking at different code. It's doing different business things, never going to be easy, but some things can make it easier. However, if you focus on, I don’t know, your tabs and spaces and lending rules or your naming conventions of your variable, these little details or even the programing language that you use, that is one of the most intrusive standards that you can have. You're really digging into people's quality of life and forcing people to be the same in ways that are not really profitable, because that stuff – language and framework matter, but the general naming variables and the nit-picky coding standards, do not matter that much as you move across teams. 
+
+
+You're not helping and you're being very intrusive, but do standardize the platform. If deployment is pretty standard across the organization, these scaffolding things that are the automations and tools that help you write the software, but are outside the code are really great to standardize on. It was Matthew Skelton, author of Team Topologies. That's the first time –
+
+
+[00:20:35] SM: Person you were talking to. Okay, cool.
+
+
+[00:20:37] JK: Yes, at QCon Plus. Anyway, Matthew and I noticed that, yes, have some standards, but put them outside your code.
+
+
+[00:20:45] SM: That honestly reminds me a little bit of, because a lot of the SmartLogic team was just at EMPEX 2022, if anyone listened to BEAM to the Future and it was in Salt Lake City and the keynote was by Brooklyn Zelenka. One of her opening slides was code in 2022 is needlessly difficult and complex. Some of what you're talking about, about the code standards makes me think about that not necessarily about exactly what you were mentioning there, but it reminds me just generally speaking about how sometimes we over engineer a lot of our solutions. Somebody coming up with a code standards that live in my code sounds like a little bit of an over engineering situation to me.
+
+
+[00:21:26] JK: Yeah.
+
+
+[00:21:26] SM: Can you elaborate on where it would live outside the code though?
+
+
+[00:21:29] JK: If you have a platform team that provides runtimes where the teams still make the decision of how to deploy and when to deploy, especially when, but they make it easy for them to deploy with push a button. Make it easy to spin up a new service, make it easy to move that service into production in a way that meets the business standards of security, in a way that is compatible with the services running like, whether you talk about GOPC or HTTP, that kind of thing. Those platforms being standard can help a lot, and those platforms can have a uniform interface, regardless of whether you're working in GO or Elixir or TypeScript. That's a consistency that really helps, because as we gain more responsibility in software, and I think it's really important, as started with DevOps, that we operate and write our software, because how we write it affects how hard operating it is.
+
+
+Operating it and finding out what really happens in production can help us with development, help us keep everything working, but that means we need to know more and more and more. We need to understand something about the infrastructure that it runs on. We need to understand observability and monitoring and all of that stuff, because we're doing it all. Therefore, we have software as a service, and usually there's an internal platform team that's making this stuff easier, so that you still have all the decisions of deployment, for instance, and feature flags and things like that, without having to understand in depth Kubernetes and all the other zillion things that it takes.
+
+
+It's nice to have defaults for that, that are consistent between teams. Observability is a clear example of having one tool helps everybody, because observability reveals connections.
+
+
+[00:23:17] SM: Cool. Jumping back to, I think I saw on YouTube, a video of ‘The Language is the Least of It’ talk that you had. Was it the original EMPEX or is it the first ever EMPEX or was it –
+
+
+[00:23:30] JK: It might have been the second. I don't know.
+
+
+[00:23:32] SM: In New York, right?
+
+
+[00:23:32] JK: It was in New York, yeah. If you're watching videos from that EMPEX, please watch the other keynote, because Eugenia Cheng gave up a brilliant talk and her work is so amazing. She has this book, x + y, out recently. She's a mathematician and she wrote a book about gender. It's super fascinating, because when you working category theory you recognize how carefully we can define our categories, but in common language, we just lump a bunch of things that correlate together.
+
+
+This was not in her keynote. She talked to me about this at the speaker dinner or something. Then, it's in her book. We associate nurturing activity and helping others with the feminine, and we associate go for the goal, win at all costs, and garner all the attention to yourself with masculine, but these are not tied to gender. She renames them congressive and ingressive behaviors. In my company and in my team, I want to encourage congressive behavior and it doesn't need to be about gender. I want people who help each other rather than aim for personal advancement.
+
+
+[00:24:54] SM: Yeah. It's always really interesting when you see somebody who's an expert in a particular subject and they apply it. Somewhere you have no idea that you would think that a – I think this book is called x + y: A Mathematician's Manifesto for Rethinking Gender. 
+
+
+[00:25:09] JK: Yes. Yes.
+
+
+[00:25:10] SM: I found it, amazing.
+
+
+[00:25:12] JK: This is my mission, too, because I'm reading philosophy books and applying it to software with the games agency. It’s our thing. 
+
+
+[00:25:20] SM: Yeah. Which I think is just one of the really cool things about our particular field. We're talking about polyglot and we're talking about physics like programing languages, but it's really cool to see somebody who comes in and thinks in other languages just speaking, spoken languages too, because their brain does things differently.
+
+
+I know when I was studying in France for a bit of the summer, my brain was always doing math, because their numbering system. The French numbering system is 20x4+7, and the seven is, oh yeah. It's just interesting to see things coming from a different place. That's really cool and I'm glad that came up definitely even this season, because I mean, that's just something that I feel like fits really well. The polyglot world is just thinking about things from a different language perspective or any perspective.
+
+
+[00:26:11] JK: As you point out, being polyglot, I mean, either in spoken language or in programing language means accepting that other people don't think just like you do. That's both valuable and slows us down, but when we consciously recognize it and make fewer assumptions about the perspectives of people on our team or in our company, then we can learn. When you talk to someone who doesn't have the same lived experience as you do, who grew up elsewhere in a different country or a different class, there's always more learning. To communicate with them you have to be willing to learn. You can't just transmit to them. You have to listen for a response and understanding and wetlands, and you're always going to learn something too, every time you try to teach.
+
+
+[00:27:04] DI: That's interesting. This is not the first episode I think this season where polyglot in my head was Ruby versus Elixir versus JavaScript versus whatever. A lot of these conversations have morphed into either, well we work with a lot of different APIs, so we're dealing with other companies data models, and they're trying to influence how we think about things. But then we're also now talking about diversity of experience, diversity of culture, diversity of spoken language, and how those things influence what you're building.
+
+
+I think what's particularly interesting talking to you is in your role and your product is largely about, well, how do we make all these things play nice? Because they all have value, they all have merit, and they all contribute in a different way.
+
+
+[00:27:44] JK: Yes! Instead of eliminating complexity, which would also eliminate all the value, how do we work skillfully within it? Honeycomb’s about that, I think software development in general is about that.
+
+
+[00:27:57] SM: Yeah. I mean, do you have any thoughts or answers to your own question?
+
+
+[00:28:02] JK: Oh, you mentioned too much abstraction is a problem. Sometimes abstraction is helpful. There's the thing in object oriented programing where at the beginning of OO, people thought they were going to reuse classes and it was going to make coding so much faster when it turns out that reuse is coupling. Don't do it if you can avoid it. But then there is one of the principles of object oriented design is the level of reuse is a release. You have to publish the library in order for it to be reused. It can't just be a class in this giant body of code that is a monolith. I think they didn't go far enough. The level of reuse is the company.
+
+
+You mentioned all these APIs and other people's domain models. Yes, for proper reuse, that is not dangerous coupling. You need backwards compatibility, you need documentation, you need developer advocacy for that matter, because you need people talking to people. You need UX design, both for the frontend and for the developer defects. You need paging, you need prelimiting, you need so many things for a strong reuse. What you get out of that is the domain model, is the business knowledge of – let’s see what's an example. I picked the GitHub API of what is a commit? What is a pull request? Their API is defining that for you and they've worked those concepts out, because they're an expert in that domain. You can benefit from that when you adopt their domain model and then consciously translate it into yours in what fits your business, where you have the expertise.
+
+
+Yeah. Abstraction internally use with caution, especially reuse with caution, because good abstractions does usually wind up being software as a service and are incredibly expensive and need marketing teams to convey what they're good for and how to use them well. Yeah, it's a lot.
+
+
+[00:30:04] SM: I also really wanted to chat with you generally speaking, about you talk a little bit about integrating with different teams of different people. How do different people at Honeycomb or in teams that you've worked on in the past handle that team specialization of different languages? Is it just like one person handles all the backend and another person does a frontend or is like, does everyone cycle through languages or how do people get exposure to different languages like that?
+
+
+[00:30:34] JK: That's a good question. I think one thing that people will join a company where, okay, we need some JavaScript, I'm going to do JavaScript so I can get hired, but also I'm going to have the opportunity to learn Go, or Elixir. I think that's a positive for us as people to be able to move between them. It is a challenge when implementing a particular new feature requires crossing languages and that means coordination between people, which we have to do consciously.
+
+
+I really like the book, Team Topologies, it defines very well how you're not going to have one team that can implement a feature across everything. That's not enough code ownership, and it asks that team to know entirely too much, including how to deploy all the systems and blah, blah, blah, blah, blah. Instead, we have value streams and each team supports a capability or several capabilities within the business. Looking at it that way, I think helps with coordination in order to show this feature to the customer in the frontend, I need this capability from the backend API. 
+
+
+Shout out to ‘Backend for frontend’, because every frontend JavaScript/TypeScript team should have their very own backend that they implement, because otherwise you wind up storing stuff in the user's browser that should not be there. So you have to be carefully, but those layers. Don't put the layer strictly at the internet layer of frontend backend. Definitely move it into your business, into your backend. That division, don't couple it to where the internet is. That eases something, so then, as the frontend, I can create a stub in my thin backend layer and proceed with development behind a feature flag while I'm waiting for the Elixir team to implement the real backend service. That helps a lot. So there’s one –
+
+
+[00:32:29] DI: We just added TCP/IP and HDP as the other languages in our polyglot environment that you have to deal with or maybe you shouldn't deal with.
+
+
+[00:32:38] JK: Can't get away from them, man. 
+
+
+[00:32:39] DI: Yeah. This feels in line with everything we've talked about, right? Is just what architecture is being imposed on you, right? Maybe it's the browser to server model or what is being imposed on you by the language you pick or deployment scheme? I think what's really, really interesting listening to you speak is, are you focused on the right things? Can you make some of these challenges easier or are you too worried about formatting?
+
+
+[00:33:02] JK: Yeah. Does formatting matter for you? Is this where your business’ secret sauce is, or should you be using JSON, because it's not high volume and it doesn't matter if it's slow, but if it is high volume and it does matter if it's slow, then suddenly your format matters.
+
+
+[00:33:18] DI: Yeah. Storage format, certainly. The language you're speaking between these services, certainly. I can see the argument from a formatting standpoint as well. It can just be automated, which is true, right? Then, some will argue, you can say, well, we don't care about formatting, because we're just going to do what the format says it does.
+
+
+[00:33:33] JK: Oh, you're talking about code formatting.
+
+
+[00:33:34] DI: There's that.
+
+
+[00:33:34] JK: Okay, I was thinking about messages between services –
+
+
+[00:33:36] DI: There's also between services that format matters, intermediate service. We've had things where this format worked ten years ago and now the files are too big. They don't work as JSON anymore.
+
+
+[00:33:48] JK: Soap is not clean anymore. Yeah.
+
+
+[00:33:50] DI: Yeah. That was true almost immediately, but anyway.
+
+
+[00:33:53] JK: Now we don't even like that smell. 
+
+
+[00:33:59] DI: Yeah.
+
+
+[00:33:59] JK: It had its own scent. It was popular for a while.
+
+
+[00:34:03] DI: Everything has its moment.
+
+
+[00:34:05] JK: Yeah. ENCODE formatting, same thing. Everything has its moment. In Java people used to be very picky and individualist about it, which is one reason Java is terrible now, because there's no good code formatters. The AST is just so complex. Whereas something like Elm or Go, just has one format and that's what you're using and it's good enough. Dang it. It is good enough, and uniformity is so much better than any of my preferences. It can be both wrong and better than me having a choice.
+
+
+[00:34:36] DI: Unless that choice is tabs.
+
+
+[00:34:38] JK: Now. Well, in YAML. If you're both whitespace sensitive and makes tabs in spaces, that's objectively a problem. 
+
+
+[00:34:44] DI: Yes. No argument there –
+
+
+[00:34:48] SM: I used to work with a DevOps team that really wanted you to put your import variables at the top in alphabetical order. They would actually reject PRs if they weren't like that.
+
+
+[00:34:59] JK: If you can get a robot to do that for me, then fine. Otherwise, shut up.
+
+
+[00:35:02] SM: Have you ever seen the ABCD emoji? It's just like one of those info emojis. It's all the way at the end of the Emoji Train. I actually just went ahead and secretly made like a PCA the emoji, and whenever they would react to GitHub request and they would reject it, because it wasn’t alphabetical order, I would respond to that. Took them some a really long time to figure out that emoji was not in alphabetical order.
+
+
+[00:35:31] JK: Oh, that's funny. Yeah, that is one of those things, if you care that much, fix it yourself, and you can fix it with automation or you can personally go in and change the order of the imports in my pull request, fine. Otherwise you're being an asshole. That's my strong opinion about that.
+
+
+[00:35:47] SM: We're always here for the strong opinions. Speaking of strong opinions, though, you did say you've been a speaker since 2012. Has there been a favorite talk? Any particular subjects you felt super strongly about and you were super excited to get into?
+
+
+[00:36:01] JK: I have one talk that was, I am grateful for the inspiration, my talk about symmathesy, and it starts with the Florentine Camerata and the history of Opera. It gets into art and music, of course, and also science and the enlightenment. All of this relates to software, because a group like the Florentine Camerata formed a symmathesy; a learning system made up learning parts. Every team is a symmathesy of course, because it's made of people who are learning, but I think a software team especially is a symmathesy because we can include the code, the code learns from us because we change it, and we learn from it, especially if we have good observability. That's why we get Honeycomb. Together we make something new in the world. You can watch it. My RubyConf 2018 is the best version in my opinion. I'm never going to top that, but I'm okay with that.
+
+
+[00:37:04] SM: Nice. So I guess what specifically about it, I'm also curious if you go to [inaudible 00:37:08] what makes you think that, that one was the best one? Because now I'm curious, but also –
+
+
+[00:37:13] JK: Oh, my gosh. It was the best one. You'll see. It's just I don't want to give the spoiler.
+
+
+[00:37:18] SM: Okay. Okay, so just me and everyone listening is to go watch it. So, just look up the tittle of the talk was?
+
+
+[00:37:25] JK: Collective Problem Solving in Art, Music, Science, Software.
+
+
+[00:37:30] SM: Yeah. We've got a lot of musicians in the house and I was an art major, so I'm generally super excited to check that out. Cool. Can you speak to any just generally opportunities and/or weaknesses that being in a polyglot environment can introduce, because there's always two sides of one coin, right?
+
+
+[00:37:49] JK: Totally, totally. I mean, every piece of software that's running a production needs a team behind it. It needs to be alive in someone's head so that they can change it. Otherwise, it's ossifying. It’s preventing the whole company from changing and growing. When you have software in a bunch of languages, that requires people who understand that language as well as the software and what it's trying to do. If you write something in Haskell and then leave the company and nobody else who's here anymore understands Haskell, that thing better be small enough that I can throw it away and rewrite it. 
+
+
+It is dangerous to proliferate languages everywhere. Also, who is going to upgrade the libraries in that Haskell service to keep it secure? Someone needs to understand not just the language. We don't program in languages. We program in ecosystems. We program in dependency managers and package managers and build tools and deployment environments and all of this stuff, so much more than the language. If you think it isn't tried switching from Java to .Net and you'll feel like you're five again. Everything makes no sense.
+
+
+There is a danger, it's a commitment to put a piece of software in production, so watch out for that. On the other hand, you can have Dev tools, write those in whatever, and then throw them away and rewrite them. Nobody cares.
+
+
+[00:39:09] SM: I really like the suite on programing language as we program ecosystems. If there was a TLDR on the whole episode, it would be that one and maybe the whole season.
+
+
+[00:39:16] JK: Oh, and a big part of that ecosystem is the people in it is the community. This is why Ruby is a great language, because the community is so good. I learned Ruby in order to speak at Ruby conferences, in order to hang out with Ruby people, because they are the best. They are so nice. I mean, this is what makes Elixir great, and this is how Elixir has saved Erlang, has made Erlang so relevant now, because the platform, the beam is so solid and important, but Elixir fixed the community. Elixir took it from, ‘well, I had to learn it so you can go through just as much trouble as I did’ to ‘how can we make this accessible to you? How can we make this open to everyone?’ Because that's Ruby.
+
+
+[00:40:03] SM: Yeah. Now they even have, I think we learned last year around this time, during our beam season that there are 37 beam languages. 
+
+
+[00:40:12] JK: Wow. 
+
+
+[00:40:12] SM: Something like that. Yeah. Don't quote me, it's in the thirties, it's in the high thirties. I don't know where I'm getting the seven from. Today's a day of weird numbers. I'm pretty sure that's the number. We talked about it with Francesco Cesarini of –
+
+
+[00:40:25] JK: Yay, Francesco. 
+
+
+[00:40:27] SM: Yeah, yeah. I naively thought Elixir was maybe one of three or four. I hear about Elixir the most, obvious six in them in this ecosystem. But he was like, “Yeah, it's 37.” I think, I fell out of my chair.
+
+
+[00:40:40] JK: Well, well, I mean, lots of people write languages, but that's different from creating an ecosystem. This is another thing that Elixir and ELM, also do really well, because they didn't just make a language. There's a package manager, there’s an ORM. All of those tools are part of Elixir and part of what makes it open to new people.
+
+
+[00:41:07] DI: Well, and I think the other thing that I think about, too, when I think about the ecosystem on Elixir is, is things like nerves, other different types of software development that, if you came from Rails and you came from Phoenix, you're so far removed probably from what somebody who does embedded programing thinks about, but now we have, that influence on this community. 
+
+
+[00:41:28] JK: Oh, great. 
+[00:41:29] DI: That's still microprocessor level control. It's not microcontroller level control, but those two things can play together and often do in many devices. Now you have that additional ecosystem influencing this language, this tooling, this community. I find that to be another for strong benefit to Elixir.
+
+
+[00:41:51] SM: Yeah. So awesome. Jess, I definitely just, this has been such a great conversation. Thank you again for being here. I feel like we're getting, especially Jess, I’m glad you got a chance to talk to Dan, too, because we've been switching up the hosts and everything. I'm just getting to witness things I don't get to see every day. It's fun and I'm learning and I hope everyone listening is learning to just.
+
+
+Jess, do you have any final plugs or apps for the audience? Just like, where people can find you? Any GitHub links or Twitter links or something you really want to shout out?
+
+
+[00:42:22] JK: Sure. I'm jessitron on Twitter J-E-S-S-I-T-R-O-N, jessitron.com. If you want to see my personal blog or sign up for my newsletter, but the funnest one is if you have something interesting going on systematically, team design, or observability, find me at honeycombed.io/office-hours and sign up to chat for half an hour. It'll be fun.
+
+
+[00:42:46] SM: I love that. I want to do that. Everyone wants to do that. I feel like you're going to be super booked now.
+
+
+[00:42:50] JK: Yay! Oh, I hope so. I hope so.
+
+
+[00:42:52] SM: I’m talking to you first. Awesome. Thank you so much again for joining us today. That's it for today's episode of Elixir Wizards. Thanks again to our guest, Jessica Kerr, for joining us. I am Sundi Myint and my co-host is Dan Ivovich. Our executive producer is Rose Burt. 
+
+
+Elixir Wizards is a SmartLogic production. Here at SmartLogic, we build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. Need a piece of custom software built? Hit us up. Don't forget to like, subscribe and leave review. Your reviews help us reach new listeners. You can find us on Twitter @smartlogic, or join the Elixir Wizards Discord. The link is on the podcast page. See you next week for more on Elixir in a polyglot environment.
+
+
+[END]
+        © 2022 Elixir Wizards
