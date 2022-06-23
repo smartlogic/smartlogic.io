@@ -1,0 +1,265 @@
+Owen Bickford:                                         (Silence).
+
+Owen Bickford:                                         I forgot to do vocal warmups. So cool, I guess I'll just... Well, first of all, hey, I'm Owen and that's Dan my cohost for today.
+
+Dan Ivovich:                                           Hello.
+
+Owen Bickford:                                         So...
+
+Nathan Retta:                                          Hey.
+
+Owen Bickford:                                         Well, [00:00:30] thanks for jumping in and joining us on the podcast.
+
+Nathan Retta:                                          Yeah, this was pretty fun. I didn't expect the invite from the Elixir meetup, so it was very good that you decided to do this.
+
+Owen Bickford:                                         Awesome, it will be fun.
+
+Nathan Retta:                                          We'll see how this goes.
+
+Owen Bickford:                                         Let's see, where do I start? So I'm not usually the host, so if I'm a little bit rusty at this or... Usually Sunny does this part, so let's see. All right, [00:01:00] I'm just going to go ahead and start with the intro. Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Owen Bickford and I'll be your host. I'm joined by my co-host, Dan Ivovich. Hi, Dan.
+
+Dan Ivovich:                                           Hello.
+
+Owen Bickford:                                         This season's theme is Elixir in a polyglot environment, where we talk about how Elixir works with other languages. Today we're joined by our special guest, Nathan Retta, from DoorDash. [00:01:30] Hey, Nathan.
+
+Nathan Retta:                                          Hey, how are you?
+
+Owen Bickford:                                         I'm doing great. How are you... Actually, first let's start... Where are you calling from?
+
+Nathan Retta:                                          I am calling from the suburbs of Denver, Colorado.
+
+Owen Bickford:                                         Denver. Okay, so you're going to have some Elixir people in your neighborhood within just a couple months.
+
+Nathan Retta:                                          Oh yeah, we've got the Elixir meetup that's been going on for some time. It's actually nice that the meetups are coming back in person. [00:02:00] I remember the first meetup that I went to was, I want to say back in 2019 or so. At that time, the meetups were near Union Station at the Triangle Building. Then of course, we had the pandemic for a couple of years with nothing happening, so it's good to see that everybody's doing that again.
+
+Owen Bickford:                                         Cool, are you planning on driving over to the ElixirConf? Do you have any interest in that?
+
+Nathan Retta:                                          I have an interest. I have not looked at the tickets, but I need to do that.
+
+Owen Bickford:                                         All right, I might be able to... I mean, [00:02:30] they're still available. So, hopefully if I make it out to Denver for the conference, hopefully we'll be able to meet in person. Quick backstory here, I actually met Nathan at the Denver Erlang Elixir Virtual Meetup, I think back in February? Does it sound right? Okay.
+
+Nathan Retta:                                          Yeah. That sounds about right.
+
+Owen Bickford:                                         What brought you to that meetup? Because I don't think you typically work with Elixir, right?
+
+Nathan Retta:                                          No, no. I [00:03:00] do a bit of Elixir for personal projects when I'm trying to go fast, and it's been purely for backend. I flirted with the Elixir Nerves project, but I've since used Rust with most of the hardware stuff that I'm doing. And then, of course, every day I'm working with Android and primarily in Kotlin. So yeah, Elixir for backend.
+
+Owen Bickford:                                         Cool. So side projects with Elixir. What kind of side projects are we talking about?
+
+Nathan Retta:                                          [00:03:30] Well, my wife is an occupational therapist and we had an idea for a therapy assignment software. And so I ended up writing a POC with Elixir and Ecto, and then another POC with Kotlin for a backend. And then since most of the complexity for me is actually creating UI for desktop, and that's what I'm working on, and I've kind [00:04:00] of sidelined the backend piece of it. But yeah, that's really what I like the Elixir for. Since I work every day in Kotlin, it's a bit more fun for me to work in Elixir as well. I also liked Ruby On Rails previously, way back.
+
+Owen Bickford:                                         Are you saying Elixir is more fun than Kotlin? Is that what I heard?
+
+Nathan Retta:                                          I personally do like Elixir a little bit better than Kotlin, but it's hard to say why. [00:04:30] I think it's because I'd spend every day in Kotlin. I like it less than Rust though. I think I like Rust quite a bit. It's just that I can't ignore my development speed is just so much higher with Elixir than it would be with Rust, where I'm actually fighting the borrow checker at times, and then just the pace of development's a little slower.
+
+Owen Bickford:                                         Gotcha.
+
+Nathan Retta:                                          But you get excellent performance out of Rust. Kotlin is a very pleasant language. If I had to pick the thing that I dislike about Elixir, I would say the lack [00:05:00] of a type system. I started looking at Gleam, and it looks like that project's a bit newer, but I'm assuming it'll be there in a couple of years, and some sort of type-safety will be present, especially in the domain layer for the way I happen to program. I found that I rely heavily on a type system.
+
+Owen Bickford:                                         I know, I've been seeing on Twitter there's ElixirConf EU and I think the keynote, Jose, had some slides about types, [00:05:30] and looking forward to reading more in depth about what was going on there. And Dan was actually responsible for the idea of Elixir in a polyglot environment, so I think this is the first time we're hearing about anyone who's worked with Kotlin. Dan, what stands out to you about what you're hearing from Nathan here?
+
+Dan Ivovich:                                           I think Nathan's got the longest list of languages that we're working with here compared to some of our previous guests. I also think hearing [00:06:00] comparison, "Where am I fast? Where am I type-safe? Where am I doing my day to day?" It's really interesting. Curious, just given kind of your experience across so many languages, do you see learnings from one influencing how you use another?
+
+Nathan Retta:                                          Yeah, I would say functional programming in general has been just improved overall having [00:06:30] experience with Elixir. That impacts the code that I write in Kotlin, and I try to write more functionally. I do value the type system quite a bit, I've learned, or that's the thing that I feel that I miss with Elixir. And unit testing just becomes more important with Elixir than it would be in similar code in Kotlin, at least from my perspective. I'm also not a full-time back engineer. I'm mostly a front-end mobile engineer and that I do [00:07:00] stuff with Android hardware as well. So, I am curious a little bit about what it's like working full-time in Elixir with highly concurrent, scalable back-ends since I haven't had that experience. I've only written small things.
+
+Owen Bickford:                                         Cool. I think you're our first guest, at least in a while, that is primarily a native mobile developer with some interest in Elixir, so you're kind of bringing a different perspective, which is always great to have on the [00:07:30] podcast. On that note, what are some different concerns you think that you face as a native app developer versus like the web development that I'm more commonly doing?
+
+Nathan Retta:                                          Well, web development... One thing that I'll say is that if you can target the browser and not have to deal with mobile apps, you should do so. It's just way easier and the browser has less complexity than [00:08:00] all the different things that can happen on mobile devices. My web experience has really been limited to React, so writing React components with JSX that map down to native views is something that you can do with mobile apps. You can use the React Native project and then leverage some of the React code that you write on web to create native mobile apps. And I think that's something that is really big out there. But for the big companies like DoorDash, Meta, [00:08:30] Google where native apps are really the king, you can't really work with some of those cross-platform things that allow you to go really fast.
+
+Owen Bickford:                                         Right, and you mentioned DoorDash. So you work at DoorDash, is there some Elixir kind of underneath the hood there somewhere?
+
+Nathan Retta:                                          None that I know of. We tend to be a pretty heavy Kotlin shop here. We have a lot of Python. There's a legacy Django backend that they're tearing [00:09:00] apart into microservices as they go along. That was a legacy Django monolith. We do have a lot of Python as well with data science and machine learning. So I don't think we have any Elixir, but I also would have to go search for it. We have a lot of microservices and I'm not familiar with them, so I'm sure we have a lot of languages under hood that I'm not aware of.
+
+Dan Ivovich:                                           I think that's something we continue to see across this season is if you're [00:09:30] microserviced, you have a much higher probability of having a mixture of languages in your SAC.
+
+Owen Bickford:                                         That's right.
+
+Dan Ivovich:                                           Each team kind of picking what they're best at.
+
+Nathan Retta:                                          Yeah. I've only done Elixir and a monolith style, and I really think that the combination of Elixir and Flutter, I think brings a new pace to development. Obviously, you can do a full stack Kotlin and write Kotlin JVM
+
+Nathan Retta:                                          [00:10:00] Backend services in a Kotlin front end, and utilize Kotlin multi platform. But I think if I was to pick right now, if I had to get to market as fast as I could on both platforms, I would probably go with Elixir and Flutter, just for mobile apps. And then if web was going to be a big thing, I think react native might be a substitute, as long as you can do a good job of sharing some of the components with react web and react native.
+
+Dan Ivovich:                                           I think that's...
+
+Nathan Retta:                                          But that gets...
+
+Owen Bickford:                                         [00:10:30] Dan, somebody's going to be so mad. She's not in this Flutter conversation.
+
+Dan Ivovich:                                           Oh, I'll talk up the flutter side. I agree, for building something quickly and something good and fast, and that works generally across the devices that we need to support out the gate on something we've had a lot of positive experience using Flutter and we've done Flutter with our Elixir back ends and, we build fast APIs with the web views that we need to administer to the system and [00:11:00] the Flutter stuff has been great. So I actually don't have any experience with Kotlin. My Android experience is pre Kotlin. So I've written a lot of Java in my life, not a whole lot recently, but have not had an opportunity.
+
+Nathan Retta:                                          Well, if you write Kotlin, you probably don't want to go back to it as much.
+
+Dan Ivovich:                                           That's what I've heard. A lot of things have made me not want to go back to Java. So I'll just tack another one on that list.
+
+Owen Bickford:                                         Is there like, a nutshell [00:11:30] version? What's the difference between Java and Kotlin? Is there a high level overview of how they approach things differently.
+
+Nathan Retta:                                          Verbosity is big, no safety is big, an equivalent Kotlin file or a Kotlin file that you would write would... This is pre Java introduced the record class after facing pressure from Kotlin's existence with data classes, they've started to make Java [00:12:00] a little bit more developer friendly, but Kotlin is faster to write in in my experience having written both Java apps or Java Android apps, and Kotlin Android apps. There is Inter Ops, so you're not forced to completely trash all of your Java code. You can incrementally adopt Kotlin and then, because they're both targeting the JVM and the bi code is similar, you can [00:12:30] enjoy all the type safety and the pace of development with few downsides in my opinion.
+
+Owen Bickford:                                         Cool. I did watch your... There was a talk that you gave, was that at a virtual conference or like a meetup for the Kotlin full stack or a multi, multi...
+
+Nathan Retta:                                          Kotlin multi platform? Yeah, that's at a meetup group called Tech [00:13:00] Confluence that we have in Denver. It was a small audience, but I have done two Kotlin multi-platform talks and I have built some Kotlin multi-platform apps. I still do like building iOS apps natively with Xcode and Swift. I do think that Kotlin multi platform, I've seen that it's growing and it's used at a number of companies, I've seen Autodesk is one here in Denver that started to use Kotlin multi platform [00:13:30] quite a bit, and also Quizlet. But I think the vast majority of apps that just need to be out the door or for the smaller indie developer, I think Flutter is really, really strong there it's the fastest as far as dev time that I've seen.
+
+Owen Bickford:                                         Okay. And I saw some mention of concurrency in Kotlin is this something that's kind of evolving or is it kind of settled [00:14:00] on a robust concurrency model?
+
+Nathan Retta:                                          Kotlin concurrency's co-routine based, you can write if you're targeting Android or other JVM, any JVM app you would be writing multi, you would probably be using the same patterns that existed with red pools and shared mutability. You can use mutexs in order to lock and [00:14:30] have some level of safety when you're sharing data across threads. But it's less... You don't get that out of the box. You have to work for some of that safety. Whereas with Elixir, I feel like, with the actor model, and I think with Swift now supporting actors and the message passing and all the safety you have with only allowing the actor to mutate its state, just a better pattern that I like. [00:15:00] I think Kotlin native exposed some of those bad things to the engineers, to have to deal with the concurrency at a granular level was very different for a lot of the people coming from JVM backgrounds. And I myself felt a lot of that pain with freezing objects and some of the things that can happen, but this is a bit of a rabbit hole to be talking about the Kotlin memory model, [00:15:30] but they did improve it and now it's a bit more ergonomic for the developer and it doesn't operate in the same way as it did before. I think you have to opt into version 1.6 or later. I think I would have to go back and look at that. But if you do write Kotlin multi platform code now, you can use the new memory model for native. So when you target iOS or LLVM in general, you use the more ergonomic memory [00:16:00] model.
+
+Owen Bickford:                                         This is the first I'm hearing that Swift has actors as a concurrency model. So that's really interesting.
+
+Nathan Retta:                                          Yeah, there's a whole talk from Chris Lattner about how they decided to do this. Some of the things that you're doing in Elixir are actually now becoming more common on the outside, but when I write Elixir, I don't feel like I get exposed to it directly as much either. It feels very easy to work with.
+
+Dan Ivovich:                                           Yeah. It's got really solid abstractions, [00:16:30] it's interesting listening to you to speak and thinking about all the different types of concurrency I've done in my career and, memory models and, we're getting to a point where the distinction between these things is just starting to get really blurry, right? Like Kotlin to Java to JVM to LLVM to Swift to iOS, it's like we keep finding ways to leverage existing tools and existing platforms. And I'm just kind of sitting here a little blown away by like, [00:17:00] if someone had gone early in my career and said, Hey, eventually a lot of this stuff's going to work together in weird ways or all have learned from each other. I mean I guess it makes sense in retrospect, but I don't know that I would've believed it.
+
+Owen Bickford:                                         Yes.
+
+Nathan Retta:                                          Yeah. I'm actually curious how Elixir is, once you actually get to the scale that I've seen WhatsApp and discord and others do, that's not really as an indie developer, I don't really... [00:17:30] I can't say that I'll ever experience that.
+
+Dan Ivovich:                                           I think when you're looking at that level, everyone scales a little unique in its own ways.
+
+Owen Bickford:                                         That's probably why we have a partition supervisor now for that exact scaling concern.
+
+Dan Ivovich:                                           Yeah. I think it's funny as we've seen things scale and if you hand off an Elixir app to be dockerized in Kubernetes or what have you, sometimes the ops teams don't necessarily understand. Oh, this thing's going to just like consume all the CPU. And it doesn't mean that it's [00:18:00] constrained, right? It's like well Hey, why is this using almost no memory and a ton of CPU? It's like, because that's what it wants to do. Like that's okay, right? And the types of machines you want to add to your cluster, how you want to scale horizontally, vertically, all these different pieces.
+
+Dan Ivovich:                                           I have found that with our Elixir apps, that we have to think about it differently than how we thought about it with our Ruby apps. On the Ruby side, it was generally garbage collection memory and like throughput would bottle before anything else. And on the Elixir side, I [00:18:30] find that it's like, well, if we throw more processing power at it, more of our processes will run and things will be faster. But even that the [inaudible 00:18:40] you can get off of a small machine is just downright impressive with Elixir. And I mean, all thanks to Erling.
+
+Nathan Retta:                                          Yeah, I'm really hoping that Clean becomes something bigger than it is now, so that I can feel a little bit safer with the way I do things.
+
+Dan Ivovich:                                           [00:19:00] And Owen, you've done a lot with... I don't know about specs, but like proto... I'm trying to think. What do you?
+
+Owen Bickford:                                         Protocols, behaviors?
+
+Dan Ivovich:                                           Yeah. Protocols and behaviors. And specifically you were using something to validate struck...
+
+Owen Bickford:                                         Oh yeah. For, for the project.
+
+Dan Ivovich:                                           Yeah.
+
+Owen Bickford:                                         One project, there's a... So I'm using Norm...
+
+Dan Ivovich:                                           That's it, Norm?
+
+Owen Bickford:                                         So Norm uses, it's kind of like chain sets. [00:19:30] And I think you could maybe choose one or the other and be okay. For the API that I was trying to validate against Norm gives me a run time validation. So I could theoretically digest a dynamic meta structure from an API and then build a format of that and then have validations that are not hard coded in the app code. Norm's
+
+Owen Bickford:                                         [00:20:00] It was really helpful for that. And that's a one way of providing some type safety without an actual type system. And you can get fairly granular with that. Now I was just realizing we went straight into the deep end talking about memory management, concurrency. No, it's fine, it's fine. I think, we're standing on the diving board and just jumping in. So I want to step back a little bit. [00:20:30] What got you into programming, was this something you were interested in from childhood or is it more of a later in life endeavor?
+
+Nathan Retta:                                          I would say a bit later on, I worked in..., so my degrees is in chemical engineering, I worked in oil and gas automation for six years and power industries. So valves and program, mobile logic controllers and that sort of thing. And then I rode an Android app [00:21:00] back in 2016 and then decided to become a mobile developer after that. And so I've been doing Android since late 2016 timeframe. I've done iOS as well, and a bit of some other things, but I would say hardware is what I'm interested in for the most part.
+
+Owen Bickford:                                         That's cool. Just being honest, when I had decided I was going to be a developer, this was like 2010, 2011. And so you could just start to see videos about how to [00:21:30] write code on YouTube. And I found one that was like how to develop an Android app the easy way, or it's easy or something. And then I knew nothing. It didn't even have the vocabulary to understand what strings were and like everything, everything you know about Java and how complex it is and it was just too much. So it took me probably another five or six years before I was kind of ready to jump back in again and started with JavaScript. [00:22:00] So yeah.
+
+Nathan Retta:                                          Okay. Yeah. I do a bit of JavaScript, but it's really only with react web development stuff. So I will say back 2016, Android was just very different. It was a little bit more difficult to work your way around the operating system. And it was less debt friendly than it is today. I'm also noticing documentation's really good today. [00:22:30] Just at the beginning of this year, they started offering rust support for Android and created some documentation around that. And I'll say that, I guess early, since the beginning of this year, I've been leaning into the rust Android stuff a bit more with foreign function interfaces they're called to do some low level Android stuffs, it's been pretty fun.
+
+Owen Bickford:                                         That sounds really great.
+
+Nathan Retta:                                          The Glim Syntax actually reminds me a bit of rest, [00:23:00] like the way that it looks sometimes.
+
+Dan Ivovich:                                           And you'd...
+
+Nathan Retta:                                          Is that person going to be at the Denver conference?
+
+Owen Bickford:                                         Louis Pilfold I think I know if I'm pronouncing it right as the creator of Glim. I don't know if he could be at the [inaudible 00:23:13] or conf I'll have to check on that later.
+
+Dan Ivovich:                                           Call we'll shout out to the audience.
+
+Owen Bickford:                                         Yeah, just give him a call.
+
+Dan Ivovich:                                           Windows, tweet, tweet, tweet at us. Let us know.
+
+Owen Bickford:                                         Right.
+
+Dan Ivovich:                                           Nathan needs a minute.
+
+Nathan Retta:                                          Yeah. I think maybe [00:23:30] it's just me as a developer, but, and not being a strong unit tester. I think unit testing is a little bit more important with the dynamic typing than it is and in a language like Kotlin.
+
+Dan Ivovich:                                           And I think that from my standpoint coming kind of up through learning Ruby through Rails, like testing was like such a focus of how you build Rails application. And it's such a focus of how we build Phoenix applications [00:24:00] in Elixir. And so I think it is interesting. There's like a really strong foundation in those very productive, very scalable. Well, now that Rails can scale joke packed to 2010 or whatever, but that is core to it because you don't have the type system right, to rely on necessarily. And yeah when I did work in typed languages, I don't remember a focus from any forces really the community or management [00:24:30] or education that was like so heavy on testing. I feel like the push is heavy on testing in the dynamic language communities as they exist today.
+
+Nathan Retta:                                          Yeah. You went from an Object-Oriented language as well with Ruby to functional one. It's a journey that I've been on.
+
+Dan Ivovich:                                           It's so great. I love it.
+
+Owen Bickford:                                         I've it's funny. I've come up as a Functional Developer. So on the occasion that I need to like interact with some like highly object oriented [00:25:00] code, like with traits and everything, it really slows me down. I have to grasp how everything works again. So it's, yeah. I'm living, living it up in functional land and enjoying my time with Elixir especially.
+
+Nathan Retta:                                          Yeah, it is pleasant. Kotlin is multi paradigm. It's like a lot of languages are, they'll let you do what you want. But I think a pure functional language is a little bit better [00:25:30] for my developer happiness. I do like working in Elixir, it's just that I don't have many opportunities to do that. I am curious if anybody's work with the Nerves project, but I have seen a bit of content on YouTube a little bit.
+
+Owen Bickford:                                         So, when I went to ElixirConf in November, the day before the conference started, they had a NervesConf and of course on the podcast you can't see it but one of the little take home goodies, [00:26:00] we did like a workshop led by John Carsons. And so this is a Raspberry PI zero wireless. It's got a little scroll hat mini, which is like a pie hat. And so it's LEDs and you can control messages through the LEDs and what was really cool. There's so many cool things to talk about, but like the coolest part was that these were all pre flashed with nerves and pre [00:26:30] configured to connect to the network. So whenever he wanted to push an update, he pushed the update from his laptop and it landed on all of the Raspberry PI devices within a minute or two, and everyone was seeing like new animations and stuff. And that was really cool.
+
+Dan Ivovich:                                           Yeah. Oh, wow. The ecosystem for you kind of like firmware management on the nerve side is fantastic. And the developer experience of editing and pushing to the device. They've [00:27:00] really created in the embedded space, what you're used to as a Web Developer of like very close to instant feedback on what you're working on. It's a lot of fun. I actually wasn't necessarily familiar that there's some rust work going on the embedded side. What is that like from your perspective and what why that over using Nerves? What's that platform like?
+
+Nathan Retta:                                          Rust for Android? I would say [00:27:30] the old stuff was written in C++. So really the transition is with Android writing code that used the Java native interface to go to a C through a Java native interface bridge to C++, and then writing C++ code. Sometimes, depending on the complexity of what you're doing, and then as far [00:28:00] as memory safety, what sort of tasks that you're planning on running with C++ you could run into some sort of memory issues that are just eliminated from using rest. I've had some experiences where I've written some memory bugs into native Android app and have it crashed and not know why. And then have to go back in that debugging process is really, really painful. I think that had mostly to do with my inexperience with C+ must more so than [00:28:30] anything wrong with the language, but the memory safety guarantees that Russ gives you are really powerful. And I understand now the Bluetooth module has been rewritten in Rust in the Android project. And Google seems to be doing more of that writing new rust code rather than new C++ code.
+
+Nathan Retta:                                          So those things are all going on. Yeah.
+
+Dan Ivovich:                                           So it...
+
+Nathan Retta:                                          I don't know about the iOS code.
+
+Dan Ivovich:                                           It's so interesting to see what Google's doing and what they're not doing between Dart and Go and Rust and [00:29:00] the things that they control versus the things they don't and how it's all kind of coming together in interesting ways. And I think from a poly standpoint, the whole point of this season, it really makes me think the tool that the team needs, the one that'll empower them the best is the right one. Right. And use what's going to work for you use what you're excited about, because you've got lots of options and the pros and cons, [00:29:30] I think those lists are getting, there's more and more overlap as I see all these languages mature and learn from each other. I'm excited about it
+
+Owen Bickford:                                         Right. Even Elixir I've been hearing about people deploying apps to iOS and Android built with Elixir using I think a Elixir desktop or something. So it seems like the operating systems are getting more flexible about like what language you can build, use to build drafts.
+
+Owen Bickford:                                         [00:30:00] I say that as someone who's never deployed [inaudible 00:30:03]
+
+Nathan Retta:                                          I'm curious how they do that.
+
+Owen Bickford:                                         What's that.
+
+Nathan Retta:                                          Yeah. That might be an interesting bridge for that code, if it has to be transpiled or how that goes, to become an Android APK or IOSF. I'm kind of curious, but I'll look up that after the call.
+
+Dan Ivovich:                                           I would be surprised if it had something to do with the efforts around web assembly, because that seems to be a unifying approach for a lot of things, but [00:30:30] I'm appreciative [inaudible 00:30:32]
+
+Nathan Retta:                                          I have tried some [inaudible 00:30:33] WebAssembly, but it was a single page app, so wasn't very exciting.
+
+Owen Bickford:                                         Yeah. We'll post a link to the Elixer desktop. I think it's at least a repo in GitHub. It's on HexDocs as well or Hex, so I will post a link to that, because that sounds interesting. It's another way of getting Elixer out into the world and if you want concurrency within your application on the device, that opens [00:31:00] up some interesting possibilities.
+
+Nathan Retta:                                          Yeah. The mobile operating systems, for the most part, you're having to deploy through App Store and Google Play, so you don't really control your own pipeline, so in any situation where you can actually use the browser, it's going to be a little bit easier than having to deal with App Store and Google Play. There is an option to deploy directly, if you have a fleet of Android devices, then that deployment, [00:31:30] you can start to own it a little bit more and there are things that are available to make that a little bit easier and something called Android Enterprise Management and other custom deployment types of different third parties that will actually handle all of your fleet management and deployment and updates and everything.
+
+Owen Bickford:                                         Cool.
+
+Nathan Retta:                                          So I really, really favor the browser as a mobile engineer, just because I have been dealing with mobile operating systems for a while.
+
+Dan Ivovich:                                           Let's go back. Let's think back to [00:32:00] the late nineties, when the browser was not a great operating system and sometimes still isn't, but yes there's a lot less variation than in the mobile space and certainly than in the Android space.
+
+Owen Bickford:                                         Right. Well, not even was the browser not as advanced, but if you're releasing stuff on a CD or a disc, it's got to be right. Updates are going to take months or years to roll out. Now, we've [00:32:30] gone all up and down the stack and talked ,in depth, about all the technology that we're using and excited about. I'm curious, just as a person, what other kind of hobbies are into, have you read any interesting books or seen any interesting movies lately or round out the conversation here with who is Nathan Reda when he is not coding?
+
+Nathan Retta:                                          I've got the rest for restation books on my desk here. Outside of programming [00:33:00] interests I would say, I've been skateboarding most of my life. I do that quite a bit. The pool's open in our neighborhood, so I take my kids to the pool all the time now. That's not that exciting, but that's what I've been up to.
+
+Owen Bickford:                                         I haven't been swimming in maybe a decade, now that I'm thinking about it. Yeah, it's been a decade since I've been in swimming pool, so now I'm jealous. Oh man.
+
+Nathan Retta:                                          [00:33:30] You're In Detroit, right?
+
+Owen Bickford:                                         I'm in Michigan. Yeah, right outside of Detroit, so swimming pools are a little bit more rare up here than they were when I lived in Texas. I could probably go into a YMCA or something and find a pool.
+
+Nathan Retta:                                          Yeah. This is just an outdoor pool, with tons of kids running around, in the suburbs of Denver. I will look into that conference. [00:34:00] For some reason, I must have missed that that was happening. I know there was recently one in back in may in Salt Lake City. It's a shorter conference and I missed that one.
+
+Owen Bickford:                                         I'll check real quick here. Okay, this year, 2022 Elixir Conf is August 30th through September 2nd and they've got call for proposals and training open currently and I think, the venue is not announced yet.
+
+Nathan Retta:                                          [00:34:30] There was a talk with Elixir web, a Phoenix talk, that was actually a tech confluence, recently, that I watched. I didn't know how many people were actually using that. Is it growing quite a bit? Is Phoenix becoming a bit more popular these days?
+
+Dan Ivovich:                                           I think so. We've seen in the [00:35:00] six or seven years that we've been using it as a company, every year the conferences get a little bigger, the companies involved get a little bigger. I think it's a more common choice for sure for a lot of startups or even established companies looking to pull in something with some really great benefits for productivity, performance, et cetera and so, we continue to build out things for it and [00:35:30] our clients either don't have a strong preference or want what we think is best and from our standpoint, from our productivity and maintenance and scalability and everything standpoint, it's been a fantastic move.
+
+Nathan Retta:                                          One of my coworkers, at a previous company, went over to Blinker and I believe, they're using Phoenix on the front end and hosting the meetups for Elixer now. I haven't gone to an in person meetup [00:36:00] in a long time, for that meet up, so I'm hoping that I can catch the next one.
+
+Owen Bickford:                                         Right On.
+
+Dan Ivovich:                                           Sounds good.
+
+Owen Bickford:                                         If you don't make it to a local meetup, the conference is going to be at the Gaylord Rockies in Aurora. Sounds like a really nice venue and looking forward to...
+
+Nathan Retta:                                          Okay.
+
+Owen Bickford:                                         ...being their, fingers crossed. Cool.
+
+Nathan Retta:                                          I was going to say, I'm looking at the [00:36:30] doc, I guess this part can be edited out most likely, I'm not sure what the viewers are interested, mostly in, from this podcast?
+
+Dan Ivovich:                                           I think we've covered from, we've covered what we, what we want to cover. I think this was from my standpoint, we talked about so many languages and how it's influenced everything. It doesn't have to be all Alexa. So this has been really great from my perspective.
+
+Nathan Retta:                                          Oh yeah.
+
+Dan Ivovich:                                           I think timing wise, Owen, do you want to move to the outro Stuff?
+
+Owen Bickford:                                         [00:37:00] Okay. Yeah. Thank you for joining us, Nathan. Any final plugs or ask for the audience? Tell us where we can find you on social media, if we want to hit you up.
+
+Nathan Retta:                                          Well, I'm not too active on social media, but I have a Twitter handle, Nathan Reda. I would say, that would be the best way to get to get at me or on LinkedIn as well. Nathan Reda.
+
+Owen Bickford:                                         All right. Well thank you Nathan, thanks Dan, for co-hosting with [00:37:30] me. That's it for today's episode of Elixer Wizards. Thanks again to our guest, Nathan Reda, for joining us. I'm Owen Bickford and my co-host today, was Dan Ivovich. Elixer Wizards is produced by Hanger Studios and is brought to you by Smart Logic. [00:38:00] Here at Smart Logic, we build custom web and mobile software. We work in Elixir Rails, React, Flutter, and more. Need a piece of custom software built, hit us up. Don't forget to like subscribe and leave a review. Your reviews, help us reach new listeners. You can find us on Twitter at Smart Logic or join the Elixir Wizards Discord. The link is on the podcast page and we will see you next week for more on Elixer and a polyglot environment.
+
+Dan Ivovich:                                           [00:38:30] Good job, Owen.
