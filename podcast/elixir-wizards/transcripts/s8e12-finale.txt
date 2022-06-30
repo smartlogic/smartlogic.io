@@ -1,0 +1,501 @@
+Sundi Myint (00:06):
+Welcome to this season's final episode of Elixir Wizards, a podcast brought to you by Smartlogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint and I'll be your host today. I'm joined by my co-hosts Owen Bickford and Dan Ivovich. Hey Owen. Hey Dan.
+
+Dan Ivovich (00:20):
+Hello.
+
+Owen Bickford (00:20):
+Hey Sundi.
+
+Sundi Myint (00:22):
+So this season's theme was all about Elixir in a polyglot environment where we talked about how Elixir works with other languages. We've basically spent the last few months speaking to some really awesome folks from the community and beyond just, not only about Elixir, but the languages that play well together for different engineers and just different teams and how that all works together. So today we just wanted to do an all host finale where we get to chat about our highlights from the season. And I was hoping, Dan, can we open up on the back story for where the season's theme came from?
+
+Dan Ivovich (00:53):
+Sure. We spend a good amount of time brainstorming ideas for seasons and how we can reach new people and create content that's unique and interesting to the audience. And from my standpoint, having been at Smartlogic through transition, I joined right after transition to Rails and was helping lead parts of the team when we moved to Elixir. And now, as the director of engineering for a team that does some JavaScript, some Elixir, some Ruby and a mixture of DevOps and various things is really curious who else in the community sees themselves, either influenced by or adapting to a mixture of languages in the work that they're doing.
+
+Dan Ivovich (01:34):
+And I know from the personal story for myself and some of the other Smartlogic employees, when we moved to Elixir was, "Hey, now my Ruby looks really functional. I like it." And I was curious if anyone else had stories like that, at least in the episodes that I was on. I didn't see a whole lot of that. I think what this also morphed into then was, how differing experiences, differing team structures, differing collaboration mechanisms, polyglot in the terms of API or actual language or message passing formats, how those all influence what we build, how we build it and how we maybe try to contribute in the best possible way.
+
+Owen Bickford (02:14):
+It was interesting how we talked about programming languages, but we also talked about spoken languages, written languages. So it was polyglot in a bunch of different contexts.
+
+Sundi Myint (02:27):
+Which has definitely come up in other seasons too.
+
+Dan Ivovich (02:29):
+Really evolved.
+
+Sundi Myint (02:29):
+Yeah. And it reminds me, through this past season, we've also seen different engineers from different perspectives. Dan, you've given a meetup talk and Owen and I have gone to a conference. So we've over the course of this season, have had some really interesting conversations. I'm curious what conversations in this season for either of you were different than you've expected them to be, in any particular way?
+
+Dan Ivovich (02:58):
+I think from my standpoint, just because I see myself in a large portion of the Smartlogic team, having to jump between Rails and Elixir and JavaScript and doing Ops and maintenance, and maybe it is just because of the work we do, we're not on a product team. We are supporting multiple products. I expected to see a little bit more of that. And we talk to a lot of product teams where everyone does Elixir and we only hire for Elixir, or if you don't know Elixir, we teach you Elixir. And that's awesome, because if that's what you want, it's great that, that is a thing. I truly find variety to be the spice, of life or at least in my programming and appreciate the variety and how those things influence.
+
+Dan Ivovich (03:31):
+And I think what was surprising to me then was number one, that some places had really siloed so drastically in what they'll work in, but then how a mixed environment affected them, in other ways, through those things we touched on, communication, tooling, actual spoken language, those kinds of pieces. And seeing how an environment influences the strength of the code we're writing, regardless of what about that environment is varied. The variety does seem to help in some way.
+
+Sundi Myint (04:01):
+Yeah, for sure. Owen, what about you?
+
+Owen Bickford (04:04):
+Yeah. I think the choice of how you design your architecture, it can determine the structure of your teams, but the structure of your teams can also impact the architecture. So they play off each other. So some organizations are working with a small Elixir team within a larger polyglot environment. Some organizations are primarily Elixir, with a couple of projects in Python or something else. So it's just interesting to hear there's not one or two ways to solve problems, there's maybe infinite or dozens of ways at least to solve problems that are all tailored to different organizations.
+
+Sundi Myint (04:43):
+Yeah. And I really appreciated hearing that from multiple different people across the season, just about the right tool for the right problem, is how they want to handle a thing. Maybe some people are, but no one's really married to a language or a prescriptive method of doing a thing. Everyone needs to be as flexible as possible. And I really appreciated that. I've definitely seen the various companies I've been at in the past, where people really loved a thing or there was some really cool technology that everyone just really wanted to hop onto. They moved onto that train so fast and then it turned out not to be the right move for that technology. There's just something really satisfying when you use a technology that's right for your problem set and you can see how much smoother it goes for that particular solution.
+
+Dan Ivovich (05:30):
+Yeah. And I think, yes, the right technology, the right tooling. Sometimes the right technology is not about the problem, but it's about the team or the way we're organized. So I think the right tool has a lot more input than just, are we doing a lot of like statistical analysis? That can very much drive a technology source. When we talk to a lot of companies that are, "We're building APIs, we're building webpages, we're building web apps, we're building data processing." It's like, well, a lot of languages can do that. So, what do you pick? And then you start optimizing for other things, happiness, productivity, scalability, maintenance. I don't remember which episode it was, but there was a conversation around, with the way we're architecting things now and the way multiple tools can work together in ways they've never been able to work together before, you can carve out just a piece that needs to be a specific thing.
+
+Dan Ivovich (06:26):
+We can go back to early episodes, talking about Discord and their famous usage of Rust and how that has evolved over time. And I don't know, I guess if you went back and you told fresh out of college, Dan, "Hey, you're going to see this mix of stuff." I wouldn't have believed it, because it just seemed like communities were isolated, companies picked what they did and they really wasn't a whole lot of room to spread out from that kind of core. And I was happy to see how much throughout this season, there's a place for a lot of things, which means that you can find a place where you can work in what you're happy to work in.
+
+Sundi Myint (07:03):
+Yeah. And I think the happiness piece was fun. We asked this question at most people this season, which was, what is your dream language combo? I think I asked that to Cassidy Williams during the episode where we were talking to Cassidy from remote. And then, we were also talking to Toby, the guy with the rabbits. That's how I think about this. And Cassidy just basically mentioned that her dream tech combo is just working with stuff she likes, stuff she wants to work with. And I think in that regard, she's talking about her personal projects, which is nice, but that's what that question was around, was like, if you have a dream combination language thing, what would that be? And that's nice because some people, I definitely did this when I was learning a lot, was that I felt like I had to figure out what everyone else was doing versus what I wanted to do. I don't know. Owen, do you vibe with that?
+
+Owen Bickford (07:56):
+Do I want everyone else to do things the same way as me? Is that what you're saying? Of course always.
+
+Sundi Myint (08:03):
+I don't think that was the question, Owen.
+
+Owen Bickford (08:06):
+Well, what was the question again?
+
+Dan Ivovich (08:09):
+Do things the way you want to do, also hear what you want to hear.
+
+Owen Bickford (08:12):
+Yes. Sundi, I agree completely. Everyone should do things the Owen way.
+
+Sundi Myint (08:18):
+Do what makes you happy, on your personal projects.
+
+Owen Bickford (08:23):
+Right. Yeah. So I'm definitely doing that with my personal project, living in LiveView land. So we heard similar vibes from people about dream language combinations. I think there was a pattern of Elixir and JavaScript if you're doing Phoenix stuff, especially with LiveView. But also, I think there was multiple people who mentioned Rust and Elixir, maybe even Python and Elixir. So they're outsourcing particular tasks that either don't currently work well within Elixir, or they just had the expertise in that language. And so, that's what they reached out to.
+
+Sundi Myint (09:05):
+Any favorite episodes from this past season?
+
+Owen Bickford (09:10):
+Favorites?
+
+Sundi Myint (09:11):
+Not to name favorites, but to 100% name favorites.
+
+Owen Bickford (09:14):
+I will say, the most fun episode was recording in-person with you and Digit, at Impacts. That was a fun episode.
+
+Sundi Myint (09:20):
+That was an absolutely new experience for me, at least. Owen, was that different for you, new for you?
+
+Owen Bickford (09:27):
+I may have recorded in-person podcasts before, in a past life.
+
+Sundi Myint (09:30):
+Yeah, I've never either. Dan, have you done any in-person recordings of any kind?
+
+Dan Ivovich (09:34):
+No.
+
+Sundi Myint (09:34):
+You've probably done in-person interviews, but not this kind of interview.
+
+Owen Bickford (09:38):
+Right.
+
+Dan Ivovich (09:39):
+Maybe in the early days of the podcast, I might have done one in our offices, but it's been so long. I couldn't place recording one in-person out of history.
+
+Owen Bickford (09:50):
+So Elixir Wizards, before I arrived, was entirely remotely recorded.
+
+Dan Ivovich (09:58):
+Yeah. If I was in-person, it was with
+
+Dan Ivovich (10:00):
+... the other hosts. It wasn't with a guest. I don't think.
+
+Sundi Myint (10:03):
+There has been an evolution, not only of this season, but of the podcast. I mean, we are in season eight after all. But yeah, I agree, Owen, the vibe is definitely different when you're in a room and getting to talk to somebody and you get to see how excited someone is about something.
+
+Sundi Myint (10:17):
+You could definitely tell, while we're sitting there talking to Digit, five seconds after Digit's gotten off a plane, just how excited he is about his work at SmartRent and just everything he's tackling. Digit's also working on Flutter. I don't know, Dan, if you were able to catch up on that one, that episode. But couldn't tell us too much about the Flutter projects, but that's okay. We got to nerd out about it, which was absolutely amazing.
+
+Sundi Myint (10:42):
+I just really appreciated also that energy of just debugging something, anything, which is something you get from working through a polyglot environment. Just coming at any problem, the way you would go... Doesn't matter what language you're working with. In Digit's case, Digit was debugging his home software. Was that what it was, Owen? Just the smart home stuff.
+
+Owen Bickford (11:06):
+Yeah. He moved in a new place. It had some smart home equipment in it and he started tinkering with it. Turns out, that was [inaudible 00:11:14].
+
+Sundi Myint (11:13):
+He figured out it was Elixir. Yeah.
+
+Owen Bickford (11:17):
+Right. It was a Phoenix app.
+
+Sundi Myint (11:18):
+Right. And I think, I mean, the three of us also just in this room, this virtual room here, also have experience tinkering with home stuff before. And there is an element of debugging to it. And I appreciate that these skills move across, they transcend time and space and programming languages.
+
+Dan Ivovich (11:37):
+Well, and I think that's the thing of engineering or problem solving. Is like, what experiences do I have? How can I get as many experiences as possible? How can I be exposed to things that I can then apply in new ways?
+
+Dan Ivovich (11:49):
+And from my standpoint, I said, "Well, I prefer variety. It's a spice of life." But it's also, you learn a lot from variety. You learn a lot from seeing something that's not what you would normally expect. And I appreciate the conversations this season that were about, "Hey, I have this other thing I do and it's related, but not."
+
+Dan Ivovich (12:07):
+And it taught me some things that I applied in to something else. At Smartlogic, we have a side project club and we encourage, "What else are you working on?" Which is often home maintenance stuff. And maybe I don't learn a lot about typing code from fixing my kitchen sink, but I certainly learn a lot about problem solving and when to walk away and pay someone else to do it.
+
+Owen Bickford (12:28):
+Wait, did you also pay someone to fix your sink this week?
+
+Dan Ivovich (12:32):
+Oh, on air admission. I gave up and I paid someone to do it. Yes. Yes. [inaudible 00:12:37] It beat me.
+
+Owen Bickford (12:38):
+Same here. It was, yeah, plumbing, it's not my skillset.
+
+Sundi Myint (12:43):
+Plumbing may or may not be happening right now, if you heard background noise earlier. I'm so sorry. We were with another member on the team, Joel. I was basically debugging what was wrong with my tree, which it felt like we were pair programming on any of our project problems. But we were just going through symptoms of the tree, what could possibly be going wrong with it. And then Joel gave me resources to read, to read up.
+
+Dan Ivovich (13:12):
+We're talking about a plant tree.
+
+Sundi Myint (13:14):
+A plant tree. A tree in my front yard.
+
+Dan Ivovich (13:16):
+Did it have bugs?
+
+Owen Bickford (13:17):
+Yeah. I was going to say, was it literally bugs?
+
+Sundi Myint (13:18):
+No. It is a serviceberry tree that gives berries that are little blueberries that taste little like blueberry apple. They're delicious. But half of them were great and perfect and perfectly ripe and ready to eat, and I got them. The other 80% were spiky and scary looking and they look like they came from the upside down. And I was like, "What is going on here?" It is apparently called rust. Not the crab rust, not the language rust.
+
+Sundi Myint (13:44):
+I don't know. Not a disease, but yeah, yeah, maybe a disease. A spore flies through the air and infects the berry and makes it look spiky. And so, Joel and I were debugging, why is my whole tree like that? Why is only bottom of the tree like that? Why are some branches like that? What can you prune?
+
+Sundi Myint (14:04):
+And the funny thing is, this is exactly what Joel and I do when we're going through tests and trying to rerun our tests and see if we've fixed something. Except for in this case, I'm going to try to do something to fix the tree. And I won't find out till next year if it worked.
+
+Dan Ivovich (14:19):
+Nothing beats the instant feedback of coding.
+
+Sundi Myint (14:22):
+Right. I think I would take the test, a mixed run test anytime over this tree.
+
+Owen Bickford (14:28):
+You know what birds do when they get excited in a tree?
+
+Sundi Myint (14:33):
+What?
+
+Owen Bickford (14:34):
+They Flutter?
+
+Sundi Myint (14:36):
+Oh, God.
+
+Dan Ivovich (14:37):
+Oh, okay. All right. What's next on the [inaudible 00:14:40]?
+
+Owen Bickford (14:40):
+I was trying to segue.
+
+Sundi Myint (14:43):
+No. No.
+
+Owen Bickford (14:43):
+Flutter did come up multiple times.
+
+Sundi Myint (14:45):
+It did.
+
+Owen Bickford (14:45):
+And even the recent episode with Nathan Reta, he had a lot of expertise about Kotlin, but also was pointing to Flutter as a good solution for building mobile native applications across different operating systems. And so, yeah, I had to work in a Flutter joke there, but yeah. It's been interesting because that's one that I have not tackled myself is building something with Flutter, but it's come up a few times. Sundi, what's your experience been with Flutter?
+
+Sundi Myint (15:17):
+There was something really interesting about when I started learning Flutter, is that I've been at this intersection of the Elixir community is heavily resourced in books. We have books on books. Half of my friends are authors. That's not a flex. That's just a lot of people are authors at this point.
+
+Sundi Myint (15:35):
+And we have so many books, but unfortunately for me, books are not the best way for me to learn. I like using them as reference points. The only Elixir book I've read cover to cover at this point is Testing Elixir, shout out Jeffrey. But yeah, books are not the greatest place for me to learn. I also get very boarded with video, even if I speed them up. My intersection of learning has not been in a great spot for Elixir stuff.
+
+Sundi Myint (15:59):
+When I was learning Flutter, the Flutter book, the Flutter apprentice book, that book really hit the intersection of everything that helps me learn. A lot of things that I can do, code I can run, explanations as to why I'm running it. To dos in comments, in place of where I didn't need to worry about that yet, because that wasn't the section of the book. And building blocks upon that. And also, instant gratification of code running right away where exactly what they said would run, happened on my local machine. Perfect. Amazing. That was the experience of learning Fluter for me. I don't actually even know if it's the language that I really liked. Or the framework, sorry. Dart's the language I suppose. That's how you'd phrase that, Dan. Flutter is the framework, darts the language.
+
+Dan Ivovich (16:43):
+Yeah. Sure. I think that, yeah, Flutter's also a rendering engine and a tooling system. Yeah. But yes. It is not a language. Dart is the language. Yeah.
+
+Sundi Myint (16:51):
+It's also what birds do in trees.
+
+Owen Bickford (16:53):
+Right. That's what birds do in trees.
+
+Dan Ivovich (16:54):
+It is what birds do in trees.
+
+Owen Bickford (16:55):
+If you take away anything today, that's what we know about Flutter.
+
+Sundi Myint (16:58):
+Exactly. I don't even know if it was that, but for me, it showed me the best way I personally can learn. And that's what resonated with me and that's why I was so interested in it. Moreso than anything else, which is pretty powerful for me. And I finally found something that was helpful for me to learn in that way. I don't know if any Elixir or resourcing is like that now. It's been six months. We probably have four more books, but that's where my experience was coming from with that.
+
+Owen Bickford (17:29):
+And you're finding it fun, or enjoyable, or even just efficient to work with Flutter, connecting that to Elixir applications?
+
+Sundi Myint (17:38):
+Once I got into the nitty gritty, I immediately figured out what I didn't like about Flutter. And the inefficiencies of it was that a lot of the example code, have you nesting widgets, in widgets, in widgets. To the point where if you've got, in VS code, there's an 80 character mark. I was well past that and I hate that.
+
+Sundi Myint (17:57):
+And that was how I knew I needed to started pulling my code into smaller widgets. And I did know how to do that at the beginning. It wasn't immediately obvious, but I knew... I guess this is where our polyglot stuff comes in into play. From Elixir, I think very functionally, I like little pieces of code that read like English. For my entire time on the podcast, that's been my running shtick. I like functional code that looks like English in the function headers.
+
+Sundi Myint (18:24):
+And so, the fact that I couldn't do that upfront with Flutter was very frustrating, but I recognized it in myself that I wanted to widgetize things. I'm using quotes because that's not a word. And I think that was for me, what helped me see it. And that was my Elixir influence. Dan, you also had an interesting research phase with Flutter. What were your thoughts looking into it?
+
+Dan Ivovich (18:45):
+Well, I came at Flutter from a place of anger with React Native, but I came to React Native with the joy of that instant feedback. Of the, I changed some code and it refreshes in the simulator. I don't need to have X code recompile everything. A lot of work, since I started doing that kind of mobile development, has gone into making those recompile loops faster on Android and on Apple.
+
+Dan Ivovich (19:09):
+Because that is, it's a killer of productivity and excitement and all of those things, but it was React Native that sold me on that as a possible approach to that instant feedback loop, which I think if you're coming from languages with ripples and live reload and crazy fast either compile or interpreter times, at least to get that initial page load going, you miss that a lot when you move into things that don't have it.
+
+Dan Ivovich (19:34):
+And then so, Flutter was like, "Hey, I have that too. And also when you update me, I may not break in the way your React Native apps broke." And to be fair, to React Native, I heard that's gotten better, but we switched largely. Our main effort is now on Flutter.
+
+Owen Bickford (19:48):
+I'm curious, there's some teams that will say, "All right, here's the problem we need to solve. You can use whatever tools in the universe to solve it." Some teams define a stack and say, "
+
+Owen Bickford (20:00):
+Here's what we use on this team. What have been some of the trade offs that you've heard over the season, as we've talked about teams working in different languages, between standardized stack, or I guess, maybe free for all stack?
+
+Dan Ivovich (20:15):
+I would say for, at least from what I've heard, it's hard to compare, right? Because I think that some places are either one or the other and the ones that are one, they don't see the trade offs, right? They're just like, "This is what we do, and it works." And then the ones that do it the other way, they're like, "This is what we do and it works." And they both think they're right. I think they probably are both right.
+
+Dan Ivovich (20:33):
+If you're hiring processes are good and you're bringing in people for the team that you've got, using the tools they use, or multiple tools or jumping between tools, great. We don't really hire for, "You can do multiple languages." We test for one, but we make it pretty clear, we do a lot of things here, and that should be interesting to you. I think maybe a lesson from this is teams and developers are self-selecting into the polyglot, or non polyglot, environments they want to be in. I think from my standpoint, the diversity of opinion, knowledge, experience, problem solving from polyglot is valuable, right? Just like the diversity from educational background or prior work experience or anything else that people can be diverse in brings valuable insight to the team, to look at problems in ways that, people who are all the same, whether that's through education or through the languages they use, or the work experience they have, you can only look at problems based on what you've experienced.
+
+Dan Ivovich (21:34):
+So the polyglot, the vast experience, the diversity of team, I see that having power. You have to solve other problems in other ways, because you don't have a uniform stack and you don't do the same thing the same way on every project or every code base. You have to find other ways to normalize. We are working on ways to have things deployed the same way, regardless of the language they're using, or have similarly structured READMEs, regardless of what language they're using, or have at least backlogs and project management, that is exactly the same, regardless of what the implementation technology is. And so you pick, where are you polyglot? We're not polyglot in process, but we are in language.
+
+Sundi Myint (22:18):
+And the diversity background thing too reminded me of, Dan, we had a really interesting conversation with Jessica Kerr, jessitron, from the internet about, was it the gaming languages as an art or games agency as art, was the book? And just the gamification of software engineering.
+
+Dan Ivovich (22:39):
+Mm-hmm. The gamification of teams, right?
+
+Sundi Myint (22:40):
+Yeah.
+
+Dan Ivovich (22:40):
+What are the behaviors or reward and how do your rewards drive behavior? Because it may not drive the behavior you want, depending on how it can be manipulated or how someone may choose to optimize based on the reward structure. That was an interesting conversation and that is something I very much need to revisit.
+
+Sundi Myint (22:58):
+Yeah. I mean, that was polyglot to the third extreme. It was like, this is a particular way that we think about language and a process, gamification of anything, and applying it to something that you would never think of applying it to. Which is, I think what a lot of programming innovation comes from is this one language is doing this thing. I think I had solved it in another language, I'd like to apply that method to this one. It felt like that almost. This could be a stretch. Please call me out of it's a stretch, but oh my gosh, that was where my brain went when we were talking to Jess about it, and I was just like, "I need to read this book." I still haven't, but I need to read that book.
+
+Owen Bickford (23:42):
+Yeah. I think it's also been interesting, looking at the list of guests for the season, there's a whole range of experience, so some people with decades, literally decades of experience, some with less than a year, or just over a year. So we see some patterns even, with that diversity, but people coming from different backgrounds, people who have taken a pause or moved into more of a management role, and bringing different perspectives with that different background. That's been really interesting to hear.
+
+Sundi Myint (24:15):
+Yeah. Absolutely. I think it was crazy when we were talking to Catalina and then she used to work in the mines.
+
+Owen Bickford (24:23):
+Yes.
+
+Sundi Myint (24:24):
+What kind of engineer was that?
+
+Owen Bickford (24:26):
+A mine engineer? I don't know.
+
+Sundi Myint (24:27):
+No, it was, not a chemical engineer, but a process engineer. That was what it was.
+
+Owen Bickford (24:33):
+Right.
+
+Sundi Myint (24:33):
+And she literally worked in mines, and then I remember reading that conversation back in the transcript, and I was like, "Mine? Is that a typo? No, no, no, no. She did work in the mine. Yes. Yes, in fact, she did." Then Cassie Williams, who's this amazing... I think of her as a developer TikTok star, because she makes these great, hilarious videos in the realm of dev, but to talk to her about just generally how working in a remote environment, at Remote, the company, and just that experience of wanting to get to learn Elixir and that bootcamp that Remote has for learning Elixir, it's just really wild, the different people we've gotten to talk to this season. I'm not going to lie though, Dan, when you first pitched polyglot, in my head, I was like, "Yes, we can talk about Flutter."
+
+Owen Bickford (25:20):
+Yep. I knew that was bringing you joy throughout the entire season.
+
+Sundi Myint (25:25):
+But I have since moved back into Elixir land, and so everything comes full circle.
+
+Owen Bickford (25:32):
+Yeah, they're not mutually exclusive. We can do both.
+
+Sundi Myint (25:34):
+Yeah. It's just funny that we're now trying to recap it, and I'm like, "I don't remember anything from Flutter world." For me, I have to make a mental shift. I think that everyone approaches things differently, the way they shift around with contact switching, but for me, language shift is pretty much like, not moving to a new city, but when you travel, you put most of your things in a suitcase and you live out of it. That's what I feel like I do with programming languages in my head, if I've moved from one to another. I have access to the other things. I could go to CVS and grab the toothbrush I forgot or something. It feels like that. But I am basically picking up my little suitcase of knowledge and moving with it to another place and living out of it for a little bit until I've established, but then as soon as I move into another language, I do that again. And that's how I feel when I'm switching between languages, maybe a weird analogy. Dan's got that face on.
+
+Dan Ivovich (26:32):
+Well, I think that reaffirms the point around structuring your teams to fit the needs, right? And so it's like, "Well, who do we have who can jump between? Who do we have that, a week on one, a week on the other, months on one, months on another?" All of these things feed into how you can be productive, how you can make sure people are getting the experiences that they need so they can grow in their careers so that they can accomplish the things they're looking to accomplish. I think, I would argue that every time you make the jump, every time you see something new, it influences down the line, right? And I don't know, what life is-
+
+Sundi Myint (27:09):
+The suitcase gets better or bigger. The suitcase gets bigger.
+
+Dan Ivovich (27:11):
+Life is the suitcase of prior experience.
+
+Owen Bickford (27:16):
+Were there interesting products or projects that we heard about throughout the season? So the other one that I found pretty interesting was related to work that I'm doing, so Nathan Wilson was talking about his project called GEMS. It's a literally global music sequencer, so you can collaborate with people across the globe, program a sequence of notes and tinker with it, just for entertainment. Was there something like that you found interesting, Sundi?
+
+Sundi Myint (27:45):
+Yeah. I don't know about it from a technology standpoint, but I was really interested in it from a problem set, hearing Cassidy and Toby talk about this problem of every test for them is not... When you're writing tests that you've got a happy path, a bad path, and maybe a few edge cases. For them, because they're doing benefits integration, payroll integration, with a hundred and something countries, and every country, every city, every state or whatever, they all have their own rules, there's no such thing as happy path, bad path and edge cases. Every test is an edge case, and that just sounded so exhausting, but also a very interesting challenge, and I very much wanted to nerd out with them about that, especially because I love testing. That was an interesting conversation for sure, for me. Maybe not necessarily the technology, but the process of that. That was an interesting one. Dan, what about you?
+
+Dan Ivovich (28:43):
+Yeah. Nothing particular. The themes of the conversations are sticking out to me in no particular conversation really. In one regard, this whole season was reaffirming, optimized for the things that really matter and language matters, but doesn't always matter, it's not the be all and end all. And then I think it was also maybe surprising how many companies are just like, "It's this and only this," and "This way or nothing else," and just interesting.
+
+Owen Bickford (29:12):
+Yeah. I think Miguel Cobá had released his Deploying Elixir book, right around the same time as the season started, so seems like he's had some pretty good interest in that.
+
+Sundi Myint (29:23):
+That's what I'm saying, everyone's written a book.
+
+Owen Bickford (29:25):
+Right.
+
+Sundi Myint (29:25):
+Even in our seasons. I'd say we have an author per season. I'm blanket saying that, but I think that's real. But I do think that book was helpful for a lot of people. I saw it had a lot of flutter of activity-
+
+Dan Ivovich (29:41):
+Oh boy.
+
+Sundi Myint (29:42):
+... on Twitter. Oh my God, it's a Friday afternoon and it's really hot today, so maybe it's gone to my head. Yeah, a lot of people were talking about it. I think we've seen a really good reception to that book and it's nice and digestible. A hundred Elixir
+
+Sundi Myint (30:00):
+... your tips. Great. I think the project that I was also interested in, I don't even, at this point, remember if we talked about this on the podcast or after impacts, just hallway tracking it, the Digit was telling me all about these different smart home implementations that he's doing through his house and I was just so interested. I think I really truly don't remember if we said this on air or not, but talking about leak sensors, just different things you can put into your house to help optimize things, but then also, the dangers of smart products. One danger of smart product that comes to mind for me is always that Google Nest will always just pump out AUX heat in the winter when you don't want it to, and it just costs so much money, energy bill wise. You can turn the settings off left and right, but it just somehow still does it.
+
+Sundi Myint (30:51):
+We talked about that a lot. It was a nice intersection of something that both of us were thinking about a lot of, which was smart home optimization while also having just purchased homes and making improvements. It's a really fun intersection. So that was a "project" that I thought was really cool to talk about. Hey, Digit, if you're listening, shout out. I hope your plaster walls are going well for you.
+
+Owen Bickford (31:12):
+Oh, and we can't miss an opportunity to talk about burritos and macaroons and biscuits.
+
+Sundi Myint (31:20):
+You always catch me.
+
+Owen Bickford (31:21):
+Also from Digit's conversation.
+
+Sundi Myint (31:26):
+I'm so hungry.
+
+Dan Ivovich (31:26):
+Famously, naming things is hard, but apparently, if you use food, it's a lot easier.
+
+Sundi Myint (31:29):
+Mm-hmm.
+
+Owen Bickford (31:30):
+Right.
+
+Sundi Myint (31:31):
+Like, "Hey, taco. Hey, cake." All of the good stuff. All food-related. Amazing, amazing.
+
+Owen Bickford (31:39):
+Kubernetes is not a food, is it?
+
+Dan Ivovich (31:42):
+No.
+
+Owen Bickford (31:43):
+Well,-
+
+Sundi Myint (31:44):
+I'm sure.
+
+Owen Bickford (31:45):
+... forget that segue. I remember Carol was talking about... Little fragment I remember from that conversation was distinguishing between restarts in Kubernetes and OTP restarts, which it depends on if you're doing a stateful or stateless application. That was an interesting digression in that episode as well.
+
+Sundi Myint (32:06):
+Oh, and another major takeaway from the Carol episode was that Owen doesn't know the difference between Jigglypuff and Kirby. That one really stuck with me.
+
+Owen Bickford (32:15):
+Yeah.
+
+Sundi Myint (32:16):
+One has a curl. I texted that to all-
+
+Owen Bickford (32:20):
+So different.
+
+Sundi Myint (32:20):
+... of my Pokemon friends and they were so mad.
+
+Owen Bickford (32:27):
+Tell them to tweet at Dan Ivovich on Twitter.
+
+Dan Ivovich (32:31):
+Owen, feel free. You're not going to get any response.
+
+Sundi Myint (32:35):
+Oh, my God. I think I lived through that one for three days, just sitting there with the one has a curl response. I can't. I cannot. I do appreciate that we haven't overheard at SmartLogic channel where we get to rehash our episode, just our fun moments. Very good time.
+
+Owen Bickford (32:53):
+Did you know, I was just working with Faker a little bit last night. Did you know there's a Pokemon Faker generator? So-
+
+Sundi Myint (33:00):
+Pokemon is a popular generator.
+
+Owen Bickford (33:02):
+...it generate random-
+
+Sundi Myint (33:03):
+It's popular because it's a static thing. There's a certain number of them. They have stats usually. When you're looking for a data set, Pokemon is a pretty easy one to reach too. So Faker is a data base generator? Is that what you're-
+
+Owen Bickford (33:18):
+It's just a data generator.
+
+Sundi Myint (33:19):
+Got you.
+
+Owen Bickford (33:20):
+There's an Elixir package for Faker that will just generate whatever type of random data you want.
+
+Sundi Myint (33:29):
+Yeah. I remember one of my first projects at bootcamp. I did a part-time bootcamp with General Assembly and we did some project and I had used Pokemon. It's probably a little more sophisticated now, which brings me to now that we've had all of these conversations, has it changed our minds at all about the language matchups that we do? If there was a battle royal of the languages in a bracket system in my brain that are leading us to the two or the three or whatever, this dream team combo, has it changed our minds at all? Owen? Dan?
+
+Dan Ivovich (34:07):
+Not for me, but I don't know. I might be far enough into my career that I am [inaudible 00:34:13] about it.
+
+Owen Bickford (34:15):
+[inaudible 00:34:15].
+
+Dan Ivovich (34:15):
+To be fair, within the last couple of years, we added Flutter and Dart. Obviously, I can add on. Can I let go? I've thought a lot about now that I love the looks of the way I do, do I stop using Ruby, and it's like, no, there are still things like if I got to write a quick script, I'm going to write it faster in Ruby even after years of Elixir. Tool for the job. Sometimes all that means is how quickly can my fingers get it onto the screen.
+
+Sundi Myint (34:42):
+Yeah.
+
+Owen Bickford (34:43):
+Yeah. As a web developer, I can do everything that I've imagined doing so far in Elixir in Phoenix. I can do things in this language, especially with Phoenix that would be more difficult or maybe impossible in some other languages. So yeah, I'm super happy with Elixir in Phoenix. I think that would naturally have to grow. I have to learn some more languages if I'm getting more into native code or building stuff for a different platforms, but for the web, I'm perfectly happy writing 90%, 95% Elixir with a little bit of JavaScript and CSS and of course, HTML.
+
+Sundi Myint (35:28):
+Yeah, I don't think my opinion has changed if it comes to dream team combos. Well, I don't know that I can say my opinion changed because I don't know that I went in with any opinions to the season, but I think that what I've learned is that yes, right tool for the right job for the right team is very important to consider when you're looking at your tool set. Then for me, I've always known that when I'm learning any particular language, personally do better learning when I don't hop around. I remember when I was learning JavaScript, I was hesitant taking jobs in other languages or even at that point, different frameworks because I knew that I was so heads down into one thing. It would be harder for me to come back up for error then jump into something else and learn it really deeply at the time.
+
+Sundi Myint (36:14):
+I feel less so like that. I'm more of the opinion that knowledge is knowledge. But currently, I think I'd like to get really heads down into some more Elixir things that I just haven't experienced yet to understand them better. I think being self-aware about that is helpful too.
+
+Owen Bickford (36:31):
+Yeah. And I think, when you're learning your first language or two, you're learning really more concepts than language specifics. You're learning about all the different data types and functions and that kind of thing. If you're an object-oriented land, then you're learning maybe some more complicated stuff. But yeah, I think once you've got those first two languages under your belt, it does make it a little bit easier to jump into another language or framework even just to get a cursory knowledge pretty quickly. You get more velocity the more experience you have.
+
+Sundi Myint (37:09):
+Yeah. Couldn't have said it better. I think this is normally the place where we would ask a guest for any plugs, but since we are all SmartLogicians here and I have never said that word out loud in the public... Don't know how we feel about it. Dan doesn't like it.
+
+Dan Ivovich (37:27):
+[inaudible 00:37:27].
+
+Sundi Myint (37:28):
+Since we're all from SmartLogic here, Dan, would you like to plug SmartLogic for us on our way out?
+
+Dan Ivovich (37:34):
+Yeah. Here at SmartLogic, we build custom web and mobile software. We work in Elixir, Rails, React, Flutter and more, so if you need a piece of custom software built, hit us up.
+
+Sundi Myint (37:43):
+Awesome. Thank you everyone for listening to this season of Elixir Wizards. That's it for today's episode. I'm Sundi Myint, your host, and my co-hosts are Owen Bickford and Dan Ivovich. Elixir Wizards is produced by Hangar Studios and is brought to you by SmartLogic. Don't forget to like, subscribe, and leave a review. Your reviews help us reach new listeners. You can find us on Twitter at SmartLogic or join the Elixir Wizards' Discord. The link is on the podcast page. Thank you again for joining us this season for Elixir in a polyglot environment.
+
+Owen Bickford (38:13):
+Bye.
+
