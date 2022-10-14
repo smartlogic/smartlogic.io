@@ -1,0 +1,810 @@
+﻿Sundi Myint:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint, and I'll be your host and I'm joined by my co-host Owen Bickford. This season's theme is parsing the particulars. Today we are joined by special guest David Lucia from Bitfo, and we'll be diving into the particulars of observability. Hey Dave.
+
+
+David Lucia:
+Hello guys. Nice to see you.
+
+
+Sundi Myint:
+Nice to see you.
+
+
+Owen Bickford:
+Hey, Hey.
+
+
+Sundi Myint:
+Owen, how are you doing?
+
+
+Owen Bickford:
+I am cooking and moving and...
+
+
+Sundi Myint:
+Well, you're not literally cooking right now.
+
+
+Owen Bickford:
+Well, cooking figuratively. Yes. And literally moving in the near future. So yes.
+
+
+Sundi Myint:
+Yes.
+
+
+David Lucia:
+If you were moving, literally cooking, what would you be cooking right now Owen?
+
+
+Owen Bickford:
+Well, I'm out of leftovers actually Sundi and I have been talking about noodles. We're trying to be good, healthy people. And we're comparing notes on noodle options. So I'm in the chickpea noodle camp and Sundi you were sharing some other kind of noodles, what were those?
+
+
+Sundi Myint:
+Yeah. So miracle noodles are what the Western style has branded it, but the original name of it is a shirataki noodle. And it's like a noodle that's super low carb, but is made from a sweet yam, but it's like 97% water and like 3% of that flour. Yes, Dave, Dave's so excited about this.
+
+
+David Lucia:
+My wife is literally making shirataki noodles with green curry tonight. So I'm so excited. I was trying to Google to find the name because I was like, I don't remember the name, but this is relevant.
+
+
+Sundi Myint:
+Well, Owen, with that mind reading situation here again, this is...
+
+
+Owen Bickford:
+Go buy some lottery tickets real fast.
+
+
+Sundi Myint:
+This is really fun. So Dave, can you tell us what is new with you and your share talking? No. What is new with you, you're at Bitfo now, can you give us a little bit about that and then what's new with your life?
+
+
+David Lucia:
+Sure, absolutely. I don't know where to start, but I work at a company called Bitfo. We are a cryptocurrency media company and I joined as CTO there like four or five months ago, back in April. So busy writing a lot of Elixir and a bit of JavaScript too.
+
+
+Sundi Myint:
+Oh no, we don't say that word here Dave.
+
+
+David Lucia:
+I was going to say unfortunately, but maybe unfortunately. Yeah. So we've got a team over there of a few engineers, designers and editors, and we're building educational content for people who are interested in cryptocurrency.
+
+
+Sundi Myint:
+Educational content, you say, maybe something like what we're doing today?
+
+
+David Lucia:
+Could be.
+
+
+Sundi Myint:
+Not crypto related, but we are teaching folks. So since this is our season premiere, just like as a primer, we thought it'd be really cool to just dive in with experts on certain subjects, but not only experts, but also people who are interested in learning a thing. Maybe we can bring on an expert. If you are interested in coming onto Elixir Wizards, please let us know. Just reach out to us on Twitter, I believe, but we also have a discord, but we just want to learn. I think we were just super excited. Elixir conf, we just all got back from Elixir conf from using air quotes because Dave was not there.
+
+
+Owen Bickford:
+Poor Dave.
+
+
+David Lucia:
+Taunting me.
+
+
+Sundi Myint:
+Taunting you. I didn't send you too many pictures. I did really play that up. I would be sending you pictures the whole time. But...
+
+
+David Lucia:
+What you did do is you did send me pictures of all of the food that I wasn't having. It looked amazing.
+
+
+Sundi Myint:
+That is true. Really, this is true to my core of my personality. I'm a troll and I like to cook. It really gets combined in one very particular area.
+
+
+David Lucia:
+Owen, does Sundi, does she taunt you during the work day? How does this work?
+
+
+Owen Bickford:
+Our long running dispute is our puns dad jokes. I contend that puns are a different class of humor from dad jokes. And if you were at Elixir conf, sorry Dave, there was an entire comedy hour of dad jokes and Sundi, those were, I think we hopefully you'll agree that those were a different level from those...
+
+
+Sundi Myint:
+Those were dad jokes. Those were dad jokes.
+
+
+Owen Bickford:
+Those were coming from dads.
+
+
+Sundi Myint:
+I know what a dad joke is. Those were coming from dad's, dad jokes. For those who were not at Elixir conf, we had some technical difficulties at the beginning of Chris McCord's talk and they were roughly 30 minutes and everyone was gracious. Chris was gracious. The tech team was gracious. Thank you to that tech team. But the audience was also gracious in giving up their best and worst dad jokes for 30 minutes,
+
+
+Owen Bickford:
+Mostly worst, not a lot of keepers in that group of dad jokes. Just entertaining...
+
+
+David Lucia:
+I should mention with all the dad jokes that I am a dad. Since the last time we spoke, I had a baby son also named Owen excellent name, actually.
+
+
+Owen Bickford:
+Congratulations.
+
+
+David Lucia:
+Named after...
+
+
+Sundi Myint:
+Named after...
+
+
+David Lucia:
+Owen from Elixir Wizards of Oz.
+
+
+Owen Bickford:
+Because you met me weeks after.
+
+
+David Lucia:
+Yes. Yes. We waited for weeks and then finally it all made sense. And here we are.
+
+
+Owen Bickford:
+Well, congratulations.
+
+
+David Lucia:
+That's my big update.
+
+
+Sundi Myint:
+Yes. That is a humongous update. Congratulations.
+
+
+David Lucia:
+Thank you very much.
+
+
+Sundi Myint:
+And you also have two floof balls. That's what I call them. I know they are...
+
+
+David Lucia:
+They are Pomeranians. This is Pearl over here.
+
+
+Sundi Myint:
+But they're also technical term floof balls.
+
+
+David Lucia:
+Technically. Yeah. Scientifically. Yes.
+
+
+Sundi Myint:
+Okay, cool. So we're caught up there. And so if we want to dive into just kind of like this technical, oh my gosh. Oh my gosh. One of the floof balls is on screen.
+
+
+David Lucia:
+This is Pearl.
+
+
+Owen Bickford:
+Hey Pearl.
+
+
+David Lucia:
+She's six years old. She's going to live forever.
+
+
+Sundi Myint:
+Pearl, can you...
+
+
+Owen Bickford:
+She have any thoughts on observability?
+
+
+Sundi Myint:
+Yeah, I really want to ask her some observability questions. Did you observe any peanut butter today?
+
+
+David Lucia:
+She loves observing the mailman and the Amazon driver and anyone who walks by and I get an alert anytime they come by. So it's great observability.
+
+
+Sundi Myint:
+Amazing.
+
+
+Owen Bickford:
+So before we dive into the details, this is our first episode of season nine. So we're taking different topics for each episode and we're digging into details and talking to experts and wizards and different domains usually related to Elixir. So today we're talking about observability.
+
+
+Sundi Myint:
+And Dave, why are we talking about observability? This is a fun story.
+
+
+David Lucia:
+Why are we talking about observability? I wrote a blog post and I think a couple people read it, I'm not sure.
+
+
+Sundi Myint:
+It was going around the Twitter verse. A few retweets.
+
+
+David Lucia:
+So few retweets, but yeah, no, I wrote about observability specifically in Elixir and Erlang using honeycomb and LightStep. And I wrote it primarily because I saw a gap when I started at my new company Bitfo and wanted to get started and I'm like, wow, this is still kind of really hard. And I wish that someone else wrote up a guide and I'm like, maybe I should do that. So I spent an afternoon with something together and then I got some feedback from the community and published it. And I think it really struck a nerve for a lot of people who wanted to use some of the tools that are available, but we're still a little bit early on documentation and tutorials and guides and just could be a lot easier than it is right now. So I wrote about it.
+
+
+Owen Bickford:
+We'll make sure we have a link to the article and our show notes as well.
+
+
+Sundi Myint:
+Yes, absolutely. And when Dave was typing it up, he asked me to proofread it. And it was in that moment where I realized I knew nothing about observability or how to use it, or even what the word really meant. But I was like, I can review this from a beginner's point of view. And Dave's the part that you don't know is that you are more or less the inspiration for this season because I was like, that was fun. I should do that more often.
+
+
+David Lucia:
+So nice.
+
+
+Sundi Myint:
+This is a really great opportunity for me to learn more selfishly, Owen to learn more and teach more, because we'll be teaching some this season as well. Stay tuned for that. So to get right into it, what is the most common mistake you see teams or engineers make when it comes to observability?
+
+
+David Lucia:
+Very good question. So I think that people maybe are still new to the idea of what observability is and maybe that's the beginning of "the problem". So one, what is observability? Observability is a way, or it's more of a philosophy. It's like I have software, probably it runs on a server somewhere in the Cloud and if something's going wrong or if everything starts taking a really long time to serve requests. You want to figure out what is going wrong with this thing so I could fix it and get back to whatever you're doing. So the practice of observability is to add information outputs of your system so that you could see into it while it's running. So coming back to your question around what are mistakes that people make. I think it's not really having all of the right types of information coming out of your system. Telemetry, if you will.
+
+
+Sundi Myint:
+And can you define telemetry for those who don't know what that is?
+
+
+David Lucia:
+Yeah. So telemetry, I think comes from aviation could be wrong about that. Don't quote me on it, but...
+
+
+Sundi Myint:
+We won't post this anywhere.
+
+
+David Lucia:
+Someone can fact check me. Okay. I think it's from aviation might not be from aviation, but it's the idea of, okay, if you're flying a plane, you want to know what the altitude is. You want to know how much fuel you have left. You want to know what's the pitch and yaw of the plane and all those types of things. So you're getting this data out of your system. That's describing what the system is doing and how it's performing internally. So that extrapolates exactly to software where you have probably in your case, if you're listening to this, an Elixir program, that's running somewhere and you want to know things like how much memory is it being used? What's the available memory? What's the current utilization of the CPU. How many CPUs do I have? All of these things are telemetry data, but there's different types of telemetry right now. We're talking actually specifically about one type of telemetry called metrics.
+
+
+Sundi Myint:
+You look so excited about this. You did a little dance when you said metrics.
+
+
+David Lucia:
+I'm excited, because I'm like, well there's many, there's the three pillars, but there's actually not. That's something, that's an idea that tried to be pushed away, but okay. Let's just get into the other types of telemetry. So man, there's so many layers here to unpeel.
+
+
+Sundi Myint:
+All right. We are here to unpeel them.
+
+
+David Lucia:
+I'm not sure where to start.
+
+
+Sundi Myint:
+We've got it.
+
+
+David Lucia:
+Let's unpeel. Okay. So telemetry is a general concept. Use the example of aviation, but telemetry is just data that comes out of your system that describes the system itself. Metadata, if you will, in Erlang and elixir, we actually have a very confusing thing. A library that is called telemetry that is used in many popular libraries and frameworks to produce data that comes out of those libraries and frameworks. An example of this is if you're using Ecto, there's going to be telemetry events coming out, and this will describe your query time. So it will measure the time the query starts and the query ends. And it will produce an event that says, this is how long this query just took. And then something else will do something to collect, aggregate and report that data. So this is really useful for having a language agnostic way, a general API that you could use to produce data, but that data by default doesn't do anything. It doesn't go anywhere. You have to actually aggregate, collect that data and report it to something. So out of the box with the Phoenix framework, you're going to get telemetry. It's going to hook into a bunch of different events. And if you go to Phoenix LiveDashboard, you'll see different queries charted for Ecto, for your Phoenix routes, all those different things. And those are actually metrics. So these metrics are derived from these telemetry events. Every time a route is hit or a query is made, the telemetry event is fired. Something else, a telemetry handler is going to collect that. And then it might use something like the Prometheus exporter to roll those up into metrics that can be charted in Grafana or in the case of Phoenix LiveDashboard, it's just collected in memory and then used to produce that chart. So that's telemetry.
+
+
+Sundi Myint:
+Yeah, that was a follow up question. You mentioned Grafana and I know a lot of people, generally the industry uses Datadog a lot. How do you choose which tool is right? Is there one that's particularly good for Elixir or one that's particularly good for better observability? If that's the way to phrase that?
+
+
+David Lucia:
+Yeah, it's a good question. And it kind of comes back to a more fundamental question, which is like, what are the different types of data that you want to have coming out of your system? So when I think about observability, I think about four different things. I think about logs. So your standard logger, the thing that goes to standard out, typically in a production scenario, the ideal thing is to have structured logs, meaning like JSON formatted logs, that something can understand. You also have metrics, which is what we were just talking about, where aggregate information, charting things like the P99 of... The 99th percentile of your response time, the P50, all these different percentiles that you could chart over time, CPU utilization, memory usage, all these kinds of things. Then there's distributed tracing, which is I think the most fun one and one that I hopefully will get into the meat of very soon. But this is the idea of being able to see exactly where your program is spending time.
+
+
+David Lucia:
+And you can get really granular where you could see the request started at this time and ended it at this time. Towards the beginning, it made a database call that made another database call and another and another horizontal or diagonally going down a graph and you'd be able to see, oh, I have an n+1 query in my system. And so distributed tracing is a way of seeing where your system is spending time, all correlated together for one request, if you're doing a request response based system. And then what's really cool is the distributed part of it where you can make requests across services and the trace can actually carry between those two. So you could see, oh, I was blocked on this service and this service had a database call that took a really long time and that had a cascading effect that broke everything down. So distributed tracing, I think might be the most powerful of the observability tools.
+
+
+David Lucia:
+And then the fourth type of observability data that I look for is just error reporting. So really I have a very particular type of log. It was an error, go catalog it somewhere, and then I can reference it and come back to, and maybe collect some other contextual data about it.
+
+
+Owen Bickford:
+So we've kind of talked about application and maybe even machine type metrics where we're kind of monitoring memory usage, CPU usage, and so on and query performance response times. I'm also kind of curious if... I'm thinking of authentication authorization, are those events you would typically produce through telemetry as well to track new users or that any kind of authentication stuff that might be happening in your app?
+
+
+David Lucia:
+Absolutely. So observability telemetry is used for what is important to your business, period. So when we think about how do I choose what to observe in my system, there's some really good places to start, but as you get farther along, the things that you want to capture with telemetry are what is important to my business? So maybe one thing you really want to understand is new user signups. You can argue that this is actually a different part of the system. So maybe you actually want to put this in your analytics store in some OLAP database, maybe you're using Google analytics, or maybe you're using something like Amplitude and you want to put it in there because it's more of a business intelligence function. But there might be a really captivating reason to capture information about new users in your system because new users might go through different code paths than existing users. And so when you have a request coming in, maybe you want to include as metadata in a trace like the length of time the user has been a user in your system or something like that. And that could correlate to potential problems in your system.
+
+
+Owen Bickford:
+Going all the way into the details. Are we talking about tracing the user ID? Do you trace the whole... Do pass out the whole user strucked? I can't imagine that would usually make sense, but when you... Say I've got a telemetry event that says new user added, am I like tracking IDs or just new user added and that's it?
+
+
+David Lucia:
+Good question. So for telemetry in particular, and I have to come back to the second part of your question from before, which is what is OpenTelemetry? Because I think that's relevant here, but in a telemetry event you typically want to include as much information as possible. And the way telemetry was designed was so that it's very cheap to move this data around and I can get into how it's implemented, but it doesn't cost very much for you to add that extra data. And then when it's actually reported, the things that are listening to the telemetry events, they could decide which data to include in which data not to include. So in general, when you're creating new telemetry events, maybe you want to have something like new user for your application. You would go ahead and you'd include all of the information. And then in the reporter side of that telemetry event where you're rolling it up to a metric, that's where you choose whether you want to have a new user, the idea of the user versus not.
+
+
+David Lucia:
+This comes into a topic of cardinality. So when we are creating metrics, we don't want to have too high of cardinality, which is the number of possible options for that column. So a user ID would be a high cardinality column where that number is kind of unbounded. You can have many, many user IDs in your system. The reason you don't want to have a high cardinality value in your metric is because the number of metrics that you have now is going to explode. So each one has to be tracked individually and aggregated individually. And depending on what type of metric provider you use, that's going to be very costly with dollars or is just going to consume a lot of computing resources. So maybe this is a good time to talk about what... That's telemetry. It allows us to report data and then end up shipping that information somewhere.
+
+
+David Lucia:
+But OpenTelemetry is a standard. It's something that's actually language agnostic. So there's OpenTelemetry libraries for Go, for Java, for JavaScript, and for the BEAM. What OpenTelemetry is a specification that allows us to collect telemetry data and report it in a vendor and language agnostic way, and then be able to consume that data in whatever vendor tool that you choose to use. So maybe your team likes to use Datadog. You can collect, you can instrument your application with OpenTelemetry. You can then report it to the OpenTelemetry collector, which then can ship it off to Datadog. And if you decide that you don't like Datadog anymore, all you have to do is change the configuration of your OpenTelemetry collector and say, Hey, I want to go to LightStep now or I want to go to Honeycomb. And the idea is that that should be just a configuration change.
+
+
+David Lucia:
+What's really cool is that you could also say, Hey, I want to go to Datadog, LightStep, Honeycomb, Dynatrace, and New Relic, because you want to spend a lot of money and that's just something that you should be able to do, but you don't have to change your code. So I think what people are probably used to, if you've ever used an APM like New Relic or App Signal, is that you install an agent in your system and you have a very particular piece of code that you have to stick in a few places in configuration. Maybe you have to wrap certain function calls. With OpenTelemetry, there's just one standard and there's a way to hook into the typical frameworks and libraries that you might be using. So that you drop it in and boom, out of the box, you get metric information, tracing information, and soon logging information all out of one language agnostic framework.
+
+
+Sundi Myint:
+Does that framework cost money to use OpenTelemetry? It sounds like a service.
+
+
+David Lucia:
+So OpenTelemetry is all open source. So you could find it on GitHub. The observability working group from the Erlang Ecosystem Foundation is the one who is writing the Erlang Elixir instrumentation libraries that you'd find under the OpenTelemetry prefix in hex. And these are built to the specification that's created by the OpenTelemetry standard.
+
+
+Sundi Myint:
+I guess what this makes me think of is, let's say we're starting a new project for a client and we know we need to add some kind of observability tools. We might reach immediately for Datadog because our client has used them in the past. So we just start figuring out how do we start building out a system that can support sending data to Datadog. But then we find out about OpenTelemetry and we want to go that route. We want to install it that way so that we can switch it if we need to, or they want to because they've indicated that they might be switching, but maybe they don't want us to take the time to put that together. How do you make that argument for OpenTelemetry versus just setting up like a basic observability situation?
+
+
+David Lucia:
+That's a great question. So I guess the first thing is, do you want to be locked into Datadog going forward? Right? Do you want to have that vendor lock in? Because if you start to depend on one vendor like Datadog and you add instrumentation all particular to them, it's going to be very hard to switch over time and your bill is probably going to continue to grow with them, which maybe that's fine for your organization. OpenTelemetry is designed to be really easy to get started with. And part of the draw is that there is drop in libraries that add instrumentation to your favorite frameworks like Ecto, like Phoenix. I wrote one for Commanded. There's one for Open, all of these different libraries that you're already using.
+
+
+David Lucia:
+It's pretty much just one line of code. You drop it in to your mix file you then in your application supervisor, you just make one call, function call to it, and then boom you're producing metrics and traces for all of those things. So I would say if someone is trying to ask you, should I use a particular vendor or should I use OpenTelemetry? I would say first you probably want to just use OpenTelemetry so that you can make the choice later to switch to something else. And two, most of the vendors are using OpenTelemetry going forward as their standard way of integrating. I think Datadog included in that.
+
+
+Owen Bickford:
+Yeah, I've been introduced recently to the Spandex Datadog package on hex for-
+
+
+Sundi Myint:
+Ugh, Spandex. Sorry, every time I recognize that they named themselves spandex, I get mad and we move on, but I call it out every time. Continue Owen.
+
+
+Owen Bickford:
+Well, sorry to inflict this pain on you, but no, I'm pulling up a list of OpenTelemetry searches in Hex and hilariously, there's a package called OpenTelemetry Telemetry.
+
+
+Sundi Myint:
+Stop it. We are literally the worst at naming things. Like we developers as a species.
+
+
+David Lucia:
+So that library is for making it easier to create a bridge between Telemetry and OpenTelemetry. But yes, that is a library.
+
+
+Sundi Myint:
+They should have called it bridge. Nothing else. Just bridge. Oh my gosh. And on the flip side, Dave, what if you're trying to sell the idea of observability at all? What if a client just wants it done and dirty and they're just like, I don't want you to spend time on data. I mean, usually they want data, but they don't really want you to spend time on data.
+
+
+Owen Bickford:
+What could go wrong if you don't have telemetry?
+
+
+Sundi Myint:
+Right.
+
+
+David Lucia:
+Yeah. Well, I mean really it comes down to what kind of business do you have and if something goes wrong, what does that do to your reputation if you're not able to resolve the issue quickly? Right? So let's say that
+
+
+David Lucia:
+The worst case scenario, you go to your website and it's just 500. You want to be able to get to the root cause of that problem very quickly, so you need to figure out what's happening, diagnose the problem, fix the problem and deploy it to production, and ideally you could do that in minutes or a few hours. There's been very public outages that have happened for days, weeks, and that could be really, really bad and your customers are really not going to be happy. So the idea of investing in an observability, of understanding your running system, is in protecting your reputation as a business. You want to make sure that you have reputation for uptime, for a reliable product. So that's what I'd say to anyone who's like, "Ah, I don't know about observability." Maybe you want something like quick and dirty and you want to get just something running really quickly.
+
+
+David Lucia:
+Depending on what you're using, I know that Heroku is not so popular these days but with something like Heroku, you can get a lot of logging information and metrics out of the box that just integrates right with the Heroku ecosystem. With stuff like Phoenix, we've got Phoenix LiveDashboard, and you've got some metrics in there. You can actually even see some logging. So even in the BEAM ecosystem, we have some very base level observability that we get. Things like Observer that are actually built into the BEAM and shipped with the BEAM, that's a form of observability. It's really anything that helps you diagnose problems or understand your system as it's running better and faster, and depending on how important it is for you to resolve issues quickly and the complexity of your system I think necessitates how much investment you put into observability. I think...
+
+
+Sundi Myint:
+Yeah. You actually just said something too that reminded me that... Can you remind everyone, where did you start before you were working in Elixir? Like what languages?
+
+
+David Lucia:
+So before I was in Elixir I was working for Bloomberg and we relaunched the bloomberg.com website all in no JS. So I was doing JavaScript for a while. And before that I was in C++.
+
+
+Sundi Myint:
+So with that, can you tell us, is there anything in your experience, like your own personal experience that Elixir lends better for observability? It kind of sounds like the BEAM has some things built in, but is there anything else?
+
+
+David Lucia:
+Yeah, I mean, what's really nice about Elixir and Erlang this ecosystem is that you're able to ask a lot of questions of the system and get answers in ways that you just would not be able to. So am I thinking of node? I could never just SSH into the box, running my node JS system, get a remote connection to that box and run arbitrary code inside the system or connect it to an observer. So this is just an unfathomable thing to do in most languages. And I think the introspect ability of Elixir and Erlang at runtime, things that are built into the core Erlang libraries into Elixir itself, make it really good for being an observable language. Now, if you ask the people who work on OpenTelemetry for Erlang and Elixir, they might tell you actually, something very different because my understanding is actually very difficult to build tracing instrumentation libraries into Erlang and Elixir because of the process concurrency nature of it. So being able to share span information...So talking about the implementation of OpenTelemetry Erlang and Elixir, a challenge is actually that because of the concurrent nature and the process abstraction in the BEAM, my understanding from the OTel working group folks is that it was actually really difficult to implement a lot of the core functionality that enables us to have things like distributed tracing in Erlang and Elixir. So while there's some really good primitives that we just don't have in other languages, things like Observer, things like being able to easily report like CPU metrics and things like that, the language itself being functional and concurrency driven makes it actually really hard to build the abstractions that now we could take advantage for free because of all that hard work that went into OpenTelemetry.
+
+
+Owen Bickford:
+When you said SSH into a box, I got flashbacks to a very non telemetry application. So I think we've all, if we've been deploying apps to production over the years and something's gone down and you've been asked for an answer, what that means without telemetry is logging into a machine, hopefully through SSH, digging around for logs, digging through the logs and trying to find the valuable piece of information that actually brought the application down. Whereas it sounds like with telemetry, the benefit here is you're getting all this kind of information surfaced in a much more structured and searchable way through these different services. And that helps you find the answer and therefore solve the problem much more quickly.
+
+
+David Lucia:
+Right. So the main thing with distributed tracing in particular, which as I said, I think is one of the more interesting types of data that we can get out of the system. When I use tools like LightStep and Honeycomb, which I think are kind of ahead of the pack of observability tools. The thing that's so interesting about them is I can go in and I could say, "Okay, here is the request for my homepage." And I could see a graph of all of these different traces coming in and maybe their P99 values. And I can find, "Oh, here's one that's really high. Here's a point on the graph that's really high." And I can select that. And I can select a time when maybe the graph was all low. So we're having a performance regression. There's a point in the graph really high. I could select where it was really low.
+
+
+David Lucia:
+And then it can do a correlation analysis where it says, okay, of these spans that have this value really high. What's different about these spans than the spans that had this value really low? And all of the attributes that I'm collecting in my telemetry data so maybe I'm collecting user IDs, maybe I'm collecting, is this a new user or not? Is the first time they've logged in, I'm collecting their geographical information. I'm collecting what's their user agent. So tools like LightStep and Honeycomb, they get this data to them on the spans that are instrumented from our OpenTelemetry Phoenix library. And they could suss out and say, "Oh, well, for those spans that are coming from New Jersey, these ones are slower than the rest of them. Okay. Well, what's different about my users coming from New Jersey?" And you can then dig into those and look at a trace that is exemplary.
+
+
+David Lucia:
+And so you'll go in and you'll see, okay, well this New Jersey trace, the database is taking a really long time. And then you go and you look at your database metrics and you see that for some reason, that database is going into swap and spending a lot of time going to disk and you restart that database or you spin up a new one and that solves the problem, these kind of tools that help you discover that path of users in New Jersey correlate to my US East One database being faulty. That's a really hard problem to get to the bottom of, but these tools that allow you to observe all this information and correlate it in real time and ask the system questions. This is the thing that is so valuable and why I am so excited about tools like LightStep and Honeycomb is that they allow you to ask those questions in real time without actually having to log into your box and do some very dangerous things.
+
+
+Sundi Myint:
+So Dave, can we do some no code editor in front of us? Pseudo coding? Yes. We've started a new Elixir project. We did the generating, whatever we had to do, and we're just trying to implement some basic observability, just an intro place for somebody who needs to add it, but doesn't really know a lot about it. Where do we start? What files are we opening?
+
+
+David Lucia:
+So first things first, you should have logging out of the box. So you've got that one checked off, great.
+
+
+Sundi Myint:
+With Logger, right?
+
+
+David Lucia:
+With logger.
+
+
+Sundi Myint:
+Okay.
+
+
+David Lucia:
+So we're done there. If we've generated a Phoenix application, they've probably already spun up some metrics reporting that has grabbed from Phoenix live dashboard. So great. You've got something basic there too, but now we want to get a little bit fancier and we want to collect even more interesting metrics that we can produce and maybe sent us something like Prometheus and Grafana, which are a tool for observing metrics. Well, there's a great library by Alex Koutmos called PromEx. And this not just helps you instrument your application with these metrics, but we'll actually generate kind of all the standard charts for you that are really annoying to set up by hand. So you put PromEx into your application, you configure it in probably your config, runtime or production, and this will ship all of these metrics charts to you for you to Grafana. And then you'll be able to see your ecto queries and your request response times, all these kind of things charted out for you right out of the box.
+
+
+David Lucia:
+So that's a great one and super easy for getting started. From there, I think I probably introduce something like Century. So I put Century into all of my apps and this is for error reporting. So you get error reporting with logging. But the thing that Century does is that it helps you catalog these errors. So it will grab extra contextual information like if the error happened in the context of a request, what the IP address was, and maybe the logged in user and all this stuff. Okay, great, I've got a way of cataloging errors and then comes OpenTelemetry. So OpenTelemetry is something that you're going to, of course install probably like at a minimum three libraries, you'll install the OpenTelemetry library and then you'll install OpenTelemetry Phoenix, OpenTelemetry Ecto. That's probably the most common setup here.
+
+
+David Lucia:
+You're going to have to configure how you want to ship, whatever data is coming out of OpenTelemetry. So you're collecting trace and span information. You need to ship that to something that you can then use to search and correlate data and find out what's going on. And I think that's where the bulk of the configuration is going to happen. And probably what trips up people the most is, how do I set it up? Do I need to use the OpenTelemetry collector? You don't have to, but maybe you should, depending on the complexity of your application, but really all you're doing is you're installing the libraries, you're configuring where it's going, and you're dropping in those framework level instrumentation libraries. And that really is going to get you very, very far because the most important thing or place to start when you're instrumenting your application for observability is to start at your inputs and your outputs.
+
+
+David Lucia:
+So you want to know the requests coming in. You want to know the queries going out to your database. Maybe if you're writing to files, or if you are talking to S3 or writing to a message queue, these are all great places to instrument your application with spans using the tracer in OpenTelemetry. And this is where you can start to get into the important parts of your business like we were talking about before. So if you, new user signups are really important, you want to put spans around the critical operations of what it means to be a new user. Maybe there's a complex onboarding flow that your users have to get through. So you probably want to instrument all the different steps in that process and make sure that if there is critical places where something that can go wrong, that you have a way to capture that information. So that then you could go to your tool of choice and ask some questions and get some answers if some user is having a problem.
+
+
+Sundi Myint:
+Okay, so follow up to that.
+
+
+Owen Bickford:
+So I want to throw something out here before we forget. So I'm just going to throw it out here. We'll come back to it, but we've got to talk about Observer at some point, obviously, right? Elixir, Erlang, Observer, but I'm curious, can you go too far with observability? Can you add telemetry events for every single function and get yourself into trouble by...
+
+
+Sundi Myint:
+All that data know where to go.
+
+
+Owen Bickford:
+Emitting too much. Right?
+
+
+David Lucia:
+Yeah. You can certainly, and you can do this in a number of ways, which can get you in trouble. So one, you can add too much instrumentation where imagine you're just every single function you're capturing in a span, right? So if you go to your observability tool, you'll literally see your stack trace as you would, if an exception were to happen to your application, and maybe that's valuable information to you. But the problem is, is that you're not going to be able to record all of that information informatively or collect it in a way that when you're shipping it, it's going to be cost efficient or memory efficient. You're probably going to have to end up dropping a lot of that data because it's just no way that you're going to be able to ship it in time to over the network, to these observability tools, or even just out of your own system. There's a cost, a fixed cost to producing telemetry data. And ideally it's really fast, but when you overdo it, it could actually be something that hurts the performance of your application
+
+
+David Lucia:
+... in and of itself. So again, when you're thinking about where do I start with observability? Think about the boundaries, the edges of your application, and that's the place where you start. And then over time, you're going to start to know the important bits of your application, maybe where things tend to go wrong or just that it's highly valuable to your company or your product. And that's the place where you add.
+
+
+David Lucia:
+But over time, you might find that, hey, there's places where we added observability that just haven't been useful. And it's actually okay to do some gardening and some weeding and pull out those weeds. We don't need this and that's okay. So I actually gave a talk about this maybe two summers ago, and I said that observability is a garden and you need to tend that garden and you need to plant some trees every spring and pull out the weeds too.
+
+
+David Lucia:
+So it's kind of a never ending process, but it's to serve you as kind of the person who's operating this software. It's there to help you. And that's really the most important thing. It's for the human, it's for no one else.
+
+
+Owen Bickford:
+Yeah. It's just like code. Is this code still giving me value? If not, then maybe it's time to delete that code. And yeah, I think anyone coming to Elixir or Erlang for the first time or early on when you're learning about these tools and these... The VM and everything, one of the superpowers we have that almost no other language is, at least that I'm aware of, would have is observer. So with the barebones Elixir application, once you start it, let's say you run IEX with your application. You can just run observer.start, and then you get this little window...
+
+
+Owen Bickford:
+Assuming you've got all the right dependencies on your system. You will have this window that pops up, that shows you the state of your application and the supervision tree, all this information about the machine that it's running on and how many resources it's using. And you don't have to add anything to get that.
+
+
+Owen Bickford:
+So it's really amazing that... That's a really nice way to be introduced to observability and the value. And I think all of the telemetry tools and observability tools that we're talking about help us extract that out into other systems where it's a little bit more easily accessible.
+
+
+David Lucia:
+Yeah. What's so cool about observer is that, okay, we talked a lot about metrics now and hopefully I haven't belabored it too much, but like, okay, you get CPU, memory data fine.
+
+
+Owen Bickford:
+Right.
+
+
+David Lucia:
+That's cool, that's kind of standard across any system. But I think the coolest thing is the visual representation you get of your system, that tree, that application supervision tree that you hear about, you see in your code, but you could see visually represented as a tree, and then go and interact with it, interact with the tree and see what's the state of this process. What's the memory of this process? When was it last garbage collected? These are all things that just come with Elixir and Erlang, which is super cool. I think you need wxWidgets and I think some Java thing actually installed to be able to run that correctly.
+
+
+Sundi Myint:
+Nobody's got time for that.
+
+
+Owen Bickford:
+Well, and yeah, no one really does have time for that. But I think what's really exciting to me is also that with all the work happening in Livebook, that's going to make it even easier. You won't need all those system dependencies. You'll just be able to run a Livebook that might illustrate the same exact supervisor process and even give you more powers than we have already.
+
+
+Sundi Myint:
+We're heading to the future.
+
+
+Owen Bickford:
+The very near future.
+
+
+Sundi Myint:
+The very near future.
+
+
+David Lucia:
+Livebook is so cool. And what we're able to now chart and the mermaid graphs of the same thing in observer of seeing the application supervision tree is mind-blowing, is so cool. This made me think of something that I should have mentioned before. There's an open ticket in the OpenTelemetry Erlang project. And the idea is what if there was just a mix Phoenix New or my favorite, mix Surface and NET, where you run that in an existing project and boom, you get OpenTelemetry, all installed for you with all of the libraries and bridge libraries that you need without doing any work.
+
+
+David Lucia:
+And maybe you say the vendor you want to use and boom, you get some extra configuration. So this is a project that has not been started yet. It's just an idea that Tristan Sloughter, who's on the OpenTelemetry working group for Erlang, that he opened up and got me excited. So there's some work that's being done on some other fundamental libraries that make it easy to work with the Erlang AST or sorry, the Elixir AST, to be able to modify code.
+
+
+David Lucia:
+So I'm waiting on a library called Recode that is going to make it easier to do this, but maybe at some time in the near future, you'll just be able to run mix OTEL and NET and boom, you'll have observability added to your project with really no work on your end.
+
+
+Sundi Myint:
+That would be the best. We also have a follow-up question for you, Dave. We have also observed that pineapples are important to you. Why?
+
+
+David Lucia:
+Well, I have a pineapple tattoo.
+
+
+Sundi Myint:
+Okay.
+
+
+David Lucia:
+So if you want to see that, you can. It's a pineapple with sunglasses. Okay. Long time ago, me, my now wife and my friend, we were out in New York City and we had a late night and my friend went to a bodega, which is a corner store for those who don't live in New York or another city that calls them bodegas. I don't know who else does. Anyways, he bought a pineapple from a corner store and he kind of went off on his own. And later in the night, we ran into him and he was just kind of eating the pineapple whole, skin and all just eating it. And I just caught eyes with him and we started hysterically laughing and it became an inside joke from then of pineapples. And my friend got really into drawing pineapples and just became a thing in my life that's thematic. So yeah, I really like pineapples just because it reminds me of good times and my friends.
+
+
+Sundi Myint:
+Well, we...
+
+
+Owen Bickford:
+Last question, pineapple pizza.
+
+
+Sundi Myint:
+Oh my gosh.
+
+
+Owen Bickford:
+Are we pro, anti?
+
+
+Sundi Myint:
+Poor Amos is going to come out of the woodwork and be like, "[inaudible 00:51:34]."
+
+
+David Lucia:
+Is Amos for or against pineapples?
+
+
+Sundi Myint:
+AI believe he's against it.
+
+
+Owen Bickford:
+It should not affect your opinion whatsoever.
+
+
+David Lucia:
+Well, my opinion is that I'm neutral on pineapple pizza. I haven't had it in a really long time. I'm willing to try it again. I'll try almost anything once, but it's not something that's really maybe you want to come back for it. So maybe I don't like pineapple pizza.
+
+
+Sundi Myint:
+Well, I will say after having just recently completed all 10 hot sauces in the Hot Ones hot sauce challenge, humble bragging here. I will own up to it. The second sauce is the pineapple sauce. And I think not spice related, that was actually one of my favorite sauces in the lineup that I actually wanted to save talking about it until today.
+
+
+Owen Bickford:
+You weren't a fan of Da'Bomb?
+
+
+Sundi Myint:
+Who would be, seriously? Crazy people.
+
+
+David Lucia:
+Oh man. So Allison who worked with me at SimpleBet, she lives in Kansas City and she brought me Da'Bomb, which I believe is from Kansas City when she was visiting in New York. And I tasted it on my finger and was very, very upset-
+
+
+Sundi Myint:
+Life choices?
+
+
+David Lucia:
+... with myself for probably the next hour-and-a-half. Yeah, we tried it in the office. We were going out to dinner and for the next hour-and-a-half, I was just profusely sweating.
+
+
+Sundi Myint:
+Yeah, it doesn't go away. It builds and then leaves and then goes and then builds again. I will say at Elixir conf, there was a wonderful sponsored happy hour in which I met Allison. And she approached me with You talked to Dave about wings and I was not there. You even told me to look for her. And I was like, "Which Dave?" And she goes, "Lucia." And I was like, "Oh, what do you mean?" Hot wings? Like chicken wings. Because I was sitting here thinking angel wings, bird wings, goose wings. I don't know. I have never been so thrown off guard-
+
+
+David Lucia:
+Oh man.
+
+
+Sundi Myint:
+... by Dave about wings in my life. Allison, shout out to you. It was so great to chat with you about Da'Bomb and the Da'Bomb hot sauce. I got to... Yeah, Da'Bomb hot sauce. It's just ugh, gross. Yes.
+
+
+David Lucia:
+It's something-
+
+
+Sundi Myint:
+Well, I'm glad we did get to talk about it.
+
+
+David Lucia:
+There's some other terrible hot sauces. And I mean terrible in that they're just so hot that it's just, I don't know why would anyone eat them. But I think the worst two I've had are Death Nectar, which-
+
+
+Sundi Myint:
+Sounds awful.
+
+
+David Lucia:
+... is in a black bottle. It just looks like it should kill you and it might. And then The Last Dab by Hot Ones is really, really, really hurts the soul.
+
+
+Sundi Myint:
+It didn't hurt... When you do eight, nine and 10 within the 30 minutes of each other, The Last Dab doesn't hit you like eight does, like Da'Bomb does. But I will say it lasted the longest in that it was minutes and minutes after I had eaten it, I thought I was over the best of it. I was the person who ate it and then was like, let me immediately go drink some milk. I'm not ashamed. And one of my friends came over in the middle of that. She was like, "Oh, hey, how are you?" And I just looked at her and I started crying, but my eyes were crying, but my body didn't feel it. And she was like, "What's happening right now?" And I was like, "I think I just did 10 and I'm reacting still, still."
+
+
+David Lucia:
+So can you describe what was the context of you eating all of these wings?
+
+
+Sundi Myint:
+Oh, I just really liked the Hot Ones show on YouTube and I wanted to do it and I wanted to do that for a year. I achieved one of my year goals this past weekend.
+
+
+David Lucia:
+So do you do it with friends? Did other people do this with you?
+
+
+Sundi Myint:
+I just had my friends come over and I poisoned them all.
+
+
+David Lucia:
+Are they still friends with you?
+
+
+Sundi Myint:
+They were like, "That was a fun, creative and unique party idea."
+
+
+David Lucia:
+Well, I saw your... I forgot what you called it. It was like the cool down board. It was-
+
+
+Sundi Myint:
+Antidote board.
+
+
+David Lucia:
+... the antidote board. I saw a picture of this and it looked amazing.
+
+
+Sundi Myint:
+It was basically-
+
+
+David Lucia:
+It was so nice.
+
+
+Sundi Myint:
+... like a charcuterie board.
+
+
+David Lucia:
+I'm very jealous.
+
+
+Sundi Myint:
+But of the things that would cool you down; cucumbers, ranch dressing, carrots, radish, lettuce, just the good stuff. I also had coolers full of ice-cream-
+
+
+David Lucia:
+It looked delightful.
+
+
+Sundi Myint:
+... everywhere.
+
+
+David Lucia:
+Ooh.
+
+
+Owen Bickford:
+Ooh.
+
+
+David Lucia:
+Wow.
+
+
+Sundi Myint:
+Yes.
+
+
+Owen Bickford:
+Well, so congratulations, Dave. You made it through the gauntlet. 10 wings down. Point to the cameras; this camera, this camera, this camera.
+
+
+Sundi Myint:
+Any final plugs?
+
+
+Owen Bickford:
+Do you have any final plugs for the audience?
+
+
+Sundi Myint:
+Oh, [inaudible 00:56:17] doing his best [inaudible 00:56:19] impression right here.
+
+
+Owen Bickford:
+This camera, this camera, this camera.
+
+
+David Lucia:
+Plugs for the audience, I'm hiring at Bitfo. If you want to come work on some fun stuff in NextJS and Elixir on the back end with TimescaleDB, Surface, OpenTelemetry, Lightstep Honeycomb, come talk to me. I swear I'm friendly. You don't have to like pineapple pizza if you want to come and talk. Yeah, and just really, thank you for having me on. This was a lot of fun. I think I have to do some more writing because as we've had this conversation, I've realized it's really hard to articulate observability. It's a really complex and broad topic. So if you were confused about any bit, please hit me up on Twitter, that's probably the best place, and I'm happy to chat more with you and help you get started.
+
+
+Sundi Myint:
+And are there any projects that people could get involved in? Anything that could use some help? I think you mentioned a few open issues, places.
+
+
+David Lucia:
+Yeah, so joining the Erlang Ecosystem Foundation and picking a working group, if you're excited about what we talked about today, I'm sure the observability folks would love some help. So there's an observability working group that you could join and anyone is free to participate. Well, not free to join, but free to participate once you've joined. On GitHub, there are a bunch of open issues for the OpenTelemetry projects. There's also the whole... Is it Apache Cloud Foundation? I forget what the name of it is, but there's many ways to get involved with OpenTelemetry and GitHub is probably your best place there.
+
+
+David Lucia:
+Selfishly, I have some own projects that I'm working on, particularly with TimescaleDB, that I'm looking for people who are interested in contributing. So again, come and reach out to me if you want to get involved there. There's a lot of low-hanging fruit stuff that if you want to get involved in open source for the first time, it would be a great opportunity.
+
+
+Sundi Myint:
+Awesome. Well, thank you so much, Dave. This has been great. I feel like I've learned a lot and having read your blog post ahead of time was a little bit of a primer. But again, you said it's a very broad subject and I think you did a great job of covering it all. Yeah.
+
+
+David Lucia:
+Thank you.
+
+
+Sundi Myint:
+That is it for today's episode of Elixir Wizards. Thank you again, Dave Lucia for joining us. I am Sundi Myint, your host and my co-host is Owen Bickford. Elixir Wizards is produced by Hangar Studios and is brought to you by SmartLogic. Here at SmartLogic, we build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. Need a piece of custom software built, hit us up. Don't forget to like, subscribe, and leave a review. Your reviews help us reach new listeners. And you can find us on Twitter @SmartLogic or join the Elixir Wizards discord. The link is on the podcast page and we'll see you next week for more on parsing on the particulars.
