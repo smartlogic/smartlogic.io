@@ -17,6 +17,8 @@ end
 
 rss_xml = Nokogiri::XML(response.body)
 
+fallback_image = rss_xml.xpath("//channel/itunes:image").first.attributes["href"].value
+
 items = rss_xml.xpath("//channel/item").map do |item|
   {
     "title" => item.xpath("title").text,
@@ -41,7 +43,7 @@ items = rss_xml.xpath("//channel/item").map do |item|
       "duration" => item.xpath("itunes:duration").text,
       "explicit" => item.xpath("itunes:explicit").text,
       "keywords" => item.xpath("itunes:keywords").text,
-      "image" => item.xpath("itunes:image").first.attributes["href"].value,
+      "image" => (item.xpath("itunes:image").first.attributes["href"].value rescue fallback_image),
       "summary" => item.xpath("itunes:summary").text,
     },
     "contentEncoded" => item.xpath("content:encoded").text

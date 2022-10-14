@@ -1,0 +1,936 @@
+Sundi Myint:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint, and I'll be your host. I'm joined by my co-host, Owen Bickford. Hey, Owen.
+
+Owen Bickford:
+Hey, Sandy.
+
+Sundi Myint:
+This season's theme is Parsing the Particulars. Today we are joined by special guest, Kate Rezentes from Simplebet, and we'll be diving into the particulars of GenServer. Hey, Kate.
+
+Kate:
+Hi.
+
+Sundi Myint:
+Thank you so much for being here. How are you doing?
+
+Kate:
+Good, how are you guys? Thank you for having me.
+
+Sundi Myint:
+Good times, good Times. Today actually, at SmartLogic, it's our professional development day, so we've been jumping around learning different stuff. We made sure to brush up on GenServers this morning. Do you guys do anything like that at Simplebet? Any kind of learning days?
+
+Kate:
+Every day is a learning day.
+
+Sundi Myint:
+All right.
+
+Kate:
+I don't recall any professional development days. I'm always learning new things.
+
+Sundi Myint:
+Yeah, that's super fair. I think we talk about this all the time, that the best way to actually learn a new thing is to actually do it, which is a lot of the impetus for this season. Because sometimes when you're just like, "Oh, I need to generically learn a thing and you pull up a project, it's like, 'Eh, not super helpful.'"
+
+Kate:
+No.
+
+Owen Bickford:
+Before we dive into the particulars of GenServers, we met back at ElixirConf Austin. Was that your first developer conference?
+
+Kate:
+No, actually. I'd been going to programing conferences with my mother, Michelle Rezentes, Mickey Rezentes, since I was 15. A lot of it was RubyConf and then Ruby on Rails and then We Rise and then ElixirConf in Austin and then ElixirConf in Colorado.
+
+Owen Bickford:
+Okay. So in the past year, how many have you hit up?
+
+Kate:
+After the Austin one, the ElixirConf in Austin, we hit one in Raleigh. I think it was called All Things Open. And my mother and I both talked there. We gave the same talk that was given in Austin.
+
+Sundi Myint:
+There's so many conferences, it's hard to keep them straight, right?
+
+Kate:
+Yeah. Well, I have to say that ElixirConf has by far been my favorite.
+
+Owen Bickford:
+Oh, nice.
+
+Sundi Myint:
+The conference as a series or the last one?
+
+Kate:
+The last one, definitely. But both of my experiences at ElixirConf have been good. I've met a lot of great people, and I was more familiar with the technology as well because I'm pretty new to actually programming.
+
+Owen Bickford:
+And you landed a job, right? Did that happen at ElixirConf last year or sometime after that?
+
+Kate:
+Yeah, I went to the speaker dinner with my mother, and Dave Lucia was there who works at Simplebet. Apparently my mother had interviewed with them three years ago. And he remembered my mom. And he was super nice. And we talked to him. I was on another podcast after Austin, and he reached out to me after that and got me hired.
+
+Sundi Myint:
+Nice. And your episode, Kate, is coming right on the heels of Dave's episode, so this is just nice continuity.
+
+Kate:
+Oh, really?
+
+Sundi Myint:
+We love it. Absolutely.
+
+Owen Bickford:
+That's what they call synergy.
+
+Kate:
+That's awesome. Yeah. David's one of the nicest people I've ever met. He's super nice.
+
+Sundi Myint:
+He absolutely tolerates all of my food photos, even though he's like, "Sundi, please stop. These are so wonderful, but I can't eat these."
+
+Owen Bickford:
+See, I know Dave's nice. I've met him at ElixirConf in Austin last year. But he'll stick out in my mind because he, in his infinite wisdom, named his son Owen. So [inaudible 00:03:38]
+
+Sundi Myint:
+Ah, yes. We did just talk about this. Our listeners who are just going episode to episode are like, "Wow, I'm caught up here." But we're episode two right now. Yeah, with Dave we dove into the particulars of observability, and we're going to talk about GenServers today. Kate, this came up at ElixirConf with us. Can you just talk to us about where GenServers as a subject came from?
+
+Kate:
+Okay, we were sitting down and waiting for a keynote to start. Was it Chris McCord's keynote?
+
+Sundi Myint:
+I think it was probably the keynote of the day, so it was Chris Granger.
+
+Kate:
+Okay. Anyway, my mom and I were just chilling at a table, and Sundi came down and sat next to us. And she asked me what I knew about GenServers. And I was like, "Uh, very little." She's like, "Perfect. Can I teach you some?"
+
+Owen Bickford:
+What do you know about GenServers?
+
+Kate:
+Like, "I just started, I don't know a lot." I've done a little bit of things. I've tried to learn more with them, but just not something that has really grabbed my interest a lot in the past.
+
+Sundi Myint:
+Yeah, this comes up a lot with... And for the background here, Kate is new to Elixir; less than a year, right? In the job space at least?
+
+Kate:
+In the job I've been six months.
+
+Sundi Myint:
+Six months-
+
+Kate:
+Seven months.
+
+Sundi Myint:
+Right.
+
+Kate:
+Yeah.
+
+Sundi Myint:
+So, that's where we are right now: September, 2022, for those listening in the future. And there's a certain number of things you hear as a newbie to Elixir. And it can be very frustrating when you're getting started to start Elixir and people are just throwing out "OTP, "ets," "this GenServer thing," and then "observability and telemetry" and then just these words that people just throw out as if you're just supposed to know them when you're just picking up a language, which is just generally frustrating. But GenServers is one of the ones that come up a lot. I honestly do not remember sitting down just asking you point blank about GenServers, but let's say that's what happened.
+
+Kate:
+How did you recall it?
+
+Sundi Myint:
+I think I asked you what you learned recently at work?
+
+Kate:
+Yes. Yep. That's accurate. I was summarizing the conversation.
+
+Sundi Myint:
+That's fair. No, no, no. That would be funnier, but I would've felt like I was assaulting you with knowledge.
+
+Kate:
+Okay. I think my humor, I like the really abrupt things in life. So, I tell stories abruptly, and it might not sound accurate to some-
+
+Sundi Myint:
+Oh-
+
+Kate:
+... people-
+
+Sundi Myint:
+... but they're funny.
+
+Kate:
+... unfortunately. Oh, thank you.
+
+Sundi Myint:
+Yes, they're funny. When we were going to take a picture with Todd, Todd Resudek was taking photos at ElixirConf. And I was like, "Oh, Kate, we should get a picture." And then Kate goes, "Todd, photo."
+
+Kate:
+And he was 20 feet away too.
+
+Sundi Myint:
+I was like, "Oh my God, that was so aggressive. But I love it."
+
+Kate:
+Well, we know Todd. Todd's great.
+
+Sundi Myint:
+Yes. And it was a great photo.
+
+Owen Bickford:
+And he didn't have to guess what you were asking. He's like, "All right, I guess they want a photo."
+
+Sundi Myint:
+Yeah, sometimes with developers you got to be straightforward, straightforward. We've talked about a little bit about your background and your pathway. But just to round it out in a rounded manner, one of our engineers and one of our new podcast hosts who's not with us right now, wanted to make sure that we asked you about your experience in the industry so far, particularly because you two were the only engineers that at least he saw at ElixirConf there were roughly in the same age range, experience level. So he was really curious about your experience in the industry so far.
+
+Kate:
+Yeah. Honestly, when I was coming in, I had heard so many horror stories about bad communication at work and all these tire fires but I've had a wonderful time at Simplebet so far. I've learned so much, and the environment that I'm in is very positive. So as far as my reflection on my experience so far, I've really enjoyed it. Was that the specific question? Was that the answer to the question, or did I go off on a rabbit trail?
+
+Sundi Myint:
+Yeah, that was the answer, just to find out what your experience has been like. Particularly as a junior engineer and when it comes to learning, I think is maybe the more specific way to ask that.
+
+Kate:
+Yeah, I feel like as a junior engineer, the biggest things... Which I don't know because I'm a junior, so when I become a senior maybe I'll think differently/ but just being able to ask questions and work a lot, I think that's where I've gained most of my experience and confidence. The biggest thing I've learned in the past month, I talk to my team lead about this all the time, is I post all of my questions in a public channel instead of DMing people. And that has been, I guess, the biggest maturing point for me so far because you just learn a lot more when you can formulate your question and are confident enough to post it in a public channel. And I feel-
+
+Sundi Myint:
+The more people will answer, right?
+
+Kate:
+... safe doing that. More people answer. People you wouldn't expect. And you're, "Oh, I didn't know you had months of experience in that area of the code base. This is amazing."
+
+Owen Bickford:
+Yeah, 100%. Well, typically if I'm asking a question, I'll post it in a public channel as well. That's my default because A, I'll get a better collection of responses. But also, if it's work -elated, there'll be a little bit more visibility that I'm working on a problem, and other people on the team can see what's going on. But yeah. I'm kind of curious, if we go back a little bit to this conversation at ElixirConf, and you bring up GenServers is maybe something you're either interested in or coming across for the first time. What's the context? As much as you can share, how did Gen servers come up in the work that you're doing At Simplebet?
+
+Kate:
+I did some work on this Epic where we were working with state, we were trying to manage state. And that's where we were using GenServers and OTP and property tests. And oh my word, that was a lot. I tried to read a book on it, and that was... Okay, honestly, that was terrible. I did not like that book. It was boring.
+
+Sundi Myint:
+What was the book?
+
+Kate:
+I couldn't [inaudible 00:10:13].
+
+Sundi Myint:
+You can throw it out there.
+
+Kate:
+Well, okay, I don't think it's that the book is terrible itself. It's just my ability to comprehend it. I don't want to be dissing other books. It was Property Testing and Elixir, I think. I have it on my desk out here.
+
+Owen Bickford:
+I've got that one. Property-based Testing with PropEr and Erlang or something like that?
+
+Kate:
+Yes. Yeah. And it's got the pink bar across it. Pragmatic programming is most of the textbooks that my library and my mother's library consist of. We're like a joint library, so I'll just grab books out of there. And then I-
+
+Sundi Myint:
+That's so-
+
+Kate:
+.... tried to-
+
+Sundi Myint:
+... convenient.
+
+Kate:
+It is very convenient. And then, when the books are out of date, she chucks them. So, I'm not reading bad stuff.
+
+Sundi Myint:
+My God, I'm picturing Nikki throwing the book. She's on roller skates. Her hair is flying behind her. There's a whole thing happening in my head right now. I've never thought about throwing away the books when they get old, quote, unquote, but that makes sense.
+
+Kate:
+Yeah, well, if they're outdated, she places them in the trash. Okay? So, it's a less-
+
+Sundi Myint:
+Okay, that's a little more-
+
+Kate:
+... abrupt action.
+
+Sundi Myint:
+No, I don't think it's a diss. It's constructive criticism that books are something to help us, they're a resource to help us. If they don't help us, then that's fine. Some of us aren't book people. Sometimes it's literally marketed towards a senior engineer or somebody who's worked in Elixir for a long time. So yeah, that's fine. So you tried reading the book, didn't work. Where did you go next?
+
+Kate:
+I no longer had to work on maintaining the state. It was a senior programmer that had said he read the book. And I had known nothing about that area of Elixir, so that's why I got the book. And he said it had taken him a long time to get through, and it was going to take me an even longer time to get through. And I just didn't.
+
+Owen Bickford:
+Those books, sometimes you've got to get it at the right time. That book, I think I've taken a couple of attempts to get started with it and put it aside and then worked a little bit more with the Elixir, got more experience and got more of the fundamental pieces of Elixir and then came back to that. And a lot of things started making sense after the second or third attempt, so that's completely normal.
+
+Sundi Myint:
+What I'm curious, Owen, since you, I think, have worked with GenServers, maybe the most amongst the three of us here, is the most often use case that you see for somebody having to write their GenServer, because it doesn't come up very often in an application, is it to manage state? To manage something
+
+Sundi Myint:
+In the state of the application, is that why we normally reach for a gen server?
+
+Owen Bickford:
+Yeah, I think there's a few use cases for gen servers. There's managing state. You can manage state with an agent. So these are all just, I think at a high level, these are all just different types of processes within an Elixir application on the BEAM vm. So you can use an agent, if you're just managing state.
+
+Owen Bickford:
+A gen server also kind of helps you kind of constrain if you want a bottleneck. Sometimes you want a bottleneck, like to serialize messages, make sure they're coming in, in a specific order. So a gen server can help with that. It can also hurt you if you don't want that bottleneck. So that's kind of like an ETZ, not an ETZ case, but a kind of thing to know about gen servers is if you've trying to flow a lot of data through a gen server concurrently, that can kind of slow down your application.
+
+Owen Bickford:
+But yeah, I think owning an ETZ table is how I've used it primarily. So I will start using the Elixir in action example actually. So I wanted to create an ETZ table for memory data storage. And the way that I kind of managed that ETZ table was with the gen server. So whenever the application would start up, it would start up the gen server. The gen server would start the ETS table. And that way they're kind of a linked processes and if something goes wrong, the gen server goes down and it could be restarted by the supervisor.
+
+Sundi Myint:
+Yeah. And I think that something goes wrong piece is kind of key. That's the only time I've ever built one, was for an application that needed to handle state for when the application went down and when it came back. The results of the application state after being down for five to 10 minutes would mean that everything was very out of sync, in terms of we were tracking statuses, so if something was ready or not ready and it wasn't exactly based on time, but it kind of was. So if it went down for 30 minutes or an hour, God forbid an application goes down that long. You had to be able to, when the application came back up, run something to go back through and check to see if things were actually in the state that we said we were in or if they needed to be updated per a few rules.
+
+Sundi Myint:
+And so the best place to add that logic was in a gen server because it happened at the top of the application is how I thought of that. So I actually did it wrong the first time and brought the entire application down because I didn't manage that part of the tree properly because it was right at the top, put it right at the beginning, I don't think anyone really normally is messing with that file that's like right at the top of the application. I can't even remember what it's called. And if you know it, just talk over me.
+
+Owen Bickford:
+Application EX. That one.
+
+Sundi Myint:
+Yeah, that could be it.
+
+Owen Bickford:
+Yeah. So one thing I wanted to say right out as we're kind of starting to get a little bit more into the particulars is you can go a long way without needing to know how gen servers work. If you're primarily working in Phoenix and you're working in controllers and templates and you're kind of more at the front end/full stack, if you're kind of more on that end of things, you're not necessarily going to need to touch a gen server. It is a little bit more of a backend piece of Elixir application.
+
+Owen Bickford:
+But before I get to the next point, does anyone know what gen server stands for? The gen in gen server?
+
+Sundi Myint:
+I just read it, but Kate, I want to hear your guesses.
+
+Kate:
+Do you want me to guess at it?
+
+Sundi Myint:
+Yeah, if you don't know it.
+
+Owen Bickford:
+Just throw one out there.
+
+Sundi Myint:
+Go ahead and just throw one out there.
+
+Kate:
+Generating servers.
+
+Owen Bickford:
+It's so close. I mean...
+
+Kate:
+That is super close.
+
+Kate:
+Is it generation server?
+
+Owen Bickford:
+Yeah. Generic.
+
+Kate:
+Oh, generic. Okay.
+
+Owen Bickford:
+It's like generics, because it's like, so you'll see that in a lot of different Elixir modules, like gen something, like gen state. It's like these are generic pieces and they can be used for very different types of problems.
+
+Owen Bickford:
+So like I said earlier, I used it primarily for setting up ETS tables. Sunday's used it for managing errors and flow control in some ways. But there are at least a dozen different ways you could use a gen server.
+
+Owen Bickford:
+And so just to say that out of the gate, you don't necessarily have to start as a brand new day one Elixir developer knowing anything about gen servers. It's something you can learn about months or years later, depending on the needs of your particular job and what you're doing.
+
+Owen Bickford:
+But yeah. So I'm curious, do you have an idea of what kind of problem you might be working on where you think you might need to open up the gen server docs and maybe start adding a gen server to your application?
+
+Sundi Myint:
+Or maybe the real world example is they told you that you had to do the gen server work. Did they explain why it needed to be a gen server, what the situation would be, that that made sense to reach for that?
+
+Owen Bickford:
+Without divulging proprietary secrets.
+
+Sundi Myint:
+[inaudible 00:17:59].
+
+Kate:
+Yeah, no, I know about that. I don't know how to apply it to our system, to be honest. No, I don't.
+
+Owen Bickford:
+That's totally fine.
+
+Kate:
+I can think of a school project that I did that I might reach for a gen server, but not a real life work example.
+
+Sundi Myint:
+How? That's even more interesting. What? How? What? A school project. Seriously?
+
+Kate:
+Yeah. In school, I went to NC State, it's an engineering college and I was in the engineering college, the computer science program, and we were working with finite state machines and I was supposed to create a ticketing system to someone submits a work order and you track the ticket as it goes through. I would guess that I would need a gen server for that or I could use one, but I could be wrong too. So I don't know. I'd open up the docs and see if I was right.
+
+Owen Bickford:
+Yeah. Yeah. So you could absolutely use a gen server to take in, let's say these are events that are coming through your system, of someone's created a ticket or they've updated a ticket and a gen server could receive those events and then either in it's internal state, like this process memory, they could keep all of that data there or they could, if you start to need more concurrent applications, if you got thousands of users hitting the thing at the same time, then maybe you would move that data into ETS or something a little bit more concurrent so that the calls come through gen server but then they're actually being handed off to ETS. That kind of thing.
+
+Kate:
+Would it create a different process for each user?
+
+Owen Bickford:
+It's generic, so you can set it up to be... So, yeah. If you wanted a gen server, you could have a user's gen server, which would be a bottleneck. So if you had a bunch of users hitting that one gen server, it would kind of force them into a serial, like person A might be blocking person B from their updates if the system was running slowly. Or you might break up your, like you might build a gen server per user. That's another thing you could do.
+
+Owen Bickford:
+So that actually kind of raises I think a point I was struggling to remember that I was going to make. So have you done any work with live view?
+
+Kate:
+Oh, yes.
+
+Owen Bickford:
+Okay. So you've built I'm sure a live view or done some edits on a live view at some point?
+
+Kate:
+Yeah. Earlier when Sunday was talking about how the gen server automatically reconnects or whatever, I was like Socket. That's what I was thinking. I didn't know if that's where you were going.
+
+Owen Bickford:
+So not Socket specifically, but what's interesting is, and I'm going from memory here, but if I remember correctly, live views are essentially a kind of wrapper of a gen server. So when you're writing a live view, a lot of the syntax, the handle error, handle info, all those callbacks you can use, those are very, very similar to what you do with the gen server. So if you think of the live view process, like anyone who connects to your web app and you render this live view, that's a process.
+
+Sundi Myint:
+Those are gen server functions.
+
+Owen Bickford:
+Right. Yeah.
+
+Sundi Myint:
+Handle info and handle call.
+
+Owen Bickford:
+Handle call. Well, handle cast, handle call. Those are some gen server callbacks. I believe, handle information. Handle event may be live view specific.
+
+Sundi Myint:
+I definitely don't have a book in front of me. You see nothing. There's nothing here.
+
+Owen Bickford:
+Right. And I've got the docs open. So yeah, I always keep the docs open so I'm trying to sound smart about something. But, yeah.
+
+Sundi Myint:
+You heard it here first folks.
+
+Owen Bickford:
+The docs are always open. Yeah. So I think handle event is specific to Live View, but you'll see handle cast, handle call, handle information. Those are very similar to things you do within a live view. So that to me, once I had worked with live view and then I was trying to understand gen servers, everything made a lot more sense because writing live view code is a lot like writing gen server code in some ways.
+
+Kate:
+Okay. But where is the callback coming from? When you're on live view, you're using handle info or handle event. Handle event is, like I use that with Pub/Sub. Or handle information, something is coming from the web. Where does the callback come from with a gen server?
+
+Owen Bickford:
+So callbacks in Elixir are defined by behavior. So we're going to throw a lot of words here. So it's okay if, like it took me forever to understand some of these words anyway. So anytime you're saying use phoenix.liveview at the top of your live view module, that's kind of implicitly using something called a behavior. So if you were to look at the live view source code, you would see @behaviorphoenix.liveview I think. And then you'll see at callback, handle info and then it describes what types of arguments you can pass into a handle info function. So a callback is just kind of another word for function that's kind of prescribed by the behavior you're using without defining the actual implementation. So.
+
+Sundi Myint:
+So for the question of where it comes from, I think it's just that the functions are there out of the box as a part of gen server.
+
+Owen Bickford:
+Yeah. If we're talking about gen server, whenever you say use gen server, those callbacks, handle information, handle cast, handle call, those are coming from the gen server module.
+
+Sundi Myint:
+Yeah. So six callbacks are automatically defined and that includes the handle call, the handle cast, handle info, terminate code change, and then the one that everyone uses when they're actually building a gen server, which is init.
+
+Owen Bickford:
+Right. Yeah.
+
+Kate:
+Okay.
+
+Sundi Myint:
+Good old init.
+
+Owen Bickford:
+Does that make sense?
+
+Kate:
+Kind of. But those six callbacks, when are they called?
+
+Owen Bickford:
+So, you decide...
+
+Kate:
+Like let's start with a init.
+
+Sundi Myint:
+Yeah.
+
+Owen Bickford:
+Yeah. So let's just do with it gen servers, just to keep it out of...
+
+Kate:
+In general. Okay.
+
+Owen Bickford:
+Without conflating live view and gen servers, I'll try to simplify it here. So with gen server, so let's say we're going to write a new, let's say, let's write a ticket in gen server in our mind. Okay. So defmodulektap.tickets. So at the second or third line you're going to have use gen server. And then if you write no more code, Elixir LS is going to tell you you've, like it's going to underline squiggles under gen server because you haven't implemented a couple of required callbacks. So I think the first one would be a init.
+
+Sundi Myint:
+Start link is first.
+
+Owen Bickford:
+Well, yeah, typically you'll implement start link. It's not a required callback though.
+
+Sundi Myint:
+Right.
+
+Owen Bickford:
+So start link, you don't... It's optional. You don't necessarily have to write it, unless you want to override the default behavior. But init would be, I believe it's required. And so...
+
+Sundi Myint:
+I think it's just init.
+
+Owen Bickford:
+Yeah. Init takes one argument and you can use that argument. So it could be a keyword list. It could be a strut. It could be a map. However you want to send data into that tickets gen server, that's the type of data that init would receive whenever it's starting up or initializing is what that stands for.
+
+Owen Bickford:
+So then if you look at the docs for gen server, .init, it shows you that it can accept whatever kind of term as it's argument and then it can return either, like [inaudible 00:25:39], with okay, and the state of the gen server. I can return like a timeout. It can return stop or ignore. There's a couple of different ways it can respond whenever it starts up.
+
+Owen Bickford:
+That's the very first step of starting a gen server, is just writing that init command, and figuring out if you want it to receive data as it's starting up. So you would use that maybe to populate
+
+Owen Bickford:
+... relate, like some example ticket data, or to decide the structure of the... Do you want to use a list for all of your records? Do you want to put things in a map? That kind of thing. So that's your first maybe five minutes of a Genserver, is just running in it, figuring out how you want it to start and what type of data it should receive.
+
+Kate:
+Okay. Does it also store that data?
+
+Owen Bickford:
+Yeah. So it could. You could either kind of ignore the data, just underscore that argument inside of a net. Or, let's say, if it's important data that you want to actually use when on the gen server... So when your application's starting, you would say... Inside of your children you would say Kate's app.tickets comma. Usually you'll see empty lists of... Nothing's being passed in there. So it's giving it it's default in net argument. But then whenever... So if you wanted to pass in some other options from the application module, that's where you'd do it. You would just say Kate's app.tickets. And then inside of that list you might put Kate is cold, true, or whatever. Whatever makes sense there. And then...
+
+Sundi Myint:
+You're saying this because Kate's wearing a hoodie.
+
+Owen Bickford:
+Right?
+
+Sundi Myint:
+Simple but colors.
+
+Kate:
+Thank you. Thank you for recognizing that.
+
+Owen Bickford:
+So I don't want to get bogged down in a net, but that's where whatever type of data you want that Genserver to require on startup, that's where you would pass it in. So you might tell which type of struct it needs or options to configure the things. So it runs in a specific way. And then from that point, once your Genserver starts with your application, or even if you start it later on, then it can receive messages. So from any other process you could have a Pubsub that subscribes to Genserver or sends messages to a Genserver. But anytime you want to send messages to your Genserver, you're basically saying either process.send or there's a bunch of different ways to do it.
+
+Owen Bickford:
+But you would do Genserver.call or Genserver.cast and then you would send messages over to Genserver and then... So call... The difference between call and cast is call will... If you have a function that says Genserver.call, it's going to wait for that response from the Genserver, which sometimes you want to wait for that response because you need that result so you can do something with it. Other times, if you're just, say, incrementing a counter and you don't necessarily need to know the new value, then you can do cast and then your application, like your controller or whatever, can keep on moving, doing whatever else it needs to do without waiting for that Genserver to do its math.
+
+Kate:
+So many parts of our code base are starting to make sense to me right now.
+
+Owen Bickford:
+That's awesome.
+
+Sundi Myint:
+Yay. That was the goal.
+
+Sundi Myint:
+So since it's starting to click now, I'm curious if... You kind of made some of these connections because we were talking about how that works with LiveView, and I'm curious if you are using LiveView personally or at work in any projects? Just to give us some context.
+
+Kate:
+I used a lot of LiveView when I was doing my little bootcamp in my mom's basement. That was three months of going through Sophie DeBenedetto book program at Phoenix LiveView. And I've done multiple tickets where I'm working with the LiveView at Simplebet.
+
+Owen Bickford:
+Yeah, I highly, highly, highly recommend her talk and her [inaudible 00:29:34] school article on PubSub and Presence. I watched that a few times because I was struggling to understand those things even before I was tackling GenServer stuff. And just watching those a couple times, hearing her very clear explanations... And clear examples, also, of, here's an example of a user PubSub and Presence, and sending events over PubSub and that kind of thing. A lot of things started clicking whenever I was watching her talk, so...
+
+Kate:
+I need to watch that talk, but she also covers that in her book, which, that book is very solid. Even if you're trying to learn Phoenix, she goes over so much.
+
+Sundi Myint:
+Yeah.
+
+Kate:
+Not just LiveView.
+
+Sundi Myint:
+Is that book, at this point in time, out of beta? Can you physically buy a copy?
+
+Kate:
+Yes.
+
+Sundi Myint:
+Like a physical copy? Or is it updating so fast every day that they can't release a physical copy yet?
+
+Kate:
+No, I think that three months after I started working at Simplebit, I don't remember. They have a physical copy out now I believe. But if you buy it once, if you download it once, you can get every update.
+
+Sundi Myint:
+I just want to know if I can add it to my shelf.
+
+Kate:
+I would love to have that on my shelf.
+
+Sundi Myint:
+Exactly.
+
+Owen Bickford:
+Yeah, that would be a great book to have on display. I think they are going to be doing another big update now that LiveView 0.18 is out.
+
+Sundi Myint:
+Today?
+
+Owen Bickford:
+Phoenix? Yes.
+
+Sundi Myint:
+Today Dave recording 18 came out. 0.18.
+
+Owen Bickford:
+So yeah, they've got a little bit of tweaking to do. I think they were working on it over the summer, but Bruce's on a boat, Sophie's... I think there were just kind of holding, cause there was so much change happening in LiveView with props and adders and...
+
+Sundi Myint:
+It does not look like the first edition physical book has been released yet. So maybe soon, now that we're getting more solid territory.
+
+Owen Bickford:
+Right.
+
+Sundi Myint:
+Sweet.
+
+Owen Bickford:
+So, one thing I was thinking about to illustrate understanding what a Genserver does is how would you test a Genserver?
+
+Sundi Myint:
+Oh yeah. Did you get into any testing when you were kind of going through that project as a starting point? Or where they said you wanted that it should end at?
+
+Kate:
+The project was testing the state management stuff.
+
+Sundi Myint:
+Oh, sorry. So were you writing a Genserver to test the state or were you writing Genservers and then your particular ticket was to test the Genserver?
+
+Kate:
+That was a great question that I will struggle to answer.
+
+Sundi Myint:
+Okay. No, that's fine.
+
+Kate:
+That is where I got introduced to property tests. So if property tests use Genservers, then yes, but I have no idea what I'm talking about, so... I'm just going to be honest.
+
+Owen Bickford:
+Welcome to the party. Yeah, we've all had that day. So the reason I bring up testing is... So at a high level, without thinking about a specific Genserver rule set we'll stick with the ticket example here. But I think the very first things you would test would be... So I've got my Kate's cool dot... Kate's App.tickets Genserver, and I'm going to write a test to, what do I want to know about the... I want to make sure it starts correctly. So if I'm starting it manually, I want to test that, or if I know it's starting with the application, I want to make sure that it's running when the application starts. And then, basically, once it's running, all you're testing is, does the Genserver receive messages? And then does it return responses? Like, if I'm doing a call or if I'm doing a cast, it should return, okay. If I'm sending a call into Genserver, it should return a response.
+
+Owen Bickford:
+And then... So inside of your X unit test, this will be a unit test. So you would say you would have a test that tickets.newticket returns a response. So inside of that test you're going to write tickets.newticket, and you're going to give it a map or whatever attributes, right. And then on another line you're going to write, "assert receive."
+
+Owen Bickford:
+So that's a process assertion. It's going to wait for, so the test is going to wait for this Genserver to send a response and you're going to say, I want the response to look like this. It's probably going to be a twofold that says no reply with the new ticket, or maybe a list of tickets or whatever. And then you can either allow it to wait up to 100 milliseconds, which is the default, or you can allow it to wait a little bit longer, which might slow your test down, but it might fix a broken test there. So that's kind of what I had in mind of... That's kind of how you would see... Is your Genserver doing what it's supposed to do? Is it starting correctly, is it sending the correct responses back? And you do that with assert receive.
+
+Sundi Myint:
+Or you could do what I did, which is just put it where it doesn't... the Genserver, you're right, doesn't work. Put it in your supervision tree and just watch it all implode.
+
+Kate:
+Yeah.
+
+Owen Bickford:
+Implosion driven development.
+
+Sundi Myint:
+Oh my god. Oh, point here first.
+
+Kate:
+So, one thing that Sundi said in the beginning that was great about Genservers is that if they die on accident, they reboot back up. Excuse my terminology, I know my jargon isn't correct, but could you test that?
+
+Sundi Myint:
+Can you test that? That's a fair question.
+
+Kate:
+In a magical world you could, but I don't know if this is that world.
+
+Owen Bickford:
+Let's start with the example where, let's say your ticket's Genserver needs to start with your application. In that case, inside of your application EX file, you're going to have a list of children that's always there by default. So then you would add a new row that says, it's a two poll that says, Ktab.tickets with that empty list, or whatever data you want to send it for initialization. So whenever the application starts, your ticket's Genserver should come up. And then if you want to test that it restarts after a failing inside of your X Unit test, you'd write another test and then you would say... Refresh my memory here, but I think you can just call Genserver to stop and then you can give it a reason. So you can tell it to stop with a normal reason, which is like,, it'll stop and then it should... I think it'll automatically restart.
+
+Owen Bickford:
+But this actually is a little bit more dependent on how your supervisor is configured. So if your supervisor is supposed to restart the process, which I think is the default behavior, then your test... You would say Genserver.stop my Genserver. And then you might sleep for a second, and then assert that Genserver is back online. So yeah, you would probably do... First you would do Genserver.stop, wait a second, and then do Genserver.whereis where is. And that would kind of tell you that the Genserver started back up again with the new process.
+
+Sundi Myint:
+And for more resources on this particular subject, there is, I just checked, a section in the Testing Elixir book by Jeffrey Matthias and Andrea Leopardi of test... How to test a Genserver. And I think it's a whole chapter of testing OTP, but it might be a section specifically dedicated to Genserver. I know a lot of people have that book, so I just wanted to shout that out there.
+
+Kate:
+Can you say the name of the book one more time?
+
+Sundi Myint:
+Testing Elixir.
+
+Owen Bickford:
+Are they paying you?
+
+Sundi Myint:
+No, but my name is on the back of the book.
+
+Kate:
+How did you manage that?
+
+Sundi Myint:
+I did a review. I did a speed read, which is why I don't remember this exact section very well, but I've been slowly reading it all the way through again, because...
+
+Kate:
+I love testing. It's fun.
+
+Sundi Myint:
+I'm like checking my work. I was that kid in school.
+
+Owen Bickford:
+It's fun when they pass.
+
+Sundi Myint:
+No, I mean, yeah. When it's the test fault, that's not fun. If you wrote the test poorly. When it's your code not working, I love that. I want to see why that's not happening the way I think it is. So, really into testing. Jeffrey asked me to review the book when I found out I was really into testing.
+
+Kate:
+I'm with you, Sundi. I found some test files that were messy and I'm like, I just want to organize these. And so I've been organizing test files and I enjoy it. I love order.
+
+Sundi Myint:
+I love order. Oh my gosh. It makes me want to throw chaos at you somehow, but I don't know how to do that.
+
+Kate:
+Okay, well, I'm in my room and this is the only clean spot in my room. So, there's some things that I'm okay with not order. But when it comes to my test files, I like order.
+
+Sundi Myint:
+All right, well, we'll have to let Jeffrey know you said that. Just generally speaking, I just wanted to get a feel for... We've done a little bit of a deep dive into Genservers today. Do you see yourself using them more in the future? Are there aspects of our conversation today that you can maybe apply to other pieces of Elixir application process for the way you code? I'm just thinking of how we can make that broader as a skillset.
+
+Kate:
+Okay. Am I less scared to use it now? Am I more familiar with it now? Do I feel I can ask questions about it now?
+
+Sundi Myint:
+I love it. That's not what I asked, but I will take it. That is a way better question.
+
+Kate:
+I mean, I'm just trying to translate your question. Answer your question with a question.
+
+Sundi Myint:
+Yes.
+
+Kate:
+But
+
+Sundi Myint:
+Are you less scared of using GenServers now? Let's go.
+
+Kate:
+I'm less timid. I feel like if I was working on a project and I need to know the type of tools I'm going to use, I would know better when to use a GenServer. I feel like I could go and do a project with a GenServer now. I don't think I would've done that before this conversation, but now I'm really interested. So.
+
+Owen Bickford:
+That's awesome.
+
+Kate:
+For me, I noticed that I am more of a verbal learner. I like talking about things with people and then I go do it. I know people who can just read docs after docs and then go do a project and they're totally intrigued but I like having conversations about things and doing projects.
+
+Sundi Myint:
+That's interesting because most people will say that if they're a verbal learner, that they're a visual, they need to watch a video versus just talking about it. So, do you learn better by talking about it?
+
+Kate:
+100%.
+
+Sundi Myint:
+Huh. Okay. That might be a first for me, but no, I totally get that because Owen actually sat there and had to illustrate a fake application off the top of his head. What was it the K Cool app?
+
+Kate:
+Yeah.
+
+Owen Bickford:
+Yeah.
+
+Kate:
+I love that.
+
+Sundi Myint:
+Yeah. You have to like form it. Yeah, you have to form it in your head. Yeah. That's interesting. That's really cool.
+
+Kate:
+Well, how many extroverts like, true extroverts do you know in the programming community? I feel like programmers tend to be introverts. I'm very extroverted.
+
+Sundi Myint:
+Todd. Photo.
+
+Owen Bickford:
+Case and point. I do think people at ElixirConf are maybe a little bit more extroverted than they normally would be.
+
+Sundi Myint:
+Yeah.
+
+Owen Bickford:
+I find myself being a little bit more extroverted around other engineers and developers.
+
+Sundi Myint:
+I am peak extroverted at ElixirConf.
+
+Owen Bickford:
+Right. Yeah. I can't talk about sports or the kind of normy topics necessarily, but talk about, you know...
+
+Kate:
+I'm a sports betting company.
+
+Owen Bickford:
+Right. I can sit back and I'll be the audience for that conversation. I'm really happy to hear that things are maybe clicking a little bit with GenServers. I know it's something that took me, I was writing a lot of Elixir code over the years and then kind of putting off GenServers. You have to do this sometimes you can't learn everything at once. So kind of being selective about what you learn and when you learn it totally makes sense. Otherwise, you kind of get burnt out.
+
+Kate:
+Yeah.
+
+Owen Bickford:
+I think one thing I just wanted to point to before we wrap up GenServer talk is there's a really important section in the docs about when not to use a GenServer. I think the one of the gotchas is people will kind of use it, especially coming from Ruby, you might have a User's GenServer and a ticket's GenServer and a blog article's GenServer for every type of data and that's not how you want to use a GenServer. But I'll let the docs explain that better than I can in the remaining minutes we have.
+
+Sundi Myint:
+Yeah. I just didn't want to let us go without addressing Kate's hot topic. Hot take. That we both moved this year. I didn't know you moved Kate. Talking about managing state.
+
+Kate:
+Yeah well.
+
+Sundi Myint:
+You moved states?
+
+Owen Bickford:
+Right? Managing.
+
+Kate:
+No, I did not move states.
+
+Sundi Myint:
+Oh man, Owen, you're really rubbing off.
+
+Owen Bickford:
+Good. Good pun. You're learning.
+
+Sundi Myint:
+Oh, people are watching me in my evolution in the jokes right on the podcast. Kate, please take it away.
+
+Kate:
+Okay, whoa wait, we just need to stop there. Dad jokes? All right, hold up. Were you guys there for Chris McCord's talk? There's like 40 minutes. There was 40 minutes of tech issues and they started going around the room telling dad jokes.
+
+Sundi Myint:
+35 minutes, not counting. Yeah, I was there. I was there.
+
+Kate:
+Anyway, I had to walk out of the room. I was crying. I was laughing so hard. My team was behind me and I'm sure they're like she's laughing too hard at this. I had to walk out of the room and get myself back together.
+
+Sundi Myint:
+That's so great. I love that.
+
+Kate:
+And I started the dad jokes channel at our work.
+
+Sundi Myint:
+Nice.
+
+Kate:
+That's all I had to say.
+
+Sundi Myint:
+Well, so did you move states or not? To get back to the question.
+
+Kate:
+I didn't.
+
+Sundi Myint:
+Okay.
+
+Kate:
+I lived at my parents' house my whole life and I just moved out on my own for the first time.
+
+Sundi Myint:
+Congratulations.
+
+Kate:
+So I'm five minutes down the road from them. Thank you.
+
+Owen Bickford:
+Wow.
+
+Sundi Myint:
+That [inaudible 00:43:36] life.
+
+Owen Bickford:
+It's a big move.
+
+Kate:
+Yeah. Whole five minutes.
+
+Sundi Myint:
+That's the way to do it. I wouldn't do anything big. Not in these times.
+
+Kate:
+Yeah. Yeah.
+
+Sundi Myint:
+That's awesome. And so you're what? Struggling with over decorating? Under decorating? Because decorating is expensive.
+
+Kate:
+Yeah, I know. And my dad's always telling me, you got to make a good investment into a washer and dryer. You are going to use it for 10 years. I'm like, no.
+
+Sundi Myint:
+Aren't you renting?
+
+Kate:
+Please.
+
+Sundi Myint:
+Please tell me you're renting.
+
+Kate:
+I am renting.
+
+Sundi Myint:
+Okay.
+
+Kate:
+But it didn't come with a washer and dryer, so I had to go get one. And beds and couches. But if you get a solid bed or a solid couch or solid washer and dryer, oh my word. $2,000 on each of those. That's minimum.
+
+Sundi Myint:
+I was told when I first got my first job right out of college, I had interned at a place and then I was talking with all my coworkers, I was about to start there full time. They were like, "Sundi, if you're going to invest in one thing, get a really good mattress. That's where you're going to spend half your life. Don't skimp on the mattress". And I started looking mattress, I was like, "Guys, they're like $2,000". They said, "yeah, don't skim on your mattress". And I was like, okay. That was the worst advice I ever took. When you go to a mattress store and you try out the mattresses and they always seem soft and they're going to be great. Yes, they'll take them back but those things are really heavy. I was stuck with that mattress that was thousands of dollars for years because I couldn't make myself get rid of it. Then when I moved to this house, I had to suddenly furnish this house really quickly and I got a Costco mattress for $300 and it's the best thing I've ever slept on.
+
+Owen Bickford:
+100%. I have a very similar story.
+
+Sundi Myint:
+Just saying. You don't have to get a cheap mattress.
+
+Kate:
+Costco.
+
+Sundi Myint:
+Costco is good quality, but you don't have to spend thousands. They just made me think I had to spend thousands for thousand’s sake. So, my life advice don't spend $2,000 on a mattress.
+
+Kate:
+Thank you. Yes. Costco was where I got my mattresses and I ordered them in. Actually.
+
+Sundi Myint:
+Yeah, that's the only way to do it. I don't think you can go to pick them up usually.
+
+Kate:
+Actually, I picked one up from Costco and then the other one I ordered off of Amazon, but it was the same brand. But yeah, Costco has solid mattresses.
+
+Sundi Myint:
+But definitely just huge congratulations on, well, this is our first time talking to you on the podcast, so congratulations on your job. Congratulations on your new apartment. You did a lightning talk, so congratulations on that. And you also, you were the spokesperson for SimpleBet's Sponsor Talk, so congratulations on that. We just had to get it all out there right here at the end.
+
+Kate:
+Thank you. We actually had someone apply at SimpleBet and they said that my talk was a motivator for them and I was like...
+
+Owen Bickford:
+Wow.
+
+Kate:
+I love that.
+
+Sundi Myint:
+That's the best.
+
+Owen Bickford:
+That's what you want to hear.
+
+Kate:
+I was so happy. Yeah.
+
+Sundi Myint:
+Well, this is your time. Do you have any final plugs or asked of the audience? Are you hiring at SimpleBet? Anything you want to just shout out there?
+
+Owen Bickford:
+As an Elixir influencer as you are.
+
+Sundi Myint:
+Yes.
+
+Kate:
+We are hiring at SimpleBet, so please apply. We have a bunch of positions of open engineering, some on the business side and some on the trading side. We have one other side that I forgot. I was looking at the business page yesterday and I guess as a junior developer, I would just say don't be afraid to ask questions. Ask as many questions as possible, try and figure out the answer on your own first but don't be afraid to ask questions. And please post in public channels.
+
+Sundi Myint:
+Yes.
+
+Kate:
+That's all I got to say.
+
+Sundi Myint:
+And you asked great questions today, so we're all here for the journey and the learning, so thank you, Kate.
+
+Kate:
+Yeah, thank you guys for having me.
+
+Sundi Myint:
+Yeah.
+
+Kate:
+This was a lot of fun.
+
+Sundi Myint:
+Awesome. Well that's it for today's episode of Elixir Wizards. Thanks again to our guest, Kate Rezentes for joining us. I'm Sundi Myint and my co-host is Owen Bickford. Elixir Wizards is produced by Hanger Studios and is brought to you by SmartLogic. Here at SmartLogic we build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. Need a piece of custom software built? Hit us up. Don't forget to like, subscribe and leave a review. Your reviews help us reach new listeners and you can find us on Twitter at SmartLogic or join the Elixir Wizards discord. The link is on the podcast page and see you next week for more on parsing the particulars.
+

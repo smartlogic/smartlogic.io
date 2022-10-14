@@ -1,0 +1,591 @@
+Sundi Myint:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint and I'll be your host. I'm joined by my co-host, Bilal Hankins. The season theme is Parsing the Particulars. Today we are joined by special guest , and we'll be diving into the particulars of Geo-mapping. Hey, Tyler.
+
+Tyler Young:
+Hi. I'm so excited to be here. Love the podcast.
+
+Sundi Myint:
+You're so excited to be here that you're wearing a SmartLogic shirt. Don't think that we weren't going to call that out.
+
+Tyler Young:
+Yeah, I put it on this morning, and I was like, "Oh, this is going to be embarrassing." Then I was like, "Nah, we're going for it."
+
+Sundi Myint:
+Okay.
+
+Tyler Young:
+I got a whole new wardrobe at Elixir Comp.
+
+Sundi Myint:
+Amazing. Bilal, how are you doing today?
+
+Bilal Hankins:
+I'm doing pretty splendid. Just got back in New Orleans these past couple days, and I'm reciting them. But yeah, it's been nice.
+
+Sundi Myint:
+Splendid is a good word. But you had another word the other day for how you were feeling.
+
+Bilal Hankins:
+Oh yeah.
+
+Sundi Myint:
+It was pretty particular.
+
+Bilal Hankins:
+I was feeling very chartreuse in the afternoon. I think that was yesterday.
+
+Sundi Myint:
+Yes.
+
+Bilal Hankins:
+Pretty chartreuse.
+
+Sundi Myint:
+Yes, it was. And then I started looking up chartreuse sweaters, and now that will dominate my ad space for the next two days. Got to love the internet. So Tyler, we are talking about Geo-mapping today. So you're from Felt. You want to give us a round down on what Felt is and your role in it?
+
+Tyler Young:
+Sure, yeah. So, Felt is, we make a web app that lets people make maps, and so this is useful for people doing, maybe you're planning a vacation or a backpacking trip, or maybe you're a real estate developer planning what properties to buy. The use cases are endless. We use Elixir and React, and it's an awesome space and a fun product to work on.
+
+Sundi Myint:
+Cool. How did you find yourself in the map industry, or did you interview for a job for Elixir?
+
+Tyler Young:
+Oh, it was definitely for Elixir.
+
+Sundi Myint:
+Okay.
+
+Tyler Young:
+So, when I left, I worked at a place for about 10 years called, X-Plane. They make a flight simulator, so you're flying your virtual airplane and that sort of thing. And toward the end of my time there I worked on this massive multiplayer game server, and got to choose the tech to ride it in, which is rare, and was a lot of fun. Elixir's what I landed on, and I fell in love with it, and I have not wanted to do anything else ever since.
+
+Sundi Myint:
+Cool. So, mapping was not necessarily the draw, but the Elixir was.
+
+Tyler Young:
+Yeah, exactly. I had done a little bit of stuff with mapping and I knew that I was interested in it. At X-Plane we used GIS stuff for doing the scenery. We would take in a bunch of open straight map data, and turn it into tiles and stuff for loading in the 3D world.
+
+Sundi Myint:
+We should definitely put a pin in that because I want to come back to that. When I was driving near the airport in DC, my GPS suddenly got cute, the trees had fuller leaves on it, it zoomed in like we were in a drone showing me the path to take. But it only did that there around the airport, otherwise it was just a pretty normal GPS.
+
+Tyler Young:
+That's why.
+
+Sundi Myint:
+I was like, "Okay, you love Reagan, fine." Bilal, you really were interested in joining this conversation from a mapping standpoint. You want to tell us what you're interested in learning?
+
+Bilal Hankins:
+Well, just looking at the product, Felt itself, I actually, since I did just take a road trip, and I knew this was coming up, I did play around in Felt, and I really liked just the ability. It seemed very cross collaborative. I could invite more people to collaborate on a map. But I really appreciate just drawing on a map. That was my main thing. It's revolutionary compared to Apple Maps.
+
+Tyler Young:
+When I was interviewing, that was the thing that sold me. So, when I was hired, they only had the basics of the drawing feature built out. But the CTO did a five minute demo of drawing, and I was like, "Where has this been all my life?"
+
+Bilal Hankins:
+Right.
+
+Tyler Young:
+"This is the only way I want to plan vacations and stuff from now on."
+
+Sundi Myint:
+That's awesome. Is that what you used, Tyler? I know I saw on Twitter that you hadn't mapped out. Bruce Tate from Groxio is doing the Great Loop where he's sailing from Chattanooga down the Florida coast, up the east coast, through Canada, then through Great Lakes, and then back down of Chattanooga. Did I get that right?
+
+Tyler Young:
+Yeah.
+
+Sundi Myint:
+Is that what you used to draw that out?
+
+Tyler Young:
+Yeah, so I had started, I traced the route with the marker tool based on the drawing that they had on their website. And then I pulled in their, Google maps will give you an export of the points that they had labeled as, this is where we stopped. So, I pulled that from there, Google My Maps, and stuck it in the Felt map.
+
+Sundi Myint:
+Sweet. Yeah, that's when I had this moment where I was like, I need to meet Tyler. I think he's going to Elixir Comp. I'm a big map nerd, and then I just love maps. This is such an interesting conversation to have because I just will, looking at maps, I just looking at them.
+
+Tyler Young:
+Sure.
+
+Sundi Myint:
+When I read any fantasy book, I'm constantly referring to the map at the beginning. They usually have a drawing. We talked about this on the podcast last season, but last season I was reading Wheel of Time. I got through that series really quickly. But it would've been maybe even faster if I had a better map because the series is 20 years old or something. And so the original map that's drawn is just hard to read. They show you rivers, and towns, and portals, and just a bunch of stuff. I always was googling it, and then accidentally spoiling things for myself because I was trying to figure out where they were in relation to other people. So I have since spent a lot of money on a laser cut wood cut map.
+
+Tyler Young:
+That's awesome.
+
+Sundi Myint:
+I've finished reading, but I love this map. It's something that I've always wanted. So, I was really excited to talk to you just from a, I love maps perspective.
+
+Tyler Young:
+Totally. That's awesome.
+
+Sundi Myint:
+All right, cool. Let's just jump right in. So GIS, we threw around that phrase a little bit just now. What does it stand for? Is there any protocol for it? Can you give us a quick TLDR on it? We don't have to go too deep into it. I'm just curious how you use it.
+
+Tyler Young:
+Sure. So, right up front, let me say that I am not the expert here. Everything I know about GIS, I learned on the job and I learned just enough to get the job done. I read the post 'GIS in Action,' which is post GIS, is the plugin for PostGIS. I read that book, and it got me far enough, and that's as much formal education as I've had. So anyway, so GIS, geographic information systems, this is the whole sphere of human inquiry as far as using computers to represent geographic stuff. So for computer nerds like us, stuff like the database representation of a polygon, or a line, or maybe higher level human concepts, this is a route that a person should follow versus these are the points that we actually measured their GPS coordinates, and that sort of thing. So, that's what we're talking about.
+
+Sundi Myint:
+I tried to just quickly Google a history of GIS timeline, and it looks like the earliest history comes up in the 1960s. Then we start going through, Harvard, picks up a lab in 63, and then it goes commercial in 81. So, it's more recent history. But I feel maps have always been around, if you think of evolution of MapQuest to Google Maps, although I heard MapQuest is still an app, it's like an app in use.
+
+Tyler Young:
+Is it really?
+
+Sundi Myint:
+Yes, it's not what it was. So yeah, it's just an interesting concept for those of us who don't know what MapQuest was to some of us back in the day, no one in particular. You used to have to say where you were going to put into the computer, into the website where you started, where you're going, and you would print out the directions to get to that place. Forget traffic, forget roadblocks, forget road changes.
+
+Tyler Young:
+God forbid you take a wrong turn, yeah.
+
+Sundi Myint:
+I absolutely remember back in middle school or something, my mom and I got lost, and we were going to the post office, and we followed the mailman there.
+
+Tyler Young:
+That's awesome. Kids today, they'll never know that joy.
+
+Sundi Myint:
+So, we've talked a little bit about what GIS is. I actually knew what GIS was from college. My history was, I was a computer science major, didn't quite cut it in the math department, and then had to switch to another major. But I had an internship where they said, "You can do whatever, just be any major, and then you're likely to be able to continue coding if you want to keep doing this." And I was like, "Okay, cool." So I went the art route. I considered GIS for a minute because it was the only other information sciences type thing at my school. So, I know you can study it. Can you speak to what somebody who studied GIS in school might actually do in your field, or maybe do you have anyone who works with you who already studied GIS?
+
+Tyler Young:
+Yeah, totally. So, I think of GIS as being a data science engineer with a particular focus on spatial stuff. Maybe somebody with a GIS degree would correct me, but that's how I think of it. We have a whole data team that is focused on taking a big import of data, maybe from open street map, maybe from some other source, and transforming it into something useful. So, they work primarily in Python. They have this big AWS infrastructure to do all this data processing in parallel, and it's a black box for me. They spit out some tiles that we can render on the map, or data sets that we can query, and that's as much as I see from my side.
+
+Sundi Myint:
+We've talked about a few use cases for building out maps, but you wrote one that I'm really interested
+
+Sundi Myint:
+And the current events, mapping out war time kind of things, specifically, you mentioned Ukraine and then planning forest fire responses. Have you seen those kind of use cases for mapping?
+
+Tyler Young:
+We have and we've seen it in Felt. So some of our earliest beta testers were fire department. I want to say it's somewhere in California. I'm going to get the city wrong if I say it. But they basically took... We have these data sets that show historical locations of wildfires and so they can kind of look at that and say, "This is where the wildfires were in 2021, and so here's where we need to focus our efforts for this coming season." And so they can draw on it and they can share it around and that sort of thing.
+
+Tyler Young:
+It's kind of a similar story for mapping current events and stuff. Anytime you see a New York Times map of this is what's going on in the Ukraine war and here's the front, or here's the city that's being attacked and that sort of thing. We want to support doing that sort of thing in Felt. And so there are a couple small news organizations using it now, but we're trying to target some of the bigger names.
+
+Bilal Hankins:
+Wow. I hadn't thought of forest fires, but now that you outlined you like that, Yeah, I can really see how that's a real good use case of this.
+
+Tyler Young:
+Right? Yeah. And compared to maybe having pins on a wall somewhere, it's a lot easier. You can interact with that map from your phone when you're on the site and that sort of thing.
+
+Sundi Myint:
+So does Elixir do anything in particular that really lends towards map making? Are there any specific Elixir features that you use a lot? There's so many features of Elixir I can't even name drop any, but yeah.
+
+Tyler Young:
+Sure. Yeah, I think Ecto is a superpower. It's so flexible for doing even really low level stuff. We want to use a bunch of post GIS queries to say, get a bounding box for a bunch of stuff on your map. And being able to drop down and use that low level stuff is really nice.
+
+Sundi Myint:
+Bounding box is actually a really interesting, since we're deep diving, can you explain a bounding box? Because I have worked with one before, but it was like two years ago and I forgot.
+
+Tyler Young:
+Sure, sure. Sorry. Sometimes I'm so embedded in it, I forget that this is not something other people are dealing with every day. Yeah.
+
+Sundi Myint:
+Yeah. We're deep diving. We're going in.
+
+Tyler Young:
+Yeah. Yeah. So a bounding box, if you imagine you have a dozen polygons that are placed somewhere across the US, let's say. A bounding box would be a square with the west, aligned with the west most edge of the west most coordinate and it's east side is the east most coordinate of all of your elements and so on. So it's like it's a northeast, southwest aligned box that fits all of your stuff. This is useful in our case because the first time that you load the map, we want to show it zoomed out to a place where you can see everything.
+
+Sundi Myint:
+Yeah. A technical consideration, I remember working with boundary boxes or bounding boxes was if you were to consider what is a natural zoomed out state, if you had no address, did you just focus on the US? Or if you do have an address, how far can you zoom out before that data disappears? Are these kind of considerations that you run into?
+
+Tyler Young:
+Sure. Yeah. So the initial state of a new map, we try to geo locate your IP and we pick a zoom level that we hope will capture the city, whatever city you're in. So for me, I think it actually focuses 40 miles north of me or something. That's kind of funny.
+
+Sundi Myint:
+So you said Ecto was a superpower. What else from Elixir?
+
+Tyler Young:
+Well, the library support is good, and I'll put a little asterisk there because there are libraries for dealing with GeoJSON, which is a very common interchange format. There are more obscure ones like GPX. GPX is basically the interchange format for GPS data. Similarly, there's support for KMLs. KML is Google's file format that they use for I think all kinds of geo data.
+
+Tyler Young:
+The reason I put a little asterisk there is because ultimately at Felt we wanted to support everything. If you could name a geo data file, we wanted to be able to support it. And so kind of bundling together these disparate libraries wasn't cutting it for us. And so we shell out to a program called GDAL, G-D-A-L and GDAL supports hundreds or thousands of file formats and can transform it all into GeoJSON for us. So I was a little sad to lose the built in Elixir support, but it's pretty comprehensive.
+
+Tyler Young:
+The other thing I will say is the library support for post processing data is really good. So you can represent a latitude and longitude as a two pull of two floats and do all kinds of manipulation on that. We had an interesting problem a while back where per the GeoJSON spec, a polygon is supposed to be wound in a counterclockwise direction. Basically, if you look at the list of points, they should go counterclockwise from the start. And we had some data in the database that was not wound the correct direction and that turned into a geometry problem. Basically, you try to find the area of the shape and if it winds up being positive, it's counterclockwise. And if it's negative, it's not counterclockwise wound and we need to reverse it.
+
+Tyler Young:
+Elixir is like people give it so much trouble for, it's not good for number crunching and stuff, and for our case, if you've got 10,000 elements on a map, it's plenty fast enough to do that analysis.
+
+Bilal Hankins:
+It seems like something that like Elixir would be built for.
+
+Tyler Young:
+Sure. I mean, when you talk about if you've got hundreds or thousands of requests coming in a second, it doesn't really matter if it takes 10 milliseconds to do that analysis or not. The fact that you can serve all of those at the same time is what's important.
+
+Sundi Myint:
+So not to talk about competitors, or I don't even know if you call these competitors, but there are other map companies out there who use other technologies. I guess the first question is, do you ever have to interface with the other map companies? But secondary to that, what is the common language for mapping, if that's a thing?
+
+Tyler Young:
+I mean, JavaScript has taken over the world, so I know there's a lot of mapping applications that use node on the back end and that sort of thing. I mean, I think the most common thing to do is if you just need a website with one map that shows your location or something, what people do is they embed the Google Maps API and they don't have a backend at all. For us, having Elixir on the backend, it gives us such speed of development and the performance is great, the scalability is great. The story for using that as a wrap around post greisen and post GIS is phenomenal.
+
+Bilal Hankins:
+So how does Felt fit in to this ecosystem of all the other maps that I guess people are more commonly familiar with?
+
+Tyler Young:
+Yeah, so I think what you're getting at is do we have an API that people can use? And the answer is unfortunately no. Am I getting that right?
+
+Bilal Hankins:
+Just, yeah, I suppose just how you guys see yourself just amongst these other map companies as well.
+
+Tyler Young:
+Sure, sure. So one of the things we talk about is the shadow of Esri. So Esri, E-S-R-I, is the... It's like the professional GIS tool and it has a learning curve unlike anything I've ever seen. If you've tried to pick up Blender or Photoshop or something, it's like that.
+
+Bilal Hankins:
+Oh, okay.
+
+Tyler Young:
+And it's super powerful and if you studied GIS for four years in college, I'm sure that you're totally comfortable with that. But what we've seen is that companies who are using geospatial data in the real world, they have one cartographer on staff. If you're a small city government or something, everybody is inundating that one person with requests. I need a map for the bus line, I need a map for the subway, I need a map for this development. And that person just has limited time. And so the stuff you see is maybe somebody's using PowerPoint, they take a screenshot of a map and they draw on the map and they're like, "Here, we'll use this in the brochure" or whatever, or stick it on the website. We're trying to unlock use cases for those people who maybe they don't have a GIS degree or maybe they do and they just want something's fast. That's who we're aiming for.
+
+Bilal Hankins:
+Yeah, I can definitely see that. And this is definitely useful for me on my road trip, I'll tell you that.
+
+Tyler Young:
+Sure, sure.
+
+Sundi Myint:
+Baal is going cross country for just kind of any reason, but also to, I mean, didn't you go for your sewing machines?
+
+Bilal Hankins:
+Yeah, I drove from Vegas to Amarillo, Texas for two industrial sewing machines. My babies.
+
+Tyler Young:
+Wow. So do you sew? What do you sew?
+
+Sundi Myint:
+Yeah. Baal. This is Baal's first episode as a co-host everyone. We got to introduce Baal.
+
+Bilal Hankins:
+Yeah. So before transitioning into software engineering, I had my own clothing brand and I also helped out with manufacturing and design for a lot of local brands in New Orleans as well. It was pretty cool. I was in high school and I got the chance to go to what, Paris Fashion Week, Milan Fashion Week, and a bunch of trade shows in Europe, which was very eyeopening.
+
+Tyler Young:
+That's awesome. Wow.
+
+Sundi Myint:
+Oops. We've got some cool people here at Smartwatch.
+
+Bilal Hankins:
+We've got some cool people.
+
+Sundi Myint:
+Just putting it out there.
+
+Tyler Young:
+Love it.
+
+Sundi Myint:
+Yeah, so Baal's concept of yeah, I'm just going to skip over to Texas to get my sewing machines and I'm sitting here hyperventilating over having to go 15 minutes down the road because I've never gone that direction before.
+
+Bilal Hankins:
+That's why I was excited to be on this episode.
+
+Sundi Myint:
+Yeah.
+
+Tyler Young:
+Too cool.
+
+Sundi Myint:
+I think the other experience I have with, so in, I was originally in DC, like most of my career life was while I was living in DC and the big map company there is Mapbox and I think it was Node. I never actually worked there. A bunch of my friends did. And I remember their lobby, because they used to host a lot of meetups and different kind of get togethers and stuff. Their lobby has this dot map. It looks like a scatter plot like you'd
+
+Sundi Myint:
+... see in a math class, but then when you step back, I almost said zoom out, but when you step back from it, you can tell it's D.C. It must be points for some... I don't know what the points were, but as an art major and a nerd and a math nerd and somebody just waiting for the meetup to start was just staring at that like, "This is the coolest thing I've ever seen."
+
+Tyler Young:
+That's pretty awesome. Wow.
+
+Sundi Myint:
+And I know some people I know had used Leaflet for some... I think it was a more accessible tier to use. It wasn't as expensive or something. It's always interesting when you talk about integrating with these map companies that tend to have the expensive kind of tiers and whatnot. Do you think the speaking of the API that you're looking towards building something that people can use?
+
+Tyler Young:
+Yeah, so right now the story for using a Felt map on another site is like you create in Felt and then you can embed it, stick an iframe wherever you want. I don't know that we'll ever be a developer-focused company in the way that Mapbox is. Mapbox makes all their money from developers programmatically creating maps, but we do want to support more of those use cases, and so we have a number of people in our Felt Slack that we're getting ideas from for like, "What is it that you want to build with an API?" But yeah, that's still a work in progress.
+
+Sundi Myint:
+So I guess the ultimate dream is, like you said, right now the developers reach for a Google Map API, kind of quick integration to do anything that has a quick map. But I haven't had to do this integration myself, but I do recall that feeling of dread when it happens, turning that API on is really hard. Can you speak to that a little better? You're nodding like you know what I'm talking about, and I don't know what I'm talking about.
+
+Tyler Young:
+Oh my gosh. I've only done it a couple times, but for me, anytime I have to go into the Google Cloud services backend, I'm so overwhelmed and I want to get out as soon as I possibly can. For Felt, we have kind of taken the route of self-hosting a ton of the infrastructure. So rather than going to Mapbox to get the tiles that draw a mappy looking background on your map, we are self-hosting that and we're looking at self-hosting even more data stuff in the future. So yeah, we're kind of spared that integration.
+
+Sundi Myint:
+So my point there was the dream could possibly be to make Phoenix Map components that we can just drop into our applications. Is that something that you've talked about?
+
+Tyler Young:
+If I were in charge of the roadmap and didn't have to worry about keeping the company afloat, yes, we would totally be doing that. There have been talks about doing the map live book component. I think that'd be really cool. I mean we just don't have the bandwidth right now, but yeah, someday that'd be pretty sweet.
+
+Sundi Myint:
+Do you think you'd consider open sourcing it so people would help you?
+
+Tyler Young:
+I don't know. I would have to talk the CTO for it.
+
+Sundi Myint:
+Okay. You talked to him. Cause I feel like Bilal right here with all that free time between sewing and developing and now podcasting...
+
+Bilal Hankins:
+I could be contributing.
+
+Sundi Myint:
+We're always trying to strive for more open source projects out there. So...
+
+Tyler Young:
+Totally.
+
+Sundi Myint:
+Just going to plug that and drop in Phoenix components for maps would be sweet. But yes to, I've always been advocating for more live books to play around with because then we could learn a system or a technology better and I've never really understood too much about programming with maps. So that would be really fun to say. Also, I hope somebody's playing a drinking game right now. They're drinking every time they care the word map.
+
+Tyler Young:
+No, that's the beauty of working at this company. I was doing a functional data transformation, a map over a map, the data structure, to produce a map.
+
+Sundi Myint:
+oh no, you must run into the keyword error all the time?
+
+Tyler Young:
+Oh yeah. So...
+
+Sundi Myint:
+How do you get over that?
+
+Tyler Young:
+In the backend we don't actually call it a map. The thing that we are producing, we chose arbitrarily from another language. We call it a carta. Just so that you can... Just so that there's a little less confusion.
+
+Sundi Myint:
+Okay. There we go. Yeah. Bilal, you and I are... Yeah, we've been working on the same project. So do you remember what was a keyword recently? And I couldn't get over it because I couldn't... Think it might have been state or status or...
+
+Bilal Hankins:
+I know event, that might have been one that I was dealing with. Because I feel like that keyword always mess me up. But Tyler, I thought you were going to say you guys play a drinking game.
+
+Sundi Myint:
+Yeah. I thought you were going to say you're just drunk all the time.
+
+Bilal Hankins:
+And I was like, that's what makes working at Felt fun. I was like wow...
+
+Tyler Young:
+It's not that kind of startup.
+
+Sundi Myint:
+Oh that's a good one. Oh my gosh. Oh man. I didn't even think about the map situation. Like the struck map situation.
+
+Tyler Young:
+Yeah, absolutely.
+
+Sundi Myint:
+Oh that's a fun one. That's a fun thing to think about for sure. Okay, so I want to reroute us a little bit because we completely just skyrocketed past your hot take. Tell us about your hot take.
+
+Tyler Young:
+My unpopular opinion is that I am not a fan of managed services in general. I miss the days when we had a VPS or a co-located physical bare metal server that you know would stand up and had application on and you were responsible for updates and keeping the database alive and all that stuff. I feel like what I get out of managed services is just not worth the added complexity.
+
+Sundi Myint:
+And could you name drop a few? I'm trying to connect these dots here. What do you mean by managed service? What is an example of them?
+
+Tyler Young:
+Well certainly anything on AWS.
+
+Sundi Myint:
+Okay. Okay. So the DevOp side of things. You miss...
+
+Tyler Young:
+Yeah.
+
+Sundi Myint:
+The simpler DevOps days.
+
+Tyler Young:
+Yeah, I miss pseudo doing in to run app to get update or whatever as needed. And you know can do that with Bluegreen deploys, right? You've got two servers and one's staging and one's fraud and then you switch them. I like that setup a lot and I miss it.
+
+Sundi Myint:
+That is absolutely a hot take and I hope everyone has a nice friendly discussion about it on the discord that we have.
+
+Bilal Hankins:
+I'm with you there, Tyler. I used to host a 200 people server of Minecraft on my home MacBook and it was like a 2010 MacBook and...
+
+Tyler Young:
+That's awesome.
+
+Bilal Hankins:
+Port forwarding from my MacBook and leaving it running 24 hours cause the people in my Minecraft server had to play hunger Games.
+
+Tyler Young:
+That's fantastic.
+
+Sundi Myint:
+Tyler, you're not just experiencing this for the first time. We experience this every day. Bilal comes with a nugget every single day. I'm crying. Oh my god.
+
+Bilal Hankins:
+Just to make you guys feel a little...
+
+Sundi Myint:
+That's not even a make us feel old thing that's like a... 200 people? How old were you?
+
+Bilal Hankins:
+So honestly, I think this was third grade.
+
+Tyler Young:
+Oh my gosh.
+
+Bilal Hankins:
+I was building Japanese architecture houses in Minecraft. I really like Minecraft. It's a very beneficial learning tool.
+
+Sundi Myint:
+Yeah, no I did the same thing in the Sims. I liked looking at different... Actually Japanese architecture. Yeah, I've made Japanese architected styled homes in the Sims before, but that was buying a game and logging into it. Absolutely not creating a server to host 200 people.
+
+Bilal Hankins:
+Yeah, I remember reading a whole bunch of guides about port forwarding and DNS servers and I was what, nine years old?
+
+Sundi Myint:
+Bilal, we missed this part when we asked how you got into tech, you started somewhere else when we asked you this question last time.
+
+Bilal Hankins:
+If we really want to go farther, I was making custom C++ avatars and I think I was like five or six.
+
+Tyler Young:
+Oh my gosh.
+
+Sundi Myint:
+Okay.
+
+Bilal Hankins:
+But I couldn't do any of that stuff now. Maybe port forwarding, but looking back on that, that is pretty cool.
+
+Sundi Myint:
+I'm just spiraling live here guys. Okay. While I compose myself. Bilal, you have any other... You want to take the wheel? You ask Tyler a question now. I'm just going to go die in the corner.
+
+Bilal Hankins:
+Well I guess are there any particular advantages to using Elixir when it comes to building maps? I mean I feel like we might have touched on a few.
+
+Tyler Young:
+I'm always sad because when people hear that we're using Elixir and Phoenix, their first question is always like, is it Live View on the front end? And I'm always like, nah, it's React.
+
+Bilal Hankins:
+I was going to ask that.
+
+Tyler Young:
+Yeah. Yeah. So in the same way that Elixir is fantastic for any sort of web app backend that you would want, a lot of the stuff we do is crud and Elixir is really good at that. But we kind of made the decision early on that we didn't want to bet the whole company on LiveView being the right choice for a really highly interactive front end that's collaborative across 30 people. Yeah. So it's React in the front end I guess actually multiplayer the idea of having a bunch of people connected to the same map and everybody editing and seeing everybody else's edits. That is something that other languages have kind of imitated the Phoenix channels model. But yeah, Channels is so great. We have one channel for a map and we push messages onto it when edits happen and everybody just gets the updates and it works so well, so seamlessly.
+
+Sundi Myint:
+This is not, I promise this is not a loaded question, I'm prefacing with that. Do you think LiveView would do it better or do you think React is like specially tuned to do what you need on the front end?
+
+Tyler Young:
+I don't know if LiveView would do it better. I think you could do it in LiveView. Personally having experienced a front end written in Elm,
+
+Tyler Young:
+I do think if we had gone Elm from the beginning, I think our rate of shipping features and the reliability of the app would be slightly improved. But the one thing that React has going for it is that you can find a ton of people who have made highly interactive apps in it. It's very easy to hire for.
+
+Sundi Myint:
+And, information. Definitely easy to search something. 17,000 people have had the same problem. Yeah, it's fair.
+
+Tyler Young:
+And you'll find a lot of bad advice out there on it. But yeah, there'll always be something in the search results.
+
+Sundi Myint:
+But there is something to be said for the bad advice, because I think we don't talk about this enough, is that my favorite way to attack any problem is just to do it in the first way I think of it, even if it's bad. Even if I know it's bad, let me just do it. And then two weeks ago, I was writing a lot of Ecto queries, or maybe it was last week, and my sense of time is completely warped. I think it was last week. I wrote a bunch of Ecto queries, been a while since I touched them. And I just wrote a bunch of queries, like five different queries that I was pretty sure wouldn't return anything. And it helped me get to the final query, just writing it poorly a few times.
+
+Tyler Young:
+Totally. The story that I've heard is a person, they're trying to go out to lunch with their office, and nobody wants to make a decision. And so they sit there and they're like, "Where should we go?" And nobody suggests anything. And so finally the person says, "Let's go to McDonald's." And everybody in the whole room says, "No, oh God, not McDonald's." And so suddenly they can come up with something better than that, and eventually they all settle on something that they all will actually like. And so, I've heard it called the McDonald's option. So if you don't know where to start, you start with the McDonald's option and you can at least improve it from there. Or maybe that's good enough and you ship it like that.
+
+Bilal Hankins:
+I've never heard of that, but I'm glad I have that term. The McDonald's option.
+
+Tyler Young:
+I use that all the time. Well, the McDonald's option is, do it this way.
+
+Sundi Myint:
+McDonald's must love that.
+
+Tyler Young:
+I know, right?
+
+Sundi Myint:
+They know what they are.
+
+Tyler Young:
+There's no such thing as bad publicity.
+
+Sundi Myint:
+Yeah. Sweet. So you and Jason, were at ElixirConf? Was anyone else from Felt at ElixirConf this past?
+
+Tyler Young:
+No, just me and Jason Axelson. We are currently two thirds of the back end team. So yeah, folks might know Jason Axelson from contributing to hundreds of open source projects. I have no idea how he does it.
+
+Sundi Myint:
+ElixirLS being one of the biggest ones. You mean they don't know Jason Axelson from his episode on the Elixir Wizards Podcast?
+
+Tyler Young:
+Oh yes.
+
+Sundi Myint:
+I think of Jason every time it says my ElixirLS is out of date, and I'm like, "Ah, you folks are working hard over here making me update all these."
+
+Tyler Young:
+I think he would want me to quickly point out that he is less involved with ElixirLS now than he has been, but he still does a ton of open source on the side. He doesn't have kids.
+
+Sundi Myint:
+But Hawaii, though.
+
+Tyler Young:
+Yeah, exactly.
+
+Sundi Myint:
+Now that would be a place to map out, just to bring it back.
+
+Tyler Young:
+We have a ton of trail data from Hawaii, I think partially for Jason.
+
+Sundi Myint:
+Oh, I thought you were going to say Jason went out there hiking to grab the trail data.
+
+Tyler Young:
+Oh, I wish.
+
+Sundi Myint:
+Oh, that would be cool. That'd be a cool way to ask somebody to be involved. "Oh yeah, for work today I hiked."
+
+Tyler Young:
+Right.
+
+Sundi Myint:
+So what is, if at all, Felt's involvement with the Elixir community? Do you just like being involved because you two like being involved or does Felt have any kind of hiring? Are you hiring and you're going out there to find more people, or what's the situation there?
+
+Tyler Young:
+Yeah, we are definitely hiring. Please come work with me if you want to do Elixir and a little bit of React.
+
+Sundi Myint:
+Not too much they promise.
+
+Tyler Young:
+Yeah, right, right. There are definitely people in Elixir land with a JavaScript allergy. That's okay.
+
+Sundi Myint:
+Allergy, that is the best way to put it. Oh my God.
+
+Bilal Hankins:
+Yeah. We have a couple people with some JavaScript allergies.
+
+Sundi Myint:
+I'm suffering from the JavaScript allergy right now. Oh my gosh.
+
+Tyler Young:
+I am not a JavaScript fan. TypeScript is really cool if you are interested in Type systems at all. It's kind of a shame that it's built on top of JavaScript is what I tell people.
+
+Bilal Hankins:
+Yeah. I like TypeScript. In my boot camp, we learned, or a final project had to be in TypeScript and it definitely, I don't like JavaScript now compared to TypeScript.
+
+Tyler Young:
+Sure, yeah. That was part of what motivated me to take the job was that I didn't know anything about React or TypeScript and it was like, kind of the whole world is moving that direction, so I should probably figure this out at least a little bit.
+
+Sundi Myint:
+Yeah, at least a little bit. But I'm going to use that phrase forevermore, that and the McDonald's option.
+
+Tyler Young:
+There we go.
+
+Sundi Myint:
+I'm just going to add that to the vocabulary there. For our kind of fun outro question before we wrap up here, do you have a favorite map? I've talked about my favorite map. Do you have a favorite map?
+
+Tyler Young:
+So I made a map of this trip that my wife and I did in Southeastern Alaska. It's called the Golden Circle. I almost said The Great Loop. That's the other one. So the Golden Circle is, it goes through Juno and all these very scenic places and there are some plane flights and some beautiful drives through the mountains and stuff. Yeah, it was a heck of a vacation. And the map is really cool because I've embedded video that I took and images and links to some of the cool attractions and stuff. That's definitely my favorite one.
+
+Sundi Myint:
+Awesome. Well again, thank you Tyler for being here. Do you have any final plugs or asks for the audience? Any social media where people can find you or how they can support your future open source projects?
+
+Tyler Young:
+Sure. So I'm Tyler A. Young on Twitter because there are too many Tyler Youngs in the world. If you want to apply, we would love to get some Elixir and React developers. It's felt.com/careers.
+
+Sundi Myint:
+Awesome. Well that's it for today's episode of Elixir Wizards. Thanks again to our guest, Tyler Young for joining us. I'm Sundi Myint and my co-host is Bilal Hankins. Elixir Wizards is produced by Hanger Studios and is brought to you by SmartLogic. Here at SmartLogic we build custom web and mobile software. We work in Elixir Rails, React, Flutter, and more. Need a PC that's custom software built? Hit us up. Don't forget to like, subscribe, and leave a review. Your reviews help us reach new listeners. You can find us on Twitter at SmartLogic or join the Elixir Wizards Discord. The link is on the podcast page. And see you next week for more on parsing the particulars.
+
