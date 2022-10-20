@@ -1,0 +1,706 @@
+Mark Erickson:
+Hello and welcome to the Elixir Wizards podcast. My name is Mark Erickson.
+
+David Bernheisel:
+And I'm David Bernheisel.
+
+Mark Erickson:
+Let's jump into the news. First up, the Thinking Elixir Crew took over the Elixir Wizards podcast. The original Wizards were not displaced, but they all joined together to sing their Kumbaya love for Elixir.
+
+David Bernheisel:
+Actually, the Wizards are here now Sundi, Owen, welcome to your own show.
+
+Owen:
+Hey.
+
+Sundi:
+Hey. Thank you for having us?
+
+Owen:
+Right, it's a nice question by the way.
+
+Mark Erickson:
+Well, glad you guys could join us, because this season's theme is "parsing the particulars."
+
+Sundi:
+And today we're joined with Mark Erickson, David Bernheisel from The Thinking elixir podcast. We couldn't have Cade Ward here, unfortunately, to complete the trio, but today we're going to be diving into the particulars of ecto queries as a group of podcasters who want to talk about ecto. So thank you all for being here.
+
+Mark Erickson:
+Yes, our pleasure. Thanks for the invite.
+
+Sundi:
+So, this is a fun time. I'm really excited to get into this conversation because David, I think you have some news for us as somebody who tells the news.
+
+David Bernheisel:
+I've got a lot of news actually, but which one are you thinking about? Are you thinking about some writing material?
+
+Sundi:
+Possibly.
+
+David Bernheisel:
+Okay. All right. Well, I do have some news there. I have some time to write a book called Ecto In Production. It's actually an online book. It's going to be a little bit more online course-y, a little bit live book-y. And so it's ectoinproduction.com and yeah, I'm working on it now. I've got an abundance of time in the next month. And that's my other news item by the way. So I'm, I'm taking a month off. I left my workplace, I'm taking a month off, and I'm going to join Dave Lucia at Bitfo here in about a month. So I got about a month to figure out how in the world am I going to write all the rest of this Ecto In Production stuff. Queries is included in there, but lots of migration stuff in there too.
+
+Sundi:
+Can we get through one episode this season without talking about Dave? Is that possible?
+
+David Bernheisel:
+I know, right? Yeah, he's he's kind of everywhere, isn't he?
+
+Sundi:
+Wow. Well, congrats. Also, thank you for building the thing that I literally need because I've been jumping back in Ecto queries and I've been sitting there. I really wish there was a, not a tutorial, but just, I want a workbook, I want example problems to solve for queries so I can practice the skill because it's not easy to write Ecto queries and just think about relationships, which is why I wanted to talk to you about Ecto specifically. But then I saw the thing about your book and I felt like you had to say something. And I know Owen has some thoughts about this too. Owen, you know, had some thoughts because Owen was super busy, but was kind enough to help me with some of my Ecto.
+
+Owen:
+Yeah, I've been busy with Ecto stuff myself. I'm doing some, I think I can say ETL work and-
+
+David Bernheisel:
+My favorite.
+
+Owen:
+Yes. And it involves everyone's favorite database and it looks for your land, especially-
+
+David Bernheisel:
+M.S. SQL.
+
+Owen:
+Microsoft SQL. You got it.
+
+David Bernheisel:
+Bless your soul.
+
+Owen:
+Using the fabulous and extremely well-documented TDS adapter.
+
+Mark Erickson:
+So I imagine this need comes out of working with a client, that they have data that's already existing in this format and hey, we need to leverage this data and we're not going to move it by the way, we're keeping it there. We want you to use this database. Is that right?
+
+Owen:
+Oh, we're moving it. We're moving it all.
+
+David Bernheisel:
+Yeah, I was going to ask, that's the ETL part, right? You're extracting from M.S. SQL into what?
+
+Owen:
+Something more reasonable like Postgres.
+
+David Bernheisel:
+Okay.
+
+Owen:
+Everyone's actual preferred database.
+
+Sundi:
+So Owen's been doing that and I was writing kind of your run of the mill dashboard that's got very statistics and you've got to write a lot of queries for different things. And every time I came across a particular query, I was just like, okay, well this has to do with this thing, but this thing is named the other thing. And I just had a really hard time visualizing the, I don't know the structure of it all. I wanted a whiteboard, but even if I had a whiteboard, I don't know what I would've drawn. It's one of those situations, so...
+
+David Bernheisel:
+It's like I can't even visually organize this. This is just such a mess.
+
+Sundi:
+Yeah. But it wasn't really a mess, my brain just was. When you're out of practice on a thing, because it's been a while since I've written a query, I honestly, I keep a running list of every query I've ever written.
+
+David Bernheisel:
+What?
+
+Sundi:
+Yeah, I'm weird. It's my personal notes. I keep queries. Some people keep, I don't know, mementos.
+
+David Bernheisel:
+They're handy though. I totally get it.
+
+Sundi:
+Yeah.
+
+David Bernheisel:
+I have gists of all of a bunch of just random script-y stuff, like expiring a bunch of keys out of Redis. I've had to do that several times, but it's been every year and a half. So I'm just so thankful that I did write those down and those hairy queries. I once had to do a recursive view on itself to build a child, a parent-child relationship. But, could be infinitely long that hopefully not infinitely, because that would be bad. But the query to get that to work was just, it was pretty mind bending and I didn't want to have to do all that discovery over again. So I totally get it that you have a running log of-
+
+Sundi:
+Every query ever.
+
+David Bernheisel:
+Yeah.
+
+Owen:
+Well even before we get into Ecto specifically, there's just a ton of complexity in SQL itself or the way the types of data that we're working with in SQL databases. So to bring along maybe our more junior developers, how long have we all been working in SQL and databases generally?
+
+Mark Erickson:
+I mean, going back to my first real internship job is when I started actually working with other people's databases and figuring out how to... So a little background, my schooling, I did go through, I changed from a computer science major to a management information systems and then minored in computer science all to avoid taking calculus, three semesters of calculus. Because I knew I didn't need calculus.
+
+Sundi:
+I Knew we'd get along Mark.
+
+Mark Erickson:
+So I got a lot of database insights, practice and stuff there. But then when you actually get out into the real world and you're starting to figure out why is this running slow and how I think, Sundi what you were getting at, is that how do I get the data that I need out? Because it's across these multiple tables. These relationships are not obvious and direct. It's not just a parent-child kind of relationship. How do I do this? And having to learn all of that and what's a left join? What's an left outer join? All those things. So I totally sympathize with the idea of saving those snippets of this is super useful. I want to refer to this in the future.
+
+David Bernheisel:
+There's a cool graphic. I always go back to that visualizes via a event diagram of what all these types of joins do. When I think about of a problem, what kind of join do I need to do? I just go back to that. I just Google it. I don't even have to write it, save it anywhere because it's all over the internet at this point. But I still have to use that as reference material. And that reference material that you're talking about is exactly why and how I'm going to try to format the Ecto In Production kind of content too. It's going to be recipes and topical things. There's all these resources that are out there. Crunchy Data has a lot of good articles out there about types of indexes, but the Postgres documentation has a lot of good examples just inside of it. There's several social media masters out there that tweet database tips all the time.
+Cool little things that you can do. And we all have our own experience too of those weird things that we had to do and SQL to get this data to look right. And so just taking all of that experience and all those examples and those recipes and putting it into a easily searchable website, I think is going to be clutch. I thought I was going to write a book, but then I thought, no, I don't reference. I got those old printed dusty books over there. I literally don't go into them to look up how to do some SQL-y thing. I Google it. That's just what everyone does. But I noticed when it comes to CSS, I don't Google CSS anymore. I go to-
+
+Sundi:
+What do you do?
+
+David Bernheisel:
+I go to tailwindcss.com and I use their amazing search functionality to get close to what I'm looking for.
+
+Sundi:
+Even when you're not using Tailwind or are you always using Tailwind?
+
+David Bernheisel:
+I only use Tailwind at this point.
+
+Sundi:
+That makes more sense.
+
+Owen:
+Tailwind is an excellent, what was I going to call it? A resource of just even CSS knowledge. Even if you don't use it, it explains how to use-
+
+Sundi:
+That wouldn't be unreasonable. That wouldn't be unreasonable if you were using it but not using Tailwind for some reason and you were just using Tailwind documentation to remind you how to justify something.
+
+David Bernheisel:
+It wouldn't be so far out of the realm though, because it's named similarly to what the CSS properties are underneath. And it has examples, it has visual examples because that's a requirement for CSS. It's such a good resource for just learning and exploring all the CSS things that you can do. And I noticed that pattern that I picked up so quickly of just going there, tailwindcss.com, and just searching the... And the same thing for Tailwind UI as well. So I look for button on Tailwind UI and I didn't have that same experience with Ecto and HexDocs is really good, but it's not fuzzy finding stuff like Tailwind is.
+
+Sundi:
+I don't feel like it's even an option to search for something in an Ecto query unless you've got error to work with. If I know that I've got particular schema that reaches through another schema to get to another one and I need one to count, you've got A, B and C where B is the one that joins through or whatever and you need, you're at A, but you need to reach through B to get to C and count C. It's like, okay, I feel like this happens every once in a while. I wish I could just go to a website and just be presented with that scenario and then try to write it without my reference material for once. Just practice and get used to that syntax. Because that would just be really good. But David, when you're writing these examples, please do me a favor and not use any blog comments, examples, because we're not.
+
+David Bernheisel:
+Why not? Is that not helpful?
+
+Sundi:
+No. It's so overdone, not helpful. Not even remotely related to anything anyone does ever.
+
+Mark Erickson:
+It took me a second to figure out what you're talking about. The whole example of post and author and article-
+
+Sundi:
+Has many comments.
+
+Mark Erickson:
+Yes, yes.
+
+Sundi:
+Is always the thing. Please, please, please don't do that one.
+
+David Bernheisel:
+How about-
+
+Sundi:
+Do pie has many cherries. I don't care, anything else?
+
+David Bernheisel:
+How about Pokemon? Maybe I can do Pokemon or something.
+
+Sundi:
+Yeah, Pokemon would be help. Although you get kind of object oriented there.
+
+David Bernheisel:
+That's okay. Yeah. Yeah. There's plenty of relational data as you can put with Pokemon and attributes with more than a certain amount or something like that.
+
+Sundi:
+Evolves into Ride Shoe.
+
+David Bernheisel:
+Yeah. Yeah.
+
+Mark Erickson:
+We have to... So I'm going to ask this question. I'm going to share mine first, but there's this thing that I'm missing from Ecto that just is not supported and I would love to see it. I don't expect any of us to answer this question, but it's like doing sub-selects. Sometimes I wish I could do a... So in the select where you say I want to select from a field, that field name can be a select. Sometimes I want to do that because it just makes sense for what I'm doing, but it's just not supported in Ecto.
+
+Owen:
+So when you need to do that now, are you writing a string SQL query or are you just not able to do it?
+
+Mark Erickson:
+So I'll just have to format... Do it through a join or something to it separately.
+
+David Bernheisel:
+I mean, Ecto does support subqueries and stuff.
+
+Sundi:
+Do you have to do it in SQL in Ecto?
+
+Mark Erickson:
+Not in the select.
+
+Sundi:
+Oh.
+
+David Bernheisel:
+Maybe you can use Select Merge?
+
+Mark Erickson:
+I don't know. Some of these things may have changed since I tried to do it last time.
+
+David Bernheisel:
+Yeah, well, and it's exactly those reasons. Just like CSS is like, I'm going to use this as my example for the whole episode here. CSS is so large at this point that no one person can hold in their head all of the things in there. I can never remember if the properties are dasherized or what the third position is on the value, whatever. And I can't remember that stuff. And I, SQL and Ecto are similar or Tailwind is to CSS as Ecto is to SQL. They're so close that you can search the same term and get pretty close to it in Raw SQL and in Ecto. But we need that resource. And then like you said, you need to be able to play with it in your example, maybe in your database. And that's where Livebook I think is going to be really clutch too. So the website for searching and stuff, but then download as a Livebook so you can take it offline and do what you need to do.
+
+Owen:
+Yeah, we're talking about searching, and I've been working a lot with Ecto lately. I've done a little bit here and there over the years, but I find the Repo module docs especially kind of confusing to navigate if I'm looking for a particular function, even after weeks of looking at Ecto docs, it's like, is it a query API? Is it the Repo API? Is it ecto or is it Ecto SQL? So-
+
+David Bernheisel:
+Yeah.
+
+Owen:
+If you're finding yourself in that kind of situation where I just don't know where this function is, that search, that search is going to save you in the HexDocs.
+
+David Bernheisel:
+Yeah, I do that all the time. I think my Google bar just like goes to the hex docs slash ecto one, and then I'll search for the thing in there, but it's not in there because it's usually migration related or something. And that's because that's in the ecto SQL. I'm like... so hot tip for you in hex docs, if you just hit the G character G on your keyboard, that'll open up a jumper to different libraries. So you can just do G ecto SQL and then you can.
+
+Owen:
+Nice.
+
+David Bernheisel:
+Stay on the keyboard. Yeah, A little tip for you. But yeah, I do that all the time.
+
+Owen:
+Cool. So I've been doing a lot with the data migrations and ecto. I think one thing I'd like to talk about here is kind of distinguishing between what I call schema migrations and data migrations. Are those standard terms or am I kind of like.
+
+David Bernheisel:
+Standard to me.
+
+Sundi:
+I never know which word I'm using.
+
+David Bernheisel:
+Standard in David's world. Yeah, for sure.
+
+Owen:
+Okay.
+
+David Bernheisel:
+That's how I call it. I also say backfill a lot for data migrations, because that's usually what I'm doing. Backfilling some new column or new table that I need to ETL some other junk from. But I think, yeah, schema migration, data migration, that's a good consistent verbiage.
+
+Owen:
+So let's talk about the distinction. What are these two different types of migrations and why are they separate? And when you're implementing migrations, what are some things you need to do to make these things operate smoothly in production?
+
+David Bernheisel:
+Yeah. Well, let's go with the easy ones. Schema migrations, that's easy. And this is all about changing your schemas. Now, you're not messing with data in the schemas necessarily. You're just talking about what shape the data is going to be. All right, this is your columns, this is your column types, this is your indexes, you're creating tables and that's it. But that, that's all of it. Not really anything else. Your not dealing with the data itself. The data itself is probably going to be input and inserted and updated all from application code. And that's where we want that to be. Data migrations are where you have to just do some bulk action on a bunch of data. And this can happen in a lot of different places. A lot of it happens in application code. And that's fine, that's normal. If anyone's ever written a repo dot update all, you know, basically did a little tiny data migration right there, you know, just did a bulk action where you changed a bunch of data.
+You are just very comfortable with one function call there. And that's okay, you can be. Data migrations, there's some line that crosses where things turn into a data migration, which is where it's just beyond comfort. I am no longer comfortable just doing one function call to change a bunch of data. And this is where you start introducing a little mini system. In the ecto world that I know of, there's not a good practice right now that big libraries are teaching you or telling you to use, right? When you're building a WAM application, you're going to use Phoenix or Ash. You've got those two big helpers, but ecto and data migrations, there's just not one out there. So we all just roll our own code and that's okay. But there's principles that you want to have that you want to follow when you're dealing with a lot of data like that, because you could find yourself in a pickle.
+And so that's the whole safe ecto migrations guide. And so there's a good section out there for data migrations, but the whole idea of it is that you just want to batch your changes. You want to slow your role a little bit, and you want to make sure that you do it in a way that is resilient. In other words, you don't want to data migrate the same row twice necessarily. And that can look like a whole lot of different things. If you're just back filling an empty column, then it's pretty straightforward. Then you just check, hey, does this column exist? And if it does, if it's filled in, then don't worry about it. I don't need to touch that row again. I'm done. So it's resilient, easily resilient.
+But sometimes you get that data that's like, I just need to increment everything by five, and I don't know if I've already done that or not. That gets harrier and you have to introduce some more double checking, marking of records, that kind of stuff to make sure that you don't run over it twice. Because then you'll be in more of a pickle than you started. And I've definitely done that.
+
+Sundi:
+Mark just shared the Safe Ecto Migrations link from Fly.io, and I believe the word backfilling is used so I think that's the real
+
+Mark Erickson:
+Well, David wrote it, so yes, that is the word he chose to use. When he was writing that and I was working with him and I was like, what do you mean by backfilling? So I don't know that it's a universal term, but it works in the guide. He explains what it means.
+
+Owen:
+Yeah, I've heard the term.
+
+Sundi:
+Well, if it wasn't the correct term before, it is now.
+
+David Bernheisel:
+I've wheeled it into existence.
+
+Owen:
+It's got Sunday stamp of approval. I wanted to pause for a second because I know anyone who's worked with Ecto, especially as a newcomer to Ecto and maybe even data stuff in general, like in Ecto. So schema is maybe a little bit overloaded. It means a couple of different things. There's an ecto schema that you can create when your module uses ecto.schema, and that's where you're defining the structure. It's effectively building a strut of fields that represent a table in your database. And then what you're describing a minute ago of schema migrations is where essentially we're creating and updating the shape of tables in the database. So I'm sure I stumbled on that when I was getting started with ecto of what schema am I talking about? Yeah. In this context.
+
+David Bernheisel:
+Yeah, your migrations are usually deployed alongside your ecto schema that's going to expect that to be there, or at least after afterwards. It kind of depends on how you deploy too. Because if you deploy and you don't run migrations and your app boots and it expects that table to be there going to be in trouble. But I think most platforms today have a system in place where you run migrations before the app starts accepting traffic. So you avoid that trouble spot. So they probably deploying that way.
+
+Owen:
+Has anyone worked in an environment where you weren't using migrations, where you had... where you were running sequel commands to add columns in every environment?
+
+Mark Erickson:
+If you've been in the industry long enough, then yes, you have.
+
+Sundi:
+Yeah I was going to say, I Think I have, but I don't know if I'm allowed to admit it.
+
+David Bernheisel:
+Oh yeah. Well, I don't know, 10 years ago working with my first MySQL database from a WordPress application, just dragging and dropping my PHP files over WS ftp. Yeah. Oh yeah. It's definitely just consoling in and doing your migrations and then dragging your new PHP file over.
+
+Owen:
+Why do we have ecto migrations in the first place? What's the problem that's being solved there?
+
+Mark Erickson:
+So my first time encountering this whole idea of migrations was with Rails when Rails introduced migrations. And originally one of the problems they had is then migrations were numbered by an incrementing counter, number 100, number 101, 102. And one of the problems was, is you needed to be able to have multiple developers all making different changes, working on different features, adding different tables, and that was creating conflicts.
+So then they said, well, we're going to have the migrations, the key be a time signature thing and plus a counter. It's like something to make it so is going to be unique to every individual developer as they're doing it, so that... and ideally, they're not competing. So you can do your work. I do my work, we bring all the code together and we run our migrations and everything should be fine. So migrations, when I first discovered those, it's such a better way of doing it than what I was doing it in .net land where they didn't have anything like migrations.
+I ended up loving it so much, I created my own way of doing migrations just to have that ability. But yeah, like migrations, it's just a way of having a structured code way of saying, I want to run this query, and keeping track in the database of which migrations have been run so I can run this if it hasn't already been run on this database, and then make that change. And usually what we're talking about here is, ideally those are database structure changes. I'm adding a new table, adding a new column, adding an index, things like that.
+
+David Bernheisel:
+And the particular of how that works. Boom. Do you see what I did there?
+
+Sundi:
+Yeah. You're on brand.
+
+David Bernheisel:
+I am here y'all. The particular of how those migrations work know that they've run or not is that Rails does this and Ecto does as well. But there is what it's called a source table. And the source table is just a... it's a simple table that records the version number and by default it's going to... that version number is going to be a timestamp, just a bunch of numbers that looks like a day and time down to the millisecond, I think. But it technically could work with just a 0, 1, 2, 3, 4, it doesn't matter too much, but there is a table that gets inserted into your database, the versions table, I think it's called Schema Versions by default. And Ecto will read that table and determine what is my latest one that I am currently at.
+And then it compares that to the migration files that are present on your code base. And it tries to figure out which ones are remaining that still need to be run. And it'll pick up from there and execute. It'll lock that scheme of migrations table so that no other instances of your app tries to migrate at the same time, the same logic. So there is a lot of locking logic that goes on there to ensure that one thing's happening at a time. It runs, the migration, unlocks it, and then it just rinse and repeats until it's done with all of your migration files. So that's how it manages the migration bit and Mark's right, It's like it's totally just to be a good system, a good framework for developers to change the database in an organized fashion. And I don't know where it came from. I was first introduced to it by Rails, by that time they were using dates. But yeah, it's a good system. I don't have any complaints, but that's how that works.
+
+Owen:
+So migrations are really helpful because it could be something even more advanced than just adding a column. You might need to add multiple columns, maybe on multiple tables at once. And having those kind of batched up in what's essentially an elixir script, it really helps make it possible to ensure that that's consistent on everyone's copy of the database and production and testing environments. And also it allows you to more easily roll back those changes. If you're adding four columns to a table and you know do that on your database and you need to make need to undo it because something broke. If you're doing it the old fashioned way, that means you've got to go in and write more sequel queries and you've got to tell everyone else how you solve the problem with migrations, it's put into your code base and everyone runs it.
+
+Sundi:
+Which I have to say, David, in this blog post, you have a section that says, "Oh my God, roll it back in all caps". And I just have to say, I didn't miss that. I zoned in on that right away.
+
+David Bernheisel:
+Well that, that's the feeling that you get when you encounter that error. Like, Oh my gosh, what have I done? I've like, Have I just deleted the whole thing? Yeah, no ecto has got your back. Usually you don't have to worry about that. And that's the whole rolling back bit that Owen just mentioned. It's a good system. But you can shoot yourself in the foot, You can turn off these locks, you can have a bunch of apps all trying to run the same thing. Nine of them are going to crash, but that one will keep on going. You can get into some trouble and if your queries are not well behaved, you can lock up the database too, because it's trying to do too much all at once. It exhausts the database's memory and stuff.
+
+Sundi:
+Kind of leads into my, maybe next question, maybe a little bit away from migrations though. When you're composing queries for maybe a beginner or somebody who's just started writing active queries, and thinking about myself few years ago when I first ran into writing. I had to, I don't know, select all the orders that were from a certain customer or something and I had to narrow it down by customer id, but the order doesn't necessarily match right to a customer. Where do you start, when you think about composing, do you think about the thing you're trying to get? Do you think about the thing where... of the data, the piece of data you actually have? How do you think about it?
+
+David Bernheisel:
+Okay, I'm going to go back to the CSS analogy here. Tailwind is a utility class, utility first kind of way of organizing your CSS. I like doing the same kind of thing with my queries. I like to compose them in the smallest possible unit. That makes sense. It's not a big deal. So having a big long query is fine, but as soon as I need to use part of that query somewhere else, I chunk it out into another function. And that becomes more important as you're composing these things together in different domains and stuff.
+Because the order of which you might join a table, it might already be joined, so you have to check if it's already joined. So there's a whole pre loading. Yeah, pre loading is a big deal there for sure. So what I typically do is the Phoenix way of generating your project is to create context module, and then you have separate schema modules where you just define, you don't change, you don't have the function in there that changes your data. It's just defining your data. I introduce another query module in there and I stick all of my compostable query functions in there, and then I just give myself free reign. Maybe this is bad practice. I'm not saying you should do this.
+
+Sundi:
+For all the domains?
+
+David Bernheisel:
+Oh yeah, I just, any.
+
+Sundi:
+Users, comments, blog posts?
+
+David Bernheisel:
+Any query module out there, I let it cross all the boundaries. I don't care. I just go cross those boundaries. It is talking to the database. The database is a global thing already. Right?
+
+Mark Erickson:
+Let's clarify something. Are you saying just for the listener's sake? Yeah. Are you saying if I have an account
+
+Mark Erickson:
+Accounts context. And in my account context, am I going to have Accounts.Query, and that's the query fragments for the accounts? Or is it I have a top level query thing where all of my stuff goes in for all of my contexts?
+
+Sundi:
+My running list of queries is dumped in David's query's file.
+
+David Bernheisel:
+You can do it that way.No, I do it by context, I think. Yeah, it would be Accounts.Query. And it's going to be account specific query fragments. And if I need to do a account query in another context that's sales context or something, I'm not going to feel bad if I have to use my Accounts.Query module.
+
+Sundi:
+Yeah.
+
+David Bernheisel:
+That's what I mean where I would cross boundaries in that way. I don't think it's necessary to copy and paste your code, until it needs to diverge. Right?
+
+Sundi:
+So for a beginner, though, you're still talking about referencing something. So I think what you're saying is, for future Elixir developers who are learning Ecto, they're just going to need to go to your book?
+
+David Bernheisel:
+No. No, no.
+
+Sundi:
+Unless they have their running list of queries already at hand.
+
+David Bernheisel:
+Yeah, I don't know. I think, how do you compose your query? I mean, as a beginner, don't worry about composing. You don't need to worry about it at all. Just have it right there. Put it in your context. It's fine. It's not going to kill anything. Import Ecto.Query and just go for it. I mean, as your app grows, you're going to feel like it gets dirty or not. And if it feels like it gets dirty, then take the opportunity to maybe reorganize into query modules. That's what I do, but you don't have to.
+Some folks actually like to put it into their schema folders. Right? Because it's describing that schema, on how to query that schema. That makes sense too. I just don't organize it that way. But I wouldn't worry about it so much. In my head, the context module is the orchestration bit. And so querying data is just relevant for orchestration. So I don't know. I don't think, I don't have a big bother about where I put queries. I just know where I ended up doing it, for composing queries that is. It's purely for composing.
+
+Owen:
+Speaking of composing, one thing you're probably doing differently here compared to the Phoenix generators is, you're not calling Repo.all or Repo.one at the end of your queries, you're just passing-
+
+David Bernheisel:
+Correct.
+
+Owen:
+... Your functions just return a-
+
+Sundi:
+Query.
+
+Owen:
+... an Ecto query, that way they can be composed, you can call multiple functions that combine up to a larger query, and then somewhere else in your application, maybe in your parent context, is where you're actually making your Repo calls?
+
+David Bernheisel:
+Correct. That's exactly how I do it. Yeah. Those query modules are only for composing stuff. They don't actually hit the database at that moment. They're just composing the query to be prepared to be hit. The context module usually is where the Repo.all, the pre-loads, might go. The actual database hit will go into the context module, typically.
+
+Sundi:
+And one that has always confused me, and I just tossed this in there because I just, I've never understood it truly. What is the pin operator? Why do we need it?
+
+David Bernheisel:
+I thought it was some Elixir language special operator thing, but it's not. It's not actually, it's just the way that Ecto parses the AST. Right? So you may know this or not, but a lot of the Ecto query stuff, a lot of the Ecto stuff in general, are all really macros. And so the code that gets called is actually AST, and that carrot operator is, it's just a thing that Ecto made up that says that when it starts with a carrot, we're going to take the rest of that AST and know that that is an external reference, because we're still talking the abstract syntax tree here. So the external reference means I am not talking about Ecto query functions right here. I'm not talking about my database table or the column name or whatever, because they made it so representative of the SQL underneath that you can type in t.id, and .id doesn't mean anything to the rest of your Elixir code base, but t.id is going to match the table named to t. and the column id. Right?
+So they transform that through the macros there, the AST, and they transform that to the proper way to talk to SQL, to go grab that. Right? So you have to be able to escape that understanding of the code, and that's what the carrot operator's for. And the carrot is just saying, "Hey, I am not talking about Ecto here. I'm talking about an external variable that already exists, or expression, that already exists outside of the Ecto query macros. So hopefully that made more sense than before, because anytime you're talking about AST and macros, like nope.
+
+Sundi:
+I feel like most people just tell you to use it.
+
+David Bernheisel:
+You're either doing more damage or not.
+
+Sundi:
+They're just like, "Use it for the parameter that you're passing in, and that's the one you want to match it on." I'm like, "Why? Why?" Okay. External.
+
+Owen:
+I think it's also a pattern matching thing, because I've written a pin operator inside of an assert receive test.
+
+David Bernheisel:
+Mm-hmm, right.
+
+Owen:
+So you need to reference here on one line, and you need that, you don't want to assign the result to a new variable, you want to make sure it matches the reference from the previous line. So the pin operator, inside of a pattern match-
+
+David Bernheisel:
+Yeah.
+
+Owen:
+... Also enforces the actual value of that variable as being matched, instead of assigning to a new, or pattern matching, onto a new variable.
+
+Mark Erickson:
+Yeah. Having come from programming languages where you had to do manual pointer manipulation where you'd declare something, say this is a pointer, and then you'd have to de-reference the pointer somewhere else to actually get at the underlying value, which I'm so grateful we don't have in modern languages in JavaScript or Elixir, we don't have to do that. But sometimes it's helpful, and I think of that little carrot, or I think it's called the circumflex, I think of that as the, like what you're saying Owen, it's the reference, going back to what is this actually pointing to? The underlying value. And I think of it like that. It's a de-referencing a pointer.
+
+Owen:
+That's probably more confusing if you don't know pointers than just, so you can ignore that.
+Circumflex, today I learned. Circumflex.
+
+Sundi:
+I just said, "French class grade 7 just came back to me," because I did know what each accent was named before, but I forgot that that actually, the little carrot, that's what that one is. So Mark, thank you for sending me back to middle school.
+
+Owen:
+So I see here we've got some notes on some fun things, some edge cases we've bumped into all working with Ecto. I know we've already hinted at some of my fun escapades with Microsoft SQL database and the TDS adapter. Has there been some other "fun" or maybe frustrating things you've bumped into while-
+
+Mark Erickson:
+Sarcastically fun.
+
+Owen:
+... working with Ecto? Exactly.
+
+Mark Erickson:
+Oh man. One thing I think, I feel bad about people who are coming into programming today, and who are taking the bootcamp route, because you're trying to cram in as much as you can into 3 months, and you're learning programming and web, which I've got to learn html, I've got to learn JavaScript, I've got to learn CSS, and I've got to learn a language that does templating. There's so much you're trying to cover. They don't really touch on SQL, right? Most places are not going to go into SQL and this is how... if you do anything, you're probably using an ORM, or whatever framework it is you're using to get a value out for an individual record. It's not so much the "how do I write a more complex query?" So I just feel bad for people who are coming to programming not through the traditional way of going through a university or college where that's thrown at you. You are required to have some of these classes.
+And so I feel like we do need better tools to make it more approachable to help people ease into it. It's like, yeah, Ecto can do a whole bunch for you. The generators can get you really far with being able to do gets and orderwise and all that. But now, I want to do something really goofy. And I know the database is really powerful. It can do this. I don't know how. I don't even know how to look up what I don't know. Right? I think that's where I have sympathy for this upcoming programming generation.
+
+Owen:
+Mm-hmm. Even connecting multiple Repos, doing the Elixir app, is not like, you don't see a lot of documentation about that, and then the config always leans on one Repo, so solving that problem the first time I did it was a little bit tricky, but now that I have, it's a little bit clearer. So.
+
+David Bernheisel:
+When was the time that you had to do that, timewise? Was that like 2 years ago?
+
+Owen:
+Like every day recently.
+
+David Bernheisel:
+Okay. I thought they got better. I thought it got better though, because-
+
+Owen:
+It is better. If I was working with multiple Postgres databases, it would be easy peasy.
+
+David Bernheisel:
+Mm-hmm.
+
+Owen:
+Part of the problem is just some tedious, tedious-
+
+David Bernheisel:
+TDS adapter.
+
+Owen:
+Oh man.
+
+David Bernheisel:
+Gotchas.
+
+Sundi:
+Okay now, is that a dad joke or a pun?
+
+Owen:
+It's a convenient pun.
+
+Sundi:
+Okay. So the other running theme this season has been, Owen is also teaching me about the difference between a dad joke and a pun. So whenever I come up with the example, we stop and evaluate.
+
+Owen:
+Yeah, if there's a setup and a really disappointing punchline, then you're deep into dad joke territory.
+
+David Bernheisel:
+Disappointing punchline. I like that criteria.
+
+Owen:
+It's like you'll be compelled to laugh, but you'll be like, "Ah, I can't believe I'm laughing at that."
+
+Sundi:
+Exactly. Yeah. It's always interesting when Owen talks about various things that he's facing in his project. It always reminds me a little bit of time travel. This is a problem that you probably were going to be dealing with a few years ago, but you're dealing with it now. So hey, time travel. Just think of it that way. You're wondering with the time travelers, Owen.
+
+Owen:
+Right.
+
+Sundi:
+He's so excited.
+
+Owen:
+[inaudible 00:38:36]
+
+David Bernheisel:
+It doesn't make it better.
+
+Sundi:
+It doesn't make it better.
+
+Owen:
+I want to go forward in time to when this, all the problems are solved. Man.
+
+Sundi:
+So another question I had, there are different things you can do with mix Ecto dump, mix Ecto load, set up, reset, different actions you can take at different times. When is the right time to use various options there, that I just listed?
+
+David Bernheisel:
+Yeah. I don't know if there's a right time. Every time that I've done it, it's because some other developer ended up making a change to a migration that broke other people's systems. And so instead of, and talking about development environments here, test environments. So instead of fixing that, we squash all the, I call them squashing all the migrations, and that would be mix Ecto.dump. And then once you've squashed it, you now have a resulting SQL file that represents your database structure at that time. And then to get that back up, like say a new developer with a new laptop, you would do mix ecto.load, and you'd point to that SQL file. So that was really helpful for us to get around that problem, instead of having to deal with old migrations that don't really matter anymore.
+
+Sundi:
+I always thought reset helped with that. But is that just putting you back to an MD development state at the current level migrations?
+
+David Bernheisel:
+Reset is just dropping and creating and remigrating. Yeah.
+
+Sundi:
+Okay.
+
+David Bernheisel:
+So dropping and creating, those are still necessary things. That's about your overall database. But migrating is just going to go through, again, your scheme of migrations table to see where it's at, goes through all your migration files, runs the ones that aren't there, and then you're done. Right?
+
+Sundi:
+So how does dump help you when there are a bunch of bad migrations in there?
+
+David Bernheisel:
+Yeah. Yeah. So say, it's also helpful when prod and development may have gotten out of sync. That typically happens when you may have gone up to prod, you consulted in, you found some performance issue, you created an index, but then you didn't actually backport that into your migrations or something, so things are out of sync now. And so what I've done is go back to your mix Ecto.dump, your SQL, which represents your structure at that time. You can just edit it right there. Right? And it doesn't actually run a migration to get into your local database anymore. Right? Instead, you run mix Ecto.load, and that loads that SQL file into your database. You still might have migrations to run after that. It's a snapshot of your database schema at that time, so you might still have new migrations that come in, and that's okay, but instead of having 20 migrations to run, now it's just one SQL file. So efficiency wise, it's a lot faster to do that.
+And so the question was like, when do you it? You do it when you have a lot of migrations that don't really matter anymore that are like 5, 10 years old at this point, no one needs to care about them anymore. So you're just going to take a snapshot of what it looks like today. Boom. There's your structure. Now we just load that back in all in one go, and then start fresh with migrations going forward.
+
+David Bernheisel:
+.... that can also happen when production... It's just the opportunity that you're like, why do I need to care? So migration is broken squash it. Production is out of sync, squash it and make the edit on the SQL file directly there. It's just a simpler operation at that point instead of running 10, 20 migrations. So no, I don't think there's one point in time where it's like, this will solve it. I think that's just an efficiency problem more than anything else.
+
+Mark Erickson:
+That's where I've seen it the most is when people had years of migrations and most of the time I saw that was in Rails apps and blowing away your test database and running your migrations could then take minutes to run through all of these migrations, doing all this data changes because data migrations were in there with your structure migrations, everything was going there and it just took a long time. It's like well just squash all that. I think that makes sense. I want to throw out another scenario where I think it's helpful.
+Right now something I'm working on is showing examples of how to do... I want to deploy my PR. I've got a PR, I want to auto deploy that to a machine, like a running server so I can actually interactively play with it and I want to have data. If I can have, do a mix Ecto load and load up some staging data so that it's not an empty database, just load up some data, then I can have something to actually play with in my test environment so I can show off the feature I'm working on or whatever. I think that's another scenario where mix Ecto dump and Ecto load could be helpful.
+
+David Bernheisel:
+Just be clear that Ecto dump is not going to export your actual data. It's just the structure. But in your example, that's a great example of using Ecto.load from a dump from staging because Ecto.load doesn't care, it's just going to take a SQL file and pump it into your database. You can feed it, it's like staging anonymized data SQL file and-
+
+Mark Erickson:
+Yes.
+
+David Bernheisel:
+.... have a good environment to play in. That's a great example.
+
+Mark Erickson:
+Thank you for clearing that up for me. Oh yes. Because what I'm actually talking about is... The way I was actually planning on doing this was having some code that I run a module that will seed my data. But yes, I was still thinking about using Ecto dump and Ecto load, but to save on the whole booting it up.
+
+David Bernheisel:
+Right.
+
+Mark Erickson:
+But yes, populating it with data still has to happen separately.
+
+David Bernheisel:
+Technically speaking, there is a little bit of data that's dumped as well and that's the Schema Migrations Table.
+
+Mark Erickson:
+Right.
+
+David Bernheisel:
+It has to know where it's at.
+
+Mark Erickson:
+True, true.
+
+David Bernheisel:
+But other than that, yeah, there's no other data that's actually dumped. It's just Schema stuff.
+
+Owen:
+You could still split your Schema dump from... You could have a schema dump and then manually create a SQL file and load your schema and then load your data in separate processes. There's like multiple ways to solve these problems I think. But keeping [inaudible 00:44:57] it's a good idea.
+
+David Bernheisel:
+Whenever you do decide to do this Ecto dump and Ecto load stuff, you are permanently adjusting how you start. How you get a new developer on your app at that point because they don't have migrations anymore. Probably almost all of these looks for Ecto apps that are out there generate with a Ecto.setup alias, which will do the create, the migrate, but it doesn't have Ecto.load in there. So you'll have to go adjust your aliases to make sure that it takes care of that stuff. That's not a big deal. Just something easy to forget.
+
+Owen:
+Speaking of optimizations, dumping and loading the Schema is kind of a way of maybe optimizing some messy migrations that have built up over the years. No discussion about SQL and even Ecto would be complete without going a little bit more in depth about indexes. I know when I was getting started with SQL way back in the day, the concept of indexes was a little bit foreign to me until I started to understand why queries were slow. I'll point to one of the resources that helped me understand things a lot. It's an older resource, but-
+
+David Bernheisel:
+Checks out.
+
+Owen:
+.... use the index Luke. It's good.
+
+Mark Erickson:
+Use the [inaudible 00:46:15].
+
+Owen:
+Have we all been to use the index Luke-
+
+Sundi:
+I have no idea what we're talking about.
+
+Owen:
+Over the years.
+
+David Bernheisel:
+[inaudible 00:46:23], I will definitely.
+
+Sundi:
+[inaudible 00:46:24] reference.
+
+David Bernheisel:
+Aside from the wonderful information in there, this is also one of those websites that's a good snapshot of late nineties websites.
+
+Sundi:
+I just opened it.
+
+David Bernheisel:
+Yeah, it's a great resource and hopefully I haven't offended anybody, but just to give you an idea, the logo is a squirrel with a lightsaber I guess.
+
+Sundi:
+Okay. So it is a Star Wars reference. Thank you.
+
+Mark Erickson:
+Very much.
+
+David Bernheisel:
+I forgot to mention earlier, but this is one of those awesome resources that I just always go back to when I need to figure out what's the right index to use. They have a section on there about performance and scalability. You've got things about how an index actually works in there, how know works and all these different types of databases. They talk about Oracle in there doing the St. Mary's cross right now, if you have to work in Oracle. All right, what partial indexes are, it's a good educational site.
+This is not to... I'm not going to straight up rip stuff off their website for Ecto and prod, but it's having that context and that kind of information available in a nice searchable way. It's just amazing. They've got some recipes in there like querying the top and rows for example. Whoever wrote this, I don't know them, but whoever wrote this, they must be experts because they have it in Db2, in MySQL, in Oracle, in Postgres and then MS SQL, all of the flavors out there. You would think that SQL being a standard language that there wouldn't be that much of a difference but there is, which is a little frustrating.
+
+Sundi:
+This is great. Owen, you're holding back on me or you were.
+
+Owen:
+The explanations on that site are amazing. They were plain English enough for me as a new developer that I was able to understand indexes and when to use them and how not to overdo it with indexes, which is another thing you might think, oh now I understand indexes, I will index all columns on all tables.
+
+David Bernheisel:
+Everything.
+
+Owen:
+What could go wrong? What could go wrong?
+
+Sundi:
+Wow. With that, I feel like this conversation is come not complete because I'm not an expert on Ecto now, but I definitely feel a lot better. Thank you guys.
+
+David Bernheisel:
+Ecto is a whole wide world of information. You think you know a lot and then you realize you don't. Nope, I'm almost just as dumb as I was five years ago about SQL and Ecto. Nope, it evolves. It gets deep.
+
+Sundi:
+It was a really difficult to really pull my brain back after having put it down for a few years, concentrate on some other things and then to be analytics or a project where I was suddenly writing a lot of queries and I wasn't necessarily told I would be writing a lot of queries. I just looked at the UX design and realized I had a dashboard that had stats on it. The way that you get stats is to calculate the stat and you need to get the things to calculate it. So I'm just sitting here, oh, it was hidden under three layers of things and now I'm running [inaudible 00:49:33] queries. Being confronted with that was kind of jarring, but I'm glad I had this index Luke situation to work with now.
+
+Owen:
+I'll just wanted to mention one more resource that I've always found helpful. They have versions of the site for multiple different databases, but postgressqltutorial.com is amazing as well. They have one for MySQL tutorial. We're going to have links to all these things in our show notes. If anyone's listening to this and you feel a bit overwhelmed about Ecto and SQL, you're kind of getting started with database queries and that kind of thing, I would say maybe start with just raw SQL. Try to get your grasp of how the database works at the low level and then think you'll be like, then the Ecto stuff will make a little bit more sense as you're putting things into your Elixir application.
+
+Mark Erickson:
+That's something that's worth pointing out though. Ecto really with the way we are able to structure our queries, it's very thin layer over SQL.
+
+Owen:
+Right.
+
+Mark Erickson:
+It really kind of exposes a lot of the SQL, especially when we start doing fragments and that you can do those kinds of things.
+
+Owen:
+Right.
+
+Mark Erickson:
+It is beneficial to take that step deeper and look at what you can actually do with SQL.
+
+Sundi:
+Yeah, absolutely.
+
+Owen:
+You're using a lot of the same terms as the raw SQL syntax would be using as well.
+
+Sundi:
+As much as I would love to continue learning about Ecto forever, because this one hour has been so helpful for me and I hope it has been helpful for our listeners as well. I'm going to have to pass the mic to David and Mark for any plugs or asks that you have for the audience, anything you're wanting anyone to check out?
+
+David Bernheisel:
+Two things. I've mentioned at the top of the episode, but I'm working on a book called Ecto and Production.Com. All it is right now is just a signup page. I'm really hoping that over the next month, maybe by the time this episode drops, I'll start dripping out some articles and content out there. Go check that out, that if you sign up, I'll just give you a quick notification to let you know... Email notification to let you know that it's something there now. Then the other thing not related to Ecto is I'm about to drop a library called S-E-O. So this is a library framework really to help organize and streamline how to get search engine optimization for your Phoenix apps.
+If you have an Ecto schema of blogs with many comments on there, you might need... You're probably aware of there's ways, if you just drop your link into Slack. Slack will try to unfurl, it's called unfurling. It'll unfurl your website, it'll grab the title, the description, and the look for an image. There's other little pieces of data in there and that's just one example. There's a ton of other ways to optimize your page for search engines. So this library is going to help streamline how to do that well. Because knowing about it is half the battle and then the framework is going to help you build it in a not so tedious way. Those are my two drops.
+
+Sundi:
+Mark, what about you?
+
+Mark Erickson:
+I would just say that David and I are on another podcast, The Thinking Elixir podcast. If you haven't heard us, check us out. We like to talk about Elixir there too.
+
+Sundi:
+Awesome. Well, thank you both for being here. That's it for today's episode of Elixir Wizards. Thanks again to our guests, Mark Erickson and David Burnheisel for joining us. I'm Sundi Myint and my co-host/guest is Owen Bickford. Elixir Wizards is produced by Hanger Studios and is brought to you by SmartLogic. Here at SmartLogic we build custom web and mobile software. We work in Elixir Rails, React Flutter, and more. Need a piece of custom software built, hit us up. Don't forget to like, subscribe and leave a review. Your reviews help us reach new listeners. You can find us on Twitter at SmartLogic or join the Elixir Wizards Discord. The link is on the podcast page and see you next week for more on parsing the particulars.
+
