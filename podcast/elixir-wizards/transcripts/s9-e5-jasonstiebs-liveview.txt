@@ -1,0 +1,364 @@
+Sundi Myint:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint, and I'll be your host. I'm joined by my co-host, Dan Ivovich. Hey, Dan.
+
+Dan Ivovich:
+Hello.
+
+Sundi Myint:
+This season's theme is Parsing the Particulars. Today we are joined by a special guest, Jason Stiebs, Founder at RokkinCat, and we'll be diving into the particulars of LiveView. Hey, Jason. How are you doing?
+
+Jason Stiebs:
+Hey, Sundi. Hey, Dan. Thanks for having me.
+
+Sundi Myint:
+Yeah. So you met our teammate, Owen, another wizard on the podcast, and you gave a talk at Elixir Conv about LiveView, but you had a very interesting take on it. Can you give us a quick spin on what your talk was about and who you are in the Elixir ecosystem?
+
+Jason Stiebs:
+Yeah, I'd love to. So for those who don't know me, I'm Jason Stiebs, I'm jeregrine on GitHub. I've been using Elixir since almost the beginning, and I joined the Phoenix core team exactly at the beginning when it was just Chris and a couple others. I think Gary was pretty early in those days too.
+But yeah, so I've been using Phoenix and Elixir for a really long time, mostly with APIs. I did a couple sort of static websites and several single [inaudible 00:01:40] allocations.
+My talk was kind of like I was one of the first people to see LiveView. Chris sent me the very first demo when he was just working on it, kind of when it was in the nascent stages. It was just something he was hacking on.
+And I was pretty skeptical when he first showed it to me. And it took me three, four years, and I mean, till now roughly to be all in 100% that I think this is something that we can use for any project. Yeah, that's kind of the premise of my talk. I kind of walked through my background and why I was so nervous initially and how I came around to it.
+My professional background is I do a consulting firm very similar to, I guess not too different than SmartLogic. We do custom development, web development, mobile apps. We've been doing that for about 11 years and one of the first people to probably irresponsibly put Phoenix into production, but it turned out to be a great bet, so it wasn't actually irresponsible in hindsight, but worked out.
+
+Sundi Myint:
+Nice. It's interesting, I feel like a lot of people get presented with new technologies and are immediately like, "No, hold on." And just kind of have a knee-jerk reaction. Was that sort of what happened to you or was there a little bit of a more informed, "Ah, hold on," kind of decision happening there?
+
+Jason Stiebs:
+I wish my talk was available so I could send people to go watch it, but it's not up on YouTube yet. But yeah, it was a little bit knee-jerk, but it was more informed.
+So I've been doing web development for a really long time. I'm not sure. I used to do C# .NET development with a technology called Web Forms. But if you're not familiar, it's not too different than LiveView except for it was written for a C# and .NET before threading and multi-processing was a big deal. And .NET doesn't have an [inaudible 00:03:19] or can't handle millions of processes.
+But you would write all your code, all your web code in C# and you'd have click handlers and button handlers and formatters all in C#, and it would use an incredible hack where it would take the entire state of the C# app, say 64 and code it and then put it on the webpage and then send it down to the client.
+And then whenever they did anything, clicked a button or browsed or did anything, it would take that giant blob and send it back up. And you could store that in SQL Server or a file system instead as your session. But that's how they did it. So I had a lot of experience with that model where you write your web code but all in the back end.
+And initially, when I first saw LiveView it was a lot of flashbacks, a lot of not so great memories and feelings. And there's several technologies that pre-date LiveView. They don't use WebSocket, some of them do, but yeah, there's a lot of things that are similar to LiveView so I was familiar with the model. And at the time, the whole world was like, "We're doing React, we're doing single page web apps, get on the train." The whole ocean and everyone was like, "This is the new thing and don't deviate."
+It's funny to see Dino or Deno and other frameworks kind of come back to the server and everyone's talking islands and server rendered pages and it's weird to see how it's all cyclical, but... And initially it wasn't as knee-jerk as some people's reaction was, and I go into it a lot more in the talk, but it was informed by some not so great [inaudible 00:04:40] experiences.
+
+Dan Ivovich:
+I relate to a lot of what you said.
+
+Jason Stiebs:
+Yeah, it's...
+
+Dan Ivovich:
+Yeah, I think we've been on kind of very similar journeys over time and the cyclical nature of this industry and technology and everything else is always interesting to me, and kind of where things are landing. And I for some similar reasons said, "Hey, let's not go all in on LiveView right away. We have patterns that have generally been working." React SPA is not one of them. We did some attempts at that and that had a lot of problems on its own.
+And I think this past Elixir Conv I unfortunately didn't see your talk. I'm looking forward to when it is available to see it, but I think I finally kind of heard enough there just generally in Chris's keynote and seeing kind of where things are, I've kind of come around on it quite a bit and we've done some more recent experimentation with it that I feel pretty optimistic about and certainly the feedback from the team is strong.
+But yeah, definitely we're always a little cautious to jump into things, just to make sure that it is going to work for us in the long run. And we've got applications we've been supporting 11, 12, 13-plus years and you make those tech choices and you got to live with it.
+
+Jason Stiebs:
+Yeah. Yeah. You really do. And part of what really changed my mind recently was the functional components and having [inaudible 00:06:02] be in line with your code, and some of the stuff that's coming out just came out with Phoenix LiveView with attributes and the accessories. And the JavaScript API's just brilliant.
+I can't remember if Chris came up with that or Michael came up with that or whoever came up with it, but I think that's just an incredible hack. Maybe not hack's the right word, but an incredible API that we could... And it just yeah.
+And I had a chance to work with some younger engineers and developers and watch front end people learn LiveView and learn the experience with it. I still was using it for clients and customers and stuff when they requested it and stuff, but it wasn't like I'm all in, I'm going to do this for everything.
+And I had a chance to work with some younger engineers who came from React in the front end and learn it, and just to see how quickly they went from basically no Elixir experience to a very productive and actually making things happen on the screen in very little time, that you don't have that in React.
+If you do, you have to have mocked objects or dummy data and then hook up the API and you have to do all this stuff just to make it actually work. And I don't know, that experience really changed my mind and opened my eyes to, "Wait a second, this is actually something that we can totally do." And then I wrote a full project in LiveView that just really kind of cemented it for me. I didn't really want to go back to React and the Java scripting.
+
+Dan Ivovich:
+Yeah, I think that that kind of first project is key for a lot of people, right? And that can be the make or break, right? You can have that first project that goes horribly or you can have that first project that's super successful.
+And our first Elixir Phoenix project was, it was like, "Okay, it's a couple weeks to get this kind of MVP out. If it goes poorly, we'll rewrite it in Rails in about that same amount of time." And so it was like, "All right, now's the chance to give this thing a shot." And that went crazy well. And leaving Active Record behind was a welcome change for me personally. So we've been more and more on the Elixir spaces as we can, and this whole show is because of that.
+
+Sundi Myint:
+I want to ask you, Jason, how do you find yourself as a Phoenix core team member? I feel like we hear these words and it just sounds like there's a floating Elixir logo next to your Twitter bio or something. How does that happen?
+
+Jason Stiebs:
+Well, for me, I was just at the right place at the right time. I was using Ecto and Phoenix and Elixir when they were not as good as they are today.
+So I was finding bugs constantly. I was in an IRC chatting with Chris and Jose. I found a lot of bugs in the early days. That was kind of, the joke is, "Just let Jason test it for a bit." I'll just figure it out. And I still quite find edge cases. And there's this part of my brain where it's like when I find something like that I just can't let it go. I have to figure out why is it behaving that way?
+So there's a lot of little... More recently I haven't done as much with the Phoenix core team stuff, but I've just been around and I find bugs and I try push Chris and Jose to think a little bit differently. But anyone can be a part of the core team. It's just kind of, I'd say it was more luck than anything. I was in the right place at the right time, helping out and doing stuff. Look at a contributor graph, a lot of it's front loaded for me. It's not nearly as much as Chris, but Chris is getting paid for it.
+But we've recently added Christian... I'd have to look up his name. Did the Storybook. He did such a great job with Storybook and we were going to do a Storybook thing and I was like, "Why should we do a new thing? We'll just ask him if he wants to be part of the core team and work on it." And Clay got recently added.
+It's not really an official designation. People come and go. There are people who will come and do a lot of work and then just kind of fall off and disappear, but they're part of the core team still, I guess. And there's a Slack or whatever.
+But it's really just a way to communicate about stuff without having to post to the forum publicly and get a lot of public feedback before something's even baked or thought through already. Chris and Jose are still doing the vast majority of work, but occasionally people show up and do a lot of work and then they kind of fall off or maybe some people stick with one area and kind of work with it and help improve it.
+Gary has done a lot of work with, or Gazler, has done a lot of work with the generators over the years and documentation as well. Recently Clay joined because he was working on Tree-sitter, all the Tree-sitter's for HEEx and EX, which is an NVM.
+Tree-sitter comes from I think from Rust for formatting documents and in Neovim. And now in GitHub it uses Tree-sitter to format the code for literally all languages I think. So he was just maintaining those and there's a lot of overlap with that in HEEx stuff and making HEEx work, so it was natural to bring him in.
+But yeah, it's not some [inaudible 00:10:26] or anything, it's just people doing stuff and if you show up and do stuff in the GitHub issues or you help out with stuff and you're easy to work with it's not hard to just add you to Slack.
+
+Dan Ivovich:
+Find bugs and be a good person. Yeah.
+
+Jason Stiebs:
+Yeah, it's not super meritocritous or whatever, or open, but Chris is busy, we're all busy, we're old now and have kids and stuff. It's like if you're easy to work with and that goes well and you're not throwing [inaudible 00:10:53] around and arguing about everything all the time, it just makes things easier. It's open source. We're all doing this for free, with the exception of Chris, I guess.
+But so it's being easy to work with is important. And showing up, it's half the battle. And being in the right place at the right time. Again, I have interned and stuff where like, "How do you open source? How do you get into it?" And a lot of times, if you're not early in a sort of project, can be really hard to contribute at all because it's like, how do I join? How do I jump in? It's just lots of momentum and inertia and decisions being made and Slack channels and stuff and IRC or mailing lists or forums or wherever.
+So open source is tough. It's tough to get in and I was just at the right place at the right time and happy to say yes. Yes, I'll do whatever, so.
+
+Dan Ivovich:
+So now that you're kind of more all in on the LiveView, what do you think's kind of the big win or what particular features are you most excited about? My big question's always, "Why isn't LiveView 1.0?"
+
+Jason Stiebs:
+I think Chris would love to hear that question. I mean, why isn't Phoenix 1.0, right? Or is it one point or is it 0.17 still?
+
+Dan Ivovich:
+Oh.
+
+Jason Stiebs:
+I can't remember.
+
+Dan Ivovich:
+Phoenix?
+
+Jason Stiebs:
+Yeah.
+
+Dan Ivovich:
+1.6 something I think.
+
+Jason Stiebs:
+Oh, okay. So it's 1.6 and Phoenix is the 0.7. Yeah, I mean, it's changed a lot. And in this version of Phoenix, the next version of Phoenix there's going to be a lot more changes coming up with folder structure and the generators and how for example views are kind of going away. They're just kind of being renamed and changed a little bit, but they won't be Phoenix.view anymore, which I've always thought was a mistake.
+But yeah, I mean, I think the big win with LiveView in general is when you're working with a mobile app or you're working the React SPA, you have to do the communication, and that's the overhead, right? You have to put it onto WebSocket and you have to make an API usually of some sort. And you have to decide, am I going to use GraphQL? Am I going to use JSON:API? What is the wire format going to be? What is the API going to be? Are we going to...
+Or gRPC or whatever. How am I going to say that I want to create this entity or this user or this post? Edit this post, read this post? And you need to document it somehow, you need to communicate with the front end engineer, unless you were the front end engineer, I guess, doing all
+
+Jason Stiebs:
+All of it, which is fairly rare these days. But you need to communicate that, and that's overhead. Straight up, not even technical overhead, that's just human overhead, right? Whenever you're working with someone, even if you have a great rapport, you're going to need to communicate that this is the shape of my object. This is my expectation. Even if you write the most perfect HATEOAS API ever, there's still going to be some part that's a little weird and a little different. I also was a creator of one of the JSON API libraries for a long time. That's now part of the Beam community, because I just didn't have interest in maintaining it anymore. The Beam community's maintaining it now. I'm all in on APIs. Again, I believe in that stuff, and I think it's neat.
+With Live View, you don't even think about that. It's not even a half thought. You just put your HTML together. You have your click handlers and stuff, and you're going, right? It's live. It's interactive. It's great. You don't have to think about JavaScript or JSON. And that, for me, that's the biggest win with Live View, is all of the overhead of thinking. It's the dream of Firebase without Firebase. You don't have to write an API. You don't have to think about an API, but you still are hosting it yourself. You can still deploy it like you're used to with a Phoenix project or a Rails project. You don't have to use some third party Google service or whatever. I know they're super basic and stuff. There's other companies that are trying this, but you get all the benefits of programming in the back end and doing a static, dead website, which just a request and response.
+You don't have to think about any of that. You can just write your code that makes sense, and you get all the communication and back and forth for free. I think that's fantastic and great. For people like me who have the experience with HTML and CSS, and I'm not afraid of... I've written a lot of react by incidents of just, by the nature of being web adjacent, you end up writing JavaScript. So I'm not afraid of it, but it's just so much nicer. You can just fly through. I've had customers and clients estimate, "This is going to take weeks and weeks," because that's how long it would take the React team to do. And then, you're done in a day or two, and it messes up their planning. But you feel pretty cool and powerful. It's just the nature of that. All that communication is gone technically and socially. It doesn't exist anymore. Poof. Cease to exist. I think that's the biggest one to Live View, personally.
+
+Dan Ivovich:
+Yeah, I think I'm in a similar boat as to how I'm thinking about this these days, right? It brings you back to this full stack. You know can actually be a full stack engineer, right? Because you're only working in one thing, and it works across the board. I remember that was exciting about some early days in Rails. And then, we wanted more and more interactivity, so we started pulling in more and more JavaScript. And then, we swung to SPAs or a mess of JQuery or some combination of both. This brings us back, I think, to an interesting place. The components, how that lets us...
+The storybook stuff for me is particularly interesting and just the ability to say, "This is what things are going to look like." Now, you have the building blocks to pull it all together. You only need to know one thing is particularly interesting and try to make sure that your designs and your displays of things are consistent and accessible and have all the right pieces in them. And then, an update in one place really has a potential of actually applying everywhere, which is always the dream and is hard in practice. But the tooling here feels like it's pretty close to ready to go for something that to really, really potentially work. And of course, it all takes discipline.
+
+Jason Stiebs:
+I think part of the reason it's not one yet is that Chris wants the flexibility. We keep finding these easy ways to make productivity better and make it easier, like hex templates and attributes and stuff. If we were a version one, there'd be a lot more pressure to not do those kind of breaking changes or forward changes as much. I think Chris is still on the stage where he keeps finding new ways to make it more interesting and fun. And maybe he's getting into the front end trap where it's always a new big thing.
+But yeah, so there's just some neat stuff coming, and I don't want to take all of Chris's steam. There's some stuff to handle the temporary assigns a lot more intelligently and nicely and stuff with an API for handling streams. When you have a long list of things, and you don't want to store all them in memory, you use temporary assigns. But it's a little awkward if you want to delete something in the stream, or if you want to add something a different spot. It's just a little bit weird to work with, and there's a new API, but it's had to get tabled for a little bit while we work on all the other stuff.
+
+Sundi Myint:
+What you said about a lot of these new features and what Chris is working on, what the whole team is working on, it reminds me of this thing that we get caught up in as developers where we really want something to be perfect before we ship it out. I even remember when Live View was announced. I don't even remember what conference it was officially announced, or was it-
+
+Jason Stiebs:
+Like five years ago or whatever, yeah. Yeah.
+
+Sundi Myint:
+It does feel like a long time ago, but I think I was at the conference after it was announced, and people in the audience started raising their hands and asking for beta testing. They wanted to all be beta testers, because they all wanted access to it. I think Chris just started just said like, "Oh, I'll just make it. I'll just release it." Something like that. Am I misremembering that?
+
+Jason Stiebs:
+For a long time, Chris operated with conference-driven development. The conference would drive the features, and he'd be like... I don't want to get in trouble but, make him mad or whatever. But he would just be working a lot right before a conference to make sure he had a cool thing to show. When he said it was beta, it was probably literally just think features and stuff that he had just hacked together the week before, even maybe the night before. I can't remember. One of them, he was very stressed about. I can't remember which one. May, it might have been that one. That was pre-Covid, I think, right?
+
+Sundi Myint:
+Yeah.
+
+Jason Stiebs:
+Back in the in-person stuff.
+
+Sundi Myint:
+Yeah, it was.That's why it's so long ago that my memory... I usually have a better memory, but it's so fuzzy now.
+
+Jason Stiebs:
+Oh yeah.
+
+Sundi Myint:
+It reminds me-
+
+Jason Stiebs:
+It's a total break.
+
+Sundi Myint:
+Yes.
+
+Jason Stiebs:
+Yeah. Yeah. Yeah.
+
+Sundi Myint:
+But it reminds me that we do get into this cycle, where we just want something to be perfect before we can stamp the gold seal on it. In this case the, 1.0.
+
+Jason Stiebs:
+Yeah. I mean, Chris is very good about not getting into... I mean, of most developers I've talked to, he's very good about just shipping. He's exceptional at shipping. Him and Josie in particular, I think, are very good at deciding this is ready to be one. So their instincts, in my opinion, are pretty good on that. But I think it's... The way it is now, it's fine. As long as you're willing to follow upgrade guides and do a little bit of work when things get upgraded, I think you could just follow it. I'm maybe not a great example because I'm a perennial early adopter stuff, so I'm always living that life. But I don't think any of the change logs that we've ever done have... Even some of the more onerous runs where people are complaining a lot with... I think the Routes one people complain just a ton for Phoenix back.
+I don't know if that's like five, six years ago now, but most of them been pretty straightforward. Even the Live View stuff that's coming now is, it's fully backwards compatible and all the big changes for Phoenix are fully backwards compatible. You don't have to do the upgrades if you don't want. I think it's in a good spot where you could theoretically treat it as one. It's just I don't think he wants to stamp it with one quite yet. If you know Chris's backstory, he did essentially Live View, but in Ruby. It was a live, embedded template for Rails. You could just say this part is live, and it was essentially a lot of the same ideas as Live View.
+But he had worked on Phoenix and Channels and Presence and all that stuff to get to this point. He's always been working towards Live View and this kind of API, and he's had that vision for a long time. So I think this is, if there is a baby in the open source world, this would be closer to it than all the rest of the things. Him and Josie both have excellent v1. When is something a v1 attitudes. I think Elixir v1 was a very good, a great stopping point, and I don't even think there's anything I would want a v2 to really be for. Some small things that are just bugs, but you can't really go back into Elixir itself without doing a v2.
+
+Sundi Myint:
+Right. I guess the question that I wanted to ask, which maybe is a moot point now, is what features do you think need to come to Live View to bring it up to v1? But I think we're saying it basically is there. Were there any features that we just put in there that pushed us towards that feature completeness?
+
+Jason Stiebs:
+I think Chris could answer that better than I could because I think we could v1 pretty soon here personally, but I mean, there's probably some attribute stuff that we want to get in. I mean, once the attribute stuff gets in people's hands, there's probably going to be a thousand requests for things that we didn't even think of and use cases we didn't think of. There's almost certainly going to be some iteration on the attribute stuff, just by nature of it getting to the real world and people using it, and Chris using it and everyone on the team using it.
+
+Sundi Myint:
+For those who don't know what the attributes are, can you quickly explain?
+
+Jason Stiebs:
+Yeah, yeah. Very recent Phoenix release, we added Attr macro. It works almost like a documentation, but you can put it above a render function or any sort of hex function. Let's say you have a class attribute, and you can say this is the default. And then, you can override it, but it'll generate the documentation. We can say it's required, so if you don't pass in a class attribute when you use the component, it'll throw an error at compiled time. Or you can do different types, like integers or strings or... I don't know. There's a bunch of different types, and you can set defaults and globals.
+It's just a really nice thing to have for documentation purposes, but also just.... So when you're using a component or you make a library of components, it makes the usability of the component system a lot clearer. You don't have to go read the code to see what attributes are passed in. You can just try to use it and see, "Oh, I got a bunch of errors, because I didn't pass in the correct attributes or the right types of attributes." That's what the attribute handler is, and it also will generate documentation.
+When you do ES doc, it'll just show up there and say, "These are the things you have to pass." Things that you wouldn't have before, because it was just an assigns blob. It's a type system light essentially, so that's the attributes thing. And then, there's the past. That's the Phoenix change that's coming where you can do till the P for routes and stuff. I've been on that, saying we should be doing that since the very first version because I've always hated the routes helper and routes handlers, but it's like a handover from Rails. Chris was a little bit proud of his macro.
+
+Sundi Myint:
+The mix phx.routes?
+
+Jason Stiebs:
+Yeah, so if you have a get users, it would be like users_path function that it would generate. You'd have to remember how it generates paths and why, so if it's like a company/ID/user, it would be company user path or something like that. You just have to remember this is how it generates it, or you have to look at, call that mix helper.
+
+Sundi Myint:
+I do call that mix helper a lot.
+
+Jason Stiebs:
+Yeah. Yeah. Even Chris gets it wrong every time. I've been saying since the very beginning we had to get rid of it, so that's one of my bugaboos. One of my other bugaboos is day times. I always thought Elixir should have day times way sooner, but we've eventually got it. I still think Jason or JSON should be merged in, but I've given up that argument entirely now. But yeah, so the path helpers is a huge thing that's just going to make everyone's life way better. That's going to be so nice, especially for contractors and consultants who do a lot of projects or generate new projects often as opposed to long-term maintenance projects. That's not really Live View. That's more Phoenix. Sometimes, in my brain, they're like all the same.
+
+Sundi Myint:
+We can call this behind the scenes of Phoenix and Live View instead of Phoenix Live View.
+
+Jason Stiebs:
+Sure. Yeah, yeah.
+
+Sundi Myint:
+What do you say? Yeah?
+
+Jason Stiebs:
+Sure. Yeah.
+
+Dan Ivovich:
+I think that lack of distinction is what makes some people nervous, right? People who Phoenix are like, "Oh, Live View is going to ruin my Phoenix."
+
+Jason Stiebs:
+I mean, they may not like this next update.
+
+Dan Ivovich:
+Right.
+
+Jason Stiebs:
+I don't think it's going to ruin your Phoenix, because there's nothing stopping you from just using Phoenix as you do today. I mean, you could use these templates or you could use the EX templates. We're not stopping you or making you choose. I think the iterate experience will be a lot better if you use hex. For me, the distinction is harder because I'm in them both and using them both and thinking about them both. But I think for Chris, who's working on it a lot more, in it a lot more, it's distinction is clear.
+
+Dan Ivovich:
+Right. Do you see projects that are mixed? Where you'll have, I can't believe I'm going to use the word, dead views and live views.
+
+Jason Stiebs:
+Yeah. That was actually the project that convinced me because I started it that way, where I had just a couple very interactive pages that I made into LiveViews, and it was all the rest were dead views. I started with the LiveViews because they were the riskiest part, and I wanted to de-risk the project before I did all of the other stuff. Those went so quickly and easily and smoothly, just making those pages just as Live View. That I started making my "dead views" into live views, and it was just literally a mount function that loaded some stuff and then render. Then, that was it, no inner activity. So I could have just made them temporary assigns and it just rendered it. Because the interface of working with components and working with function components and having just a module full of buttons and links and H... It was just so nice to work
+
+Jason Stiebs:
+... with the news that I didn't want to go back to Elixir. Now I could have used [inaudible 00:26:05] in this most recent version, but at the time we didn't have great backwards compatibility for using them in both. Either way it was just as much. Then I found out, I want to do a modal and I'd already done a modal in my live pages and I wanted to use those in my dead pages, but you need a live view to do it. Then I told Chris that we shouldn't make JS work without live view. Now it does work without live view, but at the time it didn't. I really had to use live view.
+
+Sundi Myint:
+Modals were my actual enemy for a little while, because I couldn't make it work in Phoenix without either JavaScript or turning it into a live view. I went down a really bad rabbit hole every time I searched for it. I think I even talked about this before, it was so traumatizing for me. I was searching for how to make a modal in Phoenix and I got live view results only always. It was a bad time. I think we ended up just scrapping the modal, because I don't think we wanted to write the custom JavaScript for it. It just didn't make any sense and the feature was just so small.
+
+Jason Stiebs:
+That's exactly how I felt. Yes, yes. That feeling, in my opinion, is if you're trying to get an open source when you have those feelings, those are things that need to get fixed, in my opinion. As authors of libraries, it's live view and if any user has that experience that you're exactly describing, we need to fix it. Whenever I had that feeling, I yell at Chris basically. I was like, this is wrong. We can do better. That's my argument, is we can do better, because we can. What's stopping us? Usually there's no technical limitation. It's just our decision. Do we want to make it work in life. Now it worked. I believe you can use ... and I may just be talking about, Chris, things that we've talked about maybe for the future, but I believe you can use the JSAPI now, just the Phoenix dot js or Phoenix live view dot js with dead views now because there's no reason you need a live view to make those things work, in theory.
+I believe you can do it. I should hope. I may be getting in trouble after this actually, but it doesn't matter. Especially in ACTO. I felt like I had a lot of times with early days with ACTO of this can be better. This doesn't feel good, this sucks, we can do better. ACTO is extremely difficult at problem space, but eventually it just kept getting better and better and those were the bugs I would report. For a long time, the whole entire query API like "and" and "or" and "some" and all those functions that you can only do inside of a wear or join just were not documented. They weren't generated anywhere, because it was part of a macro and it wasn't easy for Elixir staff to do it. I would just complain constantly and I was like, we have to show this, we have to show this, this is terrible. Eventually, they figured it out because Cho is a genius.
+
+Sundi Myint:
+Yeah. People didn't know what options they had for that function.
+
+Jason Stiebs:
+Yeah. You had to read the source code in early days of ACTO, I guess. I feel like if you ever have that experience you should say something to someone, because there's nothing stopping us in Elixir and ACTO specifically from making things better. Occasionally there're hard limitations, because of the run time or the way macros work or something, but it's very rare. There's almost always, because we have such an expressive language in run time, we can do almost anything to make our dev user experience better.
+
+Dan Ivovich:
+That's something that's great about this community, these languages, these open source projects, is poor user experience is considered a bug. There's room for improvement there. I do understand that motivation of the hesitation on going 1.0 or doing those things. If we can still improve experience and if it's going to require refactoring and a bunch of other things, let's hold off, let's get it right. It's funny just because only a few weeks ago Elixir comp files, I was like, I think I really do see this.
+
+Sundi Myint:
+It was a good moment.
+
+Dan Ivovich:
+Yeah. A lot of the team was very happy. The functional components and some of that. I appreciate what you're saying on the mixed projects and using it a little bit and pulling it in. We're seeing some productivity gains already and that's awesome. I think that's really great.
+
+Jason Stiebs:
+Yeah. It's hard to go back. Once you're productive and you're feeling good, once you can just use your function components in live view and it just works. Then you don't want to go back to ... I don't know if you remember how we used to do rendering templates, where you'd have to do what is pound percent equal, render, and then you have to do template name, and then you have to do some view string. The string that HTML and then pass the assigns mysteriously as a third argument. There was no compiled time checking or anything. That's just not an easy way to do reusable templates. That total hangover from Rails and just the way it was because that's how Rails did it. Credit where credit's due. Phoenix had a lot of advantages, this is the Rails API. We'll just do that, because Rails did it, so why can't we do it? Now it's flipped where Rails is just copying us blatantly and not giving us credit maybe.
+
+Dan Ivovich:
+I think what was important there, too, is it provides an on-ramp for people when you're talking about a new language, a new community, a new framework. Part of our decision to move to Elixir as a company was, well we're doing a lot of Ruby, we're doing a lot of Rails. We can hire for those people and those people can learn this and they want to. It's a huge advantage and you get that familiarity. You're like, this feels familiar but also better. Now, you've just got to keep pushing forward and hopefully people come along with you. I'm happy to see that this thing that has felt like it is taking this framework in a direction that I'm not sure I'm okay with, I'm glad to now say, I'm starting to feel okay with it, personally.
+
+Jason Stiebs:
+Yeah. That was the point of my talk, where I was wrong. I think it's important, too, as an industry, we're very over-confident always about the decisions we make and often the decisions are just someone on Twitter said we should use this so we're using this. Then we back justify like, it's fast and whatever. We don't often go back and say, well maybe the React was a mistake. Maybe some of the decisions that the React team made were a mistake for us. We were not comfortable doing that. I think, as an industry, we should get better doing that. We made a mistake, things are better now, or if we can do something better differently? Why did we make a decision? Why do we make the mistake in the first place? Maybe not even a mistake, but why did we make a decision and why did we change our mind. That was the point of my talk, is it's okay to be wrong about things.
+
+Sundi Myint:
+Yeah. I think it's okay to be wrong is just a general statement that we should talk about more often. I wanted to also ask you, the evolution of live view feels like a whole journey since that first time I heard about it a few years ago, that I can't even pinpoint what conference that was. I think if you asked this question at any point in time it would be different. I'm asking again today, if somebody were to come to you right now and said, we're ready to make the switch to live view. We've got a team; they're ready to learn it. What resource would you recommend for them to learn live view today, October 2022?
+
+Jason Stiebs:
+I always struggle with this particular question, because the way I learn things is I just do it. I just generate a project and go for it. That's my style of learning. I'm well aware that it doesn't work for everyone and I know there's a lot of blog posts, a lot of good screencasts and Elixir casts and lecture school. I'm so far away from using those things right now that it's hard for me to know exactly the best way to learn. In my opinion, I think from the very beginning of Phoenix, the generators have always been our primary tool for education and the guys are okay. I think they're good, but they could always use more work. Someone close to it. You only see the words. I think the generators have always been our first line of education and if you want to learn Phoenix and live view, my suggestion is maybe wait until the next version of Phoenix. It's coming soon. Go off master and then just do mix Phoenix gen new and just try it out.
+Generate a live view. There's going to be mixed Phoenix. There is a mixed Phoenix agenda live. You can do agenda oth, which is fully converted to new live view and peeks and the components and all that stuff and just play with it and just see what it generated. For me, as a consultant, I often get ... less nowadays, but in the first few years of Elixir, when people were starting to use Phoenix and production and startups were starting to use it for their new thing, they would often bring me in and be like, can you just review our code and look at it and tell us what we're doing wrong and maybe help us with some features? Every single time they were just following the path the generators laid for them and it was fine. It's really hard to do the wrong thing with ACTO.
+I know you just had a podcast about ACTO, so I won't rant and rave about how amazing ACTO is, but it's really hard to do the wrong thing with ACTO and that's by design. Jose did a fantastic job and I think the generators generate you pretty good code for doing most things by default. You can just learn a lot by just looking at that code and reading it. Why did it generate this function and why did it generate it here and just thinking through how you might approach it differently. I still think that's one of the best ways to learn how to use it and just try to build something for fun to do an app for whatever's fun for you. Yeah. Personally, that's my preferred approach. Of course, reading the docs and the module docs. The module docs are fantastic and I've yet to find an Elixir project other than the Amazon generated ones aren't amazing.
+
+Dan Ivovich:
+Documentation on generated code is a rough case.
+
+Jason Stiebs:
+Yeah. This is something, if you're coming from Ruby or JavaScript, the module docs are so much better. Often, if someone's a Ruby expert or a JavaScript developer and they're coming to Elixir, their first instinct isn't to go read the docs, because the docs in those languages are generally rough. They see an EX doc and they think Java doc or they think R doc or whatever the node docs are and it's not very helpful. You should look at the module docs; they're great. Then you should read the module doc. The top part of every module has this big section about tutorials on how to use it. It usually has pitfalls, common problems. A lot of times people have bugs for if they just read the module doc, control+F through the module doc, they would've found an answer to their question. Those two things, generators and read the module docs, I think are the key things for anyone who's using Elixir, especially if they're new.
+
+Dan Ivovich:
+If you've got an old or a legacy ... anything more than six months old is legacy, right? If you have a very static, non non-live viewed Phoenix app. It sounds like your suggestion is start something new, build it out, get a sense as to how live view works. Then what do I do with my old thing? Do I try to move stuff into it? Do I just build new stuff with it? What do you with a non-live view code base, if you want to start to embrace live view?
+
+Jason Stiebs:
+That's a good question. I think it really depends on the business case. If you're making money hands over or fists and you're not trying to add a ton of new features and change things and you're just trying to re-architect it so it's have code smell or you're trying to add some interactivity where you didn't have some previously, then rewriting it makes some sense. One of the beauties of the context and schemas and modules and stuff is you can go back very far in Phoenix's generated code and the schemas and the context would be the same. There's very little variation in ACTO or big updates in ACTO or contexts, for that matter, that would require you to really rewrite this. Assuming you followed the patterns of putting your business logic in the API, the [inaudible 00:37:39] app name folder instead of app name underscore web and you treated the underscore web as more of your view layer or your interactivity layer, it would be pretty easy to mix in a new project, copy over your schema, your context, your modules, and then just make a new front end for the pieces that you care about.
+You could probably even copy over your controllers and stuff too and just replace them one by one. That way, if you really wanted to, because we are backwards compatible pretty far back for most things. That's one way. That's the way I did it recently, when I rewrote a project. That was mostly a dead view from reacting to live view only, because I just kept the schemas into context and just copy and pasted them, including the migrations and stuff and it was fine.
+Yeah. If you're still in the phase of adding new features and you're moving really quickly and you're trying to find product market fit, I don't recommend a rewrite ever. It's always painful and it always takes longer than you think. Even in my view, it's never as comfortable as fast as you want it to be. In my opinion, it's really up to the customer or the business case. You really don't want to create a lot of thrashing and waste a bunch of time and money and get what appears to the outside, marginal value. Then it destroys trust between you and the business and the product owners and the designers. It's a risky game.
+
+Dan Ivovich:
+I love that answer.
+
+Sundi Myint:
+We also kind of pulled our team for some questions. Some folks who've been working with LiveView more recently and one of our engineers, shout out, Lawrence, wanted to know if there are any thoughts around any tooling coming for LiveView anytime soon. Thinking the time traveling feature that React Redux has the Chrome dev tools, some of that higher level stuff that kind of helps you step through your state and what's going on with your front end. Any thoughts? Anything like that?
+
+Jason Stiebs:
+I don't think there's any hard plans internally. I know Michael Crum has been working on sort of an error debugger because I think that's one area where we can improve is when LiveView an error happens LiveView, it just crashes and then restarts your page and then you have to look at the council to log or the council to see, scroll. It's usually open the console, scroll up a bunch to find the actual stack trace and see what actually happened. I don't love that experience. I think we could do better, even just have a drawer pop like this is just spitballing. None of these features are hardcore in there. But that's one area where I have that itch where it's like #This isn't right. We can do better." With errors in particular. Maybe we just pop up a drawer on the page that shows error and says "Reset page" or something, "Reset the last known state."
+Those are things we can do because we're in Phoenix and it's just a process or... Sorry because we're in [inaudible 00:40:14] we just have processes and actors so we could theoretically do more of that time traveling stuff. We don't have any hardcore plans. It would be possible and I think if someone did it and then released an open source library and it was good and they're like, again, is relatively easy to work with, it wouldn't be hard to just accept it or say "This is the thing you should be using."
+Yeah, I think much there's a plug that error that has this beautiful page when error happens and it shows you the error message and the stack trace and last messages and stuff like that. I think we could get that in LiveView relatively easily. It just hasn't been a priority yet. But yeah, that's definitely an area where we want to improve.
+I do think it's possible it would be tricky and expensive because we can send... On key press or button press, there can be a lot of messages going really quickly back and forth and a lot of state changes happening so it can be kind of unwieldy. Whereas when you're in Reactor redo and something, there's typically not as much state being updated at once. It's usually a button press or there can be a lot of state I guess if you're doing... So, I don't know. It would be possible, it would just be a little intrusive and you'd almost have to make a new LiveView macro that wraps all of the events and captures them or wraps every state change and captures it and then acts as almost a proxy between. Then you'd want to not load that in production at all because it would be super slow.
+But yeah, I think there's a lot of opportunity to the Jango toolbar, I don't know if you're familiar with that or the Rails toolbar or... I think we can do more stuff like that, especially with telemetry too. We could probably do a lot of stuff with telemetry and I know there's ideas and thoughts, there's, there's going to be better logging happening with events at Phoenix, that's definitely a priority for Phoenix LiveView. I think it's probably even being worked on or done already and might be a master with logging specifically. But I do think that's a fertile area for improvement that we could do. There's so much we could do in that space. It's just almost overwhelming. It's definitely a lot of possibility in there, but I've definitely felt those errors.
+
+Dan Ivovich:
+Yeah. That was a good answer.
+
+Sundi Myint:
+So that's something that our team is asking for. Is there anything that you particularly have been hanging on to your great hill to die on? The feature you want you really, really, really want?
+
+Jason Stiebs:
+Well, I mean the error thing you definitely picked on it. I think we can do much better with errors. I haven't personally had time to work on it and I think Michael's been also quite busy. I could ask him what the state is of it. I haven't talked to him in a while. That's one area I think I've always loved error messages cause it, the more information you have, the better. Yeah.
+We could definitely do better. That's always been a bug, bug of bear of mine. I think some of the generators could be better. We could do more with the gen... The generators are great. They're pretty heavy handed. They generate a lot of stuff and we don't have the smaller finer grain generators like Rails has. Part of that is because every time we had a feature we have to update hundreds of generator files to make the generator work with the new feature.
+So it's almost like an anti thing where it's like it disincentivizes people wanting to work on new stuff because it's like, "Oh, [inaudible 00:43:11] I have to update every single generator now." That's partially been Chris's life, is like... Since he's changing so much stuff recently, it's also got to go and update all of the generators, the off generator, Patrice did just a ton of work to update those to live units. Just a tremendous, humongous effort, and it's mostly manual going in and updating each thing and making it look right and people miss stuff. If there's a lot of just errors and stuff and the only way to know is to test it a lot in different scenarios and so that's one of my bugger bears. We could do better with the generators. I have to do it though. I just... Limited time at the current moment my life... I don't have as much time as I did when I was younger and didn't have kids and stuff.
+
+Dan Ivovich:
+Well, and I think that's an important... How important that is. I mean in one sense is you're saying it's a impediment to some degree, but also it also matters. We talked about how those generators help people learn, they help people get started, they help you establish the patterns that... Or what the core framework says are the ones you should use, which will make your life easier in the future, hopefully. The fact that it matters is a good thing.
+
+Jason Stiebs:
+Oh, yeah. The change Chris had in the recent LiveView with the components file, it'll generate a components file which just has the H tag and the form tags and the buttons and... It's all the stuff that the generator is just going to use by default. So previously when you use the generators it would generate a bunch of HTML with some classes on it and stuff and usually the first thing you did is go in there and throw it all out and put your version of it or you just stop using the generators entirely. Or if you're really smart, you would make your own mix folder and you'd put... Or in Priv you'd put a templates folder and you'd override the default generator. But almost nobody did that. No one knew you even basically could do that. So you just wouldn't use generators. You'd most likely copy a controller over or a view over and rename it or something if you were going to do that.
+I think with the components file of just having the default stuff and if you want to change what a form looks like across the entire site, you change the components file and then you can use the generator again because they just use the form and inputs and they're already using your styles. I think that makes a big difference in that sort of usability and open source maintainer usability as well because we can just update one spot to change the styles instead of updating a dozen spots.
+
+Dan Ivovich:
+Well, and that kind of changes it from getting started tooling to adding component. You're adding stuff directly.
+
+Jason Stiebs:
+Exactly. Right now it's a very [inaudible 00:45:31].
+
+Dan Ivovich:
+It's a big difference.
+
+Jason Stiebs:
+... Doing.
+
+Dan Ivovich:
+Yeah.
+
+Jason Stiebs:
+Exactly. Yeah, huge difference.
+
+Dan Ivovich:
+Cool.
+
+Sundi Myint:
+I think as cool as it is to do this deep dive behind the scenes on LiveView and Phoenix from a core team member, I think the thing I will remember and take away from this Jason, is just your spidey sense for bugs and just that idea to listen to your gut because I feel like a lot of developers will just encounter a bug and they're trying to do something else and would figure out a way to deal with it, get around it, comment out that line of code just for now and then come back to it and then they don't.
+
+Jason Stiebs:
+Oh, I absolutely do that too. Yeah, I just take a note usually or I take a reminder or I just message... I actually had access to Chris, so I'll just iMessage him or whatever and be like, "This sucks." Then I'll go back to fixing it and pushing through. But not everyone has that, I know, but definitely trust your gut. If something feels wrong, it's usually a problem. It's either a problem with documentation, it's a problem with generators or it's a problem with library and framework, in my opinion. I still feel that way sometimes about the anonymous functions in tex. I wish there was a way we could have got past that before version one, the dot parenthesis. I hate that. I've always hated it, but there's a lot of things like that that bug me. Things that I wish we could do but are just hard because would now... Would require version two or a village or which is not going to happen.
+
+Sundi Myint:
+So maybe asking the audience to just listen to their gut every once in a while. Do you have any other final plugs or asks for the audience? Any place where people can reach you on social media or anywhere that they can get involved to contribute and start finding these bugs themselves?
+
+Jason Stiebs:
+Yeah, absolutely. So you can find me on Twitter, I'm peregrine, like the bird with a P and on GitHub. I'm jeregrine with a J because the bird is taken on GitHub. Yeah, I mean, right now if you want to help with stuff, pulling master and trying to the generator... The installer locally on some just test projects and stuff and just seeing if it outputs exactly what you'd expect for your use case.
+A lot of us are doing that right now and there's lots of PRs right now with fixing just random spelling errors and issues and problems that just got missed, because it's a lot of files updates such as human nature. That's one way you can help the Phoenix project, if you find a bug before doing a PR try... Or an issue or something. Maybe just try taking a look and seeing if you can fix it or figure out what the core issue is.
+Because I mean, a lot of times it's not that simple, but a lot of times it is as well that simple, it's Elixir code and the most complex bits are usually in the JavaScript, actually, right now. That's just...
+
+Sundi Myint:
+Typical?
+
+Jason Stiebs:
+... the JavaScript side of things is extremely difficult and chasing down bug. Yeah, it's exactly typical. Yeah. So if you're familiar with JavaScript and comfortable with it, there's a lot of room in there for helping out and fixing bugs and finding bugs.
+There's a lot of things too. If you're working on something and the LiveView reacts just a little weird, that's usually a JavaScript bug or something. Right now, if you're on master and you just click a link or something, an error might pop up just, and that's just a browser behavior because it's impossible to know when a user actually leaves a page and the browser decides when to close a WebSocket or open one.
+So there's all kinds of weird stuff that you can... If you feel like something's weird or it doesn't look right or feels wrong in your gut, definitely report it on the issue tracker and if you can isolate it in a new project like Mixed Phoenix, set a new project, just isolate it and push that to GitHub. That's a humongous... That saves everyone in the Phoenix team at ton of time. We can just get full, run your code, see the error ourselves instead of having to try to make a use case.
+Those things are incredibly helpful. If you can find... Whatever bugs you find and isolate it in a demo project or a test project, just throwaway code, no one cares what it looks like. No one's going to review your code and think less of you. Like the most important thing is getting the bug fixed. Just try to be nice, everyone's humans, we're all trying our best and doing work for free, basically. So if you can be nice, it goes a long way.
+
+Sundi Myint:
+Help out, be nice. Take that away.
+
+Jason Stiebs:
+And trust your gut. Yeah.
+
+Sundi Myint:
+And trust your gut.
+
+Jason Stiebs:
+Exactly.
+
+Sundi Myint:
+Well great. This was super informational and I really appreciate you coming on to chat with us about that. So that's it for today's episode of Elixir Wizards. Thank you again to our guest, Jason Stiebs for joining us. I am Sundi Myint and my co-host is Dan Ivovich. Elixir Wizards is produced by Hanger Studios and is brought to you by Smart Logic.
+Here at Smart Logic. We build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. Need a piece of custom software built? Hit us up.
+Don't forget to like, subscribe and leave a review. Your reviews help us reach new listeners. You can find us on Twitter at SmartLogic or join the Elixir Wizards Discord. The link is on the podcast page and see you next week for more on Parsing the Particulars.
+
