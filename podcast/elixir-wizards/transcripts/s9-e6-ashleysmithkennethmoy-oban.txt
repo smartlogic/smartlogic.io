@@ -1,0 +1,301 @@
+
+
+Sundi:                                                 Welcome to Elixir Wizards, a podcast brought to you by Smart Logic, a custom web and mobile development shop based in Baltimore. My name is Sundi Myint and I'll be your host. I'm joined by my co-host, Bilal Hankins. Hey, Bilal.
+
+Bilal:                                                 Hey.
+
+Sundi:                                                 This season's theme is parsing the particulars. Today, I'm so excited that we are joined by special guests Ashley Smith and Kenneth Moy from Bowery Farming, and we'll be diving into the particulars of Oban. Hey, how are you guys doing?
+
+Ashley:                                                Doing well.
+
+Kenneth:                                               Doing well. Excited to be here.
+
+Sundi:                                                 I think I first heard of you, well, I've been eating your lettuce for a while. Not yours specifically, but been a consumer of Bowery Farming for a while, and then through the grapevine heard you used Elixir, and was like, well that's got to happen. So would you like to introduce yourselves just to the people? Ashley, why don't we start with you?
+
+Ashley:                                                Yeah. I'm Ashley. I have been at Bowery for a little over a year now, a software engineer. Big fan of our lettuce. Crispy Leaf is my favorite. I've been a software engineer for about three years and Bowery is the first place I've used Elixir.
+
+Sundi:                                                 Cool. Kenneth, what about you?
+
+Kenneth:                                               Hey, so I'm Kenneth Moy. I've been at Bowery for about 15 months now, so a little over a year. Software engineer as well. I've been working in Elixir for, I want to say I have about three years of professional experience in Elixir.
+
+Kenneth:                                               I was able to work with Elixir at a tech company called Watermark when I joined. It was called Taskstream now called Watermark, sorry. So it was really interesting because we went from a traditional C sharp and angular front end to completely functional.
+
+Kenneth:                                               So Elixir, Elm, [inaudible], everything swapped over. So I got experience with that. I worked at an Air Craft part e-commerce site called Roadable as well. And now I'm at Bowery. Elixir and all these new places and excited to be working with it.
+
+Sundi:                                                 Favorite lettuce?
+
+Kenneth:                                               Bowery lettuce or any lettuce?
+
+Sundi:                                                 You can answer however you want. Although know your peers are listening. I'm sure your coworkers at Bowery will tune in.
+
+Ashley:                                                Or favorite Bowery product.
+
+Kenneth:                                               I would go with the bar head. I'm a very traditional kind of guy.
+
+Sundi:                                                 And, Bilal, I don't know if you've had Bowery-specific lettuce, but do you have a favorite lettuce in general?
+
+Bilal:                                                 I feel like when I was little I was a iceberg lettuce and then the iceberg lettuce propaganda got to me and I was like, lettuce is not healthy. Like iceberg lettuce isn't healthy. And then, yeah. Now I just eat lots of leafs if I have a salad, just any leafs I wanted.
+
+Sundi:                                                 Cool, cool, cool. I also started working on Elixir when I worked at Tava and so I had also access to leaves and Tava products. And at Tava my favorite mix was the hardier greens, like the kale and the radicchio type kind of texture.
+
+Sundi:                                                 So I like that texture a lot, the hardier texture. But if I were just grabbing a lettuce mix from the grocery store, like a Bowery farming lettuce mix, it would probably be in the spring mix category.
+
+Sundi:                                                 So we had to get the important things out of the way top of mind, right? We kind of hinted at it. We said farming. Does one of you want to go through the pitch of what Bowery farming does?
+
+Ashley:                                                Sure. You want me to take this one, Kenneth? Yeah, we basically have ... You'll edit out this awkward pause, right? Okay.
+
+Ashley:                                                So Bowery OS basically is our system that controls the farms entirely. So it's kind of like three parts. We have a desktop UI that you can see all the digital information for all of the physical things in our farms.
+
+Ashley:                                                And then we have a mobile device UI that the farmers on the floor are using in the farms to do various tasks throughout the day. And then we have a bunch of automation for physical hardware in the farm to control lights and irrigation and move trays and control robots.
+
+Ashley:                                                And all of that logic is powered by the Bowery OS and some of that is configurable via the desktop UI. Anything to add to that, Kenneth?
+
+Kenneth:                                               No, I think that's a really good introduction. Kind of just to reiterate, I mean a lot of our software here is used to do exactly what Ashley was talking about. Help us control robots, help us control environments at the farms, make sure we get the most optimal conditions for our plants possible, as well as help our employees or farmers, as we call them, really just do the work they need to do to make the best plants possible for consumption.
+
+Bilal:                                                 Cool. So how do you guys use Elixir? How does Elixir tie into all that?
+
+Kenneth:                                               So as far as I know, Elixir has really been the language we've used at Bowery since the beginning, right? It's really helped in building a good platform with what we have. Really good with quick prototyping.
+
+Kenneth:                                               For example, if we have a [inaudible] wanted to test, we can just kind of plug and play one because there are a ton of integrations for everything that we need. Another advantage is that Elixir has a fairly flat structure in terms of packages.
+
+Kenneth:                                               So we don't need to install six packages just to get to one, right? We can just have one. And usually that's all we need to quickly get new integrations into the products so we can prototype pretty quickly.
+
+Kenneth:                                               Another thing is that as far as software team here feels, Elixir has been very human readable for us. So we don't have to look in nested loops up to like four levels, right?
+
+Kenneth:                                               I mean piping is great for that exact reason. You can pipe through multiple functions, pretty self-explanatory. Like if I want to do a map and then a filter and then a reduce, easy to read there. So it's been really helpful there.
+
+Kenneth:                                               And the ability for like the concurrency model for at least, or just lets us run a ton of microservices at a time. If we need a new one we spin it up very easily. If we want to turn it down we don't have to stop the application at all. We don't need to stop Bowery OS just to turn off something we don't want anymore.
+
+Kenneth:                                               We don't need to turn off to start up a new project. So it's allowed us to build a lot of these things really quickly without any down time. And a lot of our physical devices have been very easy to integrate with thanks to what Elixir has offered us through supervision and having a single application.
+
+Kenneth:                                               So it's been really helpful as a whole to spin up new systems on the farms as well as do integrations with new systems that we have all the time like new robots, new cameras, anything that we need.
+
+Ashley:                                                And Kenneth, I think you really kind of went into the why we're using Elixir, but just to be clear with the entire Bowery OS I was describing all of that is in Elixir. So all I mean aside from the UI's, from the devices to the automation to the backend, all of that's using Elixir.
+
+Sundi:                                                 I know we're definitely going to get into the particulars of Oban in a second, but I am just really curious do you know how somebody made this decision to go Elixir? In terms of everything you could have done for modern farming, you went elixir. Do you have any kind of insight into how that decision was made?
+
+Ashley:                                                I think Kevin Mack just ... Okay, wait.
+
+Sundi:                                                 Someone just picked it as a valid answer.
+
+Ashley:                                                Who was at Bowery at the time? There were probably three software engineers and they probably just really liked Elixir is what I'm guessing. I think.
+
+Kenneth:                                               I don't think we have any of the original engineers here anymore. Our oldest tenured engineer is maybe a little more than 60% of Bowery's lifetime. So unless there was potentially a huge code switch at some point, really hard to say. But yeah.
+
+Sundi:                                                 Yeah. Cool. Sounds like Elixir has been a really good fit. So I'm excited for you all. So today we're talking about Oban. I personally haven't worked with it too much and, Bilal, I believe you haven't either, yeah? Bilal's shaking his head.
+
+Sundi:                                                 So we're all going to learn something here today. I just wanted to know if we could start off with a high level view. Somebody's coming into Elixir for now and they're like, Oban. What is Oban? Sounds like a Star Wars name. What's Oban?
+
+Ashley:                                                Yeah, basically it's just a database-backed job queue. Really simply put. I'm not sure what else to add to that. High level.
+
+Kenneth:                                               Yeah.
+
+Sundi:                                                 Can you compare it to anything else in other languages that might be similar for folks who are coming in from other languages or similar, I guess, styles of using it?
+
+Kenneth:                                               Not necessarily a like framework per se, but when we refer to Elixir as a database-backed queue, I guess it's really explaining how it really works under the hood at a really high level.
+
+Kenneth:                                               Essentially what happens here is when we have Oban set up, we create a table in our database exclusive for basically columns of Oban jobs that we queue to run.
+
+Kenneth:                                               So let's say I queue a job, a new row will appear in the table and that row will refer to a job that needs to be run, right? There's meta data in there that refers to what needs to happen in the job as well as potential telemetry that we want to track.
+
+Kenneth:                                               Like when this was queued? How many times we've tried it? Has it successfully completed? Is it in the process of retrying? Stuff like that. And rather than
+
+Kenneth:                                               Just queue it in some, like event queue in JavaScript for example, in some abstract queue format. It's all in the database. So not only can we refer back to it if we need to, we can retrigger it. We can once again get telemetry on it and see what was supposed to happen and potentially what went wrong with it. So everything you want in a queue job, but rather than just throwing it into the ether, we have it all in a specific table that is backed by running processes in Elixir.
+
+Bilal:                                                 Oh. So what are some example job processes? Maybe something that you guys utilize every day or just any example that you would use with Oban.
+
+Kenneth:                                               So we work very closely with our data teams. And one thing that we've abstracted out into Oban is ensuring that the data team actually captures events that we fire. So for example, if something is created, like let's say we just started planting a new crop, so for the farmers it should be maybe just, "Oh yeah, press this button there." But in the back end, unfortunately, it's significantly more complex than pressing a button. So we have multiple systems that need to interact with each other. So when they press that button, we essentially trigger a job, put that in their database. And then when it comes time to run it, it goes through a lot of things. And embedded in those is, essentially, messages that we send to the data team to capture. So that broadcasting, as we call it internally, is to ensure that our data warehouse is up to date with everything that we need.
+
+Kenneth:                                               And Oban has been very helpful with that because we currently have, or we had a system that we weren't necessarily entirely in control of. We were just like, "This should happen and we hope it happens." And usually it does happen, so that was fine. But changing over here has given us a little more flexibility into has this actually happened? If it happened, has it occurred with everything happening correctly? So we get some implicit validation as well, which has been a huge boon to ensuring we have solid and reliable data, as well as a reliable queue to ensure that everything that happens is... All the holes are closed when something happens at the farm.
+
+Ashley:                                                And it gives us transactionality there too. So prior, if part of something, part of that process failed and we would roll back, we wouldn't be able to roll back sending that data along to the data team. Whereas now, because we're using Oban which adds that next item to the queue in the database, if that were to fail anywhere along the line, we can guarantee that none of the steps would actually happen, or they would all happen. So we have that transactional guarantee, which I think was a big draw of why we decided to use Oban for that purpose.
+
+Sundi:                                                 Cool. I think there was actually a blog post just the other day about Oban starts where tasks end. I don't know if you all saw this. I think it was actually five days ago. It was just like an interesting study into why Oban, when Elixir, just like OTP out of the gate, has tasks that you can use. Is that something that you all had considered at all? Or is there a reason why Oban is specifically a good middle ground for you?
+
+Ashley:                                                Yeah, I know that neither Kenneth and I were directly involved in the decisions to use Oban. I think that the main draws of why... Also, I'm not super familiar with the out of the box functionality of tasks, just for full disclosure. But I think the main draws of why we went with Oban are for the transactional guarantees and for the observability of it. It integrates well with telemetry. Sorry, the word escape me for a second. And so we get really good logs and stuff from all of our Oban jobs now too.
+
+Kenneth:                                               Yeah. So funny story, that article was posted by Oban Pro, and we actually use Oban Pro as far as I know.
+
+Sundi:                                                 Yeah.
+
+Kenneth:                                               Don't take my word for it. I think we do. But I did notice that Oban Pro is here. So yeah. I kind of want to expand a little on what Ashley was saying there too. As far as I understand, we get similar functionality. At its core, Oban helps run jobs asynchronously, and that's really the goal of what Oban is to do. But we get a lot of additional functionality built into it without additional work. For example, with task spawning, we kind of don't have observability into what you do in the sense that you have something supervising all the tasks. But you could kind of spawn infinite tasks, and they're all just run. Whereas with Oban, you can put implicit limits such as, I want this queue to have five jobs running at a time, everything else has to wait. So that is something really cool.
+
+Kenneth:                                               Another thing is retries. So with a task, you have to basically have code in that task to verify if everything is running fine, because it's kind of independent of what's happening on the rest of the app. But with Oban, if the job fails, that is transmitted back to the database stored there. So if you want to do retries, it'll let you do that. And you can specify how many retries you want, so that's really helpful as well. And another thing that's nicely baked in is scheduling for a job. Another thing is that you can have it inserted at, at a certain time for the Oban job, but the actual run time can be any time you want it to run.
+
+Kenneth:                                               You can customize a specific run time, you'd be like, five minutes after this is queued, wait until then. For example, if you have something you know that may take a little bit of time to talk to an IOT system we have at the farm, you can say, "Just wait a little bit for that first, and when that's done, we'll queue you up and then the data will be correct." Because another nice thing is, storing that metadata on there, it doesn't necessarily need to be the most up to date data. But if it gets the work done, that's totally fine. So you're not relying on other systems. So some overhead for Oban, but it gives us a lot more flexibility such as what I just talked about with scheduling, retrying, and queuing of jobs that need to be run.
+
+Bilal:                                                 Yeah, that's really interesting. So with all your experience with Oban, I guess at Bowery and outside or whatever, have you learned any interesting little tidbits or any aha moments of real cool features that Oban has that you may not have seen elsewhere?
+
+Sundi:                                                 Sometimes when you're working in a thing for a little bit and you get a chance to really dig into it, I definitely know I've had those moments where I'm just like, "Oh, this is really cool." When I was learning how to extensively test with MOX, I had those moments and stuff. So I'm also curious about this.
+
+Kenneth:                                               I can actually expand a little bit on the testing part. I was really surprised to see how powerful the testing tools were for Oban. So when we first integrated, we were kind of just in the dark with a lot of it. But the tools integrated such as adding jobs without actually triggering anything, draining queues, adding queues, all that functionality was just really cool to work with, and it made testing Oban jobs really easy.
+
+Kenneth:                                               When you talk about asynchronous jobs, it's like, "Oh, I kind of just spray and pray and hope it works, right." Hope that the asynchronous task does what it's supposed to do, because you kind of lose control of it after a certain point. But the reporting really showed that not only would it be easy to integrate, but creating tests for these things is a breeze. It's just like creating another unit test on just any .exs test file. So that made it really easy to prototype as well as keep moving forward with how we wanted to further integrate Oban into our system. So yeah. The testing bit was a huge boon to getting everything integrated. And I wouldn't say the craziest aha moment, but it was definitely impressive to see when I started working with it.
+
+Sundi:                                                 Cool. Ashley, what about you?
+
+Ashley:                                                I don't know like aha moments, but one cool thing that we did in Oban was make a custom macro to make jobs run for each farm so that they're isolated per farm. And that was cool. It was kind of interesting.
+
+Sundi:                                                 I feel like not every... Yeah, I feel like not every "Elixirist" can say they've written a macro. So it's kind of fun that you've got that one under your tool belt. Kenneth is nodding over there. So when you are setting up a project with Oban, I know that you're not setting up a new project, but you're using it. How is your logic set up? If I were to have a brand new project or a project that just didn't have Oban in it, how would you set up your files? Where would you set your structure? I think you mentioned you have a specific database table dedicated to Oban jobs. How would you recommend that and how do you like having it organized?
+
+Kenneth:                                               Interesting. So I can't really speak for the current structure of what our Oban jobs look like, but I was involved in the initial setup for it. Luckily, Oban makes it pretty easy to set up. You just install it and you run a migration script to add the table and you're good to go.
+
+Kenneth:                                               The table's there, I think it's actually implicitly set up with installation of Oban, so there it really isn't too much to set up, which is amazing for prototyping it. And then all you really need to do, well, the steps after that will be to configure your queues and to configure some environment variables. I believe in mix and run time if needed for your config files. And then you can just put the jobs wherever you feel comfortable with.
+
+Kenneth:                                               So there's a lot of freedom with that. Once again, I can't speak to our current implementation, but our initial implementation was pretty simple with some configuration flags and the job files and a migration script. Nothing too complex.
+
+Sundi:                                                 Yeah, cool. I think that's probably the thing I always get tripped up on when I'm encountering something new in general and I'm hearing how much people love it and how much they want to use it. But then that initial setup, if it's not kind of crystal clear and doesn't lay out where things should be and what the right business logic should be and all of that, I can sometimes get in over my head. So hearing that from you is helpful. I appreciate.
+
+Sundi:                                                 And I think we had the creators of Oban on the podcast a few, oh, it might be years now, a few years ago. Time is going. And they were just lovely people and it was just really nice to hear how they thought about those kinds of things and I think they were talking about releasing pro or going pro at the time and why pro is the pro move. So shout out to everyone who's listening to go give that episode of listen as well. And shout out to me too, because I clearly forgot. It's been a little while.
+
+Kenneth:                                               Yeah, I think they did a really good job. It really shows that setup is really simple for getting Oban started up, so kudos to them for that.
+
+Sundi:                                                 Yeah. Cool. And so we talked about why Oban is amazing. Is there, I think I've heard in the ecosystem before where people were like, I'm not sure if I should be using Oban or something a little more data intensive or heavy Broadway. Has that ever come up as a decision that you all had to make? Or has Oban really just been the exact right fit for things that you needed?
+
+Ashley:                                                Yeah, I think that Broadway kind of solves different problems. So we're actually considering using it for different use cases, but for what we're using Oban for, it's working really well. It's doing jobs of things that need to get done in the background throughout the day. Also, we're also using Oban Chrome plugin for Chrome jobs and yeah.
+
+Sundi:                                                 Cool.
+
+Ashley:                                                Kenneth, add to that?
+
+Kenneth:                                               Yeah, nothing really to add. Since Broadway is more of kind of a data ingestion, strictly data ingestion thing, it doesn't really fit here as a generalist tasking, queuing system. So Oban just fit and we haven't looked back since.
+
+Sundi:                                                 Cool. And when we were setting up this recording today, you all mentioned something about Ecto.Multis, we've talked about that kind of back and forth that's from Logic a lot. One of my former colleagues has a whole blog post about Ecto.Multis, and some of our previous engineers were just really all about Ecto.Multi's. Recently at ElixirComf, some of my friends were like, "I'm so over Ecto.Multi." So curious on where you all stand with ecto malts, and I'm asking in the context of Oban, because I think I saw in the documentation that Ecto.Multis can really be utilized well for workers. So can you speak to that at all?
+
+Ashley:                                                I would say we are not over Ecto.Multis. We definitely use them quite a bit in our code base and I think that we, especially like to use them for ensuring transactionality, which goes hand in hand with why, one of the big reasons we're using Oban. So when we have multiple things that we want to broadcast or we want to send over to the data team and we would add them to, well, we kind of have this abstracted out, but we would do each of those things in Ecto.Multi and then commit that transaction all at once. And Oban fits in nicely in that. I don't know, Kenneth you can speak to within our Oban workers, within our other Oban workers for our other types of jobs, how we're using Multis in there.
+
+Kenneth:                                               So once again, I'm just speaking for when I integrated with Oban in the first place, so I'm not entirely sure how we do it now, but it was really helpful to see you can just embed an Oban job into a Multi, as part of the flow. So let's say I want to create 200 trays or something that I need at the farm so I can create all those trays in a Multi and then say, "Hey, for each of these trays that we created, fire out a Oban job that will trigger a message to our data team." So that will trigger as part of the Multi, and part of the embedded transaction that we're part of.
+
+Kenneth:                                               So you're kind of giving a sync transactionality to asynchronicity, right, Which you don't normally hear in one statement. So being able to just effortlessly throw in Oban jobs and queuing them in as part of your Ecto.Multi is extremely helpful. And then to be able to refer to them further down in case you need them for any reason is also super helpful.
+
+Kenneth:                                               So just being, just the implicit functionality of Ecto.Multi and then Oban's flexibility in how you're queuing them and everything was really cool. Honestly, that is probably one of the aha moments from working with these two systems together because once again, you just kind of imagine as a asynchronicity, I triggered it all right, I hope it works, but this kind of adds a lot of reliability into that kind of system.
+
+Sundi:                                                 Yeah, that's good to know. And I guess to clarify, or at least I think to clarify because I was all over the place at a ElixirConf, the people who were saying they were over it were just like, "Oh, there's simpler ways to do Ecto transactions." Do you really need a Multi to do a repo update or something? I can see why it would be a little bit more useful to happen for an Oban job. Does that kind of track for how you all are using it? That kind of sentiment?
+
+Kenneth:                                               I would agree. We typically don't use Multis too much aside from the more complex things. We, for example, if I want to terminate a crop for any given reason, it's not as simple as just terminating a crop. There's multiple other steps that need to happen and by doing it through a Multi, we can hit every system that needs to happen with the ability to roll back in case something is wrong.
+
+Kenneth:                                               We don't want to trigger a database change for something related to termination, have it go through and figure out we're not supposed to do that. So having that reliability through in Multi transaction is really helpful for some of our more complex things to do, which is why we are really not over them yet. They're still very useful for us in a lot of our more complex systems.
+
+Sundi:                                                 I can absolutely hear my friends in the background going, "We're still over them. That's not what we said." I feel like I'm so super misquoting them, but that's okay. That's what correction tweets are for, right. So [inaudible] , did you have a question on further questions on maltis?
+
+Bilal:                                                 I guess could you give an explanation or a high level overview of what Ecto.Multi transactions are and how they're beneficial?
+
+Ashley:                                                Yeah, so basically they allow you to kind of construct, they're this construction that, I don't think that's the right word. This struct, they struct that show what is going to happen, what the data is going to look like before you commit the data, before you actually do any of it. So you can kind of do a bunch of steps and see what it's all going to look like and how each of those steps would, whether they would fail or succeed and what the result would be before any of it actually gets committed to the database.
+
+Ashley:                                                So it kind of can allow you to do extra validation. You can perform a bunch of steps and then say, okay, let me look at this data. Do some validation here. Also allows you to roll back any of the steps easily. I'm trying to think of other benefits, which I think are the main things.
+
+Kenneth:                                               Do we expand a little bit on that too? If something happens in let's say, step A of a transaction that I need further down in step C, Like for example, let's say I have something being created
+
+Kenneth:                                               ... In step one, and in step four, I need to create something based on what's created in step one. We have that data passed down through to multi, so we don't need to worry about maybe not having an ID field that we need, maybe not having a setting on that entity that hasn't, that's been created. It allows us to link everything back up if we need it, if there's any dependencies. To simplify it, if there's any dependencies further down the multi chain that are needed from further up. The transaction and the multi struck that's passed down allows us to do that. That has been really helpful in a lot of stuff we do. It's not a one off thing that I've seen in our transactions, and it's something we do quite often.
+
+Bilal:                                                 Yeah, thanks.
+
+Sundi:                                                 Whether you're pro or against multis definitely sounds like it's helpful in Oban. I'm glad we touched on that. I also really just wanted to ask outside of the realm of Oban and of your tech lives. I think I heard that you all are mostly in New York. Your team is mostly in New York, New York based, you're both nodding, and that you mostly go in to the office, which is a funny remote life where we are right now in 2022, end of October. Happy Halloween, everybody. I was just curious, what does that look like for you? Because I feel like a lot of elixir engineers, and engineers in our community, are almost all fully remote.
+
+Kenneth:                                               That's interesting. From my experience, luckily for us, I would say Bowery has been a little more flexible on how we handle remote. We don't have hard and fast you must be in the office this many days a week. We're lucky that it's, "What are your team needs and what makes sense for you to go into the office?" We have some flexibility there. I would say it has been nice meeting a lot of my coworkers in person since I had joined in July 2021.
+
+Ashley:                                                2021.
+
+Kenneth:                                               We were in peak COVID, right? Well, not peak, but a lot of people still weren't back in the office. A lot of the people who were meeting were not in person. Coming back to the office and meeting everyone's just like, "Wow, hey, it's been a year, but we haven't met yet. Awesome."
+
+Kenneth:                                               That's been really cool and it has been good going to, not necessarily the office, but for us, we're in a very interesting position at Bowery where we work with vertical farms. Going to those, seeing the tech, interacting with our farmers, especially when our systems interact directly with them, has been a very interesting, and honestly very uplifting thing to do, since we get to be-
+
+Kenneth:                                               We don't necessarily get the chance to see our work being used all the time, but when we're working on new releases and stuff, going to the farms, it's a great experience to be with our farmers. On top of just the office, we're lucky to have the office, and the farms, to see all of our new tech, to see other people here. While the remote life is very nice, I don't have to do my two and a half hour commutes every day.
+
+Sundi:                                                 Your commute's two and a half hours?
+
+Kenneth:                                               Total, both ways. It's about two and a half hours.
+
+Sundi:                                                 Okay.
+
+Kenneth:                                               It's about an hour per way.
+
+Sundi:                                                 Okay.
+
+Kenneth:                                               No, not one way.
+
+Sundi:                                                 Just checking. I think I could get to New York in two and a half hours on an Acela train.
+
+Kenneth:                                               Oh, geez. I will say, most of the time I prefer not to have to make the trip, but then when it's necessary, or sometimes home does get a little stuffy, so it's nice to have the flexibility to do whichever one I feel for the day.
+
+Ashley:                                                Yeah. We have a hybrid work schedule now. When Kenneth I first joined, it was fully remote, but we switched over to hybrid, I think around February or March this year.
+
+Kenneth:                                               I think it was April.
+
+Ashley:                                                April. What is time? I actually joined Bowery, because I wanted to be in person. I didn't want to do a fully remote job. I like that in person interaction and collaboration. I think that it works really well for us. I totally echo what said about visiting the farms and seeing your code in action is pretty awesome.
+
+Sundi:                                                 That was what I was curious about if you really got to do that, because I think one of the unique things about what you all are doing is your writing Elixir code for IOT devices, and hardware, and just actual physical things are happening. A lot of us are building web apps and I'm not saying we're not doing nothing, or we're not doing anything. You know what I'm trying to say, but it's different when you get to see it physically being used and I was telling [inaudible] the other day that that's the best thing,, as a software engineer to see your code being used in real life.
+
+Sundi:                                                 Also, for me, just conceptualizing my code, I personally have had a little bit of a hard time wrapping my head around what an Oban worker does, because I don't have a real world example in front of me right this second, or hypothetical right this second. You all explaining the workers actually putting out a tray, and terminating a crop, is actually useful, because I know generally what that looks like. My little baby tower garden that I made this summer. Kind of get it a little bit. It's helpful to visualize and I'm excited that you all have that experience. That's really cool.
+
+Ashley:                                                Yeah, definitely going to the farm, and pressing a button on the page that I made, and watching lights turn on was one of the most rewarding moments of my time at Bowery so far.
+
+Sundi:                                                 We're going to have to cut in here with, Bilal, did you just DM me that you worked on a farm?
+
+Bilal:                                                 Yeah, I was going to mention it, but you saying pressing buttons and facilitating processes like that, I was like, "Yeah, that would've been very helpful when I-" I worked on a farm in high school. It was a six month program I think, but there was no automated processes, but it's cool though, because I can see both sides of what you're saying.
+
+Sundi:                                                 All manual?
+
+Kenneth:                                               Yeah. A fun tidbit is that when we start working at Bowery, even as software engineers, we have something called a Farm Day, where we basically put down our laptops, we put on the shoes and the jackets, and we work a day at the farm. We get to see how the experiences are for the farmers. Whatever struggles they have, we got to deal with them too.
+
+Ashley:                                                Every single employee about Reid does the Farm Day.
+
+Sundi:                                                 That's so fun. I love that concept. Also, I like how he just slipped in there that Bilal worked on a farm for six months, because I feel like every episode that we have with Bilal as a co-host that we have a little segment that we find this thing out about Bilal. You're really always living up to it. Thank you, Bilal.
+
+Bilal:                                                 You're welcome.
+
+Sundi:                                                 Cool. Well is there anything else that you all really wanted to plug, or talk about, in terms of Bowery, or Ecto, or Oban?
+
+Ashley:                                                Okay. I want to plug my friend's podcast. She's an engineer. She talks about women in engineering, all different topics, all different kinds of engineering, and it's really interesting, and great a podcast to listen to.
+
+Sundi:                                                 Cool.
+
+Ashley:                                                On Spotify or wherever you listen to your podcasts.
+
+Sundi:                                                 Nice. Kenneth, anything to plug?
+
+Kenneth:                                               I got to get cooler friends. I don't got anything cool like that to say at all.
+
+Sundi:                                                 You're also allowed to plug if you're hiring, if you're looking to join, if you need more engineers on your team, or more farmers. Whatever. All the plugs
+
+Ashley:                                                Are we hiring?
+
+Kenneth:                                               I didn't want to ask, but, okay. Yeah. I have the same question. We need Colin here, stat.
+
+Sundi:                                                 It's all right..
+
+Ashley:                                                We might be hiring.
+
+Sundi:                                                 We will go ahead and post your job section of your website. People, if you're interested in looking for lettuce, working with lettuce, pressing buttons, and doing farm days, why don't we put that link in our show notes for you?
+
+Kenneth:                                               Yeah. Also, mention the strawberries. Don't forget about Bowery strawberries. There's some good stuff out there.
+
+Sundi:                                                 Okay. The strawberries is where it was at. You didn't have to talk about lettuce.
+
+Ashley:                                                Basil.
+
+Kenneth:                                               Yeah, I haven't tried any yet, but I've only heard good things about them. I've actually tried to look for them in three different stores now and they're always like, "Yeah, we don't have any."
+
+Ashley:                                                I can't believe you haven't tried them. They're so good.
+
+Kenneth:                                               Whenever I'm in the office, it's the days that they don't have them.
+
+Bilal:                                                 They're hiding them from you.
+
+Ashley:                                                Got to come to the office more often.
+
+Kenneth:                                               All right. I know, or I should just go to one of the farms, and see if they have any. That's probably the [inaudible].
+
+Ashley:                                                Yes.
+
+Sundi:                                                 Right to the source.
+
+Ashley:                                                We're only growing them in one farm right now, so you could go to that farm and get some there.
+
+Sundi:                                                 Cool.
+
+Kenneth:                                               Yeah.
+
+Sundi:                                                 Check out podcasts. Check out strawberries. We're we're really reigning it in for the plugs today. Cool. Thank you again for joining us. This has been a delightful conversation about Oban. I'm glad I'm finally conceptualizing it better. That's it for today's episode of Elixir Wizards. Thanks again to our guests, Ashley Smith and Kenneth Moi for joining us. I'm Sundi Myint, and my co-host is Bilal Hankins. Elixir Wizards is produced by Hanger Studios and is brought to you by SmartLogic. Here at SmartLogic, we build custom web and mobile software.
+
+Sundi:                                                 We work in Elixir Rail, React, Flutter, and more. Need a piece of custom software built? Hit us up. Don't forget to like, subscribe, and leave a review. Your reviews help us reach new listeners. You can find us on Twitter at SmartLogic, or join the Elixir Wizards discord. The link is on the podcast page and see you next week for more on parsing the particulars. 
