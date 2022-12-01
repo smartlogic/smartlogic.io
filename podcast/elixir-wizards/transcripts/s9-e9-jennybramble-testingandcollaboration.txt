@@ -1,0 +1,338 @@
+Owen Bickford:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Owen Bickford, and I'll be your host. I'm joined by my co-host, Sundhi Myint. How are you, Sundhi?
+
+Sundhi Myint:
+Hey, I'm good. How are you?
+
+Owen Bickford:
+Doing great. And this season's theme is parsing the particulars. Today, we're joined by our special guest, Jenny Bramble from Papa, and we'll be diving into the particulars of testing and team collaboration. How are you, Jenny?
+
+Jenny Bramble:
+I am doing amazing. It is a beautiful sunny day here, and the tropical storm doesn't arrive for another couple days.
+
+Owen Bickford:
+Nice.
+
+Sundhi Myint:
+And when you say here, you are calling in from?
+
+Jenny Bramble:
+I'm in Hillsborough, North Carolina, which is just outside of Durham, the Raleigh-Durham area. Far enough out in the country that I can have quail and rabbit, but close enough that I can go to a real grocery store.
+
+Sundhi Myint:
+That is such a good way of describing the area that you live in. My criteria has always been, how close am I to an Asian market? And the answer is 15 minutes. I've got a 20 minute cap, and I'm within 15 minutes right now. Amazing.
+
+Jenny Bramble:
+Perfect.
+
+Owen Bickford:
+Yeah. I think 15 minutes from a grocery store is a good rule of thumb.
+
+Jenny Bramble:
+There's three Asian grocery stores in Durham. So I think I'm close enough, but not quite 15 minutes.
+
+Sundhi Myint:
+Yeah, absolutely.
+
+Owen Bickford:
+So we know that you're in North Carolina. Tell us a little bit about yourself before we get into the particulars of testing and team collaboration.
+
+Jenny Bramble:
+Oh, gosh. Where to start? So like we said earlier, my name is Jenny Bramble. Right now, I am one of the directors of engineering at Papa. We are a really interesting little company that helps provide healthier living through human connection, so using gig workers and gig economy style work. We help seniors stay in their homes a little bit longer by providing services like companionship, picking up your meds, helping with your cleaning. It's a really do good company, and I'm very much enjoying helping build that from the ground up. We primarily use Elixir on the backend. And I find that hilarious because one of my friends, other director of engineering, has been trying to get me to learn Elixir for eight years now. So that's probably my favorite fun fact about working at Papa. Personally, I have a couple of cats, a dozen rabbits, and a dozen quail.
+
+Sundhi Myint:
+Are they pets or are they for eating? Hold on. Because I'm okay with either, and I feel like everyone's going to hate me for saying that.
+
+Jenny Bramble:
+My theory is livestock should have one bad day in their entire lives. And my rabbits and my quail are for eating.
+
+Owen Bickford:
+I respect that.
+
+Sundhi Myint:
+Yeah. That is a good way to think about it. You said something just now that made me... I just really need to know. So they tried to get you to get into Elixir for eight years? Was there some resistance? Did you finally join the party with the cool kids? Or was it... I'm so [inaudible 00:03:13]. I can't even, there's no words here.
+
+Owen Bickford:
+Where are you coming from? What's the language you're in currently?
+
+Jenny Bramble:
+English.
+
+Owen Bickford:
+Gotcha.
+
+Jenny Bramble:
+So I actually went to school for computer science and psychology. Not to be mean to computer science, but the psychology degree was way more useful. So we did Java, we did a little C++, a lot of other weird little bitty languages here. And as I was in college doing all of this programming work, I really fell out of love with the art and the craft of it. The programming assignments were not super interesting. It really didn't grab me. So from there, I went into testing. And as a tester, I've done a bunch of automation. I've written a few things in different languages. I've written a surprising amount of Bash. I've got tons of Bash scripts in my history and I don't know why. Oh, right, Linux. Anyway, I started working at a company with Adrian and he started learning Elixir and was like, "Wow. You have to learn this. This is so much fun. It's beautiful." And he would tell me all about it and I'm like, "No, no, no. That's not my thing. I don't do programming languages anymore. I've given it up." That was very dramatic. That has not changed.
+
+Sundhi Myint:
+Well, that looked exactly like my cat's dramatic flop. Do you know the cat dramatic flop? I wish everyone could have seen the dip Jenny just did with the hand on the forehead. That was just dramatic flop written all over it. Please continue.
+
+Jenny Bramble:
+So my dramatic self, we went our separate ways, different jobs, et cetera, et cetera. And when Papa was starting to look at building a QA team, Adrian thought, "Why not Jenny?" So I feel like he's played the long con trying to get me into Elixir. I haven't written any yet, but I'm Elixir curious. I'll do some.
+
+Owen Bickford:
+You can write tests on Elixir. It can be done.
+
+Jenny Bramble:
+True. It's true. And it's so readable when you're looking at the unit tests and when you're going through the different control statements. Don't tell anyone, I think I'm falling in love with it.
+
+Sundhi Myint:
+Amazing. We'll keep your secret.
+
+Owen Bickford:
+Your secret's safe. Yeah.
+
+Sundhi Myint:
+We're good at keeping secrets here.
+
+Owen Bickford:
+Right.
+
+Sundhi Myint:
+But okay, so now that we've gotten this-
+
+Owen Bickford:
+On this public...
+
+Sundhi Myint:
+Now that we've gotten this background, I'm actually now even more curious because right before you started, or before we started recording, you said that you had 24 talks in 2020, which is a mouthful, first of all. But then what were your talks on? I'm so curious. Was it the same talk? Did you just bang them out like hits, like a Taylor Swift era of folklore evermore? What's going on here?
+
+Jenny Bramble:
+If only I could Taylor Swift myself. So 2019 was a really good year for me. I was really enjoying my job. My presence was growing on the speaker circuit. And in 2020, I had a couple of keynotes planned and a bunch of different conferences. I was just world traveler, y'all, it was going to happen. I had my first engagement in Germany. I was really excited. And then the great panini happened, not a good time for us.
+
+Owen Bickford:
+The great panini. The great panini.
+
+Jenny Bramble:
+And we didn't understand virtual at the time, right? We're all starting to work from home. We're not sure what a conference looks like, how many virtual conferences we can have in a space. And a lot of people were having trouble that they had to take these conferences that were in-person to the virtual world. And we didn't know how to do it. So a lot of speakers were dropping out because they didn't have cameras, they didn't have microphones, they didn't have ring lights. We didn't have all of this stuff. And people weren't comfortable speaking to screens, they wanted to speak to humans. So a lot of spots started opening up. And I was really lonely, y'all. 2020 was a lonely time for a lot of us. And I thrive on engagement with my community.
+So anytime someone said, "Hey, could you give a talk?" I'd be like, "Yeah. Absolutely. Let's do it." That is where I developed one of my favorite silly human tricks, which I displayed at Elixir Conf. If y'all saw my talk, I was actually reading the online chat as I was giving the talk and responding to things that people were saying in there. That is something that I picked up in 2020 is being able to speak and read and process both at the same time. So I was able to really mold my talks and change them to the audience as it was happening. And I came up with some cute little tricks for some of them to make them more engaging, which got more people to ask me to give talks. And I stopped having boundaries at some point in 2020. Yeah. I had about eight different talks, I think, that I was giving at the time. So just bounce back and forth [inaudible 00:08:30].
+
+Owen Bickford:
+So now you have live streaming skills. Are you also live streaming every day of the week if you're taking comments and responding in real-time?
+
+Jenny Bramble:
+I'm a director now, so I don't have time. Fun does not happen. That's not true. Fun still happens. No, but I don't do as much live streaming right now. Mostly, I just do Instagram Reels of my rabbits.
+
+Sundhi Myint:
+Okay. We're going to need that link for the show notes because I need that, at least I need that if you don't want to put it in the show notes. That's super fun. Can you briefly... Just because we've mentioned a few times, I just would love to round this out. You gave a talk at Elixir Conf, which I believe at the time of recording, that talk should be available. Oh, in fact, check me, please. But it should be available. Can you give anyone a preview here who wasn't there to see your talk, but let them know what it is, so that you can go ahead and let people join in on all the fun that you're having?
+
+Jenny Bramble:
+Absolutely. The TLDR of my Elixir Conf talk is upgrades are terrifying, but they shouldn't be. A lot of times, we have this absolute fear of doing major regression, major upgrades, major changes because oh, my gosh, look at all the testing we have to do. If we don't do all the testing, the world is going to end and no one gets a pony. What I say in my talk is they don't have to be scary. They don't have to be frightening. A lot of what we do when we are upgrading, especially if it's a small upgrade or a small library that we're touching, it doesn't touch everything in our systems.
+We don't have to test everything in our system. If we can do targeted efficient testing that takes into account the actual changes and the results of those changes, we can start moving from upgrades being scary and regression being scary to it being this moment of absolute excitement. Think of all the things we're bringing into our system. Think about the new features we can use. Think about the new ways that we can interact and serve our customers better and how much more modern we can be with our ecosystem. Oh, my gosh. Yes, please. I will take two of those over the idea that this is terrifying and we can't do that.
+
+Owen Bickford:
+Nice. So I think we'll be getting into testing and team collaboration a little bit. We're going to be getting into the weeds, getting into parsing some particulars shortly. But also wanted to... You mentioned some of the work that Papa does, and it's really cool hearing about how a software company or a product company is empowering people later in life to maintain their independence. I think hopefully, that's decades in our future that we have to be concerned about that, but things happen even when you're younger. And I imagine Papa is helpful for all sorts of different people. So I'm curious what the role is that Elixir plays in Papa.
+
+Jenny Bramble:
+All of it. Yeah, it's everything.
+
+Owen Bickford:
+Everything?
+
+Jenny Bramble:
+So we've got React Native for our mobile apps. And then we've got React on the front end for our front end. Everything else is Elixir. If you do a count of the developers in our company, it is more Elixir by, I think, double than any other group. Everything is Elixir. And that is super exciting because it means we're working with
+
+Jenny Bramble:
+... a lot of people that are incredibly, incredibly passionate. There's not a lot of people I've met who are neutral on the language. They either really love it, or they haven't written enough of it to love it. That makes me feel super good because I'm working to help humans have better lives, with people that are incredibly excited about the technologies they're using. It is the perfect melding of passion, getting things done, helping folks and getting paid.
+
+Owen Bickford:
+So, it's great to hear this. I like your dichotomy of people who love Elixir and people who just don't love it yet, or haven't written enough to love it. So, that's great. I'm going to start using that. It's also always great to hear that, as an outsider, you find Elixir tests readable, you can understand what they're trying to accomplish at least. That's always great to hear. Yeah. So, I think that brings us to how did you get interested in testing? Rewinding back a little bit, this could be years, decades, I don't know. How long have you been testing? What got you into it?
+
+Jenny Bramble:
+First off, we don't ask ladies their age.
+
+Owen Bickford:
+Oh. Right. Definitely not asking your age, just how long have you been working professionally, or writing tests?
+
+Jenny Bramble:
+Someone actually asked me this recently, and I had to do the math, and then I stopped doing the math after a point because I ran out of fingers. I've been doing this for about 20 years. How did I get into testing? This is really a fun story for me. So, I had gone for computer science at NC State, in North Carolina. Didn't love it. I'm not good at school. It's just not something that I'm passionate about. So, when Red Hat had a big hiring push, I drug everybody in my project group to Red Hat and was like, "Hey, let's do interviews." All three of us got jobs, super excited. I ended up in the level one tech support for Red Hat Enterprise Linux, and I got my RHCE for a couple of versions of that, I think.
+Ended up being there for three, four years or something, and then popped off to a couple other support jobs. At one point I was working for a music company called Reverb Nation. Super fun to work for a music company. If you've never walked into the kitchen and heard someone doing a Disney princess style serenade about how they're microwaving their lunch, you have not lived.
+
+Owen Bickford:
+We're going to need a YouTube link for that, if it exists.
+
+Jenny Bramble:
+I wish they had videoed it, it was glorious. It was a TV dinner. It was amazing. Fun fact, our support group was generally all out on the same week, because there was a huge music festival. They were all musicians and all playing at the music festival. So, I'm at Reverb, and I'm having the time of my life. I am the only level two support person. There's the regular support folks, there's the developers, and I'm literally sitting between them, and translating, what are the developers doing? Let the customers know. What do the customers need? Let the developers know, and giving that hot/cold feeling on, are we good to deploy? Should we not deploy? This was back in the day, back when we had deploys weekly or even every two weeks. Those are my terrifying developer campfire stories. They deployed once a month. Sorry.
+
+Speaker 1:
+We're just on the tail end of spooky season and I appreciate that we've still got ghost stories coming on.
+
+Owen Bickford:
+Right. Hey, there's campfires, we can... Yeah. Everyone who's listening to this must immediately start a campfire.
+
+Speaker 1:
+No, everyone who's listening to this must go deploy their app. Let's go with that one.
+
+Owen Bickford:
+Right.
+
+Jenny Bramble:
+I don't know who needs to hear this-
+
+Owen Bickford:
+What could go wrong?
+
+Jenny Bramble:
+So, I'm at Reverb and I'm having the time my life, and I start to realize, I'm not going to make any money as a support person. It's not the kind of job where you've really got a lot of upward mobility, unless you want to do hardcore call center management. I look around and I'm like, well, what else can I do? My boss at the time says, "What about QA? It's basically like support, only before the users get the product." He wasn't wrong, but I'm not 100% sure he was right. So, I went into QA, and absolutely fell in love. The idea of being able to take on the persona of a user and move through a feature, move through an application, move through something and say, "This is how a real person would use it," and melding that theoretical person with the actual person, to create a really good experience. Absolutely delighted me in a way that I have a hard time communicating without just giggling adorably. It was so much fun. So, I started that, and have done it forever.
+
+Owen Bickford:
+Nice. So, I want to pause here because your story resonates with me a lot, because I also spent a lot of years working in customer service at a telecom. Customer service teams can be fun. Working at Reverb, I'm sure, is even more fun than it was working at the telecom. But, yeah. Similar, I saw the writing on the walls. I don't know if this is necessarily the career I want to have. So, that's where I transitioned out into engineering after a couple of false starts. So, that's awesome. Because I had also considered maybe data engineering kind of a role as well. So, it's interesting that QA brings you into the same realm, if not the same exact type of role that we have as engineers for software.
+
+Jenny Bramble:
+One of the great things about customer support is, if you're good at it, if it's something that really engages you, you do develop a lot of empathy. You start to be able to say, "Yeah. I understand that Mr. Jones is having this problem," and you start to see them as a person having a problem, not just a problem that's calling you on the phone. I believe that empathy is the foundation of testing, so being able to look at our support group and hand pick delightful people that I think would do really well in QA, has been really successful for me actually.
+
+Owen Bickford:
+Nice.
+
+Speaker 1:
+Seeing your user base as a person is actually just such a valuable thing to talk about. I feel like we don't talk about that a lot. I remember, when I was working at Kava, there was a bug I was looking for, or I was trying to recreate a bug on one of our admin systems, and I saw a different bug. Or at least what I thought was a bug. I thought there was a bug that was saying that a user had ordered the same meal at Kava every day for two years. I was like, oh my god. What kind of bug would create that? I'm looking, I'm looking, I'm looking, and then I realized, no. That guy actually did just order that same meal every day for two years.
+It was so interesting, because it took me so long to think from a human perspective that that's possible. There are some people who do in fact love eating the same thing every day, and because I'm not like that, I don't think about it that way. So, that was just a very interesting interaction to have, and it really spun my world a bit and I'm never going to forget that. I mean, I forgot every other detail. I forgot what meal it was, I forgot the user, I forgot the user ID, but I'm not going to forget encountering that and thinking it was a bug.
+
+Owen Bickford:
+Yeah. We also had an internal conversation earlier about distinguishing between the term user versus person, when you're describing people who interact with the applications that we're designing, and that we're maintaining. Yeah. This is an interesting topic.
+
+Jenny Bramble:
+One of the things that I think we haven't spent a lot of time on as technologists is that empathy moment. A while back, DoorDash was like, "Okay. Everybody in the company has to do a DoorDash. You have to take an order." We've seen that in a couple of different places where they say, "You have to use our products in the way that humans would use our products." The goal there is to try and build empathy, to try and say, do this thing, see how it feels to do this thing, and as you're developing, as you're testing, as you're designing, as you're thinking about things, think about this actual human. I don't think that works. I don't think we can make people be empathetic by making them use our software.
+I think we have to step back a little bit farther and say, how can we develop empathy within our teams? How can we look at something, and instead of just saying, okay. We're going to make this feature because Richard says to make this feature. Instead of saying, we're going to make this feature because if we do that, then Otis is going to be able to FaceTime his grandchildren. Having that, I think, is really important for healthy, long-lived teams that create beautiful software.
+
+Owen Bickford:
+I think most people are eager to be empathetic towards customers, but I think sometimes the problem they run into is they're measured in a way. Metrics can affect the way that your ability to empathize with a customer, because you're kind of being pressured to do things in a certain amount of time, or to get a certain result. So, I think it's interesting thinking about even engineers. I've worked with dozens of engineers at this point, and I think generally people want to do the right thing by the customers, as long as they're given the right agency and the right perspective and the right incentives to do so. I think that that helps deliver that goal of empathizing with the customer.
+
+Jenny Bramble:
+Totally agree. Metrics can be a weapon, but they can also be something that we use to make ourselves better. I think a lot of times, they're easier to weaponize than anything else.
+
+Owen Bickford:
+So, I'm curious. So, I don't think I've worked on a team yet who had a dedicated person for working on QA specifically. I've had someone dip in and do some QA work. But I'm curious, if you can describe the role for someone who hasn't worked with a QA engineer, if that's the right title.
+
+Jenny Bramble:
+Titles are made up and the words don't matter, but generally we say QA or QA engineer. I've started using the term Quality Engineering, because then I can say, back end engineering, mobile engineering, quality engineering, and it feels nice. The parallelism gets me. So, what's it like working with a QA person? It is a lot of fun. It is like working with the most wonderful little magical unicorn toddler who's always like, "Well, but why?" If you've got your tester your early enough in your cycle, they're going to see the designs and they're going to say, "Okay. I understand that we've got these fields, but why? Why are these all required?" If you have a screen reader, I'm not going to be able to get through 1,800 forms. What if we broke it up?
+
+Speaker 1:
+That reminds me. I'm
+
+Speaker 2:
+I'm sure you've seen it, but there's that meme video of the engineer watching the QA tester put the blocks in the children's toy, like okay, the square one. The square one goes in the square hole. And then it's like the rectangle. Okay. Yeah. And it goes in the rectangle and then they put it in the, yes, the square hole. She's like, what? It's like, I think... That video lives rent free in my head all the time. I don't know why.
+
+Jenny:
+It's actually a really good description of kind of what we're doing. We are looking at the software, we're looking at the designs, we're looking at the requirements and saying, what would happen if this interacted with a real actual person who doesn't know what they're supposed to do? Because whenever you give that toy to a child, the idea is they learn that star goes in star, circle goes in circle square, goes in square, and as adults we're like, yes, that's exactly what someone's going to take from this. But a kid is going to take the star and be like, where can this fit?
+So as testers, our goal is to say, where can this fit? If we can find that early enough, if we can find that in the requirements phase, that is so much cheaper than if we find it at the tail end.
+When someone asks me what is testing? I say, it is verifying that the system under test meets the expectations of the stakeholders or helping reset those expectations. I believe the software will do something. You believe the software will do something. My product person believes the software will do something. These are not always completely aligned. And as testers, part of our job is to examine those expectations, test the software based on them, and show where there are holes. People would sometimes ask, well, why did you put the star shaped thing in the square hole? And the answer is because you let me. So I want to show you that.
+
+Speaker 2:
+Which is a good answer.
+
+Jenny:
+Yeah. So I show you that and I say, because you let me. If you don't want the star to go in the square, let's figure out a way to prevent it. Let's throw up an error. Let's change the sizes. Let's make sure that these things are working like we expect them to.
+When I was a baby tester, I actually had an... I found a bug dance. It looked like this. I know the podcast people can't see it, but it looked like this.
+
+Speaker 2:
+It's a great dance for those who can't see it.
+
+Jenny:
+It's not a good dance. What that did was that immediately set us up as the enemy. Me versus the developer. They kept making bugs and I had to keep finding them. And if I didn't find them, they were going to win. And that's not how it works. Oh my God, no. We're on the same team. We're both moving towards making beautiful software. I have met one person in my life who maliciously put bugs into software. Two people if you count the guy that develops those sites you do automation against for practice. No one wants to do that on purpose. So we don't want to set up a situation where you say, ha ha ha, I won because I found the bug. You say, this doesn't meet my expectations. Can we sit down and talk about it? Can we have that conversation about where we're differing here and come to some kind of agreement? We have to work together because we're better together. We look at things from different perspectives. I am eternal pessimism. Developers are eternal optimism. And our power is combine, we're Captain Planet man.
+
+Speaker 2:
+Yeah, absolutely. You said something earlier too that made me really, like this is the existential question of my life that I'm really curious about your take on. You were talking about requirements gathering and finding out something earlier rather than later. What is your definition of done?
+
+Jenny:
+Ooh, I love this one. Well, my definition of done is certainly not a checklist.
+
+Speaker 2:
+Okay.
+
+Jenny:
+My definition of done is when the feature meets the user's needs in a observable way.
+
+Speaker 2:
+Can you define observable? Can you elaborate on observable?
+
+Jenny:
+There are entire conferences about observability.
+
+Owen Bickford:
+Yeah. Just 10 seconds on observability please.
+
+Jenny:
+If I did 10 seconds on observability, it would just be me screaming like a velociraptor. That's observability. When I say observability, I want feedback from the users. I want to put something out there and see in the logs that it's being accessed and there's no errors. I want to see metrics that say, yes, they're clicking the button and nothing bad is happening. I want to maybe do user acceptance testing and say, Hey, did you click the button? And nothing bad happened.
+If we throw software out into production without watching it and making sure that it's doing what we expected, that people are interacting with it in the ways we expect and we're getting the results from it that we expect, if we don't do that, we shouldn't ship it. We've talked so much in software about not throwing things over the wall to test, and now we're doing it to production. Why? We don't want to throw something out into the void and say, congratulations brand new baby. You live in the forest now. Hope no wolves eat you. That's not okay. So we should monitor, we should observe, and we should take those learnings and feed them back into our system. Would it change the way we develop? Would it change the way we test? Do we have more context for how users actually move through our system? That should change how we test or develop.
+
+Owen Bickford:
+So I love callbacks. We actually had a, I think the first episode of the season was with Dave Lucia. So if you want to hear a more in the weeds, more particulars about observability, take a listen to our season nine episode one, discussion with Dave, and definitely find more information online about observability and talks and resources as well.
+But I also enjoyed your kind of, what I'm kind of gleaning out of your description of QA work is, and I think you kind of put this in a nutshell of developers are optimists and QA is pessimist, if I got that right. I thought maybe this was just me, but I was also going to ask you, is this a pattern with engineers where we think about the way things should work? So we write the code and we write the test for what we sometimes call the happy path of the good thing happening. And we're not always, without experience, especially, we're not always thinking about all the different ways that maybe invalid data or people might throw sand in the gears of our application. Do you have some helpful tips that you've, maybe some kind of patterns you've seen from junior developers or even senior developers over the years, of things that tend to be caught by QA during code reviews and that kind of thing?
+
+Jenny:
+I want to speak to the pessimism thing for just a second. And developers are magic. There was nothing. They make a couple of activity taps on the keyboard, bam, now there's a thing. Holy crap, where'd it come from? I don't know. It's magic. And that to me is the height of beautiful optimism. There wasn't a thing, tippy taps happen. Magic spell was cast, bam. Now there's a thing. And as you're developing, your brain is so full of the requirements, they're so full of how it should work. And this beautiful optimism about, yeah, people are going to interact with this. This is going to be an amazing outcome. It's so beautiful. And I love that.
+But it doesn't always leave a ton of space for pessimism, which is where the kind of cynical tester comes in. And when I say cynical, I don't mean be mean. I mean be realistic, be thoughtful, be kind. But be realistic. We come in and we say, "Well, what if somebody did something that they're not supposed to? What if they weren't at their best?" And that brings a little bit of realism into this optimism. It brings that pessimism in, and it makes us really amazing partners. So just, I love it. I love the way that people who have such different views on things and who have different places in the software development life cycle can come together to make magic even better. That's my moment for that.
+
+Owen Bickford:
+Right. Yeah. These are very complimentary skills.
+
+Jenny:
+Just like design and product are complimentary skills and product and development, complimentary. I just think it's beautiful.
+So the question you asked was, what have I seen as far as patterns in junior developers or senior developers or patterns and teams for testing. About to spill some QA secrets, so stay tuned. Every developer is different. Every developer is like a painter. If you look at a Picasso, you know it's a Picasso. If you look at a Monet, you know it's a Monet. If you look at a five year old's drawing, you're like, oh yeah, five year old definitely did that. That's modern art. How many millions?
+So everyone has kind of a different style. And as you start to get deeper into your QA life, you're going to start to realize certain developers create certain types of defects. It's little blind spots they have. It's ways they think about things. It's stuff that they work through, but they create certain types of defects.
+So if I look at someone's code and I've worked with them for a while, I can usually look at the tickets and say, this error, this error, we had that discussion last time, so he's probably not going to do it this time, but she's going to do that other thing. And that's a really interesting thing. You start to really get to know your developers and really start to say, I know the style of defects they're going to potentially create. The best thing there to do is talk to them about it and say, "Hey, I noticed you usually don't do this super well. Maybe we could work together to make that a little better." So individual developers, you'll start to see a pattern. You'll start to see ways that they don't necessarily think through things the same way that a user would approach it.
+The other thing I have started really encouraging my folks to do is review the unit tests. Again, this is an incredibly readable language, and if your developers can't sit down and describe to you what's happening in the unit tests, perhaps they should write more unit tests and that will give you an idea of how they think. It'll give you an idea of what you're looking for.
+And I encourage my developers to pair with my testers, especially at a senior level. I want a developer to sit down with a tester and be able to explain to her what their thought pattern was when they were testing it. Because that gives her a good idea. Okay, thank heavens. I don't actually have to do much with date time or time zones. He's got a handle in the unit test. So on an individual level, you'll find individual things that people are less amazing at, and that's a great blind spot to be aware of and to help them out with.
+As far as general things, developers don't often come at things sideways. So if the flow is you do A, B, C, D, E, but you could do E first, they're not always going to think about that. So when you're crafting your inputs, when you're doing things like that, think about what if things happen out of order. If something happened out of order, what does that change?
+I've also found people, it's the simple things that get folks, and I love it. If you've never copy and pasted the entirety of
+
+Jenny:
+... Canterbury tales into someone's text field, you have not lived as a tester.
+
+Jenny Bramble:
+Oh, my God. I think Jenny's reacting to my facial expression when she said that.
+
+Jenny:
+[inaudible 00:36:19] of y'all listening.
+
+Jenny Bramble:
+We'll give her a second to recover.
+
+Jenny:
+I have a couple [inaudible 00:36:28] cheat sheets that have things like this on them and I like to distribute them to the developers because they say, "Okay, but this app is in English. Why would you put Kanji in there?" "You let me." So a lot of times things that are just off the beaten path, people will say, "Oh, I'm going to put a character limit on this." "What if I don't put any characters in there?" Those kinds of just doofy little things and people will say, "Oh, but no one's ever going to do that." "Okay, so don't let them. Please don't let them."
+
+Owen Bickford:
+That's a big one. Yeah. I hear that frequently enough. I'm like, "Yeah, that checks out."
+
+Jenny:
+Yeah.
+
+Owen Bickford:
+Engineers are like, "Ah, no one would ever do that." And then, "Just wait until some production."
+
+Jenny:
+And then somebody copies all of Canterbury Tales into it.
+
+Owen Bickford:
+Wait until Jenny gets a hold of this.
+
+Jenny:
+Oh no. Okay. So you've brought up so many amazing points and I think the biggest one that I think a lot of people would love to hear your take on this is, "What do you actually do when you have a difficult conversation ahead of you, that is incredibly difficult and you have to show an incredible amount of self-awareness as a developer and a lot of empathy as a QA engineer or anyone coming to somebody and saying your work was wrong?" is incredibly difficult. So what advice would you have for somebody who is going into a conversation like that?
+
+Jenny Bramble:
+You're probably going to get it wrong, especially the first couple of times you do it. You're probably going to get it wrong. So forgive yourself for that in advance. When I'm approaching a difficult conversation, the first thing I want to remember is we're both people. Everyone in this conversation is a human being. Neither of us is here to do bad. I don't come to work thinking, "How can I screw this up?" Or "Man, I bet it would ruin Jenny's day if I did this." Very few people think like that.
+So remember, when you're approaching these conversations, no one is evil, no one is bad. We're having a conversation so that we can all be better. The other major piece of information is you need to meet people where they are. I'm a big storyteller, not a liar, but a storyteller. Everything I do is encroached in the story. I think, "What's the user story here? What's the emotional aspect here? How can I really convey my strong feelings on this?"
+And that does not work for a lot of people. If I went up to one of my folks that doesn't have that kind of high emotional intelligence and that high drive to tell the story and I'm like, "Let me tell you a story about how this went wrong" that's not going to go great. That's not going to be a good experience for either of us. But if I come up to them and I say, "Hey, the last thing I QA'ed went real bad." Like, "An alligator ate all of my feet and I couldn't smell for a week. It was the worst thing I've ever tested." But if I'm factual about it, instead of being like, "Let me tell you a story about how I can't wear shoes anymore," that wouldn't work as well.
+So as you are interacting with people, remember we all interact differently. We all have something different that drives our ability to communicate and recognize that these are hard conversations for everyone. And as testers, we have a responsibility to communicate kindly. We talk to everyone. I talk to product design, the CEO, the CTO, I talk to IT sec. I talk to developers, everyone. Because I am such a hub of communication, the way I communicate changes the texture of my team, the culture of my team.
+If I'm mean, if I'm abrasive, if I'm harsh, if I'm always coming to people and saying, "You messed up," that's not going to make a good team culture. That's going to make people angry and upset and just prickly. But if I come to them and I say, "Can we work together on this? Can I show you what happened? And you can show me where I may have gone wrong or where my expectations are wrong," that's going to get a lot better result. I also recommend the book Crucial Conversations. It's amazing.
+
+Owen Bickford:
+Nice. And I appreciate that answer. You talk so much about communication and I got to say your Elixir Comp talk, I try to bring a high level of energy to my talks, but you're just on a different level. I've got to go to some performing arts classes or something so I can ramp it up a little bit next time. Yeah. So your talk is great. Can't wait for that to be available on YouTube. And everything you're saying about communication is great.
+I think working in customer service is a huge help with that because you have to be able to communicate with people from all different levels of technical understanding, and that helps you kind of interact with different people. I've found myself maybe oversimplifying things once I got into engineering. So I've had to adjust to be a little bit more ingrained when I'm communicating. But I'm curious if you find the same thing with yourself.
+
+Jenny:
+I do. I do. This is a podcast, so y'all can't see me. I have crazy colored hair. And a lot of times when ... So I used to work in client services, I would roll into a room and they would assume that I was in design. So people would have a hard time starting deep technical conversations, because they're like, "Oh, that's the designer. We'll talk about design things with her." And I'm like, "No, no, I'm the tech lead here so y'all can talk tech to me." It's not quite the same, but it's similar. There is a level of granularity that is appropriate for some places and not appropriate for others. And it's hard sometimes to figure that out.
+So I usually start simple and go deeper because it's hard to back out of that. Once you've dropped a tech manual on someone, they're like, "Oh gosh, now I'm stupid. I must be the stupid one. I can't understand this. She's too much for me." But if I start simple and I say, "Let me know if you want a little more detail. Okay, you do? Let's go deeper. Let's go deeper. Okay. I'm at the bottom of my technical knowledge. We have struck gold." So that's what I usually do.
+
+Jenny Bramble:
+I'm just a little bit blown away with that approach to conversation because I'm thinking about conversations where I feel like I've gotten lost and I would have really appreciated that approach. So thank you for doing that. I hope more people take that approach to having conversations. I now have another book on my list, Crucial Conversations. I thought you were talking about Difficult Conversations at first, which is another book. So that one's on my list. So for sure going to have to pull that up.
+I really feel like this could be an entire series. I want to know so much about QA and communication and feedback and how to give feedback and how to get feedback. And what is the best way to talk? Finding out each person's individual thing. I could list this forever. Unfortunately, we don't have an unlimited amount of time. So I'm going to give you this time now to give any final plugs. Where can people reach you on the internet? And if you had one thing to shout out to everybody, what would that thing be?
+
+Jenny:
+Where can you reach me? So I'm at Poppa and I am hiring. So if you're interested in a senior backend position, holler at your girl. You can find me on Twitter at Jenny Does Things. You can find me on the emails at Jenny.bramble@gmail or JBramble@Poppa, depending on how you're feeling. Upcoming things that are interesting for me, couple of keynotes, couple of talks. I'm actually writing a course on management for Test Automation University. Really excited about that one. Should be out late 2023. And what is something that I would like to say? Like one last big old shout out.
+Oh, testing is for the whole team. It's for all of us. Once we start deeply engaging in holistic testing and bringing the mindset of test, learn, adapt, monitor, learn, adapt into all parts of our life cycle, we are going to be better and better and better. I want to be the best software technologist I can. And I want everyone around me to be better for having encountered me. And I think holistic whole team testing is a really great way to do that.
+
+Owen Bickford:
+Awesome. Well, it is now time to crank up Midnights at Full Volume. That is it for today's episode of Elixir Wizards. Thanks again to our guest, Jenny Bramble, the Taylor Swift of Talk Giving for joining us. I'm Owen Bickford and my co-host is Sundy Mint. Elixir Wizards is brought to you by Smart Logic with production support from Hanger Studios. Here at Smart Logic, we build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. If you need a piece of custom software built, just hit us up. Don't forget to like, subscribe and leave a review. Your reviews help us reach new listeners. You can find us on Twitter at Smart Logic or join the Elixir Wizards Discord. The link is going to be on our podcast page. We'll see you next week for more on parsing the particulars.
+
