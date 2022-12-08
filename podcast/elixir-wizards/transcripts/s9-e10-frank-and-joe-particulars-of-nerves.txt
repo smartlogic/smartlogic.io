@@ -1,0 +1,334 @@
+Bilal Hankins:
+Hey everyone, it's your favorite new co-host, Bilal Hankins, here for a quick detour before we start the show. This spring we'll bring our 10th season of Elixir Wizards and we are so thankful to you all for tuning in each and every week. We would love to make the show even better for you, so we created a short listener survey to get some feedback. If you could do us a quick favor and take two minutes to complete the survey, we promise to come back bigger and better in our 10th season. To take the survey, just click the link in our show notes for this episode or visit smr.tl/survey2022. Thank you for taking the time out of your busy schedules to help us understand how we can create an even better podcast for you. And now on with the show.
+
+Sundi Myint:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, the custom web and mobile development shop based in Baltimore. My name is Sundi Myint, I'll be your host. I'm joined by my co-host, Dan Ivovich. Hey, Dan.
+
+Dan Ivovich:
+Hello.
+
+Sundi Myint:
+This season's theme is parsing the particulars. Today we are joined by special guests, Frank Hunleth and Joe Martin from SmartRent and Company Six respectively, and we'll be diving into the particulars of Nerves. Hey guys.
+
+Frank Hunleth:
+Hey.
+
+Joe Martin:
+Hey.
+
+Sundi Myint:
+Very excited to have this conversation. I feel like I want to give everyone listening a primer as to why we're all here in this room today. I'm just going to go ahead and say it, Frank. The famous Frank Hunleth, the Nerves expert, who has actually got a little drawing picture on his Nerves book, which I still have a little... I made an emoji of that, Frank, I don't know if you knew that, but I made an emoji of that face.
+
+Frank Hunleth:
+I'm not surprised.
+
+Sundi Myint:
+Yeah, it's in the DCTech Slack, if anyone listening is in the DCTech Slack and needs to see that. So Frank is an expert on Nerves. Joe, do you want to give maybe a little bit of your background so we can talk a little bit about why you're interested in Nerves and questions that you might have around Nerves? Why don't we start there?
+
+Joe Martin:
+Absolutely. I actually have very little Elixir or laying this world type of experience at all, but I have about 10 years of embedded systems development, working with ARM processors, microprocessors, all the way up to having the right device drivers for regular laptop and PC type devices. I came across this language and it's really interesting that you're trying to break into this world that is normally just a C, C++, even sometimes assembly type of environments with a higher level language. So I'm interested because I actually know very little and I'm wondering if I can expand tool sets in the future for something I might build.
+
+Sundi Myint:
+Absolutely. When Joe first said that he was curious about this and he wanted to talk to Frank about it, I was like, "Oh yeah. You have that conversation and let me record it." It was a joke, and this is a joke manifested into reality people. So let your dreams come true. But I'm also happy, Dan, that you're here with me, because I know you have a little bit more experience with some of these languages we're going to be talking about too. So this will definitely be like me and Dan popping in, but Joe, I know you want to learn and you're here to learn. So I don't know, where do we want to get started?
+
+Joe Martin:
+Yeah, it's great. I tried to do as much of my big picture overview of this as possible and I'm really grateful to get to talk to somebody at your level of expertise here, Frank. I just want to start is, what inspired you to take Elixir to the embedded world?
+
+Frank Hunleth:
+Well, there are a bunch of stories here, but first it's really nice to see someone who's in the C, C++ realm. I'm actually pretty excited about talking about this because a lot of the people that I talk to normally are coming from a higher level language and going down to embedded and you're coming from more of the embedded area and coming back up.
+So, question of why was I interested? Early in my career, I worked on telecom systems, so these were pretty high capacity network switches and late '90s. Then when I was done, I moved on back to grad school, and while I was looking I was looking at, well, I was researching a few topics, I was looking at how other people solved some of the problems that I had with redundancy. So one thing with telecom switches, there's a lot of concurrency, there's lot of redundancy, and you want to have fault tolerance for sure.
+So Erlang popped up on my radar and I started looking to see how they solved the problem and I thought it was really elegant. I was convinced that I wanted to do it. This was like 2001, '02, and it took me until about 2010 because C and C++ is ubiquitous everywhere. Just trying to convince someone to pull an Erlang was a pretty big task. Even though I saw, you look at this, you read how they solve these problems. They hit the nail on the head and we can talk about a couple of the aspects that I really was interested in, but 2010, 2011, I start getting the idea that if I want to actually use Erlang in a project, that I was going to have to start building some pieces to make it a little bit smaller of a switch from people that were used to C and C++, because it was a replace everything switch when I was looking and I couldn't figure out how to bridge that gap.
+So Nerves was built up as I'd figure out how to do networking on an embedded device, how to bring up these other parts on the embedded device. I started putting things together and then Elixir came along and there were quite a few people from the Elixir community that were super interested in helping. I just jumped, it was fun. It was fun working with all these people in the Elixir community and all the fundamentals are the same between Erlang and Elixir. So I switched pragmatically because I got to work with more people, but the fundamental thing that took me over is the VM. I think you have some other things that you were looking at in the VM that we can talk about. Does that answer the why?
+
+Joe Martin:
+Yeah, absolutely. It definitely sounds like you're coming from seeing this solution in a time period where, as you mentioned, and I hear this as a sales pitch for Erlang often, is concurrency and fault tolerance. I admit I'm a little bit vague on things like concurrency versus parallelism in this context, and maybe those are some things we could touch, but what's most interesting to me right now is what really is Nerves? If you were going to give an elevator pitch saying this is what it is to me, like a C or a C++ developer, and this is what you could use it for practically today, what would you say to that? What are some production use cases already? I understand you have a company-
+
+Frank Hunleth:
+SmartRent, yeah. The elevator pitch for Nerves is, you program an Elixir, or you want to program an Elixir or underlay VM. You need to put that code on some sort of device that's on the edge, or has some connectivity in a factory or some other place. It's not in the cloud. Nerves is a way that provides tooling and some core set of libraries to make that easy. I'd say that when you come to Nerves, your focus should be, "I'm writing a lot of code in Elixir." It's your happy place where your development's going to be Elixir, your business logic's going to be there, of course. You're going to try to build your network services there. You might have some legacy, if you have some legacy code or some C code or C++ that you just don't want to rewrite, Nerves provides a back door. That back door is via the build root component that can pull in a lot of C code just very nicely, and in a format that's familiar to more people who are interested in embedded Linux.
+Then another part of your question is, what kind of systems would I want to use Nerves for? Because embedded is like everything. There's literally everything on this thing and Nerves doesn't hit everything, so I want to be very, very upfront with that. There's little microcontroller based things that are just pushing sensor measurements to the internet. Maybe they're not even doing that. That's not really Nerves. Nerves wouldn't even run on those devices, on those microcontrollers. Nerves really fits the kind of a medium range of things that have a lot of network management, might have a local user interface, DuPont's of networking. They require a microprocessor, so things that are definitely, would be Linux capable.
+Now what kinds of choices are those? Those things exist in factories sometimes. My company SmartRent, we deploy these nearest based devices to large rental properties and they provide a gateway hub option. So there are sensors and lots of little electronics things where we deploy them. It collects them, collects data from them, and then sends those to the cloud.
+
+Sundi Myint:
+Which also brings up, yeah, I guess, some other production things. We just had Bowery farming on the podcast and they use Nerves for farming. We didn't talk about it, specifically about Nerves, but I know, and Frank, I think you were the person who first told me about that, and-
+
+Frank Hunleth:
+Yup.
+
+Sundi Myint:
+... there's a few other Nerves in production, yeah?
+
+Frank Hunleth:
+Yeah, farming. There are a bunch of companies that are doing stuff with farming. Bowery is a big one. Then, I guess more on the hobbyist side, but also on the really cool side, is FarmBot. That's like a CNC machine except it's on your garden and it can plant weed, water, all that kind of stuff. But the other sector that seems to be popular for Nerves at the moment are various energy companies that have local, some local electric generator, or some electrical distribution. There'll be a Nerves device close to that to either do some management, do some billing, do some other accounting for whatever that device is doing. That's kind of the flavor.
+
+Joe Martin:
+Wow, that's actually really interesting. I tried to do some research. I came across farming for sure. I'm broadly familiar with various sectors of this larger term that we refer to called IoT, internet of things. And typically when I hear that term, it's a little bit buzz-wordy for me, because I'm always thinking, how do I decompose that term into what's actually running under it? So one of the most, I guess, one of the ways that I identify what I think of as IoT is that it's connected and maybe doing multiple node communication. It may communicate to one sensor that's over here, and then there's some other message bus that's traveling to another node, and there's various protocols depending on industry. So I was wondering out of the box, what are some support cases that are already built into Nerves for some of these various protocols, one being device discovery for mDNS?
+
+Frank Hunleth:
+Oh, yeah, yeah. One of the features of Elixir is access to the Elixir ecosystem. So Nerves doesn't have to provide everything. We can go to the Hex package manager and say, "Hey, someone else has written this thing. It won't work on Nerves." Or, well, there's a pretty good chance that it'll work on Nerves. A whole lot of it works on Nerves, or if not, if it's something of particular interest on these protocols, then, yeah, someone will probably fix it, or port it, or work it, or whatever to get to work.
+So just a base case bar, a lot of this stuff is like MQTT based communication. You can go, there are several packages that you can use if you need that in your system. There are bunches for if you do an RS-45, there's some of those random protocols that people want to run over RS-45, people have made Hex packages in post, or have some GitHub repo. So the Nerves project, per se, if I put my Nerves core team hat, I would really get involved with that. I'd certainly help those projects, but it's great to be able to rely on someone else from the community to provide some of those extra features.
+
+Joe Martin:
+Wow,
+
+Joe Martin:
+... wow, that was a really great answer. I guess just to make sure I'm confirming my understanding here is that you're saying that a lot of these protocols that are really common in the embedded world are just actually something that you would leverage from source that you could pull in, that may have existed previously in some shape or form, and this is just a way you glue it into this project.
+
+Frank Hunleth:
+Right. Right. So Nerves provides the tooling, but really, at the base of this, this is Elixir project. You create, you add your dependencies. The elixir tooling will let you lock down your dependencies into all the nice things that you might want to expect from a regular project. And part of the benefit of that is just that if someone hasn't written it, then you're on the hook. Elixir's a relatively new language, so there are holes, but there are back doors, too. If there's a C package that totally fits your needs, maybe it's just easier to wrap the thing and call it from Elixir, maybe, and then transition to integrating maybe a little bit more tightly or depending on how the project goes.
+
+Speaker 1:
+Well, and Frank, I remember kind of years ago we talked about the boundaries of Nerves and I think that's always something that's been interesting to me. I think when you're looking at this from a high level standpoint, our audience is mostly Elixir based. It's kind of like, "Okay, you can grab stuff. That's awesome." But I think the other side I'd like to maybe dig into a little bit is where are the things that Elixir can't do it? Is it the real time stuff? Is it specialized hardware? Working with existing micro controllers to perform specialized tasks? And how does Nerves empower kind of the use of things that maybe Joe's more used to from traditional embedded systems?
+
+Frank Hunleth:
+Right, right. And there are a couple fundamental libraries that certainly are probably more familiar to people coming from your background to do some below level tests. So I know that you hit upon the circuit's set of libraries, so if you need to do TPIOs, I squared, C Spy, all that stuff, and there's not another driver on Hex already written for it, well you can just go direct on that. So network management like poo on Elixir brings up wifi adapters. So we had a couple projects that have evolved since the beginning of Nerves to address that need. That's kind of cordoned off in this area in a GitHub org called Nerves Networking. So we try to keep it separate from the core just because it slightly gets overwhelming and we have multiple sets of contributors. But that's in the Nerves Networking organization, a lot of those libraries go by vintage net. That's stuff that a lot of the core team members have been into, because as you point out, Elixir does come with a bench, but who working on a server's going to be doing wifi, LTE, stuff like that. That's coming more from the core team and from collaborators who are focused on that base because of their projects.
+Now you said a couple words that interest me tons, like real time. How does Nerves affect real time? This is an awesome topic because you have different needs. You're working on something and if you need a hard real time scheduler, what do you do? The Erlang VM is not that. It's soft real time, it's an awesome virtual machine. But if you're coming from CC ++ micro controller background, totally not going to be happy with this. So there are a couple things. Like everything, there's few options. The one that we tend to recommend the most or talk about the most with Nerves projects is to either look at having a small biker controller do that little piece of thing that you need hard real time and program that in C. So basically all networking, all the management, all this other code that comes along with your project or BM Perfect, then through a UR or some other communication mechanisms go to a micro controller. It's kind of a cop out, but it's one of these really comfortable cop outs for a whole lot of people because you just stare at that code on the micro controller and be like, "Yeah, I know that will work. I don't have to think about all this other stuff messing it up."
+
+Joe Martin:
+Yeah, I would say that's not so much of a cop out in my opinion at all. I mean even in C or C++, a lot of times you're dealing with such a random behavior of scheduling in Linux as opposed to just on a microcontroller. If you're doing it bare metal or even in a NARTOS, you can quantify exactly when something like an interrupt is serviced or really when certain functions will be invoked in the worst case. And in Linux, it's a nightmare even without running a VM. So it's not necessarily something that I would consider a deal breaker at all.
+
+Frank Hunleth:
+Yeah, no, I love the idea of being able to look at a piece of code and think about in my mind and have high confidence. We always wanted to test, but that's a very comfortable area. There are a bunch of processors that Nerves support that have built in microcontrollers and SOC, so those are kind of cool because one chip and you get both the microprocessor part and microcontroller all built in one place, so it's not like you're plopping down two chips on the board. That's one answer.
+And then there's the whole, well let's see how far we can push the platform answer. And I have no problem pushing the platform, but there are people trying out the Linux realtime extensions with Nerves. So you basically have a multi core processor, you pick one core to be your realtime core, use the extensions on that, live within Linux's confines, then assign Erlang VM to the others. So it's stuff like that and I'm totally intrigued by people getting good results on that, but that's just not the common one for most Nerves users.
+
+Joe Martin:
+Well man, I'm really glad we got to this level of detail. It's a question that I have found in many various projects just plagues embedded in general. It's like if we want particular set of tooling, maybe in this case we're asking for an access to a completely new set of tooling that I'm unfamiliar with, but apparently is broad and exciting and that a lot of people would have access. It's just how well is that going to work in some of these constrained environments? And typically that switching over where you have one real time core and then several other cores running user space applications, is a less common solution. I have had to do it, and I imagine that even still, if you have most of your processing power dedicated to this VM which is then bringing this ecosystem, you could get good results just depending on whatever's going on on that one real time core.
+But what I'm unfamiliar with is in general, how does scheduling take place once the Erlang VM takes over those cores? Is anything else allowed to run? How are an operating system process going to compete with this VM for scheduling?
+
+Frank Hunleth:
+So the Nerves route is the Linux scheduler, it wins. It wins everything. So it's the one that schedules the Erlang VM. Now the Erlang VM does pin its schedulers to cores and Nerves. There aren't many Linux OS processes running at all. So there are the kernel threads, they'll certainly preempt things. And there are a couple other little tests that are mostly IO bound for most projects. But far and away, there's so few processes running, OS processes, that it's really Erlang that's making the CPU warm, for all intents and purposes.
+
+Speaker 2:
+So now that you've heard a little bit more about Nerves, Joe, I wonder is there a project that you've worked on in your 10 years career is probably too broad, but is there a project that you can think of or point to that you think Nerves might have been helpful on, might have been easier, or maybe would you need to learn more about it still?
+
+Joe Martin:
+No, one of the ones that jumps out at me right away is, correct me if I'm wrong before I go down this, but there's a lot of just general web development and web tooling, especially in the Elixir world. I remember writing things in Node JS or things even in C or C ++ to parse HTPP requests and web sockets. And I've had to roll some really ugly implementations of that because of the environments that I was stuck in. I think the first one that jumps to mind is a web gooey that is controlling some hardware, but that it's all from a single environment. And I believe that the exact project was something that was taking communication to a link between an FPGA and a Beagle bone processor, and we needed to pull some data out of a DMA buffer and do an FFT and display it on a web gooey. And this would've been really interesting for that because we discovered that most of our problems were in switching tasks and between pulling the radio and actually rendering and sending stuff over the web socket. So it kind of sounds like if we have something that already has this parallelism in mind, it might actually really make things simple and lower that barrier to entry to what we had to do just to even get a prototype of that. I hope I didn't go off into the weeds there.
+
+Frank Hunleth:
+No, I mean I think with Elixir, anything that uses a socket, there are a couple benefits to using it. They're these little features in Elixir, a bunch that kind of come together to make it a happier place to work with socket than, at least my experience, in C, C++ for sure. And for a lot of the stuff I just point out binary pattern matching is kind of this little secret sauce to parsing all the stuff that you might be getting from the FPTA in just a very nice pretty way in the code. So I mean, that's just a media thing that a lot of people hit early on, that there's much less of this bit level manipulation all over the place. It kind of cleans up a lot of that code, kind of almost looks like a lot of the data sheets or specs that you'd write.
+But I mean even above that, I kind of want to switch gears a little bit in just some of the fault tolerance in isolation, just because I think that this is one of these other key features that kind of hits you when you switch. And the mindset in Elixir is smaller granularity. So you run with all these little processes that have a limited set of things that they can actually access directly. If they crash, it's just that process that goes down supervised. So your mindset when you write Elixir to make sure that your system has a lot of these processes. If you're on a microcontroller, how many threads do you create? There's a limit. You kind of think about it. Even when you're on Linux, you kind of think about you shouldn't really go to a hundred thousand threads or something because that'd be silly. But in Elixir, threads are cheap. So that's not really the first level concern at all.
+And these little pieces of isolation have this really neat property in that when everyone does this in the whole system, you can have these things supervise. You can think about what happens when they fail, that only that little piece fails. Nothing else in the system fails. So you can build this nice little trust up with, if you pull in somebody else's library, they get bugged, their little processes are dying and maybe restarting because you've specified how they restart. So default tolerance is really based on this granularity that can be very small and giving you this property that you can trust like third party code in your system, you can trust a little bit more than maybe in another language where the boundaries of all these little pieces can somehow affect you. In C and C++ you'd call a library, it could SEG fault on you. That will mess up more than just the library. Whereas the equivalent to SEG faulting in a little process is pretty well contained.
+And then you also made another comment on concurrency and parallelism. So concurrency, how many things you can run at a time like keeping the scheduler busy. So kind of neat thing about the Erlang VM is it will schedule these processes. It just needs to have a good work queue so you can keep the thing busy. Things aren't blocking on IO that could be ready to go. And that's like one of these weird things that once it hits you, all of a sudden the Erlang VM, which kind of should be slow, all of a sudden kind of feels faster because the schedule has more things to do. I find it totally un-
+
+Frank Hunleth:
+... intuitive. A VM that really should be slower than other virtual machines with no cheeses with Java, who have had just all this intense research to make this thing, goes crazy fast.
+The Erlang VM can somehow make programs going faster partly because of this, keeping the scheduler busy because of the small granularity.
+
+Joe Martin:
+That is really a beautiful concept, especially even the idea of being able to supervise when things go wrong.
+I mean, that probably plagues me every single day that I'm working. Where it's the level of saying, "Well, something went wrong. Now, what do I do? Now, how do I recover?"
+If you're suggesting that there are ways to see that and then take really elegant, high-level action saying, "Oh, this bit failed, but the rest is fine. I'd like to come back in this way."
+Basically deciding courses of action from failure really is, I think that's something that we strive for in this world, just for the usability of a product.
+I mean, a lot of times, I'll end up in a system where things are going to go wrong, but you don't really know, and it's not predictable.
+To have to try to imagine catching every single edge case, as opposed to just saying, "Oh, when it does fail, I'm ready for it." That's really powerful.
+
+Frank Hunleth:
+Yeah. Well, this is just a total superpower because the cost is, upfront, you design your program for the first time. You want to show it to people really bad. Your boss wants you to show it to people, have the first demo.
+Erlang and Elixir just slam you right in the face and say, "Hey, you're going to figure out your supervision tree first, and figure out at least some level of how you're going to handle the inevitable that goes wrong."
+You do that, you code that straight happy path for literally everything because you built your supervision tree. Things are going to crash because you messed up, but it will restart.
+You'll start exercising that supervision tree, and then the next step is, it was kind of silly, it crashed for this reason. You actually put in a little handling for this and you go back.
+I think that's the initial thing that people hit with this is you get that first speed bump because you have to think about the recovery first. It throws you right into it. Once you get past that, you get into a happy place.
+
+Joe Martin:
+Yeah. Well, I'm actually always been a fan of any sort of tooling that forces you to conceptualize upfront.
+Actually, that's a huge thing with a lot of iterative development, especially where you're, "Okay. Well, I'm writing this and it works," then you're not filling out some of the else cases in your statements and stuff like that.
+You never know where you're at the bottom of a tree then, "Oh, it got here," but 80% of the time, I was running it on my development machine, it was fine on a deal. Having to structure that is something that appeals to me greatly.
+
+Speaker 3:
+We got to get Joe some Elixir experience, so he realizes that if and else is not something we would expect him to even see.
+
+Speaker 4:
+Joe, have you never heard my bragging rights? My 2019 was the year I didn't write an if statement.
+
+Joe Martin:
+Wow.
+
+Speaker 4:
+We never talked about that. I guess, we had other things to talk about, but yeah, that was my running joke.
+
+Speaker 3:
+I think something else that's really interesting to me, having seen Nerves change over the years, even we talk about the fault tolerance side is also...
+I know a lot of effort has gone into the deployment, the over-the-air updates, and how to make sure that devices get their new firmware correctly.
+I'm wondering, Frank, if you can talk a little bit about some of the efforts that's gone into that and what that unlocks as far as updating devices in the field.
+Also, I'd like to go a level down from there too, as far as updating your microcontroller code or really updating your Elixir process, Erlang process great, but I know there's more to it than that.
+
+Frank Hunleth:
+Yep. Yep, yep, yep. Okay. Let me start. There's the fundamental piece to this whole thing.
+At the root of all this thing, the output of the Nerves build system is a .fw file, a little firmware file. It's basically a zip file with the metadata. That's the thing that you want to get over to your device in whatever way you want.
+The primitive is I get that file over the device somehow, and then I run a command on the device and it applies, Nerves uses an A/B partition system.
+You go back and forth, you do a firmware update, it's terrible. You can have it auto fail back or you can manually fail back.
+It's not definitely not a unique thing to Nerves at all, but the fundamental thing is when you're working with Nerves is moving that file across.
+If you take a step back, how am I going to move that file across the out-of-the-box way with Nerves is to send it across via SSH. You're doing development, you can SSH over to your box, push it over, that's no big problem.
+The next step after that, you have to make some choices because SSH is great for local, but probably doesn't work remote or you need something more to make it remote like a VPN or something like that.
+Do you want to get it from a website? Great. There's code to just download these .fw files if you can host it on a website. You can do something as simple as that.
+If you need more logic involved, like if you want to have some admin paddle and say, "I want to put this firmware on these devices or just set up this deployment," and say, whenever this device connects, if it's using the old version of firmware or matches this tag, whatever, then you can do that.
+There's an open-source project called NervesHub, which basically automates that process for you. You're not locked into any of those options. The fundamentals remains that file level.
+I think a lot of people, when they take on, start using Nerves, they have a lot of organizational constraints and which route they choose. We kind of leave that open because a lot of people just don't even get a choice.
+They have one route to get firmware updates and they got to make the system work within those bounds. That's that, and then you asked a bunch of other questions which are great.
+I updated my Nerves device, my microcontroller needs to be updated as well, which is something that the Nerves Project currently, that's outside of the scope of the immediate firmware updates. It doesn't mean a lot of people don't do it.
+This is one of those things where the easy way is to just bundle all of the firmware blobs inside the main Nerves firmware. Adding files to this big FW file is no big deal. That's something that's well-supported.
+You add your microcontroller code and whatnot to that, and then when you do the firmware updates, you'd have to hook in. Usually, people hook on on-boot after a known good boot, then they update stuff so that firmware travels.
+If you revert firmware to an old version... In the old version boots it goes, "Hey, FPGA. You're using the old version, let me make you match." That's custom code.
+Nerves doesn't help, but that's not exactly terribly hard code to write. That's just the strategy that people do.
+There's another complexity is what happens when your .fw files start costing too much money because you're delivering over some sort of metered network, like an LTE network.
+There's a list of things that you can do to trim down the .fw file. The only reason why the embedded firmware remind me of that is that those are the kinds of things that make your firmware size big, and you might want to not update everything every load.
+
+Speaker 4:
+To clarify, Frank, is this the file that you transferred to the Raspberry Pis via the little memory card reader situation?
+
+Frank Hunleth:
+When you're running Nerves, when you do, the main command that you type is mixed firmware. Then when you do a mix firmware.burn, if you want to program the micro SD card that's connected, it takes that .fw file, and expands it onto the micro SD card. It actually runs the firmware command behind the scenes inside the tooling.
+
+Speaker 4:
+You solved some of this data transfer problem by pre-programming those micro SD cards, correct? Did you have it in a livebook, and then we just put it on...
+
+Frank Hunleth:
+Oh, you're going back to [inaudible 00:32:02] when we work together one time, when I sent a bunch of kits out to make it easy for you all. Yeah, yeah, yeah. I totally pre-programmed all those micro SD cards for you.
+
+Speaker 4:
+Okay. You were talking about this and I was like, "I feel like it was way easier than this."
+
+Frank Hunleth:
+Yeah, yeah, yeah. Yeah, yeah, yeah. Well, I think that you all updated the firmware on it. If I'm going to mail stuff out, I'm going to program this stuff and not give you all blanks. When you can plug it in, it just does something.
+
+Speaker 4:
+Cool stuff.
+
+Joe Martin:
+That kind of leads me to a question is, are you packaging any sort of second-stage boot loader with Nerves?
+As I understand this right, the infrastructure is there is a Buildroot, and that's sort of a core of it. There's tooling to make that compatible with Elixir-Erlang runtime.
+
+Frank Hunleth:
+Right. This depends on the platform. We use Buildroot. The main function of Buildroot is to build the Linux kernel in the good way.
+The second function is it's also builds the boot loader like on a BeagleBone style board.
+When you use Nerves to build for a BeagleBone, it comes with both the Linux kernel and a U-Boot that's compatible.
+When you initialize that micro SD card or the eMMC the first time with the BeagleBone, U-Boot gets applied on upgrades.
+U-Boot totally doesn't get applied, just the Linux kernel in the root file system. It just depends.
+I guess I should add. Buildroot's also used for any really important libraries that you need. We also ship like a trimmed down BusyBox, because there's some things that are just way too convenient to have.
+
+Joe Martin:
+Yeah. Really, the boot loader situation is you ship something with that, but I imagine this entire... It's more of like, from a usability perspective, if I had to dive in in that situation of, "I want to customize some strange U-Boot variable and I want to do something," how do I actually get to the behind-the-scenes configuration that Nerves is using? Is it closed off for me in development or can I just get in there and mess with it?
+
+Frank Hunleth:
+Okay. There are two worlds that you live in. One's the Elixir world, and that's a happy place that we want you to stay.
+When you're in the Elixir world and you're just building, you totally don't compile any of the Linux kernel or any of that because you download the support for whatever board you are running on. It's precompiled. That's the one world.
+When you want to switch to the other world, you're going to have to because there's always going to be something, that's a different project. We call them Nerves systems.
+There's Nerves System BBB for the BeagleBone. You go to that project, there's a way to build those. It is very, very, very similar to Buildroot.
+It will be very familiar if you use Buildroot. It'll be different at the start, but then once you see the configuration file that we have, it's basically the Buildroot configuration file with a couple extra packages to pull in some programs that we really need on Nerves.
+
+Joe Martin:
+That answered it. That's great. I have to admit it. You've gotten all my questions out. I'm still feeling really comfortable at this, to the point where I definitely know I'm going to download and play with it for sure. I got a Raspberry Pi [inaudible 00:35:19] over there.
+
+Frank Hunleth:
+Yeah. Let's go.
+
+Joe Martin:
+[inaudible 00:35:23] watch me try to program a lecture for the first time.
+
+Speaker 4:
+Just livestream it. We'll join you.
+
+Joe Martin:
+Oh, no. It's going to be great. Frank, what's exciting for you in Nerves? Is there anything that's hot right now?
+
+Frank Hunleth:
+Well, I mean, there's exciting for me, and then there's actually what's interesting to everyone else here.
+What's exciting to me right now is getting the whole 2.0 version out of Nerves Heart. Nerves Heart is the connector between the hardware watchdog and the Erlang health status.
+
+Frank Hunleth:
+And by extension your application status, or your application health. And so everything goes bad, supervision trees just can't deal, the whole system reboots. Anyway. There are a whole bunch of interesting little things that came up on that. And it's all told detailed stuff that comes from field experience with these super rare issues that we found that if you went in one path it could cause a hang that didn't get recovered for a really long time in the field. And of course that's bad, because if something really rare happens, rebooting as last resort is the fix or, well, it's the hopeful fix.
+
+Dan:
+Are we starting to see nerves on, well I don't know, maybe this isn't actually never been true, but I've always been under the impression that Raspberry Pi was the way to go, but I know that there's been some limitations on availability, since the Raspberry Pi has become so popular for industrial applications. Has that changed where you see most people starting from a development standpoint now?
+
+Frank Hunleth:
+Yeah. This is a total bummer, because Raspberry Pi was so accessible to literally everyone, that you could just go to the store and grab it. It wasn't necessarily a thing that people used in their projects at work, but certainly for jumping onto the project, that was easily the fastest way to go.
+Luckily a lot of people have Raspberry Pis in drawers, or their friends have them in drawers. So there's a lot of that going on. And there's swapping that goes on the nerves, Slack periodically, which is funny. But we keep on porting to other boards. I mean, it's not a huge lift, because we use Buildroot, and Buildroot supports a board. We have a lot of pieces already there. Usually it's just a matter of testing, and buttoning some things up. Especially with like the A/B updates. If you find BeagleBones, there's this RISC-V board that I totally love, because it works way better than I ever expected, and it's also RISC-V, so I think it's cool. Which is the MangoPi MQ Pro. It's a little pink board that looks like the Raspberry Pi Zero. That one, bunch of us have been using more, and people in the community. That one's a little bit available, Crisp.
+So there's another project, there was Erlang that's more from the Erlang community for embedded. So rather than Nerves leans on Elixir, even though it totally runs Erlang and all that, but this one leans Erlang, even though it can totally run the Elixir, which is Crisp. The Crisp boards are totally viable, purchasable off of the crisp.org and those run Nerves too. They run Crisp. So you can try both options for embedded or Elixir.
+
+Sundi Myint:
+So what are you using at trainings these days for you roll into a conference? I've seen that Bag.
+
+Frank Hunleth:
+The MangoPi.
+
+Dan:
+What?
+
+Frank Hunleth:
+The MangoPi.
+
+Sundi Myint:
+The Mango Pi. Okay.
+
+Frank Hunleth:
+The little RISC-V. We started the 64 bit RISC-V and oh, I just think it's cool. I was able to buy a bunch. So to be honest, we haven't been doing that many trainings because pandemic.
+
+Sundi Myint:
+Haven't you done two in person this year?
+
+Frank Hunleth:
+Just one.
+
+Sundi Myint:
+Oh, I'm sorry. I thought you did two. My bad.
+
+Frank Hunleth:
+No, no, that one didn't work out.
+
+Sundi Myint:
+Gotcha.
+
+Frank Hunleth:
+But I feel like I'm missing out. Dan, you asked what are the hot things going on? I told you the least interesting one to nearly probably 99% of your audience.
+
+Dan:
+I was enthralled. I was super interested. What would somebody not on this call think is interesting?
+
+Frank Hunleth:
+I think so, NX, the whole NX Axon stuff's all coming. So this is the machine learning part of Elixir that has gotten just an amazing amount of development done in the past. I don't know. I mean, it seems year, but I guess it's just been progressing a lot. There is starting to be more focused on bringing the NX, which is more mathematical components to Elixir to do some things that I never in a million years thought I'd ever be doing in Elixir. When these are running more like DSP style algorithms, audio processing, stuff like this, stuff that's like totally right off as being possible in Elixir last year.
+
+Joe Martin:
+In that same direction, I could just imagine there's a lot of these system on the chips with programmable FPGA specifically by Intel, Altera, Zylinx, and they have armed processors. And if you could hit that market, I could just see so much. I was wondering if you've looked at it.
+
+Frank Hunleth:
+So this is super early. This is the super, super, super early, which is why it's really exciting to me because there's a lot of Greenfield and if anyone wants to get into this, there's a lot there. And of course Jose Valley works on NX, so probably one of the smartest people on the planet you might get to collaborate with, which I think would be awesome in and of itself. So super excited to see where that goes.
+I guess I have to say this is not a Nerves thing, but I'm also excited about the other things going on in the early ecosystem on embedded, because I'm a strong believer that the more embedded stuff that Thelan VM gets put into, the better it helps all embedded projects and the whole ecosystem because more people will be like, oh yeah, yeah, early VM, totally capable of running on some device that is very important for either my factory runs some critical infrastructure or something like it's totally a safe thing to consider.
+And that's the CRI OS project has start becoming a lot more public. So this is another Elixir on Erlang, but that project doesn't use the Linux kernel. It uses a really special micro control kernel called SEL4 and Provably Secure, which is super interesting site about the Crisp project. That's another microkernel one which runs on RTIMS.
+So there are different flavors of solving the problem. So Nerves on Linux probably offers the lowest barrier to actually getting a lot of device drivers and other hardware and other C code just running just straight out the box. But these other projects have some very, very, very interesting potential applications.
+
+Sundi Myint:
+This is one of those things where I'm now realizing that we're very close to our hour and I'm just going to have to have you all over for dinner or something and just put a few pies on the table and they will be some baked pies and some MangoPis. I might have a Raspberry Pi too somewhere. I think Frankie sent me a few, right?
+
+Frank Hunleth:
+Yeah.
+
+Sundi Myint:
+Just have a Nerves party. Why not? Because I feel like this 50 minutes that we've been together is just only scratching the surface what you guys could do in a room. Frankie, I'm going to hand it to you real quick. Are there any particular places where people could get more information on you, on the projects you're working on, a few of these things that you wanted to shout out and plug?
+
+Frank Hunleth:
+My plug is all for Nerves Livebook. If you're new to the project, try that out. It's a kind of a Jupiter notebook style interface to playing around with hardware and getting started with a lot of Nerves libraries. I'm very excited about that project. So I would encourage anyone who might be a little apprehensive about embedded to try go there first. And even if you're big into embedded, it might be an interesting thing to see for sure because it really has a very interactive way of letting you experiment.
+
+Sundi Myint:
+Cool. Joe, any final plugs or asks to the audience or anywhere social media wise that you want people to find you?
+
+Joe Martin:
+No, I just want to thank all you guys for having me on here. Letting me having this discussion and really just that I could organically come into a place and just ask questions that are popping into my mind. And I got someone there on demand to answer it and you've sold me on a lot of it actually. I'm going to try it out here. So I'd say that the plugs you've already made are working.
+
+Sundi Myint:
+I feel like I'm so sorry to your weekend because I know you're just going to disappear into a hole and I feel like Dan might also disappear into a hole. I'm not going to see any of you for a long time, it feels like.
+
+Dan:
+Yeah, as usual with these kinds of things, I'm just like, oh, I've got a drawer full of things. I need to get them out and destroy my weekend.
+
+Sundi Myint:
+Yep, absolutely.
+
+Frank Hunleth:
+Yeah. Join us. Join us on the Elixir Lane Slack. Hang out on Nerves channel. There are a bunch people just doing exactly the same thing that you all might be falling into this.
+
+Dan:
+Yeah. And Joe, I mean I think that's one of the biggest plugs to this is the Elixir community. Friendly, accessible, and a lot of really great work that's going on that you can leverage, accomplish cool things.
+
+Sundi Myint:
+All right. So we're going to go check out Nerves, Nerves Livebook, and we're going to look at the Elixir Lane Slack. I think that's it. So that's today's episode of Elixir Wizards. Thank you again to our guests, Frank [inaudible 00:44:42] and Joe Martin for joining us. I'm Sundi Myint and my co-host is Dan Ivovich. Elixir Wizards is brought to you by Smart Logic with production support from Hangar Studios. Here at Smart Logic, we build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. Need a piece of custom software built, hit us up. Don't forget to like, subscribe and leave a review. Your reviews help us reach new listeners. You can find us on Twitter at Smart Logic or join the Elixir Wizards discord. The link is on the podcast page and see you next week for more on parsing the particulars.
+
