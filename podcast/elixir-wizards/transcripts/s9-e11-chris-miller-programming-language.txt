@@ -1,0 +1,282 @@
+Bilal Hankins:
+Hey, everyone. It's your favorite new co-host, Bilal Hankins here for a quick detour before we start the show. This spring, we'll bring our 10th season of Elixir Wizards, and we are so thankful to you all for tuning in each and every week. We would love to make the show even better for you so we created a short listener survey to get some feedback. If you could do us a quick favor and take two minutes to complete the survey, we promise to come back bigger and better in our 10th season. To take the survey, just click the link in our show notes for this episode or visit smr.tl/survey2022. Thank you for taking the time out of your busy schedules to help us understand how we can create an even better podcast for you. And now on with the show.
+
+Owen Bickford:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Owen Bickford, and I'll be your host. I'm joined today by my co-host, Dan Ivovich. How are you, Dan?
+
+Dan Ivovich:
+I'm doing well, Owen.
+
+Owen Bickford:
+Always. This season's theme is parsing the particulars, and today we're joined by our recurring special guest, Chris Miller from Corvus Insurance. We're diving into the particulars of crafting a programming language. How are you, Chris?
+
+Chris Miller :
+I'm doing well. Great to be here.
+
+Owen Bickford:
+Awesome. Glad to have you back. I was just checking the podcast page. I saw that you were previously on the podcast May of 2021, so just over a year ago, year and a half almost. Curious, of course, we can link back to that episode, but if you want to give us a refresher on who is Chris Miller, where you come from, where you're at.
+
+Chris Miller :
+Yeah, sure. I'm originally from Baltimore, so Baltimore's very close to my heart. I got my degree in mathematics. Minor in Chinese. I'm really passionate about teaching math and computer science related topics for a day job. I work at Corvus Insurance, which we use Elm and Elixir to build out the world class insurance platform. I guess Chris Miller in a nutshell.
+
+Owen Bickford:
+Right. Awesome. And so you mentioned Corvus. Is Corvus selling its own insurance or is it a platform that sells multiple insurance options?
+
+Chris Miller :
+We're MGA, so we sell insurance on behalf of multiple risk class partners. But we primarily work with cyber insurance and technology areas and emissions.
+
+Owen Bickford:
+Awesome. It's that time of year. Open enrollment. I'm sure insurance is on the top of just about everybody's mind if you're in a place to be insured. Awesome. The topic today is crafting programming languages. I hear you have some thoughts. To get started, what excites you about the internals of a programming language?
+
+Chris Miller :
+I think for me, it's not necessarily programming languages per se, but it's just more about languages in general. I study Chinese, German, Spanish, Hebrew, C, C++ Haskell, you name it. I've probably looked at it. APL. It's really just the whole idea that when you learn a new language, you're learning a new way of thinking, and I'm just fascinated with new ways of looking at the world and new ways of thinking.
+
+Owen Bickford:
+That's really neat. I wonder with your background in math, doesn't that feel in conflict? I don't think there's a whole lot of new math, right?
+
+Chris Miller :
+There's math coming out every day. There's tons of new math. I'd say that mathematics is actually a language in itself, and I call it the language of abstraction, the universal language. Learning new areas of mathematics really is just like learning new languages. When you look at linear algebra, you're talking about vector spaces and linear transformations, but then you can take those same type of concepts and apply them to other areas like group theory. You're talking about groups and then group transformations [inaudible 00:04:19]. It's just like Math Con is very synonymous with this whole language oriented idea.
+
+Owen Bickford:
+Yeah, I can really relate to that in some degrees. I remember distinctly the moment when I realized I could start learning computer languages and not foreign languages and quickly put all of my energy into computer languages and not foreign languages. But then I also have a distinct memory in college toward nearing the end when I finally had seemed to have taken enough classes to make a lot of things that I'd struggled with prior click and just all fall into place. I think that understanding of how things work, at least a little below the surface, is really helpful anytime you're learning something new to have that deeper context.
+
+Chris Miller :
+Yeah, absolutely.
+
+Dan Ivovich:
+How far back did these interests go? Were you studying Chinese in grade school or algebra stuff back then? Or what's the progression here?
+
+Chris Miller :
+I guess the language progression, I started with Spanish and Hebrew and Greek. That was back in middle and high school. My dad taught me C++ when I was six or seven, but I wasn't as gung-ho on programming at that time. I didn't really see it in that way. But my curiosity for just exploring other cultures and other modes of thinking and ways of thinking has been there since I was very young.
+
+Owen Bickford:
+Awesome. I'm curious. As we're thinking about programming languages, if let's say you're a coder, could be a new coder or someone who's maybe mid or even senior and you're not writing a programming language yourself, what's interesting about how languages are crafted in the first place, either specifically with programming languages or spoken languages?
+
+Chris Miller :
+I think inherently language is about communicating ideas and communicating ideas is abstraction essentially. When you think about what a programming language is it's a general abstraction over computation and computation built for some machine. Usually assembly or something of that nature. I'm not a hardware guy, so I'm not going to get into the details of that, but we're abstracting over binary bits when we're thinking about programing languages at a high level. For your everyday engineer, we use generic programing languages to build other things like web applications. That's what I'm familiar with. Essentially, we're building out web applications and we could think in requests and responses, but what ends up happening is we want to abstract over that a little bit. We have the bits and the bites of the web domain, right? We end up actually building out this language that abstracts over the plumbing for request and response handling. I would say that everyone's building a language, it's just only certain people are actively talking about it.
+
+Owen Bickford:
+Interesting. That's a good refresher to the concept of domain specific language. I remember that was a big thing in early Ruby days for me. It doesn't come up a whole lot anymore. I think in some regards, people have seen themselves paint themselves in the corners by coming up with a language that then they have to maintain because every abstraction comes with a maintenance cost. But the layered approach is really interesting in thinking about it from abstracting all the way down to assembly or to the actual binary commands, the instruction set codes that are running on our processor.
+Of course, this abstraction goes in the other direction too. We spend a lot of... A lot of computer hardware is designed to deal with the weird abstractions we come up with in order to make processes go fast. We do all sorts of things for branch prediction and hyperthreading and all these things to deal with the fact that our abstractions are not perfect and there's some clunkyness that goes with that. Of course, and compilers deal with that a lot too. Unfurling loops and all sorts of things to make what our abstractions come up with go even faster. It's really interesting.
+
+Dan Ivovich:
+I'm curious. Has anyone here ever written some raw assembly code?
+
+Chris Miller :
+I have. I've done it one time for a class, but not outside of that.
+
+Owen Bickford:
+Yeah, in an academic setting.
+
+Dan Ivovich:
+I've not done it. Okay. I've heard it described. I've not ever heard that and said, "You know what? Today I write assembly code." It just hasn't happened for me yet. Maybe never will.
+
+Owen Bickford:
+Well, and I think to Chris's point about understanding the abstractions and what you're trying to communicate, there is value in at least academically looking at what that looks like, how it has to work. It gives you an appreciation for the abstractions you have above it and helps you understand a little bit more as to why things are the way they are. Because everything is built on the layer below and has to deal with some of those decisions.
+
+Chris Miller :
+I think that's a really good point, especially nowadays. Working at a cyber insurance company thinking about security all the time is always on my forefront. When you layer all these abstractions on top of each other, sometimes there's a hole through those abstractions that becomes a security vulnerability.
+
+Owen Bickford:
+Yeah, like if you decide to copy a string and not say how long you expect it to be. The classic example.
+
+Dan Ivovich:
+Speaking of DSLs or domain specific language, is that a part of the work you're doing at Corvus, crafting a DSL for the specific problems you're working with in that domain?
+
+Chris Miller :
+Oh, yeah. You can ask anyone of my coworkers. "What's Chris always talking about? We've got to build some DSLs, man for the insurance. Let's talk about what a core request is and stuff like that." Language-oriented programming is something I'm very much so interested in. You think about the different approaches. You hear a lot about top-down programming, bottom-up programming. Top-down programming is really difficult because you have to have an expert there that knows the space fairly well and everything involved for you to come up with a system and go down. Bottom-up is difficult for different reason. You're coming from a set of utilities and trying to just slowly build up a system over time. But then you have this other thing, which I recently found out was
+
+Chris Miller :
+... of mythology in this stack, middle-out programming. You start in the middle, you capture something about your domain space, and you build a DSL, you build your application on top of that DSL, and then you implement that DSL using your utility. It allows for ultimate flexibility in any software project you're building. It's like, "Oh, you need this new concept? Add it to your DSL." Really work on your DSL first before you build your application. Kind of goes back to the building library mythology that people have, but it takes that a step further.
+
+Dan Ivovich:
+Now, in Elixir land, when I hear DSL, I think from talks that I've watched over the years, the first thing that comes to mind is macros and Phoenix, that kind of thing. But I'm also thinking of some recent project work I've done building an application in the middle of two different systems and trying to connect them together. So I'm wondering if that is in the realm of the middle-out approach. Does that sound right to you, Dan, based on what you know about the client project?
+
+Owen Bickford:
+Yeah, I think you could interpret it that way, and the middle can be wherever you put it to some degree. I think there's the classic example of, what are all the nouns in my system? What are the events that go between them? Your typical domain-driven type of assessments. I think one of the things that really, that I caught onto with Phoenix and Ecto specifically was the change sets and contexts. And it does give you that boundary to say, "These are the important nouns I care about, and I'm going to define an interface on how I want to interact with those." And then you do separate your presentation, whatever that may be, and it could be many different presentations, from the actual implementation, be that flat file storage, some sort of repository, something over an HTTP connection. And so you get that, that is a level of abstraction that we put even just within its own app. It doesn't have to be at an even larger scope, although it often is.
+
+Dan Ivovich:
+Yeah. So I think the example I'm thinking about is a behavior that I've defined for a particular type of work that needs to be done. So it lists a bunch of callbacks, some of them more optional, provides some ... It does have a using macro and that kind of thing. So is that similar to how you're defining, if you're writing this in Elixir, is that similar how you're defining DSLs at Corvus? Is there something more specific you're able to dig into there, or without spilling the beans?
+
+Chris Miller :
+Yeah, no, I think Dan's example of Ecto, for instance, is a perfect example of this middle-out programming where you start with your nouns and your relationships between those things and really focus on that without worrying about the underlying details. I don't necessarily ... There's no beans to spill, necessarily, I just don't want to spend here talking about insurance.
+
+Owen Bickford:
+Sure, sure, sure.
+
+Dan Ivovich:
+Oh man.
+
+Owen Bickford:
+Fair enough. Fair enough. Well, and it does make me think, too, when you do learn other languages, whether that's a programming language or a spoken language, you often do start with, what are the keywords? What are the nouns? What are the things I need to communicate about what's around me? Because, like you said, Chris, the whole point is an abstraction to convey meaning to somebody. And often the "What is this thing?" is the most important part of that communication. And the adjectives around it, those are often less important to convey the meaning behind something. It adds nuance and is important, but it can be a secondary step. And what it is and what you can do to it, what is acceptable, is probably the first thing that you really need to worry about in most cases.
+
+Chris Miller :
+Yeah, absolutely. Yeah, I was just reading a paper from some company, I can't ... I'll link it later here, but they were just talking about language-oriented programming, or middle-out programming. This was first coined middle-out programming, but they have hence turned it into language-oriented programming, so you read a lot about this in the racket space, but using macros or DSLs to essentially build out your applications, and it's just fascinating way of thinking about software. And then when you relate that back to actual natural language and going into user research, how do you build software?
+Software doesn't happen in a vacuum with the engineers. It's like you have to talk to the people that actually use it or need it, and you have to use their language. And oftentimes when you want to build new features, you have to figure out, okay, what is that concept in my general programming language? So you're doing this translation and it makes coding anything very difficult. Because it's like, I need to constantly translate from what this person's domain is to my code. And then if you leave, well maybe your translation wasn't necessarily how the next engineer would translate it. So there's like this, I don't want to know what you call that, this friction that happens, but you just-
+
+Owen Bickford:
+Oh, it's definitely friction.
+
+Chris Miller :
+... take the time to build a language, a shared meaning that is as close as possible to the domain. Well, your next engineer doesn't really have to think about how to translate because you've already done that.
+
+Owen Bickford:
+Well, and I think that's an important point, too, and it's a conversation I have with clients pretty often around, "Oh, we want to change this label on this page." And it's like, "Okay. Yes, changing that label is trivial, but it is in your benefit for us to change that everywhere, all down the stack, so that if we're going to change what that noun is, it's changed everywhere." Because otherwise in six months, and that's optimistic, someone's going to come and look at it and be like, "I don't understand why these are different." And that, like you said, that meaning, that language, that reason, that translation will be gone potentially, or forgotten, and now you're in for a world of lack of understanding, which leads to errors and mistakes and regressions and a whole bunch of bad, bad news.
+
+Dan Ivovich:
+All of this talk of nouns and domains, it's just reminding me of domain-driven design and how I've taken some confusing projects, where the requirements aren't really clear, and started to ask questions about the domain and applying those terms to the way that we name our modules and functions so that it might even make sense ... The code might even make sense to a non-programmer from that company. So yeah, that's a very useful way of thinking through problems. And I think there's a lot of overlap between these concepts of domain-driven design and middle-out, and language-based design as well.
+Well, I'm curious, have you attempted to write your own programming language?
+
+Chris Miller :
+Yeah, so I had to do it as an exam for a class, and that was a subset of OCaml compiler. And then I started getting curious about what I could do outside of the traditional means. I'm really passionate about teaching other people how to code, and I wanted to explore, how could I build an educational language? This is still very much so in the first couple of commits or so, so this is highly experimental. But essentially I wanted a language that would ask the user questions to get answers about the types and the relationships between those types, and it would write the program for the user. And then actually the user can go back through and look at what questions correlate to what code, essentially becoming this teaching language based on inquiry.
+Because when I'm writing a piece of code, or when I'm thinking about writing some software, it goes back to, what the heck is this thing? What is this language? And it's always a series of questions like, "Oh, what are your main things involved? How are they involved with each other? Are there numbers involved? What calculations are there?" And I'm still working on this as I'm talking about it, but it's building this inquiry tree, and then that inquiry tree can be transformed into a program tree with answers.
+
+Owen Bickford:
+Something that I'm observing about you, Chris, is just your passion for asking questions and figuring out what's going on. And I think it's such an important skill in well in life, but particularly in this industry, is the ability to ask good questions. And we say, "Ask good questions," and I think sometimes we because intimidation by saying that because most questions are good questions, probably all questions are good questions. Especially when you're trying to decompose a problem that you must get to shared understanding on. And I think anything that we can do to encourage everyone we're working with to ask questions is important.
+And I really like your approach to making the questions be more about the abstraction than about the implementation, or the technology, or the language, or the whatever. It is really drawing that boundary and saying, "Let's talk about the domain." And I'm curious, when you are breaking down a domain with a team or whomever you're working with, do you have any tips or pitfalls that you've seen when sometimes engineers will start to be like, "Oh, well that sounds like this table, or this database, or this thing," which is really, I would argue, then starting to break your abstraction. Because now you're talking about a specific thing and not the domain that you're trying to build around. Have you seen that? Do you have tips around staying within a boundary?
+
+Chris Miller :
+Where other engineers go towards implementation, I go the other way, which is a separate problem. I go like, "Wait, what is this really? What concept is this? How can we abstract this?" I'm like, "Can we build the thing that builds the thing that builds the thing?" before I'm ever thinking about actually building the thing, and it's a problem. So when I'm talking to users, and we're talking about something very specific, like they're trying to ... I'm not trying to talk about insurance. Let's say we're-
+
+Owen Bickford:
+Speak to what you know, Chris. It's all good.
+
+Chris Miller :
+No, I really don't want to talk about insurance. Let's say we're talking tic-tac-toe, right? So tic-tac-toe is simple.
+
+Owen Bickford:
+Sure.
+
+Chris Miller :
+You're a user, you're trying to place these objects on this grid. You want to play tic-tac-toe, it's very simple. Now we could just say, "All right, we spin up a grid that's a three by three thing," and be done with it. But that's not the way I solve problems. That's not the way I tackle these things. I'm like, "
+
+Chris Miller :
+Well, how do you want to place things on this grid? Do we even need a grid? What's a grid? I'm always asking what things are. If I'm not sure of what someone is saying, I'm asking almost immediately, even if I already asked that question before, which is insane to some people. It's like I have to be sure I know what it is what you're talking about, so I have to ask the follow-up questions.
+I think that's the biggest thing. It's like if you have any inkling that you don't know what something is, you need to ask. If something else is brought up and you're asking about that thing, you need to ask what that other thing is. You have to take your trails all the way down and you have to do this within reason, which is why I'm saying I go way too far on this side of things. Because you can't abstract everything, or maybe you can.
+
+Owen Bickford:
+Well, I think it's something I was thinking when you were saying that there too is I think some of the really strong engineers that I've worked with, and Owen included, always take the time to restate their understanding of what they've been told in slightly different words. Because that's a really good way to expose something leaky in your abstraction.
+If you say, well, okay, what I heard is, or what I understand this to be is this thing in as much different words as you can without continuing to confuse the taxonomy, but explain it again in some different way to make sure that we all agree that either way we're talking about the same thing.
+I think it is related to what you're saying. I don't know that I've ever worked with anyone who had the problem where they go so far into the why, but I do like the philosophical part of what is a grid? I think that one might stick with me for a little bit after this call.
+
+Dan Ivovich:
+What is a grid, Dan?
+
+Owen Bickford:
+It's a nested array.
+
+Chris Miller :
+Is it? Maybe.
+
+Owen Bickford:
+Could be.
+
+Dan Ivovich:
+Could be a map.
+
+Chris Miller :
+Could be a function.
+
+Owen Bickford:
+It could be.
+
+Dan Ivovich:
+To your point, Dan, I think that's a skill I picked up during my days in customer service of... I was doing technical support, so a lot of times I'd have someone, it's very different from a client call. You'll get through this meandering explanation of what's happening. It's a big word problem where some of this is relevant, some of it is not.
+At the end of that, sometimes it's venting, sometimes it's just exasperation or whatever it is. You need to restate what you're hearing in order to make sure that you're on the same page before you get started trying to actually solve the problem. Because a lot of times if you say, all right, I got this, without checking yourself, you might wreck yourself.
+You might go in trying to solve the wrong thing and then wasting, if you're on a call with a customer, could be half an hour or more and that's bad. Or if you're an engineer, this could be very expensive because you might spend days or weeks working on the wrong problem. This is something I'll recap not only at the end of the call, but throughout and also keep asking why?
+The why is one that I try to ask more than I used to because I find that very useful as well. Are we sure we really need to do this? Why is this really a problem for you? Because that will uncover some additional problems that weren't quite part of the initial scope.
+
+Chris Miller :
+I guess another tip. Contextual inquiry is something that I do a lot. I watch the users use the software and I'll ask them, why you do that? One thing I've noticed with other engineers is where they'll look at the behavior that is happening in the software but not really question what the intended effect is.
+Forget about what the software is doing, forget about what I've built for you. What is it that you're actually trying to do? If there wasn't a computer system that represented this model, how would you do it? Pencil and paper. You can catch a lot of abstraction leaks that way. Just talk to me like I'm five. Walk me through the steps and don't skip anything and bring it all back to pen and paper, whatever process it is you're trying to map.
+Doing it that way, you really do start figuring out why people are doing certain actions in your software, but also why people are doing certain things in general.
+
+Owen Bickford:
+I think we like to throw around the terms business logic and business value and what's the use case. It's a lot of ways of skirting around what you're saying, which is, hey, can I just sit with you and understand what it is that you do so that I can build something that adds value to that, rather than influence the same process in a probably worse way that you're going to be frustrated about.
+It's an easy misstep to take when you're building software and I think our processes have to support figuring out those details.
+I feel a little obligated to pull us back to Elixir at least for a second here and just say you've experienced a lot of different languages from spoken programming and abstraction. I'm just curious, what do you think in particular has influenced... Or what about how you write Elixir maybe is most influenced by your exposure to all these languages? Do you think you do Elixir in a different way because of all this experience?
+
+Chris Miller :
+I think the time I spent looking at how Haskell and that community built out software has really re-solidified those functional, those core functional principles that Elixir sits on top of. When I'm writing Elixir code, I'm not thinking about how can I write libraries to do the things I'm actually trying to do first? That's taken me miles I would say.
+I also say the time I've touched Lisp and thinking about Lisp and macros and DSLs has allowed me to see Elixir as a Lisp. I remember when I was interviewing Jose on code Nextdoor and the YouTube channel and he was saying, I got a lot of inspiration from Lisp. I did not see it at the time. I was like, I don't know what he's talking about. But now I do. It's just like the heavy macro influence, the meta programming. It really just allows you to go.
+The time I spent in the Python world. I found Python, the tooling. If I want to get a web app up fast, I can do that with Django and Flask, but Elixir also has that Python feel to it. I can just spin up a project super quick and it doesn't make me think.
+
+Owen Bickford:
+I think that says something to the value of these tools that get out of your way. I think for a lot of people, or at least for me, when I first saw Ruby, it was like, okay, I understand these words. I understand how they get put together. Running a very basic Ruby script was trivial compared to some other things that were harder to just get started on.
+I think Elixir has exposed the power of the airline VM to people who were just like, well, that's hard to get started on, so here's a gateway, an on-ramp to this world of now look at the power you have access to because we have made that initial abstraction more approachable.
+
+Dan Ivovich:
+I think tying this all this back together, I think, so in Elixir Land we are fortunate, we've got maybe it's a benevolent leader, but we have a very great community as well of people contributing to the language. I'm just thinking, what if you were to take that college project and try to get to v1?
+Are there lessons you've learned from Elixir and from learning multiple different programming and spoken languages and asking questions and recapping problems, how would you try to get that project to its version one if you wanted to deploy a new programming language?
+
+Chris Miller :
+Wow, that's a question. Let's see.
+
+Dan Ivovich:
+Too much question.
+
+Chris Miller :
+No, I think it's a good question though. I would need to first define who it is I was building the language for, and I think of all the things I've been thinking about learning, it's starting with that. The most important thing about the code is before you write any code at all, it's who are you building the code for?
+I think about that audience and it would probably be beginners to programming and thinking about that audience. Beginners to programming probably would like to see something visual, interactive, immediately. That kind of defines the scope of what types of programs I want to transform into. That tells me that maybe my target.
+When I'm building a language, I'm compiling to something, so I'm not going to compile to a similar byte code. I'm probably going to compile to JavaScript so I can use web apps to quickly show people things. I'm going to use web apps because everyone has a browser and can use that.
+Thinking about who I'm building this for, it already tells me a lot about what I'm building. Now that I know what I'm building, taking those principles of trying to break things down. I know I have something that needs to ask a series of questions and I need those series of questions to be transformed into JavaScript somehow.
+I can go further with this, but that's sort of the outline there. I'm thinking maybe I need some idea of what a node would be in this programing language. Most program languages are based in tree structures, so I maybe need to think about how do you combine questions with their answers together to get to some type of greater structure there.
+I need to figure out what my means of abstraction are, and my question answer based language. I need to figure out what my means of application is in this question based language, and then I need to figure out how to translate that to JavaScript.
+
+Dan Ivovich:
+Let's say you've reached beta status or maybe v1 and you've got this programming language that can ask a question and produce some JavaScript code and the wild community comes forward and says, hey, we think you should add, I don't know. I'm trying to think of an absurd feature that I can say that won't like start a flame war.
+
+Chris Miller :
+[inaudible 00:32:54] notebook.
+
+Dan Ivovich:
+Some abstract thing that's outside of the scope of what your language is trying
+
+Dan Ivovich:
+To do maybe CSS or something. How do you respond to that? Is that something you kind of swat away or how do you address that kind of thing as you're crafting your programming language?
+
+Chris Miller :
+I guess I haven't really considered how to deal with what the community would want for said language versus what I would want for a language. I think that's a really hard question to think about. I think other language creators, I'm thinking about Evan Czaplicki, the creator of Elm, he kind of has been touted as this dictator that doesn't allow these extra features that everybody needs or wants for the language. And he's like, "Well, those features would make the language more complex, and I'm trying to build something very simple for beginners," and there's this tension between his vision and people using it.
+And I don't necessarily know how to navigate that space. I think I would go about it in the way where I would encourage maybe the open source approach, be like if you all want said feature to this language, maybe I would chart out a path for it on how to add that. But I would be like, "You can fork the project, but if it falls outside the concerns of sort of my focus and my user base of my ideal user, then I would probably have to maybe do something similar to what Evan does." That's a good question. I haven't thought about that at all.
+
+Dan Ivovich:
+I think we run into similar problems. Say you've defined a behavior and someone wants to do some very specific thing, like they want to add another callback that does something a little bit granular than what you think the behavior should actually do. I think that's the point where you start asking questions, you're asking the why, trying to recap the problem that's being expressed and say, "All right, maybe this is already solved with the callbacks we have here. Or maybe we do add it, or maybe it's a separate concern, a separate behavior, or something." I would imagine that would work similarly in the context of a programming language or any application that you're kind of building.
+
+Chris Miller :
+Yeah, I guess now thinking about Elixir, Jose kind of handles most of these type of requests because he's given the language users the same capabilities as the language implementers with macros. So most things can just be like, "Well, yeah, sure. Macro." I was at ElixirCon and we were talking about, "Hey, how can we add types into Elixir?" and I just remembered there's this racket paper that it uses Macros to add in a type system. It's called Turnstile. And I was like, "Wait, I can do that in Elixir." So I dumped the kernel out of Elixir and just started building up my own version of death that was typed and took colons for types and everything. And I abandoned said project when I found out that someone else built out a much further long version of it. I believe Quinn is their name, but that was really cool. I was just like, "I don't need to ask Jose to add in types. I can add in types myself."
+
+Dan Ivovich:
+Right. I remember seeing some of that work on Twitter and going to have to do some Googling on Turnstile 'cause types of Turnstiles turns up different types of Turnstile results in Google. Oh, [inaudible 00:36:27].
+
+Chris Miller :
+[inaudible 00:36:27] the paper's called...
+
+Owen Bickford:
+Yeah, naming things is hard.
+
+Chris Miller :
+Type Systems as Macros, Turnstile. And then they have a follow-up paper Type Systems as Macros using dependent types though, dependent types using macros. So you can really do some wild things with just macros.
+
+Owen Bickford:
+I think that's one of the great things here about working on things that are being developed in the open that you have access to all of it is that you can push and you can see and you can poke, and if you are the curious mind that was working on these things, there's really no end to how far into the particulars you can go, which is one of the things that I think has been exciting about this season and these conversations to really go below the surface of what it is we're working on. Something I did want to add to the conversation we were just talking about was this concept of the expansion of an abstraction. And I think in a way it kind of relates to the idea of taking on tech debt. And I was having a conversation the other day in that vein about how anything you write, eventually you're going to get to a point where it's not enough and you have to modify it or expand it or change it in some way.
+And then an interesting kind of corollary to that is like, "Hey, can we just create some tech credit? Is there something that we can do to write it now, define the abstraction so well now that we can at least put off some of that a little bit further?" And I think that's an interesting way to think about it. It's an interesting challenge to have when you're doing your abstraction of how much can I futureproof this? But I also know that it's a dangerous slope to head down because if you plan for the future too much, often your product doesn't get far enough to even get to experience it.
+
+Chris Miller :
+So very interesting thoughts along those lines. As Sussman recently, he's like the author of SICP, he came out with another book and he's talking about software design for flexibility, and he talks about the idea of building out DSLs actually allows for that flexibility you're kind of describing. And there's this other thing in compiler construction where people actually start off, they're like, "Oh, we need to build up this giant compiler." Someone got an idea of instead of building up this giant compiler that essentially does a bunch of different things, they can actually build out very, very small compilers that connect to each other. So you actually have languages that end up passing up through languages that do very small transformations. Now, Sussman and his software design for flexibility, he kind of takes a similar approach was like, "Well, if you start with a DSL, and then you realize you need to expand said DSL, just write another DSL."
+
+Dan Ivovich:
+And another kind of point that I was thinking about just as all these kind of thoughts are kind of bubbling together is I've learned some lessons from Elixir that when I work in other languages, I find it a little bit frustrating that they don't have the same kind of discipline, I think. So Elixir being a functional programming language, and I would say a modern one it's only just crossed its 10-year anniversary, it tends to be more consistent than some we'll call older or legacy languages. So and then just the example that comes to mind is order of arguments. So because Elixir allows you to pipe functions together, a lot of times within a module you'll try to get your kind of primary argument or your first argument should be consistent across that module's function so that they can be piped together. The enumming module is the greatest example of this. They'd always accept some form of innumerable and then accept maybe an extra argument or two and then some options at the end or maybe a function at the end.
+So that type of attention to design and ease of use for the end user. And when you think about who's this language going to be for, is this for someone learning languages for the first time or someone who's working on a day-to-day basis? I think those kind of considerations can make a huge, huge impact.
+
+Owen Bickford:
+Know your audience, ask a lot of questions, know your audience better, define your abstraction. I love it. Just do those, everyone's going to be such a better programmer for having listened to this conversation.
+
+Dan Ivovich:
+And if you need to say no, either say it gently or say, not right now. That's how you keep things from getting out of control sometimes. Like, maybe later. Cool. So I think we've covered a lot of ground here. I think I found the link to the Turnstile. I don't know if I call this a white paper, blog entry. I found a link to the Turnstile stuff, so we'll have that in our show notes. And as we're wrapping up here, do you have any final plugs, side projects you want to get attention on or hiring or anything else you want to mention here at the end?
+
+Chris Miller :
+I can't think of anything right now. I started blogging at blackoiler.com. The site is still in the works, but that's about it. I guess I talk about some of these ideas there, middle-out programming, language-oriented programming, macros, DSLs.
+
+Dan Ivovich:
+All right, so we've got some reading homework, Elixir Wizards audience. All right, so we're going to hit up that website and be reading those articles. It's been so fun talking to you today about crafting programming languages, DSLs, abstractions, math even. So that's it for today's episode of the Elixir Wizards Podcast. Thanks to our guest, Chris Miller for joining us. I'm Owen Bickford and my co-host is Dan Ivovich. Elixir Wizards is brought to you by SmartLogic with production support from Hangar Studios. Here at SmartLogic, we build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. If you need a piece of custom software built, hit us up. Don't forget to like, subscribe, and leave a review. Those reviews help us reach new listeners. So you can find us on Twitter at SmartLogic or join the Elixir Wizards Discord. We'll have the link in the podcast page. We will see you next time for more on Parsing the Particulars.
+
