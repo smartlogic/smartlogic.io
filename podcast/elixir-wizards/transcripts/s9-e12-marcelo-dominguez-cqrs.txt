@@ -1,0 +1,308 @@
+Bilal:
+Hey everyone, it's your favorite new co-host, Beau Hankins here For a quick detour before we start the show. This spring will bring our 10th season of Elixir Wizards and we are so thankful to you all for tuning in each and every week. We would love to make the show even better for you, so we created a short listener survey to get some feedback.
+If you could do us a quick favor and take two minutes to complete the survey, we promise to come back bigger and better in our 10th season. To take the survey, just click the link in our show notes for this episode, or visit smr.tl/survey2022. Thank you for taking the time out of your busy schedules to help us understand how we can create an even better podcast for you. And now, on with the show.
+
+Owen:
+Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop based in Baltimore. My name is Owen Bickford and I'll be your host. Today I'm joined by my co-host, Sundi Myint. How are you, Sundi?
+
+Sundi:
+Good, how are you?
+
+Owen:
+Doing awesome. This season theme is parsing the particulars and today we're joined by our special guest, Marcelo Dominguez from Mimiquate. We'll be diving into the particulars of CQRS. How are you, Marcelo?
+
+Marcelo:
+Hi, Owen. Hi, Sundi. Thanks for having me here and I'm glad to join this podcast.
+
+Owen:
+Awesome.
+
+Sundi:
+Yeah, we're super excited to have you. I think we have this conversation about wanting to have you on at ElixirConf 2022 and I think we just like loosely talked about a subject and I did not personally think about the subject itself until this week. So here we are, we're about to dive in. But as of today, the day we're recording, it's also December 1st. And for every developer out there knows that that means we're in advent of code. And so I just wanted to ask you, are you doing advent of code this year? I saw you post something about it earlier. What's going on?
+
+Marcelo:
+Yeah, I'm really into the advent of code. I think it's that moment of the year when you can get some snippet of code and solve those problems twice a day and you can put some ugly code and make it work and do some chess and refactor it and forget about it. So yeah, last year I was doing just a small, I did an Elixir and I was doing it just a small mix project and this year I was going it all the way in Livebook. I ended up putting a template this morning and showed it to a friend and he was like, "Why don't you post it?" And that's how I ended up fitting it. So yeah, looking forward for [inaudible 00:02:33] 25.
+
+Sundi:
+And what was the gist that you posted? It wasn't like the solution, right? It was just like outline or something?
+
+Marcelo:
+No, yeah, it's not the solution. I have it on a private repo. What I posted is just sort of a template. One you can actually face the input that you get, but also you can usually face the default in the example input when you read the letter and then you can run a test with the answers of the letter and then when you put your input in a different file, it will read from there and you have another test that it will pay out. But hopefully that's the right answer. So you submit that and if it were, you have the two tests, one of the example input and one with the actual input that is your input.
+
+Sundi:
+Oh, and did you get a chance to look at today's advent of code?
+
+Owen:
+I took maybe five minutes. I spent more time because I've never actually looked at advent of a code, so I read a little bit of the about page and clicked around a little bit. But no, I had too many meetings today.
+
+Sundi:
+Gotcha. I was personally offended by the concepts that elves have or count calories in any capacity. I just think that they can, you know, like the Christmas movie Elf just lives and breathes Christmas cookies and so I was just like, no. Why are they counting calories? I hate this.
+
+Owen:
+Right. Keto has gotten all the way to the North Pole.
+
+Sundi:
+Oh no. No, no, no.
+
+Owen:
+Santa Claus is going to be a skinny guy next year.
+
+Sundi:
+May or may not be the plot of a Christmas movie that is being released this year.
+
+Owen:
+Oh really?
+
+Sundi:
+Yeah. Or a show. I won't give it away. But Marcelo, I did really appreciate that you posted about that. I actually looked at the Slack, Elixir Slack earlier today to see if anyone was posting about advent of code. And not only did someone post about advent of code, it was you, who I was talking to later today. So I was like, oh, this is great. How fortuitous.
+
+Marcelo:
+That's awesome. Yeah, I didn't expect to get into the Elixir channel, but yeah, more people will see it. My idea is to, at least was to, if someone wants to get in, they are like one click away of getting in. That's sometimes you want to do it an Elixir, but you have to create a new file and you know how to tend to run in how to read the input. It is kind of like a boiler plate for someone that wants to try it.
+
+Sundi:
+Yeah, and for somebody who does want to try it, you said it was a Livebook. So can you walk us through how that works? Like, if somebody lands on your gist.github.com link, how do they use it?
+
+Marcelo:
+Yeah, it's a good question. So you go to Livebook website and you can download the binary or you can even deploy like to fly.io in one click. And then there is a way of importing a Livebook. And I think that if you just copy- paste my link, you will have out-of-box like the day one and then you can copy-paste and be creating day two, day three moving forward.
+
+Sundi:
+Oh, cool. And is there a local option where you can just clone the repo down or something like that? Or is it not really repo?
+
+Marcelo:
+The gist is just a gist, so it's just like a markdown that you can point it at and Livebook will do it, and Livebook, yeah, you can run it locally if you prefer that. You can run it locally, you can load a pre-binary on application or you can deploy it to apply in one click.
+
+Sundi:
+Cool. Well yeah, I'm excited to check that out. Thank you for doing that.
+
+Marcelo:
+[inaudible 00:05:44]
+
+Owen:
+So yeah, I think by the time this episode comes out, there'll be a few more days of advent of code.
+
+Sundi:
+There might be all the days of advent of code, honestly.
+
+Owen:
+So it goes through the 25th and I think this is really seeing just before that so you can still access the site and of course the gist will be on GitHub. I'm also curious, recently you were a big part of ElixirConf Uruguay, just wanted to kind of get a recap or like how that went.
+
+Marcelo:
+Yeah, we had the ElixirConf Uruguay conference here. It was great. I don't know exactly how many people attended that. I think it was around like between 70 and 100, which for UY that is like a small country. It's kind of a huge event. And yeah, it was one, two days, Fridays there were some workshops and Saturday it was a conference day. Only one track, I think it was eight talks and it went pretty good. It's great to build community here. We have the elixir meetups once every, now it's been a while since we're doing one, but we have the Elixir meetups and I don't know how do you feel this, but my feelings is like before COVID there were a lot of meetup and conference and small conference. And during COVID of course everything was shut down, but after that starting the engines again, it's kind of taking time in some spaces. So this was kind of the first conference that I attend here in UY after COVID, so that was pretty nice.
+
+Sundi:
+It also must have been nice to not have to fly 27 hours to get to your own conference.
+
+Marcelo:
+Yeah, yeah. I don't want to travel anymore this year, but this year is ending, so January is one month away.
+
+Sundi:
+Yeah, I think about that every time I run into you at a conference, I'm like, oh wait, how long does it take you to get here this time, no matter where we are. But I'm happy for you that you get a chance to travel so much and when you're here you got to explore a little more. You went to New York right after Impax or something, right?
+
+Marcelo:
+After Impax, yes, before ElixirConf.
+
+Sundi:
+Right, right, so in between.
+
+Marcelo:
+Yeah, in between. Yeah. It's usually something between 13 hours and 17, 18, depending which part of U.S. the conference is.
+
+Sundi:
+Wow. Well thank you for your dedication to Elixir. We all thank you.
+
+Owen:
+Yes. So we've talked about advent of code and ElixirConf Uruguay. I don't think we've talked about Marcelo as a human being and as a person. So obviously you're in Uruguay, and do you want to tell us a little bit about where you are, who you are and what you do?
+
+Marcelo:
+Yeah, sure. So yeah, I'm Marcelo, 32 years old. Been doing Elixir since 2016, and before that my past is in Ruby on Rails. So that's kind of my background. What I do for fun, I like to play sports. I'm doing a lot of spinning right now. So I like to ride, mostly outdoor stuff, what I like to do. And yeah, work at Mimiquate. We are like a staff augmentation company and we have projects in Elixir, some projects in Node and Frontend, front, Wise, React, Amber. So that's kind of a brief summary of me.
+
+Owen:
+Got you. And we had a whole conversation about agency staff augmentation, product companies and all this on the Thinking Elixir podcast where me and Sundi were guests. So for a full discussion, that episode would be great. But maybe in a nutshell, what does staff augmentation mean for Mimiquate?
+
+Marcelo:
+Yeah. Usually what we do, instead of being contractors for one single project of a few months, we try to fit the space when there are customers that need to get their team bigger sooner for long term relationships. So that's where we kind of get in place. So we get into your existing engineering team and try to bring value from day one. And if that's a win-win, great. If not, it's not. But we're trying to fill that need. We usually do some training here around Elixir and all the onboarding stuff. So whenever we get into a given client and know what's the tech stack, we kind of figure it out If we have people online with that. And if we do, we propose that and we see if we can figure it out. I'd like to mention more staff augmentation instead of contracting because contracting seems to me more like getting to a project to fix one staff or being there for something specific, really expert. And we consider more self individual contributors that can get to your team and help you in their project. So that's our space.
+
+Owen:
+Cool. So our season theme this season is parsing the particulars, and something very particular is CQRS. So before we go all the way into the weeds, I'm kind of curious how much experience each of us has with either CQRS as a concept or event sourcing and that kind of thing.
+
+Sundi:
+I'm doing a dancing zero for anyone who can't see me. It kind of looks like a heart, yeah, it does.
+
+Owen:
+I thought that was a heart. I thought you were like, I love CQRS.
+
+Sundi:
+No, no, it's a zero. Like zero experience.
+
+Owen:
+Right. I have watched some talks. We talked about this right before starting. Yeah, I've watched some talks. I've not built or maintained a CQRS system, but I've done a little bit of stuff with pubsub, so that's where I'm coming from.
+
+Marcelo:
+Okay. Yeah, I haven't like reading the pattern from CQRS and that for a while. I will say that in 2017 it was like the first time I got into reading a little bit about the pattern. That doesn't mean that I was doing it right away. It's just when you start reading about stuff and at some point you are in your professional work and it's what you're used to and what is new and that trade off. Like, when do you want to try it? How do you want to try it? You want to have that expertise. So I had the chance to try it in 2018, late 2018. And since then, it's not the only kind of framework that I'm using, but it's part of my daily work. But
+
+Marcelo:
+I only consider myself someone that uses it and has something to share about, not an expert.
+
+Owen:
+A practitioner.
+
+Sundi:
+Yes. Yeah. Can we, before we-
+
+Owen:
+Right. We also are practitioners here.
+
+Sundi:
+Before we get too far in, can we lay out, expand the acronym and then also talk about what it is? So what does CQRS stand for?
+
+Marcelo:
+Yeah, well CQRS stands for command, query, responsibility, segregation. And basically the way I like to talk about it is compared to CRUD, create, read, update, delete. It's the I guess the most common. I don't want to use the word common because maybe people use the other one, CQRS the whole life and for them, the other one is the common one. But in a CRUD app, basically you create resources, read it, update, and delete them. And the resource kind of a thinking like a blog post. I don't know if you have a REST API, you hit an endpoint, you create a post, and then you read the post with a guest request for example. The idea there is the same structure that you use for create. When you create, you send the attributes of a post and when you read, you typically read the same attributes that you use for creation, so the CQRS, command, query, responsibility, segregation kind of split that in a way. What you use for creating is not the same that what you use for reading.
+That will mean in a post scenario, in this blog post when you create a post, it might mean that you created, for example, I don't know, with a title. And instead of sending a request that the action is create this resource, you send a command that you want to create a post, right? It's an intention of what you're doing. And when you do the post, the response of that post might be like 200 OK with nothing. And then when you read, you read and it could be completely separate.
+For example, let's say you are doing a bank application now and you want to do a transaction. You usually don't update the account with the balance, the balances with the new balances, right? When you get transaction, you say you want to do a transaction from one account to other account and the amount for example, and that translates all the way into your model. But when you read the accounts and the accounts has a given balance, twist that split of concepts that what you use for writing is not the same that what you use for reading. And that is kind of the big split around CRUD and CQRS for me.
+
+Sundi:
+So just to rehash that example, so you're talking about a bank account transaction and you're saying in the CRUD methodology you would create everything together and then you read it separately, or the CQRS method is... What part of that section is different?
+
+Marcelo:
+The part that probably different is that if you're in CRUD and you have an account model, let's say that account has an owner and a balance and transactions and transaction is another, has many relationship with other transactions. When you create an account, you have to put all the attributes there. So you create it with the same data that you expect to read. When you split that model, when you create, maybe you create only with the owner name.
+So when you post, you send the command that I want to create an account for Sunday and you only send the command is create an account and the only attribute is Sunday. And that creates different objects, it has nothing. And then you can read an account, you're never creating an account, you just send a command to create an account. You send the action of doing something and the system replies, okay, we'll do it. And then you read the side effects of create account command and that side effect might be the account created kind of.
+
+Sundi:
+So it's like a separation of steps?
+
+Marcelo:
+Yes. If you go to some of the readings, you can even do it in two completely databases. You can read from one database and create another one. Other example that might be even easier to kind of grasp is when you need to create several reports. Let's say you want to export a CSB with all the things that happen in your system when you do a transaction. If you're in a bank account that can translate in one of your tables. That is the audits table and you lock that, right? You never, in fact, write into that table. You just create a transaction. So you split intention of what you're doing to the side effects that happen in the middle. So yeah, the bank account is kind of the classic example of when bringing through CQRS.
+
+Owen:
+Yeah, so I, and we kind of mentioned CRUD a few times here. So I think for anyone who's kind of new to this concept of CQRS, including some of us here, CRUD is kind of the model of if you're starting a brand-new Phoenix app for example, and you're using the generators to create a user's context and schema and all the functions that come along with that, those functions are kind of built around the CRUD pattern where you're creating, reading, updating, and deleting records. Sometimes the function names are slightly different from that, whereas I think the distinction here is like CQRS is, and let's say you have a blog and you wanted to audit changes to the blog. You could log all the changes and that would be a separate concern. You'd have a log system where you could review things, but you're always writing things directly into the database.
+So if you were building a bank account application that was using the CRUD pattern, anytime you had a transaction, you would be writing the new value directly into the user account row. Whereas with CQOS or CQRS, you're kind of writing the log as the primary. It's not really a log per se, but it's an event stream and that is kind of the primary thing you're writing to. And then whenever you're querying the data, it comes either off of that stream directly or from something called an aggregate. Am I getting that?
+
+Sundi:
+So are you pinging the database less?
+
+Marcelo:
+Well yeah. What you're saying is right, you're introducing this the event stream and that kind of secures with event sourcing. That is a different concept. Usually they are kind of tied together. The event sourcing as a pattern, CQRS is a pattern in the same way that CRUD is a pattern. The event sourcing means that, and this is a little bit more hard to get in a way when you have a blog post. You have the post and when you have data post, you lose the previous value. You can do something to keep that value if you have another table or whatever. It's destructive in that way that when you do an update, you change the title and if you don't do a lot with your old title, it's gone in the event sourcing pattern. Each event, that is something that happened to your system.
+So if we were in the blog post or in the bank account, I don't know, blog post created, usually they're in past tense and you start saving in your event store database the actions that happen in your system. The concept that you put together about the aggregate, it's okay. Let's say you have a blog post and you put a name, okay, and you said post created with some name and then you update the name post updated within new title. But if you want to know, okay, what's the post that it has? What's the information? You have to read all your events, but usually that's not a good idea because that is going to grow a lot.
+So you keep this notion of aggregate that what it implies is that you are aggregating the values of your events into the snapshot of, okay, my post has these attributes. You don't have to go through the event store, usually you don't interact directly with your event store, you use your events for side effects and maybe a side effect, it's keeping the aggregate or creating a read projection that might be more similar to the post table that we're used to. So whenever there is a post update, you go and find it by ID and you change its dial. But if you want to see all the changes to a post, you have the event store to take a look in into that.
+
+Owen:
+So I'm curious, brand-new Phoenix app CRUD, you're typically using PostgreSQL. Is PostgreSQL a good database for CQRS? Are there different tools that you need to use for a system like this?
+
+Marcelo:
+So yeah, the pattern is CQRS for Elixir. There's a really great library by Ben Smith. It's called Commanded. Commanded is, it's an Elixir X library that it gives you good modules and good ways of bootstrapping a CQRS framework, right? Because if you needed to start all of this from scratch, it's hard to get it right and Commanded helps you in that way. So if you want to start playing with it, I will suggest giving Commanded a spin and that's how you probably will start. I will suggest if you want to take a look, take a look into Commanded and give that a try.
+
+Owen:
+Got it. And we'll have links to these in the show notes as well.
+
+Sundi:
+Another thing that you mentioned a few times is the concept of a side effect. And I think that is pretty self-explanatory in just plain English. A side effect is a thing that happens as a result of another thing. But I think it also, correct me if I'm wrong, that also have a context in programming in the context of pre-conditions and side effects. Where pre-condition is the conditions in which a thing must be true in order for a side effect to happen? So you enable a pre-condition and then you enable side effect. Is that something to do with CQRS or is that a completely different concept?
+
+Marcelo:
+Yeah, I don't think it's bound in CQRS in that way. In the way it's labeled more in Commanded and CQRS is when you're running Commanded, you have a Commanded app in the same way you have a Phoenix app and a Phoenix endpoint in, you need to start your supervisor, a Commanded app. And there is a router, a Commanded router where you say what, which are the commands that accept and you dispatch commands. And when you dispatch, it generates all these events in the sense of the event store, things that happen to your system. So when you, let's say you run a command, you dispatch a command of create posts, probably you will get a post created event. And the side effects is you can have different process that are receiving those events and doing stuff. So maybe when there is a new post created, you want to send a Slack notification for example.
+So you will be hearing whenever there is a post created event, you have something there to trigger a Slack notification to the point around like pop stop. And how is that different in communicating? The process commander has an event store and you can use OSUs as the adapter. So you can run a few mix tasks to initialize an event store. And by doing that you have all the moving pieces. You have it there for running a dispatch, it will create an event. You can inspect the event store and see your commands and you can get from there. By side effects, I mean what you do with the events that get created. So with the events that they created, do you want to do side effects? Do you want to send an email, send a Slack notification, or do something more complex? There are module for hearing to that and do what they call side effects.
+
+Sundi:
+Cool, thank you.
+
+Owen:
+So when you're writing a
+
+Owen:
+A typical Phoenix application. You're generating, let's say, either a live view nowadays or even an old style controller with views. When you're building forms, we typically will use chain sets to validate data before we do anything on the backend to persist that data. With CQRS, are you also validating data before it comes in? Or do you just take the data, send an event, and then just kind of let the system respond with errors?
+
+Marcelo:
+Yeah, it's a good question. You use chain set. And you use chain set to validate the commands that you're going to [inaudible 00:24:36] are correct. So when you create a form, like for a, I don't know, form for a post, instead of doing a form for a post, you do a form for the post create command. And then you have validations around the name, if the name has to be with a particular format. And then when you submit, it gets through that. And then you can also have validations at the time of dispatch, but that's kind of in the same way. It's around that separation between how you write into your system and how you read from your system. You can still use chain set for the forms. The way I got into it, or to the point of when was the first time that I thought it was something to give it a try, well, I was in the need of building an auction system so that the people using the app wouldn't need to place a bid on stop.
+And that makes me think about that reality more in a way of keeping the actions that happen to the system instead of the resources that happened to the system. So what's a bid? Okay. Yeah, you have a bid, you have an amount, you have who was the actual user that bid for something. But for that particular problem, at least for me, it was easier to think about the actions that were taken and first develop that. And then developed the rest around like, 'okay, whenever this user is doing this, what actually happened to my system?' Okay. At the end, he wants the bid. If the aggregate of this given sale has all these objects, whoever is with the biggest bid is the one that wins. And the audit, I want to see how many bids an object had.
+I had the event storage to take a look into that. After that, I got into more, like the reprojections. And it was like, 'okay, you can keep the count.' And the reporting, it was also easy for this part of the side effects. Okay, I want, whenever there is this moment in time and we are like two minutes before closing the sale, I can start doing action. So I think that's the big thing, like the big mind shift around it. It's how do you think about your system? If you think about the objects, [inaudible 00:26:55] is not like the right word, but if you think about the resources that you're going to be creating, or if you're thinking about the actions. It helps me at least thinking about the in the same way a process, that process are like things that are running, interacting with other things.
+
+Owen:
+Right.
+
+Marcelo:
+If you do a graph on it, it's in what you want to put your focus on, like in the messages and in the communication, or in the people doing the thing. So that was, for me, the shift.
+
+Owen:
+Yeah. It reminds me of GenServer, like how you build a GenServer, and it can handle info or messages coming in. Not that this system would have to necessarily be using a lot of GenServers, but I was kind of thinking about this. Would you ever work in a system where I'm trying to find the boundaries of CQRS? Would you have a system where maybe some parts of your application use a cred pattern and some parts of the application use CQRS?
+
+Marcelo:
+Yeah, definitely. And that was one of the points that I wanted to try to get into this, that is, it's not an all or nothing approach. It's not that you have to, or you have to pick one or the other and there's no way back. It's not around that, you can have both. There are some things that might be more suitable. I think that the first, the learning curve for CQRS and event sourcing, at first, it's a little bit hard because you have 10 or 12 different concepts, different things you need to learn. They're not sure how they fit together. Everything run asynchronously. So if you are doing an API call, like POST request for creating something, and you're not getting that back because you have to wait, even a few milliseconds, and it's not there. It is kind of the same way when we are dealing with concurrent process.
+So it's a little bit hard to start. So I will say that it's not for all applications for sure. If you need to check more accountability on some audit feature or some login feature, or you have to make sure that you have a preview read intensive, I don't.... As everything in softwares, I don't consider it a silver bullet at all. It's only one more tool that you have, and it's up to you to figure if it's the right tool for the job and if it is great. But if you have an application that is really intensive and the rights are less intensive, this is split. You can benefit off it in a way. You can also be running five replicas of your Postgres database, and you can do something there from your replicas. And to write to a particular instance, you can also do that.
+But when you have that data split by design, that the data that you write is not the same data that you read, it's even easier because you can... It's not that you need to even have replicas, because you can have multiple database because nobody's going to write on that from your commands. It's your application that is right in there. So yeah, I got to leave it sidetracked on the question. But to answer that point, yeah, the apps that I used to work with and that I'm working with, they are not full CQRS. There are some parts that are CQRS, and some others that are good.
+My first reaction to building something, it's to include, usually because it's easier for the development cycle in my opinion. So I try to keep that in the minimum. And also, the other thing that I try to put into consideration is the team you're working with. It's not great when you put something and the only one that kind of knows how it works is like two or three people of a 15 people team. And that's kind of like, usually the simplest is the better. So yeah, you can have both. You can give it that try to one thing and to prove the point. And if it works, go for it.
+
+Sundi:
+So it sounds like there may not be any best case scenario to use it. It's just, you have to look at the project in front of you and the team in front of you, and make that decision.
+
+Marcelo:
+I will say that that's a yes, always.
+
+Sundi:
+Yes, always is how I was thinking about that too.
+
+Marcelo:
+Yes, always. Yes, always.
+
+Owen:
+I think also, if there's a legal requirement to have an audit trail, maybe you have to use something like CQRS. Or you have to process the changes somehow.
+
+Marcelo:
+One other nice benefit about it is, if you have the event store, it's easier for you to time travel around. So if you have a bank account and you want to check... The audit is... When I'm thinking about an audit trail, I'm just thinking about a report, [inaudible 00:31:48] CSV, and you have everything that happened. With this, you're able to pick a moment in time and kind of see your system, how was your system at that moment because it applies your events until that moment in time. Usually, that's not that easy with an audit trail. With an audit trail, you'll probably need to go line by line and start thinking in your system, and what will be my system snapshot, like my system [inaudible 00:32:18] if we were in this moment in time. With CQRS, recreating historical state, if that is important for your project, I will consider it. Having the audit and the full history, yeah, it's something nice, usually for when there is, I don't know, money involved or when you need to have multiple user interacting with it.
+Performance wise, if you need to have multiple in this auction, in this biding system, if multiple users were going to bid at the same time, you need to make sure that you're respecting the order and nobody is getting before the line. So it's like a concurrency problem. And in commanded, you get some good assumptions that the library will always let you know that nobody's getting you in the middle when you're dispatching a command. So when you're dispatching a command, it's just new. So the next command will kind of wait until the other. And it has a few other benefits around consistency if you want your application to be a strong consistency or eventual consistency. And by that it means, for example, if you're looking at, I don't know, these stars of a GitHub project and you have all the users at the same time given a star on a project, what's more important for you, like to be on GitHub page and be accurate about the number, or it can be off by a few seconds, but it will eventually be right, right?
+Because if you do not support at any moment in time to show a bad number and you're in that situation, you have to put, I don't know, an unknown symbol in the star counter because you actually don't know. You're in the middle of it, but you don't know. And most of the systems, the eventual consistency is right. Nobody will care if you're showing a number off for a few seconds. For other systems, if you're one minute off a sale going out, and you are the one that was going to win and you're not, 'yeah, they will be mad. They will complain.'
+
+Owen:
+Oh, they will be mad.
+
+Sundi:
+I wanted to take us back to something you were talking about just a few minutes ago in terms of time traveling. This actually came up earlier this season. We were talking, I think it was me and Dan talking to Jason Stips, the Phoenix Core team member, about any potential tooling that might be coming to Phoenix anytime soon. And I'm not saying this is coming to Phoenix anytime soon. But a question from the audience, also known as a question from our teammate asked about how amazing would it be to have tooling like Redux has for React to be able to time travel, and go back in time and see what your system looked like in a certain state. And how we don't quite have anything like that for Phoenix yet. And what you just described CQRS can do for you in terms of state, which is a step above an audit log actually sounds a lot to me like React Redux time traveling. Is it a similar feature?
+
+Marcelo:
+I don't have much experience with that feature in Redux. But to the sense of time traveling and going back, I don't know if I will pay the cost of implementing your system in CQRS for that. I think that if it was me, and keeping it simple, probably, I don't know, my naive solution would be take a snapshot of your system every 15 seconds and store that, and travel in that sense.
+
+Sundi:
+Well, from a debugging standpoint, right. So if you want to see something that went wrong, in React Redux, what you can do is, or at least it's been a few years for me, let me preface with, it's been a few years. But if you were walking through and you were trying to see, okay, I passed this information, this function was supposed to be called, and now this thing should be displaying like this. And you can step through every single second of it and see what happened that did not go to plan. And you can go backwards and forwards. And otherwise, I think you have to set up break points and everything. And I think maybe
+
+Sundi:
+Maybe you do have to set up breakpoints for that, but it is a useful developer tool just in general. Phoenix Developer Tooling is hopefully coming, maybe one day, but maybe isn't as robust as other languages, other frameworks. And so that was something that our teammate was asking about.
+
+Marcelo:
+No, yeah, that will be incredible. I will love to have that. Yeah. But yeah, I don't think it's-
+
+Sundi:
+So it's not quite that.
+
+Marcelo:
+No, not, I don't think so. It made me think about one of the first time that I was using an ID, and you were able to move the bookmark and go backwards, and that sense of, "Can I get back in time?" kind of superpower was awesome. Yeah, I haven't seen that in Elixir. To be honest, I usually not use a lot of breakpoints in Elixir. I guess it's probably because of small functions. It's like coming from the Ruby world, I know that when I was in, I don't know, 2013, I was putting the Interactive Ruby in the middle of it, and doing something. But for Elixir, I usually do not divide that much now with the new debugger call in Elixir, unfortunately, that is awesome. Throw those between the pipeline, and then that works a charm for me. That's my debugging right now.
+
+Owen:
+So yeah, I could see how time travel would be amazing. I'm wondering, because the live view model's so different. It seems, just based on the little bit I know about Reactor that that would live in the front end, on the browser memory, maybe. And then I'm just trying to imagine someone at Amazon scale trying to store all of those events in their systems, which they could probably afford to do, but that would be madness.
+But I'm kind of curious, we talked about snapshots, replaying, moving back and forth in time. I'm curious if, let's say there's an outage in your system, and maybe this ties into multi node distribution as well, if you have your application distributed cost of multiple nodes, one of the nodes goes offline for some amount of time and it needs to recover, does CQRS slow that process down? Does it make it faster? What are the considerations when it comes to that?
+
+Marcelo:
+Yeah, so you can run commander in a multi node way. So if you have your nodes connected with, I don't know, libcluster for example, there is a way of running your commanded app, supporting a node going down. On the other part, when you need to build your system aggregates, you need to read through the event store. That might take some time, but there are some features for taking snapshots of your aggregates, not for your system, not about time traveling around. What you can do is, let's say actually to blog post, you can say after 20 or 30 events, or whatever, you can define that on configuration. I want to take a snapshot of my aggregate. And let's say you have the snapshot every 100 events, what you guarantee with that is that if you need to rebuild your post aggregate, you will read, at most, 100 events, because you are saving that.
+And all of that is handled by you, by the library. So you don't need to do anything. And that usually it speeds up the start in case there is a note and you need to start it up. The other thing about CQRS is that I think it's hard, it's database migrations. So that is the one that I think it's more tricky. The one that you were probably, one of the pitfalls that when you start working on that you will hit, it's having a change in your event structure. So what happened if you were having your post, you are having creation, and you are having a validation of six characters and now you realize that that was wrong, that you need aid, or I don't know, something that your actual events... You don't want any more to have a post created with less than eight characters. But you have in your event store all your old posts that work created with six.
+So what you will actually, I don't know, probably will do in your crude app, you if you will having a restriction in the column, you will not be able to run it. You will fix your data before doing that. So you will go through the post that were not getting into that validation right, and fixing that. The events are immutable, so you can now go to the events, but you can, but it's at practice because the events are immutable or things that happened and you should not touch it. You cannot touch things in the past. But they are there, and now they're wrong, or are you still having post two creation, and you keep a version. And that is also solve, there is a way of up-casting. It's up casting events, that when you read something, you're able to do changes on it.
+So all of those is part of having the added lock, but if you're changing the event structure, you're probably having the event store wrong events, and you need to fix them, but you cannot fix them because you cannot touch them. So how do you fix them? So for all of that in the pattern is described, and there is a way of doing that, but that usually complicates the new developers when they change the event, and they're still wrong in the event.
+
+Sundi:
+Are there any best practice resources for anyone who's trying to learn this methodology?
+
+Marcelo:
+If you're in Elixir, I will start with Commander. If you wanted to get more about secure arrest more as the general pattern, and not in the Elixir where Greg Young is kind of been responsible for it. So great talks from him. So I will Google it and see, or read as much as possible. If you are more into the people that are more getting into the code, to actually play around and see stuff. I will start with getting started in Commander. There is a part when they explain each concept while you are building an application. I think they have a few.
+And the other thing that I will suggest is look at the test. That's kind of like a general advice, probably, but in Commander they're good. So look at the chest, and usually that explains a lot of things. Or the edge case is that you don't probably never thought about it. And there's usually a chess case for that, and then you click and say, "Okay, yeah, that makes sense too."
+
+Sundi:
+Awesome. Well I hope everyone gets a chance to check that out, and just have their horizons expanded. So thank you for chatting with us about that. Unfortunately, we are getting close to being out of time here. It was so good talking to you. Do you have any final plugs, or ask for the audience? Anywhere anyone can find you on social media, or find more information on your side projects, or GitHub accounts, or anything?
+
+Marcelo:
+Yeah, I try to be marpo60 in every social network, so you can find me on that name. And reach me out on the Elixir-Slack, Twitter, whatever. Yeah, happy to answer any questions. And yeah, this hour went super fast. Super excited about this.
+
+Owen:
+We're all experts now. You've been commanded to segregate your responsibilities.
+
+Sundi:
+Oh, we couldn't end one episode without one of these, Owen. Just one.
+
+Owen:
+So yeah, that wraps up today's episode of Elixir Wizards. Thank you so much to our guests, the excellent Marcelo Dominguez for joining us. I'm Owen Bickford, and my co-host today was Sun Mint. Elixir Wizards is brought to you by SmartLogic, with production support from Hangar Studios. Here at Smart Logic, we build custom web and mobile software. We work in Elixir, Rails, React, Flutter, and more. And if you need a piece of custom software built, just hit us up. Don't forget to like, subscribe, and leave a review. Those reviews help us reach new listeners. You can find us on Twitter, @smartlogic, or join the Elixir Wizards discord. The link for that will be on the podcast page. We will see you next week for more on parsing the particulars.
+
