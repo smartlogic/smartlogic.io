@@ -1,0 +1,567 @@
+S10E02 Cory O’Daniel
+Elixir Wizards S10E02: Cory O'Daniel and Future of Elixir DevOps
+Sundi: Welcome to another episode of Elixir Wizards, a podcast brought to you by SmartLogic, a custom web 
+and mobile development shop.
+Bilal: This is Season 10, where we are looking to the next ten years of Elixir!
+Owen: We’ll be talking with our guests about what the first ten years might tell us about the future of Elixir.
+Sundi: Hey everyone. I'm Sundi Myint, Engineering Manager at SmartLogic.
+Owen: And I'm Owen Bickford, Senior Developer at SmartLogic.
+Sundi: and we're your host for today's episode. For episode two, we're joined by Cory O'Daniel, CEO and co-
+founder of Massdriver. Welcome, Cory. Thank you for joining us. How are you doing today?
+Cory: I'm doing pretty good. Thanks for having me.
+Sundi: I'm so excited. I do have to say, before we dive in, I really do need to know if you ever mastered the hot-
+to-honey ratio, the spicy honey combo that you were looking for. Did you find the perfect duo?
+Cory: Yeah, so, I am a fan of very hot food and I'm, I'm generally not happy unless I'm crying a little while I'm 
+eating, so, I go with a lot of hot, so I did a, like, where, where I'm at is about a tablespoon of clover honey to 
+about a tablespoon and a half of crystal hot sauce. And that is, that is perfect on some fried chicken.
+Sundi: Owen's making this face right now. I don't know what this face is for!
+Owen: My mouth is already on fire.
+Sundi: Yeah, for our listeners, this was a Twitter conversation. I think it was around the Super Bowl. I had a full 
+bottle of Mike's hot honey in my pantry and then got a bottle of Mike's Hot Honey. It was part of a charcuterie kit.
+And so I was like, well, today's the day. I guess I'm gonna find out what this tastes like. And it was great. Fully 
+wish I had opened up my bottle before.
+Owen: I think the hottest thing I've had lately is there's a food truck nearby and Tika chicken tacos. Maybe not the 
+hottest but they were ... kinda ... were spicy!
+Sundi: Well, Cory, you might appreciate this then. I had a Hot Ones party in September. I fully plan on doing this 
+as an annual event. We had wings and then we had the full current season lineup. I think it was season 18 at the 
+time. We just went through it and I felt kind of bad cuz everyone who came over to my house left crying and I 
+don't normally invite people over for them to leave crying. But that was, that was the event. It was great.
+Cory: That's awesome. I, uh, a long time ago there's this restaurant where I grew up that had hot wings that. If 
+you finished them, they put your photo on the wall and you didn't have to pay for the wings. It was really nice. 
+And they had the, I guess the scoville units of being maced. And so my dad and I went there and we're like, well, 
+we gotta try this.
+And we ate them all and the photo of us on the wall, like our faces are puffy and we're crying. Um, and then we 
+went back and they had one that was twice as hot and I'm like, we gotta try this. I finished one and my dad 
+blacked out at the table and I thought I'd killed him., so, uh, that was, that was a freaky one. He just faced first 
+right into his plate, and I was like, "uh oh."
+Owen: Wow.
+Sundi: Okay... change everything. We're making the name of the episode "how Cory almost killed his dad." And 
+then just moving on. So, I mean, speaking of fun life stories, can you go ahead and tell us, you're the co-founder 
+of Massdriver and you're the CEO. Can you tell us what Massdriver is and how that kind of concept came about?
+Cory: Yeah. So Massdriver's a tool for visually managing cloud infrastructure and applications. Our idea is to try 
+to land somewhere in between a pass and the full power of the cloud. And so what the platform allows you to do 
+is connect together infrastructure, provision that infrastructure, and get back to writing software.
+But on the underside, we're not like a code generator, like some of these other sites out there. It's actually a 
+package manager for infrastructure as code and applications. So, when you're connecting stuff together, you're 
+connecting actual software written by somebody who's an expert in whatever that piece of cloud infrastructure 
+software is.
+So the idea came from, I was actually doing consulting for Google a few years ago, and I've worked for a number 
+of companies over the years, in operations and I got invited to work at Google. I have this weird niche where it's 
+like, I know Elixir and Erlang and I know Kubernetes. And I guess like there was a point in time where if you 
+Googled those terms, I was the first thing that came up, and Google was migrating a really big customer to 
+Google Cloud that was running Erlang and they didn't know what they were doing and so they, somebody just 
+Googled it and at Google and they were like, oh, this guy. And so somebody reached out to me and was like, you 
+want to help migrate a giant customer to Google Cloud? And so I got the opportunity to do this. And, while I was 
+working with this company, I was seeing a lot of the same pains that I had as an operations engineer.
+Small companies I'd worked for, had large companies I'd worked for, had. And what I really wanted to do is make 
+a way to easily take some of this commodity knowledge that operations engineers have and be able to give that 
+to developers so they could move quickly, focusing on their use cases rather than like the ins and outs of a cloud 
+API and Terraform and all that jazz.
+Owen: So is this, are we talking Docker, Kubernetes, or is it an alternative or an abstraction on top of that? Like 
+what kind of infrastructure is this tying together? 
+Cory: Yeah, so it depends. So like I said, it's a package manager under the hood. So like the, if like get into the 
+nitty gritty details, it's a package manager and it's a cloud type system. So, what we develop is the cloud type 
+system. Anybody can add these packages and the packages essentially conform to one of these types.
+And so what that allows you to do is anybody can extend the platform. So if you go look at the platform today and 
+you're like, oh, I wanna run Databricks, [00:05:00] it doesn't have Databricks, you can publish a Databricks 
+package and now it supports it. Similarly, our application run times are extendable as well. So today we support 
+Kubernetes on all three clouds and bare metal, um, VMs.
+Lambdas, app functions on Azure. Somebody is actually open source adding Databricks support to the platform, 
+so you can just push your notebooks up there. So, we pretty much can run anything that you can put in an ISE 
+tool.
+Sundi: That's super cool. The reason that we wanna talk to you today, other than the fact that, how many times 
+did his name come up, Owen? Like three or four. Was it Dave? Maybe Lucia? We've had many requests for 
+many guests, and we're gonna fulfill these requests this season. Welcome, guys. But, yeah, so we wanna talk to 
+you, Cory, because you were requested, but also because this is the future, the next 10 years of Elixir, and we 
+really wanted to get your DevOps expertise on what the future of Elixir devOps might look like. Learning about 
+what your company does and the background about that is a really great jumping off point into some of these 
+more nitty gritty concepts we're gonna get into. Owen, it looked like you had a question there.
+Owen: Yeah. So, before we get to the future, I think it's good to start with the history of deployment with Elixir and 
+Erlang. Going back, let's say, Elixir v1, or maybe even pre- v.1, how would you deploy an app then? How has it 
+evolved over time? And I think maybe in a few minutes we'll kind of get to like what, drives you to think of Mass 
+Driver as a new solution or like a new company to solve this problem?
+Cory: Yeah, so I mean, how have I deployed Elixir over the past, over the years? I am a big time Kubernetes 
+proponent, like even though like our product is designed to kind of meet people where they are and run it how 
+they want to, like I run most of my stuff on Kubernetes all the time. I even develop locally on Kubernetes.
+And the reason I do this is like, not because I'm a fanatic, I am, but honestly like I don't like learning. I'm dumb, 
+like I'm a dumb ol' OPs person. Like I don't like learning things. And it's like, I know the Kubernetes way and it's 
+like, it's the same on AWS,. It's the same on GCP, it's the same on Azure, it's the same locally.
+So, um, I've been working at Kubernetes now since, geez, I wanna say like seven or so years. So, the first time I 
+deployed an Elixir application that wasn't, that Basho product, that database, I can't remember what it's called, 
+was on Kubernetes. So I've just been running Kubernetes and Elixir since I started developing in it.
+What's changed a bit is like it becoming container aware. So like when you originally put it on Kubernetes like 
+seven years ago, it was not a nice neighbor with other applications and so you'd have to like taint them and give 
+them their own nodes and your node pools to run, so it wasn't taking RAM and CPU from other applications, but, 
+that's my go-to way of deploying it.
+Owen: Are you thinking of Riak? Is that the database?
+Cory: Yes! That one, gosh, that's, that's a trip down memory lane.
+Owen: This is one of many databases I've not personally interacted with. I've just heard it, so I listened to enough 
+podcasts that I, it comes up, you know, with like Erlang folks especially, so.
+Cory: Wow, man.
+Owen: So, okay. Interesting. So like, and I kind of come at it from a, from the other angle of like, kind of just 
+recently getting into Kubernetes.
+I wouldn't say I'm like an enthusiast. I'm interacting whenever I need to. But, I definitely enjoy Docker for like, 
+local development and kind of, you know, using Docker composed to, to simplify that thing for like, getting 
+onboarded on a project. I see the value in Kubernetes of having a reproduce, or configurable, kind of deployment 
+system through code that's kind of configuring all of that. I hear some debate within the community about Elixir. Is 
+it a good fit for Kubernetes? Is it a bad fit? I don't think there's maybe a clear answer. I think it all depends, like 
+everything else, but yeah. What's your thoughts there?
+Cory: So, in all conversations Kubernetes, do you need Kubernetes? The answer is like a resounding no. You 
+can run whatever you want on a Raspberry Pi. Sure. Right? But like at some point in time there becomes like 
+operational complexity of things, right?
+There are bus factors in your business. I have one ops person, I have one person who knows how to deploy this, 
+right? This is why I like Kubernetes. Again, like I, I don't like learning new things. It's like I got something that 
+works. I'm, I'm fantastic. I'm just swinging this hammer everywhere. Right? So when I think about deploying it, it's 
+like, okay, could I put it on a bare vm? Sure, I can, I can absolutely run it on a Bare VM. What's the benefit of 
+that? Like, what's the benefit of running things on like Bare VMs nowadays? You don't get bin packings, so you're 
+actually, you're renting something by the minute and you're not utilizing it to its full extent, right? Resource 
+utilization isn't great on VM versus running something on Kubernetes where you can bin pack it together, right? I 
+have to solve logging, I have to solve metrics, I have to solve secrets, I have to solve all these things. So I start 
+doing it in bespoke ways, right?
+So my team's figured out, oh, we've dialed in this perfect ops way of configuring all this stuff to run on VMs and 
+autoscaling groups. It's great. Person that knows about that leaves. Now, the next person that comes in has to 
+figure out how you did it versus, hey, last company I worked at, we were using Kubernetes.
+This is all the same. It's just some [00:10:00] configuration that may change from, you know, one cloud to the 
+other, but the API remains the same and like that is the truly appealing thing of Kubernetes is that there is this 
+standardized API that is easy to extend, that you can just take that knowledge with you. I can take it from 
+company to company.
+I can take it from cloud to cloud. That's the thing that I really see as the valuable part. When you think about it 
+that way, is Elixir a good fit for Kubernetes? Yeah, because you have this portable knowledge that you can take 
+everywhere. You're not reinventing stuff, right? Like we wanna spend more time writing software as an industry 
+and as a planet, we need to spend more time writing software and less time operating it, right?
+And we spend a lot of time operating it today, and not a lot of software developers have that deep operational 
+expertise. And that's what I think we really need to be focused on is like getting it to, like writing more software, 
+less operating the software. And so I think you can do that with Kubernetes and now there's gonna be people that 
+are gonna hate that answer.
+And it's like, okay, yeah, Kubernetes is hard. It's like, yeah, if you're running kOps or you're doing Kubernetes the 
+hard way, sure, but like the cloud's taken care of most of the control plane for you. Auto-scaling groups are the 
+same auto-scaling groups in Kubernetes as they are in ECS or with bare VMs in AWS, right? So it's like, yeah, 
+there's some operational burden there, but is it any more than the operational burden you have of figuring all this 
+stuff out yourself and reinventing the wheel? I'd say no.
+Sundi: So speaking of the wheel, how has the idea of DevOps changed over the last 10 years? Like what was it 
+10 years ago versus, what is it today?
+Cory: Yeah, so it's funny, it's like, what is it today? I'll tell you what, if you ask Reddit, am I allowed to cuss on this 
+podcast?
+Owen: We
+could
+Sundi: we've done it 
+Cory: Sorry, you can cut that part out. If you ask Reddit, I have no idea what the fuck DevOps is, which I think is 
+funny cuz nobody on the planet does like, and I feel like there's some serious revisionist history going on with 
+what DevOps is, right?
+So it's like, when you think about it like early 2010 ish range, right? Like it actually made sense I think for a brief 
+point in time, right? So it's like, okay, there's data centers and then there's operations people and there's software 
+engineers that wanna run stuff in these data centers. And it's all hard.
+You've got gray beards that are mad and they don't wanna change anything. Cloud comes around, it's like, oh, 
+it's easy to go, make an easy two instance. It's easy to make a queue, like let's tear down these barriers, like get 
+rid of these silos and allow people to own and operate the code that they write.
+And that made sense when our applications were simple and our scale was simple and our compliance was 
+simple and our security was nothing. But like in today's world with compliance and security and how complicated 
+our apps have gotten. That is for two reasons. Way, one global audience, right? And like the demand of your 
+apps quickly, and two, the clouds just made it complicated, right? So with all of this stuff, we're shifting a lot of 
+accountability left nowadays, but we're not shifting the expertise with it. We're saying, oh, you're, you're the 
+engineer. You like keyboards, well go do some operation stuff, even though that's not your expertise, right?
+My lawyer doesn't do my taxes. My taxes do, you know, isn't my lawyer, they both work in law and legal stuff. 
+Right? And so I think it made sense then like where you get to today, it's like there's just too much stuff for an 
+engineer to be effective at operations and security and writing software when their job is to ship features to make 
+the company money. And so, where you see DevOps today is. There's these multiple camps now of what 
+DevOps is. Some people are like, oh, it's engineers. They do everything. And some are, oh, well this, when we 
+said tear down the silos, we didn't mean you did both jobs. We just mean we were better at communicating. And 
+it's like, that's revisionist history.
+And then there's people that say like, there's a DevOps team, and it's like there's not a DevOps team. There's an 
+operations team and there's an engineering team. And that's fine because what you have there is expertise. And 
+I think calling an operations team, a DevOps team does discount the expertise that they have in operations 
+because it sounds like this thing that everybody can do when there is actual deep expertise in in operating 
+systems.
+Sundi: Well, what you said just there has me jumping around in the timeline a little bit because, if you could 
+envision a future, in 10 years, and there's an Elixir engineer somewhere, just kind of fiddlin' around, IEx-ing it up, 
+and they say, what do I need to know about DevOps to be an effective Elixir engineer?
+What would your answer be? What do you think the answer is in 10 years?
+Cory: Yeah. I mean, in 10 years, the same answer it should be today. You shouldn't have to know much. Right? I 
+was actually having a conversation with somebody earlier today about this. When you look at, let's just take, put 
+Azure and GCP aside. Just talk about AWS. How do you just run a Docker container on AWS?
+ I just wanna host and a port, run this thing. There isn't an answer. It's, it's like you go set up Kubernetes or you 
+go set up ECS, or you go build a VM and an auto-scaling group and a load balancer and you run Docker in it. 
+Like, there's not a way to just like run a container, right?
+And it's like, we've got to this point where, we feel like we have Dev/prod parity, right? It's like, oh, I got this 
+container locally. It's the [00:15:00] same-ish container that I'm gonna run in the cloud. But like, that's not actually 
+how we operate our software. And I think for engineers, like a good platform, whether it's a cloud or a pass, 
+exposes this minimalist layer where it's like your engineers, if they want to just think about code, they should 
+have that Heroku Git push model.
+It's like I push my code and now it's running now, right? That's where I think everyone needs to start moving and 
+you see a lot of passes there and that's great. There's a lot of opinion around the way they do things, but the 
+cloud's not quite there, and that's kind of the gap that we're trying to bridge is like let you get any of these run 
+times that you want in the cloud with a very simple push model.
+That's what DevOps fully realized is, is like I don't have to think about this stuff as much. Like why do we care 
+about this? As long as my application can run, I got the services that I need from the cloud and nothing's waking 
+me up at 2:00 AM cuz it's broken.
+Sundi: Ugh. The worst!
+Cory: It's a simple wishlist.
+Owen: How many people need to click a button to get the thing into production, right? 
+Cory: Yeah, I guess that's up to your compliance auditor!
+Owen: Right? Yeah. What kind of business are you, right? So... part of this, I think, so I think I'm trying to like get 
+in the mind of our listeners as well. In the Elixir space, I think it's more common than some other languages to 
+build a monolithic application, as opposed to either services or microservices, that seems like microservices are 
+kind of going out of style.
+Sundi: You're willing them so, Owen. You're willing them so.
+Owen: I keep my ear to the ground. I'm happy to not live in a super microservices world, when I can avoid it. But. 
+Monolith versus service or microservice, does that impact the feasibility of Kubernetes? Does it alter like the tech 
+you wanna use for deploying your apps?
+Cory: I don't think so. Again, if you have that, if you have somebody that has today, if you have somebody that 
+has that Kubernetes operational knowledge to get you there, I, I don't think it matters if you're a monolith or 
+microservice. Microservices are obviously gonna get more out of it cause you're making more changes, there's 
+more stuff connected. But, I think the key thing there is, is like, what expertise do you have on hand, right? Like, if 
+you have a team of five people, you got a principal engineer, you got four people out of a bootcamp and nobody's 
+run in the cloud before and you've used Heroku, you should probably deploy to Heroku again, right?
+I don't think that anybody should be going out there and jumping into a, a pool full of things they don't have 
+expertise with if they're trying to just ship software for functionality sake. Now, if you have some Kubernetes 
+expertise, or if you have experience with how to use it or you have the time to learn how to use it and deploy and 
+manage stuff in there, it's like a monolith runs great there.
+And, and again, the nice thing and the. Always lean towards this is, it's the knowledge that you have that's 
+portable great. I run my monolith on here. I pushed it up in a deployment or a staple set, whatever it is, my 
+application's running. That's great. When I'm ready for microservices, nothing's changed. I just make a new 
+deployment or a new Helm chart to ship this thing, right?
+I don't have to go, oh yeah, you know, that model is on a VM, and we had an agent installed on it that we 
+installed with... I think Ansible... and then like somebody SSHed into it and they added, you know, the Logging 
+agent, and then we added a Datadog Agent right? Being able to have like a reproducible way where you say like, 
+this is how my cluster ships logs someplace. This is how my metrics get shipped someplace. You put an 
+application in it, and the rest of the operational stuff just starts happening for you, like that's where you really start 
+to reap the benefits of it.
+Owen: Kind of going back to, I wanna push some code and I just wanna see it in production, right? So, 
+Massdriver. Do you have extensions or plugins or maybe webhooks for hooking into CI? So that like... I push a 
+commit, let's say my PR gets merged and, let's say I'm using GitHub Action CircleCI, you know, the list goes on, 
+does Massdriver hook into that CI pipeline so it can automatically deploy?
+As long as everything is successful?
+Cory: Yeah, so we have like one like tenant that we've leaned into since creation. There's a couple, there's like a 
+couple of like real strong things that we believe in. And I'm gonna say this one, and everyone's probably going to 
+think that it is dumb, but I challenge you to think about it a little harder. So, everything that we do in Massdriver, 
+we do it via our CLI, so we're API first, GraphQL API in Absinthe, and then we have our UI where you can draw 
+stuff, but everything's API first. So, we have a CLI tool if you wanna do the GitOps model, or you have a team 
+that's doing GitOps model, you can do that with Massdriver. You generate your configurations and push them 
+using our CLI, and the cool thing is, if you're looking at the diagram, all of a sudden your diagram, your lucid chart 
+of the world gets updated with the truth of what's happening.
+And you can also make a change in the chart and that gets synchronized back, right? So you can definitely tie it 
+into your Git pipeline. Now we, what we don't do is, we don't do Webhooks, and the reason why is everything that 
+we do in Massdriver, we do it without ever having access to your source code.
+So even though like we do a lot of wild stuff like auto-generating IAM roles and policies, injecting database 
+credentials, like directly into the runtime of your application, we never get access to your source code. And like, it 
+just blows my mind that we just like freely give any company access to our source code.
+Nowadays, I feel like it's a thing that like doesn't even phase people anymore, but every once in [00:20:00] a 
+while you'll see one of these vendors that, you've owe off-ed and given access to your GitHub, and then 
+something happens and all of a sudden there's a source leak for like 12,000 companies.
+And so, we've made the decision to make it as painful as possible for us to make sure that we don't ever actually 
+get access to source codes. The way that our builds work is, in our CLI we have this mass image command, and 
+it is a cloud agnostic way of pushing and provisioning container registries across all three clouds.
+So if you've never set up ECR or ACR and Azure or GCP or Azure, if you do mass image push, and you have 
+essentially a credential reference which ties it to your cloud account. We'll set up all the stuff behind the scenes 
+and put your image in there. And so what we have the ability to do is we have the ability to schedule images.
+So like we never actually get access to your source code. We can just simply say like, okay, there's this image 
+and they want to run it in a lambda or this image and they want to run it in a, Kubernetes. And we just do the 
+coordination for placing that in the cloud, but we never actually get the access to your source code.
+Owen: I think part of what you said there kind of triggered in my mind, the thought of being either cloud agnostic 
+or multi-cloud. This is not something I've had to contend with yet.
+Sundi: You're making up words now, Owen. Multi-Cloud?
+Owen: Well, I'm wielding some words that I have some understanding of cuz I listened to, you know, a couple 
+podcasts. But, so let's say, well, I guess to back up a little bit, so multi-cloud is a real thing, right? So it's like 
+there's AWS, there's Google Cloud, there's Azure, Digital Ocean. Those are the ones that I'm most familiar with.
+So, if I deploy my app today and I'm on AWS, and let's say there's an AWS outage, the idea of multi-cloud is 
+maybe you deploy to AWS and Google Cloud or you know, N number of, platforms that way, one outage does 
+not take your entire site down. So, a platform like Massdriver, is part of what it's doing, kind of giving you like a 
+more kind of cloud agnostic configuration, where you can either switch platforms or deploy to multiple platforms 
+at once?
+Cory: Yes and no. So, when we actually originally thought of the idea, we were like, you know what we're gonna 
+do? We're gonna make, what Massdrive originally was, way back in the day, was a cloud agnostic API for 
+managing infrastructure. And what we found out really quickly was, If you look at the cloud, a network or a 
+Kubernetes cluster, and you look at it in an agnostic way, you get the most watered down, boring, featureless 
+version of that thing possible.
+So I see a few companies doing this today, and it's like, it's always silly. It's like, okay, I want a network. But then 
+you'll see there's an attribute and it's like AWS and it's like, oh, here's how I need it if it's on AWS. And so it's like 
+they immediately step out of like cloud agnosticism, right? So like we, we pivoted away from that, but at the same 
+time, like the answer's still a bit "yeah," because there's a few other ways that you go multi-cloud, right? So what 
+we actually like to push people towards, and this is something that's hard without something that acts as like a 
+metacloud that handles a lot of like the boring, tedious IAM, and all the other not exciting service parts of the 
+cloud is hybrid cloud.
+Our industry, I feel like we're a bit bullshitty. We love to say. We use the right tool for the job. We don't do that. 
+We use the last thing we saw on a media article, right? We are hobbyists like we say that to like give like product 
+managers like good vibes, but we're like... "shit man, I just saw this on Hacker News. I can't wait to put it in prod." 
+Right? When you get to the cloud, like that falls apart cuz there's just so much stuff to deal with. So, you get to 
+the cloud and you're like, " we're serving models." And it's like, what are you using SageMaker? You're like, oh, 
+why? Because we use AWS, right?
+ When you get to cloud services, you don't see many people using the right tool for the job. They use whatever 
+tool is available on the cloud that they're on, or an open source tool, right? What we have is a lot of customers 
+that are doing hybrid cloud. And the really cool thing is on your mass driver canvas, the cloud, the canvas itself is 
+cloud agnostic.
+You can put multiple clouds on one diagram and provision, but they'll each be in their own cloud and they're 
+unique things. You see, this is an S3 bucket. I see that this is a GCS store, but I can do things like have, you 
+know, my view of the world as an application developer. Maybe I'm running on Kubernetes and I'm using RDS 
+PostgreSQL.
+But, I'm calling some Pub/Sub thing in GCP for some reason. Like I can have that in one canvas that I see, but 
+it's on, it's on different clouds. Getting people towards like hybrid and using the right service or a service that 
+makes more sense. True multi-cloud. I mean, where come from a language where we like to talk about nines, like 
+every extra nine costs you money, right?
+And it costs you a lot of money. Costs you a lot of time. The true source of like idea of like multi-cloud. It's really 
+expensive, right? Like it's, it's hard to do. We can deploy our applications in multiple clouds. What about your 
+data, right? Are we like, are we gonna do everything as a stateful Elixir app and just like distribute it around their 
+cluster?
+Or do we need to use PostgreSQL? Uh oh! We're using PostgreSQL, what do we do? It's like, okay, well you can 
+have RDS, which is great. It's super highly available over in AWS, and I'm also gonna deploy in GCP, and if AWS 
+[00:25:00] completely goes down, I'll switch over to GCP. It's like, okay, like that's a lot of engineering effort. Like 
+are you the 9 1 1 system or are you selling t-shirts? Nobody needs to buy your shirt if AWS is down. Right? Like I 
+feel like we don't take a lot of like reality into things when we build stuff. So it's like, okay, let's say your 9 1 1, 
+AWS is down, people still need ambulances.
+It's like, okay, well it's like, how are we now? It's like every single data store becomes. Conversation and a 
+problem to solve for multi-cloud. It's like, okay, how do we do Postgres across AWS and GCP replicating this stuff 
+and being able to fail over a master, right? It's like that's, that's a lot of engineering effort.
+Can you do it? But who is doing that with data stores at scale, that isn't super critical, right?
+ Where it gets to be interesting though, is again, not to ride the pirate ship of Kubernetes, but, when you start to 
+look at your applications, like if they are running on Kubernetes, and this is one of the things we design, 
+particularly Kubernetes applications around in Massdriver. When you put an application in Massdriver, what you 
+actually do is you send us a bit of metadata about your app, and one of those things is a list of your cloud 
+dependencies.
+So you say like, I'm dependent on Kubernetes, I'm dependent on PostgreSQL, I'm dependent on Redis. Our 
+cloud type system goes, ah, I know that ElastiCache is a Redis. I know that RDS is a PostgreSQL. I know that 
+Aurora is a PostgreSQL. And, so it lets you design your applications the way we think of 'em as software 
+developers, ah, I need PostgreSQL. Docker installed it locally and it works, right?
+That's what we try to do with Kubernetes applications in particular. Let you focus on what your application needs. 
+So, we have customers that do have, you know, their application. It's configured to run on Kubernetes, and what 
+they can do is they can deploy it into their customer's accounts. And so now their customers can actually get data 
+locality, they get their compliance security, it's inside their VPC, but our customers have to write their application 
+once, they have one way of describing the IAC, and they can provision it into other people's accounts and 
+actually get that like operational data and observability data back.
+So that is like the one way that we still kind of do cloud agnosticism is like, okay. Yeah. If you want to be able to 
+package your application, sell it to multiple people, if we package it in Kubernetes, that makes it really easy to do.
+Sundi: So would you say that that would be something you hope that Kubernetes will change in the future? So 
+that future Elixir developers or our listeners might be able to package their stuff up faster, deploy faster, kind of all 
+of that. You've definitely touched on things that you hope to see in the future. But, is that the one big thing?
+Cory: Yeah. I think so, and you know, it's actually, it's really funny. All of our apps are different, right? There's a 
+ton of stuff inside of them that you can, nitpick how to configure, but you know, I feel like when you look at like a 
+lot of what we do, it's like we, we do copy and paste a lot from Stack Overflow, right?
+And we do copy and paste a lot from like other things that we find on GitHub, right? And so it's funny, the view of 
+Massdriver was built by operations people. Originally, you started your network and you build all your 
+infrastructure up and put your apps on top.
+And so we've kind of shifted our approach where now you publish your application and we actually have this 
+recommendation tool that can recommend and generate infrastructure based on your dependencies and it can 
+kind of generate your entire tree of infrastructure. Switching this idea, focusing more on the application, we're 
+trying to go and build a bunch of, essentially I said earlier, our run times are open-sourced and extendable. 
+Anybody can write 'em. And so we're writing very framework specific run times right now. And a lot of those are in 
+Helm. When you get into Node, like, you know, we'll do like a Lambda-specific one for express or land specific, 
+one for Nuxt or next or whatever, right? But it's funny, I'm going through all of my old Phoenix and Elixir apps that 
+I've deployed at five or six different companies, and I shit you not like I got 'em all. I got all the charts and I Diff-ed 
+across all of them and they were almost identical over like seven years, not much has actually changed in how I 
+package an Elixir application to ship it to Kubernetes.
+Like there's some secret stuff, there's like a weird cloud config thing here, some environment variables, but like 
+the gist of it is, is like, ah, there's a service, there's an ingress there, deployment. There's some secrets, right? 
+Maybe if I have a stateful application, I got a stateful set. But like the configuration is really funny.
+We're reaching a point where it's like there's a real similar way of running a particular framework, especially on a 
+Kubernetes cluster. And so that's what we're trying to do is build these Helm templates that are generalized 
+enough that it's like this can run a Phoenix app.
+Pretty much whatever your Phoenix app is, you put it in there, it's going to run it. If you get to the point where it's 
+like, ah, you've left that 80 22s case, you can fork it and modify it, but like that's the power of the platform. You 
+don't think about it. And when you need to, you fork it and you can extend it, publish it back into our package 
+manager and fine tune it. So, I think a lot of applications can get there though, especially, you know, ones that 
+aren't super, super niche.
+Sundi: Yeah. And when you say, I mean, it's interesting that you looked at your projects over the last seven years 
+and it hasn't changed, although at the same time, I'm not that surprised cuz you are the same person. Like yeah, 
+you might look at your code and six months be like, who the F wrote that? Oh it was me.
+You know, like, that's everybody. Right? But it's not terribly surprising to me that the way that you [00:30:00] 
+package up your projects doesn't change if there is not much to change about it. But it, it does beg the question. 
+Does everyone do it the same way that you do? If you compared your seven years to, to Dave, seven years to 
+Owen, seven years to Dan's seven years, you know, I'm just throwing out names. Would it look the same?
+Cory: I think it probably look pretty similar, right? So, when you think about packaging things up in Kubernetes, 
+right? It's like it all comes back to that API. There's a standard API in Kubernetes, you can extend it and add 
+other things to it, but, the core of what an application is, it's a deployment or it's a staple set.
+It's either, you know, stateless or not. Right? There's a service, there's a way of routing traffic to it in ingress, so 
+it's like you have a lot of these high level objects and then those configurations change and that's fine, right? Like 
+that's what we kind of exposed to the platform is like what is your configuration?
+What are your environment variables? Which ones are secrets versus configuration? Where's your Docker 
+container come from? The structure of that object doesn't change. That's the nice part about Kubernetes. It's not 
+some bespoke bash script. It is a thousand different organizations saying this is the structure of like how you lay 
+out a deployment.
+Your values might change, but the, you know, there's a strongly. Or there's this type system and this, this schema 
+that describes like what it is, right? So, you don't have a lot of structural change unless somebody's added one of 
+these extensions, right? So maybe somebody's added Prometheus or not, right?
+But this is where it starts to get funny into like the bike shed-iness of like software development. We like recreate 
+a lot of stuff a lot of times and it's just like, ah, somebody's like, ah, I went and worked on this for two years cuz I 
+didn't like this one feature of Prometheus.
+It's like, why didn't you just fucking add it? It's one of these things where, if you go and look at the cloud Native 
+Compute Foundation, like if you look at the landscape, there's like 20 different tools for, for doing metrics and it's 
+like, but like the one that's one that everybody uses as Prometheus.
+So, if we looked at the way I collect metrics for my applications and somebody else for Phoenix might use 
+something else, why does that matter? Why does it matter? Like are your metrics getting to where you want 
+them? Yeah. Is your application running? Yeah. Who cares if it's Prometheus or this other thing?
+That's kind of where our approach is. Give people the best one, the one that's winning, the one that everybody 
+uses. And you're gonna have people the want this niche other thing. But it's like, okay, if you're like the tinkerer 
+and you like to play with things, fork it and go play with it, right?
+Go add that functionality. But, we're just gonna focus on the stuff that gets people back to writing software and 
+not worrying about the operational portion.
+Owen: So, you, you mentioned a t-shirt company as an example earlier, and my brain since then has been 
+thinking about a new startup where Sundi and I just sell Kirby versus Jigglypuff shirts.
+Sundi: Oh my God. Stop it.
+Owen: So, when we launch this highly successful, multi-region application, it's gonna run on Elixir Erlang and I 
+think I've heard people, not to siderail this too much, but like, there are questions some people have who are kind 
+of newer to Kubernetes.
+Are we losing anything with the Beam VM or Erlang specifically? Does that make it harder or does that kind of 
+make some features kind of just not work? Does it change the tools that we have available to us when we're on 
+Kubernetes?
+Cory: I don't think it does, but at the same time, I think this is one of the things that people are kind of, maybe 
+weirded out by when they first see our code bases. We do use Elixir. And, I don't remember who said this a long 
+time, actually, I'm not gonna say what I'm gonna say cause I know the person who said it last time got absolutely 
+fucking eaten alive.
+I got too much going on right now to get Twitter hate. But, I agree with that opinion that somebody else said about 
+six years ago. I believe the strong, I believe in it strongly. If you know what I'm talking about, wink, wink, nudge, 
+nudge. We are deploying all day long. We deploy a bunch of times a day.
+We're autoscaling, right? But, we got demands. Scale the thing up. None? Oh, we'll scale it down. We use 
+serverless PostgreSQL, we scale our, our PostgreSQL hits like zero in the middle of the night, no CPU, right? We 
+are full on auto-scaling the things, controlling our costs, right? When you think about that, and then you think 
+about Elixir, stuff starts to get weird, right?
+Like we're talking about DevOps, right? And operations, and there's a lot of Elixir that is operations and DevOps 
+like in the code itself, right? It's like, okay, we're clustering our nodes. It's like, okay, so now you're talking about 
+like finding each other on a network. You're talking about service discovery.
+Okay. And we're auto-scaling? Great. What happens when we go from one to 30 back down to two to 10, and 
+like there's data distributed across this cluster? Now we're starting to write software inside of our software to 
+move our data around. And so we don't use a ton of OTP. If it's in a library, we use it, but probably the extent of 
+the most Elixir-y thing we do is we connect nodes so that when a notification comes out across our GraphQL 
+subscriptions that it hits people and honestly, we're considering just switching to using Redis just so we don't 
+have a bunch of noise when the nodes connect and disconnect in the logs, cuz it, we're also log-free.
+The only thing we ever see in logs is nodes connecting and disconnecting. We're big open, open Telemetry fans, 
+so we just, we open Otel all the things.
+Owen: And you're saying that's not [00:35:00] useful? That's not useful logs? 
+Cory: That's the gist of it, is like our, our application's stateless and so it doesn't matter if something connects or 
+disconnects and it's really just noise.
+It's like, oh, something showed up in logs. We thought maybe somebody put in a frivolous logger or there was an 
+exception. It's like, oh, no, a node just disconnected. Who cares? It disconnected because it's shutting. It should 
+be disconnecting, right?
+Or, oh, it connected. Why is it connecting? Oh, we auto- scaled up. Right? So, you know, you know, I think that it 
+doesn't necessarily impact the tools that are available, but I think that what it does give you is it gives you a 
+different way of thinking about like your compute being commodity. Why do we have three instances running all 
+the time?
+Are they running at a hundred percent? Cuz if they're not, you're wasting money, right? You're paying for a 
+hundred percent of that compute, right? We just try to bin pack everything and get it down to as, as minimal 
+amount of CPU time running as possible. And so, that's one of the things that I think kind of goes counter to like a 
+lot of things you'll typically do in an Elixir application where you do want to have state, you do want to have 
+processes that you're pushing around. Like we, we don't use it at all. So, boring app. 
+Sundi: We kind of touched on this, but would you say that in 10 years an Elixir developer wouldn't need to know 
+how to deploy their app and they should just use that service or that button or that git-push kind of thing? Are you 
+standing by that one or is there kind of a little bit more nuance to that? 
+Cory: I think that's where we need to get to and here's why. I actually just wrote an article. Microsoft, let me write 
+a thought piece on the future of the cloud, which was an insane thing for them to do. You know, Bill's gone. So 
+they're just doing whatever now. But, there is like this existential dread that I have when I think about our 
+industry.
+We joke all the time about like, oh, we don't know what we're doing. We're out here guessing, no, we're just 
+copying, pasting shit off of Stack Overflow, right? Like, if you go on Twitter, there's a million developers a day 
+joking about how they don't know what they're doing. They're making $200,000 a year.
+My dad would've loved to have made six figures to not know what he was doing, right? And a lot of what we do is 
+based on hobby, right? Like we like writing software. It's what we do after work. It's what we do at work, right? 
+Like we're, we're, we're people that like to have fun. We're always learning. And that's why it's fine for us not to 
+always know what's going on.
+But it's really funny when you think about what we are. We are extensions of a business. What we do is a tool 
+that the people that know the business don't know how to use, right? Like that's like a woodworker coming in and 
+saying, " hey, I wanna build a table, but I forgot how to use saws," And is telling somebody else how to cut some 
+wood to design this table.
+Like that's what modern businesses are today. We have product managers, business side, like thinking through 
+how the thing works and then they come over. It's like that scene in office space. They come over, they tell the 
+engineers like what they need, right? And we go and build it for 'em.
+Where this starts to get worrisome is, the average tenure for a software developer is like 18 to 20 months. Like 
+we constantly hop, why do we hop? Because nobody gives us raises. And if you hop, your salary goes up 10 to 
+20%, nobody wants a 3% raise, right? And so we're hopping around and a lot of people hop from industry to 
+industry, not getting like deep business knowledge, right? So, where this starts to get freaky and like why I think 
+we need to get to the point where things can easily be deployed, US Department of Labor Statistics says that the 
+software industry, or the software role in the US is growing at five times the rate of any other job. 70 years ago, 
+there was one software developer on the planet. Today there's more software developers than the population of 
+Australia. The average software developer has less than three to five years of experience, and they're operating 
+software. They're writing software, which is something they have to do because not enough people know how to 
+write software that the experts and professionals in our industries don't know how to write software. So, they go 
+get expert software developers to write the software for them, right? What's kind of worrisome about this is, you 
+only get operational knowledge from operating in prod. And that's why I was saying earlier, like, I think DevOps 
+kind of discounts the operational expertise. It's not something everybody can do. I mean, everybody can do it, but 
+we're guessing our way through it. 
+And so... What are we doing? So we're running, we're writing software, we're selling it to people, we're telling 
+them we're professionals, and then we're like, I just copied and pasted some shit for how to secure this off of 
+Stack Overflow.
+And guess what? My product manager just wants us to convert. They're not concerned with the amount of time 
+I'm spending, securing and operating the thing, as long as people can click the button and buy more stuff, right? 
+So, it's like, the incentives of the business and software engineer do not align with operating and securing 
+software well.
+In the meantime, 8% of software developers in Stack Overflow's last survey have cloud expertise, but 
+everybody's trying to move to the cloud, so less than one in 10 people know how to run this stuff effectively. In a 
+world where software developers are growing at five times a rate of any other job we're making more and more 
+software developers. We're making less and less people, less doctors, less lawyers, less pilots, less everything 
+else, cuz everyone's becoming a software developer, right? And so, 10, 20 years from now, we need to know 
+how, we need to know these systems that are being created by people that aren't going to medical school for 
+eight years, but they're writing AI to cut somebody open,[00:40:00] at least can operate the software securely, 
+right?
+Like you might have a bug that cuts too far, that's fine, but like at least their, like, their healthcare data is secured, 
+right? That's the thing that really worries me. We have too much stuff to worry about day in, day out as a 
+developer. Like there's the business rules that I'm trying to process and figure out how to turn it into code so a 
+computer can understand it.
+They're securing the thing, there's operating the thing. Like there's a lot of stuff. And at the end of the day, what 
+I'm supposed to be doing is delivering value. And if I'm doing the operational part, I'm not doing the part of the job 
+that I'm paid for, I'm not doing the part of the job that my non-engineering coworkers see.
+That's why we need to get there. The role of operations person is still very important, but they start to be experts 
+in these different passes and cloud systems that know how to operate these things. And that's fine. Like that's 
+where they should be. That's how I think Dev and Ops really should ... the silos are fine... they delineate 
+expertise and that is okay. So that's my soapbox, Reddit!
+Sundi: Every time you said somebody is operating software. You said it in a way that made me think of like a, a 
+toddler operating a forklift. That's the image that came to mind. 
+Cory: It's wild, right? We effectively have root access to every single one of our customers cloud accounts, right? 
+So like we, we do a, a painstaking amount of work in security, right? And it's just like, there are people on our 
+teams that haven't worked in the different security.
+It's, it's really funny. Thinking about Azure development, ownership and like letting people like move around their 
+stack. It's actually hard to do that at Massdriver because there's some stuff that's like, this requires so much 
+security knowledge to secure this thing.
+This is one of the reasons we lean so much into Otel, we have an entire part of our system that no human can 
+access, and that's where like all of our credentials are actually running. It's equivalent of like the most air gap 
+thing you can have in the cloud. And we get some telemetry data out of it of what's going on and that's how we 
+debug it, right? That's what's important to us. Like that's what we had to do to like get this system secure and it's 
+like it takes a lot of effort. I don't know that. If this was a company built by somebody who had a, uh, an MBA that 
+didn't care so much about security, that they would put as much on their engineering team to secure that system, 
+right? But it's important to us, it's a part of our brand. It's very important that we don't have any sort of exposure. 
+So like we go through all this pain to do it. Our banks, our healthcare companies, right? Like you see healthcare 
+leaks. I just had a bank recently just leak a bunch of my information. I was like, yay. Right? And so like this 
+happens all the time. And sure it could be a mistake if somebody who's an expert, but we know that one in 10 
+people are experts. So, it's more likely that it was a mistake of somebody that wasn't an expert. 
+Owen: Yeah, there are a lot of admin password credentials in the cloud. Hopefully fewer every year, but I think 
+you're, you're right. More engineers, more problems, baby. Maybe that's the way to sum up this entire episode. 
+We could spend an hour on, I think the, the credentials stuff sounds really interesting.
+We could spend an hour on just Kubernetes deep diving even further. But, we've somehow already reached 
+almost an hour. So before we wrap up, do you have any final plugs or , any asks, anything you want to say to the 
+audience before we go? 
+Cory: Yeah, I mean, check out Massdriver. We'd love to have people give us some feedback on it. Like I said, 
+we're starting to lean more into the application side to make it easier for application developers, so we'd love 
+some feedback there. We do have a deal for Elixir developers where you get $5,000 of Massdriver credit.
+Then, we also have just like a base level free plan that's free for life. 
+So, your first $500 of cloud spends never build. So, we definitely appreciate any feedback there. We're trying to 
+make it easier and easier for people to just focus on their apps, tell us what their dependencies are and get back 
+to writing software. But yeah, besides that, put hot sauce in honey and put it on your chicken. I don't have a lot of 
+asks. That's it. that's two things. I asked two things of you.
+Sundi: And that's full circle folks.
+Owen: Full circle, right? Hot takes... literally. So, awesome. Well, we, we will have show links. We'll have links in 
+the show notes for that $5,000 Massdriver account. That'll be great. And yeah, thank you so much for joining us, 
+Cory. And thank you to the audience for joining us. Thank you for sticking around and we will catch you on next 
+week's episode of Elixir Wizards. 
+Owen: Elixir Wizards is a production of SmartLogic.
+
+Sundi: You can find us online at SmartLogic.io and we’re @SmartLogic on Twitter
+
+Bilal: Don’t forget to like, subscribe, and leave a review!
+
+Owen: This episode was produced and edited by Paloma Pechenik for SmartLogic
+
+Sundi: We’ll see you next week for more on the next ten years of Elixir
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a 
+consulting company that helps our clients accelerate the pace of their product development. We build custom 
+software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app 
+development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, 
+referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great 
+day!
+
+
+
+
+
+
+
+
+
