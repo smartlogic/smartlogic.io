@@ -1,0 +1,263 @@
+S10E03 Michael Lubas on the Future of Elixir Security
+===
+
+Owen: Hey everyone. I'm Owen Bickford, senior developer at SmartLogic
+
+Bilal: And I'm Bilal Hankins, developer at SmartLogic
+
+Owen: And we're your hosts for today's episode. For episode three, we are joined by Michael Lubas, founder of paraxial.io, and in this episode, we're discussing the next 10 years of Elixir security. So, hello Michael. How are you?
+
+Michael: Hey, Owen, Bilal. Thank you for having me on the show today. I appreciate it.
+
+Owen: Of course. So we're gonna get into the weeds a little bit in just a few minutes, but, just as an introduction for anyone who hasn't come across, you've been pretty active in the community over the past year or two, you want to kind of go through a brief introduction and kind of where you come from?
+
+Michael: Yeah, that sounds good. So my name's Michael Lubas. I'm the founder of paraxial.Io, which is an Elixir focus security platform. You might have seen the posts on social media or in the community. I put out a good amount of content about Elixir security. Also, I'm part of the Erlang Ecosystem Foundation, the security working group.
+
+They do a lot of really fantastic work as well. So, those are some examples. I'm also involved in organizing for the Denver Elixir and Erlang meetup, which is fully remote now. So if you're listening and you're looking for a meetup to attend, it's at 6:00 PM in Denver time. So if you're in that time zone, it's a, it's a nice meetup to check out. 
+
+Owen: Right, so you're from Denver, right?
+
+Michael: So, yeah. It's funny. I live in New York City, the Denver meetup, they just needed somebody to help organize, like run the promotion and make sure the meetup goes smoothly. So that's my current involvement. 
+
+Owen: Yeah. I'm glad you jumped in. The previous organizers are great. It's great to have a little bit of handoff sometimes just to kind of keep things fresh and, and running and everyone's got a life anyway, so I'm, I'm happy that the meetup is still going. It seems like every time I go, there's more people.
+
+So, it's been really fun kind of participating and jumping into those, those monthly meetups. Do you wanna tell us a little bit about Paraxial?
+
+Michael: Yeah, absolutely. So paraxial.Io, it's basically security software for your Elixir application. The two main parts of it right now are bot defense and vulnerability management. Are you guys familiar with reCAPTCHA, like the pictures of stop signs?
+
+Bilal: Yeah. 
+
+Owen: I've never seen it. What are you talking about?
+
+Michael: It's pretty bad now. The other day I got a challenge and it was, select the photo of, you could tell it was AI generated art. and it was really blurry figures. Some people were playing golf and some people were playing hockey. Kind of like Happy Gilmore, it's a similar pose for somebody to do, and I was having a horrible time with it. It's probably the most infamous software that's widely used today.
+
+Owen: And good luck if you're using a VPN, because you're gonna be hit with so reCAPTCHAs, it's not even funny.
+
+Bilal: Those things make me feel like I don't know what a, what a stop sign is or what a what a motorcycle is.
+
+Michael: Yeah, exactly. My mom actually texts me now when she's trying to pay a bill or just use some very basic thing online. She goes, you should, should email them, see if they use Elixir, set them up with paraxial so I can actually use this thing. 
+
+Owen: Your mom is an Elixir evangelist. That's awesome. 
+
+Michael: Exactly! Yes. But yeah, the bot defense side of paraxial, it's that same goal of stopping bots, but you know, without the horrible puzzles, there's technical controls you can do as well.
+
+So that's what paraxial does. That's on the bot defense side. And then, vulnerability management, it can scan your application for common security issues. If you want, we could kind of go in. I feel like the listeners of this show especially would be interested in the technical implementation details as well.
+
+Owen: Yeah, I think before we get into the details, I think it'd be kind of good to, you know, I don't know who starts as an engineer, focused on security. Is this something that you developed some interest in after becoming an engineer? Or what was your kind of entry into security?
+
+Michael: So my college undergrad, I did a cybersecurity focus degree. They're relatively new. And then I worked as a security consultant for like a big firm, working on just projects you'd expect, banking and stuff like that. Finding security problems in web applications. That was kind of the first part of my career was doing security work. Coding in languages like Python, Ruby, C, doing security challenges, that's kind of a whole career path that's pretty established now. You can go online and search you like, how do I do an InfoSec career in application security? Or exploit development? Or red teaming? Those are really well defined.
+
+Not many security people know Elixir. I hope that changes, but I learned the language when I started working at Frame.io. Their whole backend is in Elixir. I was the application security engineer and I said, okay. I'm gonna learn this language. I feel a little bad though. It's typically the reverse problem.
+
+People learn Elixir and then wanna find a job. I kind of had that foothold and then had a good excuse to learn the language.
+
+Owen: Nice. 
+
+Bilal: So given you have a varied background in security and working in different languages, how would you say Elixir security differs from other languages?
+
+Michael: This is more of a philosophical point. I would say that if you're writing a web application, for example, and compare it with Python or Ruby , I would say, on average, an Elixir application is more secure. But maybe not a good business thing. If you're making security software for WordPress or PHP, you know, that's...
+
+Owen: you're gonna be busy!
+
+Michael: Yeah. You're gonna have plenty of customers. But, it's more whenever you have like a security problem with a piece of software, and it could be anything. It could be a web application or an operating system. The way security problems happen is, okay, you expect your application to behave in one way.
+
+You expect user input to come in, and it's gonna be parsed correctly. And, SQL queries are gonna execute, but it's all gonna happen inside the parameters you expect. The way security problems happen is when attackers are sending you input and your system is behaving in a way that you don't expect.
+
+They can inject a SQL query. They could execute commands on your server. They could find a cross-site scripting problem. It doesn't really matter the exact type of vulnerability. It's more that there's this gap of what you expect to happen and what's really happening. A thing that I really like about Elixir, I wouldn't say that the immutable data gets you like a security guarantee, but it does when you're thinking about how the program is gonna work. It's a lot easier to reason about it. I expect this state to happen, or I expect this code path to be hit in a certain way. It's lot easier to trace user input. Like how did user input get to a function, for example? Um, yes, there's macros. You can argue that adds some complexity, but I would say for most Phoenix projects, for example, compare that to Rails where something could change in like an object and it's very hard to reason about it. Just that ability, being able to see , how is this application gonna work? I'd say that's a major strength of Elixir.
+
+Owen: Right on. Yeah, I think so. The great thing about Elixir Wizards is we have a very diverse audience of aspiring engineers, junior, senior staff engineers, and even non-engineers who are probably also listening to this podcast. So, just to take one of these particular security issues, I'd like to dig a little bit deeper into what is SQL injection for anyone who's maybe hearing about it for the first time.
+
+Michael: So really simple. You know, when you get a string as input to your application, imagine a page where it's like an online shopping website and you want to filter by price. Show me shoes that cost less than $200, right? So you're taking 200 as input from a user, you're expecting that to cast to an integer and be put in like a query that goes, show me shoes less than 200. A problem can happen where if you're constructing that query, but you allow somebody to take the user input, but then they could do 200 a quote to kind of break out and then say like &quot;or one equals one&quot; and end the SQL statement. And then they could add their own SQL queries, like drop the user's table or dump the database and return it in the response. That's the basic introduction to SQL injection. There's an XKCD comic that's really famous where a mom names her child. It's like Bobby, and then, some like extra and then it's like drop table students. That joke is about SQL injection. The mom causes the school's database system to delete all the student records.
+
+Owen: Susan drop table. That's funny. So, SQL injection, is that something that's kind of mitigated out of the box with Phoenix and Ecto?
+
+Michael: Yeah, it's actually funny. I was asking ChatGPT, I know people are sick of talking about this by now, but I, I asked it like, &quot;Hey, in Phoenix, what is the library that stops SQL injection?&quot; It said Ecto and I was a bit impressed by that because it's not something you would like read Exactly online.
+
+I thought that was an interesting fact. There's actually an article up on the paraxial.Io blog about how ecto protects you from SQL injection. It's very difficult, in Elixir to introduce this problem, you have to either be using the raw query function or using macros to override this protection that fragments get you.
+
+It's a little more in the weeds, you have to kind of know Elixir to understand this part. The, the general idea is Elixir gives you really good controls. I think because the libraries, like Elixir is a well-designed and well-written library, you know.
+
+Owen: I would agree.
+
+Bilal: So what are the most common security concerns you see in Elixir and Phoenix Apps?
+
+Michael: So you're, you're asking somebody who started a bot defense company what the most common problems are. But I'll, I'll give you kind of like a more broad answer. I would say that the common web application security issues, those definitely happen. You can introduce a cross-site scripting problem.
+
+It's not really common to see people doing raw on user input, for example. Typically it'll be in like a file upload where the content type is set by the user and then you have a controller that's returning the image. They're expecting an image, but let's say you upload an HTML document and that renders, and then that's how you get cross site scripting.
+
+I would say specifically for Phoenix, there's like good tooling. So you could use paraxial.io. Sobelow is the open source tool that checks for these types of vulnerabilities. It does a pretty good job. There's also ways to check for vulnerable dependencies. That's just kind of a common issue across all application security.
+
+You want to make sure you're checking for those. But I would also say that, bot attacks are a pretty big problem for any application that's on the public internet. That's why you need something in place. And I, and I kind of discourage developers from using reCAPTCHA, obviously paraxial's competitor.
+
+You probably don't need these horrible puzzles. Could you do rate limiting? Or, is there just another control you can put in place? I'll give an example. The risk from bots for most applications really comes from new user signups, which is a requirement for most businesses if you have an industry or growth is important, you know, you want someone to be able to sign up and do things in your application.
+
+But that just carries with it a lot of risk that somebody signing up and entering their credit card information, they're not guaranteed to be a good person. You know, they could be doing credit card fraud and creating accounts to do that. So if you're in an environment where you could restrict new account creation for example, that has really big security benefits, you still need to check the routes in your application are authenticated, naturally. But that's reducing the amount of input that can be put in. Really, the security problems that you see in Elixir and Phoenix applications, it's the same as other web applications like OWASP Top 10, you know, using vulnerable dependencies, putting user input in ways that wasn't expected.
+
+The good news is, I would say, Phoenix has really good tooling and it's much easier to reason about the behavior of the application.
+
+Owen: Yeah, and if you're, if you're using the generator or if you're just using the kind of the best practices, even without using generators for your views and stuff, I think most of this gets kind of dealt with automatically. But yeah, I think what we're talking about mostly here is users interacting with your application in probably a production, maybe even staging environment, somewhere on the internet, and doing things that you didn't plan for or didn't fully mitigate, in your user interface that could ripple out through the rest of your application. Is that fair to say?
+
+Michael: Yeah. Yeah, exactly. And the other nice thing is Phoenix kind of puts you on these guardrails where it really pushes you not to do the wrong thing. The defaults for username and password, it wants you to use a good password algorithm like bcrypt or sCrypt. It's not gonna have you using something wrong like SHA-2 56 should not be used for password storage. We don't have to get into like the super, cause that could be a whole episode. But it also has really good protection for cross-site request forgery, that's built into Phoenix, the generators take care of it for you. I think there's probably software that's really secure by default, just because it was using Phoenix, even if the developer doesn't know
+
+what is the CSRF token doing? You get that protection by default and it's kind of like the opposite in other frameworks where it's like, oh, hopefully you remember to like enable this, it's not even well documented cuz it's some Javascript or PHP thing, you know?
+
+Owen: Right? Yeah. Cowboy code PHP land. No guardrails.
+
+Michael: Yeah, exactly.
+
+Owen: So, we talked about ways that users might start doing things in your app that they're maybe not supposed to be doing, but your app should also be guarding against, you know, these are well known things. Another area of security that's interesting to me is not the pipeline, but the chain, it's like the factory. What's the thing where you have things on a, on a line? Supply chain! There we go. The supply chain attacks. 
+
+Michael: Yeah! Big topic right now.
+
+Owen: Yeah. You've gotta host your application somewhere, so you're trusting a vendor usually to do that securely. But also, every dependency that we pull into our application, even the ones that we include by default to most of our apps, are at least potentially vulnerable to some kind malfeasance. Have you seen some tooling in the space that helps at least raise awareness or deal with those kind of concerns?
+
+Michael: Yeah, I suppose I should do two plugs then. Obviously I'll say paraxial.io helps with this problem. It's able to run a check for vulnerable and retired dependencies, but also, there's a recent project that was just released, Potion Shop. I'm one of the authors, along with Jonathan. It's a vulnerable Phoenix application, and one of the issues in it is there's an outdated dependency that's vulnerable to remote code execution. It's a bit of a spoiler, if you're trying to work it through, but I guess consider that to hint. 
+
+Essentially it's an elixir application that's vulnerable to these security problems and. One of the vulnerabilities you can't even find just by like grepping through the code or reading it. Not all of the vulnerabilities are in kind of this first layer. You have to kind go one down and see, is user input going to these dependencies? And is, is that what the root cause is for the security issue? 
+
+Bilal: So, you talked about the typical software development life cycle. How are things like LiveView and WebSockets changing our approach to security?
+
+Michael: was a recent article by Bram about LiveView's model, where one assumption you might be making is: with LiveView, I'm gonna check if user is supposed to be able to perform some action, let's say create a new post.
+
+but this check can be performed in client side, so, okay, this user doesn't have permission. Let's just like hide the form, for example, because that's an assumption you can make when you're kind of programming in this model. The problem is the client can still send the request to create the post and it's gonna hit the back end.
+
+So, doing that control in the client side doesn't actually solve the problem. ,that's something, I believe it's subject of this article, that you have to watch out for this kind of client side, security control, where it's that gap of you assume it's not gonna be a problem because person can't see it, but somebody who's crafting requests specifically to cause problems, they can still use that to kind of subvert the authentication.
+
+Owen: You're saying people are mean and they're doing things in these apps?
+
+Michael: Yeah. Unfortunate. 
+
+Owen: How rude! Yeah. LiveView WebSockets is kind of the next frontier. Phoenix devs have been working with LiveView for a few years now. So, I'm excited to see tooling that's being built up around debugging things just when you're in development, but also ideas around checking what's coming through that WebSocket before you just start passing it off to the database or, expensive API calls and that kind of thing. So, of course we got chain sets, we got pattern matching and some other manual, regular expressions, things we can do. Are there some best practices for checking those events that are coming through the WebSocket on a LiveView?
+
+Michael: I would say it's still the core Elixir libraries. So, for example, like have a malicious SQL query coming through LiveView, that's still gonna be filtered in Ecto. Like not gonna be doing that with like different programming model. I would say it's more, when you're coding, kind of like business logic of authentication, that's where it comes in.
+
+or where you're assuming, oh, I'll only receive requests like depending on the front end rendering. the nice thing too is ,with Phoenix, the cross site scripting controls, which relates to how user input is rendered, that's been thought through very well by default. have to call a specific function to kind write code that's vulnerable to cross-site scripting.
+
+And that same pattern applies in LiveView, where you get that protection, you really by default when you're coding your application.
+
+Bilal: What are some exciting new possibilities that we might see for security with LiveView? 
+
+Michael: would say that, with LiveView, because you have this guarantee of event going to the server and then you can ha like the server acting as an authority, this is not really security related, but it's an idea I've had with online games. don't know if people did this when they were teenagers, but like, could cheat in online games, like flash games.
+
+were like tools for doing this. you would go to like, play a game and then like high scores would be like 9, 9, 9. Like you couldn't even. And I was like amazed by that as a kid. I was like, how is this even possible? but it's typically done where you, highest score setting would be like a post request that your browser sent. you could just edit it, like you knew how to do that. that was magic when I was like, you 12 or something. but with LiveView, could consider an environment where it's really important, like your high score, you can do kind of the events in game being sent to the server. don't have to have it in the client side and then being sent a post request, which could be edited, you could have individual actions with LiveView at just like a much higher rate. And then everything is computed, server-side. So that's also the model you see kind of in online gaming, anti cheat and stuff.
+
+but I think that LiveView gives you the tools to do that kind of programming. it just makes it much more accessible and it's a much more pleasant experience because it works so well with the rest of your application code.
+
+Owen: Yeah. I think one thing that's exciting to me is, going back to authentication, knowing is this user the person that is trying to access this account? Can I confirm their identity? We have some really great tooling that was released a year or two ago with the Phoenix Auth Generator. So, that just injects a bunch of code into your Phoenix app. Maybe a few months ago they made that LiveView compatible. So, it could either build a traditional controller or you could choose to build a LiveView that would kind of accomplish the same goal. That's really cool.
+
+One of my side projects is Passkeys and doing passkey implementation where everything gets transmitted over WebSockets, which has been a huge learning curve cuz, you know, Passkeys is new technology. It's built on WebAuthn, which has been around for a while.
+
+But, documentation for doing that over WebSockets is, you had to kind of synthesize a bunch of information. But, I think that will be really cool for evolving authentication so you don't have any to deal with passwords, like we do currently and password breaches as a result. And then also some ideas around authorization and that kind of thing. So, I think there, there's plenty of room for exciting stuff to happen with LiveView, and I'm kind of curious about security tooling as well. I looked at the paraxial package, which I think is kind of largely plugs that are intercepting some IP and some meta information about the client and then doing some analysis back on the paraxial site, if I understand correctly. And telling the application whether this appears to be a bot or not. Is that kind of roughly correct?
+
+Michael: Yeah, exactly. And recently talked to someone who was curious, like, how does paraxial work? An assumption could be, have to send all of your traffic through like paraxial server where see everything and, that's not the case.
+
+maybe I should start in the marketing saying that it's it helps your application defend itself, because really it's the Elixir application code that's like doing the defensive work and then that's what's like stopping an attack. When you set up CloudFlare, have your user and then you have a CloudFlare server that's kind of acting as a man in the middle. And then you have your true origin server so that CloudFlare server can see all of your user's passwords, private keys. know this is true because a few years ago there was this vulnerability called cloudbleed, which made the news, it was like big deal if you were a customer of CloudFlare, all of your customer's passwords, private information that got dumped on the public internet, which is really the worst case scenario.
+
+was possible because that TLS connection gets established, but it goes through the CloudFlare server and it's decrypting all of the traffic. With paraxial, because it's the open source agent, your user's passwords never touch like paraxial server. the only information that gets sent, you know, information about http requests like the ip, that's what you explicitly code in through those plugs.
+
+And then, like, let's say one IP does too many login attempts, that IP gets banned and then those requests are reject. But all of that is happening in your application code, so you're not sending data to a third party. Another problem with this cdn, like CloudFlare setup is if your origin IP address leaks, which is really common, like can just get that through platform as a service providers, you can just send your malicious traffic directly to the application server and, and bypass that man in the middle because that's where all the you protection logic is. Having the protection in your application code, that's really big benefit. I would say the reason a lot of companies don't do it is you want the generic, like you can defend any application. great for marketing and, and business and growth, but unfortunately, I, think security suffers when you take that approach. 
+
+Owen: and so just a tldr on how you get a WebSocket in the first place is. Whenever you go to, let's say you're going to a page that is a LiveView on the back end, the very first thing that happens is an http request. It's a get request for whatever that URL path is and then there's a handshake that happens before it's upgraded to a WebSocket. So even if you're building, say, a fully LiveView application, you can still get a lot of protection just by adding these plugs into your application because they're still gonna go through that plug before the WebSocket, before the connection is upgraded to a WebSocket. So I think that's something that dawned on me as I was kinda looking at the documentation.
+
+At first, I was wondering, is this still useful with LiveView? But I think because of that handshake upgrade from http to WebSockets, it still has a role to play in protecting, at least at the initial connection. Like, is this a bot or not?
+
+Michael: Yeah, exactly. And then the nice thing too is you're in the Elixir application code, so as long as you just have access to the con, you could kind of write your own logic of, okay, here's some sensitive operation in my application, I want to like rate limit, not necessarily on http requests, but on, number of events that happen, like maybe you're sending email externally to like invite people to a project.
+
+As long as you have access to con remote IP, you can your throttling logic wherever you want to, which is just a benefit of, of being in the application layer.
+
+Owen: Let's take a moment here. We've been talking about bots, and of course, this day and age, Chat GPT's already come up, but every day there's a new, new type of bot. There's Bumblebee that's getting connected to Axon, that's running on Elixir and all this other stuff. What we're talking about in this context, for the most part in this episode is a different kind of bot. Can you kind of draw the distinction between a bad bot and a useful bot?
+
+Michael: Right now, when people talk about these like language models and like chat capability of them, what I always find odd is we're not really discussing action part. you get these people that are saying, oh, I use Chat GPT, to this action on LinkedIn, and I got a reply.
+
+But, the text of the message is only part of it. It's also the fact that you have an account. you're Owen or you're Bilal on LinkedIn and you have your qualifications and just the action of you messaging somebody that is, I would say, in some ways more important than even the content of your message.
+
+there's this famous, think it was like media philosopher, Marshall McCluen. of his ideas was, Just the medium that you're in is often more important than the message. I'm on this podcast right now and like doing a podcast together about Elixir. That's really big message of itself.
+
+And then we're also having this conversation, I'm sorry if this is like kind of rambling now, but the point I'm, I'm getting back to is with these chat bots, it's the action that you're taking. bot, when I think about it in my work, it's sending an http request to an application to try to like steal somebody's account or take over a web server.
+
+Tying this into like chat GPT there was a, this article that came out, I think it was Wired, where the person was using Chat GPT to like write a web bot. As confusing as possible where you have the language bot and the web bot. Yeah. It communicated with, I believe it was 2Captcha, like it was writing code to talk to 2Captcha to create a web bot, and people were a little freaked out by this cuz it was kind of a malicious thing. The thing is, the internet is full of malicious bots. People know this. You go on any social media site and there's spam about crypto scams or whatever. It seems like it's always in the news.
+
+People are coding bots. That is part of the internet today. Certainly the advances that we're seeing now, they're gonna have effects on content generation. The act of somebody coding a bot, I don't think that's gonna change very much. There's gonna be automation, of course.
+
+I think the Bing example was people were putting in HTML code that showed up in the chatbot's output later. I thought that was really cool. I do think it is a big shift. It is a very important shift that we're seeing. But when people say, oh, it's gonna replace my job and things, most people aren't really pure knowledge workers in the sense that they're just talking to someone and that's their whole job.
+
+We interact with computers in our day-to-day. We write code that goes on servers and sends out requests, and we talk to our coworkers. Maybe there will be advances in the next few years or in our lifetime where a model could do all of those things better than a human. I'm not saying that that's impossible, I'm just saying that these are different areas of work. 
+
+Owen: In a couple years , this is gonna be a purely philosophical podcast where we don't have to do any work. We just sit around and think about the nature of humanity.
+
+Michael: I, I apologize.
+
+Bilal: All this talk about bots had me thinking of when I, or like high school, I had a sneaker bot that would just even that I kind of felt, I don't know, a little dirty doing it, it's crazy to think just the evolution, I guess, of what bots are now today because like now we think of, you know, Chat GPT and whatnot, and before it was like, you guys remember that, that iPhone game, it was like the talking Tom, the cat?
+
+Owen: I never had that one. I'm surprised that there's a cat app that I was not aware of. So...
+
+Bilal: Oh dang, you guys are missing out. It was, it was a talking cat. And, you could dress it up and whatnot. But I saw recently, they upgraded it now to where it's like, this is kind of creepy now. Like it used to, like, it used to just, make some cat noises laugh at you. And now like I'm hearing, it's saying whole sentences and it's talking back to you. 
+
+Owen: It's now sentient. A sentient bot 
+
+Bilal: Yeah. it's a sentient. There's a cat and then there's a talking dog. I forgot his name. One is Tom. I think the dog is Jerry. Maybe. How? No, that's Mouse's.
+
+Owen: Wow. Okay. So we're gonna have to go back and start thinking about sneaker bot v2, maybe v3 for the next generation sneaker bot. I'm curious, so we've talked about things that we get outta the box with Elixir and Phoenix and Ecto. Are there common oversights? I know you've done a little bit of consulting as well, you've worked with a bunch of different developers over the years.
+
+Are there common mistakes without calling any names? Are there things that we kind of tend to get wrong on a regular basis?
+
+Michael: So, I really recommend watching this talk by the author of Sobelow, Griffin. He gave it at ElixirConf, I think it was 2017. He walks through those exact examples in it. The one example he gives is Erlang's binary to term where you take like some serialized data, it's being transformed from a binary into an Erlang term, and then there's a safe option, which is really misleading because you think it's secure and then it's not. You have to use, it's like plug crypto, it's called non-executable, binary to term. This is a very Elixir specific thing. It's in Potion Shop if you wanna play around with it. That's an example.
+
+The Erlang Ecosystem Foundation, the security working group also puts out this document that I should mention. It's best coding practices for Elixir. It, it talks about this exact problem. The atom creation one is another big one where I, I think it's probably the most famous Elixir security problem where you can create an unbounded amount of atoms. The good news is the impact. It's just your server restarts usually because you ran out of space. 
+
+Owen: Is it like a million atoms that you can have? Is it, is that, is that about right?
+
+Michael: Yeah, it's definitely in that ballpark. I would say the remote code execution and the SQL injection ones are kind of at the top of the pyramid. When you rank vulnerabilities by how severe they are, a big part of it is what is the probability of this being exploited? So in the documentation for Potion Shop, I have this warning that says, do not deploy this on a production server, because even if you have zero users and nobody ever uses it, somebody could send a request, take over that server, and then add it to a bot net, because there's a remote code execution vulnerability. That doesn't require any user interaction. Compare that to a cross-site scripting worm, which happened to MySpace, where you have the malicious JavaScript, you view it, now that person owns your account so they can post more malicious JavaScript to your followers, and then that's how the worm spread. In that case, it's bad because the JavaScript has access to every user's account, but you can see how there's this requirement for user interaction for that to work. or you have to send someone a malicious link. So that's a tier down from something like remote code execution or SQL injection where you just need a web server that's running. You send it some input and then, you've caused something bad to happen, you know?
+
+Bilal: What are some common security issues that you see in Elixir and Phoenix Source code or you know, packages, any chances to improve in these areas?
+
+Michael: Running Sobelow gives you like a really good initial run through, like what are you doing? Also, because Sobelow acts on source code. So, it's gonna tell you about specific coding patterns. So that's one example. But then at the same time, if you're using a library that's vulnerable, you can introduce this vulnerability without even writing the vulnerable code yourself if you're calling an API and putting user input down into it.
+
+That's something else to keep in mind. I would also say, if you're a developer, it's a bit of a cliche. I feel bad saying this, but, put yourself in the mind of an attacker. You want to do credit card fraud for a living, or you want to send spam email using your application.
+
+Thinking about it in that way. What's the worst thing I could do if I was really looking to cause harm? You might have this assumption This thing I'm implementing, as long as nobody sends more than 10 requests per second, I'll be fine.
+
+And, anyone who's a real, legitimate customer of your business, that's probably true. Unfortunately, people can sign up and then send you a hundred thousand requests in a minute just because they're jerks and their bot is misconfigured. Even if it doesn't make them any money. One of the saddest parts of the internet is that there might not even be a financial incentive for spamming you. Maybe somebody just has their crawler set up to like dump this data and it only makes the money in certain scenarios. But that's the reality of the public internet.
+
+Owen: Also teenagers, teenagers with just endless amounts of time and n nothing but an appetite for destruction, right? 
+
+Bilal: That sounds like my sneaker bot. was just, I, I misconfigured it and I remember one day I went to school and I come back and it was just, I think when my credit card got denied like two, 200 times or something crazy.
+
+Owen: Wow. Yeah. Yeah. I think what you're saying is 
+
+Bilal: It didn't earn any money. 
+
+Owen: No money? Well, yeah, like I said, bought V2 v3, then you'll have a bot startup. What you're saying is true. I think a lot of us, myself included, we get into engineering because we want, we're optimists, right?
+
+We want to make the best apps possible. If you're front end oriented, you're wanting to make things as easy as possible for users. But if you're security minded, there's a balance, you have to make things difficult for bad actors without negatively impacting your good users too much, right?
+
+It's hard to get that balance. Sometimes, you'll see apps that require a bunch of confirmations of multiple fields where maybe it's not really necessary or beneficial, but because that's, you know, it came, someone suggested it some, sometime, so.
+
+Michael: I can give you an example too that's kind of recent and a little concrete. When you go to your banking website, you know how you get like an SMS text to confirm there's a code. So recently, there's been news where attackers are sending hundreds of thousands of SMS message.
+
+And the reason is they make money off of the fraud. It's somehow related to how telco carriers work. We don't have to go into the details, but the summary is, let's say you're working on an Elixir application and it's sending SMS events and you wake up one day, there were a million more than normal and your bill for this service went up by like $10,000.
+
+I started seeing articles about that right around New Year's this year. So people have been more interested in rate limiting or bot detection for those routes. If you didn't know about this though, it seems insane. Why would somebody do this? Send out spam SMS messages? It seems like nonsense, but yeah, that's the world we live in. 
+
+Owen: Yeah, everything's great. Nothing, no problems, So this has been an excellent episode. Before we start wrapping up, I do wanna call out that we've talking about a lot of, you know, kind of scary things. This is not a Halloween episode, but you know, there's some scary stuff you have to deal with if you're launching an application out into the world.
+
+But if you're listening to this and you're a little bit intimidated, look, you've got a bunch of great tools that are helping you out a lot with Elixir in Phoenix and there are other things you can kind of opt into in the ecosystem and just a bunch of friendly folks who will definitely help you kind of find your problems and, and fix those problems when you reach out for help. This is not an episode that should discourage you from reaching out for your dreams and trying to make something, maybe a little bit challenging. But I think it's always great to go into it with the open eyes and not just kind of put off all the security concerns until, you know, the day of, of launch, right?
+
+You want to be thinking about those things as early as possible so that you're not caught off guard. 
+
+Michael: Yeah. Yeah. and if you have a security question, you're listening to this show right now, I'm very accessible. My email, it's michael@paraxial.io and my LinkedIn will be in the show notes. I'm on the Elixir Slack pretty much daily. Just send me a question if you have it, if you're on the fence, like, oh, should I contact this guy?
+
+Like, I don't know. I like, I only listen, like please send me a message if, if you're listening to this, I'd be happy to hear from you and talk about security.
+
+Owen: All right. Well, as we're wrapping up here, do you have any final plugs or do you wanna point anyone to, uh, social media?
+
+Michael: If this episode comes out before ElixirConf EU, I am doing a security training there, so I believe you hopefully can still sign up. It's fully remote, so you don't have to be in Europe. And then yeah, paraxial.Io application security for Elixir. If you wanna learn more, just let me know as well. 
+
+Owen: Awesome. Well, thank you so much, Michael, for jumping in and giving us a brain dump of all this security issues and all the things you've done to contribute to a more secure ecosystem for Elixir and Phoenix apps. And, yeah. We'll be back for next week's episode
+
+Michael: Thank you for having me. It was great talking to you guys.
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
