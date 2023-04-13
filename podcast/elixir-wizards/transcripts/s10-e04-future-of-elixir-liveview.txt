@@ -1,0 +1,424 @@
+S10E04 Sophie DeBenedetto on the Future of Elixir and LiveView
+===
+
+Sundi: Hi everyone. We have a quick announcement before we get into the show today. SmartLogic, a custom web and mobile development shop behind this very podcast is currently hiring. We're looking for a staff engineer with experience in Elixir, Ruby, Flutter, and more. Our team is fully remote and we're open to applications from anywhere in the United States.
+
+You can read the full job description and apply at smartlogic.io/jobs 
+
+Now, onto the show! 
+
+Sundi: Welcome to another episode of Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop.
+
+Bilal: This is Season 10, where we are looking to the next ten years of Elixir!
+
+Owen: We’ll be talking with our guests about what the first ten years might tell us about the future of Elixir.
+
+
+Hey, everyone. I'm Sundi Myint, Engineering Manager at SmartLogic.
+
+Owen: And I'm Owen Bickford, Senior Developer at SmartLogic.
+
+Sundi: and we're your host for today's episode. For today, we are joined by the lovely Sophie DeBenedetto, staff software engineer at GitHub. In this episode, we are just going to continue discussing the next 10 years of Elixir. All aspects of Elixir, but specifically, Sophie, you are a friend of the podcast and you've been on before. What is new with you? Would love to hear about what's new in the world of Sophie.
+
+Sophie: Actually, there's a couple of really fun Elixir related things that I've been working on that I am really excited about. Latest release of the Programming Phoenix LiveView book is out as of last week, I think, at the time that we're recording this. I'm really excited about it.
+
+I'm really proud of the work that Bruce and I put into this because everything changed in between the last release and this one. People have been asking us a lot, you know, when is it gonna be updated? And we've been working on it and trying to strike this balance between wanting to get out new versions of the books that people have that information, but also not wanting to put ourselves through just like a ton of churn, cuz things are continuing to change.
+
+As we all know, LiveView is, you know, still something of a moving target, but, all the latest and greatest features and functionality are now reflected in the Programming Phoenix LiveView book. And, you should read it if you haven't yet. So, that is something I'm excited about. It was really fun to kind of get my hands dirty with some of those new features that I had been, just didn't really have the time to dig into, cause there was so much that was new. And then we finally had the opportunity to really sit down and update all the code. And there's just so many cool things in there. So, there's that. And then, Empex NYC conference is back in New York for the first time since before the pandemic.
+
+We're holding it in Brooklyn for the first time ever. I'm very excited about that. It's gonna be in Gowanus, which is a great neighborhood. If you haven't checked it out, you should come and attend and hang out with us. And it's going to be held on my birthday. So I will obviously be personally insulted, you know, by anyone who doesn't come.
+
+Presents not required. And, we're just working hard to, you know, make a really nice conference where you guys get a great lineup. We've just confirmed our keynote speaker who is going to be Heidi Howard. She is a distributed systems researcher currently at Microsoft and some of the stuff she's working on is so interesting.
+
+It's very related, I think to sort of the world of the BEAM, but is so much broader than that. I'm so excited that she'll be able to join us and yeah, come hang out with me in Brooklyn, Sundi and Owen and everybody listening.
+
+Sundi: I am so excited for Empex, I miss New York so much.
+
+Sophie: Yeah, it's gonna be really fun. And it's just so fun to hang out in Gowanus, we're gonna have great food. We'll go to karaoke after. If anybody wants to join, it'll be a fun time. 
+
+Sundi: I mapped out the distance from the venue to the close, like to the Burmeses restaurant in Brooklyn. It's like 12 minutes. I sent that to Dave Lucia immediately. 
+
+Sophie: Oh, excellent. That sounds amazing. 
+
+Owen: Step one for any Sundi trip, distance to Burmese restaurant. 
+
+Sundi: Well, if you're going to a place where, you know, there are Burmese restaurants, cuz there are just so few of them. There are like four on the East Coast and 27 in San Francisco and that's it. That's the distribution in the country. 
+
+Sophie: A total of 31. I've never had Burmese food, so I will certainly have to check it out.
+
+Owen: Yeah. Last year was my first Empex in, uh, Salt Lake, which was a lot of fun. I'm sure similar vibes, but different location. 
+
+Sophie: Similar vibes. Exactly right. Yeah. What I love about Empex is we try to keep it kind of small and intimate. We try to really keep it connected to the city and the place that it's in. So, picking venues that don't necessarily scream conference. The venue that we're gonna have it in. In Brooklyn in June is usually used as like a music venue, it's called Little Fields in Gowanus. We will have some live music there. We like to, you know, bring in musicians, bring in, maybe we're gonna do like a photographer to kind of come in and hang out with people, and some other interesting activities and guests that I won't spoil here.
+
+Owen: Empex is a single track, so everyone's in the same room for every talk.
+
+Sundi: Single track, single day. 
+
+Sophie: Yep. Friday, June 9th. And we just try to keep it like a little bit more intimate and really give people in the community an opportunity to connect and spend time with each other. I'm really grateful that we have the really big events like the Code BEAMs and the Elixir conferences, but it's nice to have some of these smaller opportunities too.
+
+Sundi: Yes. Okay. So I'm mentally planning out that week, get there early, eat everything. I've got a sandwich I've gotta hit up. I've got a hot pot I've gotta hit up. I'm just like planning this trip out in my head. 
+
+Sophie: Where are you gonna go to hot pot? What's your go-to?
+
+Sundi: 99 Flavor Taste in Chinatown. 
+
+Sophie: 99 Flavor Taste is really good. No, it's Favor Taste, Sundi. It's Favor Taste...
+
+Sundi: Oh, Favor Taste. Yeah, I always get that wrong. 
+
+Sophie: Not to be confused by for Flavor Taste, which would make sense. 
+
+Owen: I've only had hot pot once, like at a home. How is hotpot at a restaurant different?
+
+Sundi: More little foodie things, more side dishes, more meat, more veggies. It's just really hard to prepare that number of things at home cuz there's just too many different things. Quail, eggs, squid, all of that fun stuff. 
+
+Owen: Awesome. I can't, I can't wait. 
+
+Sophie: Although home hotpot is also a lot of fun. 
+
+Sundi: It is nice cuz then you can control the flavor and the sodium.
+
+Sophie: That's true as well. Yeah. 
+
+Sundi: I have been looking forward to this because I really wanted to talk to you about some of the LiveView things that I've worked in recently. Owen and I were working through them too. I figured this would be a good opportunity cuz I wanna lead us into a conversation about the future of documentation. You are literally somebody documenting the progress of LiveView through the course of a book. For the listeners, I'll explain this issue that I was running into. I needed to show a 404 page when you loaded in a specific product.
+
+Your route is like slash product slash ID and you put in an incorrect ID and then rather than just redirecting you back to the homepage, very specific request was it should show a 404 when you put in the wrong thing. So old Phoenix, you can use the action fallback, plug, you can set up a module where you can just go back raise that error whenever in any controller that is relevant and you can just plug it at the top and cool. Good to go! But, because the LiveView files or the mount function is supposed to return a socket, that needs something, it needs the product, I believe, in this case, It just was like, &quot;Hey, would you like to redirect? Because you can't load this page at all.&quot; And I was like, but I want, I wanna, I want a 404 page. So, so what ended up happening, there's an errors html helper module, if you un-comment what's naturally there? It's like in line in the middle. You can get custom renders. So you can say, Hey, I'm doing this and I want to make my own 4 0 4 page.
+
+So, I un-commented that. And then in my mount, in my error clause, I raised an error, and then I had a fallback function that kind of said death exception, put status 404, something like that. And then, in the error html, this was the kicker. It's like outside of your layout space. So, it just was like... 1999.
+
+Sophie: Yeah.
+
+Sundi: H1 errors and I was like, I need it to look like my application.
+
+Owen, save me.
+
+Owen: Yeah, and basically you, you had gotten most of the way there, I think the trick was copying the root layout content into the error page so that it would have the same CSS and everything else, and just making a couple modifications. The funny thing here is these error pages, they're something you typically set up very early on a new project, and if you haven't set up a new project in a while, especially with the changes in Phoenix lately, and I haven't done this in a while. 
+
+Sophie: Oh yeah, totally. I feel like there's a whole category of things like that that I will always have to Google or look up for my old code.
+
+Owen: We have controllers, but they're a little bit different than they used to be. And the way that you render that page from LiveView is different from what you would do with a traditional controller. So, that was a fun problem to work around and it's one of those things where you have a bunch of different ideas in the community about how to solve this. 
+
+Sundi: ...and solutions that people aren't happy with. 
+
+Owen: Right. They, they want you to redirect over to like a 4 0 4 path or something.
+
+Sophie: Yeah, that would be sort of the easiest thing to do out of the box. But then like you mentioned, you lose that url. Doesn't say you know the wrong thing anymore, it says 404. 
+
+Sundi: And Sophie, you had an interesting suggestion that we didn't go for at all. Can you speak to that a little bit?
+
+Sophie: I feel like you, we might end up combining our two suggestions cause I don't know if the final piece of mine would work or not, but what you're describing is in your mount function you have some logic that says like, is this a legit route or not?
+
+Is the product ID a real product if it's not found? If it is found like we're just gonna proceed and render stuff. If it's not, you have, like you said, your error clause where you're gonna render sort of forcibly render, explicitly render this 4 0 4 template. If that becomes duplicative, if you have that kind of same logic showing up in a bunch of different mount functions and a set of LiveViews, I would recommend using a shared live session and a shared live session.
+
+Does a handful of things for you, so, kind of just talking about what it is and what it looks like in the first place. You take a couple of your live routes in the router and you wrap them in a live session block. So, I'm gonna get this in text wrong off the top of my head, which is fine cuz this is pseudo code that we're imagining anyway.
+
+It's something like, you know, live session do, and then here's your however many product live routes. With that place where you define that block, you can also tell it what layout to use. If you don't want them all to be using the root layout, they can share a different specified layout.
+
+That's sometimes a convenient thing to do. Let's say you've got a bunch of admin views that should have a particular admin layout, you would use a live session to apply a shared admin layout. The other thing that's useful with the live session is that you can define LiveView hooks that should be invoked at the same time for all of those LiveViews at that same point in their life cycle, the most common one you're gonna see is the on Mount Hook. So, you would basically say something like live session, you know, on mount, and then the name of the module and function that's gonna get called. And then that function is gonna get called before the mount function for all of the live routes in that block.
+
+And that's a really good place, for example, to put shared off logic in this sort of admin live session example, you've put a bunch of admin routes together, you've got your on mount callback, and that is exactly where you would put the logic of like, Hey, is the current user that I have in the session an admin? If so, great, you return a continued tuple. If not, you return the halt tuple, you'll do a redirect to the login page or the homepage, something like that. But, basically saying that I have some shared logic that I'd like to apply for every single one of a set of LiveViews at the same point in that LiveView's lifecycle, I think using the live session and using the on mount callback is a great place to do that.
+
+So, maybe putting that logic of like, is this thing found or not? And then doing A or B based on that, putting that in the on mount callback and applying it via a shared live session I think might work for you depending on how duplicative you're finding this code and how abstract you're able to make it.
+
+One thing that I was wondering is can we render a 4 0 4 directly from the on mount callback? And that's what I don't know. If you can, that would be a neat solution, right? You wouldn't even have to dance around how to get the 4 0 4 page to show without changing the url. But I don't, I don't know the answer to that question. 
+
+Sundi: Yeah. The changing the URL piece, like you can redirect at anything as long as it's a valid path.
+
+Sophie: You can definitely redirect, but I'm wondering if you can directly render. 
+
+Owen: I think so I, yeah. Cause I think everything we did, or I should say everything Sundi did in the mount could be done. It would halt the socket instead of continuing, and then it would render. So, I'm hearing a couple things here. So, just to back up a little bit, I think what was interesting, I didn't consider session hooks because to me, session, kind of implicitly, you think of auth like authentication, authorization. That's how I've used session hooks before when I was especially like heavily when I was building passkey components and stuff. I see how we would use it also to validate IDs across multiple types. So like, you might have an ID validation hook of some kind. You might call it something a little bit more useful than that, but you would have a hook that instead of default it would be product. Or, user or something like that. Maybe not user, but article. 
+
+Sophie: Exactly. Yeah. Because you can use what you're getting at is how you use pattern matching. When you specify the on mount callback, when you define your live session block, you can define it such that it'll use pattern matching to determine what version of that function it'll call. So you can say for these products' routes, it should get called with a first argument of the product datum for these user routes. First argument of user admin or whatever. So, you can define a bunch of versions of the same function in the same module and use them for different live session blocks. 
+
+Sundi: I think the final thing that was the most difficult about this for me was that the docs for air HTML ended up being incorrect. Owen was able to find this.
+
+Or outdated. I'm sorry. I was trying to copy the root over and get all the styles so it didn't look like we were 20 years in the past. I'm sorry. 20 years is wrong. 
+
+Owen: 30 40 
+
+Sophie: 30 years We're old. 
+
+Sundi: I keep thinking about how we're, we're closer to like 20, 50 than we are anyways. 
+
+I'm not gonna, it's terrible. Um, it was like the CSS route was wrong.
+
+Owen: Yeah, cuz it referenced assets instead of, or css instead of assets. I forget, it was like reversed. 
+
+Sundi: For somebody who might be having the same problem, let me get the right words. It was referencing CSS slash, I believe, and it's supposed to be assets slash apps dot CSS. It might have been a CSS folder before, and so I was just copying it exactly as it said.
+
+It didn't work. So, I mean, this, this leads me into maybe the broader future of Elixir question. It's just like, this is gonna change. These things are gonna change. Elixir Phoenix has historically been one of those things that doesn't break. Breaking changes, it's like Jose and Chris have been allergic to this breaking change idea for a long time and now they're actually, I mean, I wouldn't call this crucial, right? This isn't breaking change. Everyone's app is gonna go down. However, things are changing at a pace where the documentation can't keep up. Do you have a comment on that? Do you have thoughts towards that?
+
+Owen: Are you keeping up?
+
+Sophie: I mean, I definitely, yeah, I definitely feel that pain, especially going through the work that we've put into the latest version of the LiveView book, there's stuff in there that is like not correct in the documentation and I've had to kind of hack around it as we've tried to get things working.
+
+But it does tend to be stuff that is frustrating and convenient, for example, like this error, HTML stuff, but not, you know, oh gosh, your app is gonna break because you can't figure this out, or you shipped something that all of a sudden no longer works. So I do appreciate that. And then for example, with the Stream stuff, which is brand, brand new in LiveView, it took me a little while really to figure out how that stuff was working and a lot of hacking because the documentation, I wouldn't say was incorrect, but it was, it was new and it was immature and it felt that way. On the other hand, when I'm not working in Elixir and when I'm not working with Phoenix and LiveView, I find that we are really spoiled when it comes to documentation, honestly, compared to a lot of other languages and frameworks.
+
+So, It's, it's a fine line and I think that one of the things that I love about the Elixir community is it is a very supportive place for people to make contributions. And I know a lot of people, especially folks who are earlier in their careers, who have made their first contributions to open source by updating the Phoenix documentation.
+
+And it's really easy to do that because HexDocs are such a great tool and you look you know, in the UI and you click a button and it takes you to the file and you can make the change directly there and PR it and the community is so supportive of reviewing those pull requests and providing feedback and getting them merged.
+
+So, I've had positive experience with that. I've seen other people, even people who are hesitant to do so, have positive experiences there. I think Jose is a great example of that. I'm sure you guys have all seen, or perhaps received, the rainbow list of hearts that he'll comment on a lot of people's contributions.
+
+I think that's really lovely. I think it makes people feel good. It certainly made me feel good. So I wanna see more of that from community members. And, yeah, it's one of the things I love about our community, that it is so collaborative and it, we would be a, we would have a problem if we felt that documentation couldn't keep up and contributions weren't getting merged. You know, if creators or maintainers were hesitant to merge those contributions or didn't engage with them in a way that was productive, but I don't think that's the world that we're in. So, I think it's kind of, I'm not gonna say it's good or like okay, that things are a little out of date here and there, but, I think I've seen a lot of productive conversations happen between maintainers and community members around those spots where it is out of date.
+
+Owen: Yeah, I think documentation especially, they really appreciate, it's probably a broken record now, those changes they'll review them thoroughly. I think the smaller contributions get merged pretty quickly. As compared to like new features or like refactoring or like changing the way some feature works in the, in the language or the framework. Those require a lot more conversation typically. But, yeah, clarifying, that's something I like to do is go in and like add a couple sentences here or there, anytime you can kind of just make it a little bit easier for yourself in a few months, or anyone on your team or anyone else in the community that might be looking at this documentation later on, it's valued not only by the team, but also by everyone who's reading it.
+
+Sophie: Absolutely true. And I also think that those documentation contributions are also great opportunities for people to write blog posts because if you struggled with this thing and if it wasn't clear, and if you spent four hours and you wished you could have spent four minutes, Not only improving that documentation but then writing even the super short blog post, one of those kind of TIL &quot;today I learned&quot; style culminating with like a link to your PR. I would love to see more of that. I think it gives those of us who are having those experiences an opportunity to really internalize what we're learning, to share that with the rest of the community and to kind of promote this culture of, okay, I see something that's lacking or that needs improvement. I'm going to improve it. I'm gonna show people how I did this. I'm gonna show people that it's possible. I think it's gonna have this ripple effect. Other people are reading, Hey, I saw in Elixir Weekly that Sundi corrected something in the arrows HTML documentation, and it really works like this. And now I know how it works. And now I know that I too can open a PR like that the next time I am extremely confused by the wording or by a missing example.
+
+Sundi: All I want is to be in Elixir Weekly.
+
+Sophie: Let's make it happen.
+
+Owen: So I'm kinda curious, you know, documentation contributions are always great. What are some new features or some maybe improvements or changes in Phoenix lately as you've been updating the book? Like, what are some new things that you're seeing that are exciting, like new tools we have.
+
+Sophie: So I think the biggest change that people are going to, reap the benefits of, but also kind of feel a little bit of a pain points learning curve is I'll call it like the componentization of Phoenix. It's not really just LiveView but it's like, yeah, Sundi's making a face at a word that I'm pretty sure I made up.
+
+Um, but it works. 
+
+Owen: So a word. It's real.
+
+
+
+Real. 
+
+Sophie: Okay. Componentization of 
+
+Sundi: It's not, no, it's not a real word because if you type it, Google will be like, no, that's incorrect. But I say that all the time and every time I have to deal with the red squiggles. 
+
+Sophie: Yeah, I feel like there's so many, I'll say like parameterize, I feel like engineers use that word a lot. I'm pretty sure it's not a word anyway, componentization. So you know, we have Tailwind shipped into Phoenix now. That's great. The fact that we have this fully fledged CSS framework baked into our web framework is very, very powerful, especially for those of us that can't afford to or are not really skilled in some of the more nitty gritty aspects of front end design, but, we still don't wanna live in a world where you have to deeply understand Tailwind in order to make a website look okay. Again, we don't always have the time to spend, the resources to spend on that aspect of the development cycle, especially if you're working on a smaller team or like a consultancy, and you kind of have to get in and out and build something for someone.
+
+So, the solution to this in Phoenix now is that it ships and LiveView ships with a module called Core Components in the latest versions. And basically, it's almost like a DSL that sits on top of html. It kind of wraps really common HTML components or fragments 
+
+that are decorated 
+
+Owen: And by the way, yeah, Sundi's doing a happy Corgi dance, just for the listeners. 
+
+Sophie: Yes. exactly. So instead of you having to write ul opening tag, la la la and then figure out like exactly what the appropriate set of Tailwind classes and modifiers are to apply to that. Core components offers all of those for you. So you've got all the common sort of HTML building blocks, you've got tables and lists and ordered lists and unordered lists, and you can pop some icons in there. And other things that go into HTML that are not H1s and modals, there's a modal one. So what you do is you call on them like LiveView function components, and you pass in the data that you want them to render for you. And on the one hand it can feel this is sort of like that learning curve that I was talking about.
+
+It can feel like a little bit hard to grok at first because you're kind of learning a new HTML. You're learning a new markup DSL, instead of writing HTML, you're building or you're composing your Phoenix and your LiveView UI out of these function components. But once you get comfortable just kind of digging into that core components module and seeing what's on offer, and once you get a little bit more comfortable with the Phoenix Component syntax and sort of the pattern of layering and composing these function components together to construct the UI that you want, it really unlocks a lot of powerful development potential because all of a sudden you don't really have to write HTML. You get to know even less about CSS than like I personally already did, which is very, very little, and I've always felt sort of handicapped by that when it comes to web development.
+
+So it's a really powerful feature, but it's a really new way I think, of thinking about programming on the front end because you're kind of learning a new language on top of HTML. And I've been very curious to hear what people who have been working with it so far, cause it is brand new, what folks think, what their experience have been like, what's working and what's not. So I don't know if either of you guys have dug into the Core Components module at all.
+
+Sundi: So funny that you ask.
+
+Owen: Sundi, you got thoughts, huh? 
+
+Sundi: Owen Owen did discover core components at the start of this project, and let us know it was there cuz Owen and I didn't work on the same project. However, Owen, as our resident LiveView, well actually I can't even say that anymore cuz we're all, well I was gonna say resident LiveView expert, but we are all learning LiveView now. 
+
+So, you know, we're becoming more LiveView focused, understanding more of it. Anyways, Owen found Core Components and I was like, oh, that's cool. And then our other co-host on the podcast, Bilal, had to implement a modal like last week. And, you know, Everyone has implemented a modal in their life. 
+
+In fact, I actually, oh my Owen, we don't curse on this podcast. No, I'm kidding. 
+
+Um, actually I was just talking to Bilal about this, this morning about how there was a little bit of a learning curve to use the modal component. It wasn't like Bilal didn't know to look in the Core Components. He was using it and he said that it was just like maybe not the most intuitive for somebody who's learning LiveView right now. 
+
+Sophie: I totally agree. It took me forever to get the modal component working in a recent side project of mine in particular. It wasn't that I couldn't render it, I could render it, but the whole point of a modal is you don't want it there all the time. So really understanding how it interacts and how it uses the JS commands to open and close was really challenging and I would love to see more writing on that topic. If anyone feels that they have a blog post in them.
+
+Sundi: I wish Bilal was here right now. I could probably ask Bilal to write a Today I Learned on just that modal if you'd like it.
+
+Sophie: I would love for that to happen. That would be incredible. 
+
+Owen: He doesn't even know yet that he's gonna have to write an article.
+
+Sophie: Volunteer, somebody who's not here. Totally perfect. 
+
+Sundi: And on this topic of documentation, Owen, and you also had something to say about Core Components when you first found it, right?
+
+Owen: With one seven throughout the release candidates, I'm not sure exactly when that module popped, like when that like, took its form, like its final form. 
+
+Sophie: Now I'm thinking of Pokemon. 
+
+Owen: I, I knew that I had seen some components somewhere, but remembering what it was called or where to find them, once I was explaining it to someone, that's where it kind of locked into me. I'd been watching Phoenix, since it was in beta, you know, back in probably August, October, November or something like that. Sometime after the conference. I was excited, you know, here it comes. And it took a while for it to kind of get fully baked, I think for some good reasons. Just knowing that the core components are there. I think another really important thing to highlight here is that they're a starting point and they have very opinionated styles that you can completely replace. Cuz I have some different opinions about how I would build these if, if I was starting from scratch.
+
+They do have some, some good things about, you know, accessibility. But, you know, I don't use margins if I can avoid it and that kind of thing. 
+
+Sundi: Yeah, we've talked about making like a SmartLogic component library that we use internally. Because there's certain things that we do all the time. Like, yeah, I agree. Going margin-less is a good idea because each design that our designer puts out there has a different level of margin. So we wouldn't want to custom apply those.
+
+We're not making one single product. We make multiple products per year or projects per year for clients with different branding. And so the, the view of that is different. So the core of whatever we build, if we make a modal that works better for us. Or a nav bar that snaps. I think we, somebody just on our team built something like that and I was like, oh, I think we do that in a lot of our projects, we probably should make that a component. that kind of thing. I think that would be helpful for us.
+
+Owen: Yeah. And, also you can add more components there. If they're gonna be used throughout your entire application, you can create more modules for more components. And I think this is where what you're originally saying is, just a few years ago we had partials and you could kind of componentize your app with partials. You could pass the signs in, but they were kind of limited and maybe kind of brittle. So, component design is something, there's a learning curve to like getting it right, like starting with the right type of component. You know, functional components, typically knowing when you need a live component or something even more fancy than that. And then understanding do you need to add every single HTML element as an attribute for your component? With Phoenix, you don't, because we have a global type of attribute, which can kind of be your catchall for anything that you don't specify. Do you put margins on your components? Do you like how to make them accessible and like just general design ideas come into play? But yeah, there's a learning curve there, especially if you're backend engineering, you're not thinking about HTML in the first place. 
+
+Sophie: Yep. 
+
+Owen: Good luck. You're gonna have to start somewhere, right?
+
+Sophie: Yeah, I agree. And I think that's, that's kind of like the silver lining of components a little bit to a degree, right? Because if you're working on a team that's building out this component library, that pattern of adding components to Core Components or to your own component module and making them available to the developers on that application, I think is a really powerful pattern.
+
+But I do think the learning curve is certainly there around like HTML and CSS if that's not your jam and you are in a position where you're having to define the components yourself. Additionally though, I think the learning curve is there around component behavior like slots. I think the way that some of the core component function components are architected with some very fancy slot manipulation can be confusing and kind of hard to grok. I'm thinking about some of the like list implementations perhaps in particular, but I think once you do have an opportunity to build out maybe some more simple versions of function components that render slots, in order to that use slots in order to render kind of dynamic content, I think it really kinda unlocks the power of components for you.
+
+But, I would say the hard parts about components are yes, HTML and CSS, if those are things that are not in your wheelhouse or your comfort zone, but you know, there's so many resources like in the world for learning HTML and CSS. I think another thing that can be challenging, like I said, understanding slots and how to render dynamic content and inject it into your component. And then I think another thing is, wow, I had a third thing and now it's gone. 
+
+Slots, HTML and css. 
+
+Sundi: Can you elaborate on slots?
+
+Sophie: Mm-hmm. Yeah. So with function components, you can either make them totally static, like every time I call this function component, it's gonna render the hard coded html and content that I've put in there.
+
+Sundi: Like a footer?
+
+Sophie: Exactly. Footer is a great example, but what if I want a component that I can use again and again everywhere in my application to render a list of things, and that list is gonna be whatever I tell it to be. At that point in time. I wanna use this component to render a list of fruit. I wanna use this component to render a list of pet names, whatever the case may be.
+
+Sundi: Italian food dishes. 
+
+Sophie: Exactly, yes. Sandwiches, Burmese restaurants around the United States. And I want them to be displayed in the same style of list every time. But the list component itself can't know that it's gonna call pet dot breed, right in those little list items. It can't know that it's gonna call Burmeses restaurant dot location or something in order to list the location details of the Burmese restaurant, it has to be a little bit more abstract, it has to be a little bit more dynamic, and that's where slots come in. With slots, it's basically the answer to rendering dynamic content into kind of placeholders sections within the function component, HTML markup.
+
+So you might say something like, I'll have a function component. And it's gonna render a list. And the hard coded parts of it are the UL opening tag and the UL closing tag. And then I'll render the slot that says, iterate over this list of things. And for each list item, actually call Burmese restaurant dot location or pet.name.
+
+So, I think the documentation on slots is very strong, but I think it becomes a little more advanced when you see some of the even fancier things that the core components module does with it. But I definitely recommend anyone working with LiveView today to define a function component of your own. That is designed to render some dynamic content, use slots to do it, use a default slot first, then use named slots so that you can get a little bit fancier with it.
+
+And then you'll pretty much have the understanding that you need to build really powerful dynamic components that can render any content and to understand the really powerful dynamic components that are defined in the core components module.
+
+Owen: Yeah, yeah, yeah. I'd point to a couple of additional examples. So on the very simple end of the scale, there's the button component. You generally want your buttons to appear roughly the same throughout your application, but have some optional, like coloring and that kind of thing. But what goes inside the button, the text, maybe sometimes it has an icon and sometimes it doesn't.
+
+That's that's a great use case for a slot. You've got this outer button element and then some content has to go inside the button. That's where the slot comes into play. And then the named slots, the example that I think of immediately is the modal. The modal has probably a header, a body, and a footer.
+
+And sometimes you're gonna have a footer, sometimes you're not. Sometimes you're gonna have a header and maybe not. And so those named slots allow you to kind of configure the modal component with specific zones of content, if that makes sense. Component design . There should be a whole book just for component design probably. 
+
+Sophie: I kinda think there should, yeah. 
+
+Owen: and it's not just a Phoenix thing, I had to kind of learn. I think a lot of where I learned best practices and, you know, just making a lot of mistakes was when I was still in PHP, I think there were blade templates when I was kind of toying around with Laravel or something.
+
+Sophie: Mm.
+
+Owen: Every web framework has some kind of templating language and, over the past few years, they've all added components in one way or another. There's just a bunch of different ways to solve these problems, but, I think generally the idea is keep the state out of your components until it really makes sense to do so. That's kind of a high level lesson that I learned was keep them simple, as simple as possible.
+
+And then you can also com you can build components out of other components so you can, you can have a form that's kind of composing a bunch of buttons and input components and other things.
+
+Sundi: So I just checked cuz I, I wasn't sure if I had been using slots without realizing it. That is not the case I would've known. I thought it was like when you assign an attribute to a live component, I think that's more of almost in a signs situation. I found a fly, fly.io Phoenix files function components.
+
+Something I think from, it's probably only about a year old, so maybe it's too old. For slot anyways, we'll link it in the show notes, but it kind of explains slots and it uses a modal!
+
+Sophie: Oh, cool. Yeah, I, I do know the post you're talking about. I definitely recommend it. I think it's a little outdated at this time, but the basic building blocks and understanding is very, You're talking about &quot;build simple reusable widgets using slots&quot;? Is that the one? 
+
+Sundi: &quot;Reuse markup with function, components, and slots.&quot; 
+
+Sophie: Yep. That's a good one. I also have one that I wrote for fly, gosh, I actually don't even know when, so you can link it in the show notes. And I, I like this approach cuz what I tried to take the reader through is like, let's start with the simple function component where everything is hard coded and the function component has the awareness of everything that it's gonna render.
+
+And then I say, let's refactor it a little bit. Let's use the default slot to make it a little bit more dynamic. And then I say, let's refactor it a lot a bit and let's use named slots to make it even more dynamic. So kind of builds up in steps, but there's a couple of fly IO posts that deal with function components and slots, and I don't think that you could go wrong with any of them.
+
+Sundi: Yeah, and I think, we're super into the weeds and I love it. It's kind of crazy to me to think about how, one of the last times we talked in, in this setting, you know, SmartLogic wasn't necessarily using LiveView yet. We were waiting for some things to be a little bit closer to 1.0. As a, a full circle moment to, to resync with you and tell you my thoughts on some things.
+
+Sophie: Yes! I wanna hear. 
+
+Sundi: It's interesting. I'm, I'm hung up a little bit on this errors thing and before that I was hung up a little bit. I'm on like I couldn't find documentation on sigil-p in a way that made any sense or how to interpolate it into a string? Cause I had to use so many brackets to get that right. You know, it's just one of those things. I will say, at the end of the day, we wrote that project really fast. 
+
+Sophie: Awesome. 
+
+Sundi: Like, not unnecessarily fast, just the correct, I mean not correct, but we wrote at a speed in which I was like, wow. We were able to focus on some other things. There were just some things we didn't worry about. We had extra time to do some other things. I felt really good at the end of this project. I learned so much. I'm so happy with what we put out there. It looks great. I was a front end engineer before, so like my background is there.
+
+I'm stronger in that, and Tailwind is pretty easy to use. We've talked numerous times on this podcast about how great Tailwind is. But yeah, at the end of the day, even though we got hung up a few times on these, I did not wanna spend that long on a 4 0 4 page. But even though we got hung up there, this was a great, this was a fun project.
+
+Owen: Yeah, and on that point, one major thing you didn't have to do was switch back and forth between your Elixir HTML code templates and react components or view components and like JavaScript files and Elixir files. I think that's why kinda at the root level, these projects tend to move a lot faster. There was a project a while back where we were still living in that kind of controller JavaScript component land and dynamically adding elements to a page, which is so much more complex because we had to like figure out how to do it on the JavaScript side and then also how to dynamically accept all this different data and the controller. It's all kind of condensed into one space now. It gives me a lot more clarity whenever I'm working through a problem. 
+
+Sophie: Yeah, I'm not surprised. 
+
+Sundi: Yeah. Owen has always been a LiveView champion. 
+
+Sophie: Oh, that's awesome. Yeah, this is what you hear from people most often, that it makes things move faster. Although nothing is ever 100% easy, and I think that's gonna be true of first of all, programming. Like there's always gonna be that thing that took you 10 hours and you feel like it should have taken 10 minutes. But yeah, what you said on not having to deal with the complexity of a JavaScript framework, that I think is the main win of LiveView it makes things faster. It makes things easier. For that reason, and something that I'm kind of fond of saying is that you don't have to tell LiveView how to do anything.
+
+You just have to instruct it on what to do. So you don't have to tell LiveView how to communicate between the client and the server as you did with channels, right? You had to write JavaScript code that sent a message to the server, and you had to write JavaScript code that responded to messages from the server in order to update the page.
+
+That is the point of the LiveView framework. You don't have to do the instructions on how that communication works. You just have to tell it what to do. When a user clicks this button, this is the thing that changes. And it frees us up as developers to kind of solve the interesting problems.
+
+Like Sundi, you're saying. We had extra time to focus on other things. So I think a conversation that sprung up right early on around LiveView is like, everyone's so excited about it. We hate JavaScript. We're never gonna have to write JavaScript again. And I think that's totally wrong. Nevermind the fact that I am not great at JavaScript, and so it does make me feel frustrated when I do have to write a lot of it. But, one of the great things about LiveView is it doesn't mean that you don't have to write JavaScript. It means that you can write the interesting JavaScript to solve the interesting problems that are specific to your product, your web application, your business and your customer.
+
+You don't have to write the JavaScript that says, send this request and receive this response and then make this change. You get to write the JavaScript that says like, how do I get to, how do I fade this in? Exactly right. How do I, I've got a mentee right now that's, Building, I never played this game before, it's totally addictive. It's called Snake io. It's kind of like the old snake game on steroids. And he's building a LiveView clone of it where the mouse moves and the snake kind of moves around the page and eats the food and gets longer and longer. And it's a interactive game where all the players on the page are there and you have to avoid the other snakes.
+
+And all of that is happening with JavaScript. But he gets to write the JavaScript to do the cool parts of like moving a snake around the page and interacting these different players. He doesn't have to spend time writing the JavaScript to do the kind of tedious stuff that the framework now does for him. So that's, I think, what is really exciting about LiveView. It doesn't mean no javaScript, it means the fun parts of JavaScript.
+
+Owen: This is a point I was making with someone in pairing recently. Yeah, like early days. I think the part of the pitch was now you don't have to write as much or any JavaScript with LiveView. Your JavaScript days are gone.
+
+Sophie: Yeah. Which is, could be true depending on what you're building. 
+
+Owen: For a lot of folks, I think it's like you're writing much, much less or maybe no JavaScript on some of these apps. But, the most interesting stuff to me, just me personally, and my side projects and in some of our client projects is browser APIs. I mentioned Passkeys a minute ago. It relies heavily, heavily on the browser WebAuthn or web authentication API. So I did write, you know, uh, significant amount of JavaScript and broke it up into modules and everything to interact with that API and connect it to some live components. But those modules were very small, like dozens of lines of code, compared to maybe hundreds if I was having to like do DOM access in a bunch of crazy stuff back in like the J query days or something.
+
+So, it is just a different beast. Something else I wanted to kind of. think about as far as like the future of Phoenix in particular is, and I know you recently wrote about this is Streams. I think there's gonna be a little bit of a learning curve here. But anyone who's dealing with large collections of data that need to be rendered into the browser, I think is gonna benefit from streams. I've not had a chance yet to use them. I've been a kind of a research mode for a while, but I'm kind of curious like what's the elevator pitch for streams? If I didn't get it. And then, what are some use cases that you've started to see for streams?
+
+Sophie: Yeah, so the elevator pitch for streams is that this is the answer to your large dataset problem when you're talking about minimizing traffic between the client and the server and making sure that your LiveView single page app is as performant and kind of snappy as possible. This is an answer to a question that I would get all the time if I was giving a talk, teaching a workshop, people would constantly ask, you know, what about when you have a lot of data, and I would say, oh, you know, yeah, you have to be mindful, don't send a lot of data to the client. But with streams you can actually kind of send now a lot of data to the client and expect LiveView to perform just as well as it would with smaller data sets. The reason being that what LiveView is gonna do is it's gonna take that stream, it could be a list of a million songs that you're gonna display iteratively on the page and it's going to detach that from the socket state, and it's gonna basically just put it in HTML and then it's gonna let the JavaScript framework contain the code that it needs to continue to manage and maintain and manipulate that set of data. So you can still update that list, remove things from that list, add things to that list, and you can kind of just give LiveView' the instructions that it needs in order to make those changes. So again, you focus on the what and not the how, the live view JavaScript framework, because let's not forget that live view as JavaScript framework as well.
+
+Contains the code that knows how to manipulate the stream, add things to it, update things in it, remove things from it. All you have to do is tell it. Um, add a new song, remove a song, update a song in the list. So I think it's very powerful in that way. It's also very new. The documentation is very new as well.
+
+There are some things that it cannot do yet, which I would like to see it do. And I kind of have a feeling that it will do. And one of those things is a bulk update of a set of things in the stream. So one thing that I was doing is I was building, and this is the app that I wrote about in my blog post for fly io.
+
+I was building kind of like a very, very, very, Slack clone, slack inspired chat app, and I wanted that behavior. The scroll back behavior where when you scroll back to the top, it loads the next set of the previous, in my case, I said 10 messages. So if you want to append or pre-end an item to the stream and hey, maybe this has changed like in the three weeks since I've written this, I wouldn't be too totally shocked, but you can only append or pre-end one item to the stream at a time, and I wanted to do it 10 messages in one go, so I wrote a little helper function that I ended up putting in the LiveView helper module that you use the behavior of so that I could just access it and it just uses like an Enum.reduce to pop all 10 of them into the stream at once. So I think, yeah, that little hack was easy enough to do that made me feel like this is coming. They will surely include something like that in there. 
+
+Owen: sounds like a Phoenix PR to me.
+
+Sophie: I know, right? Yeah. Could be. Could be. So yeah, it's very much in the spirit of everything we've seen in LiveView so far. You focus on the what and not the how. It's the solution to managing, rendering, and communicating about large sets of data in your single page LiveView apps. And one of the things that I appreciate about the code that backs live, Pretty much, again, like so much in LiveView, it's not that scary and mysterious if you're feeling like what streams, how could this possibly work? Um, look at the code. And it's just Elixir. It's not that intimidating. Not to kind of plug this ad nauseum, but what I tried to do in my blog post is peek under the hood a little bit where I thought it made sense to, to give people that perspective.
+
+I don't want folks to be afraid of the LiveView framework and what it does for them. I think you guys should feel empowered to check out that source code. This blog post is a great place to start because I just give you like a little taste of some of the things that it does, and you'll see that the foundation of streams is, is really, it's nothing fancy, and that's what's so wonderful and powerful about Elixir as a language as well. I'll just kind of continue to wax poetic about this, powerful building blocks, you know, beautiful abstractions. The code that we write to solve hard problems is, you know, easy to read, easy to maintain, and it just, it works well.
+
+Owen: 100%. 
+
+Sundi: the other thing, you were talking about getting to write the fun JavaScript. There are some things I didn't have to worry about in this, round of writing LiveView, especially just coming out of Flutter. Like I just came out of a Flutter project. It feels to me, I don't know if you are a fantasy book reader, but like, If you're into a, a show or a world, it feels like I'm so engrossed in like the wheel of time, and then to put it down to like start watching Shadow and Bone with my boyfriend or something. My brain can't exit one world and go into the other. Moving out of Flutter and into Elixir again was kind of easier this time cuz I'm more familiar with both. But then, when I got into it, I was like LiveView is handling a lot of things for me that I normally have to handle and I could just write a fun pipeline or some enum string manipulation I don't normally do.
+
+But just really the fun pipeline was great. I love a good pipeline. Um, and that was just really nice and I appreciated that. Well, Sophie, one, one final thing we really wanted to chat with you about cuz you just, you're such a, a strong voice in the community, and we are talking about the next 10 years of Elixir.
+
+Generally speaking, is there something that you think, you'd like to see from the community in the next 10 years? Is there some magic thing that would make everything better for everyone or, we've talked about documentation a lot, but maybe something else. Anything that top of mind that you think that the community needs.
+
+Sophie: Yeah, I do have, uh, a specific idea about this that I've been kicking around. I don't know if you guys have heard about AI, but it's, it's here. I could definitely get into this in greater detail and I will not do it now, but AI is going to radically change the shape of our industry in Absolutely record time. And I think that Elixir developers are uniquely positioned to be a part of that change because of the libraries that have lately come to the elixir ecosystem and which basically empower us as Everyday average application developers who maybe don't have that ML background or don't have that mathematics background, or don't have that computer science background, because of NX, because of Axon, and because of kind of the supportive power of the Elixir community, your average Elixir developer has like a superpower.
+
+And that superpower is that we can participate in this new wave of AI tooling that's coming out of our industry and that's gonna shape our industry. So, It's a superpower that we have access to, but it's still not easy to access. I have done little to nothing with these technologies. I don't have a computer science background or a machine learning background.
+
+I have historically been terrible at math, so I still feel like really using these tools is just out of my reach. But I think that's changing because of This community and because of the commitment of this community to education and documentation, liveBook is gonna play a really big role there and has begun to play a really big role there, giving people those educational tools and those environments that they can use to get their hands dirty and start learning these things.
+
+So what I want to start seeing from our community members is people who are excited about these tools, people who are interested in them, across experience levels and skill levels, whether you're an ML expert or you've never touched it before, but you are not afraid to dive into liveBook, write about it, publish liveBooks, write blog posts, give conference talks, let's give the Elixir community an edge in the coming years. I think we have everything that we need to make that happen.
+
+Owen: More docs. 
+
+Sophie: Yeah, basically.
+
+Owen: So she says, write some docs, folks. 
+
+Sophie: Yep, exactly.
+
+Owen: Live docs. Dead docs. All the docs. 
+
+Sophie: Yeah. All of them.
+
+Sundi: All of the docs, it's gonna be a tagline somewhere. 
+
+Owen: your docs. Docs. Ugh. I was gonna say, all your docs are belonged to us. There we go.
+
+Sundi: Sophie, this has been such a wonderful conversation. I really don't want it to end. I hope we get to continue this conversation on the social medias 
+
+Sophie: and in June in brooklyn. 
+
+Sundi: Empex On your birthday. 
+
+Sophie: On my birthday. Yeah.
+
+Sundi: You have any final plugs or asks for the audience? I know you had a big ask just now, but anything else?
+
+Sophie: Yeah. Everyone learn everything about machine learning and write about it so that I can learn from you. Aside from that, come to Empex. Submit. Our CFP is open. I put the link in the chat of this recording so you guys can grab it. Um, wanna see talk submissions from you guys and our listeners. Owen, did you, I think you did submit.
+
+Owen: I sure did! 
+
+Sophie: Awesome. I thought I saw something from you.
+
+Owen: it's, Surprise! It has a bunch of LiveView stuff, so.
+
+Sophie: Shocking. 
+
+Sundi: never would've guessed it. 
+
+Sophie: yeah, that is my ask for people to submit, for people to attend. I would love to see you and your listeners there.
+
+Sundi: Awesome. Thank you again, Sophie, for joining us to discuss the future of Elixir and LiveView.
+
+Sophie: Thank you guys for having. Me. This was a blast. 
+
+Owen: Elixir Wizards is a production of SmartLogic.
+
+Sundi: You can find us online at SmartLogic.io and we’re @SmartLogic on Twitter
+
+Bilal: Don’t forget to like, subscribe, and leave a review!
+
+Owen: This episode was produced and edited by Paloma Pechenik for SmartLogic
+
+Sundi: We’ll see you next week for more on the next ten years of Elixir
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
