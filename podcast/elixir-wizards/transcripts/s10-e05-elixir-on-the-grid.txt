@@ -1,0 +1,335 @@
+S10E05 Elixir On the Grid
+===
+
+Owen: Hey everyone. I'm Owen Bickford, Senior Developer at SmartLogic.
+
+Dan: And I'm Dan Ivovich, Director of Engineering at SmartLogic.
+
+Owen: And we are your host for today's episode for episode five, we're joined by Mike Waud, Senior Software Engineer at SparkMeter, and Tony Winn, Lead Software Architect at Generac.
+
+In this episode, we're discussing the next 10 years of the BEAM on the electric grid.
+
+So, hello, Tony and Mike. How are you today?
+
+Tony: Hey, doing great.
+
+Mike: Hey. Doing well. Good to see.
+
+Owen: Awesome. Now where are we talking to you from? Tony, which part of the country you in?
+
+Tony: I'm in Tampa, Florida. Born and raised.
+
+Owen: Awesome. Tampa, Florida. And Mike, what about you?
+
+Mike: I'm in Washington, DC. For those of you who can see me on the camera here, there's a Capital View. You can see I have a little Lego set of the capital. So I'm just down the street from you guys from Baltimore.
+
+Owen: That is excellent. Did you put that together? 
+
+Mike: I did. Yes, I did. That was me. 
+
+Owen: Nice. That's awesome.
+
+Cool. So, we're going to dig into the details of how your companies are using the BEAM to give us a, hopefully a more reliable energy grid. Before we get into that, for introductions here with Tony, we'll start with you. Tell us a little about your background, how you came to kinda get involved with Elixir and the electric grid.
+
+Tony: Yeah, totally. I've been programming for about 15 years. The first half of that was in the Ruby world, and then the last half, about eight years I've been doing Elixir. I was trying to think back what actually brought me into Elixir, and I think it was functional programming in general. I had been a, a big fan of Gary Bernhardt. He did a talk about functional core and imperative shell. And that started me down the functional rabbit hole. And then coming from Ruby, Elixir was an obvious functional programming language to pick up. So, started doing it on the side and eventually got it brought in to professional projects.
+
+Owen: Nice. And Mike, I know I see you frequently at meetups and conferences, tell us a little about yourself as well.
+
+Mike: Yeah, sure. I originally went to college for electrical engineering and, as kind of happens, I ended up pretty quickly changing and my first real job was sort of backend software engineering. And I've kind of been doing that ever since. Everything from mobile to hospital devices. I worked at a, a think tank once at one point in DC and that spanned PHP, Python, Ruby.
+
+I read Joe Armstrong's Erlang book early on, and I found it really interesting and I tried to use it and like the syntax was kind of clunky to me, and it wasn't easy to get it adopted. But I took away a lot of great lessons from that. And, when I saw this position at where I'm at now as SparkMeter, I was really happy to come full circle both on my degree in electrical engineering, and then also on the Erlang and Elixir side of it. 
+
+Owen: Awesome. Sorry to hear you had to move on from PHP and, and Python. 
+
+Tony: Condolences 
+
+Dan: Oh yeah, we, we lament the php moving on deeply here. 
+
+Mike: You know, you have to learn how not to do things first, sometimes.
+
+Owen: Yeah, I've, I've worked in the Wild West Days of PHP myself for a couple years, so happy to be in Elixir Land these days. And Dan, as we were prepping for this episode, we were thinking through questions and things we'd be asking about here. You've had some interactions with Electric Grid or just fascination with electronic engineering in general?
+
+Dan: Yeah. Fascination with power, I guess. fascination with big systems. I did large radar control systems and stuff in a previous job and I've been exposed to maybe the periphery of these computer controlled systems in various capacities. So, super interested to hear how that's playing into, to what you guys are doing.
+
+you know, It's interesting you guys both have some of the textbook transitions into Elixir, right? Like I'm doing one thing and then I read Gary Bernhardt or Joe Armstrong, and I'm just like, yeah, all right, now I'm all in. And, looking for that opportunity to do so.
+
+So it sounds like, Mike, you came to this job for Elixir, but Tony, were you saying that you brought Elixir to your job?
+
+Tony: Yeah. I had previously worked in Elixir. I actually didn't have any knowledge of the electrical grid coming in to this job. I was looking for Elixir, and I was looking for Elm at the same time. This is the number of companies that I know of that did that at the time. Just a couple. Thankfully, uh, land the job here at, at the time we were Embala and have been acquired by Generac since then.
+
+Owen: Awesome. My experience with the grid is very limited. I did work at a telecom, not using Elixir, but managing fleets. Well, help empowering technicians to manage a fleet of telecom devices. So I can kind of squint my eyes and imagine how some of that might apply to Power Grid. But, uh, we'll get into it.
+
+I'm curious, for anyone who's not familiar with SparkMeter, can you tell us a little bit about SparkMeter? What's the elevator pitch and what's the kind of problems that SparkMeter is solving?
+
+Mike: Sure, happy to. We have a really great sentence or two on our website, which totally escapes my mind. But I'm gonna give you kind of the way I describe it. Which is, we kind of do three things. We, make and sell smart electrical meters. So, those will collect energy consumed, voltage current, all that kind of stuff, transmit that wirelessly.
+
+It can receive data and do, a couple things on the meter side as well. So that's, that's kinda the first component is this hardware component. The second is this software as a service, to manage your grid. And a large chunk of that is also managing billing. And so that's the part that I work on the most.
+
+So that is communicating with these meters to get the data up to the cloud to our partners. So we, we provide this service to grid operators. Part of that is just getting that data to them. And then another large part of that is managing, so we operate in a lot of emerging markets, so primarily Africa, but really around the world.
+
+It's something like 30 or 50 countries we're in. So prepaid billing is very popular in these markets and it's something people are, are very familiar with, and it's, it's really a great model for both our grid operators and for the end customer. So a large chunk of, of the SaaS portion is managing various prepaid billing models related to how people are consuming electricity. And then the third, we also offer some analytics. I don't work on that part as much, so I'll leave that be, but we have some pretty cool stuff coming out there, more on our website or, maybe, who knows? I'll be talking about this in the future. But, that's the gist of kinda what we do. 
+
+Owen: Awesome. So when we think of internet things, SparkMeter is the internet of meters. Kind of. 
+
+Mike: Yeah. 
+
+Owen: All right. Awesome. uh, I think when I'm driving around, I see a Generac generator every once in a while. Uh, So that's my introduction to Generac, but I'm sure there's a lot more to it than uh, what is 
+
+Tony: Yeah, absolutely. So we're traditionally a generator manufacturer that's been around for something like 80 years maybe. Don't quote me on it. But, the leadership at Generac realizes that the clock is ticking on combustible engines to drive power onto the grid.
+
+We know in California and other places, it's just not gonna be possible soon to be doing that. And so they're looking to transition into new technologies to be able to provide that resiliency back onto the grid. So as our former company being acquired, what we do basically is capture flexibility in the grid and be able to give grid operators the power to harness that when they need to.
+
+So instead of building additional gas peaker plants or something like that, they can have programs with assets that different homeowners might own. For instance, you might have some kind of thermostat program where you agree to allow the utility to knock down your thermostat a couple degrees for a certain number of hours, as an example.
+
+But we're basically a platform that can take all kinds of different assets. So it might be thermostats, eco B is a part of Generac now, for example. But it might be a battery manufacturer. It might be a smart meter, it might be anything.
+
+Owen: Okay, so when I turn on eco mode on a smart thermostat, it's it's getting some signals from somewhere that maybe it's time to dial the temperature up or down just a little bit. To save a little bit on cost.
+
+Tony: Right. and in aggregate that can be huge for the grid at that moment. 
+
+Owen: Interesting. And I imagine grid support also, it's increasingly relying on batteries and other types of backup power.
+
+Tony: Yeah, batteries. Batteries are awesome, right? Because there's always capacity in there and you can plan, you can go ahead and do some precharging when there's lots of capacity. So as much as providing additional capacity is certainly an issue, as we get more and more solar penetration, we see in places like Australia where they have overproduction kinda all the time. And, you don't want that falling on the floor. So if we're able to capture that and use that at other times, it's really powerful.
+
+Owen: Right on. So, I'm kind of curious. Of course we're an Elixir podcast. I love Elixir. I am pretty sure Dan loves Elixir. And I think you guys are probably also at least somewhat fond of Elixir. But, Elixir hasn't won the world on everything yet. What's the more common tech stack?
+
+What are people in the grid space more commonly using?
+
+Mike: I don't really go to the conferences where I would meet those folks. I think I'm stuck in Elixir Land. My general impression is probably C or C++. But, you know, I don't really have expertise to speak to that. That's my general assumption.
+
+Owen: Not being in the, in the system. I'm, it sounds right to me. What about you, Tony?
+
+Tony: Yeah, I would say the typical setup is pretty atypical and a lot of that is there's been a lot of growth within the last few years. And so there's a lot of different startups making different bets on different technologies based on what they feel like is valuable on the grid. Like we are valuing concurrency and reliability.
+
+As a result, we're choosing Elixir. There's other places that are saying the cloud's the future. What's the most cloud native language that we can use and get developers in. And so they're doubling down on that. Obviously a little bit of a different space in the hardware world, like Mike's talking about, but it's pretty across the board what kind of languages we end up running into and integrating with.
+
+Dan: Are you seeing that cause integration issues and things? When most people probably think about their, their power supply, their company, the outlets, everything, you know, it all feels pretty antiquated and not necessarily on the cutting edge.
+
+I think about these old command and control systems and things like that, that really weren't designed for or made to be secure with cloud infrastructure. And you hear fear mongering around the cloud and the grid. Do you see bringing these, like you said, cloud ready, highly networked technologies to this environment as a challenge, or has it been so hungry for a solution that it's working out?
+
+Tony: Yeah, from my perspective, it really depends on the customer and their use cases and what potentially they might be opening up and doing it. So, we have some customers that are very, very conservative on it. Elixir's portability can help us here where we can deliver you software that you can run off the cloud, right?
+
+We don't have to integrate with a thousand different cloud services to give us our cues or whatever else we need. So, that's been really powerful for us. There are certainly very conservative organizations. There are more organizations that are more cutting edge. And so it, it starts to be, a bit of a science project?
+
+Are you really invested in this because what you're talking about is huge. Within all organizations, there are these people that are dreamers and forward looking and they're trying to get this done. And then there are going to be folks that are gonna realize the risks that, that are there.
+
+And obviously regulatory environment and stuff like that. So it, it really just depends on the type of project and type of integrations that you're dealing with. A lot of those old, old school systems are gonna be there for quite a long time. 
+
+Dan: Yeah, I think it's super common that, you know, you talk to enthusiastic young developers, right? And the idea of something having a, even a 10 year lifespan, much less much longer, is not something a lot of people can wrap their head around. So building for that environment brings a whole nother kind of set of, uh, complexity and challenges and, and things to consider when you're making these types of decisions.
+
+How about you, Mike? You know, anything with your customers, anything you can share as far as what it's like trying to bring this technology to that space?
+
+Mike: Yeah, it's interesting because we are kind of all over the map. Literally, we do have some relationships in the US and then in the rest of the world. And technological sophistication really can vary where there are still plenty of places in the US doing some processes by spreadsheet and you just think it's crazy that people haven't digitized this or they just don't know certain metrics about their business. I don't know how that breaks down as a technology problem. Almost anything is better than that, but also like a spreadsheet works pretty well and these are conservative industries and you want something that works.
+
+And I think there's a lot to do with something that someone can understand. You just have to put out something that's better than the process people have now, and you can talk up your tech stack or whatever all day long. But you need to have results and I think you need probably some sort of history of we've been around for some amount of time.
+
+Our CTO has been in the business for a while. He's been with the company for a while, but, he was kicking the tires on the Elixir side of it. And I, I said to him, you know, you may not have heard of Elixir, but it's Erlang and it's the BEAM underneath. this isn't new technology.
+
+This is something that's been around a while. One of our team members comes from the defense industry and they were doing Elixir stuff. People hear &quot;Elixir&quot; they, oh, it's new. But no, this is built on just really, really proven, very, solid fundamentals.
+
+Tony: It's so helpful to have that narrative when you're talking to folks too, to say the telecom industry was built on this, this was the use case. You're familiar with it. We have case studies from it, we're able to harness in. This is tried and true battle tested, but also be the cutting edge of what's going on in new software patterns. So it, it really feels like the best of both worlds here.
+
+Dan: Right, so the history of the BEAM is a big deal then for you, and Tony, you mentioned specifically, if I'm a reluctant to embrace the cloud company, And someone offers me a single binary that kind of has all those microservices rolled in. Like you said, you don't have to bring a separate queuing solution.
+
+All these things like there, there's an advantage. I was curious, are there any other OTP Beam features that help you sell it beyond those two big ones?
+
+Tony: I would say the reliability, the concurrency, as a first class citizen and how we're delivering and writing our software. The ability to spin up clustered instances of these things to horizontally scale to the need.. Because a lot of these things, at one moment might be, not consuming very much at all.
+
+But then there's an issue on the grid and you need to be able to react quickly to that and scale up to it. Those are the kinds of things that I think about when you're trying to sell that to an organization.
+
+Owen: Are you saying that something might go wrong? Like, uh, some machines might go down and you might not expect that?
+
+Tony: Absolutely.
+
+Owen: Some of the other OTP features that, of course I'm in the web facing world, most days. So I'm typically thinking of caching, and using ETS, and Maybe someday I'll, I'll have an app that gets hot reloaded. Are you using some of these other features like hot reloading or ETS, Mnesia, DETS, or anything like that?
+
+Tony: Yes. So we make pretty heavy use of ETS for caching data in our apps. We're not using the hot reloading feature. We're basically using Docker containers and then having a blue-green handoff of the state as we're upgrading.
+
+Owen: And then Mike, what's the story at SparkMeter? OTP Everything, or OTP nothing?
+
+Mike: We OTP a lot. We run Elixir on our, so I didn't mention it, but all these electrical meters talk to a central Nerves device. So we run Nerves, so Elixir on a device in the field, which is a whole thing. And then we also run Elixir in the cloud. So the two talk to each other. On the device side of it, having all of these features of being able to do cues and caching if you need it, we use ETS for a couple things, but of course, ETS is kind of in the background of a bunch of other things.
+
+Being able to do everything pretty much in Elixir is really useful. A lot of these systems, when you have the handoff from one system to another, that is often where you get a lot of weird things. So not having to do that is certainly very helpful. And you get all these other kind of interesting benefits of like firmware size, we're not including Redis or something.
+
+So when you go to a firmware deploy, it's one less thing we have to send to a device. Also our hardware is single core. But we have this great concurrency model where we don't even have to think about it. Sometimes it's silly. The things I think about, I don't know what this computer thinks we're doing, where we're doing all these things in parallel, but then we're trying to like force single threading sometimes.
+
+it's just, it, it works really great And kind of like you hinted at things go wrong or there are always kind of surprises on the device. Elixir really is able to handle spikes in traffic pretty well, or there are a lot of ways to think about how you deal with what your traffic patterns are.
+
+Owen: And you mentioned Redis and, and firmware. Without Elixir and Nerves, can you describe, do you have an idea of what would the alternative be?
+
+Mike: Yeah, it's interesting, there's kind of the, like C, C++ much closer to the metal Folks there, and I've heard from some folks who've switched to Nerves and that's really interesting just because there's, I dunno what you call, maybe more modern techniques. I don't know.
+
+Unit testing is much easier to do. Being able to bring this up on your host computer. If you go to the Nerves podcast and, and documents, you get some really good information there on that. So that's kind of the C and C++ versus Elixir world. And just the idea that you can spend more time on your application logic and being productive, and you can take advantage of the concurrency model.
+
+So there's that. You can still run Python or you know, JavaScript or something, on these devices. I've seen people do it. I've run Python on devices myself. and That could work fine. You probably need Redis or something for your queue. That's probably the biggest thing you need. Maybe some other orchestration kind of helping stuff out there. I think anecdotally I've seen Elixir be faster, there and, having the compiler always helps. All the benefits we talked about, the concurrency. It's a great fit for devices for sure. The fault tolerance and really the supervision trees, both for handling when things fail, but then also for system bring up and encapsulating where things are and limiting the blast radius, is very helpful.
+
+Owen: Awesome. I see a lot of vigorous nodding from Tony. I imagine, you're seeing some sim similar benefits if you're using Nerves as well?
+
+Tony: Yeah, no, we're not leveraging Nerves on our side, but certainly seeing all those similar benefits server side, trying to be able to react to grid needs quickly. And yeah, limit failure cuz devices are gonna do weird things in the real world.
+
+Owen: Right. I imagine observability is also. I, I wanna say easier, maybe it's not easier per se, but maybe you have more flexibility or maybe it is quicker to get observability into these running systems. Is that fair to say?
+
+Tony: For us, we've definitely started leveraging a lot of the telemetry_hooks that are provided in different libraries now. So that's kind of been huge for us to get reliable metrics on what's happening on our system and not feel like we're getting in the way of our code as we're doing it.
+
+That has been huge from us, from a BEAM feature set. But yeah, there are times you're going in and you're hooking up to an observer and seeing what the heck is going on on these processes right now.
+
+Mike: Yeah, same. We use telemetry a ton and it kind of speaks to, there are some solutions in the Elixir world that have just kind of won and that's very nice that there certainly are competing projects for things and competing tools, but OTP gives you great things with registry and ETS and then knowing that telemetry is kind of the solution, with a couple variations, depending what you wanna do for reporters and backends, is really helpful.
+
+Dan: Yeah, Owen and I were just talking about that a bit earlier today, about seeing people move from bamboo to swoosh or, in some cases when we're talking about a solution, there's kind of a moving target. But I think something that I really like about Elixir and OTP in general is that it brings tools. That then you can leverage. And I think Tony, that's kinda what you were saying with the, it's a good solution cuz it brings all the tools with it and we don't have to package other things in there. Mike, I think you're saying similar things from a Nerves standpoint. So I think something I'm really curious on, and I I think Tony kind of answered this cause it sounds like Elixir's not necessarily running on like the battery array that's sitting on the grid somewhere, but more in the cloud.
+
+I really want to know. If my grid provider uses either of your company's solution, how close to my house is the Elixir? Is it in the box on the side of my house? Is it on some distribution point? How close can I get the Elixir to where I'm sitting?
+
+Owen: Can you reach out and touch it?
+
+Dan: I wanna reach out and touch it.
+
+Tony: Definitely not for our solution. Right. We're deploying to your region as close as we can. But we're not necessarily providing this on the device. So we, Generac obviously, like I said, ecobee is a part of this. They were acquired within the past two years or something like that.
+
+I don't know what their, solution on the hardware side is. But they've been around a while. It's probably not Nerves at this point, but at the end of the day we're integrating to their APIs and sending those messages as quick as we can.
+
+Dan: And Mike, how close is Elixir to the outside wall of my house?
+
+Mike: To our customers, we are within a kilometer, I'd say. So very close. 
+
+Dan: That's cool. Unless you like, live near US, east one or something, that's probably pretty close to the Elixir compared to most people.
+
+Mike: Yeah, we are very close to the users of our technology. And you know, another important thing is, one of the nightmares of working in IoT or devices is this truck roll where you just can't contact your device and you have to send someone out. And that can be very expensive. No one wants to do it. And, it's still scary, but Elixir and Nerves has given us a lot of ways to kind of prevent that, and that's been a, a big way to help us sleep at night.
+
+Owen: Interesting. So are these remote meters connecting, I guess through wireless cell signal towers, that kind of thing? Or do they have some other kind of connection, if you're allowed to say?
+
+Mike: Yeah, sure. Definitely. So we have a proprietary mesh wireless protocol that the meters talk to themselves and then eventually talk to this Nerves device. And so the Nerves device talks to those, does it thing, and then it talks, typically over cellular, to our servers in the cloud. That's the gist. 
+
+Owen: Yeah, the data gets back to home base one way or another. 
+
+Mike: Yep. And so dealing with, your device goes offline, well, why is it offline? Is it because the internet's out? Is it cuz the power went away? Is it because I wrote some bug two months ago that is finally now getting uncovered. Being able to bring this up locally and replay some scenarios, or some of the telemetry and monitoring and metrics that's really helpful for diagnostics. 
+
+Owen: And when you talk about the mesh network of these non Nerves devices communicating with the Nerves local, we'll call it a hub, I'm curious, what's the scale and volume of data that's being through this? I think you said a single cord Nerves device. Do you have an idea of how much data is hitting that machine?
+
+Mike: Yeah. I do, I have to be careful with numbers of course. But, these can talk to anywhere from tens. It really depends on the installation from tens of the devices to thousands. And that makes our traffic patterns interesting for a couple reasons, which is we might have a device which is not very busy, but then we have devices which are very busy.
+
+You know, you always have to think about your worst case situation really plan for that. And oftentimes it's maybe not as much the volume, it's our traffic patterns where we typically get this reading data in 15 minute intervals. So zero minutes on the hour, 15 minutes on the hour, 30, 45, we get a big burst of data and we're sort of DDoSing ourselves in some ways.
+
+We have ways to spread that out when we talk to the meters. but we collect that, we have to process it, and then we're also communicating. So in some ways we're even just doubling our traffic with trying to send that up as quickly as possible. So that's where things like the scheduler is really nice. Where I know, even if this is coming in, but then the cellular modem needs to have some question or there's some other thing that goes on to the device. Like the scheduler will just handle this and make sure everybody gets a reasonable amount of processing time. And then also, we use Broadway and things with back pressure and having this idea of, well, even if we have a large queue of things, we can just process that as it goes in with the rest of the system.
+
+Owen: Awesome. So, and I'm thinking about. So let's say a blog, your traffic gets bursty if you go viral, right? Like, you write the world's most excellent blog post and then everyone wants to go read it. So you're hitting your site, maybe you're deployed to multiple regions or not. and if you are, I don't know, like a ticketing company or a sports company, like you're getting hit at different times based on events that are happening relevant to your system.
+
+Your companies are more, your traffic seems like it would be more dictated by weather. So let's imagine a storm comes to town and it's rolling through some Generac devices. How's your device network impacted? What do you see through the Elixir system when that happens?
+
+Tony: Yeah, totally. And this is a place where Elixir has a pretty big advantage over some of the cloud solutions out there because, like you were talking about in the blog example, it's like you, you start a ramp, so you can start preparing and know like, Hey, this is happening.
+
+And that's not necessarily what a grid need looks like at all. It's. Absolutely nothing. There's tumbleweed coming down the fiber, and then all of a sudden we need tons and tons of throughput to get the messages out to all the devices. And it, it might be really, really quick control.
+
+So, having a system that can be built for that, that doesn't have some kind of burst limits. And when, when you can bring up scale, granted, you, you need to have those servers running and ready to go to be able to handle that. I think it's a pretty big advantage, on Elixir, being able to handle that kind of scale cuz the cloud internet isn't really built for that kind of situation. They're more built towards the blog that's picking up speed kind of scenario.
+
+Owen: All right, Mike. When a storm comes to the SparkMeter mesh, how is your day affected?
+
+Mike: Good question. You know, for us it can be something along the lines of, we have a couple systems that were offline and all of a sudden they come online. So maybe there was some maintenance done and that was why our devices were offline. So our stuff is probably more human caused or, there's internet or device weather patterns, maybe we'll say. But that certainly happens, and like I said, dealing with a lot of the back pressure, Elixir gives us some of that. We've put in some things additionally just to make sure that one noisy device doesn't really ruin the party for everybody else. So, definitely things to think about there.
+
+Dan: So, we talked about the regulatory nature of this and the demand change of sources of power, being able to handle fluctuations in power, the unpredictability of the world, and how that impacts the business.
+
+Given the reality that you both see and the future of your business and the work that you need to do with Elixir, what do you want to see? What would be helpful? What are you hoping comes down the line? If you were core committing what things would you want to add? Is there anything you think you need that you don't have today? 
+
+Tony: There's a lot that I'm very thankful that I have, and when it came out, I, I didn't know that I needed it. I think the Elixir Core team has been really good at getting to the heart of abstractions and creating the right, really powerful abstraction, that just works and handles a bunch of use cases.
+
+The more and more the engineers that I work with can be good Elixir developers that are harnessing things in Elixir Standard Library and known best practices instead of us inventing new wheels on our side. We were mentioning Broadway and Gin Stage, those have been huge abstractions and that's not something that someone needs to teach all of the developers around them, why this is important, it's within the community and it's talked about and people, have their own experiences with it and are able to share it, and it's gonna be useful the next place you go. And we're gonna have people that come in that already know it.
+
+Those kinds of things are really huge for us. I think further maturity on tooling and distributed Elixir kind of things would be really helpful. I'm thankful for horde, and the work that's gone into it. I think that we've got more work to do in those kinds of situations to set ourselves up for success in a distributed Erlang environment.
+
+As we move forward, there's a lot of power there for us to be able to leverage and it can get complicated and tricky real quick. And so I think that there's some room for some really good abstractions there. We've already got some, but would love more of that.
+
+Dan: Oh, Tony, I'm so glad that you answered it that way. I'm so glad that I was on this episode. I'm thinking back, Owen, to the first episode, and spent all week trying to think, what do I want to see? What have I enjoyed about this? And I think, Tony, what you just said, it makes some things that, because of the abstraction, they're more accessible, you know, more accessible to the team, more accessible to try out, more accessible to deploying the field without a whole lot of like pomp and circumstance around it. And yeah, maybe it's hard to predict what's gonna come down the line, but when it gets in there, you know that it'll be usable, that it will open up advantages that you didn't have before.
+
+And that's what's really exciting for me about the future of this language and what we're sitting here seeing on the horizon. Mike, do you have thoughts on the same?
+
+Mike: Yeah. In some ways, I feel like the BEAM was so far ahead of things and then the world caught up in the cloud and I think there's still a lot of opportunity to do things in the BEAM, but, the question is always, well, when do you do stuff in the BEAM versus when do you do stuff with another tool?
+
+And I think there's still a lot to be figured out there. Something we also think about is when do we do something in Elixir versus when do we do it in a more traditional tool? And how do you bring up either people who aren't experienced in Elixir or junior dev.
+
+And how do you make this so you don't have to have five years of Elixir to understand how something works. And so I think there's a really good balance there. And if you are an expert in Elixir you say, oh, well of course it's just this type of supervisor and this supervision tree here. But to somebody else, they might say, well, why didn't you just use SQS or something?
+
+So I think part of it is just getting the patterns of how do things work well in the cloud or on a device, and where is the natural handoff between a lot of the capabilities of the BEAM or where the BEAM can really outshine? How do we make sure that we're telling that story? 
+
+Tony: Totally agree there. I like that the core team has embraced these other systems like Broadway, we've got a pattern for interacting with SQS. It's like, you wanna play with SQS and Elixir, here you go. Go and do it. So creating those. Easy and known seams between these tools that are emerging that have lots of great qualities to them that we can easily be able to hook into and leverage the best of what's out there.
+
+I think that that's huge. So, certainly Broadway. We harness some Nebulex, where you can create an adapter basically that says, Hey, this is, this day's actually gonna be on Redis. But it could tomorrow be in ETS and it doesn't really matter. We've got a good abstraction between it.
+
+We can interact with it. We know what's going on. I think, Elixir further embracing all the cool stuff that's going on in the world, has been really helpful for us.
+
+Owen: That's always good to hear. And of course the season theme for season 10 is, you know, the next 10 years of Elixir, with the grid. You know, In our generation, we're expecting a lot of change to happen over the next 10 years, not only with Elixir, but with the electric grid itself.
+
+I'm curious kind of between both of you, like what are some ways that you're seeing the grid change and how you think it might change in the next 10 years if we were to come back in 2033, and how Elixir might evolve, with the grid as you're using it.
+
+Tony: I think, the biggest thing is that generation is gonna be more and more distributed, right? We've been centralized for a long time in our generation of energy for the grid, and so now it's distributed, which is great from a. Resiliency standpoint. There's not just one big power plant somewhere, uh, that's doing it.
+
+And obviously the sources of the energy are gonna be a lot more healthy for us, and further generations. So it's great. But it's a lot simpler problem when you've got like a knob at one place that you can just turn and say more energy, please. Pump more coal into the furnace or, or whatever you're doing there.
+
+It's a lot more difficult problem. And the grid, hopefully this is obvious from this, it always needs to be in balance. We always have to be producing exactly as much as we're consuming. And so when there's generation that's spread out, it takes some technology solutions to be able to figure out how to make that happen.
+
+Mike: Yeah, I think Tony hit the nail on the head. We're seeing a change in supply and demand at the same time, for the next, for decades. And it's very exciting. It was one of the things that really appealed to me about SparkMeter was it was this intersection of energy, developing world, Africa having such a large population growth, and all these changes.
+
+You know, as in the developed world, electricity is changing. More and more people additionally are getting access to electricity and better access to electricity, where there are still plenty of places where it's common to have blackouts through the day. So whether that is some sort of battery technology, which then helps to smooth that out, whether that's additional monitoring to say, Hey, your blackouts are caused by this thing over here, it's really a kind of across the board between, we have all the solar and wind, but nowhere to store it.
+
+When is this technology coming along? To we have all these people who are now using electricity, how do we make sure they're getting it and in a way that doesn't increase our emission?
+
+Owen: And I'm also thinking of in a past life, my concern was mostly is the line in the air or underground, because that tells me whether I'm about to have a bad day or not. When I was doing tech support. If the cable was in the ground and a storm would come through in certain parts of the country, that state was gonna have no power for a couple days.
+
+And, if they were in a more like buried line kind of area, it was, uh, usually a little bit more resilient to, you know, any kind of climate events. Ironically for today's topic, like off-grid is becoming more of an option as well, if you have solar and you have some battery onsite capacity, then you may not necessarily need lines connected directly to your house if you're, I think the use case right now is, you live out in the woods or an island somewhere, and that's a little bit more high tech now that you can be electrified.
+
+Are there other lessons we're learning from other parts of the globe as they become connected either in a grid or off-grid kind of way?
+
+Tony: Definitely, as I was talking about solar penetration being, a lot ahead of us in Australia and Europe and things like that. Dealing with the over generation in the middle of the day, having regulations on what to do during those times of day. Cuz over generation is just as big a problem on the grid as not producing enough.
+
+We're gonna see more and more of those kinds of things as we get more solar penetration, which is great, but we're gonna need to learn how to manage that. In the States and so that's coming. Obviously growth of EVs and what does charging EVs do for our expectation on how much energy we need out of the grid, when?
+
+How are we going to start thinking about shifting those needs around to be able to better utilize the production that we have? All of those kinds of things are coming.
+
+Dan: You've mentioned over generation a couple times, and it just, it reminds me that I grew up near a, uh, hydro pump storage station and I remember, having no idea what it was, learning about it and then recognizing the inefficiency of that. And yet how that's still better than just losing extra generation during the night that, all the inefficiency of pumping a bunch of water uphill is still better than dumping it as heat into the air.
+
+Those challenges, especially in this country, are generally, kind of hidden from, we don't worry about it. And, I think it is really an exciting time. Obviously you both find this field particularly exciting.
+
+You know, the rate of change here, both on the generation and on the consumption side is particularly interesting. And it's cool to see how this technology we all love fits in.
+
+Do you guys have any questions for each other?
+
+Tony: One of the things thinking of your use case, Mike, and you talking about the back pressure of, telemetry and how you're using, GenStage for ingesting that, and it sounds like you can record these and it's important for billing, for reconciliation, maybe at the end of the month or things like that.
+
+Kind of curious cuz we've got a lot of like, hey, we've gotta make a decision like a minute ago about what, what this home needs to be doing. And so, a lot of the let's wait and see kind of things. Eventually we'll have this data, the eventual consistency kind of stuff. We're willing to push back and have some data we don't care about.
+
+It's reporting, we're gonna get there. And some data is absolutely like real time as, as fresh as we can get it, like we want it. I'm wondering if you have some of those use cases and how you are able to manage the differences between data that's maybe prioritized versus in real time and data that is like reporting in later.
+
+Mike: Yeah, that is a great question. I think every generation deals with this in IoT software or something and thinks they reinvented solutions. But decisions at the edge and prioritizing data and also just making sure the data gets there reliably, that it gets there in order, is incredibly challenging.
+
+And so, I'd say probably the simplest way to do it is just do as much as you can in the cloud. And I'd say that should be your default. If I can't do this in the cloud, why not? Because if you have to do it, closer on the edge, closer to the device, there are absolutely benefits to doing that.
+
+But coordinating the consistency, like you mentioned, and getting those messages back and forth becomes much more challenging. That said, we do a lot on the edge, particularly on this device, because we can't always rely on the connectivity. We have sites that are online all the time.
+
+We have sites that are offline for hours or for days. And in our case, if someone is over-consuming and they go past their allotted consumption, that's a financial loss for our operators. So it's not really acceptable to do that. So we do a lot of processing on the device to manage that.
+
+We pretty much bill as the data comes in. There is an interesting question about, well, why don't you push that further? Why don't you put it on the meter? And that's certainly a very good question. you sort of push the problem somewhere else. , it is one spot along the chain where you can do that processing.
+
+As far as, prioritizing data, we do prioritize what we process and that also helps us with, you know, we can do stuff in batches, which is always more efficient as well, which is nice. But Prioritizing that is difficult because, we also have to deal with the connection between the device to the cloud and what are we sent first?
+
+My general recommendation there, would be split yourself into streams and just have Whatever high priority stream and do that first. And just everything in there is the reliable, and then you have your, I hope it gets there in a reasonable amount of time stream. We also have to deal with the RF communication to these meters and balancing, either bad conditions, someone's running all their microwaves or vacuum cleaners and that killed the RF, or we do something that just, increases the traffic budget there. So that's been super interesting. I think a lot of these is just being able to, even if you mess something up, it's not the end of the world, but you gotta be able to recover. And you also have to think about, well, there is either a gap in data or we lost something.
+
+How do we reconcile that and then show it to people in a way that they understand it versus you get like a pixelated version of something, whatever the equivalent of that of your data is. 
+
+Owen: Awesome. Before we unplug and plug it back in for this episode or that, that pun failed so bad, I'm gonna, let's, we're gonna have to delete that one 
+
+Mike: Are you trying to power it down? 
+
+Owen: Before we unplug it and plug it back in. Uh, yeah, that's not gonna work.
+
+Dan: Have you tried turning that pun off and on again?
+
+Owen: All right, now it's gotta stay in just because Dan saved it. All right, so before I shame myself with another bad pun, are there any final plugs? Uh, I'll start with you, Mike. Do you have any final plugs or asks for the audience, with your side projects or SparkMeter?
+
+Mike: I'd just like to say a big thank you to all the open source contributors. We rely on a ton of that. You know, both in Elixir and certainly on Nerves and we wouldn't be here without them. So, big thanks to everybody there 
+
+Tony: yeah, I, would definitely echo that. We definitely wouldn't be where we're at as a company, we wouldn't be solving as interesting of problems, if we didn't have, these really powerful abstractions that we're able to leverage. So, super grateful to the community, both for the work of creating them, but also the great work of communicating and building the community of folks that knows how to leverage these tools.
+
+Owen: I am right there with you. Awesome. Well, I'm gonna go to pun detention and thank you both for joining us.
+
+Mike: Thanks for having me.
+
+Tony: Thanks Owen.
+
