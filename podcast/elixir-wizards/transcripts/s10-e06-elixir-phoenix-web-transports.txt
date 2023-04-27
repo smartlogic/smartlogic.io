@@ -1,0 +1,335 @@
+S10E06 Mat Trudel on the Future of Phoenix and Web Transports
+===
+
+intro: Welcome to another episode of Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is season ten where we are looking to the next 10 years of Elixir. We'll be talking with our guests about what the first 10 years might tell us about the future of Elixir.
+
+Owen: Hey everyone. I'm Owen Bickford, Senior Developer at SmartLogic.
+
+Dan: And I'm Dan Ivovich, Director of Engineering at SmartLogic.
+
+Owen: And we are your host for today's episode. For episode six, we're joined by Mat Trudel, author of the Bandit Library and Phoenix team member. In this episode, we're discussing the next 10 years of Phoenix and Web Transports. Hey, Mat, how are you?
+
+Mat: I'm doing great. Thanks for having me.
+
+Owen: So, Before we get into all the weeds of Phoenix and Web transports, for anyone who hasn't heard of you or seen your talks or read what you've been working on, can you give us a brief introduction?
+
+Mat: Sure. So, during the day, I'm a mostly backend senior developer at, uh, PagerDuty. We're one of the quiet elixir shops around, we're actually, I often think that we're one of the largest elixir shops. I, I've never actually verified that, but we do have in upwards of a thousand engineers working in Elixir.
+
+As our, you know, as our primary and only backend language. But anyway, that's my day job. In the evenings and the weekends, I've been working for the past few years on an elixir http server called Bandit. Bit of a backstory to it that I'm sure we'll get into at some point, started off as a bit of a joke, is the short version of it, uh, and has since become something that's rather more serious than I think I was ever expecting it to be.
+
+And that's been sort of taking up a lot of my free time over the past few years. Working towards a number of the new features that it supports. Most notably the fact that we now fully support Phoenix. And as part of that work, I did some work in the Phoenix project as well late last year to land that support.
+
+Owen: Awesome. So yeah, I'm absolutely excited to talk about how things are changing a little bit with Phoenix and some of the new tech that we're maybe getting to play with a little bit. I'm also curious if, for anyone who's not familiar, I've heard of PagerDuty, have not fortunately been on PagerDuty for a while. But, what does PagerDuty the company do and how is Elixir involved there?
+
+Mat: The original way the company started was essentially what the name says, right? It was a, a tool to manage being on call and to, you know, route notifications to the right person depending on who's on call and, you know, how things might get escalated if someone doesn't happen to be answering their phone at two in the morning, that sort of thing.
+
+The company more broadly, I think is looking more towards, they call it digital operations. I'm sure that there's, there's, the PR folks are probably gonna come down on me like a, with a sack of hammers for misstating this. But the, the general idea, I think is that we essentially run digital operations for companies.
+
+So we are more of a, a backend for people to be able to route messages and, you know, route unplanned work throughout an organization. So Elixir fits very well with that, I think, just cuz it's largely very asynchronous, right? It does. The things that it does well, that it does naturally are things that are very difficult in a lot of other languages.
+
+I think for an, the, classic, um, elixir developer that might have come from a ruby shop, you know, had all of these tools in their tool belt for doing queued work and having, uh, job runners and rescues and all those sorts of things. And it often kind of felt like you were using perhaps the wrong tool for the job a lot of the time. Whereas with Elixir, it very seldom feels that way. I was describing the, the language a few weeks ago to a friend of mine who, uh, works for an agency. So he just does JavaScript work and he's, you know, heard of Elixir but has never worked with it.
+
+And I kind of described it to him as building blocks for computation, right? If you need to do something here, you can do it. If that happens to be from a web request, that's great. If it runs on a timer, that's fine too. You know, if you're kicking things off in like an, you know, in Oban or something like that, that might have more complicated flows or like a gen stage pipeline or something.
+
+So that's, maps vary naturally onto a lot of the, the realities of, you know, the air quotes, digital operations world. It's a very natural fit for us.
+
+Owen: Awesome. You've just thrown out a bunch of topics we could go in depth on for about an hour. Everything from, I know we've talked to some folks about oban in the past. Jen Stage, definitely done some hacking with that over the past, uh, year or so. But today we're focused on Phoenix, and like, you know how the web stack might be evolving a little bit. So how did you first get interested in the transport layer of the web stack?
+
+Mat: So, it's actually, this is the origin story that I said was a bit of a joke. So I originally wrote, started writing Bandit about two and a half years ago, maybe three years ago, I don't know, since the pandemic time has no meaning, maybe it was three years ago. And I wrote it essentially because I wanted to have, we have one of those, um, wall mounted air conditioners in our house.
+
+The, the ductless air conditioners, the heat pump things, and to be able to control it. It doesn't wire into your thermostat like a furnace might. It, it has like that, like a handheld remote control, right? That looks like something outta the nineties. And, uh, we wanted to be able to control this thing from our phones.
+
+So I wanted to be able to turn it up and down when we're coming back from a, from a road trip or something, so that we, you know, arrive back to a nice, warm or cold house as it as it might be. So I started looking at doing that against a Raspberry Pi. So essentially running a Raspberry Pi with a little infrared emitter on it that could learn the infrared, the IR codes for the remote and could fire messages off to the, to the air conditioner and I wanted to get that running over home kit over the Apple Home Kit System.
+
+We're like an Apple family here, and that's just naturally what everything else in the house runs on. So I started looking at, they, they publish a guide for hobbyist and makers to be able to interact and integrate with the, the home kit ecosystem. And as it turns out, Home kit devices in your house, actually run a, an, an HTTP server on them.
+
+At least the ones that run on wifi. What what'll actually happen is your, your phone or your, your iPad or whatever you're using will find these things over, uh, Multicast DNS and then it will essentially connect to them via HTTP and make http request to 'em. There's a couple little wrinkles with it though.
+
+So I started doing this and I started just using the standard Cowboy stack for this on top of Nerves. And I realized pretty quickly that there's a couple of wrinkles at a really low level. The protocol mandates, for example, that there's like some bespoke encryption that it runs on the TCP connection itself, this is not SSL, it's kind of Apple's and there's a variety of valid reasons that they do this. But it's, it's a thing apart from SSL, it's kind of its own little bit of encryption on top of TCP. And so, I started doing this and realizing that I spent a couple of evenings trying to inject this relevant little bit of code into Ranch to be able to do that encryption.
+
+And I just gave up on it. It just, I found it really. You know, I was doing this for fun and it wasn't fun. So I got the idea of, well, maybe I'll just write my own transport server and my own transport layer. And then that required me to write my own web server on top, because you can't just replace, you know, a single layer of the, of the cake.
+
+You have to, you know, write the whole thing. And so the next thing you know, I'd written, I'd been started writing, you know, like the original 0.1 series of Bandit was released exclusively to be able to power this home kit library, which is another library that I maintained. It's called Hap, HAP, that provides Elixir support for home kit appliances.
+
+Today, it runs a bunch of other stuff in our house. It runs like our skylight blinds, thermostat in our house in the basement. It still actually doesn't, I, I've never actually written the bit for the air conditioner. So the original project is just on a shelf somewhere. I'll get to it eventually.
+
+But I kind of realized pretty quickly once I'd been doing this, You know, the, the actual crown jewel, as it were of the stack wasn't so much the home kit stuff. It was the web server that kind of came along for the ride and I more or less turned my attention towards that and have been kind of hacking on that for the past couple of years.
+
+It initially just supported basic plugs, so like the simple plug API. And I've been growing that out over the past 12 or 18 months or so to support the full extent of what Phoenix does, which is for the most part, plugs, at least on the http side.
+
+But the WebSocket side of the Phoenix world was where there was a lot more work to be done. And so that was the, the work that I've done that I think we'll probably end up talking about later on, that ended up culminating in the release of the WebSock Library, which is now a project that's maintained by, by the Phoenix organization.
+
+And it essentially, you can think of it basically as the plug API but for WebSockets. So it's the same notion of providing a generic abstraction for WebSockets the same way that Plug provides a generic app, a generic abstraction for HTTP and allowing application servers to plug into that. And as of Phoenix 1.7, that's actually now, that is how Phoenix 1.7 does WebSockets now. The WebSocket layer in Phoenix is built on WebSock. There is no more cowboy specific code in Phoenix. That kind of is the bit that allows Phoenix to unlock support for other servers like Bandit.
+
+Dan: So, you had kind of ongoing efforts then here, right? Like a little bit of like Phoenix changing so that it could accept other things and you writing this compliant core?
+
+Mat: Yeah, and in fact, There's a whole, again, to Owen's point about being able to, you know, rat hole on anything for an hour, there's a whole kind of story to be told I think about how that landed. this happened around November, December of last year. Uh, one of the, the great things about working at PagerDuty is that they run twice a year, hack weeks that are just kind of, you know, wide open.
+
+You can work on absolutely anything you'd like. And so I use those as really focused time to be able to work on Bandit. So, you can see kind of the, the progress of the library, is, you know, incremental throughout the year. And then once a year, I just finished one, in March, and then there's gonna be another one in September.
+
+So like twice a year there's these bumps where there's just a flurry mad rush of activity. And so this started at last Fall's hack week, where I essentially did some sketching to figure out what this abstraction would look like. But there's a lot of moving parts to it, right? Like I first off needed to look at Phoenix and figure out how it actually talks to Cowboy, which is, it turns out, the WebSocket support in Phoenix prior to 1.7 was cowboy specific.
+
+There was bits in the Phoenix WebSocket implementation that actually hard coded, because it's an Erlang library, so you talk to it like via colon cowboy. So it was like colon cowboy, you know, send, and it kinda has a different bit of a, the language of, of Erlang seems to have a bit of a different cadence to it, the way that they name functions and, things just looked differently, capitalization's different, that sort of thing.
+
+And so there was these bits in the middle of Phoenix that nobody had really touched in a in a substantive way in. That were essentially hooking into pretty low level stuff in Cowboy's Erlang stack, specifically for WebSockets. And then, so figuring out how to build an abstraction around those, pulling that abstraction out into a separate library, writing an implementation of that.
+
+First off, getting Phoenix to talk to that abstraction and then landing support for, for that, you know, to be able to host that abstraction, both within Bandit, but also within Cowboy. Right? Because the reality here was that, As much as I'm the author of the Bandit Library, I also had to, the work that I was doing, I also had to shim into Cowboy
+
+like I also had to, you know, play for play for the other team, as it were for a little bit. And so that work was, that work took quite a while, that took me through the better part of October. And a little bit into November, I think, of 2022. And it kind of culminated to your point, kind of culminated in, I think there was about a half dozen or so PRs that needed to be landed in a really specific order, that both ensured that earlier Phoenix installs continued to work and didn't break the newer ones used to this new stack and that nothing kind of, you know, there was nobody.
+
+There were no points along the way where you needed to use a specific version of a library and not have the other one up to date. So it was a bit of juggling to get that landed. Especially considering that, the majority of this work I was, I was interacting with Jose for.
+
+I'm Eastern, North American Eastern Time and he is, I believe in Poland. There was kind of this thing where, you know, I'd do a bunch of work at night and then I'd wake up in the morning and I'd have a bunch of reviews from him. And then I'd had this kind of golden hour in the morning where I could turn, if I could turn stuff around by about 10:00 AM or so, I'd have a hope of being able to get another kind of round of feedback and another round of iteration on it.
+
+But that stuff, like I say, it took about a, maybe a month or so of back and forth to kind of land that, and I'm frankly shocked at how well it came off. Phoenix 1.7 runs on this stack period, full stop. There's no opt into it. This is what it does. And, there hasn't been so much as a single GitHub issue about it, which has been, quite encouraging.
+
+Dan: Props for you. 
+
+Owen: That is a huge accomplishment. 
+
+Dan: Yeah. It sounds like changing the tires of a truck while it's rolling down the highway. 
+
+Mat: That's exactly what it was, right? That's exactly what it was. 
+
+Dan: We talk to a lot of people in the community around this, and I think something that I'm, I'm hearing that feels very unique to your experience. We talked to people, especially this season about the future. What do you wanna see? What are you hoping for? A lot of times it's like, oh, you know, the language is pretty good. We have what we need and I'm sure something new will come along, but hey, it's great, , but listening to you talk, you are constrained.
+
+Not just by like, okay, well what does Phoenix do? Or what does Erlang do? But also, what do these protocols require? What our browsers do. , so what's it, what's it like working on something with such a deep spec with, such a huge surface area that's completely outside our community's control?
+
+Mat: Right. Yeah. I mean it's, it's, there's actually a really interesting couple of PRs. There are a couple of issues in PRs that came out around this. When I said that there hasn't been a single issue. There actually hasn't been one on the core of the issue. But there was, I can't remember who it was.
+
+One of the, one of the Phoenix core team members was working up support for a better handling on the client side of Phoenix when a user navigates away purposely navigates away from a Phoenix application. And the web soc, or the WebSocket rather , RFC RFC64 FFC 6 64 55, I think is the official spec for, for WebSockets.
+
+And it's a little bit underspecified in a couple of ways. There's a couple of places where you could make a valid interpretation about which of the choices that are offered to you that you, you could do. And specifically they have, so they have what they call in WebSockets are closed frames.
+
+These are frames that one end is supposed to send to the other when it decides to leave a connection and they have a code, they have just a numeric 16 dig 16 bit. And I think it's like 1000 is like a normal shutdown and 1001 is a, uh, no 1000 is a normal termination and 1001 is a shutdown or something like that.
+
+And then they never actually specify how those are different semantically, like what semantically the difference is. And it turns out that everybody in the world uses 1000 for this... except for Firefox. They are the only outlier in this, and they send a 1001, or maybe I have it backwards, I can't remember the exact details.
+
+So there's this back and forth where, you know, someone was saying, I wanna be able to add support to be able to send a specific code from within a Phoenix application specifically because of this allowance for Firefox. And we ended up accommodating it in the WebSock spec, like we did a backwards compatible adaption for this, that you can now specifically specify codes when you're closing a connection.
+
+But there are like these kind of outliers for this, right? Like, and you see this, I mean, at least in the browser world. The reality is that, for the most part, were pretty homogenous, right? Like everybody uses WebKit or Blink, or whatever you wanna call it these days. An awful lot of their pedigree is shared.
+
+And Firefox is kind of off in the wilderness doing their own thing. you'd see these things, right? And they may, they're, they weren't wrong. They were just different, right? Like they were just reading the spec and making a decision a different way. You do see things like this, you know, on occasion, I'm working through a bug right now that I think has something to do with an Envoy Proxy that someone has filed as a bug against Cowboy, against Bandit, rather. That, I believe has something to do with Envoy. I haven't quite nailed it down yet. Like there's, there's places where people make different opinion, you know, different choices on these things, but, that's the reality of open standards,
+
+I guess. 
+
+Dan: So then, does the rise of LiveView kind of then and the reliance kind of everyone making more use of WebSockets, is that another kind of like serendipitous moment of all of this kind of coming together with 1.7 or do you think this would've happened regardless of the reliance on WebSockets in in LiveView?
+
+Mat: Uh, it probably would've happened regardless. The reality of writing infrastructure code like this is that if you do your job well, nobody notices. Right? It's not a very glamorous line of work to, especially to pick up as a hobby. Right? And so, the amount of, not attention, attention's the wrong word, perhaps awareness, even, even within the core team, for example, has been pretty modest. nothing really changed for people, right? And this is like the, the big sell that I have, you know, in the Bandit readme, when I walk people through how to update their, project to start using Bandit is you add a line that says Adapter:Bandit.PhoenixAdapter and you restart your server period. Nothing else changes. 
+
+Dan: Mm-hmm. 
+
+Mat: You know, it is today as it was, as it was yesterday and as it will be tomorrow kind of thing, continues to happen. So the, like the core team, to answer your question, I think they would've come against this cuz they were solving a different problem, you know, just happened to be that like WebSock was in the middle of it now as opposed to the, the Cowboy specific stuff that was in the middle of Phoenix before.
+
+Dan: So what, what should a average Phoenix developer, as someone using the framework, know about http or their, or the transport protocols at all? you know, why does this matter to them? Like you said, you make the change and no one notices and that's success. For our average listener, like what should they understand about this and its importance?
+
+Mat: Right. Yeah. I mean, for folks that are just going off and writing, writing up templates, doing LiveViews, that sort of thing. Nothing. You can do a huge amount of that in near complete ignorance of how HTTP works, which is, I mean, again, as it should be, right?
+
+This is the reason that we, that we have a layered approach to stacks and the reason we have abstractions is the, so that most people on one side of the abstraction don't have to, you know, look across it. They can just deal with the abstraction as it is. And so, for the folks that use Live View in abstraction or even use Phoenix itself as an abstraction, they shouldn't care.
+
+But there's some neat new things that have come out of this. And in fact, I'm giving a talk as we record this. I'm giving a talk next week. I think as this, once this is released, that I will have given it the week past, at ElixirConf EU, where I talk about kind of some of these changes within Cowboy and or within Phoenix Rather, and the things that they enabled you to do.
+
+And one of the, the really interesting things that I think people probably will make use of is the fact that as of 1.7, you can now, interact with WebSockets inside Phoenix at the bare lowest protocol level, you can actually send individual frames back and forth if you choose to, binary frames or text frames or, or what have you.
+
+Cuz previously, that has all been abstracted away by channels within Phoenix, and then LiveView sits on top of that, like in, there's transports in there as well. You were actually prior to one point, literally not able to do this in Phoenix. You could not interact with a WebSocket at a really low level.
+
+And the thing that I think is kind of useful for this is that if you are doing something like I've done this at a previous employer where we had an existing front end, we didn't wanna touch the front end, we just wanted to change the implementation of the WebSocket server behind the scenes.
+
+You can use Phoenix for that now. You can, if you have, you know, a situation where you don't want to go whole hog with Phoenix, you don't want to use LiveViews, you don't want to use channels or presence or anything. You just kind of wanna replace an existing WebSocket server With Phoenix, you can do that now just about trivially. Whereas prior to 1.7, that literally was not possible.
+
+Dan: Mm-hmm. Mm-hmm. Yeah, I could see that being useful if you have, like you said, like an existing WebSocket client, right? That you couldn't kind of force into Phoenix before 1.7.
+
+Mat: Yeah, and I think the few people that ever had to do that used things like main proxy and then kind of had their own little Cowboy dispatcher on the side that I would imagine in those cases was probably written once and then stuck into a corner and largely ignored by everybody. But the fact that you can do that first class within Phoenix, like I do a, a demo in that talk where I , I live code a bare WebSocket inside Phoenix, like a router, and all in probably 90 seconds, front to back , without even a Phoenix restart like you, because the rotor just picks it up. It's a live reload. It's a pretty useful thing.
+
+Dan: Is there an advantage now to having Bandit be in Elixir rather than Cowboy being in Erlang to anyone involved in any of this?
+
+Mat: No, uh, everything, the whole point and again, when I spoke earlier about playing for the other team for a while, the whole point of abstractions or like generic abstractions like this is that you don't need to care about the implementation, right? So, like, it, it's really important to me that like the cowboy experience with this is just as solid as the banded 
+
+experience, right? If it isn't, there's frankly just not gonna be an adoption because like, cowboys numbers, dwarf bandits, at least, at least for the time being. In terms. So the, from an experience perspective? No, from a user experience perspective. From a development perspective. I mean, Elixir's about, I don't know, non scientifically 75,000 times easier to read than Erlang is.
+
+So, you know, that's a feature, frankly , we have feature parody with Erlang and something like, it's been a while since I've run the numbers, but I think it was something like half the line count. Maybe it was one third the line count of Cowboy.
+
+So there's just a whole lot less there, you know, and it's like I say, it's a much more, maintained stack much more approachable and readable. You know, we have the full power and luxury of being able to pull in, for example, the plug library has a helper module called Plug.SSL that contains a couple of functions that codify some best practices around setting up SSL ciphers, ensuring, of just basically the run sanity checks on your SSL configuration to make sure that you're not deploying a server that is obviously wrong in some kind of way.
+
+And that's Erlang, that's Elixir code obviously, cuz it's part of the plug library and Bandit just uses it because we can, because we can reach over to whatever Lang, Elixir libraries we want to for that. So the ability to kind of lean on other libraries. 
+
+We share some http two header compression code with the Finch Library. We use the same header compression code on both, and on both the libraries. There's just bits like that where you can kind of do software development in, um, more of a best practices way in terms of, you know, reusing code and, and, abstracting the things and releasing the things of separate libraries that might make sense for that.
+
+Dan: Right. That's what I've always liked about the layering stack of networking and thinking about the various, you know, OSI model or, or other interpretations of that and be able to think about each, each piece building on the one before it. But am I understanding the, the Bandit read me correctly here? You also wrote an entirely pure Elixir socket server to build all of this on top of?
+
+Mat: Yeah. So all of this sits on top of, naming malapropism aside, it's called Thousand Island, right? Because the the equivalence in, in Cowboy, sits on top of a socket server called Ranch, right? Cuz Cowboys live on ranches. Bandit sits on top of Thousand Island because Bandit is to Cowboy as Thousand Island is to Ranch. Thousand Island and Ranch are both salad dressings. Bandit and Cowboy, malapropisms are kind of my thing. So, um, you know, it, it made sense at the time. Like when I say this whole thing started off as a joke, like I'm, I, I, I, I mean that quite sincerely. 
+
+Owen: I'm glad we've landed on naming things because, I enjoy naming things and I can just tell from your projects that maybe this is the favorite part of the whole cycle is just picking a name for the project there's so much thought 
+
+Mat: It's the second best part. The best part is these, you guys can't see them, I guess, cuz it's a podcast. But I had stickers made for Elixir Con, 
+
+Owen: Oh, awesome. Those are cool. 
+
+Mat: yeah. So making logo, sorry. Owen, I didn't mean to interrupt you.
+
+Owen: Oh, absolutely. I think the first time you popped up on my radar I was watching Elixir Conf Talks a few years ago, and you had released, you were talking about SchedEx, right?
+
+Mat: that was at, uh, M Pex 2018, I think. 2017 maybe? yeah. 
+
+Owen: Yeah, so this is a scheduling package for Elixir and it's another pun based on like FedEx, which I dunno if we can actually say out loud, but you've, you've not been, uh, pursued by any kind of legal entities about the name of that. 
+
+Mat: No, no. 
+
+Owen: right. 
+
+Mat: No, and that, I mean, as if you go to the SchedEx project too, it like the logo is a, is a straight rip off of the classic FedEx logo. So stickers and we have stickers for that and all. So, yeah, naming definitely is one of the most fun parts of building these things. If I'm being honest, naming and making stickers.
+
+Owen: Making stickers and naming things. Yes. So, I always love a pun. That's the best part of my day is whenever I can land a good pun. The effort on these names is definitely appreciated, uh, by me and all the pun lovers in our community. 
+
+We've touched on a little bit about http. Http2 two has been mentioned. So the evolution of HTTP is something I'm kind of curious about. For years we've been working with 1.1, then two came along some years ago, and http3 three is starting to pick up steam, it seems. How is that affecting your development of Bandit? Does it support two and not three, or vice versa?
+
+Mat: Yeah, so we do , we have full support for HTP one and HTP two. They are completely different on the wire and the implementations of them are like, they're completely distinct stacks within Bandit. They're entirely different clusters of, of modules within Bandit.
+
+And there's really not a huge amount that you can share from an implementation perspective. Like they are just fundamentally very different from each other. The semantics are very similar from a user perspective. That was the goal of, as I understand it, that was the goal of HTTP two, right? From a user's perspective, they don't really see any, any changes to it.
+
+It's still request response based. You still request a URI with a verb. There's still headers that go in each direction. You request bodies and response bodies, like the, the broad semantics of it are identical or at least largely identical.
+
+The implementation in terms of what the bits and bites are that get sent on the wire, it's completely different. 
+
+So that was, that was quite a bit of work. I mean, http one, for the original purposes of this as the backing system for home kit, I only ever needed http one.
+
+And that, like I've often said this, I've, this is when I'm gonna put my, my ranting old man. Ha, my old man yells at Cloud hat on for a minute here. I've, I've often said that, any sort of standard that's worth using on the internet should be something that, the benchmark I've always used is it should be something a third or fourth year student can do as a term project, and maybe not the most battle hardened, you know, ready for production, bet the company on it, but like, you should be able to build an http server as a term project.
+
+For someone that knows their way around a language. And then so http one was kind of classic for that. It's kind of like of the, the original era of internet protocols, right. It, it, it is text on the wire. You can telenet port 80 on a server and you can type in, you know, g e t space slash http t slash 1.1,
+
+Dan: Yeah. I love doing that to, to show people what it is, right? It's like, look, I open up telnet this has nothing to do with your browser, and yet I can talk to a web server as if I'm a browser.
+
+Mat: And so you can do that, right? And then it turns out that, that for years, I actually thought that was the gold standard. That's what you wanted to do. And then, so in contrast to that, HTTP two is what's called a frame based protocol.
+
+So it's, it's all binary based, like, Like in a frame is like, uh, I think it's, there's three bytes of length and then one byte that's of flags with foot. Like, it, it's, it's, you need to actually go and tease it apart bit by bit. Like literally bit by bit to make sense of it. You can't telnet to an HTTP two server and do the same thing.
+
+I'd thought for, for ages. I was like, this is just, you know, needlessly complicated. And the only people that benefit from this are like the Googles and the Amazons and the Facebooks of the world. Cuz like, this stuff is useful at scale, but it just gets in the way of the smaller people that are just trying to get things done.
+
+And then when I actually went and wrote these things, I realized that, one of the things that's nice about that approach is that, I mentioned earlier that the WebSocket protocol is really underspecified. It's not, it doesn't hold a candle to how underspecified http 1.1 is. There are so, so, so many places in that like, you can't throw a stone at the http RFCs without finding a place where you could validly choose this or that.
+
+And, you know, oftentimes they're completely opposite directions on a given choice. It's wildly underspecified and so it's really difficult, for example, to be able to have a confidence that like you've implemented the protocol correctly. Like HTTP two has, Bandit runs it's called H two Spec is the name of the, the project.
+
+It's a GO project. That just codifies a, I don't know, a few hundred different test cases about various corners of the protocol. And we run that as part of CI. So if we break http two, I'll know instantly, like the code won't even make it into main. There's no such equivalent. And there's, I, there's actually other testing suites for HTP two as well.
+
+H H two spec, which is the one that we chose. There are none for http one. There is no such thing as like a gold standard conformance suite for http one because there's so many. It could be this or that. You couldn't code a content length as a binary, or you couldn't code it as a binary in commas. And take the LA like there's a, there's a mil, there's a million places where the protocol does that sort of thing. 
+
+Dan: I'm sure we've all seen, right, like a commented line in like an Apache config or something, right? Like a, this, this header is replicated here because i e whatever, or i s whatever. Right? So you had these kind of weird overlaps and Yeah. It's interesting, I think that the kind of like ci test case you're talking about there from a, you know, Hey, let's push the, push the envelope of your, your server to make sure it's good. Like, that's a really neat way to validate.
+
+Mat: Yeah, there's another one for Websockets called Audubon that we run as well. So web sock and http two stacks are covered in ci exhaustively. If we break them, we'll find out. And like I said, the code won't even make it into production. Http one being far and away the most important of the stacks and having from that perspective far and away the, the worst coverage from a conformance perspective, is something that I'd, I'd like to change. I think one of these days I might get around to writing a conformance library for HTTP one. I'm not the first person to ask for it. There's a number of like, and not even within the elixir world, there's a number of folks like Jacob Rothstein over in the Rust world has looked for something like that as well. I know there's a couple of people in the GO community that are asking for these things, like they just don't exist, which is frankly to me shocking.
+
+Owen: Yeah, considering that basically the entire world right now runs on http 1.1 
+
+Mat: Yeah. Right. And, and, and will probably forever, like, you know, again, HTTP two is important to the Googles and the Facebooks of the world, but not to you and I.
+
+Owen: So I'm curious, a couple things about these, these new evolving protocols. The first one is, I mean, really this is just an excuse for me to, to bring up my favorite engineering resource, http cat http.cat. This is a, a super helpful guide for understanding all the different types of, response codes that you might get from a server.
+
+Do these response codes change with these new protocols, or are they identical?
+
+Mat: They're generally identical and big ups to http, cat, I used it just the other day. Someone was asking in an issue on Bandit about header length validation. I was like, yeah, it's a 4 31. And then I literally just put the http cat reference to it. By and large, yes, they are, where they make sense.
+
+Where the semantics continue to make sense. There's a couple of codes, , let me think of an example. 1 0 1 switching protocols. HTP 1 0 1 switching protocols doesn't make sense. Protocol switching is specifically out of scope in HTTP two. It's not something that the protocol supports. So returning a 1 0 1 on an HTTP two connection is like a logical inconsistency, but any of the standard 200 s, 2 0 4 s, 4 0 4 s, they mean the same thing in both of them.
+
+Owen: So a WebSocket to this day is still gonna start with http 1.1.
+
+Mat: There actually is a standard, I can't remember the RFC offhand. It's somewhere in the eight thousands, um, about upgrade. http two has an upgrade function. It's built into the protocol as opposed to built into the application. So, you can upgrade http two connections to WebSockets. It's a thing apart from that semantic. And it's a thing that just about nobody supports. Finch supports it on the client side, and I think one of the Go Web servers supports it as well on the server side, but I think that's about it. I'm gonna land it eventually, when the time comes to once I'm past 1.0. Uh, I'm gonna land support for it, but it's not a thing that anybody uses. It's mostly just gonna be there for completion.
+
+Owen: So one of the, just I'm flashing back to a few years ago, you know, the introduction of LiveView and starting to understand anything about WebSockets at all. And what was interesting to me at the outset was you're talking about a persistent connection. You authenticate a user once to identify who the person is and then anything else you do within the app can be authorized and so on.
+
+You don't have to keep asking every time someone clicks a button. Like, who are you, like you would with a SPA app, you know, for example, that's making a bunch of AJAX requests. So how does that change, does http two or three or quick or something else in the future , are any of those kind of more of a persistent connection type model, or is it kind of a different thing entirely?
+
+Mat: Well, okay, so when I mentioned that this like the, from a semantic perspective, that one and two are identical, they're both fundamentally request response, protocols, right? And they're stateless and like they're, the, the term of art for it is that they're stateless, right? So like, just because I've made a request on this, you know, on this TCP connection via over http one or two any subsequent requests I make are completely divorced from any previous requests that I've made, you can't generally forward things through. Ironically, that was actually the requirement to be able to do that was the thing that I needed from HAP in the first place to be able to do that home kit thing.
+
+So, Bandit does support it, it has an escape hatch for that, largely cuz of that, but it's not fundamentally something that like HTTP does. The reason why that works with WebSockets, and this is a bit of an interesting digression into the Elixir process model here. When you make a web socket connection, it starts life as an HTTP connection. And in fact, as of plug one point 14, the original upgrade gets surfaced to Phoenix as a plug request.
+
+It gets pushed through the Phoenix router the same way any other http request does. and then Phoenix will indicate that it wants to upgrade that request by calling Plug.Conn.upgrade/3 adapter, the same as you have, like Plug.Conn.send_resp/3, or you know, send resp headers or what have you.
+
+There's an upgrade adapter function and that is basically how you hook from. How you handle the upgrade. So it's a plug, initially, that has access to everything in the connection. It has, you know, you can grab the user session, you can pull stuff outta the session store, you can do what, whatever you'd like to do with that.
+
+And then you build some state and you hand that state off to your WebSocket handler to your WebSock handler. And then the WebSock handler looks and acts, and in fact, at least in the case of Bandit is, is actually implemented as a GenServer and then so that state that you pass, is the state that you start the WebSocket GenServer off with, and then every time connections come in from the messages come in from the client, they just show up to you as a handle.
+
+A handle in function that, again, is the exact same semantics as a GenServer and then, so to your point about how that state works, you don't have to reauthenticate every time because whatever authentication information you might have about the user is in your socket state and that, you know, gets, gets sent back, gets passed back to you every time the same way it does with a GenServer.
+
+Owen: So, is that WebSocket process, you know, the, the GenServer, is that also the LiveView process whenever that LiveView is up and running? Or is it a separate process?
+
+Mat: No, It's a separate one within LiveView. It, it represents, it's, the Bandit connection process. I go into some pretty in-depth detail about this in my Empex Mountain talk from last year. That's actually where I first met you in person, Owen, in in Utah last year. That was Empex 2022 I think. The talk's called, &quot; A Funny Thing happened on the way to the Phoenix.&quot; I spend about 30 or 40 minutes in there going pretty in depth into the process models for these things. I mentioned that largely cuz it's a bit, I don't wanna get into in the weeds with it, but it's also a super interesting case study in how the OTP process model fits really, really well to networking. You'd be hard pressed to design a process model that, that made more sense for this than what OTP already does. It's just about perfect for it. 
+
+Owen: It's almost like, they designed it for distribution and networking. Yes.
+
+Mat: It's almost like they knew what they were doing. Yeah. And then so that process, that represents that connection in the OTP networking world, that that networking process is the WebSocket connection, at least within Bandit anyway. 
+
+Owen: Cool. So, I've also done a little bit of research into, I can't say I've fully wrapped my mind around http three or QUIC. I have glanced at some things like web transport, which I think would be an alternative more to WebSockets. And I'm kind of curious how much you keep your ear to the ground as you're working at the, entirely in the back end here with the, the transport stack. Are you aware of these things? 
+
+Mat: Oh, very much so. Very much so. The tricky thing with HTTP/3 is that, everything previous to that HTTP, HTTP/2, WebSockets at least, well yeah. WebSockets, they all run on top of TCP, right? And so, if you've heard of the distinction before between TCP and UDP, there are two different protocols. TCP is, like a reliable, long-lived connection, right?
+
+So you basically make a TCP connection to a server, and then you have this durable connection with the server. That may last for a few seconds. It may last for days, right? But it's, it's this durable to come back to it, it's a stateful connection right there. There is a state to that connection that exists that both the client and the server know about.
+
+In contrast to that, UDP is a stateless protocol. So it basically every message that gets sent or received in either direction, It's kind of own little, it's its own island. It doesn't know anything about any other connections that, any other packets that may have been sent in the past. Every one of them is its own kind of standalone little nugget of information. Everything that's been written in the HTTP world before HTTP/3 is based on TCP, so it's based on this. Fundamentally, you make a connection to a server, you run a bunch of, you know, you send again, capital, g e t slash http, t blah, blah, blah, blah, blah. You're sending bunch of data to a server, and then the server sends on that same connection, sends that response back. HTTP/3 is based, it's a completely different, it's based on, QUIC, which is in turn based on UDP, and it builds those same general long-lived connection ideas, but it does it on top of UDP for, again, a, a bunch of reasons that mostly accrue to the Googles and the Facebooks of the world, right?
+
+This is a thing that makes their lives better at scale and not so much ours. And I mean, I, I, I ate curl about this once, so I'll maybe I'll eat curl about it again when I finally go and implement this stuff. But, it's fundamentally a very, very different protocol is the short version of this, right?
+
+To implement HTTP three, you have to implement QUIC. To implement quick, you have to have a UDP stack. To implement a UDP stack, you basically have to go all the way back to almost to first principles to do this. And again, if you're Google and you're writing Chrome and you have, I didn't even know how many thousand engineers they have, you know that they maintain the bits of Chrome.
+
+Great. Cool. You have an entire team that does your UDP stack, right? And then they can coordinate with an entire team that runs QUIC on top of that. If you're one guy just trying to write this on top of like the basic Erlang libraries, you're gonna have a bad time with it. So, I very much would like to write an HTTP/3 library, like an HTTP/3 support in Bandit. I'm frankly, at this point, just not sure what that looks like, if it's even, a task , that's achievable.
+
+Owen: Now I wanna make a comparison and you can tell me how wrong this is, but the, the way I like to think of TCP versus UDP is in GenServer terms, right? So we have, you can make calls and you can cast, so you can either call or cast in a GenServer. A TCP to me sounds a lot like using a call. You're gonna send something to the GenServer and wait for that response. With UDP, you're gonna cast and it may or may not succeed, but you're gonna keep moving and, and not kind of wait for that response. 
+
+Mat: Yep. That's a very apt metaphor. What I am really keen to see about is to what extent Erlang itself, OTP ends up supporting QUIC. I think architecturally the correct thing to do would be to, and I, like I say, I think cuz I haven't actually sat down and like really puzzled us out yet.
+
+I think they're the architecturally the team that should be owning a QUIC implementation. And then Bandit would in turn write an HTTP/3 implementation on top of their QUIC library.
+
+Dan: Okay. Yeah, I was gonna, I was gonna ask, It sounds like for a lot of these things, like you say, these evolutions, these protocols have benefit to people who control both sides of the equation or are doing things at kind of massive scales where this matters.
+
+Where do you want to see things go then for the rest of us and what are you hoping to see from either protocols or the language or things like that? And so it sounds like you're ask at least, or you're, you're pondering and, and kind of thought processes, you know, maybe some of this support needs to start down at the Erlang layer, at least in terms of quick and UDP.
+
+But anything else looking at Phoenix, looking at LiveView, looking at how these things are taking off. What are you hoping comes down the pike or what challenge do you want to take on next?
+
+Mat: Personally? There's a few loose ends that we left in the Phoenix stack, as part of the work about adding WebSocket support. WebSock support ,rather. There's a couple of loose ends there that I'm gonna pick up on. and I do have, this is something that isn't public knowledge as the day were recording it, but by the time this comes out, Bandit is now in the 1.0 pre-release series.
+
+So it's now a stable project that won't be changing in substantial ways. I've got a list, I'm just looking at it on my screen right now of probably 25, maybe 30 items of things that are still gonna be backwards compatible, but are just like little improvements here and there. papercuts within Bandit, adding support, WebSockets over HTTP/2, we were talking about that earlier, a couple of things in telemetry. We still haven't totally proofed that stuff out. There's no shortage of little things that can always be better. The funny thing is, is that at a day-to-day, from a day-to-day perspective, I don't actually use, I mean, I use Phoenix as an API server. Just because architecturally we just have a React front end at PagerDuty. So all of the, to the extent that I do front end work, it's always in React.
+
+The changes to LiveView and the changes even to any of the stuff with components in 1.7. I mean, I find it really exciting and I think it's really great, but like I have no personal skin in the game in that respect.
+
+Owen: So you're not a tailwind guy, is what I'm hearing. you're a strictly API. 
+
+Mat: The degree to which I am hopeless in the front end world should alarm you honestly. Like I, I am, I am. What's that thing about? Not only am I the president. I'm also a customer. Yeah. I'm, I'm just the president here. I'm not a customer. I don't actually use most of this stuff. 
+
+Owen: But you're doing some important work, right? Like you're doing work that supports the rest of the community who's building, you know, the front end and even, REST or GraphQL APIs over these protocols. and and these protocols are evolving in a way that are supposed to help us with kind of the evolving nature of connectivity as well.
+
+I know anytime I've, I watch my phone try to switch from wifi to, you know, 5G or 4G and back like it, it's always a, a mess. Do these protocols help us at all with the transitioning between different connections? 
+
+Mat: QUIC, without getting into the weeds, it. Works on top of UDP, right? So every bit of information that a QUIC client or server sends back and forth to each other is distinct from the rest of them and the way that they've implemented that, they have these kind of identifiers that, that are in the message itself that say, I know you don't know about connection abc, but here's the next thing about it.
+
+And that might come from anywhere. It might come on the same connection. It might come from on a different network. It might, one might come over your 5g and the next one might come over your wifi. Like it, they are transparent for that. So the theory of all of this is that like you can be running a connection, a logical connection from a webpage over running over HTTP/3 to a server on your phone on wifi.
+
+Then you can roam, you can get into your car, whatever. You can roam onto 5g, you know, you can get on a plane, you can come back. And that connection should be the promise of it at least is that that connection continues to be like at the level above that, at the abstraction above all of the protocol stuff from a Phoenix applications perspective is a single durable connection on top of that.
+
+Owen: Right. 
+
+Mat: Remains to be seen how much that actually works out in practice. This wasn't the first stack that has promised this. But that is the promise of it. 
+
+Owen: Streams are involved, the format of these messages sounds interesting. I think we're gonna have to start resting on the, the laurels of resources on the internet to get any further into the weeds here. 
+
+Mat: I think so. yeah, if anybody is interested in this stuff, I'm really dogmatic within Bandit about linking to the relevant RFCs. In all of the test cases, I call out to the relevant clause in the relevant RFC. And I, where possible, I surface error messages that reference them as well. And there's links in the Bandit readme to all of the, the relevant RFCs as well. So if you are curious to start digging on this, you know, it's a, it's a good, as good a jumping off point as any.
+
+Dan: I have long recommended people read RFCs always. It's great. It's a really interesting experience to read RFCs.
+
+Mat: I 
+
+Owen: and I'm sure even the source code for Bandit would help someone understand HTTP, the different protocols that are, that have been implemented there. You know, just kind of reading through the code, watching how you know the data gets passed.
+
+Mat: Yeah, and I mean, honestly, like there's not, and I've, I've been pounding the table about this, uh, basically every chance that I get that this stuff is not fundamentally complicated. The entire extent of Bandit is I think 5,000 lines. You know, it's not that big of a project, there's nothing kind of behind the curtain there, there's no other giant library that does all the heavy lifting on this.
+
+Like, writing a web server isn't actually that hard, you need some sticktuitiveness and some persistence and a structured way to approach solving successively, you know, larger and larger problems. But like, it's not, It, it's just code, right? I mean, all of this stuff. At the end of the day, we're just, all we're doing is sending zeros and ones over a wire.
+
+Owen: Right. Well, cool. Before we wrap up, do you have any final plugs or asks for the audience?
+
+Mat: Take a look at Bandit. Always keen to pound the table on that one. It's, like I say, pretty straightforward for, you know, for someone to be able to implement and start using. The volume and the nuance of the bug reports that we started getting on the Bandit project, once we had Phoenix support, was just leaps and bounds larger. It really does help these projects to have users, you know, and to have people that report bugs back. We've gotten some really deeply obscure bugs that were not things that from a development perspective I ever would've done. I never would've thought to have tested some random permutation of configuration options or what have you that someone happens to report a bug on. You know, and it's a legitimate thing to fix, but it's just, there's an awful lot of development that happens and, and should happen as a response to, you know, to bug reports and, and that scales pretty directly with the number of people using it. So y'all should be using it.
+
+Owen: Awesome. Well, thank you so much for putting in, at this point, years of work, improving and enhancing and helping evolve the stack that Phoenix is built on. And thank you for helping us unpack everything there is to know about web protocols.
+
+Mat: You're very welcome. Thanks for having me. It's great to be here.
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
