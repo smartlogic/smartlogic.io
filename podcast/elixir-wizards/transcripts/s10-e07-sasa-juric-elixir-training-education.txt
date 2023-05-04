@@ -1,0 +1,339 @@
+S10E07 Saša Jurić on the Future of Training &amp; Education in Elixir
+===
+
+Intro: Welcome to another episode of Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is season ten, where we are looking to the next 10 years of Elixir. We'll be talking with our guests about what the first 10 years might tell us about the future of Elixir.
+
+Sundi: Hey everyone. I'm Sundi Myint, Engineering Manager at SmartLogic.
+
+Owen: And I'm Owen Bickford, Senior Developer at SmartLogic.
+
+Sundi: And we're your host for today's episode. Today we're joined by Saša Jurić, a software developer, mentor, and author of Elixir in Action. And in this episode, we're discussing the next 10 years of training and education in Elixir.
+SmartLogic
+Thank you, Saša, for being here today.
+
+Saša: Hey, thank you for having me.
+
+Sundi: So excited to get a chance to talk to you about your thoughts about training and education. Just top of mind, how are you? This is, I think, our first time interacting. Owen, same for you as well?
+
+Owen: Yes. Aside from buying the book, first conversation. Yeah.
+
+Saša: Yeah, I think I was like, uh, way back a few years ago, maybe on, on this podcast with a completely different team. But, uh, yeah, it's our first time for we, we meet virtually. Uh, and it's, it's nice to meet you all. You know, uh, I've been doing fine. Uh, it's a bit later, late in the evening here. Uh, but, uh, yeah, it's nice and everything is silent.
+
+The baby's sleeping, and so I can hear my own thoughts and hopefully I'm gonna provide some clear answers now.
+
+Sundi: And for our new listeners, where are you calling in from?
+
+Saša: Yeah, I'm in Croatia, Europe in case anyone wants to visit, uh, ping me someplace and I can give some good tourist tips. It's a popular destination for tourist.
+
+Sundi: Fun stuff! So for, you know, fans of the book, Owen, I'll let you take it away with your first question here.
+
+Owen: So the book that I have is Elixir in Action, Edition 2, Second Edition and Breaking News, there's a third version. Is that already released to the wild or is it kind of in the final steps?
+
+Saša: So, yeah, So, yeah, there is, uh, the third edition is the Work in Progress. It's currently available on Manning as MEAP, the early access program. I'm not really sure how many chapters have they published? Uh, currently I think that's something like five or six, something like that. There are already a couple of more, more chapters updated. The estimated final release, you know, like when it goes through the whole process is early 2024. Yeah.
+
+Owen: Sweet. So I'll say real quick before we get further into the conversation, if you're listening to this episode, stick around till the end. We got a nice little surprise for you and yeah, can't wait to share that with you.
+
+Sundi: Saša, I feel like we, we've heard, you know, your name in the Elixir community a lot. Just for our new listeners, and maybe for me too, as somebody who's getting to meet you for the first time, can you just refresh us on who you are within the Elixir community, obviously we just talked about you being an author. What else have you contributed to? What are your current projects? Can you fill us in on that? 
+
+Saša: Yeah. I have been in Elixir community since, uh, pretty early days. Uh, I started using Elixir in 2013, so, uh, I'm actually celebrating my decade with Elixir this year. And, back at the time when I, uh, when I joined, uh, we were like on the mailing list at the time. Uh, there was no forum and uh, there were like maybe 20 people or something like that. Most of us just, uh, asking questions, uh, and Jose providing answers. Obviously the community has grown quite since then. and so this would be like my first entry into, into the wider community. I, I was present until, like, say, two years ago when I became a parent then, I, I find it hard to, to find a bit more time.
+
+But up until then, I was like pretty present on, uh, Elixir Forum, giving, you know, my advice and help and whatnot. I used to blog, the site is still, uh, available. Uh, it's called theerlangelist.com. Uh, I used to have some think pieces there focused on, Erlang and Elixir. And, yeah. I'm also the author of the book, uh, wrote a couple of libraries, open source libraries.
+
+Uh, I don't think that they're like mostly used these days. There are some good ones which are still like, and use, uh, one is called Boundary, uh, which is quite an interesting library that can, uh, help you, uh, define and control dependencies in your code without actually needing to use umbrella. And it can work much on a much finer grade, uh, detailed level than, uh, umbrella apps.
+
+I, I like to use it quite a lot. Uh, and uh, so that's one. Another would be site encrypt library, which is, uh, which can be used to self-certify on Let's Encrypt without needing any external dependency. So you just, you know, add this stuff next to your Phoenix app and you just get, , Uh, your certificate from Let's encrypt, uh, out of the box, you know, without any external tools and whatnot.
+
+And so, yeah, I, I've been present in the community. Didn't write like anything super big like Phoenix or something like that. But, uh, otherwise, the book is my claim to fame. I would say, the biggest claim to fame in this community.
+
+Sundi: So Saša, out of everything that you just mentioned that you're working on or have contributed recently, is there anything that you're particularly excited about that you want everyone to know about? 
+
+Saša: The boundary project, I think it's really important. People are kind of starting to use it and, uh, I'm, uh, introducing it also to my client's projects when I find the opportunity. I think that like umbrella apps, I don't know if any of you people have been using it or are using it.
+
+I think that they're like a way too complicated thing and, uh, at the same time, they don't really help you achieve, uh, what you want as much as, as much as they, they should, you know? So they're kind of a half-baked solution and I don't think that they're originally even designed for what people are using them in the first place.
+
+You know, like to organize your code and dependencies in your code. And so boundaries much lighter, uh, option, you know, you just basically edit as a dependency to your project, and then you set up like uh, from web I can call the core layer, but not vice versa. Right. And, uh, another thing that you can say is like, uh, this is the core layer and, uh, only these modules are public. For example, repo is not going to be the public module. And so from within web, you cannot call repo even though you, you are allowed to call this, uh, layer. So those kind of things, those are the kind of things that you can do with boundary. And then it gets interesting because once you set up these dependencies. You can have like recursive, you can have boundaries in, in boundaries. That kind of, uh, add some interesting flare. And then once you have these dependencies set up, then you can generate some nice graphs and visualizations of your code architecture and design. And so I think that it's like, uh, Pretty, pretty nice, uh, library.
+
+The site encrypt library, uh, is a part. You know, I, I think that I also have like some, uh, fame in community because I've been vocal about this, uh, design or architecture where, uh, I wanna do as much as possible just using Elixir, nothing but Elixir, you know, just, I just have my mixed project and, uh, it just works, you know, and, and in a lot of ways, this is already possible.
+
+Like when you take a look at, for example, Phoenix, and especially with LiveView, Uh, more recently, like you can do a lot of stuff without other external dependencies. And so citing crypto was one small exploration. I had like a bunch of other ideas in the pipeline, like load balancers and uh, reverse proxies and whatnot.
+
+And Site Encrypt was, anyway, one idea like, uh, when I wanted for my blog, I wanted to, uh, add certification, uh, you know, https and, uh, when I was looking at the options and I had to run some tool, uh, With, uh, Python and whatnot. Uh, and I would have to run it like manually maybe, or have a cron job.
+
+But I found it's like, this is like super complicated stuff, you know? And Site Encrypt is like a demonstration of what you can do when you have like language with proper concurrency. You know, what we have with supervision trees and uh, concurrency primitives and whatnot. And basically it's baked in. You know, rather than having to do something on the side, you install.
+
+You add the dependence in your mixed project and you just put something in your supervision tree and it just works, right? You, you fill in the blanks. You say like, this is what I want to, how I want to certify. These are my options. And it just works. And it periodically runs, uh, renews the certificate.
+
+You know, I have it on my blog. It just, I just forget about it. It's been there for like, uh, five, six years or something like that. And it, uh, just works without needing any sort of, uh, operations. And the, the, the big theme here, you know, this is just one example of, uh, That kind of thing. But the big theme where I would like to see the whole community, uh, go is, uh, like this idea of moving back operations to, uh, development, uh, phase where you can do a lot of stuff with your code rather than having to wrangle YAML and INI and JSONs, uh, Uh, usually all at the same time, uh, which are like pretty, pretty weak and pretty, pretty shallow obstructions without, without sufficient tooling support and whatnot.
+
+And so I think that we can do a lot directly in the language when we have this great primitive and obstruction such as, BEAM, uh, virtual machine. 
+
+Sundi: That kind of leads into the, next question that we kind of had around somebody who might be coming in to writing Elixir for the first time. What are some common design pitfalls they might fall into? I mean, you said that a lot of people use umbrella apps and maybe they shouldn't be.
+
+Are there any other kind of design pitfalls that you, you, you're smiling so I'm just gonna let you take it away.
+
+Saša: Yeah, I dunno, how much time do we have? I think that like I could fill in probably whole day of that. There are definitely some established sort of anti patterns, I would say for people coming into this community. And I'm one of those people as well. I, I know because I also did the same, those. Kind of things because still many, many of us arrive here from, uh, imperative or object-oriented background, and we somehow try to shoehorn that stuff into this, uh, functional slash concurrent paradigm, right? So, And we end up doing, you know, similar kind of things like with some, maybe using ETS tables, for global state or maybe, uh, trying to simulate objects with GenServers.
+
+Uh, I've seen this a lot and I did this myself. So, so those are the kind of, examples of of newcomer patterns that I've seen around, you know, people doing a lot of, uh, Concurrency rather than solving the problem in a functional way. You know, you can do a lot of stuff just in a plain, sequential, functional way, but when you have like this OOP mindset with mutable variables and uh, whatnot, it's kind of difficult to transition to this, you know?
+
+It takes some time simple to get used to it. So, so those would be the, the patterns that I see for, from people who are new to Elixir, not necessarily new to programming. Then there's like this whole other dimension. As a sort of a background, for the past couple of years, something like five years, four or five years, I've been working as an Elixir mentor slash consultant, if you will, you know, helping teams work with Elixir, uh, in production.
+
+So I had more chances to work with different teams on, on already established code bases usually. And I pretty much see some similar I would say anti anti patterns or similar kind of design issues, and umbrellas are definitely, uh, would definitely fall into this, uh, category.
+
+Uh, and I would say that a lot of this originates from the fact that like, We have this Phoenix generators, uh, which, you know, generates this initial project structure for us. And, uh, then you have this holders which can further generate like controllers and your context and whatnot, and people follow this, you know, which, which only makes sense.
+
+But my position is that, uh, like this code. This what is generated is good for exploring the technology, for learning the technology, uh, but not so much for organizing, uh, the code to be developed over a long period of time by a team of people rather than an individual, you know? So, and I think that you cannot really satisfy both goals at the same time.
+
+And from everything I have seen, you know, uh, In those generators in otherwise, you know, I had a lot of discussions with Jose, public and private and, uh, not, maybe not so much with Chris, but my understanding is that Chris also has like a similar position whenever we would discuss and bounce some ideas, you know, Jose was frequently saying like, this is, this is confusing for people who are new to Elixir.
+
+And clearly it's very important in the, in the design of Elixir and Phoenix and the ecosystem to, to be approachable for newcomers, and this is great. But then I think it's up to us to realize that like this stuff we get from the generators, uh, it's not necessarily good practice when you want to scale your code base, you know, to be maintained by a larger team for a longer period of time.
+
+Owen: I definitely wanna follow up on that. Everything you're saying resonates with me. And I think each of these topics could be their own episode or even season. Kinda like we've said. I think some of the anti patterns that I've seen are also maybe too many macros.
+
+Abstracting things a little bit too quickly or in a way that is trying to solve a lot of problems that really don't need to be, malformed abstractions maybe is one way of describing it. But also, yeah, I think following the generators too closely or not kind of thinking outside of the box of like how our code is structured.
+
+That has tripped up different teams that I've worked with in Elixir about like, does it really need to be, do these contexts like always make sense? Are there cases where we maybe put all, all of our schema in one place and our queries in a different place and then compose them differently than, than what you would get out of Phoenix Gen schema or context or something. 
+
+Saša: Yeah, I wanna say that pretty much I don't use the generator site other than the initial, uh, you know, for the generating the project structure. And then I spend something like at least half a day, uh, Making a bunch of, you know, mechanical changes. Uh, more recently, I, I have actually set up a project structure, which, which I can just clone it and do a search and replace rather than start with the generator.
+
+The generators for the controllers, I never, but like previously when I was using Ruby, uh, I also didn't, uh, when I was working with Ruby and Rails, I also didn't use those generators. Uh, you know, and I think that like they, they. They're good for exploring. Like, you're completely new to Phoenix and you just want to know, get, get me something going quickly.
+
+And this is like incredible what you can do pretty quickly with, uh, Phoenix and with those generators. Like you get like real time, uh, app and updates and whatnot. And so this is great stuff. Uh, but for, for any development, I wouldn't advise, you know, going for, for the generators, try to Create that stuff on your own because usually it's, uh, relatively simple and you just, you know, copy, paste from the existing thing.
+
+Of course One exception is the ecto migration. Right? So this is the one where, uh, it makes sense, especially because it generates this date time, uh, unique, uh, civics. Yeah.
+
+Sundi: Yeah, I actually found the generators to be a bit of a crutch when I was learning Elixir because I didn't necessarily know when I was adding a new field or updating a table why I was adding things in certain places. I just remembered I had to like, it was muscle memory. I added up, you know, I added the migration and then I updated the schema field and then I added it to the change set.
+
+And then the little squiggly W, which I never remember what that's called. And I, at some point, you know, I, I was like, oh, it's because the generator generated this pattern and I have to follow it. But I don't think anyone, at the beginning of when I was learning Elixir like realized I wa I didn't know what I was doing.
+
+I was just following the pattern. And I probably could have dug into why it was that way and I did eventually get there, but I think the generator pattern kind of masked why I was doing these things. And I don't know if that's a problem of. Pattern generate like generators in general, or the way that newer developers might take on tasks and not understand why certain things are certain in certain places.
+
+Saša: Yeah, I think it, it's a really good insight and it kind of, uh, to, to connect to that, uh, one issue now that I think about the health generators in, you know, not just with Elixir ones, is that too much things are thrown at you. You invoke this simple command and you get like five modules or something like that with a bunch of codes, you know?
+
+And personally, I, I get lost, this is too, too much information at once, you know? I think that this is like a, I would say an, uh, inherent problem with the generator. Granted, on the other hand, like you, you quickly get something visible and you want to get some tactile feedback, rather than having to read a few hundred pages before you can write the very first line of your code. 
+
+Owen: So, I was reading your Medium blog article series recently towards maintainable Elixir, if I got that right. We'll link that in our show notes. But it it reminded me, I think early on, in my Phoenix journey several years ago, I had stumbled upon templates and like how you could kind of customize them in some way and did some poking and prodding and probably asked a bunch of people, and someone finally suggested that actually you can like make your own templates folder inside of Phoenix's priv directory. Forget exactly where it lives, but that's where you can actually create your own templates.
+
+So you could create your own generators, like custom generators and mix tasks. Or you can take the Phoenix templates that are in the Phoenix repo. Copy them in, make some changes. One thing I like a, just an as an example, there's a field that I will add to almost every schema that I create, which is created by, or like inserted by and updated by.
+
+That way there's some kind of record of, of who made the change to this, uh, schema and while it's okay for me to go in and manually add that to the migration and to the schema, I could drop in a template that includes that, kinda like the timestamps macro, and then any schema and migrations that are generated from the mix task would inherently or automatically have those.
+
+Saša: Hmm.
+
+Owen: That's like one small example, but there are so many different things you can do with those templates. And I, I find myself using the full context generators way less than I used to. I will use the schema generators, so I get the schema, the chain set, and the migration, then I, it's up to me to like think about the actual credit operations and, and like the business logic for, for that particular type of data.
+
+Saša: Yeah, that, that, that's a good choice. You start with something simple. Yeah. The big generators, especially like if you take GenAuth for example, this one is just humongous and I have such mixed feelings because, uh, I started that code a lot, uh, because I basically rewrote it to fit my own patterns and it took me like a couple of days to actually do that, but at the same time, it's not the code I want to maintain.
+
+It generates a bunch of stuff. Most of the stuff is public, you know, like whole internal, imagine if you have like, uh, 90% of your functions, which are public. This doesn't make sense. You know, it's not, in my opinion, it's not a well obstructed code, but at the same time, it's beautiful engineered from the standpoint of security, privacy, good practices.
+
+And I was just like, looking at this and like, oh, wow, I haven't thought of that case. and you just get this, you know, you just. To run this one command and it's there, you know, it's just, uh, just out of the box. And it's great that it's not provided as an obstruction, but it's provided rather as than, you know, you get this code and then you can tweak it to your own liking and your own needs, which, which I, uh, wholeheartedly agree with.
+
+And I guess, you know, Jose had previous experiences with Auth in, Rails. So, uh, my understanding is that he applied, lessons learned and went the other approach here. So they're like pros and cons to this approach. Yeah.
+
+Owen: right. Specifically GenAuth. I, I know I can see myself, I can see him into the future. Like a week or two from now, I'm gonna be running Phoenix GenAuth and then Moving all those files into different places, changing where some of the functions live, cuz some of the functions are in, in the schema, sometimes they're in a context.
+
+I wanna group those a little bit differently. And to your point, maybe more of those are public than they really should be. I think we should all be a little bit more comfortable, like kind of changing it up and like thinking outside of the box and thinking about how we organize code.
+
+Saša: Yeah, precisely that. That's the, the overarching thought here and the message. 
+
+Sundi: On that note, then, as somebody who's been very invested in writing Elixir for the last decade. There are pretty common patterns that have been developed through writing Elixir, especially like, you know, NBC and just like the way that we sort of attack our problems when we're thinking about how we're going to solve our complex systems solutions situation.
+
+Owen's thinking right now about like, how do we think outside the box? What are your thoughts on kind of changing up the game and, and reevaluating how we organize our Elixir code. Is there anything, like, have you had thoughts about that or are you somebody who likes to organize your code in a way that you always have been?
+
+Or are you usually tinkering with what's a better way, what's a more efficient way? 
+
+Saša: Yeah, so I, I have a lot of ideas about how the code should be organized, and then I presented some of those in the, in the blog series. Those are like, not just theoretical ideas that they have been drawn from practice and experiences working With my clients. So they have been tried, uh, in practice and, uh, people had good feedback and otherwise, you know, they, they're made, uh, based because I like, like everyone else, I was also following like the official, the blessed way, you know, and found out that they're like, it doesn't really scale well when you want to maintain it over time, which isn't bad.
+
+Again, I just wanna say this isn't criticism of the whole generators. I think they're good for educating and, you know, bringing people quickly up to speed. But yeah, in a nutshell, I think that, the main idea is we want to have like clear separation between what I call CORE and the interface.
+
+I think that context is like pretty. You know, terrible name doesn't really mean anything. And a lot of people confuse it with bounded contexts, which it isn't specifically. And so, yeah, I call it core and the interface. So the idea is that core is like what your system is actually supposed to be doing.
+
+Like, you know, your use cases, but devoid of any sort of presentation, right, of interacting with the clients. And so the interface that would be like the web for example, exposes the core to the outside world. So like you have your REST or you have DeadView, LiveView. In one case, for example, in the past we exposed our core via the PostgreSQL.
+
+So we implemented the server side of the PostgreSQL protocol and we pretended to be the PostGresQL database so we could seamlessly integrate with, analytical tools. That was kind of a fun example, uh, of what you can do. But that, to do that you basically bypass Phoenix and you have like text to Phoenix.
+
+You have. A pure wrench. You, you do your pure tcp, uh, right? And so this belongs to the interface. And so you, you wanna have that clear separation between those two things. And then it becomes pretty clearly what should go to the core and what should go to the interface. You know, like if something, uh, should be done, no matter how the people access it, whether they go through the controller or through the socket or through TCP or uh, pigeon carrier or something like that, you know, if it's always the same, then it's the core.
+
+Else, it's the interface. And like for 99% of the cases, you don't have to think about it. It's almost a mechanical choice, and this is the first win that you get. And then the second thing is that I want to have like properly typed data in the core. This is one big departure that I make from Phoenix.
+
+You know, Phoenix, take this params and just passes them directly as they are. And then you have like this cast, you don't really know what's coming into your context. You know, these are like very weekly typed functions. You cannot provide proper Typespec. You, you would just say like, this is a map where keys are atoms or strings.
+
+You don't know like what's in there. You don't know what the values are, what the types are. I want to deal with this in, in the interface before going to the core. And this is what I call normalization. Providing the structure to the input data. For example, protocols such as GraphQL does this out of the box, With REST you could use some sort of schema approach, like open API spec or something like that.
+
+Or I tend to write some thin helper based on schema, Ecto changesets for that. But either way, the point is to have like properly typed data. And so when you read the core, when you read that code and you have typespecs for public functions, then you can clearly see this is the stuff coming in. There, I have the proper name of the operation.
+
+This is the stuff coming out, and you can build the intuition about that code without actually needing to read everything. And what I found with generated code that they usually have to read, like the full implementation, you can specifically see that in Phx Gen Auth code. You know, you have to go like through the controller or from the controller all the way through the context and schema and changes and whatnot to actually understand like what's even the data that comes into this stuff, you know?
+
+And I want to be able to, you know, split this apart.
+
+Owen: You wanna have to jump through fewer files maybe? Yeah. I, I feel that pain sometimes. I think generally we, we are spoiled, like we have to look through fewer files than, than in other frameworks and languages that I've dealt with in the past. Or single files that have like, just everything. Like if you've ever had to deal with php, like, my God, you can write everything in there.
+
+Saša: Yeah, those are the two extremes and I think we kind of forget, people kind of bounce between those two extremes because they get frustrated with one and then they get like, okay, I was working with uh, 5K files and then I'm gonna like write every five below 100 lines. But, but then you have pretty much the same problem.
+
+What I like to say is just you. You turn it from very huge vertical stuff to very huge horizontal stuff. Uh, and I think that we kind of lose the sight of the general idea. And for me, the general idea is we wanna organize information in a way that we can mostly focus on a very small piece. Of that big thing and like software project, even a small project, like I worked for, I consulted for agencies.
+
+Yeah. Very quickly it goes to like a lower 10 k lines of code. That's quite a lot of amount of code and you wanna be able to focus on fairly small amount of code in isolation, right? This is the kind of organization that you're aiming for.
+
+Owen: Yeah. And one, one thing you were saying as you kind of landed on like reading the code and being able to understand it quickly. It kind of dawned onto me. I, I think a lot of times we're thinking about training and education and we think, okay, well how do you learn about Elixir in Phoenix?
+
+And of course the first thing that comes to mind is, you know, books. I learned a lot through talks, including your talks and other great talks in the community from, and other conferences over the years. But actually, I think, practically on day, on a day-to-day basis, how people actually really learn the most is from actually working on the code itself and working on either existing code or starting a new project.
+
+But, you know, if you're joining an organization and you're new to Elixir and you're kind of joining into an an existing elixir code base, you'll learn a lot from the books. You'll learn a lot from watching some talks, but you're not gonna learn necessarily about how this development team. Thinks about problems and how they organize the code until you actually start looking at that code and yeah, thinking about how to structure things so that it works well, both for like a growing team of developers, but also over several years.
+
+It's also just not easy, because you know, you got so many cooks in the kitchen sometimes and everyone has different opinions. That's where it , that's where the real work happens sometimes is like, I might read your articles and agree with you a hundred percent. , like, Hey, we should move all of our modules into these different folders and not use generators or use generators or make our own, and that kind of thing.
+
+But I've gotta sell it, you know, to the rest of the team and make sure that, are we in agreement? Is that gonna slow us down or is it gonna help us get, get, things out the door more quickly?
+
+Sundi: Core and Interface sounds cool, but I don't know if anyone else is gonna go for that right now. 
+
+Saša: Yeah, I can tell it works very nice in practice and it's like pretty intuitive, but it's difficult to add these ideas when you have established project. Right? So when you have like a, and I've found it, find it problematic as well, you know, when I go to clients who already have like this established stuff and they're not happy with their organization, but you know, you gotta pick your battles, how are you gonna change things and maybe then, you know. 
+
+Owen: We can't close the umbrella today. Sometimes, sometimes the umbrella's gotta stay open for a while.
+
+Saša: but but I can tell you, like, speaking of that note. So I'm currently actually working on closing one big umbrella or folding it back into a single app. I've had a similar experiences a year ago with, on a somewhat smaller scale. We are talking, I think about something like 50 K lines of code in total and maybe. Very over-engineered umbrella, you know, very overly fragmented. I think it was something like 10 applications. Some like fairly small. And, uh, just by collapsing this stuff, uh, we were able to, to remove I think something like two K lines of code outta the box. You know, it was, it wasn't even such a long amount of work.
+
+I did it, uh, myself. So I typically, you know, my, my engagement is I don't develop features. I do. This kind of refactorings and mentoring and help. And so I think it took me maybe about two weeks, not full-time. I was doing some other stuff as well, but, it's doable. You know? You can do it.
+
+Owen: Sundi, it's been raining outside. If we close the umbrella, how are we gonna stay dry?
+
+Saša: Oh wow. Oh.
+
+Owen: I say we just hide under the monolith. It's big enough, right? So. 
+
+Saša: Yeah. Did, did you invent this now or did you have this prepared for like, uh, when the opportunity happens? 
+
+Sundi: Owen tries to make me face palm once per meeting we're on. And this I guess, counts as a meeting, so that's, you know, that's fine. 
+
+Owen: Hey, it's not the worst pun. I, I'll have, there's a background process. There's an async task just running on that at all times, so...
+
+Saša: yeah, I, I think that this will be like a good title for the talk. You know, it's not raining anymore. Let's fold the umbrella. So if anyone wants to take that idea, you're free.
+
+Sundi: yeah, that sounds great. I wanna hear that at ElixirConf this year. So I mean, we were talking about understanding these larger systems and coming into your team, talking about your different opinions on how things should be organized. Do you have any advice for a new engineer who might be trying to approach these problems with confidence or, or, are there anything that you would say that they need to look out for or things that they should try to look to when they're approaching those kinds of problems? 
+
+Saša: For new engineers, you know, and I'm gonna speak strictly from my own personal experience, preferences, and, you know, my own path. The key thing is practice, practice, practice, you know, and you just need to practice and reflect. You know, you need to think about a lot about the stuff that you wrote and this, looking back, you know, and even still, uh, these days to me is the biggest catalyst of, I would say, my own improvement. Just working through the stuff. And I say this because I get asked a lot, I read your book, what should I read next? like, Which code base should I study so I can, you know, get some patterns? And I just tell Practice, if possible. Of course, do this, as a part of your job, right? So you're gonna get a job, you're gonna be a junior, hopefully, uh, you're gonna be mentored by someone more experienced. Doesn't always happen. Uh, it also didn't always necessarily happen for me, but if you're lucky, you're gonna have some good mentors.
+
+This is how you can grow really, you know, and reading is more complimentary, whether we're talking about reading books or reading code, this, you should certainly do all that stuff. Especially read blogs, you know, interact with people on forums. Uh, when you're junior, you typically wanna ask questions, and then maybe when you become confident, you wanna answer start answering questions and enter engaging discussions. And what I find that I like really grow and consolidate my own thoughts, you know, just by when I see some question and I'm start asking the answer, and like an hour later, this is all wrong, I have changed my mind. Still didn't post the answer, you know, and I came with one idea, and then I like, you know, maybe.
+
+Take like two days to think about it. And so this is really how, how I think you can, or, or at least from my experience, how, how I would say you can grow, a lot of it by practicing and reflecting on the stuff that you do.
+
+Owen: Yeah, I, I think like what you're saying is a hundred percent true, at least in my experience. I think most of what I learned, I learned a lot from reading and watching, but also from just creating a bunch of blogs that were never got deployed. Starting new projects and throwing 'em away, you know, within a couple weeks.
+
+Some of that was out of like naivete and not wanting to learn how to upgrade things. Fortunately, since then, I've learned a little bit how to kind of keep a project going for a long period of time. But, I learned a lot about how, how the tooling would change a little bit over time as I would kind of start new projects and kind of tinker with things.
+
+And, it was very informative. I, I kind of wonder thinking about mentoring, has your thoughts about like how people get mentored changed over the, over your career and, and maybe even how we, I think as senior engineers, we think less about being mentored, but I think it still is helpful.
+
+As long as there's anyone else in the community who can help you, you may not think of it as mentoring, but Yeah. Are there like thoughts about mentoring both for juniors and kind of people further in their career?
+
+Saša: I would say that like for mentoring or even, you know, to continue this, this whole topic of teaching and learning, I still think that the, a lot of the old ways, and maybe I sound like an old fart. I dunno if I should say this on, on the podcast, , but, I think that like the, like this, the old ways are actually good ways, the traditional ways where you kind of start like a junior and you, you really need, like the one way, give me the mechanics of how am I supposed to solve this problem. And then, someone hopefully in the review can, you know, tell uh, this is good and this is bad. And you kind of go through the drill. And then over time you get more, more creative freedom, and uh, you know, you get more, more free hands.
+
+Uh, But, like in our industry, we tend to be, and, and I'm one of those person also especially when I was uh, younger. We tend to be, I think, a bit too arrogant for our own good. We think that like we, we know everything just because we understand some piece of technology and just ignore old stuff and ignore the established patterns and, and ideas.
+
+So, we are sort of maybe still missing in this industry, this kind of path of I'm gonna practice, being guided by more experienced people and then, uh, I'm gonna grow, you know, like in what happens in other professions, you know? So, that for me is still, I think the way to mentor people the best. It's good that we question stuff a lot, so we, we should definitely do this. This is, I, I think really emblematic of our industry, of our profession, that we tend to be like very doubtful about things and that this is a good thing. But I still think that we should follow this, This more traditional path being mentored, uh, you know, and growing, uh, rather than being promoted to senior engineers, like after one year of experience, or something like that, which happens all too frequently. I, I'd say in our industry, 
+
+Sundi: whenever I see that, I'm reminded of, like I've, I feel like I grew up with a lot of different karate and TaeKwonDo places. I feel like I used to see a lot of first and second graders who were black belts. And not to say that's, that's impossible, but at the frequency I was seeing it, I was like, what's going on there? 
+
+Owen: Those are some dangerous children. I'll steer clear. 
+
+Sundi: Yeah. Dangerous children. 
+
+Saša: Yeah. I mean, uh, I saw some good analogies. Like would you like trust a senior architect who has one or two years of experience, or would you trust a senior surgeon maybe who is like 22, 23? You know, maybe they're like super smart, but still, um...
+
+Sundi: Yeah. It's interesting. speaking of like years of experience, there is a question I really do like asking, especially during the season where we're talking about the, the next 10 years of Elixir, but I don't often get to ask because somebody might be newer to Elixir. But one thing that Elixirists all agree about is that Elixir is just very reliable.
+
+It doesn't change. It doesn't break. And there isn't often a discussion about breaking changes, but if you could add something to Elixir that would break it, but was worth it, what do you think that would be? Do you have a wishlist item?
+
+Saša: Yeah, I, I have, and my answer would always be types. But this is now happening, so I guess I'm gonna have to look for another one. So, this year's ElixirConf EU, there's gonna be some talk, hopefully it's going to be published at some point so we can see like this development. The types are really the thing that I'm missing in Elixir.
+
+My understanding though, is that they probably wouldn't be added in a, in a breaking way, but, if they would require some sort of breaking changes, then I, I would be fine with it. I think that, like, so I've been now doing programming. I worked my first &quot;Hello, World!&quot;, more than 30 years ago.
+
+And professionally it's, something closer to 20 years, a little bit more. And I, I did, did a lot of Statical type programming and a lot of dynamic typing especially with Ruby, JavaScript, and Elixir and Erlang. And for the last 15 years or so, it's mostly dynamic and, and now I think that like I'm in a good position where I can say I prefer static.
+
+You know? And the reason I prefer is because I consider type. Types to be documentation and the static type checker checks the documentation. That's, that's my position on the matter. I'm not so much obsessed about error checking. I think that like, with some good combination of practice, discipline, organization, review, and tests , you would catch most of these errors anyway.
+
+I do want to have is like when I'm reading the code and even when I'm writing the code, like I wanna see what kind of data comes into the function, what kind of data comes out and this can frequently help me, you know, build the intuition around the function and remove some hypothesis when I'm reasoning about like, what, what could have gone wrong or how am I supposed to even use this thing, right?
+
+And so, types are definitely for me, uh, the way to go. And I, I'm really happy to see that, the work is being done and hopefully it's not gonna be abandoned.
+
+Owen: So I'll, I'll say here, listeners, stay tuned. We're gonna have an episode on this very topic in the next few weeks, so keep your ears out and open. Close your umbrella, but keep your ears open for that one.
+
+Saša: Okay.
+
+Owen: But on this note, I've learned to appreciate Dialyzer, even if I don't always love the messages they get back, but someone might say, okay, we have pattern matching. You can pattern match on a struct. You can use Dialyzer Typespecs and like custom types, and guards and everything. If someone's super pro dynamic types, what are you missing with these existing tools that static types might give you?
+
+Saša: What you're missing is really to the, the clarity of your code, right? So like, when you look at the function, you, you just see like what comes in are some params, attributes, uh, data. Those are like the typical names how like these maps are called and you have no idea what's in there, uh, what comes in into this function, what comes out, and basically you have to read the full implementation or full stack to be able to, to understand it, right?
+
+Even when you have type specification and then of course Dialyzer, which can enforce that, then you can clearly see, okay, this is what comes in. So this is the first thing. Then the second thing is once you have that tool, then you can reason about, is my contract well defined?
+
+When I'm doing pull requests, like my frequent complaint is like, why is this a freeform map? Why don't we directly specify like, these are the keys that come in, these are the values. And then from there you can see like, why, how can this even be nil? Why do we allow this to be nil?
+
+You know, and you can see the stuff from the review and you ask those questions, you know, when you don't have types, you, it's just all implicit, you know? My good friend, also professional for like three decades, said once oh yeah, that's just like, you know, you're doing the first thing that comes to mind and a lot of software gets built this way.
+
+And I think we can all agree that this is not necessarily the best approach, right? And so types make you think and make the reviewers think. And again, you know, they document a lot of the stuff. And if you just go to the Elixir Docs or you, if you're using ElixirLS, for example, and if you just, you know, type the function and get the type specification, read the spec and you can see based on the name and the spec, you can frequently, understand like what this function is supposed to be doing, how it's supposed to be.
+
+Working, especially for enum functions, for example, that, this is a good example where like, I, I don't remember, I have terrible memory. I forget like how these functions work. I just, pop up the ElixirLS VS code and it gives me the types back and like, oh, okay, everything is clear. 
+
+Sundi: Everything you're describing. I am absolutely nodding cuz everything you're describing is what it's like for me to work in Flutter. It was very frustrating at first because I was very used to the Elixir, cowboy method of just, first thing that comes to mind, that's exactly right.
+
+I am very much a visual person, so when I'm looking at my code, I just wanna try it. Let me reduce that and see if I can get to the value I want. But in Flutter, I could not do that because I couldn't reduce on it because it was not a type of a list. And I was like, but let me just, let me just loop through it.
+
+Let me just loop through it and then I'll, I'll get there and then I'll fix it. That's how I think about it. And I really had to slow down. And think about what is it actually, oh, it's not an enumerable list that I can work with and I can touch it. And that was very frustrating as an Elixir developer.
+
+But then I went back to an Elixir project afterwards and ElixirLS told me nothing. Nothing. I was like, why are you so quiet? Tell me things, talk to me. I miss you!
+
+Owen: Yeah, I think static types. Especially if, if the language server fully takes advantage of those types, that's gonna give us, I think what you're getting at is like much earlier feedback. As you write the code, as you stop typing are you gonna see that red squiggly immediately or are you gonna have to wait until you like, jump over the browser, hit that route and wait for some real time stuff to happen? Or, uh, uh, you know, runtime
+
+Saša: Yeah, great. And I think that this is like a really great point, which kind of describes these trade-offs between the two, the two, two philosophies? You know, I would say that like dynamic is good if you want to prototype, bounce ideas. You don't wanna be really buckled into types.
+
+And a lot of the times we, we actually deal in, in, special Phoenix programs like with sort of weight types. The typical example would be port, which I see people frequently, you know, sometimes if it's, if it goes through OS environment, you get it as a string. If it goes through, uh, configured specified as an integer, the underlying obstruction takes care of it.
+
+You know, it, it's a shitty, very shitty typing. You know, I always get like a developer twitch when I, when I see this, but, but it works. And when you're like prototyping, you don't care about those things. But when you're writing, uh, again, software, which is developed over time, maintained by a bunch of people.
+
+A lot of the times the original lottery is not even anymore on the team. You know, the team shifts. This is especially true for our industry. Then you want to have some certainty. Some Real documentation. I know that the code is supposed to be documentation. No, but, you, you want to have some more additional information about what this thing is actually trying to do.
+
+And I think the types are like terrific tool, which can relieve you for, from writing, you know, a bunch of text.
+
+Owen: So I know, I would love to talk shop every day, all day. We could do this for hours. Thinking a little bit at the higher level are there exciting use cases for Elixir that you've seen over the past 10 years, or that you can imagine over the next 10 years as we're thinking about the future of how Elixir is growing with adoption and maybe different industries and that kind of thing.
+
+Saša: Yeah, I so I think in generally these are very interesting times because of the rise of the AI, right? And so to me personally, it's, it's unclear where this is heading, but clearly things are going to change one way or another pretty dramatically. It's very comforting to see that Elixir is on, on this wagon and has been maybe two years already since Nx, uh, was first announced. I haven't been following that at all, to be clear, and I don't follow this field. Unfortunately I not have as much time as I would like to have. But it's, it's really interesting to see that Elixir is definitely still keeping up to, to date with these developments. And so I think that this, this is currently, perhaps the most important piece of, uh, you know, comforting information that, that I would wanna know about Elixir. More general question, which I, I have no idea. I'm not a talk leader and I have no idea how to answer. Is like where we're gonna be in 10 years. So, to circle back to the beginning, I started with Elixir about 10 years ago, and, while there have been bunch of changes, it still feels like it's kind of similar. I wouldn't say that there have been super dramatical changes.
+
+Maybe LiveView could be probably the most disrupting or different kind of things that I have seen. Otherwise I would say that like what I have seen is more, more like a polishing of the original ideas. You know, even though a lot of stuff has changed, but. What's gonna happen the next 10 years, given like how people are now generating, you know, and speaking about generators, you know, now people are doing this with ChatGPT a lot.
+
+Where it's gonna actually go from here, is a good question, which I personally wouldn't even, you know, know how to answer.
+
+Owen: So I just wanted to pause real fast cuz you just said you're not a thought leader. I would assert. Whether this assertion passes or fails, you are one of the foremost thought leaders in the Elixir community. You can ExUnit that later, but, uh, properties line up. I think they all pass your
+
+
+
+Thought not 
+
+leader. check, check, check 
+
+Saša: i, I'm not sure what, what, what, what I think about that, you know? But Thank you. 
+
+Owen: Elixir, influencer. Yes. Something. You gotta have some kind of title right?
+
+Saša: Non, Elixir non influencer maybe, or something like that. Yeah.
+
+Owen: Just a humble and thought leader. That's all. 
+
+Sundi: While I agree with everything that Owen just said, I cannot condone how he said it. So Saša, please can we take you into your final plugs and asks for the audience. I know you have a fun one to talk about. Please tell us about it.
+
+Saša: There's going to be a raffle and yeah, we're giving away, three free ebook copies of Elixir In Action. But, I have no idea how are we giving those away. So I'm gonna hand it off to you.
+
+Owen: We'll have details in the show notes. We have a couple things here. So we have a promo code for a discount. If you don't win the raffle, you can use this promo code for a discount at Manning, uh, on Elixir in Action or other books if you've already got Elixir In Action. We'll have a link to the raffle. SmartLogic will be running the raffle, and we'll have the details there about dates and where to sign up.
+
+Saša: Yeah. Good, good luck. And, in case you win, or in case you don't and decide to buy, when you buy the third edition, you get the ebook version of the second edition for free. So maybe that's, that's gonna motivate you to, you know, get it.
+
+Sundi: We're absolutely at this like cycles level now that we're in 10 years of elixir where. When I first entered Elixir, I think everyone read Elixir in Action already. And now I think a lot of folks I've interacted with haven't quite gotten there yet. They might be a little bit overwhelmed with the number of Elixir books that there are currently 20 something, 30 something books.
+
+To all of our listeners, I hope you get a chance to check this book out. And Saša, again, thank you for joining us today. This has been a wonderful conversation that I just wish we had more hours in the day to continue. 
+
+Saša: Yeah. Thank you so much. I really had a lot of fun. I can't believe that we are already done. 
+
+Sundi: All right. Well, thank you for joining us. This was a great episode, and I hope we all get to chat soon. 
+
+Outro: Elixir Wizards is a production of SmartLogic. You can find us online smartlogic.io and we're @SmartLogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik For SmartLogic. We'll see you next week for more on the next 10 years of Elixir.
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
