@@ -1,0 +1,407 @@
+S10E10 Sean Moriarity on the Future of Machine Learning with Elixir
+===
+
+Intro/Outro: Welcome to another episode of Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is season ten where we are looking to the next 10 years of Elixir. We'll be talking with our guests about what the first 10 years might tell us about the future of Elixir.
+
+Sundi: Hey everyone. I'm Sundi Myint, engineering manager at SmartLogic.
+
+Bilal: And I'm Bilal Hankins, developer of SmartLogic.
+
+Sundi: and we're your host for today's episode. Today we're joined by Sean Moriarity, author of Genetic Algorithms in Elixir, and the creator of Axon, a library for creating Neural Networks in Elixir. In this episode, we're 
+
+discussing the next 10 years of machine learning with Elixir. Hi Sean Thanks for coming in today How are you doing 
+
+Intro/Outro: Logic 
+
+Sean: I am pretty good. Thanks for having me 
+
+Intro/Outro: like, 
+
+Sundi: I think we met at ElixirConf 
+
+during 
+
+Intro/Outro: and edited by 
+
+Sundi: I wanna say the great 
+
+silence which was like 
+
+Intro/Outro: We'll 
+
+Sundi: the the waiting for the keynote to start because there were so many technical difficulties. How has life been since, I guess, what was that, August, September?
+
+Sean: It's been pretty good. Been pretty crazy working on, you know, a lot of things in the Elixir community. I think a lot of things have come out since then. So, pretty excited to talk about it. I actually, when I gave my talk, I had a bunch of redacted material, that was like a bunch of unreleased libraries that, that we had, and, and those libraries are now out, so it is, gonna be pretty fun to talk about those.
+
+Sundi: Okay. Awesome. Before we get like completely into that deep diving in, just in case the average listener slash me and or Bilal do not know anything about machine learning, could you give us a quick primer on just like the elevator pitch or subtext, the little paragraph around machine learning, how is it different from AI? All of that good stuff.
+
+Sean: Machine learning and artificial intelligence are very closely related. You could say that machine learning is a subset of artificial intelligence. So in, I would say the, like 1970s, 1980s, the belief was you could create artificial intelligence just from a set of logical rules. So you could embed all of the rules of the English language in a set of formal rules.
+
+And I think as anyone who's learned English as a second language can tell you, that's actually very difficult cuz there's an exception to everything. So machine learning takes a more probabilistic or non-deterministic approach, where rather than defining a set of rules, you define or you assign probabilities to certain, uh, events or classes or things happening.
+
+It's a subset. They're very closely related. Machine learning is kind of behind most of the innovations you see in artificial intelligence today. So ChatGPT is a machine learning model. More specifically it's a deep learning model, which is even, even further subset of machine learning. But yeah, that's, that's machine learning.
+
+Sundi: Where do we traditionally see, or what technologies do we traditionally see used when developing machine learning technology?
+
+Sean: in terms of libraries, Python is traditionally in like a machine learning language, Python is used for essentially everything. And then in terms of applications, machine learning is really useful for, for things I would say that are hard to describe in code and logic.
+
+So you could think like computer vision for example, because, it's really hard for a software engineer to sit down and describe the rules that make up an image of an apple, right? You wouldn't be able to describe to a computer like, This is what an apple looks like. And you know, if the, this pixel here is red and this pixel here is, is green, that's what an apple is.
+
+So anything that I would say is hard to describe in a set of formal logic is a challenge or a problem that's good for machine learning.
+
+Bilal: And how did you first get into machine learning? Uh, I kind of remember you describing yourself as an enthusiast in your talk.
+
+Sean: I don't have any, I would say formal training. So I, I took a class in college, my senior year of college about deep learning. And I got, I would say, a little bit too into it cuz it was around the time of the pandemic. So I had a lot of free time on my hands and I tend to like to, I guess, reverse engineer things or understand how things work.
+
+So I spent a lot of time just reading source code for a lot of the different open source machine learning libraries in the Python ecosystem. Reading every machine learning book I could find. And then when the Nx project kicked off, which is Elixir's machine learning or numerical comp computing library, my, I guess obsession got a little deeper, because I actually had something that I could apply, apply the, my interest to.
+
+So, um, everything I've done up to this point hasn't really been too formal. It's just been, I would say, self-study. 
+
+Sundi: Did you find Elixir first or did you get into Elixir because of Nx?
+
+
+
+Sean: No. So I found Elixir, ironically from Quora. I was a big Quora fan way back in the day. I would sit there for hours and answer questions on Quora about random topics and also read your, you're laughing. I know, but it's, it was, it, it was 
+
+Sundi: Everyone has a hobby! It's okay!
+
+Sean: It was before it, it kind of devolved in, you know, the recent years.
+
+But I, I loved Quora a lot. And I, I was reading, I, I got into programming when I was younger, but I hadn't done much with functional languages or anything like that. I think I had learned, like PHP was the first language I learned. and then Java and then, I think I was in college and I was looking for something else.
+
+And there was a question on Quora that was, what is the best programming language for web development? And someone answered that Elixir was. so I was like, what is this? I gotta check this out. And I fell in love with it, even though I am a terrible web developer. Um, so, you know, I, it, I thought it would be cool to use it for something other than, you know, web development Phoenix.
+
+And I, I had found Nerves and played with Nerves a little bit, but, I was more interested in doing the stuff that I'm interested in, which was machine learning. 
+
+Sundi: I actually wanted to ask, you mentioned, NX and you have released, axon, I think, was that 2021? I'm picturing your blog in my head right now and I'm like seeing dates. I think it was 2021.
+
+Sean: I think nx the first commit is probably sometime in October of 2020, I believe. and then I think you would find actually the first commit of Axon would've been in like probably November of 2020, or. Maybe, maybe I'm, I'm accelerating the timeline a little bit, but, NX was publicly released in February of 2021.
+
+I think that was at Lambda days. And then Axon was officially released in April of 2021, so it was a few months after.
+
+Sundi: And for those of us who haven't, Had a chance to play with it or, maybe understand it. What does Axon do for the community?
+
+Sean: Yeah, so I can, I can talk through the, the entire stack. So, at the lowest level we have nx, and NX is a library for manipulating multidimensional arrays or tensors, which are kind of like the fundamental data structure for machine learning. You can do, you know, a lot of really cool, but I would say complicated things with nx.
+
+There's no training wheels attached, so if you're not necessarily familiar with machine learning or numerical computing, it's a little bit difficult to get into. Cuz it's designed to be a lower level api. And then even below nx we have EXLA, which is a machine learning compiler, which is really like assembly code for doing machine learning.
+
+It is the, the lowest of the low level. Most people shouldn't touch EXLA at all. And then, above the stack you have Axon, which is a set of deep learning primitives and tools built on top of nx. So NX provides, I would say the foundation, axon adds a little bit on top of the foundation.
+
+And then even on top of Axon, we have Bumblebee, which is a library for high level machine learning tasks built for Elixir. So any beginner to machine learning can come into Bumblebee and it, it has very user friendly interfaces for doing things like text classification, text generation, speech to text with models like Whisper.
+
+You can do things with just a few lines of code. But it also is a lot less custom. So there's a, there's a lot more, I would say training wheels attached.
+
+Bilal: What are some of the coolest and most unique use cases you've seen, for like Axon and some of these libraries you just discussed?
+
+Sean: Yeah. So if, if anybody was at ElixirConf USA back in August, Chris Granger gave a really cool keynote about replacing their entire Python machine learning stack with. Elixir NX and Axon, and actually saving their, their company a bunch of money. I've also seen in practice some projects that are using Axon to do.
+
+For example, I'm working with a company right now called Teller that, that does, financial APIs and they do transaction entity recognition with Axon. There's a ton of other use cases out there. I think the community right now is still small, but I would say rapidly growing because there's a lot of people that.
+
+You know, have been burned by Python and the Python machine learning ecosystem that are kind of desperate to switch to something, like Elixir.
+
+Sundi: I, I honestly wonder how these libraries might get picked up, especially now. I mean, we're talking about the next 10 years of elixir, but the next 10 years of machine learning and ai, it's like, Just this time last year, nobody knew what it was. And now everyone's like, how do we guard against this? How do we work with this? It's gonna replace us. Oh my gosh. The apocalypse.
+
+Sean: So I'm giving a talk in June at Empex about elixir being the, the language of basically the future of, of large language model powered applications. I think there's a few reasons for that. I'm still developing the talk, so I will say that, don't wanna spoil it, but really, I, I still am making my arguments in my head here.
+
+But yeah, I think, there's a lot of uncertainty around what is gonna develop outside of large language models. Like what, what the future holds. My opinion is that it's gonna create a lot of positive change. I don't see large language models replacing a, a, you know, a ton of people like everyone anticipates.
+
+I, I think that's just, putting the, the cart before the horse. I think there are a lot of opportunities to improve your workflows with large language models, but I haven't found something yet where I'm like, this a hundred percent replaces the need for a person. Because at the end of the day, I think, like, as anyone who's had any sort of job, relationships with people is probably one of the most important aspects of any job, even in, in software engineering, mentorship and, and, you know, developing your team is, is just as important as writing good code.
+
+So, I don't necessarily see the replacement of, of humans happening from these large language models.
+
+Sundi: Yeah, it totally feels like, once you think of it as a tool, like we used to use Word Docs to write essays for school and then Google Docs was the only way I did it in college. You know, I, I don't even remember the last time I paid for a Microsoft bundle. I don't even know what it's called.
+
+Office maybe. It's a tool like at the end of the end of the day, it's a tool that helps you do a thing. Could you have done it without it slower? Sure. There are other things that I could have done slower without that thing. With elixir ls, if I didn't have that in my VS code as an extension, I couldn't read my elixir code.
+
+I could probably write the elixir code eventually, but like, how much longer would it have taken me, you know?
+
+Sean: I always look back to when I was in like elementary school and the teachers always used to say during like math tests, you won't always have a calculator in your pocket. And now it's funny because everybody has a calculator in their pocket. So it really is it's just another tool for, for people to use to, you know, help them with their everyday tasks.
+
+Sundi: I wonder when we're gonna get to the point where teachers are like, oh, you don't need to learn how to write. We don't write things on papers anymore.
+
+Sean: It's exciting in a lot of areas. I haven't really found many tools out there built on large language models that I say that is something that is so useful that I'm gonna use it every day. I use GPT-4 a lot to, to help write code.
+
+But I feel personally, I feel like I'm happy that I'm at the point now where when GPT-4 came out, because I feel like if I was younger and didn't have as much experience like working on. You know, software engineering problems, it would be a massive crutch and, and I would end up probably writing a lot of bad code and also lagging behind in, in like my development.
+
+Because I think it, it does kind of incentivize just let's ask a question blindly copy paste, and then not think about what the answer is. Whereas now I think I have the ability to read code and then critically think about what I'm seeing. But I did not have that ability when I was, you know, even a couple years ago.
+
+Bilal: All right. So given all that, what are you most excited about in terms of some of the tools that are out here today? In comparison to the past?
+
+Sean: Yeah, so I think code generation is a really interesting problem. Obviously ChatGPT is really, really good at, at writing code. Which is funny because I think programmers were some of the people that thought they would never get replaced, and then now it's like, oh, actually it's a lot, it's a lot better than some programmers out there.
+
+Right. Um, I think another one that's pretty interesting that I've been thinking about a lot recently is educational tools. There's a TED Talk by Sal Khan at Khan Academy. They have a new tool called Khanmigo, which is basically an AI tutor and that allows you to interact with material a little bit, you know, more, I guess in depth than you would be able to.
+
+I think there's a lot of opportunities to build educational tools around that. And yeah, I think, I think there's some other, there's some other interesting applications. I think one of the challenges though is that people are building large language models, applications for problems that don't necessarily exist or solve anything that, that's really useful. So education is an example. I, I have a friend who's a professor and we were talking about this today, and I was explaining the, the Conmigo tool and how he thinks it's really cool. And he said, yeah, but the challenge isn't necessarily access to information and people willing to give you information. Everyone having an AI tutor is cool, but a lot of times when students don't do well, it's because of a lack of motivation or interest in the subject. And so giving someone who's not interested in learning access to a large language model doesn't necessarily benefit them in the way that that people think it does.
+
+Sundi: I think with everything you're gonna have to, you want the interest first, but it's so interesting that you, you highlighted, helping with programming and teaching because literally earlier today I was talking to one of our teammates, shout out Kaber. He was telling me that, so at SmartLogic we're, we're going through, um, like we're trying to, what do you call it?
+
+highlight learning. You know, if somebody knows how to do something but other people don't, how do we make it so that they get a chance to knowledge share that thing? And one, one skill set that we are, trying to beef up is deploying an elixir application using Ansible. And that's one thing that like some people do every day and some people never do.
+
+But you can't just really go and learn that on your own. Like you need an application to deploy, right? You need to build an application to deploy it, configure it. Every little setup is a little bit different, right? So, I was talking to cber. Oh, okay. You were doing that last time We had a professional development day.
+
+How did that go? And he said, I, I literally talked to G ChatGPT about it, and I eventually got a script that worked, or, and not that it worked, but it's like he saw what it changed every time, right. He was learning from it. So it, it got the template down. Correctly. And then he was able to fill in the blanks or understand every time he gave it a new prompt and they gave him something back, he saw what changed and how to, to work with it.
+
+So, you know, I was like, oh, well, I mean, , you deployed an elixir application with Ansible, so I guess something worked there.
+
+Sean: Yeah, exactly. I've definitely been in like a, I have been in a position where, especially with lower level programming, I think I was writing like a CMake file the other day. And it, it's one of those things that I know how to do like once a year and then I forget about it because I never have to do it again.
+
+So I was asking ChatGPT to put together like a CMake file and then someone was asking me questions about it and they were like, oh, why did you do this? Why did you do that? And I'm like, ah, well ChatGPT did it. so yeah, it definitely, for things you don't know, it kind of just, when it works, it's awesome, but you also lose out on some of the understanding of what's actually going on if you don't dig deeper into what it's writing for
+
+Sundi: Yeah, absolutely. What I appreciated about that was, yeah, camber really did, you know, see what it generated and see what changed every time to dig in to why is it doing that way? What do I have to configure, what do I have to set? So I was like, I would've literally never thought about that. Maybe if we were talking, if we have this conversation again in a year, we'd love to have you back on to talk about how the year has changed.
+
+But I, I think I would totally just, I, I don't know. You, you never know what tools you would expect to have or not have.
+
+Sean: Yeah, it's exactly. 
+
+Sundi: Bilal, I think you actually had a question about, was it ChatGPT or Sean's dog? I'm having a major blank right now.
+
+Bilal: I did, I did have a question about your dog because I remember from the talk, like I walked in and I think I walked in on the slide, like I missed a little bit of the first part of your talk and I walked in on the slide like, what your dog and the dog kind of reeled me in cuz. But, um, I've been wondering, like, since you gave this talk, how often do you use your dog as like a Guinea pig when working with like machine learning or like image recognition?
+
+Sean: So that example was because I, I ended up, I traveled for like a week and, and my girlfriend's like, well, when you give the talk you have to include a picture of Weston and his Instagram in the talk. Cause it was the first talk I'd ever given at ElixirConf , and so I was like, all right, fine, I'll include it in there because I think it makes it a little more memorable.
+
+So it is like one of my go-to examples. I think That's a really good example in my opinion. It was one of the examples that I was first told when I was learning, like why machine learning is necessary. Because, I think it sticks in your mind where you try to think deeply about these problems. So, , it's a good answer to the question of why formal logic falls short for some of these tasks where it's like all of us know why a golden retriever is a golden retriever. Like I could point at my dog and say, that's a golden retriever. And most people would say would agree and like they know it.
+
+You just, it's something you know. But then I ask you, well, why is that picture picture of a golden retriever and it takes, you know, a lot of, uh, you know, you could describe it, but then I could refute your description with, you know, a counter example. And so the, the application of logic in that way kind of falls short.
+
+Whereas machine learning is able to, I guess, unravel the complexity of these problems a little bit easier than say, just describing a golden retriever with a set of rules.
+
+Sundi: You know that is now reminding me about when Google Photos tells me. Look at these similar shots and I click it and it's my cat from the last five years fi like 50 different photos of her doing the same thing, which is like rolled up on her back, ready for belly rubs. And they're like 50 photos and they'll look exactly the same. And I'm like, okay, I see you Google seeing me.
+
+Sean: Yeah. Yep. Yeah, I think like image classification is a really good example of why deep learning is really good too, because it, there's kind of like a concrete, I would say description of why deep learning models work well for image classification. So if you're not familiar with deep learning, it's it deep learning and neural networks are, are like synonymous.
+
+There's a lot of verbiage around deep learning. That's an interesting story actually. It's because, back when deep learning was developing, A lot of people thought it was bogus. Most of the machine learning community did not respect deep learning researchers. So at the time they called themselves connectionist, because it's a bunch of matrix multiplication, and if you draw out these like neural networks, everything's connected.
+
+So they branded themselves as connectionist. And then I think it was in the nineties at one of the deep learning conferences, they decided to rebrand remarket themselves so they could get into conferences a little bit easier. Machine learning conferences a little bit easier because a lot of these machine learning conferences would only accept like one paper on neural networks because they all thought that this was a bogus technique.
+
+Anyway, so deep learning and neural networks are essentially synonymous. And the way they work is it's, it's like cascading layers. So you have your first layer, which takes an input of, let's say the picture of my dog, and then it runs it through some computations and it transforms it in some way, and then that goes through another layer and then another layer, and then another layer until finally you get an output.
+
+And people like to say that these neural networks learn hierarchical representations. So at the first layers you have the, the layers are working or the neurons in the, in the layer. I don't necessarily like the brain analogy, but it's, it's, it's. Good to, I guess put it into perspective or make it concrete.
+
+But the neurons are extracting, say like the edges from a photo. and then the next layer is extracting, say like the colors from a photo. And then the next layer is combining those together to say, okay, I'm building a higher level representation of the edges in the colors and then I can map that to say, this is a golden retriever, or this is a German shepherd, or this is whatever.
+
+I think image classification is a really good example of explaining what deep learning is and, and why it works so well. I couldn't probably do the same for text cuz text is a little bit more of a mystery to a lot of people, but yeah.
+
+Sundi: When you say text, are you talking about like the natural language processing of it, or I guess what is the, what's the big challenge there with people who are working with that data set?
+
+Sean: So text is interesting because I think it's more difficult to assign or to understand what a neural network is doing, especially with these like large language models. because one, there's, there's billions of parameters, and then two, you can visualize attention maps.
+
+Attention is a technique used a lot in these large language models. Essentially the, like, it is the, foundation for a lot of these large language models and for the transformer architecture that these large language models are built on.
+
+And in a way you can, you can visualize attention maps where, I guess the, the best analogy for attention is like different parts of a sentence are significant to other parts of a sentence. It makes a lot of sense if you put it in the context of like, translation. So if I'm trying to translate something from English to, to German, and my sentence is like, I love cats.
+
+And then in German it translates to ish I'm not a great German speaker. But, um, if you were to put those, those three words and then three words on, like the English on the, the left hand side of the X axis and then the German on the Y axis, and then. I guess draw a heat map of word to word, the whole diagonal would be like, lit up.
+
+That would be higher attention between the word ish and I and the word liba and love and the word cat and Ka. But those interpretations for a lot of other tasks in natural language processing are not as necessarily a straightforward, um, and so when I say it's, it's difficult, what I mean is it's difficult to interpret and understand what these massive models are doing.
+
+Sundi: I don't know if you know the answer to this question, but I saw something interesting. I, I've never thought about how Google translate works, but do you think they're using machine learning under the hood to kind of figure that out, or do you think they have like a really big dictionary there that's just doing one-to-one translation?
+
+Sean: No. So it's definitely machine learning. I think as early as like 2014, they were using machine learning and specifically, It one of their, so the earliest iteration was, I, I don't think they were even using deep learning. I know, even before the transformer, they were using, what's called a recurrent neural network, which is as a neural network specific to sequence processing.
+
+And that's actually where the idea of attention got really popular in machine learning was, was doing these translations. Nowadays I'm guessing they're using just a variant of a large language model and I think there's like something really interesting about Google Translate is that.
+
+They don't explicitly train, uh, like English to German or English to French, or like French to German models. They don't, they don't train distinct models. They train a, a unified language model, like a, a large language model. And one of the things 
+
+Sundi: Based off of what. 
+
+Sean: so they get a ton of pairs of translation pairs from languages like English to German, English to French, and then they trained the same model and the only information they provide to the model is the, the target token. So they, they have their input tokens, it could be in English, and then they give it the target token, which would be, it would say French, and that would tell the model that it needs to take these English tokens and translate them to French.
+
+And one of the things they found that was a benefit of, of doing this was that the model was actually able to, in a way it was kind of using intermediate translations for lower resource languages. So if I didn't have a translation, from let's say French to Bengali, it would translate from English to French or from French to English to Bengali because it had more French to English pairs and more English to Bengali pairs.
+
+So they found it actually benefited a lot of the lower resource languages to train these unified translation models over something distinct.
+
+Sundi: That's interesting. Do you think that there are ever. Mistakes are like biases in the languages because they're based on, or like one-to-one translations from certain languages that don't have that concept or that idea.
+
+Sean: Absolutely. Yeah. Translation is one of those things that is difficult for anybody. Even someone that's learning another language or, you know, a linguist doing translation. Like it, it is not a very easy task because like fluency is one of those things that's, that's not necessarily like you, you can't, it's not on and off.
+
+There's a level of proficiency and even talking to some people in the elixir community, like, Paolo Valente actually, and I, he's one of the NX maintainers have had long conversations about like fluency. And I think one of the things he told me, he's from Brazil, he said he can't converse in Portuguese in like computer science terms, because a lot of computer science terms are in English or he learned them in English and he, he doesn't know the Brazilian Portuguese equivalent, because all of the, the computer science work he's doing is, is in English. So yeah, it's definitely the same thing for these models where, maybe a translation pair for a certain word or for a certain sentence doesn't necessarily exist.
+
+You also, definitely, with a lot of the larger data sets, we'll get. Just leaked bias in like slang and just the vocabulary in general.
+
+Sundi: I don't remember where I read it or saw it in a movie maybe, When you're standing over a large canopy of trees on a sunny day and the sun is like filtering through the leaves, and you look up and you can see that light coming through. I just used what, 20, 30 words to describe this scene.
+
+The Japanese language has a single word for that. And I just, I don't even know where they would start. With automating a translation like that, that just kind of blows my mind. And there are, I'm sure lots of situations like that. I can't even think of.
+
+Sean: it's really a matter of just a massive dataset curation. And the challenges there is is that you obviously miss, you don't cover everything. You have bias, you, you have label bias too, because like annotating data is, is not necessarily as straightforward as people think. For some tasks like image classification, sitting there and labeling pictures of dogs and cats is really easy.
+
+But then when you get into more complicated tasks, for example, text summarization or text translation, it's really difficult for us to agree on what is the correct summarization of this sentence or what is the correct translation of this sentence. And if you ask different people, you get different answers.
+
+Even something as simple as name density recognition, which is, you are trying to pull out basically the proper nouns out of a sentence. So if I give you the sentence, John Smith goes to Atlanta with Jane Doe. Obviously we both know that the proper nouns in there are John Smith, Atlanta, and Jane Doe.
+
+But I could give you a more complex example. Let's say I have a movie title and I'm trying to think of a movie title with many proper nouns in it. Hmm. Anyway, it, it's difficult to get people to agree on even something as simple as what are the named entities in a sentence. And that's something that would seem like a, a pretty simple task. So having access to these really quality data sets is what's most important for a lot of machine learning problems. So the translation problem, for example, scales well with access to quality data. And then that's actually one of the biggest advantages that OpenAI has with ChatGPT is access to quality chat data. They spent a lot of time and invested a lot of money in building a data set of, of, you know, quality chats, quality dialogue, and it reflects in how well the model performs.
+
+Bilal: Yeah, that seems like, a great idea of a first project for someone like me who after this talk is very excited about machine learning and deep learning and, want to learn more. So what are some first project ideas that you would recommend to some developers such as I.
+
+Sean: Yeah, so I think now I would probably recommend looking at something like Bumblebee for doing text classification or image classification. Classification is a really simple, I would say machine learning application, um, because you have a, a, you know, an input that maps to a discreet number of outputs.
+
+And so it, there's, I guess not many, not many things that could go wrong and not many things that you really need to set up. And then I would probably try to dive deeper from Bumblebee. So peel back the layers a little bit and explore Axon and how you can build these models yourself and then trade these models yourself.
+
+I would say like the hello world of deep learning specifically is MNIST, which is handwritten digit classification. So anybody out there that that's started out doing, you know, machine learning problems, has probably started with Mni or looked at Mni, you know, at least a few times. Yeah, there's a ton of examples in the, um, The Axon repository for, you know, training different machine learning models.
+
+But like I said, I would start with Bumblebee because Bumblebee is really high level. And so, it builds, I would say, an intuition for how a lot of these models work. And then you can start to peel back the layers a little bit and look at how Bumblebee implements certain tasks with Axon. And then you can start training your own models in Axon.
+
+And then, if you wanna go even deeper, you can look at ac how to actually implement, you know, custom layers and, and custom training pipelines with Axon.
+
+Bilal: Oh, maybe I'll use my dog as a Guinea pig for image recognition.
+
+Sundi: I mean's got the face for it. 
+
+Bilal: She is, she has a model face. Ha ha.
+
+Sean: What kind of dog is she?
+
+Bilal: She's an American bulldog.
+
+Sean: Oh, that's awesome.
+
+Yeah, my parents 
+
+Bilal: ears.
+
+Sean: bulldogs.
+
+Sundi: She has blue eyes, right? Or is it just the light gray coat that is making me think her eyes are blue?
+
+Bilal: She has like weird, like green. It's like green and brown.
+
+Sundi: Okay. I haven't seen a photo of Euro in like way too long. I think we need some more photos in the family channel cuz it's been a really long time since we've had Euro updates. I'm just saying.
+
+Bilal: For sure.
+
+Sundi: so it sounds like a really good first step for somebody who's trying to, learn machine learning, especially with Elixir, but how do you figure out what kind of data set to start playing around with?
+
+That must be like the second part of that that's really hard to decide on.
+
+Sean: Yeah, so most of the problems that you'll find when you're learning machine learning come with a pre-canned, pre-built data set. So like MNIST, there's there's a publicly available data set of like 60,000 handwritten digits. And then there's a lot of other publicly available data sets on websites like Kaggle.
+
+That you can use to, to train essentially whatever model you want. And a lot of them even come with labels and then they're split into train and test sets so you can exercise your skills. Unfortunately, a lot of those problems don't necessarily teach you how to collect data and label data in practice or like, what does it look like when you have real data cuz real data is, is very messy. So I think one of the popular, like data scientists tropes is that like 90% of data science is cleaning data. And it's definitely true. Most of the, the challenges in, in data science come from the fact that a lot of data is unstructured, it's messy. It's forever changing.
+
+So it's difficult for someone that doesn't have experience building models in production to get a grasp on doing that. Honestly, the, the best way to learn is to, try it yourself. Try to build a machine learning model on, I would say real data. So for example, one of the projects I worked on recently, I'm, a big fan of wine.
+
+I don't know if that's a good thing to talk about on the podcast, but I, I love, I love wine. I wouldn't say I'm a connoisseur just yet, but I am a big fan of wine and so I scraped, uh, wine.com. To see if I could build a model that could converse and find similar wines.
+
+So that's an example of something practical that you could do right now or anybody could do right now, is just find some content on a website and see if you could train a model on data that wasn't prepared for you. So go through the process of extracting data from somewhere external and then using that to train a model to do something.
+
+Sundi: It just what you just described that, and it reminded me, at my previous job I worked, at Cava and we had a data team. We called them the data ladies cuz we had a wonderful team of data science women. And I remember that at one point, one of them wanted to do a fun project and she sent out a survey that was like, are you gonna come to the weekly meeting a little bit early? Casually late? Right there on time? She asked us a bunch of questions and it's like, we have a new hummus being released next week. Are you going for the spicy one? You going for this one, this one, this one. So it was all sorts of really random questions that all related to our jobs, at cava at that kind of related back to personality traits.
+
+It was a Hogwarts house sorting ceremony. She like mapped each personality trait to our Hogwarts houses and it's obviously a different test than the official one. I'm using air quotes for listeners. We actually had a sorting ceremony and there were some people who scored so high towards like Slytherin.
+
+That she, she even made like head boy and head girl of these houses because they were like so on track with it. And I really, I, I'm so sad that I didn't take advantage of sitting right next to the data ladies, you know, asking them all these questions about training models and all that.
+
+But it's just occurring to me now that that's probably something along the lines of what she did. She went out, got a data set, made a data set for herself, and then trained it, I guess. Is that how you would describe that?
+
+Sean: Yeah, I mean, I would say probably clustered is what she did, which is like an unsupervised machine learning technique. So you don't necessarily have to find, like, I don't think there was a, a data set of, you know, survey answers to Hogwarts house, Cava specific survey answers to Hogwarts house.
+
+I mean, maybe there is, we could just look it up on Kaggle, but I'm guessing what she did was collected all those answers and then did some sort of feature engineering and then clustered everybody into some set. And then maybe she found like a, a representative, you know, individual from each of the clusters and said, yeah, that's definitely a Slytherin,
+
+or that's definitely a, a Hufflepuff. It's interesting you say that though, at Cava is probably one of my favorite restaurants. Um, there are, yeah, there are no Kavas in Georgia, but I, every time, so I've been to North Carolina more than a few times and there's, there's a ton of kavas around there.
+
+Sundi: Yeah, kava did originate from the DC, Maryland, Virginia area. So I have never really been in a lack of kava, but I do know when I go out to certain states where I know that Kava hasn't been, That people like, if they haven't heard of it, I'm like, oh, right, right, right. You're from that state, but it, it's spreading.
+
+And I'm definitely not too far from a kava. I'm definitely not as close as I used to be to eating one every day. Um, but
+
+Bilal: what, what house were you Sundi?
+
+Sundi: I obviously hufflepuff. Have we never talked about that before? I feel very strongly about the fact that I'm a Hufflepuff. I'm sorry, I, maybe I, maybe I don't talk about it on the podcast cause I, I come on too strong.
+
+I'll bring it back down. But I'm a very good finder. 
+
+Bilal: Valid point.
+
+Sundi: I'm pretty sure that some point someone at SmartLogic was like, Sandy, are you a Steelers fan? And I was like, what? I'm a Hufflepuff. It's the same color. So I get, I get why she said that, but anyways. Good talk. Good talk.
+
+So now I understand what my, my friend did at, at kava a few years ago. Are there any other fun little projects like that you can think of that you've seen people do, on a smaller scale to kind of enter into that machine learning world?
+
+Sean: yeah, I would say so. So I can talk a little bit about how I got started in machine learning, cuz I think. Probably the best way to learn anything in machine learning is by doing projects you're passionate about or projects you're interested in. And I think that's, obviously, I think that, maybe that's a cliche advice, but cuz that's, that's probably a good way to, to learn anything, is to do something you're interested in.
+
+So my start into machine learning was actually because I'm a big sports fan. I'm a big Philadelphia sports fan. So it was actually a pretty rough night for me last night cuz both the Phillies and the Sixers lost. And the Sixers lost by a lot. But I, I got started because I was interested in actually like predicting the outcomes of sporting events and it was in the context of sports betting.
+
+So I'm not a big sports betting fan, but I have a ton of friends that are, and I was like, I think it'd be cool to see if I could actually do better than you guys who claim to be. You know, big, big sports betting, uh, experts. And so I, I got interested in machine learning. Um, I actually was part of my interest in genetic algorithms because sports betting is very similar to trading stocks or like financial portfolio theory.
+
+So, in like portfolio theory, you are building a portfolio to minimize risk and maximize reward. And so it's, it's kind of turns into an optimization problem and genetic algorithms are, good at solving optimization problems. So that was one of my original interests in genetic algorithms.
+
+And then, I got more into machine learning for doing predictive analysis of, of sporting events and of, of lines. my obsession, I would say, sprouted from there. So I would say it's always really good to, to pick a problem that you're like really interested in. And it also like helps you identify.
+
+I would say areas where machine learning is not good. So for example, when I first started in machine learning and, and this sports betting project in particular, I thought that I would be able to train a reinforcement learning model, for betting on sports.
+
+And reinforcement learning works by assigning a reward to actions that you take. So for example, in the context of betting on sports, the reward would be the profit that you get from placing a certain bet. And so I trained a reinforcement learning model on a bunch of different NBA games, and the outcome was that the machine learning model, the reinforcement learning model learned to bet $0 every game.
+
+Because that was the only way to maximize profit, was to just not bet at all. So it was just an example of, of how you can learn something in practice. And also it helps a lot too if you have expertise about one of the fields you're applying machine learning to, because it helps put things in perspective and make things concrete for you.
+
+Bilal: It's funny that you said like, uh, found that NBA was you just be $0. Cause I, in my experience, I feel that same way. And, uh, I was actually thinking for a first couple project, doing a sports betting. So it's funny that you said that. which sport did you find the most success in with that model?
+
+Sean: Yeah, so actually a study on this by the Action Network, which is like a big Sports betting, uh, I guess, or like their sports insights. And I think they say that the sport that involves the most skill or like is the most deterministic. I think like tennis was up there. I think the NBA was up there. Golf maybe was up there as well. There's a lot of sports also that are like basically all chances or a lot of chance I think. The NHL was one, so hockey. Baseball for sure. But yeah, there's a whole, they did like a whole study on which sports are the best to bet on because they have the most deterministic outcomes.
+
+And it, it was, it's very interesting to think about because like, yeah, hockey kind of makes sense because, a ricochet on one shot could change the entire game. Or 
+
+Bilal: Right. 
+
+Sean: there's, there's so many, and golf is the same thing, like one bad hole, you know, the wind tick a ball or like you, you shank, you shank something.
+
+Then um, it could be it. So.
+
+Sundi: I definitely wanted to ask. Ask you also about, I think I saw on Twitter the other day that you were making a ChatGPT instance using LiveView. Is that correct?
+
+Sean: I don't know if I tweeted that, but I, I actually have been, I actually have been, working on basically like a live chat chat G P T ui.
+
+Sundi: Okay. Well, I'm, I'm a good finder, but I'm not a mind reader, so you must have 
+
+Sean: it's, yeah, it's funny cuz I talked to, uh, Brian Cardella yesterday about the same thing and he was like, Hey, do you know anything about this? I was like, I actually was building like a ChatGPT clone, in live view and elixir. And I was planning on just Publishing it, open, sourcing it, and then never touching it again.
+
+Cuz like I said, I'm a pretty bad web developer, so I was hoping that better web developers than me could take the, the live view reigns from, from my hands. Yeah, so I, I have worked on things like that. You might be talking about maybe a chatGPT plugin. Um, I've written more than a few chat G p T plugins.
+
+That's been pretty fun. Also we're introducing, I would say chat models or better chat models to the NX ecosystem. So recently, we have PRS open in the Bumblebee repository for llama, which is Facebook's open source large language model that I think they released back in March. And now there's like a thousand different variants with all these different animal names.
+
+There's alpaca and Vacuna and all these other ones. And then we also added GPT Neo X which is behind the stability AI large language model called Stable lm, as well as the open assistant model. That's, another open source chat model. So there are a lot of chat related things happening in the, the Elixir ecosystem.
+
+I find it kind of ironic that like chat models are, are taking over because I feel like everyone's first example of Elixir is like build a, a chat room or a chat app in five minutes with Elixir in Phoenix. And, one of the first introductions people get Now we're on, you know, building chat models in, in Elixir.
+
+So I, I always thought that was funny.
+
+Sundi: Yeah, that is, that is I think the like generic introduction that you, you see that plus like, oh, you can make this blog post situation where everything kind of syncs up or. And you know, you have two browsers open, you see that the like worked on the other page or something. It's just, they're a little overdone at this point. But I think yeah, you're right. It is kind of funny how that stuff comes around full circle.
+
+Sean: Yeah. I think the chat thing has become a meme for people that don't like the language because they're like, oh, well I could find a thousand different ways to make a chat app, but I can't answer this specific question I have about the language, but it's just kind of funny. 
+
+Sundi: Yeah, so I guess speaking of. Like what people expect from Elixir. Do you what? How do you see Elixir's role fitting into the future of machine learning and ai?
+
+Sean: Yeah. I think we have like a very strong position. For a lot of reasons. I think one is that the, the elixir deployment story is I think really good. I personally don't say that or think that I'm a full stack, infrastructure wizard, but I find it's really easy to deploy, resilient applications with Elixir and I think that's really compelling for people coming from, Python for example, where the deployment story isn't necessarily as, as. Good. I think the elixir development experience is significantly better than than Python. So when you're developing large applications and large applications that have to integrate machine learning where there's so many pieces or so many areas where things could fail or go wrong, the elixir experience is better and, and, you know, superior for managing that.
+
+And I think a lot of the applications that people are building, On machine learning have a realtime component, whether it be streaming in data from speech or streaming in text, or streaming in whatever and Elixir obviously has demonstrated its its ability to, to do realtime processing and to handle massively concurrent loads.
+
+So I think Elixir has strong positioning in, in this ML centric world. I don't think it'll happen overnight, and I don't necessarily know if we would. Ever overtake Python as like the primary machine learning language, because a lot of academics love to work in Python, but I think that's okay.
+
+I think people will find that building on Elixir is maybe better for them and their company. But if you wanna live in, in the Python world, I think that's okay too.
+
+Sundi: Cool. Well, I feel much more knowledgeable on the subject now. I hope all of our listeners also feel more knowledgeable on the subject below, you feel informed, you feel ready to tackle the world.
+
+Bilal: I feel like I'm gonna tell my mom how Google translate works now.
+
+Sundi: Yeah. You know, me too. I, and then she's gonna say I'm flooding her brain, but that's fine. You know, that's what we do, right? As, as technology children. This was a great conversation, Sean. Thank you so much for coming on. Before we round out the show, do you have any final plugs? Ask for the audience.
+
+Social media. Dog. Social media also counts.
+
+Sean: yeah, so I guess if you want to see more of my hot takes on, on machine learning, , I wouldn't say I'm very vocal with a lot of my hot takes, but I do occasionally release a hot take on Twitter, so you can follow me on Twitter. It's @sean_Moriarity you can also follow my dog on Instagram.
+
+I'm sure you heard him throughout the podcast. So he's just as vocal on his Instagram as well. He is, I think it's @westonthegolden_ but I'm not a hundred percent sure. 
+
+Sundi: We can have the correct one in the show notes if you would, if you would like us to.
+
+Sean: okay, perfect. Yeah. And then, I'm not sure when this is coming out, but. I would say, look out for me and sometime in June I should be releasing something for people that are interested in getting involved in, in machine learning and, and don't necessarily know where to start in elixir. So I plan on releasing something sometime in June.
+
+That should hopefully help people that are interested in, in doing machine learning in Elixir.
+
+Sundi: And also look out for your talk at Empex which will be on.
+
+Sean: That's right. That's on, I believe it's June
+
+Sundi: Yeah. Yeah, yeah, yeah, yeah. I'll see you there.
+
+Sean: Yep. Sweet. See you there.
+
+Sundi: Cool. Well, thank you again for coming on. This was great, and see everyone next time.
+
+Sean: Thank you all. 
+
+Intro/Outro: Elixir Elixir
+
+Wizards is a production of SmartLogic. You can find us online@smartlogic.io and we're at Smart Logic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik For Smart Logic. We'll see you next week for more on the next 10 years of Elixir.
+
