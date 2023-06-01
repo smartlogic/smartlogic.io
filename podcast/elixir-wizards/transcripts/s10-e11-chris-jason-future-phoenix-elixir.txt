@@ -1,0 +1,529 @@
+S10E11 Chris McCord & Jason Stiebs 
+===
+
+Intro: Welcome to another episode of Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is season two where we are looking to the next. 10 years of Elixir. We'll be talking with our guests about what the first 10 years might tell us about the future of Elixir.
+
+Hey Hey 
+
+Owen: everyone. I'm Owen Bickford, senior developer at SmartLogic.
+
+Sundi: And I'm Sundi Myint, engineering manager at SmartLogic
+
+Owen: and we are your host for today's episode. Today we're joined by Chris McCord, creator of the Phoenix Framework and developer at Fly.Io. We're also joined by Jason Stiebs, Phoenix core team member and developer at Fly.io. In this episode, we're discussing the next 10 years of Phoenix. Welcome back to Elixir Wizards.
+
+Chris: Hello. Thanks for having us.
+
+Jason: Yeah, happy to be here.
+
+Sundi: It's really nice to have you guys back. I know we were just talking a little bit about curve ball questions. So Chris McCord, I don't know how often people ask you about woodworking, but what is the most fun thing that you've worked on recently maybe in the last three months?
+
+Chris: Three months. Not a lot. I have a two year old now. The most fun thing recently. Three months is probably too recent. My shop's pretty well unused, uh, the last three months, but I made a birdhouse.
+
+Sundi: Oh, a birdhouse.
+
+Chris: Yeah, so my father-in-law got a, a pretty awesome, birdhouse for his birthday and that actually was a two year project.
+
+It was supposed to be done before my son was born. He came early. So it sat unfinished, but it got it, I got it out the door. So yeah, there's a birdhouse that hopefully will outlive me that's probably overly built. That was a pretty fun one.
+
+Sundi: Would you say you over-engineered it?
+
+Chris: Well, yeah, you, you gotta overbuild it, uh, you want it to last. So, like, my wife kept saying just finish it. But it's like, no, it's gotta be good. You know, it's gonna, it's gonna set up on a pole in the elements for, you know, a number, you know, 30 years hopefully. So we'll see.
+
+Jason: Is your father-in-law do woodworking too, so he'd appreciate all the extra.
+
+Chris: Yeah, exactly. And that's the other thing, like it had to be really good, right? Like it's, it's for the father-in-law who also has a workshop, so I couldn't cut any quarters. That got installed. That's been the only really recent project woodworking wise. So still, still a level of woodworking, just don't have a lot of time.
+
+I have to do it lately.
+
+Sundi: That sounds lovely.
+
+Owen: Two questions. has anyone moved in yet? And how many nerves devices are embedded in in this birdhouse?
+
+Chris: So it's called a Purple Martin house. And my understanding, like purple Martin's, it's hard to attract them, but like you build the birdhouse to like, it, it literally has like multiple rooms the one I built has like 10 different rooms in it and it's two stories and like if you do it properly and they're very particular, anyway, if, if we get it right it, it will be like full with like multiple bird nests at the same time.
+
+So we have not captured one yet, but apparently it can take, take like a couple years. So we'll see. Uh, no nerves, devices cuz Yeah, I try to keep tech out of things otherwise I'll. I'll end up doing is the tech side. So my, my shop is pretty tech free.
+
+Owen: That's, more advanced than I had in mind when I heard birdhouse. There was like the ready kind of birdhouse that in my old house that was always falling apart, but we'll put a link into that in the show notes so everyone can see it.
+
+Sundi: Jason, what about you? Any non-tech hobbies, keeping you busy these days?
+
+Jason: It's mostly, you know, biking around. Just as soon as it got nice out, I got on the bike and I collecting a bunch of different ways for the kids to ride with me. So I've got a little bike trailer. It's just like a bike that attaches to the back of my bike, so you can kind of pedal with me as I go. Yeah, just going on a lot of bike rides. We have a, we have a trip planned for the summer to do a kind of a longer bike ride and then camp. So trying to get in shape for that, get him in shape for that as well, cuz it's a long ride. So I'm, I'm kind of worried it's gonna get sick of it midway through, but
+
+Owen: Is this, uh, mountain biking, street biking.
+
+Jason: Yeah, it's mostly on the street, uh, paths and that kind of thing. So there is some gravelly kind of conditions, but you know, it's Wisconsin, so there's not much for mountains or really hills. Yeah, it's kind of just straight. Just for fun, just to get out outside and enjoy the weather and see the city and stuff.
+
+So 
+
+Owen: Extreme cycling. Nice.
+
+Sundi: Awesome.
+
+Well, 
+
+Jason: extreme. It's pretty, it's pretty laid back.
+
+Sundi: It's, it's sometimes fun to open up with the human questions. Chris, like I said, I don't know how often you get asked about woodworking. I just remember seeing it one time and I was like, man, that's cool. I did that once in college and I wished I could keep doing it. I technically do have a setup for all of that in my basement.
+
+Came with a house. But there's always new projects in the house. You never know what you can do, what you have time to do, I mean, but yeah, it's always fun to know that everyone's working on fun stuff outside of tech. But onto the tech stuff. What are you up to now? What's going on? I think, Chris, you just talked at ElixirConf EU and Jason, I'm actually not sure you've been up to since we last talked because I feel like we just talked like five seconds ago.
+
+Jason: Yeah, mine's easy. I, you know, I joined Fly in the beginning of this year and I've just been writing for them and working on Phoenix and working internal Elixir stuff them, with Chris, you know, so it's not a huge update. But yeah, no longer running my own company and just doing the employee thing for a bit. It's been a good time. 
+
+Chris: Yep. Yeah, so Jason and I get to work together, which is awesome. So we, we talk even more than when we used to. But yeah, we just had ElixirConf eu, where I talked about. I, I guess the talk was the road to live view 1.0. So live view's like five years old now. So I went over the history cuz it, it's good to repeat things it's been five years so people that are just tuning in are just getting into the community even two years ago, haven't heard a lot of these things or maybe missed some of the features along the way.
+
+And I also talked about some big features that were required to get us ready to stamp a, a live view. One oh release. So that's kind of been what I've been up to getting the talk ready. Live view zero nineteens pretty much ready. Everything I shut off in the talk is about ready to, to be pushed out as soon as I can actually publish it. And otherwise it'd be working on getting live view one one point out the door.
+
+Owen: 1.0, it's gonna be a big one. So live view is, I like to think of it as kinda like a sub framework. Like it, it's, it's not, part of Phoenix Core, but it's also. Not entirely separate framework. But I think before we get all the way into the weeds on live view, I was thinking the theme of this season is the next 10 years of Elixir.
+
+We've talked a little bit about the history of Elixir as well as part of that. And going back to Phoenix, the Phoenix framework, I'm kind of wondering you come from Ruby. Once you saw Elixir, what made you think, Hey, we need a web framework, and like, I should be the guy that does that.
+
+Chris: The plan wasn't to be here necessarily 10 years ago, but it's been kind of wild. Like how, how it's organically grown. But the interesting thing is Jason was there, uh, with me at, at the very beginning. So, you know, I actually think it's one of the funny stories is I'm pretty sure this was on IRC at the time cuz there was, there was an Elixer, irc, IRC channel that was like the only community thing.
+
+But I'm pretty sure that I was just trying to get web sockets to work within Phoenix and it may not have even been name named at that point, but anyway, like, I'm pretty sure Jason and I were chatting. He may or may not remember this, like I got a web socket's running, but it actually started the web socket server, like a compile time accidentally.
+
+So it was like, oh, it works. And like we actually, like, literally while the coat's compiling, it's booming a a web socket server and, uh, anyway, so very humble beginnings. But yeah, I came from Ruby in Rails. Before that I did php. For like 10 years. But the biggest thing that I wanted to do is like real time applications.
+
+So like web sockets, push notifications. So I came from a, a very Ruby background, loved it, but I just wanted to build like, uh, if people remember at the time there was, um, Node.js had socket.Io This is a library that you just got to say like, socket admit, I believe it's been a number of years. But that was my initial inspiration 
+
+Ruby on Rails experience of like higher level DSLs. And then the node.js like just trivial, bidirectional pipe of, uh, messaging. So I kind of wanted to like put a hodgepodge of those two things together and Elixir came up on my radar as someone from the, the rail score team and gone off and created this language on top of, Erling vm, which was supposedly able to give me kind of this, uh, real time connections at scale.
+
+So it was kind of like a. Just chasing my own itch for, uh, wanting to try this in Elixir. And then somehow it led to like a, the career that I have now.
+
+Owen: Interesting. So you started with web sockets. Cause I think you've talked before about how live views was part of the early vision, but it took a lot of work to get there 
+
+Chris: If you follow my Ruby history, I, I wrote a library called Sync, which was If you're familiar with Rails at All, rails had this idea of template partials, which allowed you to render a fragment of HTML somewhere, make that reusable.
+
+So you could say like, render the sidebar partial, and that was like a blob of markup. So I had this idea in Ruby to Mark areas of partial templates as like reactive, where the server could just at any time reinder those and then send it down over web sockets to patch all the, the user's view on that page.
+
+It's very similar to how LiveView works. It's completely different. But like the idea was like essentially what if I could just use the server rendered productivity that I have, ditch all the client details and stuff, just updates. But I had to write a web framework, write some kind of real time notification layer on top of that, and eventually we were able to revisit that, you know, five years into the framework.
+
+Sundi: What's kind of fun about discussing the last 10 years is, I mean, you just said it. You didn't necessarily know that this was the goal. It could have been nine years, it could have been eight years, but you know, this is the 10th season of Elixir Wizards. We had a 10th anniversary of Elixir. Phoenix is about to mark its own ten year anniversary. 
+
+And you know, Jason, when we were talking last, I think you mentioned as well, you know, being a contributor, anybody can contribute. What are some really cool standout contributions you've seen from the community to the Phoenix repo over time?
+
+Jason: I mean, I'll never forget when Gary TheGazler, he did the big performance testing, you know, for web sockets and everything, and was, he was contributing like giant servers, I can't remember what was the host, Rackspace servers and just like hitting, you know. Yeah. He's like, here I, I found this weird bug.
+
+And, you know, that was just like a weird three weeks. And then the end of it was Chris's blog post, you know, whatever. Several million people concurrently in channels or something like that. I can't remember the name of the,
+
+Chris: 2 
+
+Owen: 2 million.
+
+Jason: That was a wild couple weeks. You know, it was just like on irc, like, oh, I found this, and Chris and Gary were just going wild, you know, back and forth. Early day stuff. That was fun. it's been a lot since. a lot of cool stuff since, but
+
+Chris: Yeah, and that was a fun one too, because I will say like up until that point, we were writing the framework basically on hopes and dreams. There was this Erlang VM, right? It was supposed to be super performant, right? I wasn't known by no means an expert in Erlang or Elixir.
+
+You know, over time I acquired a lot of Elixir knowledge and by virtue of that, learned a lot about Erlang. So I wasn't completely clueless, but to a large degree. I was just stumbling, finding. Out things as I went. And it was like, I think 10 lines of code between, uh, on those tests total from like a 30,000 connection limit to 2 million.
+
+So the best effort, first approach of building a web framework that was scalable in elixir, like as beginners, basically got us close to an optimal solution. So it was really neat in that regard that we got to Live out the promise, you know, that we had been hoping for. That was a really, really fun kind of turn right there.
+
+Jason: We, we knew it could scale and it was fast, like way faster than Ruby. Like I had
+
+already put it in production at that point. 
+
+Chris: We had empirical evidence that the VM could support millions of connections. but like whether or not what we had come up with with channels and the way we'd architected it, you know, we, you know, you don't know, you could write a really slow, uh, c program, right? It lived out the hype of like just using the primitives of the language led to something that was basically optimal.
+
+Sundi: What was that aha moment that this, this could work? This could be the official framework of elixir. Do you remember that?
+
+Chris: Yeah, there were like, there were quite a few. The biggest one was José getting involved. Obviously the creator of Elixir contributing was a, a big step of like, okay, I don't know if this is gonna be, if we had reached critical mass yet at that point from a. Outside of Elixir, framework adoption perspective. But that was at least like as far as the framework wars, quote unquote, like, okay, like at least I can be rest assured that this may or may kind of work out. 
+
+Jason: Yeah, cuz José had a, a framework dynamo was the name of the framework and it was his thing that he put out. But it was nothing like plug or the abstractions we have in Phoenix. It was similar, but it's closer to Rails than it is. 
+
+So when Jose was like, Phoenix is a thing, this is good enough, like, and he started helping, that was the moment when it was like, oh, okay, that's cool, you know? 
+
+Chris: Yeah, this, this could work. And then, yeah, companies kind of like betting their products on it was also the next big thing. Like Bleacher Report was a big one. They were like Phoenix 0.2. They just, you know, put the whole company on it. So I think, José combined with, companies actually building like substantial products and services with it was like, okay, this is actually critical mass now and I think this is going somewhere.
+
+Sundi: It's on my mind too, because I think I saw a bunch of people tweeting about the Stack Overflow survey coming out. And, you know, I, I went through it real quick and I was just like, what did I work on this past year, Phoenix? What do I wanna work with this next year? Phoenix? I didn't fill out anything else.
+
+Chris: nice. Yeah. Well I think we like last year, has that already been a year? Gosh, I can't, yeah, like, uh, last year we got like most love frame web framework or something, which is amazing yeah. I, and I didn't even know the survey. Like I, I had forgotten, you know, as a, have a kid now, like, it was like, oh, this Stack Overflow survey's a thing.
+
+So people were claiming that like the Elixir community gamed it or something. It's like, I, I didn't even know what was going on. So, uh, so yeah, that was really cool. Hopefully we get, yeah, get some good numbers. 
+
+Jason: Yeah, josay tweeting about it Yeah. is gaming it. Yeah.
+
+Owen: So I think in terms of kind of the success of Phoenix, Popularity is one thing, just admiration of people who use it is another thing. But I think in terms of long-term success and maintainability, we've seen many different kind of, for lack of a better term, business models or like ways of supporting the work that's being done on something that's as popular and is growing the way that Phoenix is.
+
+Can you talk a little bit about how Phoenix is supported and where this code comes from and how you have time to, to write it?
+
+Chris: Fortunately cause people pay me to write and work on Phoenix. I mean, at least eventually, you know, I landed on the other side of open source where I somehow like a, a paycheck started showing up. Uh, so I still don't really know how that happened. Like it wasn't the eventual goal, but as an open source contributor, like when you start out, like this was, you know, I don't know how many years of like my free time.
+
+So it wasn't just like overnight and it got to the point where it was like reaching critical mass. So then you feel some pressure and obligation to the community and you obviously want things to work out. So like there was. Quite a bit of time that I was like, like working too much for free. And like, I, I knew that, but fortunately I found, I found myself on the other side of like a company saying it was Dockyard initially.
+
+Hey, we'll just pay you to work on Phoenix mostly full-time. And that kind of gave me the balance in life to, to continue doing that. And now with fly.Io, it's the same, same deal. The vast majority of my time is, is just spent on the framework. So I think, you know, without that wouldn't be possible.
+
+There are a lot of, you know, freemium models that I wouldn't find attractive. I mean, I think that it's a tricky situation. If I try to do some kind of paid model, it, it would like you use, for me, I would probably spend more time working on.
+
+A product versus doing the thing that I want, which is , I don't know, this kind of altruistic, open source idea, but at the end of the day, there has to be some level of sustainability. I just question a little bit on like, you know, d is one example that comes to mind if, like a recent entry that like looks kind of compelling, but then.
+
+You kind of are betting the ecosystem on the paid product, and if that doesn't work out, then does the pro project just fail entirely? So I think we've been able to sidestep that because I think as long as I can, as long as Phoenix remains, you know, used in the wild, I can remain gainfully employed. But you know, we also don't have millions of dollars in funding.
+
+So, I can definitely see how it would be advantageous if you could just say like, okay, here's 20 million, or, you know, whatever, JavaScript project gets lately. Seems like, several over the past, uh, few years have just been given like millions of dollars on like hopes and dreams to, to write another JavaScript framework.
+
+So I think, anyway, this is a ramble. I, I do think like there is something to be said about having a. A team get together and, and just ship cool stuff versus, you know, me plus, you know, volunteers cuz volunteers have families and, and jobs as well. My only other thought on this is once you actually just like dump a boatload of money on a theme. I do think it changes the nature of, What they're able to ship, in a negative way. I mean, it's an, it's a big enabler, but if you look at , what Dash Bit, José Valim's company, the creator of Elixir, what they've been able to ship with Livebook, which is like a collaborative code, notebooks in Elixir
+
+like there are teams, in the Python community that been, have been given millions of dollars to ship collaborative code notebooks for Python. and Jose and his, self-funded little company has been able to ship, more featureful collaborative code notebooks from scratch in like, I think it's been like a couple years.
+
+So I do think there's something to be said about just not really going down the, how can we make this profitable initially. I mean, like I said, at the end of the, the end of the road, you hopefully can, you know, remain gainfully employed and people in around you and that are contributing can also, get, you know, some quality of life.
+
+But I do think there is something about, a lean model in open source where too much money could be a bad thing.
+
+Owen: I think most anyone who's starting an open source project, their goal is maybe to solve a problem and to get some market share or some adoption. As a measure of success, but I think some of the things, some of the work that's, that is required to make that happen, it might be surprising to users would be , there's probably a lot more customer support than you might expect.
+
+You know, there's marketing, if you've gotta write some talks, you've gotta keep your change logs up to date.
+
+Chris: It's marketing, right? That's what Rails, with, d h H from Rails. That's the lesson I learned among other things from the, Ruby on Rails journey that I went on was like, how, how much marketing plays into everything. Like you could have the best technology in the world, but if you don't talk about it, um, you know it's not gonna get mindshare.
+
+And we see that all over the place. Like you, you look at Erling, you're like, why didn't Erling just be the place to write web applications? You know, in the mid two thousands they could have eaten the world. It's cuz they just like sat on this amazing VM and they kind of were like, yeah, it's pretty good.
+
+But I think culturally they, they just didn't market it. So I think marketing is the biggest thing. In my opinion, I mean, obviously it has to be a well-supported project and people have to be willing to have some assurance that if they bet their company on it, that you know, if they have an issue, something's gonna be addressed. So I think that matters too, but they have to learn about it first to even get to that point.
+
+Sundi: I have this massive Phoenix painting. It's six feet by six feet in my foyer. I did it in college, but everyone now asks me if I painted it like as a marketing ploy to like my job or my whatever, and I'm just like, no. It's just,
+
+Chris: Amazing. That's awesome.
+
+Jason: So we gotta, we definitely gotta see a picture of that
+
+hanging, 
+
+Sundi: I will. I might even make a public photo link and we can put it in the show notes if I can figure out how to do that. Yeah, for sure. Jason, I was, thank you Jason. I was also curious, now that you're at Fly, do you get more time to work on core stuff or like how does that division of tasks work?
+
+Jason: That's a good question. You know, I've only been here four months now, I guess five months technically, but, Just trying to figure out like what the balance should be. Chris is full-time on Phoenix, you know, best priority number one. I have to, I do more writing and for the fly, the Phoenix files, blog post, and working on making the Phoenix Docs and the Elixir Docs within fly, actually pretty solid and like things you can follow and do.
+
+But yeah, it's, I definitely have more time. I do need to spend more time on phoenix itself. And I'm working on the debugger thing still. Just this morning. But yeah, there's definitely way more time than when I wasn't getting paid to do it. So,
+
+um, it's a pretty big upgrade for me. 
+
+Sundi: For those who aren't familiar with the debugger thing, can you give a sentence or two about that?
+
+Jason: When you're working with a regular, you know, sort of dead Phoenix app, with this basic html, if you have a bug or something, the plug to bugger pops up, right? And you see an error message with a nice exception and all the details, but when a Phoenix LiveView has a problem, you know, you, you, you forget to set up a click incorrectly or there's a unhandled match, or the, the LiveView process dies, it just kind of restarts, if you're in the browser clicking on stuff, it just restarts and you're just like, what, what has happened? It's not clear. I, I don't think that's a great user experience. So, you know, there is an error message in the logs. You can go look at the logs and see the error message and see what happened.
+
+If your LiveView tends to like, do a lot of Ecto queries or like APIs, you know, orders a lot of logging, cause it's verbose sometimes that can be lost. So trying to figure out what's a good ui, what's a good UX for that? Like how do we surface errors for a live context, which is not, it sounds really simple, but it's not because we, with, with the request, response and error happens.
+
+That's it. There's nothing happening. There's no living server, there's no supervisor trying to restart the process. There's nothing going on. So we can't just stop the world and show you an error message because it's a process and we can't, you know, we could redirect, we could show like a little toast or something.
+
+Like, there's just a lot of different ways we can approach it, but it's not as straightforward. It's just show something on the screen, which maybe that's what I'll do is maybe I'll just replace the entire HTML with plug debugger. But I've been playing around with like different approaches and we've theorized on different ways of approaching it, like maybe we could do a fancy debugger. But yeah. There's all kinds of ways to do it and there's disagreements on the best way to handle it and stuff, and you know, it's part of the creative process.
+
+Owen: Is this a separate effort from the, I remember hearing about like a live view, or maybe it's a Phoenix like debug bar, bar. 
+
+Chris: This is basically the same thing. I mean, this idea has floated around in different incantations. Whatever we ship would will be. So the answer is yes, like whatever we ship would be like the Phoenix debug thing, that would work ideally you know, holistically, we just have to figure out what that looks like.
+
+And then you get into like the weeds on like you have to, you know, iFrames get involved and it's just, you know, a lot of pain and misery for us to deal with, but, the actual technical details aren't difficult to solve, which, like Jason was saying, it's like the UX of like, what should it do and what all could we enable and allow it to do is the thing we have to figure out.
+
+Jason: Yeah, it's a deep rabbit hole, right? Like we could go really far theoretically, you know, like there, and there's a lot of. Prior art in the JavaScript community, the elm time, traveling debugger's one thing, you know, the react dev tools. There's another thing, like, there's a lot of ways we could go, it's just how much effort we want to put into it versus result, you know, what's, what's, what is the best, it's it's own project in and of itself, right?
+
+Like it could blow up into like a whole Phoenix Dashboard's level project because you could get really wild and crazy with it. So, and, and Michael, m Crumm was working on. The toolbar. That's more like that. His more intention was more like the Django toolbar, where it kind of showed you the requests and the Ecto queries and stuff that happened on the page.
+
+Like if you're familiar with Django's toolbar, I think Rails has something similar to rail toolbar maybe. But yeah, that's what, that was his. 
+
+vision. Yeah. And that, you know, the debugger or the Phoenix dashboard will give you a lot of that stuff already. But this would be just like in context for development.
+
+Sundi: Yeah, we definitely have a lot of folks on our team who are super looking forward to any kind of debugger. And I think Jason, the last time we talked we did talk about like a time traveling tool. I think that would be cool. I think we compared it to like Redux and then I think I said at the time, I don't even really re like, I kind of remember working with that, but not really. Cuz redux is like a black hole in my memory. 
+
+Jason: Yeah. It was just kind of brainstorming of things we could potentially do. It's just a lot harder in our scenario because we don't have a single thread. You know, Redux Elm, they have a single event thread and it's always, we have millions of processes that can be happening on a page or
+
+Chris: Yeah, you can't, there is no stop the world in the Erlang VM 
+
+Jason: right? We can't stop the world. We can't just say, 
+
+Chris: we could show, yeah, we could show you like the history of the LiveView, the state, the steps it went through. And theoretically we could even replay those on a new process, but still, like all the other concurrent processes happening in the background isn't going to necessarily give you a, like deterministic output if you rerun it. 
+
+Jason: Right. And then we have to like, do we filter certain messages like. Your process gets a lot of messages that you just don't handle, that just handle implicitly. Like, do we show all those, do we show the, you know, maybe you have a processes, you know, a pub sub that's just sending millions of messages and you filter most of them out. We don't know that you're filtering them out. You know, like, do we, how do we know that that's a message you care about? You know, so there's lots of questions about, how do we accomplish that? So, And there could be just really chatty things. The chatty stuff is where things get really messy, really fast is like everything kind of falls apart in that scenario, which there are lots of use cases for chatty things. So yeah. Sorry, little diversion from the, the topic at hand. But yeah,
+
+Sundi: Well, you actually also, you said something else that's a diversion from the topic at hand. Or reminded me of one. You said something about a dead view, and I've actually always wanted to ask this. Do you know who coined Dead View? Because I feel like it wasn't your team, was it? Was it Chris?
+
+Chris: Was it me? I didn't think it was me. I don't remember.
+
+Owen: Sunday really wants credit for this.
+
+Sundi: I, no, I don't want 
+
+I don't want credit for it. 
+
+Chris: you're taking Yeah, it's possible. It's on the Phoenix team. I would joke that, that, regular views are dead to me, so it's possible that that's where dead view came from. But I don't know if I can say like, I'm, I'm the one that actually coined it, but, They've been dead to me for a long time.
+
+Sundi: Early live view days before SmartLogic got on board with Live View. I do recall on the podcast a few times we were talking about different things and we would say Dead View a lot and maybe it's cuz it was the ecosystem I was in, but I heard it from, from like other elixir wizards, you know, elixir Wizards passed.
+
+And I didn't hear it from anyone else for a while. So that's why I like to say, oh, well maybe, maybe we are the ones who coined it, but I really, I really don't know who actually did in the 
+
+Chris: Yeah, and I had. Never intended for that to be what we referred to them as. So I, I even like when it was catching on, I was like, this, I don't want to refer to them as dead views. It's, it's too harsh, but it's stuck now, so it's gone
+
+Jason: Well, no, see, I call, I call, live components, zombie views. Those the live, the not quite live view. Live component.
+
+Owen: Right. 
+
+They have no brain. 
+
+Jason: view
+
+Sundi: they have no 
+
+brain
+
+Jason: Live. Live zombies. 
+
+They don't, yeah, they have no process, but they are 
+
+Owen: checks out 
+
+Jason: Yep. That's what I've been calling them. I think that's a better name than life component.
+
+I think Live com, that's a set. This is a digression. We can cut probably, but like
+
+Chris: But they live with their parent, like, so I, I don't 
+
+know. I feel like we could choose 
+
+like 
+
+Jason: better than 
+
+child 
+
+Chris: uh, you know, they are alive, but they, they, they just live like with their parents, right? So maybe there's a 
+
+better name. 
+
+Owen: Parasite
+
+view. 
+
+Sundi: gosh, I was gonna make a generational joke, but I don't even know what generation is coined to be the ones living with their parents. Um, okay. So I guess,
+
+Jason: view. Yeah.
+
+Sundi: I guess we'll never know who actually coined dead. Um, But yeah, I mean, I I say it pretty 
+
+naturally. 
+
+Jason: That's, that's
+
+Sundi: Oh my God. I mean, it, it, it was before my time on Elixir Wizards, but I do, I do want us to take credit for it. Us, not me. All right, we've cleared that up. Thank you.
+
+Owen: I'm kind of curious, so you mentioned earlier, live view is already five years old, at least publicly. I'm sure it was, you know, in development. Well, going back to, OG Phoenix, like it's been in the works for a long time. But, since we're starting to approach 1.0 release, I'm curious if there have been some pain points or some interesting kind of lessons you've learned as people have started adopting LiveView more and more,
+
+Chris: Yeah, man. I think, I can credit Marlus, the creator of Surface for addressing a lot of the pain points of live view. So he went off after Live View, I forget what version of Live View, but pretty early on he created this layer on top of Live View that added like a natural syntax for writing markup and elixir code side, like within each other.
+
+Cuz the, the problem with EEx, which comes from a flavor of like, ERB and Rails with greater than percent equals, like, the problem with that syntax is it composes very poorly within markup tag. So if you want to do like open tag div, and then within that dynamically add a class then you have an open bracket within it, nested in open bracket.
+
+Like it's really, it's just a, it doesn't compose well. And it's verbose. So Marlus came with Surface with some really interesting ideas. the syntax changes, declarative assigns and, formatting your markup, I think were the, some of the biggest pain points that, as I started building substantial applications, it was like, holy crap, Marlus was right.
+
+Cause initially I wasn't necessarily sold like, oh, you know, EEx is verbose, but fine. But once you started building like a big app, it was like, wow, okay, I, I, I definitely see this. So I think having landed where we are now, like I can't imagine not having those things. And I think the other big thing was our granularity for UI building blocks was not there.
+
+And I can credit José for this. And if we go through like slack history too, like I wasn't sold initially, but it's funny like arriving on the other side, but basically like we didn't have this lower level building block of like a, a function. I think I talked about this in my talk, but uh, you could write a live view with markup.
+
+You could write a live component with markup, but if you wanted to just write something that encapsulated markup, there was no small building block there. So what, what we saw happening as a pain point is people were coming from React, and then like react Componentize is everything. And they had hundreds of live components in their app and it was like, no, we wrote life components to encapsulate state and markup.
+
+So they were writing all of these live component things to not encapsulate a state. It was just encapsulate like a modal or something that had no state. Or a button. So anyway, the, the insight that José had is like, it's obvious in retrospect. It's like, what's the lowest level building block in Elixir we have, it's a function.
+
+So we added this function component idea and that came from José. Just, you know, spelling it out, like we need a lower level building block. Why is everyone writing one module to render a button? It should be, you know, a bunch of functions that compose together. So the pain points that I had building like larger applications with LiveView have really. Fallen away with function components, declarative assigns, and uh, kind of this nicer syntax. I can credit Marlus and José for showing me the way on those things.
+
+Owen: HEEx is great. I do like having the mustache brackets, for attributes inside of a tag. Right. Sunday. So yeah, there's a, the squiggly brackets, those are sometimes called mustache
+
+Chris: it's like React. We borrowed that from React, uh, cuz they're not like the double, they're just the single ones inside the tag. 
+
+Sundi: was a framework. Right.
+
+Okay. That had a mustache in it. Mustache. Okay. And, and, okay. Okay. Okay. All
+
+Owen: So would mustache brackets handle bar brackets potentially replace the alligator percent equals ?
+
+Chris: Uh, no, I don't think, I don't think so. So I think, you know, if we were to start from scratch and that, that's what Surface did, they just used like the same kind of like React where, like within a tag and outside of a tag, like in a, in a tag body. It's like the mustache ish approach. But for us, coming as a whole from the beginning of Elixir in Phoenix, I thought it would be too big of a deviation going from EEx or leex if you were on the early LiveView train.
+
+We didn't want to have this brand new templating system. So the progression to HEEx was like, oh, it's the same thing you're writing already, but if you want to have dynamic values inside a tag, here's this nicer syntax. So I think they, they go nicely together. If it was from scratch and I started Phoenix today, I probably would consider ditching the EEx approach.
+
+But I think that if you take the history into consideration, it, it's fine. The rules for me of like, you know, it's a. It's a succinct syntax within tags. Makes sense. but yeah, I think if it was starting from scratch today, there wouldn't be a big reason to stay with the alligator, whatever you wanna call it, but I'd have no intention to move away from it.
+
+Sundi: Just generally speaking, the elixir community's pretty anti breaking code, and I imagine that would have some ramifications that nobody wants to deal with. Maybe on a more fun note, some future features or features that, lead us into the future. I have a note here about streams, forms, check boxes. Oh my. Jason, do you have any fun? Like, do you have any particular feature that's a favorite of yours that was either implemented or that you worked on?
+
+Jason: I mean, I think all three of these are pretty awesome. Just, I think they're the last three big, like breaking changes that are pain. So I'm just, I'm excited about all three of these. Like all the things after this I feel like are just minor details, like buggars, relatively, the buggers, relatively minor relative to these things.
+
+But I think, a lot of the pain points that we're getting after ElixirConf are just minor, tiny little things. Oh, this is weird, or this is uncomfortable. Which is good. I think once these things are deployed and shipped, the major pain points are gone, at least in my opinion.
+
+So I'm excited about all three of these.
+
+Sundi: Yeah. And I'd love to dig more into forms and check boxes, but, I think streams is something we've kind of mentioned a few times on the podcast in the last few episodes and not really dove into what that actually is. Can you speak to that real quick?
+
+Jason: Yeah. I think Chris did a pretty good job with his example and his coming example or for open source project for the Trello clone. But it's just whenever you have a large list of items in a live view previously, you'd make those a temporary assigns. And you could append to it or you could reorder it, but if you wanted to delete from the list or if you had to like order something in the middle, it was pretty painful.
+
+I don't know how many people have worked with that or if you wanted to do it inside of a form, God forbid, like that was very painful. You had to do things where you had to hide it. You had to mark it as deleted, put a virtual field on your Ecto schema mark it as hidden with CSS, it was pretty painful to work with that.
+
+And streams kind of just. Solves it. And I think Chris did a really impressive job figuring out a solution that works. It's not an easy problem to solve, you know, and Chris can speak more to what he did to solve it, I don't wanna take his thunder, but like, because of the nature of this being a distributed system, the browser, having a bunch of state and the dom, the server, having a bunch of state, and not wanting to keep too much state on the server, you know, to, to eat up all your memory.
+
+It's, it's kind of a tricky balancing act and, Obviously I think that's amazing. It's always been a pain point for LiveView and it's, it's in the forums quite often and there's a lot of different solutions and a lot of different approaches to trying to work around it. But yeah, I mean, it's not all, it's also not a super common problem that you'd run into with LiveView, thankfully.
+
+But when you do run into it, it's, it really feels like, wow, this is a mismatch. So I think that's, you know, huge. It's always, it's been one of my complaints for a long time, so I'm happy to see it fixed.
+
+Chris: Yeah.
+
+it's always kind of sucked. I mean, like, it was like, it's not a necessary feature for like, I wanna make my registration page, you know, dynamic. It was, it's a necessary feature for building, like, am I going to do a single page app or use live view? Some of the more complex features like, infinite scrolling or doing a Twitter timeline where you have new tweet tweets coming in the top and then as you scroll, you're getting older tweets on the bottom, tweets are updating, you know, as they're getting retweets and whatever.
+
+So I think having a dynamic list, was impossible in LiveView before. I mean, we had this update, a pin, pre pin thing that Jason talked about, but it was always a hack. But Streams actually gives you a primitive to, to handle a large collection that doesn't stay on the server. So I think it solves, just a ton of things that you couldn't do previously.
+
+Cause now you can prepend a pin, you can insert something arbitrarily anywhere in the collection and it stops people from storing too much in memory. So, like, since it's always sucked before, the only way to easily quote unquote get a dynamic list as you just put it all in server memory and then re fetch the world.
+
+So if the third tweet on the timeline change, you just re fetch a hundred tweets and you get the third one in there. So like people were having a lot of suboptimal solutions cuz it was such a pain. So now there's just a primitive that gives you infinitely large collections that you only show, you know, certain amount in the UI and it just works.
+
+So we've been able to build a lot on top of that. I build it to solve this hacky problem, but now it's like, oh, I can build all kinds of stuff on this drag and drop the trione we have. Or it's like a. You can drag and drop to-dos, you can drag and drop the list that they're in. So it's like you have nested streams.
+
+So there's been a, it was like one of the missing pieces that once we made it, we're like, holy crap, this can do everything now. You could write slack in live view and it would be like really compelling. But without streams it, it would've sucked.
+
+Owen: Cool. So streams look amazing. I haven't yet had the chance to sit down and actually start working with streams, but I've got a couple features that I will be working on very soon and I'm excited about being able to use streams for that. I have a lot of work that's on my plate for forms.
+
+And like very complex forms with a lot of what would otherwise probably be, field sets and that kind of thing. Kinda like a nested form kind of thing. So what are some of the ways that forms or the form APIs are changing with Phoenix? Either Phoenix, the framework or Phoenix LiveView.
+
+Chris: Yeah, so I think, uh, one thing I wanted to cover too though was streams also have a limit now. So one of the neat things is you can. As you're throwing arbitrarily long lists in the ui, you can actually have, you can just declare that you only want to keep a certain number of things in that container.
+
+So this is great for infinite scrolling because you can easily implement virtualized lists. So like as you're scrolling any kind of like Facebook or Twitter timeline, you know, you could be going through thousands of tweets, but they're not actually keeping thousands of those things in the ui.
+
+The UI actually loaded, UI elements loaded on the page is just like making it look like there are thousands of things there, and they're kind of paging in and out. So we have the same thing with live view, uh, with stream limit where you can just say like, as you can implement infinite scrolling, and just as you're stream inserting, you just say limit, you know, 50 or negative 50 depending on the direction of scrolling and it's gonna have a ui just, you know, present that as infinite but only showing 50, which is what you need for like a Slack like clone where you seemingly want to allow the user to go through thousands of posts. So that was a big deal. I wanna make sure we touch on that. But with forms, it's funny cuz like I, I wrote LiveU initially to solve like the dynamic form problem and then like forms have always kind of sucked, for this nested form use case.
+
+So it's like one of the last things we're solving which is like probably should have paid more attention sooner, but, maybe this is just me not wanting to work on it, but it ended up not being that difficult. But what we solved was this issue of like forms work. Great. Until you wanted to use like inputs for, if people are familiar with that, where you wanted to say, I have.
+
+An association of let's say, I don't know, comments on a, a post, that's probably a bad example, but you have a bunch of nested inputs and there could be an arbitrary number of them, and you wanted to present those on a form. And it's, uh, and I, that actually works somewhat well, until you wanted to dynamically say like, add one more here.
+
+So any kind of like add more, add more or remove, was not impossible, but you had to write a ton of code yourself and most people got it wrong. So we saw this with check boxes, which is funny cuz I was thinking the way I wrote it initially was with like a bunch of custom JavaScript that, and then I showed Jose and he was like, no, like we can just use check boxes.
+
+Which is really funny cuz I thought it was gonna be like a live use specific feature where you could have like a live, you would provide let's say like a dynamic input component and you would wrap some markup in that and it would kind of magically allow you to say, add more. Or prepared. But what José ended up, he had this idea of the way check boxes work has always, it's always a pain for web users and most web framework, solve this for you.
+
+But it, this is a probably way too much that you wanna know about check boxes. But I promise dear listeners that it may it sense, the way check boxes work is if they're not checked in the browser, the browser does not send them. So this is always a problem, and most frameworks get around it by, like, you know, if you're using PHP, Ruby, Rails, Phoenix, you'll have a checkbox helper function that renders a checkbox, but it will also render a hidden input above the checkbox with a default unchecked value.
+
+And most people don't even pay attention to this. Because it's supposed to solve. Like imagine if you have some code in your app that cast user input. You want to know like, did they check the terms of service or did they not check it? And if the server doesn't even get that information, you know, you either have to like assume it wasn't checked and you have to write code to do that.
+
+So anyway, web frameworks work around this by always sending a value. Because they'll do a hidden input and they'll do a checkbox and then those overlap, but then the checkbox wins cuz it comes later in the dom. It's a bunch of details that you're like, oh, I'm glad that Web framework solved this for us. But it turns out like you can use this checkbox behavior, this quirky behavior in a positive way.
+
+Because the way it works with, LiveView and Ecto now is we can use the presence of these values , to do special things like add a new child at a certain location because We can send an instruction to the server that is only sent if they actually check a checkbox. Which advantages for us to have this kind of behavior, and add more for us along like a, a list of, children is just literally a checkbox.
+
+And then Ecto sees that now. We have a couple new features on cast embed and cast asoc that we call it, store param and and drop param. So like this parameter will appear if they actually check a checkbox and its presence means, oh, I'm gonna either, uh, reposition a child, add a child, or delete a child. So we can kind of abuse check boxes.
+
+I say abuse, but it's like we're using them how they were meant to be used initially. And the neat thing about check boxes too is like if you want to style them as a button and then ui, you just wrap them in a label. And anytime you click anything inside that label, tag it. We will check the checkbox.
+
+It's like just the standard accessible behavior. So it's like this really tiny, you know, 2001 primitive in html. Ended up working perfectly for this really dynamic, quote unquote hard to solve problem. It's really nice that it works outside of live view as well. So if you're using dead use and dead forms, you could do the exact same approach.
+
+I mean, the whole browser would've to refresh, but. You could implement like, you know, 1990s aerodynamic forms by, if they click add more, it would post all the parameters to the server. The Ecto would parse that. It would add a new child, it would rerender the whole form. It would rear render all the children, and you'd have a new, a new item there.
+
+So it actually works for LiveView and not LiveView, and, uh, solves a huge pain point. And there's a bunch of like, details underneath that, that like, a lot of people could get this far, like they would add, instead of having Ecto have this feature, they would have like a block on their chain set that looked for certain things, it would build the children or remove children if they see that a child's supposed to be deleted. You could do all that, but then you would still fall off the cliff because the way LiveView works is like we, we identify inputs based on the name of the input. So you'll have like for the message children, and it'd be like post, zero post comment, zero post comments, one, and it indexes them based on the order they appear.
+
+And the problem is, as you dynamically add or prepend an item, it shifts all the inputs down and all their indexes change and their names change, and you end up with like errors and mismatched errors to the thing that used to be named at index zero. So anyway, there's all this like bookkeeping that we do for you.
+
+So it sounds like all we did was like slap check boxes on it. So that's kind of true. But like internally, live view is also like resiting back together this kind of like uniquely identified child on the dom that may or may not be persisted yet. So there's like all these problems that people have hit over the last five years that like we went down the trail ourselves and solved them for people.
+
+So moral of the story, it's like three lines of code now, with some ecto features and it's solved. But, most people have tripped over this over the years.
+
+Owen: Yeah, I think as an Elixir and Phoenix developer, just a PSA for anyone listening. Go and read up on the MDN docs for H T M L. There's a bunch of fun stuff in there. These plain old HTML elements can do a lot of things that we don't even really like. We'll kind of reach into JavaScript or, or live you for to do things like this.
+
+And, uh, sometimes you just need a checkbox. I'm kind of curious. Uh, well, two things. So like a, because it's a check box and we have tell one by default there's a checked, pseudo selector in Tailwind. So like if you wanna indicate that the thing is like the button is active or checked or whatever, there's a, a way to do that.
+
+But also I'm kind of curious. Just at a technical level, like on this checkbox that's kind of being used to add items to a embedded form, what's the value there in the checkbox? Is it like a ID of the embed or association or is it something else? 
+
+Chris: In the case of prepend or appending an item, it's literally just, you can make it empty. So, the value that will be sent is like on, at least in Safari. And the way Ecto works this is actually at the plug parcel level, but when, your parameters are sent up, all those like 0 1, 2, 3 indexes become a map.
+
+So it'll be like at Key Zero is this value at Key wants this value. So Ecto basically will say, if I see something that isn't in that, key space of the map, I'm just gonna add a new child. So it literally can be any value. In the case of deletes, the value will literally be the, index of the, the form of, uh, STRs. So that's how you tell us like, delete the thing and index zero and then Ecto will just prune it.
+
+Jason: I mean, it sounds very simple, but this is like a, a plagued users for the entirety of Phoenix and live views existence. And, uh, just another psa, like if, if, if you're using this, don't store your change sets into signs in the socket. Always make a new change set. That's true with Old Phoenix and New Phoenix. But, don't reuse your change sets. Change sets are ephemeral. Just that psa. 
+
+Chris: it's, probably good that it 
+
+took us this long. It's good that we waited because I think that insight, I think the Phoenix team was known for a long time, but we haven't really broadcasted enough, but. But basically the inside of live view and Ecto is like ecto chain sets are throwaway. One time use data structures, and it's not something that we said early on. So part of the pain point has around forms and dynamic forms has been people keeping a chain set in memory. You know, the user types and applies some user input to, and they, they cast a change set and then they'll keep that around and then they'll throw more data and cast more data on it.
+
+And Ecto really wasn't built for that because like Ecto will say, like, you cast some input and it's gonna populate some errors. But then if you keep that in memory and cast some input again, what happens with those errors? Do they get cleared out? So people had all this code to like clear errors manually.
+
+The moral story is like they're fire and forget. You take input, you map that to a change set and then you throw it away. So part of the problem, I think why we tackled this later was like we wanted to replace a change set with some other primitive. now this form data structure. That gives us better optimizations on LiveView forms, but also basically takes a chain set or any other association or any other struck that implements a protocol and operates on that instead of just passing a chain set everywhere. And this is kind of step one to one, optimize forms better, but two, get people out of this idea of like the chain set being a long lived thing.
+
+So I think that was kind of a missing piece , for us to have landed where we, where we did with all the dynamic form stuff.
+
+Sundi: This is some of the stuff that just I get really excited about. Basic small things that makes the average use case developer, happier if their lives are easier. I know a lot of us will get really caught up in like the really cool, fun thing that you might use one time for some fun project, but I do appreciate that we're talking about some really basic things that kind of everyone does or uses or maybe Owen's about to use like next week slash today.
+
+So I appreciate that we were getting a chance to talk about this. I honestly think we could probably go for an hour, but like being conscious of time, I want to ask both of you, as a final wrap up question before we go into plugs and ask for the audience, what are you excited for, for like the next 10 years of Elixir?
+
+What is some future kind of thing if you were to look back in 10 years and say, oh, I'm happy that happened, what would that look like? Jason, why don't we start with you?
+
+Jason: 10 years is a long time. I was joking with Chris, like if, if we're just writing code in 10 years and it's not like some sort of ChatGPT AI thing, you know, if I can still do some of this for fun, it would be pretty good. I mean is, I'm just happy to see that, we have Elixir in Phoenix now and we have like nice frameworks that are fun to use and I'm happy that we're here, you know, at all. , it wasn't a a for sure thing, especially in the early days. It was more just for fun and this is cool, let's try it out. So if next 10 years, if it keeps being fun and people keep still, we're able to still keep using it.
+
+And you know, like ideally like Phoenix and Phoenix LiveView kind of stabilize a little bit. Like I'm. Under no illusions. Live view is gonna be like, we're gonna be fighting JavaScript for the next 10 years probably. But you know, if it can just kind of fix bugs and keep ticking away, like, you know, Phoenix has been pretty stable for the last five years.
+
+It's, other than this most recent change with HEEx and all that, making that the default, it's been pretty much the same by itself. So, and Ecto is pretty much unchanged and Elixir two pretty much unchanged for the last 10 years, other than small additions that are pretty nice, but still pretty small. So I think if we can get to that spot, Next couple years, that'd be be nice.
+
+You know, just keep ticking away and it's tough to think that far out.
+
+Sundi: Yeah, for sure. Chris, what about you? Any hopes, dreams for Phoenix?
+
+Chris: Yeah, I think the, the chat g p t answer is pretty funny. Yeah. If we're just, writing code for fun in 10 years, that'd be nice. I think the most interesting thing for me, you know, having said that, is like the ML space and elixir, I think the, the NX team, Has done some amazing work in a small amount of time with a tiny amount of individuals, to the point where I think like that's what excites, excites me the most in the ecosystem, even though I'm not, you know, actively developing that.
+
+But the most interesting thing on top of that, that relates to Phoenix, is like what it enables people to do. So like you have these amazing black box Machine learning algorithms that now we can use an elixir because of NX and Axon and Bumblebee libraries. So the coolest thing for me is like as just a mere user of these amazing black boxes I can put together and use them with a tiny amount of code using like Phoenix Live view.
+
+One example is like, I did like audio transcriptions in an application or I image classification and like, I have no idea how that works. I can barely tell you what like a machine learner model is, but like if you can write markup, then you could write an app that allows a user to upload a photo and like bam, it just updates on the page and tells you that you're looking at a hotdog or not a hotdog, or.
+
+You know what I mean? Like, so the, the interesting thing for me that excites me is like live view is at this point that I think the stability is gonna really help, as far as like adoption and then like higher level libraries, UI libraries. But like the biggest thing for me is just it unlocks all the power that's happening in the ecosystem around machine learning.
+
+Where people that could barely, let's say, write any kind of dynamic web app, let's say that they're still learning html, css, JavaScript, they're just trying to dive in. Like they can actually write a compelling application that. Does these things that a few years ago, you know, Google or Amazon only had some engineers that could, you know, throw kind of this amazing demo together.
+
+Now you can get someone that just started programming and they write a live book, or they write a live view and like it's just doing the thing. So that's what excites me, excites me the most about what we're doing currently, like as far as like 10 years out. Like Jason said, it's a long time. Like I've always.
+
+Written features kind of just like by the seat of my pants. Like I didn't really plan, something like Live view was the goal, right? That's like the whole reason I made Phoenix. But I didn't really plan on like, this is what it's gonna look like. Phoenix presence was that way.
+
+It was like, oh, we should probably have a way to solve this. Kind of like, who's on the app right now? Problem. How hard could that be? And that was like a year of my life. So, You know, live year's been five years now. So I think, you know, let's say we, we brand live View one oh, and then it's just minor bug fixes till the end of time.
+
+I'm not sure what's next big, future wise. I think there's a lot of really interesting distributed system problems that I'd love to solve. Phoenix Pub sub is one step along in Phoenix, presence along that direction where, you know, we're able to do. This hard problem of who's using the app right now, is actually surprisingly hard.
+
+But then in Elixir you can get it in a dependency free way and it just works. Like you just boot the servers up and like you see who's online. That's amazing that we didn't have to add Redis or a database in between. So I think there's a ton of distributed system problems that I would love to focus on in the years to come.
+
+Again, you have these live views that you can stand up, wouldn't it be awesome just to show. Presence. And actually we already did that. So you can do that. That just works in LiveView now. But it'd be cool to do other things like, distributed actors come to mind and a lot, lot of other neat features.
+
+But not saying that's what we'll ship, but you know, if I find myself with like having solved everything else, machine learning and kind of the distributed system, virtual actor problems, is kind of what excites me the most.
+
+Jason: And I, I should say too, like the NX serving, like there's a module called NX that's serving. And it just lets you deploy an AI model, like across your entire network, the entire distribute system. And like if your, if your node is really busy, it'll run the model on a different node for you. and it, it's like no code at all.
+
+It's, it's incredible. Like to do that with Python is a huge flex. Like it's a huge stretch. You need like Redisk and you need, like, the NX stuff is really exciting. Sorry. I wanted to make sure to say that like it's, it does some really amazing stuff for us that's just like, you know, Normal for us. But other languages and other frameworks that do AI stuff like Lang Chang and Python and Node and like all these different groups, they don't have the ability to just deploy it to a huge distributed system for free.
+
+Basically like relative to what we can do, they need Reiss or something. Yeah, that's, that's really cool. Like I don't think that's, I don't think Josie hype set up enough specifically, but it is super duper cool NX that serving is like a cheat code. 
+
+Owen: I think we're all excited about deploying our stuff globally on multiple nodes and just letting it fly. Uh oh. Wow. I was not trying to make a pun. 
+
+Jason: Kurt's gonna love that yeah.
+
+Owen: That was, that was purely accidental. And that was
+
+Jason: Uhhuh,
+
+Owen: what I was gonna say was before we pubs up, 
+
+unsubscribe and, uh, unassign all of our chain sets, do you, uh, where can we find you?
+
+Jason: You don't have to unassign your change set. Just don't reuse the change set. 
+
+Sundi: You defeated by your own dad jokes so badly that you can't even ask about the final plugs and ask for the
+
+Owen: I was surprised about 
+
+the, 
+
+Chris: I'm here. I'm here for it.
+
+Sundi: Oh, no. Okay. Oh, and I'm 
+
+Owen: dear. 
+
+Sundi: die over there. Chris, Jason, do you have any final plugs or ask for the audience anywhere that people can reach you? Any projects you wanna highlight that could use some help or some love? I could start, uh,
+
+Jason: I could start, you can find me @peregrine on Twitter, peregrine on Blue Sky and the Mastodon URL is kind of long, but I link to it in Twitter. My job at fly.io is to make Phoenix great. And Elixir great for you on the platform. So if you have problems or something, feel DM me or hit me up on Slack or Discord or wherever and let me know that it sucks and you want it to be better. So it's my job, so I'm happy to help out and try to make it better for you. I can't think of any projects you need help right now.
+
+Owen: Is there like a web framework someone could chip in on? 
+
+Chris: Yeah, I mean there, there's always issues. So Berenice on the Phoenix Team, I went to the conference and I went on vacation and I just came back and there's like four pages of issues now in live view and it, it's like very triggering to me cuz I thought there were only two pages and there's double what I thought.
+
+So, I mean there's always room for contributions. So, I recommend folks just like ping me on Slack they wanna get involved. Half the problem or half the battle of these issues, especially on live view is just verifying the problem, right? Like, is it a JavaScript problem? Is it an elixir problem?
+
+Was it a user problem? So we could always, always use contributions. There's no, like the barrier to entry. I like to tell people, is like themselves feeling like they're, they, they can't get involved for some reason, but it's just, just a few of us kind of doing all this, people volunteering their time. So yeah, definitely get involved if you're interested. 
+
+Jason: And, and my hot take is, submit an issue before you submit a bug, before you write a blog post about how we're, we have bugs and there's problems, just please submit an issue first. Then write the blog post. If we ignore you or we don't fix it, but please 
+
+Chris: Or reach or ping us on Slack. Ping us on Slack too and find out that, yeah, there's probably a feature that like already exists. I'm on Twitter and Slack pretty much always probably too much. Always on the Elixir Lang, Phoenix Channel if people wanna get, get in touch and, uh, otherwise yeah, try live view. Let us know how it goes. Uh, fly.io is a pretty great place to deploy your apps as well, so check it out.
+
+Owen: Awesome. Well, thank you so much for joining us, right. Let 'em Fly. Let 'em fly.
+
+Jason: let 'em fly 
+
+Owen: Don't give a start again. So thank you so much for joining us and, been a great time talking, you know, a ages working in Phoenix, but also just hearing the story about, how Phoenix came along and LiveView and everything else. So thanks again.
+
+Intro/Outro: Elixir Wizards is a production of SmartLogic. You can find us online@smartlogic.io and we're @Smartlogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik. For SmartLogic. We'll see you next week for more on the next 10 years of Elixir.
+
