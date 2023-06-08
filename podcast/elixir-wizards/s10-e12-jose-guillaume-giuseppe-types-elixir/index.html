@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>José Valim, Guillaume Duboc, and Giuseppe Castagna on the Future of Types in Elixir | SmartLogic</title>
+  <meta name="description" content="It’s the Season 10 finale of Elixir Wizards! José Valim, Guillaume Duboc, and Giuseppe Castagna join Wizards Owen Bickford and Dan Ivovich to dive into the prospect of types in the Elixir programming language! They break down their research on set-theoretical typing and highlight their goal of creating a type system that supports as many Elixir idioms as possible."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+
+
+  <meta property="og:title" content="José Valim, Guillaume Duboc, and Giuseppe Castagna on the Future of Types in Elixir" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s10-e12-jose-guillaume-giuseppe-types-elixir" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="It’s the Season 10 finale of Elixir Wizards! José Valim, Guillaume Duboc, and Giuseppe Castagna join Wizards Owen Bickford and Dan Ivovich to dive into the prospect of types in the Elixir programming language! They break down their research on set-theoretical typing and highlight their goal of creating a type system that supports as many Elixir idioms as possible." />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/b8c28e5d-c4a3-43f9-b170-badce96360de.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/b/b8c28e5d-c4a3-43f9-b170-badce96360de/cover.jpg" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+1q21wOk7/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/b8c28e5d-c4a3-43f9-b170-badce96360de.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s10-e12-jose-guillaume-giuseppe-types-elixir">
+  <meta name="twitter:title" content="José Valim, Guillaume Duboc, and Giuseppe Castagna on the Future of Types in Elixir">
+  <meta name="twitter:description" content="It’s the Season 10 finale of Elixir Wizards! José Valim, Guillaume Duboc, and Giuseppe Castagna join Wizards Owen Bickford and Dan Ivovich to dive into the prospect of types in the Elixir programming language! They break down their research on set-theoretical typing and highlight their goal of creating a type system that supports as many Elixir idioms as possible.">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/b/b8c28e5d-c4a3-43f9-b170-badce96360de/cover.jpg">
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Global site tag (gtag.js) - Google Ads: 743722644 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-743722644"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-743722644');
+  </script>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > José Valim, Guillaume Duboc, and Giuseppe Castagna on the Future of Types in Elixir
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>José Valim, Guillaume Duboc, and Giuseppe Castagna on the Future of Types in Elixir</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+1q21wOk7" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        <h2>About this Episode</h2>
+        <h3>
+          Published June  8, 2023 |
+          Duration: 48:32 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/b8c28e5d-c4a3-43f9-b170-badce96360de.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s10-e12-jose-guillaume-giuseppe-types-elixir.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>It’s the Season 10 finale of the Elixir Wizards podcast! José Valim, Guillaume Duboc, and Giuseppe Castagna join Wizards Owen Bickford and Dan Ivovich to dive into the prospect of types in the Elixir programming language! They break down their research on set-theoretical typing and highlight their goal of creating a type system that supports as many Elixir idioms as possible while balancing simplicity and pragmatism.</p>
+
+<p>José, Guillaume, and Giuseppe talk about what initially sparked this project, the challenges in bringing types to Elixir, and the benefits that the Elixir community can expect from this exciting work. Guillaume&#39;s formalization and Giuseppe&#39;s &quot;cutting-edge research&quot; balance José&#39;s pragmatism and &quot;Guardian of Orthodoxy&quot; role. Decades of theory meet the needs of a living language, with open challenges like multi-process typing ahead. They come together with a shared joy of problem-solving that will accelerate Elixir&#39;s continued growth.</p>
+
+<h3>Key Topics Discussed in this Episode:</h3>
+
+<ul>
+<li>Adding type safety to Elixir through set theoretical typing</li>
+<li>How the team chose a type system that supports as many Elixir idioms as possible </li>
+<li>Balancing simplicity and pragmatism in type system design</li>
+<li>Addressing challenges like typing maps, pattern matching, and guards</li>
+<li>The tradeoffs between Dialyzer and making types part of the core language</li>
+<li>Advantages of typing for catching bugs, documentation, and tooling</li>
+<li>The differences between typing in the Gleam programming language vs. Elixir</li>
+<li>The possibility of type inference in a set-theoretic type system</li>
+<li>The history and development of set-theoretic types over 20 years</li>
+<li>Gradual typing techniques for integrating typed and untyped code</li>
+<li>How José and Giuseppe initially connected through research papers</li>
+<li>Using types as a form of &quot;mechanized documentation&quot;</li>
+<li>The risks and tradeoffs of choosing syntax </li>
+<li>Cheers to another decade of Elixir! </li>
+<li>A big thanks to this season’s guests and all the listeners!</li>
+</ul>
+
+<h3>Links and Resources Mentioned in this Episode:</h3>
+
+<p><a href="https://youtu.be/gJJH7a2J9O8" rel="nofollow">Bringing Types to Elixir | Guillaume Duboc &amp; Giuseppe Castagna | ElixirConf EU 2023</a><br>
+<a href="https://youtu.be/Jf5Hsa1KOc8" rel="nofollow">Keynote: Celebrating the 10 Years of Elixir | José Valim | ElixirConf EU 2022</a><br>
+OCaml industrial-strength functional programming <a href="https://ocaml.org/" rel="nofollow">https://ocaml.org/</a><br>
+ℂDuce: a language for transformation of XML documents <a href="http://www.cduce.org/" rel="nofollow">http://www.cduce.org/</a><br>
+Ballerina coding language <a href="https://ballerina.io/" rel="nofollow">https://ballerina.io/</a><br>
+Luau coding language <a href="https://luau-lang.org/" rel="nofollow">https://luau-lang.org/</a><br>
+Gleam type language <a href="https://gleam.run/" rel="nofollow">https://gleam.run/</a><br>
+<a href="https://www.irif.fr/_media/users/gduboc/elixir-types.pdf" rel="nofollow">&quot;The Design Principles of the Elixir Type System&quot;</a> by G. Castagna, G. Duboc, and J. Valim<br>
+<a href="https://dlnext.acm.org/doi/abs/10.1145/3427081.3427084" rel="nofollow">&quot;A Gradual Type System for Elixir&quot;</a> by M. Cassola, A. Talagorria, A. Pardo, and M. Viera<br>
+Polymorphic Functions with Set-Theoretic Types <a href="https://www.irif.fr/%7Egc/papers/polydeuces-part1.pdf" rel="nofollow">https://www.irif.fr/~gc/papers/polydeuces-part1.pdf</a> <br>
+<a href="https://www.lesswrong.com/posts/vTS8K4NBSi9iyCrPo/a-reckless-introduction-to-hindley-milner-type-inference" rel="nofollow">&quot;A reckless introduction to Hindley-Milner type inference&quot;</a></p><p>Special Guest: José Valim.</p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s10-e12-jose-guillaume-giuseppe-types-elixir.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic-black.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CKNZ78JYV5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CKNZ78JYV5');
+</script>
+
+</body>
+</html>
