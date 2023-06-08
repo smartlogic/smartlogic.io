@@ -1,0 +1,435 @@
+S10E12 José Valim, Giullaume Duboc, and Giuseppe Castagna on the Future of Types in Elixir
+===
+
+Intro/Outro: Welcome to another episode of Elixir Wizards, a podcast brought to you by Smart Logic, a custom web and mobile development shop. This is season two where we are looking to the next. 10 years of Elixir. We'll be talking with our guests about what the first 10 years might tell us about the future of Elixir.
+
+Owen: Hey everyone. I'm Owen Bickford, senior developer at SmartLogic
+
+Dan: And I'm Dan Ivovich director of Engineering at SmartLogic
+
+Owen: and we are your host for today's episode. For episode 12, elixir Creator José Valim is rejoining us, along with Giuseppe Castagna CNRS and Université Paris Cité 
+
+Intro/Outro: You can 
+
+Owen: Guillaume Duboc from 
+
+Intro/Outro: and we're at Smart Logic on Twitter. forget to like, subscribe and, leave a review. This episode was produced and edited by Paloma 
+
+Owen: what's, the name of, 
+
+Intro/Outro: for Smart Logic. 
+
+Owen: place 
+
+in 
+
+Paris? Yes, in English, please.
+
+Guillaume: Oh, in English?
+
+Giuseppe: re research institutes for the foundation of computer science
+
+Owen: That's the one. Yes. Great. Okay. So in this episode, we're discussing the next 10 years of Types in Elixir. So, hello from across the pond from Texas where we struggle with these, French words. How's everything going in Paris?
+
+Giuseppe: Fine! It's sun shining so
+
+Guillaume: fine. I mean,
+
+Giuseppe: and it is holiday today.
+
+Guillaume: I think it's been raining for months. Uh, those are the first two, three good days. Good sunny days.
+
+Owen: Hmm. Yeah. So you got some sun. You're gonna go out, enjoy some time at the, park, maybe, take in some sun.
+
+Giuseppe: Already did it today.
+
+Owen: This is our season finale and, this is a, timely conversation to have for this season where we're talking about the next 10 years of elixir.
+
+So, before we start talking about what you guys have been working on, let's go through some introductions. Guillaume, you want to introduce yourself and tell us a little bit about, where you come from.
+
+Guillaume: Yes. So I come, from, uh, city in the east of France called Nancy. I did my studies there in mathematics until bachelor level when I moved into theoretical computer science. After, doing, , several internships in, uh, different, fields, I, ended my masters by doing one in Paris, uh, with Guiseppe, where I discovered logic and type systems and, that it was possible to improve programming languages.
+
+And, uh, that felt like a very, interesting thing to do. And now I'm doing, uh, this, PhD program, living in Paris so I can work with Giuseppe. And, I don't know. I think that that's all for it for now.
+
+Owen: Awesome, Giuseppe.
+
+Giuseppe: Yeah. Okay. I'm not from France. I'm Italian, of course, as my, my name says. So I was finishing my studies in, uh, computer Science University of Pisa in, , 1989, and I had to do my master thesis. So I came to Paris to work, uh, in, uh, École normale supérieure and, uh, I was supposed to stay six month and, well, I'm still there.
+
+So, I became a CNRS researcher. So I have a research position. CNRS is the largest, European public research organization. And, , well, I, I was first at École normale supérieure, then I moved to Université Paris Cité and, in particular to this, research institute, which is the research institute on, on the foundation of computer science that, uh, I'm, , actually directing.
+
+It's a laboratory of 200 persons and, we work on the foundation of computer science in particular type theories. My master's thesis in 89 was already about, uh, uh, typing object oriented programming.
+
+Owen: Awesome. So, uh, finally, the person who probably needs no introduction, but I mean, let's pretend that maybe someone from Haskell has listened to this particular episode. José, who are you, where are you from?
+
+José: I am a Brazilian living in Poland and creator of Elixir that's, short and sweet. Yeah.
+
+Owen: Awesome. And, this is a podcast. No one can see it, but, josé said your shirt says, Ooh, Ew, people.
+
+José: Yes.
+
+Owen: That's great. Perfect. Engineer shirt. We're talking about the future of Elixir. 
+
+The season. We talked about different kind of aspects of the elixir ecosystem and how it's developed over the past decade and where we might wanna see it go in the next decade. And a big part of that is types. We've been in fully dynamic type land, so far, and , I think there's been some appetite within the system for more strict types, is that fair to say?
+
+And the work that you guys have been doing has been bringing that into, potentially the language itself. So that's what we'll be discussing today. I guess the first question to ask would be, When you're at a party, what type of conversations do you have? Are they all about types or how does that go?
+
+Guillaume: Well, uh, for me, usually yes, I would say everyone is interested in programming languages because, people who aren't doing it professionally, they are interested learn that some people work on, actually did the work of inventing the language and improving it.
+
+So it's usually something, um, a little bit of a surprise. And, uh, it's also very interesting for me to interrogate people to ask questions. If they are programmers, what do they use and what do they enjoy about those languages? So yeah, usually, any level of conversation that surrounds the language, uh, and program languages.
+
+Uh, what I would go into if I was talking about. My work, of course. 
+
+Owen: So you're only hanging out with nerds is
+
+Giuseppe: Yeah, I, I, I think
+
+Guillaume: I, everyone's interested. It's amazing.
+
+Giuseppe: we go in a quite different kind of parties. For me, when I am at a party, since I'm an Italian living in France, we speak about food essentially. and when they ask you, what are you doing? I start to saying, uh, programming language, then I say, oh, you know, just mathematics. And that stopped the conversation. And we go back to, to food. 
+
+José: So which one is better?
+
+Owen: But what about the pasta? 
+
+José: Yes, French food
+
+or Italian 
+
+food.
+
+Giuseppe: Oh, all the food is good When it is good.
+
+José: Ooh. I like that
+
+Guillaume: very diplomatic.
+
+Giuseppe: Yeah.
+
+José: All right, I'll, I'll ask you later, but okay. Got it. Got the message.
+
+Owen: . So, uh, we're talking about the evolution of types in Elixir for our audience, let's start with a high level conversation about what's the difference between dynamic types and static types.
+
+Giuseppe: I wouldn't speak of dynamic types and static types, but rather dynamic typing and static typing. The types are always the same. It's the difference is just when you check them. So you have two possible ways. One, you check the types at run time. So when you select a field of the record, you check whether it is a record and, uh, the field is present at run time or you can do it, uh, at compile time before executing, and that's static typing.
+
+So you want to check that all the operation will always, will not go wrong. That's the usual definition.
+
+Guillaume: I agree with that.
+
+Dan: Awesome. So where does set theoretic type play into this?
+
+Giuseppe: Well, set theory types are just one kind of types. The idea of set theory types is to interpret a type as the set of values that have the type. So integer is the set of that contains 1, 2, 3, et cetera. And the topple integer string is the one that contains one, a two, et cetera, et cetera.
+
+Things get a little bit complicated when you think of set of functions, how to define them. But, , when you have given this definition, then you have a natural definition for union types, intersection types, and negation types, because the union is the type that contains, both, the value of one type and the other.
+
+The intersection of two types is the type that contains those values that are both of in one type and in another type. And the negation are, , negation of a type are all the value that do not have that type. 
+
+José: Yeah, so let me try to bring that a little bit closer , to elixir, I may say wrong thing, so please correct me. So when we say about typing. They're a type system. It has rules and they are different implementation of those rules. so , we can have a bunch of static type systems, but they are not necessarily equal, they're not all the same.
+
+Uh, so you need to have those rules that are going to dictate how the type system works and SAT types. It's a, let's say a collection of rules, maybe Pepe, that tells exactly how the types are going to work and relate to each other. And they're called set theoretic. When you look at it, it sounds sexy, right? Like oh, set types, like you probably need three PhDs understand that, but it's actually quite the opposite.
+
+And that's what makes me excited about them because it really is about using set operations, the one that we learn like in elementary school, right? You know, like, oh, what is the union of two sets? It's everything that set together. So if you think that a type represents values, so you think in integer, the type integer represents all in integer that could potentially exist, which are infinite by the way, right?
+
+So if you think of, of integer type, we just think of it as a set that contains our integers. If you think about string is a set that contain our integers and now can do, uh, operations with them. So integer union string, it's all strings and all integers. And then we can do intersections.
+
+We can do negation, right? So, for example, you have a function clause that says, look, the first argument is a string. Right? We can say in our typing rules, now look the first argument is string, and the second argument can be anything else. So the second argument is not string, right?
+
+We're always thinking about sets and what belong to those sets.
+
+Giuseppe: And if I can add the interest of, uh, saturated types with repetitive language, like Elixir is that they come out very naturally when you do pattern matching, for example, because, if you have a different matches, okay? So you look at all the values that are captured by the first pattern, and then to type the rest, you consider all the value that can be generated by the expression you match, minus.
+
+So this is the difference is, intersection negation minus those that were captured by the patterns before. Okay. And for example, the, the result of a pattern matching is the union of all the types of, all the possible branches of, the pattern match. So union, negation comes out very naturally when you do pattern matching.
+
+When you try to, to type pattern matching, for example, and intersection corresponds to overloading. In Elixir, you define to functions the same function. One for an input integer that does something, one for the input Boolean that does something else. And then you have that, this, function as an intersection type because it is a function that maps integer to something and which is an intersection, a function that maps Boolean to something else.
+
+Owen: Awesome. So of course, every language has types, like you say, look, this is a different approach of kind of constraining the types that are allowed to be accepted by some code. And of, of course, we have pattern matching that already handles some of this.
+
+And Dialyxir, which is for Elixir is kind of a, José, would you say that's like an external tool you have to add some tooling to use Dialyxir in Elixir?
+
+José: Yeah, it's an external tool, but it's also really isn't a type system, like in the name they say it's a discrepancy analyzer, something like that. 
+
+Owen: So the, work with the set theoretic types, and I think we'll talk a little bit about the syntax later on. Is this something that would negate the need for something like Dialyxir in Elixir?
+
+José: correct that, that would be the idea. So Yeah, there are a couple things here that it's building up in my head as we are talking. So one of the things is that, like one of the potential questions that you can have is like, sure, if we have a lot of different type systems, how do we choose the one that is going to be the best fit for Elixir, right?
+
+Because you said there are very, there are many. Set theoretic types is one of them. And the work is exactly trying to get the Elixir language that exists today and see how much of all the idioms that we have in the language today that the type system can support, right? Because yes, there are a bunch of type systems and people have tried to type Erlang, for example, for decades, right?
+
+But, why they did not succeed, Right. And why did we settle on dialyzer? That's all related to, well, we already have the language that exists today and we don't want to restrict the language. We don't wanna say, well, if you add types, you actually have to just write like this 30% of elixir, you cannot use the rest of the features.
+
+Right? So, that's one of the many trade-offs that we have to make. And Dialyxir made the trade off, let him know, look, we don't want to break anything that we have in Airlink today. So those are the guarantees that we can offer is that we are going to, it's not where the type of system, and we are not going to have like false positives.
+
+I never remember if it's false, false positives or false negatives, but they're just, they're just going to say if we say there is a error, we are sure that the error exists. But there may be errors they are not going to catch and they made those decisions. And set theoretic types is a different system that is going to make different trade offs.
+
+We are also thinking about revamping the syntax as we do this process, but it wouldn't necessarily be necessary to let go of the, the type specs that we have today. It's just that, I think at the moment it makes you change that having a clean break with a new syntax and, ironing out all the rough edges that we had, now it's like the perfect moment to do that.
+
+Owen: So by the way, excellent talk, Guillaume, a dummy like me was able to understand what you were trying to accomplish. it was well delivered. And also the, the work itself is also exciting here. 
+
+Guillaume: Thank you. 
+
+Owen: There was a kind of a snippet of type code on the screen was that, if I remember correctly, it was like dollar sign, something, something.
+
+Guillaume: it was a dollar sign. There's a lot of work on designing the type system, the rules, but there's also a lot of work in figuring out what the best syntax is the dollar sign, we plan to use it to prefix type notations and also type declarations. it currently isn't used in the parser of elixir.
+
+It would've to be added so we can use this syntax in programs. With the syntax of types, we've been trying to be as clear and concise as possible. One, important thing was to define syntax for maps that would handle both the use of maps as static data structures with, defined fields, but also to unify this use with the one where you use them as a dynamic , as dictionaries, which can have a range of, keys.
+
+yeah, we're, there's a still a lot to show and we'll probably be asking feedback on those different, for the syntax. For example, after the conference, I've received a few emails, asking me, oh, but will you specifically add this syntax because I think it's nicer, or will I be able to write this type of notation without parenthesis?
+
+And, for one of those it was, yes. For others it, it's, well, we'll have to figure out if it makes sense. To enable this specific syntax, like, because we, it would be bad to end up with annotations that are, uh, too overloaded with symbols or, those kind of issues.
+
+Dan: Sure. 
+
+Giuseppe: Yeah, let's say that we have José, who is the Guardian of Orthodoxy. Okay? So, no change. we must be very persuasive uh, for every issue, about syntax or things like that. And José always has the final word. He knows that there are a few things that, we don't agree, but, he is the master of the language. So, the user can be reassured that, Checks everything and ensures that we don't go off of the path.
+
+Dan: Yeah, we talk about the hard things about being a programmer, right? Naming things, cache validation, off by one errors. And then for this crowd, we have the picks syntax era problem. Really picking syntax is probably one of the hardest problems in computer science.
+
+José: Um, pop quiz time, Owen and Dan, they are true characters commonly available in keyboards that are not used in Elixir. Do you know which one they are?
+
+Owen: In elixir. Ooh, put me on the spot. 
+
+Dan: Yeah. 
+
+Owen: dollar sign? 
+
+José: Yeah, the dollar sign is one. There is another one. 
+
+Owen: I mean, we don't use a lot of parentheses, but we use them. Sometimes
+
+José: Yeah. We, we do use them sometimes.
+
+Dan: I'm looking at a keyboard that doesn't have all the symbols on it, so I feel like I got a big disadvantage here. 
+
+José: Yeah. The other one is, is the, is the back tick. 
+
+Owen: back tick. Okay. 
+
+José: So on purpose, at the very beginning I say like, I'm not going to use those characters because maybe one day will need them. And, saving them for a special occasion. Those we don't use. And one of the things also is that the syntax that we use today for type specs, we use module attributes, right?
+
+So you do at spec, at type, and those today they're special case because you can define any module attribute that you want, but the, the Elixir language is special case at spec at type to, so it behaves in special ways. And that always felt a little bit weird to me. And I also don't like at all that the way that SPACs work, you have to repeat the function name.
+
+So you have at spec, function, name, and then that function name is just so verbose. So the idea is exactly, to solve some of the lessons that we learned with the type specs today. The other thing that I hear people suggest are sometimes I see projects doing that is to define the types in line.
+
+So you may have a macro in your project where you say def function name and then you have the argument, and then you can define the types there with the arguments and because that's how it works in a lot of languages. But I don't like that for elixir, because if you consider everything that can happen in there, right?
+
+Like you can have the four arguments, you can have pattern matching. And now if we add types, right? the function definition is just going to be overloaded. So I don't like that route. And also, one of the things that I do like about type specs is that they decouple the implementation from the specification, right?
+
+Because if you define the types with the function definition with your implementation, right? Then if you change the clauses, for example, or if you refactor the code, Now you would be, as you're changing implementation of your code, you would be changing in the way the type signature.
+
+And I think that's a now, so I really like, we are still going to define the type signature. It's separate from the implementation. But now we hope it's more concise. And the reason why it's a dollar sign, why we have been using that for now is because, we need a unary operator.
+
+So something that we can prefix things and the only one that we use is the at that was already taken and plus and minus, none of those would be a good fit. So it was the perfect time to introduce the dollar sign. One last thing about the syntax fold.
+
+I knew that the dollar sign would raise questions, but there is one, let's say, risky choice that we made, and we discussed a lot about it that, nobody asked about it, which is just perfect, because if nobody asked, it means that it was good. Like people just accepted it. Nobody felt that it was weird, which was using literally, or, you know, the written word or for unions and the written word end for intersections.
+
+Guam gave the talk like almost 300 people, probably more. And, nobody brought it up. Absolutely nobody. And for me, that was perfect. Maybe people bring it out now that I've, I've mentioned it.
+
+Giuseppe: Yeah. Why not the vertical bar? 
+
+Owen: I've been meaning to say I really hate written words. No, I'm just kidding. I actually, that's one of the things I like about Elixir is, plain English words, that's what we're writing, throughout most of our code. So, that's great. and it's great to hear that we're not gonna have a hundred line function heads once we've added all of our pattern matching types and everything.
+
+So, where do we expect this typing work to land? Is it something that will land as an external package that we add to our projects when we want it? Or is it something that's gonna be baked more into the core language?
+
+José: The. Goal is to make it part of the core language. I think there are two approaches in here. So one is pretty much like the Dialyxir route where we define only the type specifications and you know, there's a separate tool that is going to run them. But I feel, I feel like it only leads to fragmentation in the long term if the community grows.
+
+It's like you can start having different tools and then you're going to, to be in a fragmented space where it's like, well, this project has no warnings when it runs with Dialyxir but when I run with tool x y, z, it gives me a bunch of warnings and that's going to generate work upstream for maintainers.
+
+So I'm like, well, if we wanna have typing in elixir. I want to do it properly. I want to make it part of the language because the other thing I say is like if we had Dialyxir in Elixir that was fast, had good error messages, and automatically run all the time, you don't have to do anything.
+
+If we had that, it would be fantastic for the community, just that, right. So I feel like a lot of the issues that we have with Dialyxir, it's all about the user experience. If we wanted to make the user experience to be as good as we possibly can, it needs to be part of the language.
+
+Dan: In any language I've worked in, if types are optional and I choose not to annotate them, include them, use them, whatever. I regret it later, you know, and I think the perceived burdens and maybe actual burdens of Dialyxir have been a frustration in the community. And I, you know, this sounds like a, a good gradual approach to layer in some protection, some sanity into things.
+
+And, and that's what, you know, it was really exciting about it. And, you know, I'll echo what Owen said a few minutes ago. You know, the, the talk, from the conference was fantastic. I had to watch it a few times to really feel like I was getting where we were going, but, it feels like the right next step.
+
+That's what has me really excited about it, in addition to having done some work in some other languages lately where I used types and was like, oh, this is really helpful. so. where did this interest on the academic side start with, I know José, you talked a couple years ago about how this was an interest of yours and that was where you wanted to spend your time.
+
+But, for the others on the call, where did this kind of interest get started for you?
+
+Guillaume: for, for me, it was when I arrived and I discovered the theory of set theoretic types, semantic subtyping that Pepe was working on with other PhD students. And, it felt interesting to see that this theory was expanding into, at that time it was a gradual typing, but also advanced type inference.
+
+And this is when I arrived and I felt it was something that could bring a lot of value to languages at that time. It was also, type script, I think was becoming more popular and developing features. So, I got into it, but this is much later than when Pepe got into it.
+
+I, I think, I guess,
+
+Giuseppe: Yeah, I dunno. I can tell you the history of the set theoretic type if you want. I, I started working on that in 2002. Okay. So, the main reason was we were working on XML processing languages and you can see a DTD A type or xml, like the set of old document that have that type. And naturally, it was, uh, introduced by Benjamin Pierce in a language called ℂDuce, the set theory so to interpret XML types as the settable documents that correspond to this DTD.
+
+And they had a problem. They couldn't type a function. They didn't know how to do that. And that's a problem when you're in a functional language, if you cannot type higher hearted functions. Well, it's a, it's a problem. What we did with one of my PhD students, Allan Friche, who is one of the main developer for OCaml, is to define how to do it for function types.
+
+So that was 2002, and Bastille was not enough because you want to type functional language, you need polymorphic functions. So it was deemed impossible to do that for set theory types. And we solved it in 2011. So it took 10 years, seems easy, but it takes time.
+
+So, with another PhD student from China, Zhiwu Xu. In that case, we solve the problem to the, to define the set theoretic types with the type variables. And that was the problem of typing languages, with this polymorphous set theoretic types.
+
+So what, how to do unification, let's say when you have these types. And this was in 2014 and 15. And then the last step was you want to apply it to existing dynamically typed languages while you need to gradual typing. Gradual typing is a technique that allows you to merge untyped part of code with typed part of code, gradually.
+
+And this was Victor Lanvin that did his PhD two years ago, finished the, and, uh, and now maybe set theoretical case, were ready to, to be applied to real languages. And actually there are, Elixir is not the only language that is adopting it. You have Luau that's says doing set theory subtyping. Ballerina, there is another language that use this thing. So, it took 20 years, but, finally, now maybe , you can try it on, uh, language that are used, not just by few academic researcher, but, 10 of thousands developers.
+
+Owen: Right. That's a very efficient recap of 20 years worth of research. So good job just on that alone. When did Elixir get on your radar not to do like an elixir radar pun, but like, as you're working on set theoretical types and gradual typing and kind of thinking about languages that are gonna benefit from this, when did Elixir surface in your awareness?
+
+Giuseppe: José, you want to tell the story?
+
+José: So the story is somebody two master students in Uruguay. They were, they wrote a paper called, I think gradual typing in Elixir and I asked them like, Hey, maybe we should do something. They're like, no, we are leave university. We never plan to come back. And then I was like, okay, let, let me check the citations.
+
+And then the citations, they were all pointing To Pepe. And I was like, okay, let me read those papers, because I had been thinking about types for a while and which problems we would have, and then my experience reading those papers was like this. Like I would start introduction.
+
+I was like, Ooh, sounds good. Right? And then section two would be like, well, This is the problem that we have to solve. It has to do this and this and that. When I was reading that, I was like, oh my God, this is exactly the thing that we have in Elixir and I have no idea how to address this, how to solve this.
+
+So I was like, very excited, very hyped up about the paper. And then section three was like, okay, here's how we formalize the problem. And then section four is like, here's how we prove that our formulation correct. But this is all mathematics. It's all like theory. They go and solve the whole problem and then, but they never come back and say like, Hey, this is how you would implement this in Elixir, or in whatever language, right?
+
+They're like, we know how to solve this, but, it's in this mystery language called mathematics. So I sent an email to Pepe, and I was like, Hey, Pepe, I told this story. If he had any reference. And then he sent me a couple papers that he wrote for programmers just like me.
+
+And those were fantastic because I could really understand them and grasp all of the concepts. And then we started talking like, well, maybe we can do something together. And then we had a bunch of paperwork to figure out. As you can imagine from a Brazilian living in Poland trying to work with an Italian living in France, there was a lot of like, , paperwork and Remote joined us to help make that happen. And yeah. And now we are here trying to make it happen.
+
+Giuseppe: Yeah, so for, from my side, I had this guy that told me, ah, I, I did a language Elixir. Elixir? what's, what's that? Ah yes, I know Erlang but I didn't know that Elixir exists. And we start to exchange the emails. from my point of view, I saw three or four very interesting research problem to, to be solved with there because actually there is really new research stuff there.
+
+That's important. And I said, well that's, that's a huge amount of work, which needs a PhD thesis to, to, to do that. And we start saying, why don't we supervise jointly a PhD? Maybe I have a good candidate because Guillaume at work, at the, on, abstract machines for gradual typing with set theoretic types and, That's how it started two years ago.
+
+And, Guillaume started his PhD in December, one year and a half ago. And here we are.
+
+Dan: Fantastic. So thinking about then, you know, developer, we always want to know what, what's the advantage to us, right? We've talked about some safety aspects, knowing what your code does. Is there anything else that, you know, an average developer's gonna benefit from this? Compiler time? Integrations into their environment. where else do we see this as having some advantages?
+
+Guillaume: So types appear as a mechanized documentation. They are a way to make you think about your program, think about what is doing, and then this is being checked by the language. So it makes you interact with the very logic of what you're doing. And there's this element of, some sort of dialogue with the compiler.
+
+That's important because it'll help you not only find bugs when you are writing your program, but it'll, I think also enable you to, to, to interact more with the logic visual program. If that makes sense. As for other, compiler features, I guess this depends on José.
+
+José: Who. No, uh, yeah, no. There are several things that we can get from typing in general. So it's going to help us find bugs. It can help with documentation. It's something that we get from types specs today. It can help with the tooling, like maybe your auto completion in visual studio code can be more precise if it knows the types.
+
+So there are a bunch of benefits, historically, some languages they use types to get performance benefits as well. But that's not something that we are focused on that right now. We can have a whole separate discussion on that. But yeah, I think generally we're going to stay on helping catch bugs, tooling, and documentation.
+
+I think this is going to be the three biggest points.
+
+Giuseppe: If I can give my perspective the important point of static typing, and that's what our type system ensures is that if the type system tells you this program will return an integer, then you are sure that if you ever result it is an integer that's mathematically proven. The program may diverge.
+
+It may stop with a runtime error because we don't catch all, all the errors, especially if we use it gradual typing. But if it tells you, well, that will be an integer and you have a an integer, you have an output, that value will be an integer, which is quite different from what happens with type script or flow or other, things.
+
+And the other point is for the advantage of set theoretic types for the backend is that all type errors are exactly the same. You expect something of some type and you obtained something of a different type. And the advantage of set types is that you know what you were expecting, you know what, you obtain it and now you can compute the difference of the two because it's just a set theoretical operation.
+
+And you can give a value there as a witness. Say, Hey, you know, I was expecting that, but you can have these values that are arise there and this can help protect bagging a lot. We, we already experimented it in a, in another language.
+
+José: Just one last thing on this is that I gave a talk at Elixir Conference Europe last year talking exactly like, you know, what we should expect from, from types in Elixir, what is possible and what isn't. Because even if you say it's going to help catch bugs, right there is the question like, which types of bugs and Pepe was talking about those?
+
+Dan: Well then there are other BEAM languages, right? Like I believe Gleam is like fully typed. If, if I remember correctly, and I think in the question and answer section of the talk a couple weeks ago, there was the, the beam and kind of its involvement in this came up. So, our approach out here is obviously different than what Gleam did.
+
+Is it because of how we think about the beam? Is it cause of how we play with the beam versus other languages? Where does our approach differ in in that regard?
+
+José: Yeah, so it goes back to, to what I mentioned at the beginning, which is like we have several type systems. Right. And one, one of our challenges is to find, because we don't want to change elixir. We don't wanna say, look, now we have types, but you can only write 30% of elixir. Uh, and, and that I imposes, let's say, a big restriction on the type system that we support.
+
+But gleam being a new language, they can say, Hey, we are going to be a new language that provides those idioms. And those idioms, they are a subset of what you can do in Elixir and Erlang today, but they guarantee that for those idioms they have, I think they do. It's everything is typed and they have type inference as well.
+
+They use, uh, a very classical type system called Hindley-Milner type system with some extensions. And so they made those particular choices, but it means that there are features in Erlang there. There's like software you can write in Erlang and in Elixir, but you can't write that in Gleam because you can't prove to the type system that that thing is going to work in that particular way.
+
+So, you have a, constraint on that. So, you know, when we are thinking about tradeoffs, those are different tradeoffs. So for our elixir, we want to support as much as the language as possible, right? Maybe we'll have to abandon something, but I want like 90%, 95% of the language to be supported, right?
+
+And that means we have to pick other type systems and. And for example, something that, I'm, I'm not sure how much Gleam developers use, but they have type inference. You don't have to write the types and it's going to infer the types for you. But that's not something that we'll be able to do efficiently as far as we understand with theoretic types.
+
+We'll be able to like, hey, we can infer the type of this function and then we can suggest it in visual studio code so you write it down. But we won't be able to do that as part of the compilation because it's expensive, right? So those are our trade offs. So support a richer language, a language with more idioms.
+
+We need a more expressive type system. And the consequence of that, we may not be able to do inference, but for us it's fine. Because if you don't want to write the types, you cannot really not write the type today. That's how EL works. So yeah, different trade offs and you're getting different properties from those choices.
+
+Giuseppe: If I can give my perspective from a type theorist point of view, uh, gleam. What does it takes a very well known, very well established type discipline. these are things that were developed in early nineties in the ML community, which is Hindley Milner type inference and very limited form of what is called the row polymorphism.
+
+Okay. So just to type operational on records. Okay. And from the point of view of type theory, they could have done exactly the same thing, taken OCaml as it was defined in early nines and compiled it to beam because the type system is the same, for Elixir is quite different.
+
+What we do, it is, as I told you, we are doing cutting edge research because we want to really type Elixir as it is. None at, as a type theorist would've written it. Okay? So that's the whole point. And of course, the price to pay in gleam is as José said, is that you cannot have overloading, you cannot have normal union types.
+
+You have just targeted unions, so algebra data types, you don't have all the things that you need for, for typing elixir as it is.
+
+José: And going back to, the discussion, right? One of the reasons I'm really happy working with Guillaume and Pepe is that yeah, we have to find the type system that is as close to Elixir as possible, but it's most likely that, well, at least not two years ago, that this type system does not exist.
+
+Right. And then working with Guillaume and Pepe, what we can do is that we can look at the parts like, wait, we don't have the theory to type this Elixir idiom. So we have to, they are developing the new theory that is necessary. They are proving it is correct. So they put in a paper and I cannot read it. 
+
+Giuseppe: Yes, you can read the introduction and the conclusion you always told me.
+
+José: Yes. So, you know, but they're doing all this work. So we have a type system that can express everything that we may wanna do. And there are some things like just for Preciseness, there are some things that we are not going to explore in these initial ventures. Like, for example, typing between processes.
+
+We are not going to be able to type messages between processes right now. That's something. Out of scope. But when we say like the sequential elixir or the functional elixir, we won't be able to, to do really as much as we can and stay very close to elixir semantics. One of the reasons why this is really good, is because this would also be a hundred percent valid for Erlang as well.
+
+So if later the Erlang community want to say, Hey, we want to have the same, the work will be done because the, the semantics, they're all the same.
+
+Giuseppe: And that's a, a José perspective, but actually I've already planned in, one month a meeting with other researcher to type elixir processes. then, I will have to convince José to use it. But, let's see,
+
+Owen: Awesome. So as we're approaching the end of this episode, I'm curious, you guys have been working together a lot. Do you have any questions for each other about the process? Any battle stories, any points where you kind of wondered if you'd had to like, give up or like, kind of backtrack on something?
+
+José: We do have one very big battle story, which is, 
+
+Giuseppe: close the open records.
+
+José: Yes. Maps in Elixir. So the hardest thing, I, I mean, from my perspective, I would love to, to, to see if Guillaume and Pepe agree, is that the hardest part of our work so far was typing maps in elixir because, from the typing perspective, they maps in elixir.
+
+You can use it like as a instruct where the keys are known upfront and you are expecting to always have that shape, which from, from the typing perspective, we call it records, but we also use maps as dictionaries. So, which like a regular key data structure that you can put whatever you want. So it's a single data structure that can do both things.
+
+And then at the beginning, I was actually fine with saying this. One of the things that before I started working, I've kind of accepted that. Well, if we need to have like two different typing things that are compatible with each other and not support maps, like if you have to say map as a instruct and, and map as a dictionary.
+
+I've made my peace and said that would be fine. But, were able to come up like with this, I mean, not me, Pepe and, and Guillaume, the theory to say, well, we can actually have everything in a single data structure. And after we figured that out, Pepe figured that out. We had to figure out what is going to be the syntax.
+
+So we can express all those different things in the Elixir typing syntax, that we had to define. For me, it was like the, the hardest thing that we did . Pepe and Guillaume, what is your take?
+
+Giuseppe: I agree that this is where we had the longest discussions, especially because I didn't convince you to have open records in text instead of closed one. But, it was not technically the most difficult one. Actually, technically, it was quite a natural extraction of what already existed.
+
+For me the most difficult part was typing guards, because guards, when you do pattern matching, you want to have a type that contains exactly all the values that make the match succeed. Okay? And, with guards, you cannot do that because, if you say the type of, maps with two fields, you don't have a type that is able to express all the values that have these characteristics.
+
+And so we had to introduce two different approximation of upper approximation and lower approximation. That is, if it is something, succeed, then it has this type. And, this is the upper approximation and lower approximation is if something has this type, then it succeed. And both operations are necessary to type precisely, pattern matching.
+
+That was really the technical challenge. we have all the, the formalization, but not published yet. But, uh, it, it works. So on the online prototype
+
+José: I, I remember one day we had a four hour meeting just to discuss how to type is function, a single guard. yeah. And Guillaume, what is your take?
+
+Guillaume: my take, well, we had all these discussions and indeed there were several ones that spent a few hours on several subjects. For me, the most difficult thing was writing all the formalization and proofs and, Arriving in a meeting and saying, well, I have nothing to say. It's just that I wrote, uh, two pages, long proof in, uh, late for the academic paper.
+
+But, uh, I have nothing to say. 
+
+Giuseppe: Uh, 
+
+Guillaume: It was, the, the hardest.
+
+Giuseppe: but let's also say that since we said the difficult thing, let's say that the easy thing that is, incredibly nice to work with José because he's incredibly sharp. we have a problem. It counts, right? With the right example, and that's really, really nice. But by the way, we, we, we just met, for the first time, in person at the conference because we have been working one year and a half every Wednesday afternoon.
+
+Uh, we will meet, video conferencing working together. That's very, very pleasant for me because furthermore, it's my private space in which I'm not bothered with the administration of the laboratory. So, I really enjoy those moments. It's, uh, it's great.
+
+José: Thank you, Pepe. It has been a pleasure as well.
+
+Owen: Yeah, I think this is a great place to wrap up. Elixir's come a long way in 10 years. Jose, did you have any expectations at all for 10 years out, what Elixir might be? What it might look like?
+
+José: To be honest, I don't think too much about it. I mean, of course I think about it and like where I want to go and where I wanna be, but I don't think much about in terms of expectations, what I expect it to be. I think about the road that I want to travel, but not necessarily where I'm going to be in the road in 10 years or something like that.
+
+So for me a lot of it is listening to the, community and collecting feedback. It's listening to things and thinking hard about those problems and say, what is the way we can solve this problem in a way that elixir still feels elixir and not a different language. And a lot of it, it's also like the whole machine learning thing that we started doing recently. A lot of it's just scratching my own itch.
+
+And the itch of a group of people who are just excited about that and doing the work. Yeah, so I don't really don't have projections, right? I have the roads that I, I I've been traveling on and I've been talking about them, machine learning, typing, and, we'll see, whatever tomorrow brings, we'll be there.
+
+Owen: I think that's a good metaphor. You, you, you see the roads, but you don't know what's at the end of all the roads, right? That's a good, way to wrap up. So this is the last episode of the season, and I just wanted to take a minute to thank all of the guests we've had on, the season for season 10.
+
+And, uh, of course, cheers to another decade of everyone's favorite. Literally everyone's favorite programming language, elixir. And, 10 years from now, 2033 elixir, you know, it'll be outta the house, acing all of its college exams et cetera, et cetera. thank you guys for joining us.
+
+thank you for your work on, improving Elixir and giving us, new tools.
+
+José: Yeah, thanks for having us.
+
+Guillaume: Thanks.
+
+Giuseppe: Okay. Thank you. 
+
+Intro/Outro: Elixir Wizards is a production of Smart Logic. You can find us online@smartlogic.io and we're at Smart Logic on Twitter. Don't forget to like, subscribe and leave a review. This episode was produced and edited by Paloma Pechenik for Smart Logic.
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day! 
+
+Owen: José Valim is rejoining us along with Giuseppe Castagna from C N R S and University Paris City and Guillaume Duboc wait a minute. I just realized we're doing last names and I've feel like I've slaughtered everything so far.
+
+José: It was pretty good actually. Yeah.
+
+Owen: Ah,
+
+Dan: You just, you can't doubt yourself, Owen,
+
+Owen: watch now, now. Yeah. All right. Let's see.
+
+Dan: or just do first names.
+
+Owen: we do, I think we do everyone's last names right? I want to, I wanna get it right. So, Dubbo. Dubbo, right?
+
+Guillaume: Duboc
+
+Owen: Dubach. Okay. And CNRS, university, Paris City. Am I getting that right, Perry?
+
+Guillaume: you have to say it in French, otherwise it doesn't count.
+
+Owen: no. All right. All right. This will be fun. Sit. All right. All right, we'll try it again.
+
