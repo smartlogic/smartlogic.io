@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>HTTP Requests in Elixir vs. JavaScript with Yordis Prieto & Stephen Chudleigh | SmartLogic</title>
+  <meta name="description" content="In today’s episode, Sundi and Owen are joined by Yordis Prieto and Stephen Chudleigh to compare notes on HTTP requests in Elixir vs. Ruby, JavaScript, Go, and Rust. They cover common pain points when working with APIs, best practices, and lessons that can be learned from other programming languages."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+
+
+  <meta property="og:title" content="HTTP Requests in Elixir vs. JavaScript with Yordis Prieto & Stephen Chudleigh" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s11-e02-http-requests-elixir-javascript" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="In today’s episode, Sundi and Owen are joined by Yordis Prieto and Stephen Chudleigh to compare notes on HTTP requests in Elixir vs. Ruby, JavaScript, Go, and Rust. They cover common pain points when working with APIs, best practices, and lessons that can be learned from other programming languages." />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/737a8ab1-50ff-4583-a522-5fb800630190.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/7/737a8ab1-50ff-4583-a522-5fb800630190/cover.jpg" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+IG633dii/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/737a8ab1-50ff-4583-a522-5fb800630190.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s11-e02-http-requests-elixir-javascript">
+  <meta name="twitter:title" content="HTTP Requests in Elixir vs. JavaScript with Yordis Prieto & Stephen Chudleigh">
+  <meta name="twitter:description" content="In today’s episode, Sundi and Owen are joined by Yordis Prieto and Stephen Chudleigh to compare notes on HTTP requests in Elixir vs. Ruby, JavaScript, Go, and Rust. They cover common pain points when working with APIs, best practices, and lessons that can be learned from other programming languages.">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/7/737a8ab1-50ff-4583-a522-5fb800630190/cover.jpg">
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Global site tag (gtag.js) - Google Ads: 743722644 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-743722644"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-743722644');
+  </script>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > HTTP Requests in Elixir vs. JavaScript with Yordis Prieto & Stephen Chudleigh
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>HTTP Requests in Elixir vs. JavaScript with Yordis Prieto & Stephen Chudleigh</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+IG633dii" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        <h2>About this Episode</h2>
+        <h3>
+          Published October 26, 2023 |
+          Duration: 50:29 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/737a8ab1-50ff-4583-a522-5fb800630190.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s11-e02-http-requests-elixir-javascript.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>In today’s episode, Sundi and Owen are joined by Yordis Prieto and Stephen Chudleigh to compare notes on HTTP requests in Elixir vs. Ruby, JavaScript, Go, and Rust. They cover common pain points when working with APIs, best practices, and lessons that can be learned from other programming languages.</p>
+
+<p>Yordis maintains Elixir&#39;s popular Tesla HTTP client library and shares insights from building APIs and maintaining open-source projects. Stephen has experience with Rails and JavaScript, and now works primarily in Elixir. They offer perspectives on testing HTTP requests and working with different libraries.</p>
+
+<p>While Elixir has matured, there is room for improvement - especially around richer struct parsing from HTTP responses. The discussion highlights ongoing efforts to improve the developer experience for HTTP clients in Elixir and other ecosystems. </p>
+
+<h3>Topics Discussed in this Episode</h3>
+
+<ul>
+<li>HTTP is a protocol - but each language has different implementation methods</li>
+<li>Tesla represents requests as middleware that can be modified before sending</li>
+<li>Testing HTTP requests can be a challenge due to dependence on outside systems</li>
+<li>GraphQL, OpenAPI, and JSON API provide clear request/response formats</li>
+<li>Elixir could improve richer parsing from HTTP into structs</li>
+<li>Focus on contribution ergonomics lowers barriers for new participants</li>
+<li>Maintainers emphasize making contributions easy via templates and clear documentation</li>
+<li>APIs drive adoption of standards for client/server contracts</li>
+<li>They discuss GraphQL, JSON API, OpenAPI schemas, and other standards that provide clear request/response formats</li>
+<li>TypeScript brings types to APIs and helps to validate responses</li>
+<li>Yordis notes that Go and Rust make requests simple via tags for mapping JSON to structs</li>
+<li>Language collaboration shares strengths from different ecosystems and inspires new libraries and tools for improving the programming experience</li>
+</ul>
+
+<h3>Links Mentioned</h3>
+
+<p>Elixir-Tesla Library: <a href="https://github.com/elixir-tesla/tesla" rel="nofollow">https://github.com/elixir-tesla/tesla</a><br>
+Yordis on Github: <a href="https://github.com/yordis" rel="nofollow">https://github.com/yordis</a><br>
+Yordis on Twitter: <a href="https://twitter.com/alchemist_ubi" rel="nofollow">https://twitter.com/alchemist_ubi</a><br>
+Yordis on LinkedIn: <a href="https://www.linkedin.com/in/yordisprieto/" rel="nofollow">https://www.linkedin.com/in/yordisprieto/</a><br>
+Yordis on YouTube: <a href="https://www.youtube.com/@alchemistubi" rel="nofollow">https://www.youtube.com/@alchemistubi</a><br>
+Stephen on Twitter: <a href="https://twitter.com/stepchud" rel="nofollow">https://twitter.com/stepchud</a> <br>
+Stephen&#39;s projects on consciousness: <a href="https://harmonicdevelopment.us" rel="nofollow">https://harmonicdevelopment.us</a><br>
+Owen suggests: Http.cat<br>
+HTTParty: <a href="https://github.com/jnunemaker/httparty" rel="nofollow">https://github.com/jnunemaker/httparty</a><br>
+Guardian Library: <a href="https://github.com/ueberauth/guardian" rel="nofollow">https://github.com/ueberauth/guardian</a><br>
+Axios: <a href="https://axios-http.com/" rel="nofollow">https://axios-http.com/</a><br>
+Straw Hat Fetcher: <a href="https://github.com/straw-hat-team/nodejs-monorepo/tree/master/packages/%40straw-hat/fetcher" rel="nofollow">https://github.com/straw-hat-team/nodejs-monorepo/tree/master/packages/%40straw-hat/fetcher</a><br>
+Elixir Tesla Wiki: <a href="https://github.com/elixir-tesla/tesla/wiki" rel="nofollow">https://github.com/elixir-tesla/tesla/wiki</a><br>
+HTTPoison: <a href="https://github.com/edgurgel/httpoison" rel="nofollow">https://github.com/edgurgel/httpoison</a><br>
+Tesla Testing: <a href="https://hexdocs.pm/tesla/readme.html#testing" rel="nofollow">https://hexdocs.pm/tesla/readme.html#testing</a><br>
+Tesla Mock: <a href="https://hexdocs.pm/tesla/Tesla.Mock.html" rel="nofollow">https://hexdocs.pm/tesla/Tesla.Mock.html</a><br>
+Finch: <a href="https://hex.pm/packages/finch" rel="nofollow">https://hex.pm/packages/finch</a><br>
+Mojito: <a href="https://github.com/appcues/mojito" rel="nofollow">https://github.com/appcues/mojito</a><br>
+Erlang Libraries and Frameworks Working Group: <a href="https://github.com/erlef/libs-and-frameworks/" rel="nofollow">https://github.com/erlef/libs-and-frameworks/</a> and <a href="https://erlef.org/wg/libs-and-frameworks" rel="nofollow">https://erlef.org/wg/libs-and-frameworks</a></p><p>Special Guests: Stephen Chudleigh and Yordis Prieto.</p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s11-e02-http-requests-elixir-javascript.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic-black.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CKNZ78JYV5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CKNZ78JYV5');
+</script>
+
+</body>
+</html>
