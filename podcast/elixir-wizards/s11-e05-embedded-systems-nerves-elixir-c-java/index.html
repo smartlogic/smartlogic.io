@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Embedded Systems in Elixir vs. C, C++, and Java with Connor Rigby & Taylor Barto | SmartLogic</title>
+  <meta name="description" content="Connor Rigby, Software Engineer at SmartRent, and Taylor Barto, Lead Embedded Software Engineer at Eaton, join Sundi to compare notes on embedded systems development with Elixir, C, C++, and Java. The guests ask one another questions to gain valuable insights into challenges, tooling, resources, and more across different embedded ecosystems."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+
+
+  <meta property="og:title" content="Embedded Systems in Elixir vs. C, C++, and Java with Connor Rigby & Taylor Barto" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s11-e05-embedded-systems-nerves-elixir-c-java" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="Connor Rigby, Software Engineer at SmartRent, and Taylor Barto, Lead Embedded Software Engineer at Eaton, join Sundi to compare notes on embedded systems development with Elixir, C, C++, and Java. The guests ask one another questions to gain valuable insights into challenges, tooling, resources, and more across different embedded ecosystems." />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/0514b4ca-f510-4f2b-8239-d10a45a3c8f4.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/0/0514b4ca-f510-4f2b-8239-d10a45a3c8f4/cover.jpg" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+qzI9yfiR/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/0514b4ca-f510-4f2b-8239-d10a45a3c8f4.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s11-e05-embedded-systems-nerves-elixir-c-java">
+  <meta name="twitter:title" content="Embedded Systems in Elixir vs. C, C++, and Java with Connor Rigby & Taylor Barto">
+  <meta name="twitter:description" content="Connor Rigby, Software Engineer at SmartRent, and Taylor Barto, Lead Embedded Software Engineer at Eaton, join Sundi to compare notes on embedded systems development with Elixir, C, C++, and Java. The guests ask one another questions to gain valuable insights into challenges, tooling, resources, and more across different embedded ecosystems.">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/0/0514b4ca-f510-4f2b-8239-d10a45a3c8f4/cover.jpg">
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Global site tag (gtag.js) - Google Ads: 743722644 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-743722644"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-743722644');
+  </script>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > Embedded Systems in Elixir vs. C, C++, and Java with Connor Rigby & Taylor Barto
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>Embedded Systems in Elixir vs. C, C++, and Java with Connor Rigby & Taylor Barto</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+qzI9yfiR" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        <h2>About this Episode</h2>
+        <h3>
+          Published November 16, 2023 |
+          Duration: 46:30 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/0514b4ca-f510-4f2b-8239-d10a45a3c8f4.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s11-e05-embedded-systems-nerves-elixir-c-java.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>This week on Elixir Wizards, Connor Rigby, Software Engineer at SmartRent, and Taylor Barto, Lead Embedded Software Engineer at Eaton, join Sundi Myint to compare notes on embedded systems development with Elixir, C, C++, and Java. They discuss using Elixir and the Nerves framework for firmware projects versus more traditional choices like C. The guests ask one another questions and gain valuable insights into challenges, tooling, resources, and more across different embedded ecosystems.</p>
+
+<p>In this episode, the guests expand their perspectives and demystify the concept of embedded systems for engineers outside the field. This cross-language exchange of ideas and experiences inspires continued learning and collaboration between embedded software engineers using different programming languages.</p>
+
+<h3>Topics Discussed:</h3>
+
+<ul>
+<li>Defining &quot;true embedded&quot;: using an operating system vs. bare metal programming</li>
+<li>Benefits and drawbacks of Elixir, C, C++, and Java for firmware</li>
+<li>Many embedded systems today use Java as the programming language via Java Native Interface (JNI) to interface with C/C++ code</li>
+<li>How Elixir expands the toolbox available for firmware projects</li>
+<li>Testing, tooling, workflows, and debugging across languages</li>
+<li>Elixir/Nerves features like hot code reloading and testing vs. Java alternatives</li>
+<li>Learning curves for new languages and frameworks</li>
+<li>Industry trends around established vs emerging tools</li>
+<li>Applying functional programming principles like immutability in new domains</li>
+<li>Scaling firmware updates across large connected networks</li>
+<li>Continued maturation of Nerves may bring Elixir into consideration for roles where Java is commonly used today</li>
+<li>Hardening systems for reliability in safety-critical uses</li>
+<li>Debugging differences between web development and embedded</li>
+<li>Hiring considerations for niche languages</li>
+<li>Additional skills needed for embedded engineers, such as technical writing, reading schematics, and writing test instructions</li>
+<li>Resources and recommendations for getting started with embedded systems</li>
+</ul>
+
+<h3>Links Mentioned:</h3>
+
+<p>Nerves: <a href="https://github.com/nerves-project/nerves" rel="nofollow">https://github.com/nerves-project/nerves</a> <br>
+<a href="https://nerves-project.org/" rel="nofollow">https://nerves-project.org/</a> <br>
+AtomVM: <a href="https://github.com/atomvm/AtomVM" rel="nofollow">https://github.com/atomvm/AtomVM</a> <br>
+GRiSP: <a href="https://github.com/grisp" rel="nofollow">https://github.com/grisp</a><br>
+RISC-V: <a href="https://github.com/ultraembedded/riscv" rel="nofollow">https://github.com/ultraembedded/riscv</a> <br>
+<a href="https://smartrent.com/" rel="nofollow">https://smartrent.com/</a><br>
+<a href="https://www.eaton.com/us/en-us.html" rel="nofollow">https://www.eaton.com/us/en-us.html</a><br>
+Zig Programming Language: <a href="https://github.com/ziglang" rel="nofollow">https://github.com/ziglang</a><br>
+Docker: <a href="https://github.com/docker" rel="nofollow">https://github.com/docker</a><br>
+<a href="https://pragprog.com/titles/passweather/build-a-weather-station-with-elixir-and-nerves/" rel="nofollow">Build a Weather Station with Elixir and Nerves</a> by Alexander Koutmos, Bruce A. Tate, Frank Hunleth<br>
+<a href="https://pragprog.com/titles/thnerves/build-a-binary-clock-with-elixir-and-nerves/" rel="nofollow">Build a Binary Clock with Elixir and Nerves</a> by Frank Hunleth and Bruce A. Tate<br>
+<a href="http://esp32.net/" rel="nofollow">http://esp32.net/</a><br>
+<a href="https://www.nordicsemi.com/" rel="nofollow">https://www.nordicsemi.com/</a></p><p>Special Guests: Connor Rigby and Taylor Barto.</p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s11-e05-embedded-systems-nerves-elixir-c-java.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic-black.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CKNZ78JYV5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CKNZ78JYV5');
+</script>
+
+</body>
+</html>
