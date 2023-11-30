@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Garbage Collection in Erlang vs JVM/Akka with Manuel Rubio & Dan Plyukhin | SmartLogic</title>
+  <meta name="description" content="Today on Elixir Wizards, Manuel Rubio, author of Erlang/OTP: A Concurrent World and Dan Plyukhin, creator of the UIGC Actor Garbage Collector for Akka, join host Dan Ivovich to compare notes on garbage collection in actor models. "/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+
+
+  <meta property="og:title" content="Garbage Collection in Erlang vs JVM/Akka with Manuel Rubio & Dan Plyukhin" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s11-e07-gc-erlang-akka-scala-java" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="Today on Elixir Wizards, Manuel Rubio, author of Erlang/OTP: A Concurrent World and Dan Plyukhin, creator of the UIGC Actor Garbage Collector for Akka, join host Dan Ivovich to compare notes on garbage collection in actor models. " />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/6b4f5ae2-100c-4660-a780-5c2b1fb1cd32.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/6/6b4f5ae2-100c-4660-a780-5c2b1fb1cd32/cover.jpg" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+OTXkceuV/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/6b4f5ae2-100c-4660-a780-5c2b1fb1cd32.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s11-e07-gc-erlang-akka-scala-java">
+  <meta name="twitter:title" content="Garbage Collection in Erlang vs JVM/Akka with Manuel Rubio & Dan Plyukhin">
+  <meta name="twitter:description" content="Today on Elixir Wizards, Manuel Rubio, author of Erlang/OTP: A Concurrent World and Dan Plyukhin, creator of the UIGC Actor Garbage Collector for Akka, join host Dan Ivovich to compare notes on garbage collection in actor models. ">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/6/6b4f5ae2-100c-4660-a780-5c2b1fb1cd32/cover.jpg">
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Global site tag (gtag.js) - Google Ads: 743722644 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-743722644"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-743722644');
+  </script>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > Garbage Collection in Erlang vs JVM/Akka with Manuel Rubio & Dan Plyukhin
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>Garbage Collection in Erlang vs JVM/Akka with Manuel Rubio & Dan Plyukhin</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+OTXkceuV" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        <h2>About this Episode</h2>
+        <h3>
+          Published November 30, 2023 |
+          Duration: 44:08 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/6b4f5ae2-100c-4660-a780-5c2b1fb1cd32.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s11-e07-gc-erlang-akka-scala-java.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>Today on Elixir Wizards, Manuel Rubio, author of Erlang/OTP: A Concurrent World and Dan Plyukhin, creator of the UIGC Actor Garbage Collector for Akka, join host Dan Ivovich to compare notes on garbage collection in actor models. </p>
+
+<p>The discussion digs into the similarities and differences of actor-based garbage collection in Erlang and Akka and introduces Dan&#39;s research on how to perform garbage collection in a distributed actor system.</p>
+
+<h3>Topics discussed:</h3>
+
+<ul>
+<li>Akka is akin to Erlang actors for the JVM using Scala, with similar principles like supervision trees, messages, and clustering</li>
+<li>Erlang uses generational garbage collection and periodically copies live data to the old heap for long-lived elements</li>
+<li>Actor GC aims to determine when an actor&#39;s memory can be reclaimed automatically rather than manually killing actors</li>
+<li>Distributed actor GC is more challenging than object GC due to the distributed nature and relationships between actors across nodes</li>
+<li>Challenges include reasoning about failures like dropped messages and crashed nodes</li>
+<li>GC balance requires optimization of resource release and CPU load management</li>
+<li>Immutability helps Erlang GC, but copying data for messages impacts performance</li>
+<li>Research into distributed actor GC is still ongoing, with opportunities for improvement</li>
+<li>Fault tolerance in Erlang relies on user implementation rather than low-level guarantees</li>
+<li>Asynchronous messages in Erlang/Elixir mean references may become invalid which is similar to the distributed GC approaches in Dan&#39;s research</li>
+<li>Idempotent messaging is recommended to handle possible duplicates from failures</li>
+<li>Help your local researcher! Researchers encourage communication from practitioners on challenges and use cases</li>
+</ul>
+
+<h3>Links mentioned:</h3>
+
+<p>Erlang/OTP Volume 1: A Concurrent World by Manuel Rubio <a href="https://altenwald.com/en/book/en-erlang-i%C2%A0" rel="nofollow">https://altenwald.com/en/book/en-erlang-i </a><br>
+Scala <a href="https://www.scala-lang.org/%C2%A0" rel="nofollow">https://www.scala-lang.org/ </a><br>
+Akka Framework <a href="https://github.com/akka%C2%A0" rel="nofollow">https://github.com/akka </a><br>
+JVM (Java Virtual Machine) <a href="https://www.java.com/en/download/%C2%A0" rel="nofollow">https://www.java.com/en/download/ </a><br>
+The BEAM VM <a href="https://www.erlang.org/blog/a-brief-beam-primer/" rel="nofollow">https://www.erlang.org/blog/a-brief-beam-primer/</a><br>
+Hadoop Framework <a href="https://hadoop.apache.org/%C2%A0%C2%A0" rel="nofollow">https://hadoop.apache.org/  </a><br>
+Pony Programming Language <a href="https://www.ponylang.io/%C2%A0" rel="nofollow">https://www.ponylang.io/ </a><br>
+SLSA Framework <a href="https://github.com/slsa-framework%C2%A0" rel="nofollow">https://github.com/slsa-framework </a><br>
+Paxos Algorithm <a href="https://en.wikipedia.org/wiki/Paxos_(computer_science)%C2%A0" rel="nofollow">https://en.wikipedia.org/wiki/Paxos_(computer_science) </a><br>
+Raft library for maintaining a replicated state machine <a href="https://github.com/etcd-io/raft%C2%A0" rel="nofollow">https://github.com/etcd-io/raft </a><br>
+<a href="https://dplyukhin.github.io/%C2%A0" rel="nofollow">https://dplyukhin.github.io/ </a><br>
+Dan Plyukhin on Twitter: <a href="https://twitter.com/dplyukhin%C2%A0" rel="nofollow">https://twitter.com/dplyukhin </a><br>
+Dan Plyukhin’s YouTube channel: <a href="https://www.youtube.com/channel/UCFG9RhkWNnUhosC3l99Y8Zw%C2%A0" rel="nofollow">https://www.youtube.com/channel/UCFG9RhkWNnUhosC3l99Y8Zw </a><br>
+UIGC on GitHub <a href="https://github.com/dplyukhin/UIGC%C2%A0" rel="nofollow">https://github.com/dplyukhin/UIGC </a><br>
+<a href="https://altenwald.com/%C2%A0" rel="nofollow">https://altenwald.com/ </a><br>
+Manuel Rubio on Twitter: <a href="https://twitter.com/MRonErlang" rel="nofollow">https://twitter.com/MRonErlang</a> </p><p>Special Guests: Dan Plyukhin and Manuel Rubio.</p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s11-e07-gc-erlang-akka-scala-java.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic-black.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CKNZ78JYV5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CKNZ78JYV5');
+</script>
+
+</body>
+</html>
