@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Static Code Analysis in Elixir vs. Ruby with René Föhring & Marc-André Lafortune | SmartLogic</title>
+  <meta name="description" content="In this episode of Elixir Wizards, hosts Owen and Dan are joined by René Föhring, creator of Credo for Elixir, and Marc-André LaFortune, head maintainer of the RuboCop AST library for Ruby. They compare static code analysis in Ruby versus Elixir. "/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+
+
+  <meta property="og:title" content="Static Code Analysis in Elixir vs. Ruby with René Föhring & Marc-André Lafortune" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s11-e09-static-code-analyzer-elixir-credo-ruby-rubocop" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="In this episode of Elixir Wizards, hosts Owen and Dan are joined by René Föhring, creator of Credo for Elixir, and Marc-André LaFortune, head maintainer of the RuboCop AST library for Ruby. They compare static code analysis in Ruby versus Elixir. " />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/20be544f-afde-4f0a-9219-d89869ae1cda.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/2/20be544f-afde-4f0a-9219-d89869ae1cda/cover.jpg" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+02RabiBs/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/20be544f-afde-4f0a-9219-d89869ae1cda.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s11-e09-static-code-analyzer-elixir-credo-ruby-rubocop">
+  <meta name="twitter:title" content="Static Code Analysis in Elixir vs. Ruby with René Föhring & Marc-André Lafortune">
+  <meta name="twitter:description" content="In this episode of Elixir Wizards, hosts Owen and Dan are joined by René Föhring, creator of Credo for Elixir, and Marc-André LaFortune, head maintainer of the RuboCop AST library for Ruby. They compare static code analysis in Ruby versus Elixir. ">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/2/20be544f-afde-4f0a-9219-d89869ae1cda/cover.jpg">
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Global site tag (gtag.js) - Google Ads: 743722644 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-743722644"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-743722644');
+  </script>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > Static Code Analysis in Elixir vs. Ruby with René Föhring & Marc-André Lafortune
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>Static Code Analysis in Elixir vs. Ruby with René Föhring & Marc-André Lafortune</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+02RabiBs" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        <h2>About this Episode</h2>
+        <h3>
+          Published December 14, 2023 |
+          Duration: 46:02 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/20be544f-afde-4f0a-9219-d89869ae1cda.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s11-e09-static-code-analyzer-elixir-credo-ruby-rubocop.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>In this episode of Elixir Wizards, hosts Owen and Dan are joined by René Föhring, creator of Credo for Elixir, and Marc-André LaFortune, head maintainer of the RuboCop AST library for Ruby. They compare static code analysis in Ruby versus Elixir. </p>
+
+<p>The conversation explores the intricacies and challenges inherent in static code analysis across object-oriented and functional programming paradigms, highlighting the unique characteristics of both Ruby and Elixir. Key topics of discussion include the ways these tools can enhance coding styles and empower developers, the delicate balance between providing guidance and enforcing rules, and the evolving future of code analysis in these languages.</p>
+
+<h3>Topics discussed in this episode:</h3>
+
+<ul>
+<li>The differences and applications between static and dynamic analysis</li>
+<li>How Credo aims to offer flexible and educational guidance for Elixir developers</li>
+<li>The complexities of method identification in Ruby and its impact on static analysis</li>
+<li>Challenges posed by macros and dynamic code modification during compilation in Elixir</li>
+<li>Reducing false positives in code analysis tools to minimize developer frustration</li>
+<li>Promoting uniform coding practices through analysis tools</li>
+<li>The significance of using analysis tools with clear, specific objectives</li>
+<li>How coding standards can refine and improve coding styles over time</li>
+<li>Building analysis tools and checks through an understanding of Abstract Syntax Trees (ASTs)</li>
+<li>Potential advancements in the analysis of Phoenix templates and HTML in Elixir</li>
+<li>Contrasting approaches to managing code and comments in Elixir and Ruby ASTs</li>
+<li>The fine line between providing helpful guidance and imposing stylistic preferences</li>
+<li>Heuristics in static analysis highlight inconsistencies without mandating style</li>
+<li>The potential for more straightforward pattern matching in ASTs with future updates</li>
+<li>The importance of a gradual implementation of tool updates to maintain backward compatibility</li>
+<li>Creating tools that support and empower developers, rather than hinder them</li>
+<li>How static analysis contributes to cleaner, more maintainable codebases</li>
+<li>Potential future developments in the field of static code analysis</li>
+<li>Practical applications of using linters like Credo and RuboCop in software development</li>
+</ul>
+
+<h3>Links mentioned in this episode:</h3>
+
+<p>Credo <a href="https://github.com/rrrene/credo" rel="nofollow">https://github.com/rrrene/credo</a><br>
+<a href="https://hexdocs.pm/credo/overview.html" rel="nofollow">https://hexdocs.pm/credo/overview.html</a><br>
+Dogma: A code style linter for Elixir <a href="https://github.com/lpil/dogma" rel="nofollow">https://github.com/lpil/dogma</a> <br>
+<a href="https://github.com/rubocop/rubocop" rel="nofollow">https://github.com/rubocop/rubocop</a> <br>
+RuboCop&#39;s AST extensions and NodePattern functionality <a href="https://github.com/rubocop/rubocop-ast" rel="nofollow">https://github.com/rubocop/rubocop-ast</a> <br>
+<a href="https://github.com/whitequark/parser" rel="nofollow">https://github.com/whitequark/parser</a><br>
+<a href="https://hex.pm/packages?search=credo&sort=recent_downloads" rel="nofollow">https://hex.pm/packages?search=credo&amp;sort=recent_downloads</a><br>
+<a href="https://github.com/doorgan/sourceror" rel="nofollow">https://github.com/doorgan/sourceror</a><br>
+<a href="https://github.com/rrrene/credo/blob/master/lib/credo/check/readability/large_numbers.ex" rel="nofollow">https://github.com/rrrene/credo/blob/master/lib/credo/check/readability/large_numbers.ex</a></p><p>Special Guests: Marc-André Lafortune and René Föhring.</p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s11-e09-static-code-analyzer-elixir-credo-ruby-rubocop.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic-black.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CKNZ78JYV5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CKNZ78JYV5');
+</script>
+
+</body>
+</html>
