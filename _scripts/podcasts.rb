@@ -61,7 +61,7 @@ transcripts = rss_xml.xpath("//channel/item").reduce(transcripts) do |transcript
   if transcript
     transcript_url = transcript.attributes["url"].value
 
-    unless File.exists?(transcript_path)
+    unless File.exist?(transcript_path)
       response = Faraday.get(transcript_url)
 
       if response.success?
