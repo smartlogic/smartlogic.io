@@ -1,0 +1,368 @@
+Sundi: Welcome to another episode of Elixir Wizards,
+
+Dan: a podcast brought to you by SmartLogic, a custom web and mobile development shop.
+ 
+Owen: This is Season 12, Office Hours, where we invite you to step into our office for candid conversations with the SmartLogic team about everything from discovery to deployment to the magic of maintenance.
+
+[00:00:10] Hey, everyone. I'm Sundi Myint, Engineering Manager at Cars Commerce.
+
+[00:00:15] Owen: And I'm Owen Bickford, Senior Software Developer at SmartLogic.
+
+[00:00:18] Sundi: And we're your hosts for today's episode. For episode two, we're joined by Alicia Brindisi, Project Manager at SmartLogic, and Bri LaVorgna, Vice President of Delivery at SmartLogic. Hi, everyone.
+
+[00:00:29] Bri: Hi, happy Friday.
+
+[00:00:31] Sundi: Happy Friday!
+
+[00:00:32] Owen: Happy Friday!
+
+[00:00:33] So, in this episode we are discussing the discovery phase of Agile software development, the philosophies, obstacles, and breakthroughs that shape each Epic from concept to code.
+
+[00:00:43] We're talking to some experts today on how to get there. Bri, would you like to introduce yourself to the group? And then we'll go to Alicia next.
+
+[00:00:51] Bri: My name is Bri LaVorgna, VP of Delivery. I've been with SmartLogic for slightly over two years and I'm super excited to be here today. Had a windy background, um, started in education, went to custom software development, a small stint in biotech and back to IT. And just super excited to, to be here and talk about discovery because it's a super important part of the process. 
+
+[00:01:13] Alicia: and I'm Alicia Brindisi. I am a Senior Project Manager at SmartLogic. I've been with SmartLogic almost for five months now.and my background , like Bri, is a little bit of a winding road. I started in international development education. I worked in higher education for a number of years and went to business school after I graduated, transitioned to project management in the tech space.
+
+[00:01:40] I worked for IT companies, strategic design firms, other dev agencies, credit unions, all kinds of things, and joined SmartLogic in the fall.
+
+[00:01:51] Owen: So, we're about to get schooled in Discovery, some educational experience all around.
+
+[00:01:59] Sundi: Starting off strong, Owen.
+
+[00:02:00] Bri: .
+
+[00:02:00] Are we all students of life, Owen? We're all students of life. We're all Hey, who's ready for an epic conversation about Discovery? 
+
+[00:02:10] Sundi: I'm glad, okay, so I'm glad we're on, um, for our audio listeners. Um, you're really missing out because the video, the video version will have all of the eye rolls and face palms and maybe me sliding off my chair, depending on how, how heavy, uh, Owen goes here. So, to fully go off of that topic, Bri, could you help us define discovery for our listeners?
+
+[00:02:31] And then, Alicia, I'd love to hear your definition as well.
+
+[00:02:35] Owen: it.
+
+[00:02:36] Bri: to define discovery it's like counterintuitive for its name because it's meant to be this exploratory experience. I would say from a high level, holistically, I can go into some detail. At the core, it's meant to be really collaborative, where, the project team is collaborating with project stakeholders.
+
+[00:02:53] Really great if you can get some end users engaged in the process of discovery as well. It's, really a customized experience based on the needs of the client, as to where their starting point might be. But I would say ultimately, the goal is to truly get clarity as to what the project is, to understand business goals, to identify and understand the end user.
+
+[00:03:15] Who are they? What is their journey? What are their pain points? What are their needs? what makeup, what is the persona of that user? That all is really helping to inform decisions later on. I think it's also to identify key project objectives. What are the big Features. What are the functionalities?
+
+[00:03:31] What does the thing need to be able to do? And so through this collaborative process, it's gathering requirements, understanding limits, understanding risks, understanding any other integrations of , API products that you're going to be having to engage with. , once we get all of that, our goal is to truly Take all of that feedback, take all that collaboration to develop what we're using as a PRD, which is a product requirements document, where we flesh all that information out.
+
+[00:03:59] We make the diagrams of the system architecture. We make the business processes. We, you know, craft the domain model as to how this thing's going to engage. And from there, having that modeling, the architecture. You know, you flesh out your epics, your user stories with clear acceptance criteria, making milestones. A project manager will take that and map it with timeline, budget expectations, and really creating the guardrails for what is in scope, what's out of scope. And then we use all of that nugget of knowledge to guide the design and implementation process.
+
+[00:04:29] Alicia: listening There was so much in there. Alicia, if there is anything you can add, I would love to hear it.
+
+[00:04:36] Owen: That's it, we're done here.
+
+[00:04:37] Sundi: That was the whole
+
+[00:04:39] Bri: She has a lot to add. It
+
+[00:04:42] Alicia: so I think, um, One thing I would add is obviously we're talking about, discovery from the point of view of software development. There's other types of projects that might have tech components and may include entire discovery phases. So it might not just be a one time [00:05:00] workshop or, How Bri described it as meeting with the client to get requirements.
+
+[00:05:05] There might be an entire phase of a project where you're actually doing user research. And you're calling that discovery, but to just back up a little bit. A more philosophical part of discovery, I think, is also recognizing that we're acting as facilitators to guide the client on a journey to understand what they actually need and want.
+
+[00:05:27] So a lot of times clients will come in. Assuming that they want one thing and through the discovery process might realize they've asked for A, but what they really need is a solution to problem B, and they thought A was that solution, and on that discovery journey, they understand that there are other ways to get to that solution that aren't A, so, and there might be times also that you're talking to clients where Because they have, we're asking deep questions, we're trying to get technical, they might realize what, where their gaps in understanding are.
+
+[00:06:05] They might, Rethink the strategy behind a particular feature, or they might need some more, work around understanding their users, understanding user behavior. Aligning user behavior and user needs with. Organizational or strategic goals. So there's a little bit almost like of a therapy session, too, where you're trying to just you're guiding clients along this journey with you in addition to getting the nitty gritty of technical information.
+
+[00:06:35] Sundi: Yeah, and I really love that you're highlighting this client journey at the beginning because I think it's helpful to define it that way, especially for folks who are used to like a more product environment where discovery might exist in an ongoing product project where engineers get a feature dropped in their lap and they're like, There's this thing, we want you to look into it, here's a discovery ticket.
+
+[00:06:57] And so that, that's like a different scope, different thing, partially midway through a project or an epic, and there's a completely different beast. which we can talk about later if we want to, just like in terms of discovery. But I, I love that you're highlighting that this is the beginning of a project.
+
+[00:07:11] and a journey, even.
+
+[00:07:13] Bri: Most definitely a journey. Exploratory discovery journey.
+
+[00:07:18] Owen: to underline something you said, Alicia, like we're, as a software agency, we are not the experts in whichever domain the client is bringing to us. Right? So, the client could be, uh, anything, right? Like, any business who needs some software, 
+
+[00:07:34] Sundi: Running a cookie truck. 
+
+[00:07:36] Owen: Running a cookie truck. Great
+
+[00:07:37] Sundi: going there today.
+
+[00:07:38] Owen: right?
+
+[00:07:39] Because no one's, no one's hungry for dessert, for cookies. So, right. So, a magical cookie truck,was Cookie Monster. Cookie Monster Incorporated wants to, I don't know if that's, can we say Sesame Street's not
+
+[00:07:54] Sundi: I don't know, Sesame Street isn't Disney, but they could still come for us, Owen.
+
+[00:07:58] Owen: Anonymous blue cookie, cookie consumer, company wants to hire SmartLogic to build some software.
+
+[00:08:05] maybe they want like a POS system, right? Like a point of sale. So they come along to SmartLogic. they've probably talked to Bri a couple of times, through a sales process, and then by the time we're starting discovery, that's like, where does discovery kind of slot into our process of bringing on a new client?
+
+[00:08:25] 
+
+[00:08:25] Bri: say it starts the, the very first interaction that you have in the sales pipeline, you're gathering information, you're listening to, what are blue cookie entities needs are, what is it, what is the problem they're trying to solve? And I think, fleshing that out in the sales process is super important.
+
+[00:08:43] Really getting understanding of like, what is their business process? What is the need that they're trying to solve for? Why are they trying to solve for? And truly, using the sales process as, as an opportunity. Gain as much of that up front, before you even get to a statement of work, before you even get to turning it over to your product team.
+
+[00:09:00] And so that can look like a variety of things that can look like if they have an existing one, doing a demo, if they have inspiration tools out there of Hey, I saw this at this place. And I like that. Let's talk about that. let's talk about what you like, what you don't like. it could also just be, getting a mini group of their stakeholders together in the sales process.
+
+[00:09:17] Like Hey, let's just have a conversation. what is this? What are you trying to solve? Why are you needing to solve this? and, you know, that, that information. So I think it starts the very first interaction, every interaction you have with your clients is an opportunity to learn something, and, to strengthen that understanding.
+
+[00:09:32] And so it's super important to, it starts there and internally, go through the sales pipeline. You get to that statement of work, internally, as we handed it off to the project team. I would compile as like the point of sale transition person internally, a client dossier which summarizes who is the client, what is the organization, what is the needs, and what are the key features that we have put in the scope of the project and creating this summarized document to capture at point of [00:10:00] sale, what the intention is.
+
+[00:10:01] having internal kickoff where I would meet with Alicia, our PM, and go like, here's what we've got, here's what we have, and then she would, have an internal kickoff and I'll let her take over from this point, a touch point, because this is where she'll take in and take what we've given at that point of handoff and turn into something magical.
+
+[00:10:17] Alicia?
+
+[00:10:18] Alicia: Yeah, so, in an internal kickoff, you, which I don't think actually I've done for SmartLogic yet, but we have, you typically would meet with a client and review your agreed upon scope of work, make sure you answer any remaining questions that design or dev or UX would need to begin that scope of work.
+
+[00:10:41] You would review the timeline, you would review key milestones, who everyone is on the team, have team introductions, so everyone is aware of both the client side and the agency side, and just give like a high level overview of the process, any tools like we use ClickUp that anyone would need on the team.
+
+[00:11:02] Yeah, that's mainly, it's like an introduction of our team and the client team, and resolving any remaining questions that are needed, or information, or artifacts before work begins.
+
+[00:11:14] Sundi: Yeah, that's, it's, the before the work begins part is also very helpful and important because I want to highlight, because I know our listeners are Elixir engineer enthusiasts and they might be like, why do I care about discovery of projects? Well, I'll tell you why you care. Don't click off of episode.
+
+[00:11:32] You care because you just want to code. You just want to get requirements in code. You don't want to go back and forth, you don't want to be in meetings with a ton of your, colleagues and clients. You just want to kick off once and just go, and then half the time, it's not what they asked for. And so asking these questions up front is so helpful to actually building what somebody asked for.
+
+[00:11:54] Sometimes, as Owen mentioned, They are maybe asking for something, but the solution that they're asking, or maybe Alicia, you were the one who mentioned this. I know Owen said it in the past though, so I, yeah. but sometimes they're asking for something very specific, and you're like, wait, but what is the problem you're trying to solve with this?
+
+[00:12:11] And then they come back, and then they tell you what the problem is, and then you might be the technology expert, even though you're not the expert on what the problem is. The product domain is, and so you might be able to give more instruction or help just like a direction, give more direction on something.
+
+[00:12:27] And then you, the happy developer, just gets to go off into the sunset with your code and write it exactly the way it said, right? It's that easy? Just one, two, three, and there we go, right? Right, Bri? Right, Alicia?
+
+[00:12:40] Alicia? 
+
+[00:12:44] Bri: Oh yeah. Always a linear process never ??? process At all. 
+
+[00:12:46] Alicia: I think like one thing about discovery is that The textbook definition is, we're coming in to get information from clients. we are trying to understand something. The flow is in one direction, but a good discovery is actually a two way flow where you, and any agency, any client services work, you're also a consultant.
+
+[00:13:08] So, okay, we might not know the ins and outs of operating a cookie truck day to day, but maybe we've had 5 other food services clients. Maybe we've done POS for something else. Maybe. this cookie truck wants to do a rewards program, like an app where you can earn rewards and we ask, why do you want to do that?
+
+[00:13:31] And if you ask enough probing questions, you realize. They want to, they have a metric of, Something around increasing customer engagement in the 1st quarter, but we've seen their same metrics for customer engagement go up. At a faster pace with other technical solutions, other than rewards app for similar clients.
+
+[00:13:53] So there is also a two way flow of information where you're able to consult and say, I'm hearing that. You want a rewards app but what you actually want is client engagement and there might be other solutions that don't look like that. And here's what we've done in the past. I think we're also missing a big piece of this, which is the cookie truck might want our awards program and that might be great.
+
+[00:14:19] And that might be the perfect solution. And they have about 25 percent of the budget that we would require. To build that in a robust way that works for their needs. So there's also those conversations too of talking through constraints, which goes a little bit beyond discovery, but starting to at least introduce the idea of time and budget constraints as well.
+
+[00:14:44] Bri: I love that point, Alicia. I love that point. the fact that we are like, I know it's used a lot in industry. We are the trusted advisor, but we really are, they're hiring us teams to bring that expertise to the table. And part of our job is to be good financial stewards of their money and their requests.
+
+[00:14:59] And, you know, [00:15:00] if we find cheaper alternatives that it could save time budget, then I think it's our duty to, to bring this to the table. And like, how can we help them get to their solutions? Solve the problems that they want in the most conservative and, efficient way. I think that's a really important part of the table.
+
+[00:15:15] Owen: an important part of the process, I think it's been said a few times here already, but it's It's a collaborative process, right? So, if we have multiple people from the, uh, from the client who can tell us from different perspectives that they have about the problem that they want to solve, that's great.
+
+[00:15:34] So, so it's not all being, bottlenecked through one person. sometimes you get into a game of telephone when that happens, but also on our side, I think we're, I've seen over, I've seen, a lot of process changes over the past couple of years and I think, one big improvement is having multiple perspectives going into the discovery instead of having one person try to, like, define everything that they know about this thing. That helps us uncover a lot of detail. And I think the big word here on both sides is assumptions. Cause the client will have assumptions about, what they've said and what they, what, what their expectations are and we'll have assumptions and the more people that are involved, I think the more of those assumptions get uncovered and we can kind of address those. are there like, uh, kind of concrete steps that we've taken to like modify our discovery process. I know both of you guys are in meetings frequently about process, so like this would be a great time to talk about some of those changes. Okay. So,
+
+[00:16:33] Bri: what I would say is,it's forever refining and I think the biggest part is recognizing that not every client is the same, and not every client is coming to you at the same point, or the same understanding, or the same clarity,of what is it they want built and why, and et cetera.
+
+[00:16:48] And so, I think, realizing that it's not a cookie cutter process, oh, this is our discovery package, and it's, It's going to be lock and step for every single client, but more of a dynamic process. when you think about the different, the myriad of different discovery activities you can do with a client, shadowing to, event storming to, demonstrations, there's just different ways you can approach it.
+
+[00:17:09] And I think you need to really sit down with your client, with your team of experts internally to go, okay, here's what we know about the client. Here's where we're trying to go. What is going to get us the best information in the most efficient way and creating a customized discovery plan? Oh my goodness, I think I just coined a new thing, a customized discovery plan, which is really just, meeting them at where they are.
+
+[00:17:29] You're right. We now have coined a new phrase, but a discovery, a customized process that is taking where they are, where we need to go, looking to your internal experts to get their input as to what is the information you need to. To get better understanding on and then looking at our tool chest of strategies to go, all right, let's try this and not being afraid to go.
+
+[00:17:51] Well, we tried that workshop and we didn't get exactly what we needed. Cool. Let's pivot. Let's do another one and do a different way. And you know, I think that's tipping the hat to Agile. That's the whole point. It's being iterative. It's being exploratory. We are discovering. It's not a black and white.
+
+[00:18:07] Just because you did one event storming session, you have all the answers you need and you can build everything with no questions asked. And there's clear scope and no icebergs to be found, three months in. I think it's just recognizing just the dynamic of it and being able to pivot and being able to include your, your Your clients as well as your internal team along that process?
+
+[00:18:28] Sundi: Yeah, from CDP, is this a new document we're gonna have to create? So Please no with the acronyms.
+
+[00:18:34] Owen: let's not throw more acronyms.
+
+[00:18:36] Bri: We are already doing it. I, because, that's our approach at Smart Logic. we truly look at where our, our clients are, and. what we've done for one doesn't always work for the other. And I think it's just, every session that we do, we're constantly growing that tool chest.
+
+[00:18:47] And I think that's, what's important and, you know, opportunities to engage with those in the same space, in several organizations where we have these conversations as project managers, as delivery, leadership and Hey, what are you doing? What's working at your company? This is what we're doing.
+
+[00:19:01] So I think, breaking down, down like the silos and. Networking and connecting and sharing best practices with each other. That's what it's all about. That's how we all get better at what we do.
+
+[00:19:11] Sundi: You did just toss out another acronym, and while I am team kill all the acronyms, say the acronym out loud. you, do you want to go ahead and define a PRD? I think you mentioned it a little bit, but do you want to get a little bit more into it?
+
+[00:19:25] Bri: Sure, PRD, it's a product requirements document. we are using that internally, and I'm sure there's many templates out there. But internally, we are using that. In fact, this is a new PM process that we have instated. as our point of truth. for where we're documenting key decisions that are being made, but as well as where do all those diagrams that I mentioned earlier, the architecture, the process diagram, that, domain model, where are they living and how are we documenting, what is in scope, what's out of scope, what are the milestones, what are the key features, what are the risks, and so essentially we're using these Product [00:20:00] requirement documents, these PRDs, to be our point of truth for the bulk of documentation that we're doing on what we're building.
+
+[00:20:06] And, we value them. We've just instated a new practice at our team that we're reviewing them as a team weekly and updating them weekly and prioritizing the value of maintaining healthy documentation and, yeah, excited to, uh, to see the fruits of that labor.
+
+[00:20:21] Owen: So, Alicia, we've talked about discovering the act of discovery. I think we touched a little bit on documenting our discoveries. so, once we hand some documentation, let's say PRD off to the next step would be design. That means discovery is over, right? We're not to ever discover anything again. Is that right? 
+
+[00:20:43] Alicia: is discovery ever over? I don't know. I think, I mean, everything, um, in PM process in general is a balance, right? Like, you want to be agile and have room to iterate, but you also need structure and rules and a defined process to follow, but you don't want to be, overly structured. So, like, with everything, there is this balance, and I think with discovery, you have to Get to the point where you can make a reasonable and somewhat accurate SOW, an estimate for that work, and you have to have a reasonable amount of information for the people who are going to implement that project to be able to start doing that, whether it's designers.
+
+[00:21:29] UX folks, developers, but, that no matter. How good you are, it's never going to be 100%. There's always going to be unknowns. There's always going to be needs for additional conversations. And even if you thought you knew everything, the client's needs are going to change. And, developers are going to start doing things and discover that.
+
+[00:21:51] That they're stuck and have a need something else. So all of that continued conversation and engagement is you could consider a discovery that happens throughout the project. I think the broader point is any time of these client agency interactions, whether it's upfront and discovery, it's along the way it's, what you think about when you are developing processes.
+
+[00:22:16] It's all about establishing trust that is what client services are is. Making sure that you are forming a solid relationship based on trust. if we know that we can trust our clients to be upfront with us, to give us the answers that we need to be timely, and they can trust us to do good quality work that is estimated fairly, then that's all we can ask for.
+
+[00:22:41] And it's all of those little touch points that help establish that trust.
+
+[00:22:46] Sundi: It even reminds me a little bit of, we have a note here about what does a consultancy do differently than a product company when it comes to discovery? You almost become what is traditionally known in product management at that point. Product managers are theoretically supposed to be experts in the product and therefore can write up work of ideas of things that would help push the product forward to be its best value.
+
+[00:23:10] It's have its best moment in the world, and then work with the developers to make sure that thing gets developed. And I think that's more or less, what consultants, on that side of things will do, And, um, it's interesting to kind of hear you talk about, like, how do you make sure that the client has exactly what they need?
+
+[00:23:29] How did they get their ideas out there? How do you help translate that into stuff, asking the right questions, especially? I ask all of those things of my project managers every day, and I think it comes down to, yeah, again, like, was it good discovery or not? oh, and you asked a question about when is it done?
+
+[00:23:46] what are your thoughts on when discovery is done as a developer who's like working on things that has come out of discovery?
+
+[00:23:52] Owen: This is where it's funny because I think we've used the term or the phrase &quot;discovery phase&quot; before, but I think, it's not really a phase that kind of like ends. And like we just said, it really continues throughout the life of a project and any relationship with the client.and what's funny is, it could be because people slept and they, just.
+
+[00:24:14] Or they, like one meeting was before lunch and another meeting was after lunch a different day and people are just a little bit more, engaged and ready to discuss things in detail. or they've learned something, maybe a user came along or they had, a user study or something, or maybe someone was on vacation and they came back and said, Oh, actually y'all were all wrong about, about, I read the notes and they were all wrong about this thing.
+
+[00:24:34] So there's a bunch of different reasons. And that's scratching the surface of ways that surprises can kind of emerge.but those surprises, we can, and this is not exclusive to any engineering team, this is something that happens across the industry and has over time, you know, big complex projects are full of surprises and they could be late breaking surprises too.
+
+[00:24:55] Sometimes you build a thing, based on, hours and hours of discussions and planning [00:25:00] and then, late in the game, you discover that, Something's changed or there was an assumption that everyone had kind of made and you have got to go back either to the drawing board or you've got to make some adjustments. Usually it's something you can kind of like make some tweaks and improve things.I think it's pretty rare that we had to like throw something out and start over, when that happens. So, yeah, I don't have any like concrete examples I can think of, of something that drastically changed.these long running projects, you just learn a lot over. Several months.
+
+[00:25:32] Sundi: Yeah. And like the learning, we have a note here about documentation. The learning doesn't end up anywhere solid unless you actually write it down. And so having all of these focused documentation around what you learned is super helpful, especially if you have to go back and see what did we even set out to do?
+
+[00:25:51] How did it become this? And like go back and learn all of those things. We do that in Productland too. We write a lot of one pagers to figure out how do you, discover What was the idea for this? There was some discovery that happened, a developer did it, a product manager did it. Go write out all of the objectives, the assumptions, the statistics that you think might get affected by those things.
+
+[00:26:13] and then like, in the non product side of things, on the consultant side of things, like focus documentation, I think is super helpful. So Bri, can you talk to us a little bit about what that documentation looks like on the SmartLogic side?
+
+[00:26:23] Bri: Oh, you're making my tail wag. So, just the fact that you said,valuing that, and valuing it, which is exactly what we've done now. We've incorporated. All team, everyone at SmartLogic who's working on products once a week. We're, carving out specific time, at the end of our standups on Fridays to take time to put the documentation down.
+
+[00:26:43] And there's one thing about having, and so we are using, as I said, our PRDs, which I know, and I'm sure there's like PRD enthusiasts out there. We are adding a SmartLogic. I don't know, expanded definition of what they are because we are using it as that space and place for the decisions that are being made throughout the build of that feature or functionality, and I know that might not be 100 percent pure for how they're used, but you know, I think We're in alignment in it's the truth of like, how is, what is it, what is the thing that we're building?
+
+[00:27:17] How does it need to be built? How is it going to function with other elements of the application? how does it engage? what's in and out of scope on those things? I would also say, In the liberal definition of discovery and the value of having a space in place to have that quality documentation and also having the practice for updating that documentation, there's a myriad of things outside of formal discovery that are being discovered.
+
+[00:27:43] So yes, you have those meetings with the clients, sure. Yes, you have those, team meetings. Yes, you're doing grooming as a team and you're talking through these things, These are all excellent, healthy practices, but how about that pairing session that one developer was meeting with our staff engineer and they were talking through something and they cracked something and they're like, Oh yeah, we should do it that way.
+
+[00:28:01] How about that decision? That's still discovery and that's important to document. And I think what we were realizing is. there's a kajillion slack threads of talking through things with, your technical team, and that's great collaboration. And then there's these, one off individual pairing sessions or 
+
+[00:28:15] Alicia: My name is 
+
+[00:28:17] Bri: knowledge comes from those, and I think previously we weren't doing the best job of I think we have a really important job on prioritizing, extracting those answers or decisions or approaches and putting it down somewhere.I remember being in several retrospectives and we were like, oh, I think we talked about that.
+
+[00:28:33] There's a thread about that. And so, I think for us, baking into our practice weekly to prioritize making sure our documentation is updated with the information. Did I learn something new about what I'm building? Did I have a meeting about it? Did we discuss something? Was there a thread that this nugget of knowledge will help not just me build it currently, but also maybe the developer five years from now who might be opening this up and working on it later on?
+
+[00:28:58] Is it going to help inform them as to how does this function and how is it supposed to work and what do I need to know about it? So it's those decisions too that maybe it's loosely defined under discovery, but I think they're important to capture.
+
+[00:29:10] Owen: Yeah, so going back to our, uh, our favorite client, Blue Cookie Company. so let's say, Blue Cookie Company ambassador, Mr. Monster comes into the, to the call and he's got, like a, kind of a laundry list of like features and let's say 70 percent of these are like, yeah, this is this is stuff that's required for, selling cookies.
+
+[00:29:35] And there's also like, we want to like, maybe I'm just going to make up some other ideas here. It's maybe they. Mr. Monster also wants to track how much gas is in the tank of the truck or like whether people are GPS tracking. 
+
+[00:29:48] Sundi: Or pivot to also selling ice cream for ice cream cookie sandwiches.
+
+[00:29:52] Owen: Right. So like one challenge I think, agencies always face, but I imagine this is true of any engineering [00:30:00] team is scope.
+
+[00:30:01] It's easy to, , you know, request a bunch of stuff, but how do we, what are our thought processes on identifying scope, like setting some boundaries and then discussing with the client, prioritization, and I'll pass this to , Alicia. 
+
+[00:30:16] Alicia: so. 
+
+[00:30:19] Owen: and if you can scope this answer down to like, I don't know, two sentences, that'd be great.
+
+[00:30:23] Alicia: so I think it, well, 1 part of it goes back to what I was saying with the balance of having, reasonable level of detail. And I know developers like to be precise and reasonable level of detail is not a precise statement, but it's enough detail or enough. Specificity where we, as an agency know what we're supposed to do and more importantly not do, but not to the level of specificity where we're not open to those surprises and those unknowns.
+
+[00:30:55] So there's things that may come up that do affect the scope or do affect the budget that are always going to occur, but at least there's like a point of truth where both parties are like, yes, this is what we're doing. And more importantly, this is what we're not doing. How do we get there? That starts super early in the discovery process. 
+
+[00:31:14] And again, you send like a laundry list of features part of that is also which we haven't talked about is prioritization. So, if we think back on Okay, getting the client to realize what they actually need and actually want, not what they thought they needed and thought they wanted. That will impact that list.
+
+[00:31:32] So if the cookie company wants 10 things, but we've had conversations about their company business strategy and where they see themselves next year and what their metrics are for success, then we can map those 10 things against those business goals and metrics. We can also map that against their budget because your budget's going to get you four of those 10 things.
+
+[00:31:58] so what are the most critical of these 10 things? What are the top four? And there's other exercises and workshops and collaboration that you can do as a client to help them get to that list. You don't just handle this and say pick 10, pick four. there's things that you can help them, craft that list for you.
+
+[00:32:19] Bri: I would also add on, I'm going to do a shout out to our UIX and UI and UX designers out there as well. there's one thing about helping a client prioritize like the key features and functionality, it's helpful to help it align to the business value, what's going to bring value to their business. But something that I think is often forgotten or not prioritized as much is also the user experience. So sometimes they want, a client can want these three features, but if there is enhancements to the user experience that can be recommended, and we have great UX designers on our team who can make these recommendations.
+
+[00:32:53] if they can say if we can improve this navigation flow, then your users are going to be, Immensely less frustrated and the experience is getting so much better and that can drive value to the client as well. So I think it's important that, not only are we trying to be good stewards of their money, good stewards of the scope, but also that we can make these recommendations going, I hear your recommendation, your feature requests, but also these are a couple of, experience things that we should tend or put on the list or put in the prioritization order because they can also drive value for you as well.
+
+[00:33:22] Alicia: I would just also add to that, if you have done the work of proving yourself as a trusted partner and a consultant, then hopefully you have a bit of a longer relationship and there's a timeline component. So, it might be that. whoever your point of contact is getting pressure from a sales team or from their higher ups saying, we need this new feature tomorrow.
+
+[00:33:50] There's trade offs in that list of picking that feature over others in the longer term. So saying like, oh, that's great. If we implement that now, you're going to create problems for yourself in six months. And if there's other things that might not be as sexy to do now, but you invest in that infrastructure, you invest money in doing that up front, it'll make your life easier and it'll allow you to grow and it'll allow you to add features more easily in the future and in the long run. So there's also like a timeline of like, what are we doing now? What's important now? But how do we set ourselves up for success in the long term?
+
+[00:34:30] 
+
+[00:34:30] Owen: When we're thinking about scope,it, it applies at so many different levels. There's, like, when we're talking about a PRD, we're talking about the scope of this kind of batch of features, or maybe a single feature, which might be very limited, or it might be, complex. And there's also the scope of the project, or the scope of a phasor project. But I think one thing we've also, We've also done is we never say never, right? something may be out of
+
+[00:34:55] scope yes. 
+
+[00:34:56] Right. but it might make sense to not say [00:35:00] we're never going to do this, but maybe this is something that needs to like, wait a little bit until we get this other stuff in the system first, we've got tosequence our, what we're building here, not only by business priority, but also by dependencies, some features need to be built before others.
+
+[00:35:14] So it's a big ball of wax. There's a lot of stuff you have to think through. in that process, but yeah, scope, scope is fun. My, some of my favorite words are out of scope.
+
+[00:35:24] Sundi: I think one of the things that people don't think about often, and sometimes as I work with more developers and more product folks and product managers, like that concept that we all know that it won't...it doesn't just end at some point, right? We can continue doing it. There's a cost of business that is bug fixing.
+
+[00:35:46] Triaging extra stuff, extra work. Like we, of course, we want to do it all up front, but when you're being realistic about how to engage and implement a project, we know that there's going to be some leftover stuff that happens, a cleanup epic or, nice to have extra tasks, all that stuff. Like we want to do as much as we can within reason.
+
+[00:36:05] but then there's always going to be that extra stuff. And for the most part, everyone I've worked with in my career so far, luckily, has been very understanding of that. I very rarely have worked with, what do you mean you can't do it all by such and such date? so that is something that's helpful to be clear about in discovery, even where it's like, yeah, this, this has been discovered, but maybe, maybe we'll discover more later.
+
+[00:36:28] Bri: Absolutely. 
+
+[00:36:31] Owen: always discover more later.
+
+[00:36:33] was an entire, I think my first project, Sundi, you were here for this, like my first project was an entirely discovery thing. It's yes, I read Elixir. And then first project was, all right, here's Google docs. Now tell us about some stuff. 
+
+[00:36:47] So that was a fun, uh, you know, I I might've had mixed feelings at the time.
+
+[00:36:52] I think it was a great introduction to, uh, like I'd done Discovery on other projects as well, but not at that scope. So that was a, I definitely learned a lot. So
+
+[00:37:01] Sundi: A learning experience.
+
+[00:37:03] Owen: Yes. 
+
+[00:37:04] Sundi: Um, 
+
+[00:37:05] Owen: with opinions about Discovery too.
+
+[00:37:07] Sundi: yes, for sure. Um, I think we, we delivered what we said we were going to deliver, Owen. We talked to experts about discovery and we 
+
+[00:37:17] Owen: we were basically interviewing all the people at that company, you know, about different parts of this enormous, you know, system. It was fun.
+
+[00:37:24] 
+
+[00:37:24] Sundi: yeah.so, Bri, Alicia, if someone was interested in getting SmartLogic's help with just the software discovery phase of things, how would they get in touch? How would they start that process off?
+
+[00:37:36] Bri: come to me. I am more than happy to field any requests. I think I, you know, that's the easy answer is just say, email me directly. my email is Bri - Bri@SmartLogic.io. And I am always happy to jump on a call to learn about your needs and see like where you are and see if we're a good fit.
+
+[00:37:55] the other option is you can go to our webpage, which is smartlogic.io, not com, but io. And you can check out some of our services, check out our case studies on there. But at the top of the page and the top right, there's a &quot;let's get started&quot; yellow button. Click it. There's an interest form that you can also fill out giving a little bit more detail and we will definitely be in contact. My door is always open.
+
+[00:38:16] Sundi: Fun stuff.
+
+[00:38:18] Owen: I'm curious, like what's the, look, we've talked about discovery being a never ending process. Is there like a kind of a timeframe, For discovery, of course, it's going to vary per project, but let's say cookie company comes to us with, a point of sale, is their project, is this like a one day process or one week, one 
+
+[00:38:40] Bri: Not usually. I, that, yes, I'm going to give you the answer you don't want to hear is it truly depends. it depends like what they're coming to us for. If it's to create a whole new Greenfield project, that's going to be very different than, doing a replatforming. That's going to be very different than if you're just adding a feature onto something that's already built.
+
+[00:38:56] so I, you know, it truly depends. And I have seen discovery go from anything as short as. a couple of weeks to a month to several months, depending on the scope and size of the project. that answer can definitely be clarified through a couple of this, intro conversations with me or with our team.
+
+[00:39:16] And, uh, we can definitely give you a range as to what to expect, what that would look like depending on where you are. again, clients, the beautiful thing about a custom shop, you can be coming to us at any entry point, whether you have just an idea. Whether you have an idea and it's fully fledged out at 800 page RFP, or, you have a product that you need to replicate, and so, that's going to be very different depending on what those needs are.
+
+[00:39:38] Owen: Awesome.
+
+[00:39:40] Bri: It's that custom discovery process, Owen, that
+
+[00:39:43] Owen: Everything's custom.
+
+[00:39:44] Bri: Everything's custom.
+
+[00:39:46] Owen: Right on. Well, I think we've, discovered as much as I think we can discover about discoveries. Sundi, you didn't think I was going to get there.
+
+[00:39:57] Sundi: I, I wonder if we should offer a [00:40:00] prize to somebody who can count the number of times we said it. Laughter.
+
+[00:40:04] Bri: I was hoping for more explored puns in here, like, where's Magellan, and, you know, Columbus, where's, how we can get some names in here, but,
+
+[00:40:12] Owen: Well, we've, we've got all of our ingredients. so we've discovered all of our ingredients. We're putting them into this, the stew or maybe the cookie batter. And then all the magic happens where we get to cook the stew. That's implementation. All right. Well, I think I'm going to like drop it right now before I get too far off of the, the, 
+
+[00:40:31] Sundi: Poor Alicia is 
+
+[00:40:32] Owen: whatever metaphor train I was on.
+
+[00:40:34] Bri: Friday.
+
+[00:40:36] Owen: It is Friday. We've been going for a while now. So I'll just wrap up by asking, do you guys, start with Alicia? Do you have any, final plugs or requests for the audience? Find
+
+[00:40:49] Alicia: Follow SmartLogic on social media. That's my plug.
+
+[00:40:52] Owen: us on 4chan. Cut that. All right. right. And, uh, Bri, do you have any final asks or plugs for the audience?
+
+[00:41:05] Bri: Well, knowing our audience is, you know, super into the technicality behind Elixir, you know, I think it's knowing that you are valued, your opinions are valued, your collaboration in this book is valued. process is instrumental to its success. And so, when your PM or your VP asks you to engage in a discovery process is that we authentically not only need you, but appreciate what you bring to the table and it really helps us make better products together with our, our teams,
+
+[00:41:33] Owen: You said the magical E word. So now I'm thinking next year, let's, let's write all of our PRDs in Elixir scripts. All right, viewers, you have to go watch this on YouTube just for Sundi's reactions.
+
+[00:41:50] it's worth it. 
+
+[00:41:52] All right. I know it made sense. So, all right. Thank you everyone for joining us. Thank you, Bri and Alicia also for being great, PMs and VPs and PRD slingers. And, we will be back next week with more Elixir Wizards.
+
+[00:42:08] Bri: Thanks for the opportunity. 
+
+[00:42:12] ​  Dan: Elixir Wizards is a production of SmartLogic. 
+
+Owen: You can find us online at smartlogic.io and we're @SmartLogic on Twitter.
+
+Sunday: Don't forget to like, subscribe, and leave a review. 
+
+Dan: This episode was produced and edited by Paloma Pechenik for SmartLogic.  
+
+Sundi: Join us next week for more Elixir Wizards Office Hours as we deep dive into another aspect of the software development lifecycle. 
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
