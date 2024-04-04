@@ -1,0 +1,348 @@
+S12E03 You've Got a Job To Do (Audio Only)
+===
+
+[00:00:00] Sundi: Welcome to another episode of Elixir Wizards,
+
+[00:00:14] Dan: a podcast brought to you by SmartLogic,
+
+[00:00:16] a custom web and mobile development shop.
+
+[00:00:20] Owen: Office Hours, where we invite you to step into our office for candid conversations with the SmartLogic team about everything from discovery to deployment to the magic of maintenance.
+
+[00:00:32] Dan: Hey everyone, I'm Dan Ivovich, Director of Engineering at SmartLogic, and I'm your host for today's episode. For episode three, we're joined again by Joel Meador, Staff Engineer at SmartLogic. In this episode, we're going to discuss background jobs and explore their role in optimizing performance, enhancing user experience, and tackling complex tasks behind the scenes.
+
+[00:00:53] What's up, Joel?
+
+[00:00:54] Joel: Hello.
+
+[00:00:55] Dan: All right, you were a recent guest this season, but for all our new listeners, How about a quick little intro to who you are and your journey to processing data in the background?
+
+[00:01:06] Joel: sure. I've been in the industry for 20 plus years doing various things. about a decade of that has been, high performance, high data load. Processing, as a consultant, as a, and as a product, developer. And, I dunno, I love plants and I will talk about plants more than anything else in, in life.
+
+[00:01:32] So, we won't today, but we'll talk about background jobs, but yeah, that's me.
+
+[00:01:37] Dan: Awesome. so at SmartLogic, we've, I think you and I have both worked on a lot of projects with various background job needs and technologies, from your perspective, what are the common use cases where we reach for that kind of tooling?
+
+[00:01:51] Joel: Yeah. we'll talk about a few that I thought of. I have notes, so if I seem scripted, it's cause I sort of am. but one. that I think is really key is talking to external systems. That could be APIs, that could be databases that are behind some sort of other thing, doing XML stuff that's very involved, etc.
+
+[00:02:17] Another one I would say is talking to things or doing things that take longer than, let's say, about a second. Because that's like the common case is the second. You probably don't want to do that live.and another one I would think is pretty common is when you need to share information about something that is happening concurrently with where you are in whatever application you're on.
+
+[00:02:45] you need to just share that information with whoever's looking at that application. So that could be, you know, I pressed a button and an API call is happening or I pressed a button and there's some sort of extremely involved database thing happening or whatever. Um, you know, throw it in the background.
+
+[00:03:00] Dan: Mm hmm. , any, any questions? Use cases where you think somebody has applied or you've seen background jobs applied, where it wasn't an appropriate use case. 
+
+[00:03:10] Joel: I've definitely seen some, like, real pushing to the limits kind of things, particularly in like CQRS type systems. where like everything became a job basically. And I'm like,this is a thing you can do.
+
+[00:03:25] mostly I don't have any bad experiences with these other than sort of bad experiences around, uh, monitoring the systems or not monitoring the systems is usually when you have the bad, the worst, results or having job systems that are like really finicky and don't, and aren't very reliable, which, used to be a really big problem, particularly in the Ruby community, around like late 2000s.
+
+[00:03:50] It was just kind of the job systems were bad. And if you use them, you would have a bad time.
+
+[00:03:53] 
+
+[00:03:54] Dan: Well, why don't we maybe pivot a little bit then monitoring and debugging. So, you know, overuse of background jobs, but then also if you don't have a good insight into how they're performing or what they're doing, can we talk a little bit more about.good monitoring, good debugging of background jobs, or what is unique or challenging in that compared to regular web request work?
+
+[00:04:14] Yeah, we have to think about what a job is kind of the same way we think about web page performance. We need to think about job performance. There are all these like factors that go in. One is how long does the job take to run generally? and then you've got like P99 job and then P95 and you want those to be, whatever they need to be.
+
+[00:04:37] there, there are realistic scenarios where you have jobs that take, five to 10 hours to run, then there are some that if they took that long and then your whole system would crash to the ground. So there's kind of this, like, how long does it take? But another, particularly when you're doing a lot of jobs and,the thing that the job does is important for what the user is experiencing.
+
+[00:04:58] Joel: I'm thinking about time [00:05:00] series ingestion, for example. That's something I worked on a lot for a long time. the time between when you receive an event. And that event is like queryable in a UI for the user or ships off an alert to them that says their system has exploded. Like you really want the time between data in, job run, data out to be as short as possible.
+
+[00:05:23] So there's a latency, problem in jobs too, which Sometimes people talk about, but not usually people are more focused on the, how long does it take? And the, how long does it take is not actually,is important. But when you're doing like a billion jobs a day, like other things start becoming really important.
+
+[00:05:43] concurrency becomes a problem. Memory usage becomes a problem. Like all these things really do become constraints when you're doing enough job processing. If you've got a system that's pretty low load and it's doing one or two jobs an hour, like it doesn't matter. It doesn't really matter all that stuff generally, because you probably just don't have, specific latency.
+
+[00:06:04] You might, you might have a net, um, we had on a different thing than the time series stuff, but like on a different product I worked on, we had very specific, um, SLAs with a bunch of our customers around how long it could be before we received something and they got their thing back.and we had to know, we had to know both.
+
+[00:06:23] We had to know how long we could queue something and how long like we could take on a thing before we were like, this isn't going to work because you did something wrong or this isn't going to work because we did something wrong. Cause they were really dire, monetary consequences for us not doing those things very quickly, in a predictable way.
+
+[00:06:40] Dan: it makes me think about monitoring, in terms of, we have a lot of kind of. Terminology and tools and things we talk about for web performance. And I think you can often, at least in my experience, you've been able to generally see like it get progressively worse or particular end points, or you can kind of like really map things out.
+
+[00:06:58] And then the background job things that I've worked on, I feel like you go very quickly from. It's handling it to now it's like really not handling it and it's not handling it in weird ways. And I think the latency, you and I have worked on projects here where job runtime is an issue, but usually you hit other things like memory or just the runtime is so long that you cause latency of other jobs because they're waiting for open queues.
+
+[00:07:21] And how do you prevent like starvation and like fair usage of the queues by all the users? And that turns into a, an orchestration problem that you really don't have to think about a lot with web requests. 
+
+[00:07:35] Joel: Yeah. If you're in a, if you're in an environment where you have multiple, multiple users competing for, valuable resources,and some of those people have different requirements or different, SLAs than others, then you not only have to know what the general case is, you also have to be able to protect and not starve out those customers you've got like specific legal agreements with, which is, complicated to get right.
+
+[00:08:04] let's say, yeah, I, if I, if you'll indulge me, I'll give you a little war story from, from an olden time. 
+
+[00:08:11] Dan: Sounds great.
+
+[00:08:12] Joel: when I was working on this product, we naively put all of the job details into Redis. Uh, this is circa 2009, 2010.so one of my business partners at the time and I are, in Nashville at a Ruby conference and we're like, do, do we got this new product?
+
+[00:08:30] Someone's using it. That's cool. And, our monitoring goes off and it's like, your stuff's broken. We're like, that's bad.fast forward a few minutes. We were having these very strange errors. We didn't know what was going on. and what we found out is one of our new customers on this product was sending us extremely large job payloads, which we were putting into Redis dutifully.
+
+[00:08:53] And, we had just hit the, the limit. I think it was either the memory limit on the machine, like Redis was basically hitting, I've eaten all the RAM, 
+
+[00:09:04] or, we hit the limit for. The like writing to database part of Redis. I don't remember which thing at this point, cause it's been 15 years. But, um, anyway, what would happen is they would send us like a hundred jobs and it'd just be boop, boop, boop, boop, done.
+
+[00:09:19] Then at 101, it was the whole system fell over cause we had two gigabytes of RAM or whatever. so easy fix in the immediate term, which is just like buying more machine.long term fixes. A lot more complicated, involved like five new systems that had to go online and orchestrate to, to make sure we didn't explode Redis every five minutes.
+
+[00:09:45] Dan: It's an interesting thing, too, for people who are maybe new to adding background jobs or for projects that are adding it for the first time. You do have to solve kind of those serialization problems. And you get a lot of communication between your web application [00:10:00] and your background job system, whatever it is.
+
+[00:10:02] you have all sorts of Things that don't come up when you're just dealing with a web request, right? If you have a web request, I'm thinking about products where we support where it's, okay, I'm going to start a transaction, do all this work, end a transaction, update some search indexes and send a response, and then suddenly now you add background jobs to that and it's okay.
+
+[00:10:21] I've done most of the work, but not all of the work. And so I'm going to schedule this job, but if anything after me scheduling this job fails, I probably don't want that job to run, but how will that job know? And I got to make sure that job doesn't start before my database transaction has committed, because then the data won't be there.
+
+[00:10:38] And so you may be like, you may feel like, I'll just send it all the information, but then you run into the problem that you were just describing of I've serialized everything into Redis, or whatever my broker is, and so now I've duplicated data, and, uh oh. 
+
+[00:10:52] Joel: Yeah. And the other, you know, the, the other side of that is if the end result of the thing is something that is persistent or semi persistent, then you've suddenly got, where do I store that? And how do I give it to the web?particularly if you are naively running on, one machine and you need, and now you suddenly have, now I have, I'm a victim of my own success and I have a background machine and a web machine now, and suddenly my whole life is very much more complicated than it used to be.
+
+[00:11:23] Dan: mhm. Well, I think the good news for some of that, at least in my experience, has been that you can apply things that, Solve, solve similar problems in other venues, right? Like there's patterns we have for this. like I think about like item potency and making sure a job can run more than once and won't have a negative side effect in case something causes it to get retried or queued twice or what have you.
+
+[00:11:43] and then also thinking about, trying to treat your servers as ephemeral as much as, you know, as you can and letting that data storage persist kind of external to the volume of servers. But those are things that.often don't get solved in v1 and then suddenly become a problem in v2.
+
+[00:12:00] Joel: Well, and I think we're both speaking from a position of having burned our fingers.
+
+[00:12:05] Dan: Sure.
+
+[00:12:06] Joel: More than once, potentially, on this problem, someone who's just come into the field and they're like, I'm just going to put some background jobs in. And now they've got a whole raft of problems. If they, if they find success that they weren't expecting or problems they weren't expecting.
+
+[00:12:22] Dan: So speaking then of like jobs that don't go to plan, any particular thoughts around, making sure jobs are successfully completed or that failures are handled appropriately? Any difference in how you think about error handling when working with background jobs?
+
+[00:12:37] Joel: I think this is like, particularly to, particular to my trauma, but, um, I've had a lot of issues in high volume job systems, of several types where you just get these like zombie jobs, right? and those zombie jobs can be really dangerous because they may try and write data that's no longer, valid, they may try and do things that cost customers actual money, they eat up resources that are valuable to have, so the more you have of those, the bigger problem you have.
+
+[00:13:10] And, one thing that I don't really see anyone talking about including like the, I'll say the Mindshare leaders on jobs in the various communities I'm in. I don't ever really see them talking about this, they just assume that everything's gonna go fine.and that's not been my experience. when I say high volume I'm talking, systems that are processing multiple billions of things a day or a month, even into the multi millions, particularly if they're very complex and, IO intensive things, those tend to have some strange, just strange things happen.
+
+[00:13:42] Dan: but yeah, in terms of error handling.like generally speaking, I think. Modern job systems. I'm going to pick on Oban because I think it's a best in class in terms of what you get just out of the gate. like it gives you basically what you need to monitor something, like in, in the database itself, which I really appreciate.
+
+[00:14:06] Joel: I've used a lot of Resque. I've used a lot of Sidekiq. I used Lloydjob. Uh, used a few roll your own kind of things that had similar qualities to those, and what you end up doing, particularly in those systems, if you need persistent job data, you end up replicating a lot of what OBAN has done, which it has like, you know, started, ran this long, ended this, these are the errors you got, here's how many retries it was, like, Resque and some other stuff does that stuff, but it's all kind of, it's in Redis and sometimes it's ephemeral and sometimes not integrated with the rest of your application stack as tightly as you would want.
+
+[00:14:44] so I think, you know, from a monitoring errors problem, you know, if you have exception tracking turned on and you're generally doing, simple things like Oban's, like there, you're there already.but once you get into these like more [00:15:00] complicated cases, you really do need to think about what happens when the system fails in strange ways.
+
+[00:15:07] you know, things get um killed, things get niced out of existence. This job just like grabs a resource and hangs for the rest of eternity. Like these things do happen. Um, Erlang, the BEAM has a nicer story than Ruby, certainly in that situation, but, it's never good. Nothing is perfect. So, that's what I wanted to say.
+
+[00:15:28] Dan: One thing I think that I've seen get overlooked is, even when everything's working, and you do a deploy, And what is that deploy going to do? Is it going to wait for our queues to empty? Is it going to just kill everything that's in work? Is it going to wait a while and then kill things that are in work?
+
+[00:15:41] And could something legit be in work at that time? and I think I'm used to, going back to Sidekiq and I guess Resque days too, of like, you start your deploy with a quiet command to your background jobs. So they don't pick up anything new, but like, if your deploy is fast. And your cues are deep, or your jobs are long,you're gonna run up against that, and, thinking about not just when a job fails, or doesn't run successfully, what if a job's working fine, but gets interrupted, and then do you want it to retry?
+
+[00:16:11] Do you want it to be failed? What's, what's the deal there? And that's just not a case that I see considered all that often. and maybe because I do a lot of our ops and deployment scripts and things like that. I think a lot about, what will happen when this, when an update gets deployed?
+
+[00:16:25] Joel: Yeah. One of the products I was talking about, we had, I think it was five or 10 minute, limits on jobs, effectively. So our deploy process was, for each, we had enough capacity that We generally speaking, we're not going to be waiting for very long. Sometimes would be, so when we deployed, it would be like, okay, each of the background job, if each of the background boxes, let's wait until you've drained the queue that you're currently working on and then restart you and make sure we always have one available.
+
+[00:16:59] Dan: One place to put new things.
+
+[00:17:01] Joel: again, we had SLAs and like, we had to be able to serve stuff I think we were serving like 4 million, jobs effectively a month or something when I stopped working on this. So there wasn't downtime. We had European customers and, and West coast customers in the U S.
+
+[00:17:18] and it was, it's all it was all like back, backend system. So there's no downtime 
+
+[00:17:24] Joel: in that situation. So there wasn't a good time to deploy. It was just like, you had to have systems in place to be able to get your queues to a place where you could turn them off and then restart them in place.
+
+[00:17:37] So each queue had its own like workers and they each got restarted separately. So the super high SLA people got their thing started and all the people on the free tier got their thing restarted and they didn't care. They only had a minute timeout anyway, and all this stuff going on.
+
+[00:17:52] So it was a pretty complicated deploy process. but that's, that was specific to, to the work that we had and the, the stuff that we had to do.
+
+[00:18:01] Dan: Well, I think that highlights something important to think about. if you have a product that doesn't have background work and then you're going to add it in, it may be fine for you to deploy code and then,you know, just sweep through your load balancer, reboot things so that there's really no perceived downtime for somebody who's doing a web request, or maybe their socket is just held open while a process restarts quickly, like in the worst case scenario.
+
+[00:18:24] and we talk a lot about zero time downtime deploys, but I think, what you're saying really highlights that, once you have stuff in the background,there's just a lot more to orchestrate around that, especially if you have timing guarantees that you're trying to hit.
+
+[00:18:36] Joel: Well, we can talk about an even more complicated case on this product, right? it had an asynchronous, job executor and a synchronous job executor. So, there was the case that someone would be like, please give me thing. And we're holding a web socket open and a job is running. So we have to wait for both to release their resources before we can restart stuff.
+
+[00:19:00] So it was pretty complicated. I think we ended up solving that by, putting a lot of the synchronous stuff. I think we put the synchronous stuff like on its own server. And we would be like, don't take any more connections on this server, restart this one. So a deploy would take a while sometimes.
+
+[00:19:19] Usually it was, a minute or two, but sometimes it was whatever the timeout was.that's a really different case than,some other products I've worked on where you're talking about,some parts of the job processing infrastructure don't get restarted when you deploy. There are separate things written in a different language and restarting them has costs that are fairly significant, in terms of like latency and like all that stuff.
+
+[00:19:48] So that's another solution sometimes to the background, like deploy problem is just it's just a different,completely different system. It might use shared code or it might not. [00:20:00] Really depends on your use case, but,that can help a lot in terms of being able to safely deploy without worrying about your jobs exploding.
+
+[00:20:09] Dan: so you're just talking about like background jobs being an opportunity to maybe pull in a different stack, not have a shared code base. Like in there are cases where maybe that makes sense. In that case,would you then see that as another potential opportunity? Good or bad, uh, where a company could delineate a team boundary, right, of like, know, oh, we work on the React front end, and we talk over this API, and it's like, well, we schedule jobs with a queuing thing, and we don't think about how they're implemented as long as they obey the contract.
+
+[00:20:38] Joel: I don't think I've seen it broken down quite like that. I mean, there's definitely. team, microservices as team as a pretty common thing. And particularly in larger, it's not a thing at our company, but, in larger companies, I've seen that some,I don't guess I've seen. I think that's just like a symptom of where I've worked.
+
+[00:20:53] I haven't seen that, that level of boundary. I've seen a lot of I don't touch the front end and I don't touch the back end and,There's a river between us or whatever. but yeah, I can imagine that being a thing.
+
+[00:21:08] Dan: Yeah. I can only think of one instance where I think we did have Background workers in Go. And I forget if they were getting, if it was following, if it was Resque or Sidekiq, but I guess the job format was the same at the time. but there was some ability to, I think there was a Go library to basically create a worker, that would be able to join one of those queues and look just like one of the other workers.
+
+[00:21:31] We did that at one point, for the performance, for performance reasons on the data that was being processed. But like you said, for our, for us, it's always the same, generally always the same people. let's talk a little bit about like prioritization. You mentioned a lot about the SLAs and some things like that.
+
+[00:21:45] We talked a little bit about like resource contention. Something I feel like I've tripped over a few times and wondering if you have any thoughts on is job uniqueness and locks around various things. I don't want more than one of this job to run at the time unless it takes too long or, just like, and then there's all the difference of do I not want two jobs to run at the same time or do I never want two jobs even being queued at the same time?
+
+[00:22:08] Um, any, any particular thoughts around, job uniqueness or locking?
+
+[00:22:13] Besides avoid it. You've, congrats. you found
+
+[00:22:15] Joel: a hard problem, a trademark. yeah. Um, we had to do a lot of that onthis time series thing, because you couldn't have more than one job processing the same, data stream. Cause then you would get double entry and people get mad cause your data looks weird.
+
+[00:22:33] And your data is more expensive because we're charging for more metrics, et cetera, et cetera. So,it's,some of the solutions we've found were essentially like shared locks, that were enforced via some, some code in Ruby. I think it was all Ruby, uh, Ruby. And then the locks themselves were held in Redis.
+
+[00:22:57] So we'd be like, okay, I really gotta be the person that's working on this job.okay. I got the thing. Are we sure we're the only one there? Okay. Okay. I can start working now. so it was like that. And we had a lot of stuff like that in the system that just necessarily needed to be, uh, the only, the only
+
+[00:23:20] worker that could work on a particular thing, because if it was, if there was more than one, it had kind of super bad, it would cause really bad problem and you wouldn't go to space that day. to some extent there's,
+
+[00:23:34] there are solutions to that, depending on your like language and your framework that it might be easier or harder to pull off. depending on, and again, this has. Other issues too, like how big is your server, uh, farm or your serverless farm or whatever, but, you don't want to make two of a thing that costs like 10, 000 a minute to run probably, or like 10 of those, if it's important that you only have one, and the same thing if you're going to have user effects, like you really don't want to run more than one.
+
+[00:24:06] So it's a really hard problem to solve, particularly if you've never done. Like re entrant locking as a problem to solve for yourself. and I've, I've found, we did a lot of research on this project and there really wasn't anything in existence that we could just pick up. Cause it's a really like niche problem to have in general.
+
+[00:24:25] so we had to write our own stuff, which generally I don't recommend, sometimes that's what you got to do, like your special sauces that I really do need this thing, and it works. 
+
+[00:24:37] Dan: so I guess like on that kind of topic, right? Like choosing tools, when you're evaluating,you mentioned called out Oban as a good choice, you know, I agree. You've been through progressions of things, anything that makes things stand out. You know what I mean? You said Oban because it puts stuff in the database.
+
+[00:24:52] You may want to put it in there anyway, but.
+
+[00:24:55] Joel: I think mostly just go with, if you're new to this, go with the thing that the [00:25:00] community uses. Because there will be people you can ask questions of.I don't love Sidekiq, it's not a thing that I really like. I really prefer Resque, but Sidekiq won of the hearts and minds of the Ruby community.
+
+[00:25:14] and so that's just easier to get help with and there's paid stuff now for them and has been for a long time, which is how they find further development of it. I don't think Resque ever went that way. It's just always been OSS. so I liked Oban when I saw it just because cool, you've solved Like 99 percent of the time when I need a job system, like you've solved all the problems I'm going to have.
+
+[00:25:36] You store all the data that I want to look at to find out if things happened.you've got all these like stats built in that you're recording out of it. Like, I don't need to do anything to make this useful as a job system. And I think that's great. That's huge. and not how job systems used to be, um, uh, particularly in the Ruby world, they're better now, back in the oldish days they were not, and certainly thinking back to before I was in Ruby world, I was writing like, C# and Java and, other strange things.
+
+[00:26:09] And, having a job system at all was like, cool, you're doing that yourself. So having turnkey job systems is great. I think Oban's really nailed a lot of the details you need.I'm like, I've done a lot of job systems and I'm still like, this is like 99 percent of anything I'm ever going to want to do.
+
+[00:26:30] This is, I'm good. I don't need to do anything to this. Other than put work in database, go. Sure.
+
+[00:26:38] Dan: How about, um, security when it comes to using background workers? Anything in particular to, to think about there that maybe is different or? 
+
+[00:26:46] Joel: yes, you don't want to expose your job system to people without a lot of scrutiny, which easier said than done, I think. don't screw it up is not very good advice generally. but if you've got a button on your homepage or something that sends an email, don't do that, you're gonna eventually have a bad time, probably sooner than later, there's a big gulf between that and I've got a thing that happens when a user who's logged in and paid us like does something.
+
+[00:27:18] So generally job systems. May or may not be as scrutinized in some ways. So try not to put PII information in there, as a, argument to your job, if you have input files or output files, make sure that let's say you're putting in S3 or something like make sure that shit's locked down because you really don't want to have some accident happen where you expose where that S3 bucket is or that object is. And then suddenly you're like, oops, everyone has all my S3 data. Like stuff like that. It's just kind of normal stuff, but it gets really complicated when you're dealing with,it's any boundary you're doing in any application, but when you're doing boundary crossing, you really do need to be like careful about what the communication medium is.
+
+[00:28:11] so. Most jobs you have right, probably using a shared database,that's the shared resource. But once you get into like files or like I'm making API calls or I'm sending emails or whatever, you suddenly have a much higher possibility of exposing information you don't want to from your system.
+
+[00:28:34] So you need to scrutinize what's going into the job system the same way you would scrutinize, data coming from a web form, for example, like you really don't want to take,you don't want to take, Hey, please go read user or a ETC password as like a job argument, stuff like that. I think I'm doing like really simple examples, you, you don't want to, you don't want to.
+
+[00:28:57] A little bobby drop tables from a job as much as you don't want to from a form that takes in someone's name.so
+
+[00:29:04] Dan: yeah, it makes me think a little bit about if you have, if you're enforcing some sort of parameter thingat a controller level, you might be then trying to sanitize things as it goes to the database. And, in all likelihood, your database mapper on the background job side is also going to give you some protection, but you also, but you're also now serializing potentially user input across a whole nother boundary that maybe isn't enforcing or giving you those same protections that you're used to from your web framework.
+
+[00:29:29] and if you're changing languages or your background job is just running SQL, because that's what you need for performance, You know, now you have 
+
+[00:29:34] Joel: I,
+
+[00:29:35] I think we're talking like web apps right now, but there's like this whole other world too, where, we're not talking about, cause we don't really work in that day in day in, day out, but let's say you're in a bigger system, a bigger ecosystem, like internally. you've got this, let's say a rabbit queue, and people are putting jobs into that, taking them off, and also your data science people are pulling data in and out of that and putting that into your data lake.
+
+[00:29:59] And [00:30:00] then, other people are like doing things based on events coming through, including your job. So you suddenly, once you add more teams reading the same data, you potentially have a lot more exposure to bad things getting in there. So you. You do want to be careful about that stuff. And those systems often have, can sometimes have really high costs.
+
+[00:30:16] I was doing consulting maybe a decade ago, with some folks and like the data science, processing costs for anything that we put into their queue was like pretty high and we had connected that to things that were coming from the web. So we had to be really careful about each thing that we put into the queue for them Like we had a job that worked off of it, but it also went to them to deal with, cause they needed to respond to an event too. So when you start thinking about what are all the down systems or the down the line systems, particularly if you're the person doing the ingestion,there's really high costs and, high vulnerabilities there if you're putting bad data in.
+
+[00:30:52] Well,
+
+[00:30:54] Dan: Yeah and I don't think I've ever encountered this in like a real project, but I could see a, potentially scenario, especially if you have high latency that maybe is, either a feature or not a bug, right? that where at the time it was enqueued, it was valid and allowed and authorized and maybe within budget or, whatever your constraints are, but by the time it runs.
+
+[00:31:14] Those things may not hold, and maybe running it once those things are no longer true is now particularly problematic because you're going to go over some sort of cloud allocation budget, or cost budget, or, maybe a user account was removed because of fear of malicious whatever, and, the job was enqueued before that, but now it's going to run after.
+
+[00:31:35] Yeah, just a whole lot of now I have to take my entire system and think about it stretching out over time. Is, can be a whole nother rabbit hole of, pain.
+
+[00:31:43] Joel: Well, we can think about that from like an Amazon, like overages or any overages, system I worked on. You can enqueue essentially infinite things at once, right? not essentially, but there were hard limits, but you could just, you can just enqueue things and depending on fate, we might do two or three of those and then have two or three in the pipe.
+
+[00:32:03] And each one of those had a different cost depending on where in your month usage you were. So, the first one you enqueued might be run 10 seconds later. And the second and third and fourth ones might do now and be done. And they cost a penny. And the first one you did costs half a penny. and if you think people won't fight you about a nickel, they will.
+
+[00:32:24] if particularly if it's enough nickels, so yeah, getting that stuff right is, it's super difficult and you've got the item potency problem where eventually what you end up having to do is you have all these like checkpoints in your jobs. Where you're saying, okay, what's, what's, what's happening now.
+
+[00:32:42] Have I hit a limit? Should I stop? Do I, here's where I'm going to charge people. Okay. Here's where I'm going to check again if we're done. Okay. We were okay. Don't charge them cause they couldn't pay for it. You have to roll all this stuff out and there's a bunch of like error handling. this is a very complicated case, particularly when you're connecting something to like a dollar amount, Amazon's like The monarch of this problem, they connect everything to money.
+
+[00:33:09] So whatever their framework is for dealing with money and in work, they've got it, they've got it connected. But, this is a real thing. if you have something that charges by the use, and it changes for whatever reason, coupons or day of the month or whatever, uh, usage to date, like you're going to run into that problem where Two things are happening at once.
+
+[00:33:34] And one of them has a different, like different price. You can not solve it. And then someone in an accounting problem, accounting department is going to be like, this was only supposed to cost 5, 000, but it costs 10, 000. What's up?so don't do that probably, but you 
+
+[00:33:50] Dan: not a call
+
+[00:33:50] you want to get. Yeah,
+
+[00:33:53] Joel: so yeah, it's a real, it's a real problem.
+
+[00:33:55] basically once you enter into multi, multiprocessing, you have A whole host of problems that you don't have if you're just, I got a web request. Here's the result.
+
+[00:34:06] Dan: how about testing?
+
+[00:34:08] 
+
+[00:34:09] Joel: Yes, we should do it.
+
+[00:34:10] Dan: We should do it. But now we have stuff happening in other systems, and I don't know. do you integrate it? Do you just test the job in isolation? Tell me about testing.
+
+[00:34:23] Joel: Uh, very particular to the job, very particular to the system. Generally speaking, you want to be able to set up the job to run as if it was semi real, right? So, that might mean here's all the things that I know the system As like context can be when this job runs, that might be, here's all the like weird stuff that can happen with the job that it can take if it's a, if it's a,a job with variations, let's say.
+
+[00:34:57] 
+
+[00:34:58] Joel: a thing that [00:35:00] maybe you're not asking, but I think is relevant is, testing deploys. To make sure that, when you change your jobs, that you didn't like screw up and make it bad, or if you intended to make it better that you did.so having that, having monitoring place is really important for jobs.
+
+[00:35:21] Just even if it's basic stuff, even if you're like in an Oban situation, even if you're like, here's the query I need to run after I deploy to make sure that this particular kind of job didn't tank this month. 
+
+[00:35:33] Dan: Sure.It makes me think about the thing I've definitely tripped over that is really easy to overlook, of I'm going to iterate on what this job does, and I'm going to change what it needs or what it cares about.
+
+[00:35:45] And I'm going to change
+
+[00:35:46] its parameters, maybe, or what its parameters mean.
+
+[00:35:48] And then you do a deploy, but you had a bunch of those jobs still in queue with all the old information. It's what is that going to mean? Hopefully they just fail. Maybe. 
+
+[00:35:56] Joel: Well, sometimes they can't fail. Sometimes you need to have a shim on that job and you've got a second job that you name particular way that takes the old thing. And then you've got to do this old three deploy swappy on your jobs. yeah, hopefully your jobs are not as, as rigorously, not rigorous like that, where you can fail one, but sometimes you can't.
+
+[00:36:16] Dan: Yeah.
+
+[00:36:17] Joel: Yeah, how many times have I tripped up on, oops, I added a new parameter and forgot to add the shim, like more than two,
+
+[00:36:25] Dan: Yeah.
+
+[00:36:26] Joel: uh, this is a problem and, you know, testing, testing can do that, like particularly if you've got, to bring it back to your question, particularly if you've got solid, like input cases, if you're, if you've got a semi reasonable, likeview process on your software.
+
+[00:36:45] Like you'll see, okay. I changed, I had to change this task because it's like the parameters changed for my jobs, for them to run. Oh, well, did we do the thing over here?and you can automate that to some extent, but that's just a, if you burn your fingers enough times, like hopefully your team will know about it and catch it.
+
+[00:37:05] And you've got someone who's keeping that in mind, if you do it. Very irregularly, which is I think the case for a lot of jobs.
+
+[00:37:11] Dan: Mm hm. anything you're seeing in communities you're part of, the future, anything you're excited about, or we're just, we're gonna stick with Oban and Elixir and feel good for a while.
+
+[00:37:25] Joel: I just don't have a good pulse on, on a lot of this stuff. I know I, I read Redis is going, dual license. Again, they're going to do some weird licensing stuff. and they're open source. One is. Still going to be around, but also they're going to have a paid, I don't know, there's a mess there happening.
+
+[00:37:45] I don't actually know if, is it Salvador? That doesn't sound right. There's a dude that like wrote Redis initially and I don't know if he's still involved, but 
+
+[00:37:54] Dan: hm. Mm hm. Mm
+
+[00:37:56] Joel: that affects like Resque and Sidekiq. Sidekiq continues to add new features to their like, pro thing, which is cool, cause I would've told you Sidekiq was like, complete a decade ago, but they keep going and adding new stuff, which is cool.
+
+[00:38:15] and yeah, I think Oban, they have, Oban Pro is really neat, and I look forward to having, The ability to use that on a project at some point, cause it's got a lot of features that are nice.I don't keep up with it. I think every time I look for a feature that I am like, I could do this in an hour, but what if it's an, oh, it's in Sidekiq Pro, so I usually just end up doing the hour version, which isn't probably as good, but, I would like to like to support them.
+
+[00:38:39] So I don't know anything. I don't know any other that's like Ruby and Elixir, like what I pay attention to. So. I don't know what anyone else is up to.
+
+[00:38:48] Dan: Yeah. so if, if anyone has made it this far into the podcast and they're like, I think some of my real slow web requests could benefit from some background jobs or, I really just, I want to make my life a little bit more complicated with some background and asynchronous processing stuff, where do you think they should start?
+
+[00:39:03] Joel: Uh, same advice I used earlier, use something off the shelf that seems like popular in your community. If you're in Ruby, then go to Ruby gems and just like search for people. Probably job. and just take the thing that's been downloaded the most. Same thing with Hex. I think there's, I think Hex has download numbers, if you're in the Elixir space, if you're really into it, go read the source for those and then go do your own job system.
+
+[00:39:31] Or if you need something that's lighter, Particularly in Ruby, I would say delayed job is at least used to be pretty, it was like pretty small and pretty easy to understand because it was just like a busy wait loop on a database table. It's probably more complicated now cause it's been a long time, but, it also used to not work very well, which it was pretty simple, which makes sense.
+
+[00:39:54] Like it just didn't have a lot of error. Situation handling.I'd say if you're in Elixir [00:40:00] or Erlang or whatever on the beam,I guess it's an Elixir thing, but task, you could just use task, which is like a very lightweight sort of job offloading thing in Elixir. It's built in. and it's the thing you'll run into in the Elixir, documentation if you work through their tutorials and stuff.
+
+[00:40:17] And if you don't need the monitoring, if you don't need. Like I have a job framework and you don't have a database, for example.pretty great. And I think the beam has amnesia and ETS, which, slightly shocks are not the basis for any like super simple, fast job systems. Maybe they are, and I just haven't seen them, but I couldn't find any.
+
+[00:40:39] I looked a little bit before this and didn't see anything obvious, but I am bad at searching. So. Or maybe I was bad in this case. so I'm shocked there's not like a popular Amnesia job system. cause Amnesia is like really cool. ETS is also really cool, but probably not appropriate for a lot of job systems.
+
+[00:41:03] yeah, that's where I'd start. Oban, Sidekiq, Task. There's some stuff in the Ruby standard library that could also be used in the same way as Task, I think.
+
+[00:41:14] Dan: Excellent.so as we, uh, start to wrap up our office hour here, anything that we didn't hit that you really want to share or you think is important for our audience to know about doing work in the background?
+
+[00:41:26] 
+
+[00:41:27] Joel: Let's see, we talked about monitoring, and we didn't talk about logs. Gonna want to log those things, which is sort of like monitoring, but not really. we did, we talked a little bit in terms of war stories about the arguments to jobs, keeping those simpler tends to work out better.
+
+[00:41:45] Dan: I'd say another thing that I think is good is like any software, keep your jobs as small as possible.
+
+[00:41:53] Joel: Keep them to the thing that they're doing, which is like knowing what queue they should be in and like what, they need to talk to, to accomplish their work and handle their errors. And then nothing else. Don't do the work in the job. That's really easy to hang yourself up on if you're new to programming.
+
+[00:42:11] It's just, I put everything in the job and now I've got a big mess of concerns.
+
+[00:42:15] Dan: and I'll say, we didn't talk about this, but cron is a job system you can use. So,
+
+[00:42:21] It totally is.
+
+[00:42:22] Joel: I use cron when it's appropriate. because it's, I, it may be one of the most battle tested job systems in existence, if not the most battle tested, probably not the most, there's some mainframes that probably will put it to shame, but, I don't know enough details about that to talk smart about it.
+
+[00:42:41] Dan: Fair enough. Alright,thanks for your time talking about background jobs. Any final plugs, asks for the audience, anything you want to make sure, attention is drawn to?
+
+[00:42:52] Joel: yeah. I will say the Miami Indians of Indiana are fundraising for repairs to their tribal complex. they're at miamiindians. org. And if you want to read, silly Tumblr stuff, I'm at joelmeador. tumblr. com. And I don't do much open source stuff, but there is a GitLab link there.
+
+[00:43:11] Dan: Awesome. Well, for your time and it was great chatting about background jobs.
+
+[00:43:16] Joel: Thank you for your time. Bye. 
+
+Dan: Elixir Wizards is a production of SmartLogic. 
+
+Owen: You can find us online at smartlogic.io and we're @SmartLogic on Twitter.
+
+Sunday: Don't forget to like, subscribe, and leave a review. 
+
+Dan: This episode was produced and edited by Paloma Pechenik for SmartLogic.  
+
+Sundi: Join us next week for more Elixir Wizards Office Hours as we deep dive into another aspect of the software development lifecycle. 
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
+
