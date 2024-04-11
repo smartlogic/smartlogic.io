@@ -1,0 +1,392 @@
+S12E04 Whose Tailwind is it Anyway?
+===
+
+[00:00:00] Sundi: Welcome to another episode of Elixir Wizards,
+
+[00:00:14] Dan: a podcast brought to you by SmartLogic,
+
+[00:00:16] a custom web and mobile development shop.
+
+[00:00:20] Owen: Office Hours, where we invite you to step into our office for candid conversations with the SmartLogic team about everything from discovery to deployment to the magic of maintenance.
+
+Owen: Hey everyone, I'm Owen Bickford, Senior Software Developer at SmartLogic.
+
+Sundi: And I'm Sundi Myint, Engineering Manager at Cars Commerce.
+
+Owen: And we're your hosts for today's episode. For episode four, we're joined by Ava Slivkoff, Product Designer at SmartLogic. Welcome to the show, Ava.
+
+[00:00:29] Ava: Hi guys. Thanks for having me.
+
+[00:00:31] Owen: Long time no see. In this episode, we'll discuss the design stage the software lifecycle. embrace the designer's point of view, and we're going to explore how engineers and designers synchronize and how we ensure seamless collaboration so our final product reaches its fullest potential.
+
+[00:00:50] hey, Sundi. Hey, Ava. I know, just to kick us off, Ava, you've been, you're not only a designer, you've been, working towards some extracurriculars. You wanna talk about that a little bit?
+
+[00:01:00] Ava: Yeah. I have, in addition to working as a contract designer, I've also been pursuing, working in the fire department here in San Francisco. So been going through all my certifications for EMT, physical fitness, there's a written test that basically tests, can you handle yourself in certain situations, and remember things and situational awareness and that sort of thing.
+
+[00:01:29] but it's been really cool. It's been really cool to have that as an outlet in addition to design. Oh,
+
+[00:01:37] Sundi: I mean, Owen, you clearly knew that, but I didn't. So that's so fun. I also kind of wish Dan was here as like our other resident EMT person or has in the
+
+[00:01:46] past.
+
+[00:01:47] Ava: I kept it under wraps when I first started doing it. Cause I'm like, I don't know how the company is going to react to me pursuing this on the side. It's like, I set up my schedule so it didn't take away from anything. So I didn't really have to share it. And then we had an offsite and I divulged that and then Dan was like, Oh, I used to be pursuing so and so. And so actually it's been really cool because there's this extra understanding of what that process looks like. And The time and the spend that you need to have to work on those things. Cause the physical fitness part of it's pretty intense, but also the amount of knowledge that you have to learn, you have this like medical side to it, which like 80 percent of your calls are going to be medical.
+
+[00:02:36] So you have to do med school- nursing school lite within my program was 10 weeks. And then you also have all of this fire knowledge that you have to learn about different nozzles, different types of building structures. and it's cool. There's, there's some things in weird ways too, where I feel like the way that you analyze situations and you figure out your whys, or you look at all your pieces of a whole in a weird way, it relates to design, especially like building structures and that sort of thing.
+
+[00:03:08] so it's been cool to see how, I don't know, just life experience bleeds into other pathways that you pursue.
+
+[00:03:17] Sundi: Yeah. Oh my gosh. Super want to get into that, but I do want to just like comment that yeah, SmartLogic has always been very supportive of extra curriculars. and I remember side project club being really fun and helpful. And I actually went back to professional figure skating during my time at SmartLogic.
+
+[00:03:32] I like both unretired and re retired in my time at 
+
+[00:03:36] SmartLogic. I was like re retired? Yeah. Yeah. 
+
+[00:03:39] So that's really fun.
+
+[00:03:41] Ava: I'm now imagining you on a pair of skates and doing cool, cool little twists and turns. I don't know any of the moves, but
+
+[00:03:49] Sundi: Twists and turns fine. 
+
+[00:03:51] Ava: imagining just like a Sundi stick figure with your face popped on it and some skates. Yeah,
+
+[00:04:00] I've been scooped up by paramedics once or twice and carted off to a hospital. So I deeply appreciate anyone who is an EMT or training to be an EMT family members of EMTs. Yeah. So you're doing very important work and it's not all in Figma. no, it's cool. It's also tech is so nebulous, and so its own thing. It's nice to have something that feels like it's actually part of the community in which I live and work and interact with, because in a lot of ways we get caught up with tech and it's nice to get back to, you know, leading with empathy, not in the way where you're, product motivated or bottom line motivated.
+
+[00:04:44] You're just people motivated. And yeah, it's really refreshing to have that balance. And it makes, I don't know, I feel like we all get to that point in tech where we worked in it for long enough. I've worked in tech for I don't know, almost 10 years now. And that's something that I've always wanted more of.
+
+[00:05:03] And it's funny that it's taken me this long to get there. But at the same time, I love all of the phases that I've gone through thus far to get here. And surprisingly, a lot of paramedics, a lot of EMTs, a lot of people in fire pursue it in their 30s and even into their 40s. I know some people that get hired at 48 in the department.
+
+[00:05:26] Just depends on who you are, what you bring to the table and like how well you can perform. and I don't mean to talk too much about fire, but,it's just, I really like this point in my life where I'm at, where I feel like it's balanced and it's, it's really nice.
+
+[00:05:41] Owen: You know, what's fire is working with the designer. Hey, so, uh, yeah, so I think, right. I think if, if most of our audience is probably leaning more engineering, you know, probably a lot of Elixir engineers, maybe some Elixir curious engineers.I would expect that some of them work with designers. They might have different levels of awareness and interaction with those designers.
+
+[00:06:08] and then some of them maybe just don't or haven't ever worked with a designer. So I'm curious if you could give us kind of like a lay of land. What's the overview of what does a designer do?
+
+[00:06:18] Ava: uh, that's a very big question.I think that what I would follow up with is that designer is such a broad term. And there's so many different types of designer that you can be. For example, I started in production and I started working in Adobe, throwing people's faces with thumbnails over it. And you could still consider that I was a designer then.
+
+[00:06:48] And as I've gone through my career, I've gone more into product, but I've also touched on like marketing. I've touched on. graphic design purely, like doing logos, illustrations, that sort of thing. And so there's a lot of different design buckets. And I would say that in the current bucket that we're talking about, which is product design, I would say a lot of what we do is we aren't just providing visuals of what the product is going to look like, but we're also trying to solve the root problems of things. And we're trying to create an understanding of,I want these three things, but none of these three things are actually going to solve my problem. My problem is actually this, and the solution is going to look closer to this, but over time it's going to solve those three things.
+
+[00:07:43] So it's figuring out what the root problems are, and then figuring out the pathway of how we're going to get there. And the best clients, I would say, are the ones that welcome that journey of that this is going to be like a multi step process to get there. and that's why we have iteration.
+
+[00:08:02] Iteration is so important. you're not going to solve your problems all right out of the gate. It's probably not going to be looking very cute the first couple of passes that you have. it's not going to have all the features you want, but really getting down to that MVP, I think is the most important.
+
+[00:08:18] And I think that the journey of becoming like a junior designer to a senior designer was really when I could look at a situation and really figure out what that MVP was. I feel like when I was more doing more junior work, it was still so hard to be look at all of these like piles of problems and features and hear what the client really wants.
+
+[00:08:45] And you just want to do what the client wants. But at the end of the day, the MVP is going to solve that problem. so in short, problem solving is what we do. And then, you know, at the very end, we can make things look really good. And, if there's enough budget for any project, you can make it look good along the way.
+
+[00:09:06] But that's not usually the case. So 
+
+[00:09:09] Sundi: speaking of that, like we, we just had, the last episode we were talking about discovery and just the process of getting to know a client and figuring out what are the project requirements? What is the end goal? What is the client looking for? What are their needs? how does design rope into that discovery process, but also like where does your job, where does your role, come into the project planning process?
+
+[00:09:34] Ava: so I primarily worked the last five out of the 10 years as a contractor. so I've been design and project planning and managing the contracts and the PRDs and that sort of thing. And so I would say from my perspective and my experience. I like to be involved early with the client because I think the foundation of any successful project, is going to be the connection that you have with your client and truly understanding what motivates them, and connecting with them.
+
+[00:10:09] And if you can get in the room with the client, that's always best because body language is everything. You can read people's response to things. You can ask them questions. see if they cross their arms. and so I personally like to get involved early and I like to ask them more broad questions of, you know, so what motivated you to reach out to a development team for this solution, or why do you also feel that you need design and dev on this product or, let them lead the conversation and as they leave, little breadcrumbs dive a little bit deeper into them, but that first meeting stays super, super broad.
+
+[00:10:52] And then you can present the client with, you know, you can either go through pathway A, pathway B, pathway C. and so I think that it's a process of chipping away slowly. and I would say that in a more traditional way, the way that design incorporates to project planning is looking at the product potential. I think a lot of times clients know they want something and they have no idea what that's going to look like and that's that's not a bad thing.
+
+[00:11:26] It's just a lot of people are visual people, but if they've never seen it before, they don't know what it's going to look like. So I think that when design can get involved early, we can communicate what best practices are, what the pros and cons are. Like, hey, I know you really want this, but just so you know, like that would contradict this later on.
+
+[00:11:49] maybe we should figure out a solution that's long term. So I don't know, I think it just makes for a more rounded product when they're involved early. and also just educating the client on, you know, the potential of what that product could look like.
+
+[00:12:05] Owen: Is a designer's work ever finished? how do you know when it's done?
+
+[00:12:10] Ava: Is a dev's work ever finished? I 
+
+[00:12:13] Sundi: Ah, she clapped back.
+
+[00:12:15] Owen: yeah, yeah, when the tests pass. 
+
+[00:12:16] Sundi: Yes, when the test pass.
+
+[00:12:17] 
+
+[00:12:18] Owen: Yeah, nothing ever goes wrong after the tests pass. Yeah, you open the PR and it's not your problem anymore.
+
+[00:12:25] 
+
+[00:12:26] Ava: Yeah, I don't think it's truly like you're plating a dish of food and then you hand it to the person eating your food and you're like, there, it's done. it's never that way. It's like, I don't know. It's more for a product that you're working on continually. It's more like you're trying to master sourdough. Sometimes like your yeast starter doesn't come alive the day before and you're like, what the heck? I need more flour or I need more water. that is two degrees different. I don't know. I feel like it can continue as long as you want it to continue. 
+
+[00:13:02] Owen: You mentioned earlier, when we were talking about EMT stuff, structures and buildings and comparing notes between the two. I think that's a good metaphor here because, you know, I think you would expect that a building is done and finished once, the last nail or the last batch of concrete is dry or whatever, or like the paint on the walls is dry and people have moved in.
+
+[00:13:24] And that's true to an extent like that phase of, development is over, but then, there will be maintenance, there will be modifications, and there will be, people are going to have problems with the way things were done. So they want to make changes. and so this is, it's just, the work really does never end and it's not just in software.
+
+[00:13:41] Ava: It's, you know, it's in the real world too. Like that, these types of things just can go on forever because, you know, we, we need different things over time. So,To that construction metaphor too, you think about, you might see a new suburb that popped out of somewhere and you're like, these houses are so nice. And then I've seen a lot of videos that have popped up on my Instagram feed where a building inspector will come in and will look at those new construction homes up closely and they're like, this roof isn't even sitting on a joist.
+
+[00:14:12] What the heck? Or like, you know, they'll go and test the sink and there'll be a leak in it. So I think that it does also resound with us talking about like a product too, because sometimes products will look really nice on the outside and they have a whole lot of bugs, a whole lot of holes, a lot of things that don't work.
+
+[00:14:33] And then sometimes you have-- have you guys seen a courthouse and how they're just made of just concrete? It's called like, brutalism. Like, then you have these structures that aren't necessarily the most attractive, but they fulfill their purpose. People meet in People meet in a a courtroom and do stuff. 
+
+[00:14:51] Sundi: yeah, I was having a conversation with one of my previous co workers from like years ago about how in Elixir land we like to make fun of other languages sometimes, in jest, with love. But, you know, talking about, oh, Java is old and we never want to write it, and that can still be true.
+
+[00:15:11] But my friend did point out that you can write decent, perfectly fine, well functioning, efficient code in Java. It's possible, It's, you know, you can do that with most things. You just have to plan it well. and you do think about legacy software sometimes, and it can be old and long standing, and it's still working out fine.
+
+[00:15:32] And you mix Phoenix.new on something and have a new Elixir project, and you can pretty much introduce a bug immediately. We have done it before. I've seen it before. yeah, the new construction versus old construction. Well, we can't get into that, because I have an old house, and I love it to death, and I have only heard bad things about new construction, so we can't go there too far.
+
+[00:15:55] Owen: Yeah, and when you mentioned Brutalism, I'm in Dallas, currently. one of the most iconic Brutalist buildings was featured in RoboCop.
+
+[00:16:05] Dallas City Hall. If you go and Google Dallas City Hall, it's still there. It's still just as brutal looking as it was, 30, 40 years ago, whenever it was built. 
+
+[00:16:15] So, yeah. We can tie that into aesthetics. Design, engineering and, everything else changes over time. we'll kind of focus on web design. I think, Are there patterns that you've seen in your career as a designer, trends that have changed, things that have come and gone or come back around?
+
+[00:16:32] Sundi: Tell me the clicky mouse is coming back with the trailing, spiraling, sparkly thing.
+
+[00:16:39] Ava: I do not mind a little bit of flare as long as you can turn off the flare if you don't want the flare. don't force me to have flare if I don't want flare. that is such a broad question that I don't have an answer off of the top of my head, and, but what I will say is that deciding on an aesthetic is easier said than done.
+
+[00:16:59] building a design system from the ground up before you start a project is easier said than done. Again, the clients don't know what they want. Most of the time, nine times out of ten, clients don't know what they want. They don't know what they look like. They also don't know what's broken about their current system, their current, what's it called?
+
+[00:17:22] Sundi: Branding guidelines.
+
+[00:17:24] Ava: Yeah, their branding guidelines. Like you look at some of these older companies logos, And there's gradient or shadowing that's just not going to hold up in certain environments. And they're like, listen, we want the logo to be like, we want it to click and we want it to do this thing. And this thing is going to come out of it.
+
+[00:17:45] And it's like, okay, well, you understand if you do that, it's going to have all of these conflictions. You can't necessarily layer it over this content because it's-- it's too wide. You have a horizontal logo, you don't actually have one that's just a logo mark, all of these things. So aesthetics are easier said that done. And then don't even get me started on if a client doesn't know what colors they want in their branding or in their products, or they don't have strong color language in their current branding guidelines. That can be really difficult. And what you get into is as a designer, as developers, we can make things look good based on our own perspective. But when you provide a client with solution, then all of the stakeholders are going to come together and chip through them and be like, okay, well, this person really likes this shade of orange, but this person really likes this shade of red.
+
+[00:18:46] And so like, what if we did something in between and it's really tough because sometimes you can get into the client solutioning things to try to accommodate for all of the stakeholders and you have to play, you have to play your cards really smartly because you don't want to agree to something where, I had a client choose a shade of orange in the past where it looked like an alert.
+
+[00:19:15] But they were like, no, it's not alert, it's, it has this other purpose. And I'm like. Okay, well, in the world of the internet, and I said this much more delicately, but just in the world of, of the digital world, when people see orange or red, they have color associations. They're going to think something's wrong.
+
+[00:19:35] So how do you talk to your client, convince your client, Hey, I understand you really like orange or red, but perhaps we go with this yellow and then have a contrasting blue or something like this. so aesthetics are easier said than done. And then when you get to design systems, you have basic patterns that any good design system has.
+
+[00:19:58] And typically clients won't want to pay for you to build out what every one of those instances are from the beginning of the project. Sometimes you can use open source design systems, which are really, really helpful. I know Tailwind also has,we talked about this, Owen, where there's Tailwind UI versus Tailwind CSS.
+
+[00:20:21] So they, they also have some components that are built. It's really nice when you can use the ones that are built and you don't have to think about it. but again, you have to figure out what your like spend is with the client. And if. if I don't need this pattern, why would I spend the time on it at the beginning of the project?
+
+[00:20:37] Sundi: That is exactly what I wanted to ask you about. So you were talking about... at the beginning of a project, client might not know what their, their design patterns, components, color branding, all of that might look like. That's not to say that the developers can't get started on the basic, uh, rudimentary login, authentication, all of that stuff, and Phoenix ships with Tailwind, and so I know that it's pretty easy to get started and just start building out with some Tailwind components, and then tweaking some things here and there to be able to make it a little bit more in the style of the client brand, and if it's It's internal facing to the client, so like an admin software that the client's going to use and not necessarily something that they're putting on the internet for the whole world to see, so it doesn't matter if it just looks like a Tailwind app.
+
+[00:21:23] what are your thoughts on that? I know there are controversial opinions from designers about like, oh, do I want it to look like Tailwind or not? What are your thoughts there? 
+
+[00:21:32] Ava: I would say the perspective that I've taken, or I guess the approach that I've taken to design. So I'm, I'm self taught, which I think is the foundation of my approach for a lot of things where I love rules and I love foundations. And then sometimes, when you're in the real world, you don't have all of the time in the world to do all of the steps that you should, like go through your weeks of discovery, do your wireframes, do low fidelity, medium fidelity, high fidelity.
+
+[00:22:08] So there are some times where you, you're not necessarily fully skipping the steps, but you are moving forward with the process if I was to do the next project with a company who I had been working with for a while, I knew the team, I knew everybody's abilities, I would be perfectly comfortable with skipping steps and moving forwards.
+
+[00:22:32] I think that it's really tough when you get a point of contention between design and dev when everybody doesn't know everybody's abilities. or there isn't that trust built up. And for example, I know pretty much at this point what I can give Owen and I know what he's going to execute and how he's going to execute it.
+
+[00:22:52] And then I'll know at what point that we need to discuss and go back in. And he probably knows the same for me too. but if I don't know you and I'm coming in here, I, I don't know if you've worked with a designer before. I don't know if you take padding considerations. I don't know if you know how to use DevMode in Figma.
+
+[00:23:11] so I think that knowing your people is really important in order to skip those steps. And then also, if you want to talk about efficiency and having your foundational components for a design system, I think there are always going to be 20 different types of components that you need for every type of web project. You, you know, you're going to need a button, you know, you're going to need a form field, you know, you're going to need a dropdown, you're going to need a select of some sort, multi select with checkboxes,
+
+[00:23:44] Sundi: And radio buttons, oh, 
+
+[00:23:47] Ava: radio
+
+[00:23:47] buttons. Um, and it's, I think that one thing that's been really interesting working with SmartLogic on this last project, and I've never worked as in depth with Tailwind as I have with this current project that we're working on.
+
+[00:24:03] But I wasn't aware of some of the limitations based on the environment that we're in, until we've really gotten to the nitty gritty. And I'm like, okay, that makes sense. We're limited here. We still have these capabilities. But it's not going to be one to one of how this design is going to function, unless we want to, again, like spend is always a huge, huge thing to think about for any type of projects, whether it's this project we're working on now or 
+
+[00:24:32] Sundi: Anything is possible.
+
+[00:24:34] Ava: yeah.
+
+[00:24:34] So if we wanted to, we could, we can make whatever you want possible. That's the same with dev as it is design. but yeah, I think knowing your people and just knowing, Having history of building products and knowing the like 20 components that you always use, those can absolutely get started ahead of time.
+
+[00:24:58] And then as long as your team is also okay in going back and it'd be like, okay, now let's modify the UI a little bit to match this aesthetic that the client has agreed upon. Um, and then pathways and user flows is something. that I think gets overlooked a lot of the time.
+
+[00:25:17] And I think that if your product is complex enough, it's really important to spend the time and getting your user flows right. They don't need to be aesthetically the best thing ever if they're just going to be internal. But I think that having a internal understanding of what your pathways are makes or breaks a good product.
+
+[00:25:40] All of it.
+
+[00:25:42] Owen: Yeah, I think user flows help, especially when you're, In uncharted territory, you're like, I need to know, where do I even start?the user goes to the homepage and then what? And then you're constantly asking, then what, then what, then what and what if this happens or what if they do the wrong thing?
+
+[00:26:01] And so those user flows, I think, we've been factoring those in more on some recent work and those have been helpful and the more people we have involved like getting those kind of fleshed out has been helpful as well. The, I think that just to drill in a little bit about what you mentioned with the Tailwind stuff is, so yeah, we're talking about, I think, Tailwind UI.
+
+[00:26:25] So like we, we use Tailwind CSS that's baked into Phoenix. It has been for a couple of years now. I think, we get some kind of primitive components,in Phoenix. I forget which version of those kind of landed, but I think those were, Roughly copy pasted from Tailwind UI, there were the most basic types of components, so there's, form inputs, what else do we have in there, like a very simple data list, there is a modal implementation, but there's also a lot of, uh, constraints within those components.
+
+[00:26:58] And, uh, they're in, in elixir terms and Phoenix terms, they're functional components, which means they don't have any state. You just tell them what, what data they need at the time that you render them.and then you like, basically what they're doing is they're encapsulating a bunch of styling so that you have a generally repeatable component that appears the same across a bunch of different uses.
+
+[00:27:20] One pain point that we've encountered is that there are elements in Tailwind UI that, you could copy and paste into a React project, or maybe even a Vue project because they, they write all the JavaScript that you need for these interactive things that do maintain their own state, and to rebuild those with Phoenix LiveView, it's entirely possible, but it's not free.
+
+[00:27:47] So like it, it's always a question of priorities and like, what. what can we get, it's not what can we get away with? But like, what's the bare minimum thing that we need to build the kind of the core feature. And then is there a process we can follow to upgrade things and make them a little bit more tailwind yui, Tailwind-y, tailwind yui, uh, you know, and right, 
+
+[00:28:12] Sundi: Inventing 
+
+[00:28:12] Owen: think of any, yeah. So like the multi select, we went, we literally had, I'm sure, several conversations about multi selects. And I think this was kind of a discovery process of I don't think I was fully registering where the expectations were coming from. And then, there was just kind of like a two way conversation that had to happen about, here's what we would love to see in our multi select, and then here's the amount of work it will take to get it, to actually do that.
+
+[00:28:40] it's not even probably weeks of time to build something like that, but, those things tend to get pushed down the list of priorities. So there's not a question there. It's just, 
+
+[00:28:52] Ava: No, it just is. 
+
+[00:28:53] Owen: It is, it is what it is. Right. 
+
+[00:28:55] Ava: and I, I feel like too is, is whether you're doing development or you're doing design or you're working with a client and you wanna build a relationship that's gonna last through multiple quarters. You want to always, if you like what you do, that's the caveat, but you always want to build something that you're going to be proud of, right?
+
+[00:29:14] This is like, if, if you are invested in your work, you know what you're capable of and you want to show your capability. And you also know that, Hey, if I had unlimited time and spend on this, we could make this really cool. And it could make a difference and it could do all of these things. And. I just feel like that's adulting, that's humaning of just knowing that you can't have it all.
+
+[00:29:44] It's so frustrating, but at the same time, it's very real. It's very normal. That also applies to life. And I find myself, when I find myself going down a rabbit hole of I would really love to do these 12 things for this client, but we just, we really don't have the time. Then I have to not only try to solve their problem, I always like to, I think you mentioned Owen earlier of what can we get away with.
+
+[00:30:11] But I don't think it's a, what can we get away with, but where can I add additional value where I can that I'm going to still be proud of this product and the client's still going to be happy with it. And we're all going to go home and sleep, well at night. I
+
+[00:30:28] Owen: thing you mentioned was investing in building up some components that we know we're going to need across multiple, not even within an application, but across multiple applications.so this is something I've toyed around with. Um,once I ever have time to work on it, I will, and I know we've got some people on the team that will have a lot of important feedback and input.
+
+[00:30:52] You can help build this stuff, but yeah, I want to build up, basically a SmartLogic set of components, right? So that we can have a fancy multi select that's been implemented and then we get to customize it in XYZ client applications, that kind of thing. Like tables, oh my god, tables have been a challenge because we took at least two different approaches and then eventually we started just slinging raw HTML code for tables.
+
+[00:31:19] And it's been okay. Like it's, we can get things out the door quickly, but you know, if we decide we want all of our tables to follow a pattern,or a style that we've got to go through and,that will be a big lift.
+
+[00:31:33] Sundi: You are a good table slinger, Owen. You do a good job. You make a mean table.
+
+[00:31:38] Owen: You know what? Sticky headers is, it is a skill. It's a skill I'm proud that I have, and I have developed not only the top cells, but the, side cells, the number of steps you have to do because there's, and I was just, this is fresh because I was working literally on a table that does this yesterday.
+
+[00:31:58] so just the way that CSS and tables work. Especially when you apply sticky on things, the borders disappear when you start scrolling. So you have to use shadows to make them look like borders. And then, you have to wrap, you can't wrap the table in a border, you have to wrap the element around the table in a border.
+
+[00:32:19] It's just, it never ends. There's 
+
+[00:32:21] Ava: just having a conversation with Harper about this yesterday of, you know, If we were to go back and redo our tables, I would love to make everything super light, not use as many shades, not use as many borders, not use shadows, because it really just pulls away from the information that you're trying to view.
+
+[00:32:41] And it sounds like it is a major headache for you to actually build the thing. And why do it? Why not just have the underline under our headers? Andhave intuitive hover treatments and proper sorting. 
+
+[00:33:00] But also, 
+
+[00:33:01] One thing too, is that we were talking, or I was talking about getting involved with the client early and educating if they need it on what best practices are of how things should be used or what components to use where.
+
+[00:33:18] I would say that the way that we're. We use tables sometimes. I would maybe break that up into a couple different types of components or,have A limited amount of interaction with everything, just because I think that when, or at least this is my perspective, and you could absolutely differ in perspective, but when I look at a table, I want it to be super simple to find the information that I need.
+
+[00:33:50] I want it to be sortable, I want it to be searchable, I want it to be scannable, and I don't want anything to take away from the information I'm trying to view. And if it doesn't meet those criteria I get a little frustrated with it. 
+
+[00:34:03] Sundi: That's super fair 
+
+[00:34:06] 
+
+[00:34:06] Sundi: it's interesting too, because I wonder, I feel like at the beginning stages of designing, it's easier to do that. and similarly with development, it's easier when you're first starting to design the world you want to see exist in the universe. which kind of leads me back to this kind of follow up question around.
+
+[00:34:26] when you are working with a developer, like Owen, you say you get to know their quirks and what they can and can't do and build trust and figure out limitations and how people work. and so my curiosity is since our, audience is very much Elixir engineers or engineers in general, what are some really good traits that you find when you're working with, a developer?
+
+[00:34:47] And, you could just describe Owen if you'd like, or you could ask Owen to leave
+
+[00:34:51] the room, that's 
+
+[00:34:51] Owen: opposite of Owen. one who never asks questions. Go ahead.
+
+[00:34:56] Ava: I like the ones that wear really cool shirts. so Owen, there you go. 
+
+[00:35:00] I would say that the foundation of any relationship that I like in my life is open communication. and,the freedom to support each other, but also provide constructive criticism. I would say that having open conversation is the most important thing.
+
+[00:35:20] And then as far as best practices for working together, I think communicating what your preferences are of how you like to interact with your environment, what way you like to implement code. This is just what I prefer of I think Owen and I had, we kind of got thrown into the same project together and we didn't have a lot of time to connect and to get a pulse check on each other of, this is how I like to work.
+
+[00:35:49] This is how you like to work. where can I modify my process to hand off better designs for you? So we didn't get to do that until a little bit later, but if I was to do that again, I would have been like, okay, how familiar are you with my tools? and then hopefully I could also communicate how familiar I am with their tools.
+
+[00:36:10] We can mitigate any potential issues that would arise there and then communicate also hand off what they like to see. What, I like to see if I am demonstrating a table on the screen, do I need to have fully in depth red lines where every single time I'm handing things off I give you. the padding on all sides, I give you the corner radius of every object on screen, I give you the shade, the color, the, the distance, the component name, how in depth do I have to get?
+
+[00:36:50] so I think that having those open lines of communication is important. If you don't have those open lines of communication. I would say is,familiarize yourself with other people's tools because it will help you communicate better so that if a developer knows they're gonna be working on me with building out a table, and they have certain limitations and they know that I'm working in Figma.
+
+[00:37:20] I can account for some of those limitations earlier in the process. As far as if they want copy paste code from Figma, it's not always going to be copy paste, that's 100%, not 100 percent true, but most of the time you could not, well I don't want to go on record and have Figma be mad at me. But most of the time I find that the developers like to modify code somewhat when they're taking it from Figma.
+
+[00:37:45] And When we're working really quickly, we can make things look really good, but the way that those objects on screen are set up is really ugly in our back ends. And if that needs to be ultra clean for that developer, I'm going to make sure that I do that for them if I have the time to do that. So I'm going to name all my layers.
+
+[00:38:07] I'm going to make sure that They're layered properly so that, they can see, that the divs are in the right order. So I think that having that communication and understanding how the other, your other teammates are working, and then,making the hand, handoff process, something that you take pride in.
+
+[00:38:28] And, that you think is going to help them. and I know that I've said a lot on this already so far, but I would say one thing that we've been doing this year at SmartLogic is we've been doing design reviews twice a week. And I think that was something that we were missing at the, in the last quarter where we didn't have a set touch point on the calendar.
+
+[00:38:51] we have it twice a week, but that we didn't have set, have set touch points on the calendar. what would happen is if I needed something from dev or dev needed something from design, we would just be like, Hey, I have this thing that came up today. Can we meet today? And then it would throw me off.
+
+[00:39:06] It would throw them off. We would be struggling for time. And I think having that structured time of knowing,I know that I'm going to have, this uninterrupted time with the other team. I can come prepared with my questions. We can talk about things. And then also, other designers or other developers will come with their questions.
+
+[00:39:29] and I think it's a really good way for the team to get a feel for what other people are working on without,having to take on the problem fully. So that's been something that's been. Really revolutionary, I think, in our process as a team. And again, that boils down to communication and just 
+
+[00:39:51] Owen: Yeah. 
+
+[00:39:52] Ava: the set time.
+
+[00:39:53] Owen: Yeah, I think it's been eye opening on both sides to share screens while we're working on things. So I know from my side sharing my screen and saying, Alright. I know you've got some thoughts about the way I built this table or this card or whatever the component or the layout is, tell me what to do and I'll code it.
+
+[00:40:13] And then I think just seeing like, like this, like synapse is connecting, right? Like you're saying, Oh, there's not enough space here. So whenever I say we need more padding, they have to 
+
+[00:40:24] go in and they add P dash whatever, or gap, 
+
+[00:40:26] 
+
+[00:40:26] and that's how the tailwind CSS stuff connects to the actual layout.
+
+[00:40:30] That's the reason. And then the, I think DevMode stuff is fairly new to Figma. I think it was in the past year
+
+[00:40:37] 
+
+[00:40:37] Ava: Yeah. Summer of last year.. So, 
+
+[00:40:39] Owen: so like that stuff, it's informative.it does create a bunch of divs. So like some, sometimes, than you really want. but it's great. This is still a great resource.
+
+[00:40:51] It gives you, you can tie it into your Tailwind system so that whenever, our designers hand off some Figma designs, we can go into Figma, click the little dev mode thing, and then see not just the hex but they actually, the classes. For colors, especially for borders and spacing and stuff.
+
+[00:41:11] So been 
+
+[00:41:11] super helpful. 
+
+[00:41:12] Sundi: for transparency for listeners, as of like a month ago, we're at the end of March, DevMode is no longer a free feature, so you have to have a paid Figma account to see it. So I know many engineering teams have designers who have paid Figma accounts and most developers have a read only or just like a free account to look at it.
+
+[00:41:33] you would have to have a full team of developers with full Figma access. So just a side note, if you are hearing all these cool features and you're like, why can't I see it? it 
+
+[00:41:43] Owen: Yep. 
+
+[00:41:43] Sundi: now paid.
+
+[00:41:44] Owen: It is unfortunate. I think there are some workarounds, 
+
+[00:41:48] Sundi: Yeah, you can get the info. It's just hard. 
+
+[00:41:51] Owen: Yeah. Yeah. There's a lot more coordination. 
+
+[00:41:53] Sundi: Not as, as accessible as before. Ava, you mentioned like, oh, oh, and when are you done? it's funny that we're coming back to full circle. I was thinking like, when did I actually feel done when completing a feature? It was when I had gotten just about ready to push my code to, be ready to open a PR. I would hop on with Harper and say, okay, let's walk through real quick. Let's just do a quick design review. I'd go through with her. She'd be like, okay, that's a little too far. That's a little too close.
+
+[00:42:22] Move this, push that. All right. And then I'd feel done after that. It wasn't until I would do that. And so like developers out there, please loop in your designers. Please, before you call it done in your brain, because I know a lot of us will like, push stuff up, be like, Okay, it's in PR review, I'll get code feedback, and that's it.
+
+[00:42:39] It can be very stressful sometimes to like, push your code out there and then, and then have a designer be like, uh, does not match, does not compute, does not whatever, and then to feel like, no, but I finished it. Yeah, so just please loop in your designers before you, you close things out. it definitely helps my sense of completion at least.
+
+[00:42:57] Ava: I also love that, too, because I think that, again, just working with people, we want to give other people the opportunities to shine and do what they like to do and what they're best at and give them opportunities to do that. So what you got out of that is this feeling that, okay, I'm done.
+
+[00:43:18] I'm completed with this epic, this story, whatever it is. And then Harper was probably like, great. I got to go home and do my job today of the thing that I like to do most, which is, everybody likes to put those finishing touches on their, uh, You know, adjusting. I don't know why it's always padding, 
+
+[00:43:36] Sundi: It's always padding.
+
+[00:43:38] Owen: It's always padding.
+
+[00:43:39] Ava: I don't feel like it gets translated very well from 
+
+[00:43:43] Sundi: it's because once you have the feature in with everything else, you really see it for the first time and how it works with everything. it could be perfectly designed in Figma, and then how it actually got displayed on the screen got affected by parent on parent, and all of a sudden things are super squished.
+
+[00:43:59] Ava: I feel like that should be a disclaimer for designers too, of being nice to your developers because they, if they're working hard on this, it's not that they didn't implement your design correctly, it's that they have limitations that you're not aware of. And that could be remedied, it just takes a conversation.
+
+[00:44:20] Owen: We could go on forever. developers also have, a huge variation in awareness or skills of design, So like I can, I think of myself, I'm a full stack developer. I've started with CSS, chicanery, and then eventually learned the backend stuff. some folks are happy to only do backend and never touch the front end at all.
+
+[00:44:43] And sometimes they get thrown front end work and, they need a little bit of help. So there's no one size fits all solution, unfortunately, but that's what keeps us all employed. If it was easy, AI could do it, right? 
+
+[00:44:54] Sundi: Anyone could do it.
+
+[00:44:55] Owen: Devin could do it. 
+
+[00:44:56] Sundi: I said anyone could do it. Did you say AI could do it?
+
+[00:45:00] Owen: Right. Devin, if it was easy, Devin could do it. Cause that's all Devin is capable of is solving easy problems. And it's 70, what, 30 percent capable of doing that. Hot takes. All right. We really could go on about Figma. We didn't even get to talk about MS Paint, but Ava, before we go,
+
+[00:45:18] do you have any, uh, final asks for the audience or plugs?
+
+[00:45:22] Anything you want Elixir engineers to be thinking about?
+
+[00:45:25] Ava: The foundation of any successful career is going to be not only the product that you're building, but most importantly is the people. And that whether you're in tech or anywhere else in the world doing whatever you do for life or work, that people are important and we all bring something different to the table.
+
+[00:45:43] So if you are working with a designer, if you're working with other developers. Get to know them, figure out how they work, how they like to work, and do the same, communicate the same, and build something great.
+
+[00:45:59] Owen: I'll throw one in for you. Change your fire alarm batteries. The time just changed.
+
+[00:46:05] Ava: Oh my gosh, yes. 
+
+[00:46:06] Owen: You don't want to find out that your batteries are too old.
+
+[00:46:08] Ava: Yeah, uh, drive defensively. 
+
+[00:46:10] Owen: Stay out of the ambulance.
+
+[00:46:12] Ava: Other people driving aren't the safest people, so you know, just always be on the lookout. Use your blinker.
+
+[00:46:20] Owen: Alright, I did not prepare for a pun, so I'm sadly going to leave us punless at the end of this episode. I'm sorry, Sundi. But, we're gonna duck out. Alright, time to go. Time 
+
+[00:46:36] to Psyduck out. Alright, thank you Ava, thank you Sundi for delivering the facepalm that I needed today. And we'll be back again for more Elixir Wizards. Thank you everybody. 
+
+[00:46:51] ​ Dan: Elixir Wizards is a production of SmartLogic. 
+
+Owen: You can find us online at smartlogic.io and we're @SmartLogic on Twitter.
+
+Sundi: Don't forget to like, subscribe, and leave a review. 
+
+Dan: This episode was produced and edited by Paloma Pechenik for SmartLogic.  
+
+Sundi: Join us next week for more Elixir Wizards Office Hours as we deep dive into another aspect of the software development lifecycle. 
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
