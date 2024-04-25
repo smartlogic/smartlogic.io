@@ -1,0 +1,324 @@
+Sundi: Welcome to another episode of Elixir Wizards,
+
+Dan: a podcast brought to you by SmartLogic, a custom web and mobile development shop.
+ 
+Owen: This is Season 12, Office Hours, where we invite you to step into our office for candid conversations with the SmartLogic team about everything from discovery to deployment to the magic of maintenance.
+
+[00:00:32] Hey everyone, I'm Sundi Myint, Engineering Manager at Cars Commerce.
+
+[00:00:36] And I'm Dan Ivovich, director of engineering at SmartLogic, and we'll be your host for today's episode. For episode six, we're joined by SmartLogic developers, Bilal Hankins and Anna Dorigo. In this episode, we're discussing app maintenance and navigating the challenges of managing Rails codebases that are in use for more than 10 years.
+
+[00:00:54] Welcome to the show, Anna.
+
+[00:00:56] Thank you.
+
+[00:00:57] Welcome to the show, Bilal.
+
+[00:00:59] welcome back, Bilal. Welcome back.
+
+[00:01:01] In the 
+
+[00:01:02] Hi. Yeah, 
+
+[00:01:03] missed you.
+
+[00:01:04] it's a new role. honored to be here.
+
+[00:01:09] Alright, well since we have recurring but also new faces, why don't we just do a quick little getting to know you segment. Anna, why don't you tell us a little about yourself, where you're from, what you're up to, history in software.
+
+[00:01:23] Perfect. My name is Anna Dorigo. I was born and raised in Mexico. I moved to the States in 2012 and I have been developing for Rails, uh, three years and a half already with SmartLogic and, uh, and one year before that. My career has been a little bit of everything. I started. I did the programming in COBOL a long, long time ago, and C, and then I did a little bit of PHP, and then I moved to Rails, and I did a little bit of mobile too, so a little bit of everything.
+
+[00:01:59] I don't think I knew about the COBOL. That's fun. Um, 
+
+[00:02:03] well, it's buried in my, in the deepness of my brain. I don't remember much of it, but I remember that it was a little bit challenging.
+
+[00:02:12] great. Bilal, do you want to refresh everyone on, on where you're at and then we can compare histories there?
+
+[00:02:19] yeah. Uh, I'm Bilal, Hankins I'm a software developer at SmartLogic. Previously was a cohost from Elixir Wizard, so you may have heard me, yeah, I'm SmartLogic developer, you know, uh, from New Orleans. Before SmartLogic, I actually learned about software engineering through a bootcamp and, I've been at SmartLogic for almost three years now.
+
+[00:02:46] It's kind of crazy.
+
+[00:02:47] Time flies, man, time
+
+[00:02:49] Yeah, time flies when you're having fun. 
+
+[00:02:53] Alright, so the topic for today is keeping it fresh. we're talking about apps that are not so fresh anymore. Um, now I've definitely heard people say that legacy code is anything that you can't remember writing, uh, which for some people could be anything from a couple of weeks old to several months old.
+
+[00:03:12] You all are working on code bases that I've been working on the 13 years almost that I've been at SmartLogic now. So when you think about a older code base. Any particular challenges that come to mind, start with Anna.
+
+[00:03:26] as you say, Legacy code is something that you don't remember writing, or something that you just commit and somebody else needs to look at it. But thinking about code bases that were written many years ago, when the priorities were different. So, I can think about two things.
+
+[00:03:43] One, that is, um, something that we should be thinking whenever we write code that is accessibility. That this always gets, it always gets in the backseat. Because, always time and budget constraints. And most of the times if you don't think about it from the beginning and you build an app that is not, um, accessible and is not, doesn't have a responsive design, then when you have to implement those things is very challenging because you have to sometimes for some of the criteria you have to rewrite the whole UI piece and, um, it's, it's something, it's something that can become a problem.
+
+[00:04:21] If, for example, for the client, it depends for them to make business to be accessible, so it can represent a problem. 
+
+[00:04:30] Well, that's a good point,
+
+[00:04:31] too, because it's also, it's an area where the requirements change, right? As technology improves, as the standards move forward, and as your client's business maybe shifts and who they're trying to secure contracts with. I mean, we endeavor to be accessible as much as we can for everything, but it maybe doesn't start out as a legal necessity for a particular contract that your client is trying to get their product sold via, but then it becomes one.
+
+[00:04:54] I have to ask, was accessibility even a conversation that was like a common topic 13 years ago?
+
+[00:05:00] I don't think so. I never heard, when I was in the COBOL thing, I never heard anything about accessibility.
+
+[00:05:10] Yeah, I mean, I, I think it was, we were like aware of it, right, but it, we also probably thought about it mostly in the terms of like screen readers and making sure that there was alt text and things like that, which is, you know, important, but very minimal. And I think, I don't even know if ARIA roles were well defined 13 years ago.
+
+[00:05:28] I just, I don't have the history there to really know. How about you, Bilal? Any thoughts on What comes to mind when I tell you you're going to work on something that is a super old, 
+
+[00:05:39] not quite, not quite older than you, but you know, close.
+
+[00:05:41] Close. Thinking back, you know, some of like Anna's points. I think for me some of the Challenges I had when I first started working on some of these legacy apps was reading, data code but also getting used to how other people write code and taking a moment before you dive into the ticket or epic or whatever.
+
+[00:06:03] Just taking a moment to really understand what the state of the current code base is and how all the pieces are moving. Because I think once you have a good understanding of what's already there, you kind of have a better feel for, what code is deprecated and unnecessary versus like the trade off of adding in a new feature for this deprecated code as well. 
+
+[00:06:28] Yeah, that's a good point. , and I think what you brought up around shifting priorities over the lifetime of an application is a really interesting thread that I probably want to come back to, but then also we heard about standards moving, you know, and Bilal, I think you're also pointing out, right, standards can mean external things like accessibility.
+
+[00:06:45] but it also could mean just like, How we like to look at code, right? Format, which is easy to usually change, but also just like approach. and certainly that's true if you look at the history of code here, there are certain apps where it's a lot of like service objects and certain apps where there's not, or, um, you know, a lot of our Ruby code written post Elixir looks a little bit more functional, , and a little less object oriented.
+
+[00:07:08] You know, it's cause we're influenced by all of those things through the experience in our career and kind of what the company's doing day in and day out at the time.
+
+[00:07:16] There's also just something to be said, particularly for our, our audience. Our listeners are traditionally Elixir devs who are maybe, some folks have been here for the last 10 years. But most folks have been around for an average of five. And, most applications that they work in are relatively new and oftentimes are even, like, mix phx.new new, right? So, there's a difference, in thinking, how different is it to face your, your everyday in a newer application versus your everyday in a legacy code base. That has its quirks, had its quirks before and has its quirks today.
+
+[00:07:55] So when we're talking about challenges that you face and such it's just like such an interesting conversation that I feel like most people don't get a chance to talk about or think about even. One such thing being updates. So like how, how do you balance updating legacy systems every time there's a new feature?
+
+[00:08:13] How do you do that in a way that doesn't break everything? How do you do that in a way that doesn't like keep the app down for a significant amount of time, particularly if it has a big user base? I'm curious on your thoughts on that, Anna, if you want to start.
+
+[00:08:28] Right, I think it's very important to know your code base and know the dependencies you have and try to keep up as much as you can because if you, well, if you wait too long first you get vulnerable about security threats and stuff but also it becomes very difficult if you wait a couple of versions and the changes on that dependency become very big so it is very difficult to make the jump.
+
+[00:08:57] Depending on how intertwined your code base it is with the libraries or with the framework, it's also, I think, a good recommendation to keep things, uh, well, to make trade offs, look, that, to use the framework, but in a sense that, uh, if something in the base of the framework changes, doesn't, you don't have to, rewrite your code per se or make a ton of changes.
+
+[00:09:19] I think that will be it to keep up with the different changes and try to prioritize doing like a small amount, amounts of upgrades and keep your code as independent as possible from, from the dependencies. It's a word game, but they do have a nice trade off there.
+
+[00:09:40] And Bilal, it's making me think of when we updated that one dependency in that React stuff that was going on, and it wasn't a, it wasn't a major version change. Semantically, it should have been fine, right? But then caused a bunch of weird behavior that wasn't obvious and wasn't Wasn't well covered by tests.
+
+[00:09:57] Um, you know, and it was like, the end result was roll it back was the easiest fix in the interim. So it's like, keep things up to date because I find that the incremental updates are much easier for us to do than, you know, large jumps. Which, Obviously also has potential security issues to be worried about as well.
+
+[00:10:14] But then also, don't assume that everybody gets semantic versioning correct, or that every library you're using expects to do it the same. So you spend a lot of time reading release notes, uh, which may or may not mention the problem that you are going to encounter. Right, right, especially to an issue like that, something
+
+[00:10:32] To like us as developers may seem like so trivial and then when we roll out to production and see the effects of such, um, just small change, like, the issue with the dependency there. And I think another thing also, like given the kind of client work that we do, I've noticed we have some clients whenever it's time to upgrade a new feature or do some maintenance, they're very like, yeah, let's, let's go ahead and get this, settled right away.
+
+[00:11:00] And then others are like, if this could fit into the maintenance budget because there's a lot of different moving pieces as well upgrading legacy systems, some clients are kind of, I don't know what's the word, like, regretful, resistant, there we go, Cautious to upgrade and take their systems out, but yeah, 
+
+[00:11:23] There's a lot of education that we have to do there, right? To explain why this stuff is important that some of it is the, it's the cost of owning software, especially software that is built on open source dependencies, which, if we didn't use things that were off the shelf, the initial build would take a lot longer and there'd be a lot more code to maintain, uh, and, you know.
+
+[00:11:45] But then maybe, well, none of it would have to be updated except that you're assuming none of it has security flaws or performance issues or never needs a new feature added to it. So, you know, that's a lot of trade off there.
+
+[00:11:55] It reminds me, I don't actually, gosh, I can't believe we're so far along in the numbers of the seasons right now. I think in season like two or three, there was a conversation, and this is before my time too, there was a conversation about How do we talk to clients about why Elixir might be the right pick for a new project?
+
+[00:12:18] Talking about just like, how do you educate clients and tell them what is good for a particular time? The trade offs, talking about maintenance windows. Maintenance windows is something I'm actually pretty interested in. How do you schedule one of those larger upgrades and talk through that with your clients?
+
+[00:12:35] What do you say? What do you talk about?
+
+[00:12:39] Well, that's a good point. Probably it's just to, to have like a good understanding of what needs to be done and all the risks and all the time that you need to do it. All the automatic things that are done probably within the app that needs to be interrupted. And communicate it with the client and kind of negotiate when is the best time to do it and have all the security things in place in case something goes wrong, be able to revert it and cause the less amount of disruption for the clients. But , it depends on, on the usage of the app, , to try to be the less impactful and be completely open with the client and try to notify your client and their users about what is going to happen so everybody can plan ahead.
+
+[00:13:25] Yeah, I think for a lot of the applications that the two of you are working on, a database migration that works well in development. or even staging may have much different performance metrics when it runs against production just based on the database size and the history that's there.
+
+[00:13:39] When I think about deploying our work, especially on some of the apps we're all thinking about here, it's a lot of looking at, what's the diff here? What is the impact on somebody who's in the system when this rolls out? Or do we need to get everybody out of the system in order to apply this?
+
+[00:13:53] know, and those are trade offs to make. And then also, what is the impact on the database? How long will this take? How long will it lock, you know, which piece of the system up for? And then, what does that mean? Where do we go from there? And those are all parts that are, if you're doing greenfield application development, maybe don't come to the forethrought a whole lot, but come up a lot more when we're working on legacy systems
+
+[00:14:15] Yeah, something you just can't seem to replicate really is like scale in a new found application, a Greenfield one. It's just like, you can make a new application. It has like 20 users a month. That's cool. It's fun. It's shiny. , but then really getting a chance to look in like the metrics monitoring groups of data and just like see a maintenance event and how that actually affects things is like wild.
+
+[00:14:40] It's very fun to look at. 
+
+[00:14:41] yeah, that was, on the past couple projects I think that was what kind of blew my mind. We were working on a project where I had a couple of migrations that Dan had to deploy to staging. And, we just had a little conversation about like the diff between dev staging and production and like the scale of the database of the project that we were working on.
+
+[00:15:04] It kind of blew my mind.
+
+[00:15:06] Well, that's something too that I think we overlook when we talk about like metrics and monitoring is yes, it's important for us to have 99 percentile response times and database pauses and queries and some things like that. But even just knowing the volume of data can be useful to the engineering team who's working on something that already exists. Anna, have you ever had to simulate large amounts of data locally so that you can develop something effectively?
+
+[00:15:29] Yes. Right. And I was going to say about that too, that with legacy systems, when you design a project or an app or whatever, you try to look ahead and you try to cover as many scenarios as you can, but when your application has been live for 10, 15 years, things change. And probably the amount of data that you think that you were going to be managing 10 years before has nothing to do with the requirements that you have right now. And the decisions that you took when you designed the database or the way that you collect data is obsolete right now. So that's, I, I think a big challenge for legacy systems. And yes, we, we have had to replicate, to run crazy scripts to generate data on the local environment. Just to be able to mimic the data load in production and try to come up with approaches that can make performance better. But, collecting the data, being more efficient, uh, joining tables And try to also, from the client perspective, try to offer them different solutions that maybe won't be that flexible, but will be more performant.
+
+[00:16:43] So, just to be able to meet in the middle the requirements that they currently have, with the amount of data that we have and the possibilities that we have also with the current architecture that is not possible to rewrite everything, but try to work with what we have.
+
+[00:17:00] so we talked about monitoring and how that plays a role in, in, in just legacy systems in general. Can you also speak to how testing plays a role in making sure that you know what's going on with your legacy system and everything that's going on with it?
+
+[00:17:15] When working with, um, legacy codebases, I've found, like similar to what I said earlier, just taking a step to understand-- understanding the test as well also goes a long way. Seeing how your user or your audience, user of however long -- 12, 13 years is used to using this app.
+
+[00:17:36] And I'm seeing how the tests mimic that behavior. I think just setting that groundwork goes a long way in preventing like any issues when updating the codebase. 
+
+[00:17:47] Right? Right? And that's a very good point. How test can help developers understand the code. And also, as we talk about making updates to the database or probably improve a portion of code that you see that it can be changed. for a better understanding or whatever. It's very important to rely on the test once you do a system upgrade or everything that you have a very robust test suite that can help you pinpoint if something goes wrong.
+
+[00:18:21] It's very important and also be always mindful that anything that you add to have all the tests that are, for a specific function, or it is testing the whole behavior from a user perspective. So, you can be sure that everything that you are adding is also backed up with test for the future or any change that gets to touch your code in the future.
+
+[00:18:45] Oh yeah. And it makes me think back to Anna, what you said originally about priorities changing, right, as kind of like a thread that you see. When looking at older code base, and I think that also lays into as well, like when you're adding a new feature and tests break, you then get to the point of like, did I break it?
+
+[00:19:01] Or should this test actually change? Because this new feature is impacting in a way that matters. And depending on how your tests are organized or how they're structured. It may not be obvious what tests you need to update based on a new feature depending on how wide ranging that feature might be.
+
+[00:19:17] So, yeah, I think that's a kind of an important point there around, you know, having tests, but then also understanding that they may not always give you the right guidance depending on the work you're doing in an older application.
+
+[00:19:28] Yeah, I think that's also why, I feel like over the past year I've seen, since we beefed up and kind of juiced up our QA processes, I definitely noticed like a difference when, some stuff that may have slipped automated or, you know, our CI tests, getting cuts just by like following, you know, how human interaction works.
+
+[00:19:50] Well, Bilal, I feel like you've seen a lot of the, like, oh, we want to make this change and it seems like it's isolated, but then you realize all the places that the application does affect. And I think what you're working on right now probably is also especially true of that, of like, yeah, okay, we're going to change how the data comes in, but then, oh wait, it also gets displayed in like eight places we didn't think about. And so the ripple effects there can be significant.
+
+[00:20:14] Right, and that's why the test are for, because if you didn't have that, you wouldn't know which places your change are impacting. And then you will have issues later on.
+
+[00:20:27] I often help write the tickets for some of these things, and I have been involved in all of these apps for 13 years, but I still can't enumerate all the places where, every function without looking, it's not all in cache here, uh, so.
+
+[00:20:41] Yeah, I mean, automated tests are great, but , as Bilal mentioned, you can't exactly replace a QA person walking through and checking things. Is there an equivalent to that of, well, maybe not a human, but is there an equivalent to integration testings, for example, checking on security updates and just generally speaking, being able to take a look at, Oh, this is a 10 year old application.
+
+[00:21:05] There's something wrong with this particular version. How do you, how do you know? Is there something that can be automated to tell you about it and, like, you can take a more active role in updating it? Is there something like that that you all would use for legacy codebases?
+
+[00:21:19] We do have things implemented on the Continuous Integration. We have the Bundler Edit, for example, that is for a Rails app that tells you the gems that have vulnerabilities. And I guess there must be also things for Elixir or other apps. that you can kind of leverage on your continuous integration process and check what tools are there that can help you pinpoint things that might have been changing.
+
+[00:21:47] Yeah, I think Sentry has been pretty cool for logging, like, production errors as well. I feel like I've gotten better at understanding Sentry error. 
+
+[00:21:58] Nice. Dan, anything else?
+
+[00:22:02] Uh, I mean, Dependabot is something I think people who use GitHub kind of used to seeing. Usually I find that's letting us know about JavaScript things. We're big on Bundler Audit and, Hex or Mix. There's like two different ones. I think it's Hex Audit does yanked packages and retired packages.
+
+[00:22:22] Mixaudit does CVE checks, but both languages, Ruby and Elixir, have a way of checking CVE databases against known bad versions in your codebase. And we use those to fail builds so that, you know, you fix it before you merge.
+
+[00:22:37] I like that concept, using it to fail builds, to, like, actually force, uh, everyone to stop and address it before you just kind of move on and then, Oh, it's three years later. Oops.
+
+[00:22:48] Yeah, and there's lots of reasons to make different decisions about those things when they come up, but the point is you have to talk about it if it's going to keep you from being green.
+
+[00:22:57] Right, make conscious decisions.
+
+[00:23:00] Yep, yeah, the indecision is, uh, bad. So forcing yourself to make a decision is much, much preferred. Anna, anything you feel like you've maybe learned about designing, architecting solutions, working in a code base that has seen some years?
+
+[00:23:17] Right, well, I think that there are a ton of things to learn about old application. First, that you can learn a lot for something that is already there, and is big, and it has a lot of components. So you can learn a lot, but also, always be with the mindset that every part of the code that you touch, you have to leave it better than how you find it. And also, Be mindful of the next person behind you to do testable, small methods that can be reusable, that can be understood easily. Like you go to a class and you know right away what the class does, that you don't have to dig or it's confusing. Try always to write clean code.
+
+[00:24:04] also something that I feel that helps a lot is to have a separate set of eyes like the code reviews. Sometimes when we develop we get like this, I don't know, horse type of thing, type of vision, that you have been working with the code and you have a struggle. So you cannot see a lot outside of the box, but when somebody else with a different pair of eyes sees it and Even the naming of the method doesn't make sense, but for you it makes a ton of sense because you are in Mars and have all the context.
+
+[00:24:32] But somebody else, when they see it, can provide a lot of insight and always have an open mind for, um, criticism for your code. And be open to learn because, when you stop being a monkey programmer and you really start generating clean code and, and doing things better and making a road map for yourself as a developer, learning new things.
+
+[00:24:57] And, and I think that's, that's very important to rely on your co workers and, uh, co workers that are more senior than you to, to give you feedback and to help you. To help you to create better code.
+
+[00:25:10] I think this is interesting is you also touched on, there's legacy code and there's legacy code that no one in your team wrote because you're inheriting a project from another company or another firm or a client's coming to you with something that they have been supporting, but need assistance with.
+
+[00:25:24] And, uh, that's a whole nother level of, uh, trying to understand what the thoughts were that were there, because nobody can recount that history to you who's around to do so anymore. And, know, we leave ourselves clues in lots of different ways. But, you know, it's like, well, this code is here for a reason, probably. 
+
+[00:25:42] Maybe.
+
+[00:25:43] I shouldn't ignore it. but yeah, what's, what's the purpose of it now? Or does it still kind of carry through? And I think your, your reference to blinders, I know, I know I bring that up when we take on legacy code bases that we didn't write of like, you are going to see things that you want to fix or you want to change and we need to resist that urge if it's outside the scope of what we're trying to solve for right now, and understand that we'll get there over time.
+
+[00:26:07] Right.
+
+[00:26:08] 
+
+[00:26:08] But, for codebases that you do know, or you, like, do know the people of, or you've worked in it, like, it's, it's been your codebase for several years. Another tool that I, I've always found helpful that I didn't think about in this context until, Anna, you talked about insightful context, is GitBlame.
+
+[00:26:25] Not because of, I hate the name of it. I, I love that GitBlame tells you when something was done. The when gives you a lot of context. Oftentimes around why something was done and like four years ago, if you see four years ago, you might be, oh yeah, four years ago is when we did our big refactor. Oh that, or that was when beta went into a factor, you know, something like that.
+
+[00:26:45] Like you can tell a lot from a git blame. Or, yeah, a person can be helpful too in the sense that you know that somebody favored one style over another and you can understand why something's like that. It's like that because it had to be. It's like that because they wanted it like that. It's, it's very useful to be able to understand what was done, who did it and why.
+
+[00:27:05] And you can usually kind of trace it back with just like a quick inline git blame, which again, I'm not saying is a blaming thing. I just hate that it's called that. I wish it was like history or something. I don't know. I, I find history very helpful.
+
+[00:27:18] I mean, get the git log, git history, git blame slash tell me just who wrote this line slash, most of the time I'm blaming myself, so whatever.
+
+[00:27:27] Yes, most git blames are blaming yourself. 
+
+[00:27:30] The journey of programming is, who wrote this garbage? Oh, I did. 
+
+[00:27:34] exactly. 
+
+[00:27:35] Oh dang, that was me.
+
+[00:27:37] Yes. 
+
+[00:27:38] Bilal, has it happened to you yet, now that you've been in the SmartLogic code for three years?
+
+[00:27:42] Uh, yeah. Um, I definitely look back and like the current project I'm working on, like where, what's going on here? And then my, uh, the, the git server refreshed and it said my name in the VS Code channel. I was like &quot;Oooooh!&quot;! 
+
+[00:28:01] Nice.
+
+[00:28:01] Legacy code, written by somebody else or you when you knew less than you know now.
+
+[00:28:05] Yes.
+
+[00:28:07] That is, another, um, the last question, like, I did appreciate, like, One of my first projects when I came to SmartLogic was working on a legacy code base. It was a Rails application, and I didn't have much Rails experience. Granted the work was mostly in the React part of that. But, I know how React works and kind of using that as like my base when getting started and just seeing how some of the Ruby views work and how they interact with the controllers and like the routes as well, definitely helped me for sure. 
+
+[00:28:39] Yeah. So that's interesting. Right. So advice, advice you'd give yourself in the past or other developers taking on some legacy projects. So Bilal you're saying, look for the things you know, and the routers to understand kind of how the pieces fit together.
+
+[00:28:54] Yeah. And especially like, When I was first starting, I feel like we talked about this, Sundi, going from, working, from not just a reference, right? Right? Working from reference and working from, you know, knowledge and, like, muscle memory. Just having a framework of ... I for sure know, how to code like this and these coding patterns and when onboarding to a new application, trying to find those similarities to close the gap between your knowledge. 
+
+[00:29:24] I think Bilal what you're referencing is a conversation we had a long time ago about like referential knowledge where it's just like, Oh yeah, I heard of that, I read that, I'm going to implement it because I saw it somewhere versus like actually knowing and understanding something.
+
+[00:29:37] Which, you know, just comes with time. And also, in relation to this subject, comes with time with learning about this project as well. Whatever particular legacy project you pick up will have its own nuances, its own gotchas. That you couldn't possibly know when you first start, whether it's yours or inherited.
+
+[00:29:55] Anna, are there other things that you would, tell yourself three years ago or four years ago when starting to pick up a legacy project that you'd give yourself advice from ways back?
+
+[00:30:05] Something that I think it helped me a lot is that we were requested to to do a code audit. And I remember the things that, I was working with Joel back then and the things that we were checking in the code were things that I learned, that those are things that I need to have in my mind when I code.
+
+[00:30:26] So we were looking at not leaving behind, for example, pieces of code that were commented. Because those are things that probably shouldn't be there. Why are they there? Just confuse people. Like, uh, how clean the, the classes are. How small the methods are. How understandable the naming are. How easy it is with a first glance to know what's going on if there are comments there.
+
+[00:30:51] And also not having like magic numbers or magic things like codes, like a &quot;12345&quot;, What does that mean?
+
+[00:31:01] Have always like naming for all these codes that probably mean something in a very specific context. But for somebody that comes in, you see that number and it doesn't make zero sense for you. So always to look for these kind of things and not leave those things behind. be mindful of somebody that is going to be looking at this code and be able to have something that is understandable.
+
+[00:31:25] And, and I try to remember all those things when I write code. if somebody will be auditing this, what will they say? What will they notice as something that is not, is not the best practice, per se?
+
+[00:31:37] It's almost a trigger word. Names. Not letters, names, not letters,
+
+[00:31:42] Right? Exactly.
+
+[00:31:44] less acronyms, which we talked about last episode or some episode recently. Um, yeah, no, no weird, like random numbers that don't mean anything or tie back to anything. And like descriptive names, descriptive functions help everybody who comes after you could help you in two weeks, 
+
+[00:32:00] honestly.
+
+[00:32:01] Even tomorrow?
+
+[00:32:03] Yeah. Tomorrow. Yeah, for sure. There's like, It's, I, I don't want to say it's accessible coding because that's not the way that we use that word, but I, I almost think of it like that as like, just make the code legible for the person who comes after you, even if the person who comes after you is you tomorrow, because that's very important with legacy code.
+
+[00:32:24] Somebody in 10 years is not going to look at this function and understand that the E means element, even if that got taught forever. They just might not remember that. Or never knew that. That's fine.
+
+[00:32:38] Well, it also makes me think of an advantage too, for like a legacy. When we talk about legacy code bases, usually we're meaning something that has a lot of code. Which means that you have a lot of examples, a lot of things that work, a lot of things to read and understand, and you know, it's, it's daunting in the sense of there's a lot, but it also can be reassuring that like, there's a lot here that works, and I can learn a lot from what's here.
+
+[00:33:00] And I think that plays in a little bit to Anna, what you Were talking about with the code audit of like, sometimes a project of just read and figure this out, and like, decide what you think about it, is a reasonable place to start.
+
+[00:33:10] Exactly.
+
+[00:33:12] I wish code audits were just more normalized in that, like, audits may be a weird word for what I'm saying, but it's just nice to be able to look at large codebases sometimes that you have nothing to do with, and you can just learn. You don't get that opportunity every day. That's, that's really nice.
+
+[00:33:29] Well, whether formalized because it's part of an acquisition or not, right? Like the exercise is worthwhile. And so maybe suggest it to your, to whoever's planning your projects. Like, Hey, we, we want it. We want a ticket. We want some time. Bucket, bucket out some energy for, for just this. Uh, cause it definitely can be valuable.
+
+[00:33:49] And maybe all the, well, every PR can be a code audit for, for your colleagues, 
+
+[00:33:56] Yeah.
+
+[00:33:56] Yeah.
+
+[00:33:56] Well, let's keep our PR small enough that they don't feel like it on it.
+
+[00:33:59] I know. Right, that's a very good point.
+
+[00:34:03] Alright, well, this was a great conversation, and as we move to close, do either of you have anything on the internet you want to plug? Any particular libraries, social media, or otherwise you want to call attention to?
+
+[00:34:15] new fashion lines.
+
+[00:34:17] No.
+
+[00:34:18] Oh, that's a good point,
+
+[00:34:19] Bilal.
+
+[00:34:20] I hustle Bilal. 
+
+[00:34:22] Well, can I, can I shout out a YouTube channel I've been recently, my weird obsession?
+
+[00:34:28] a little scared, but sure. We'll cut it if it's bad. 
+
+[00:34:32] Cow Hoof Trimming Videos. I'm like, if you guys haven't found them yet, Cow Hoof Trimming Videos. Very relaxing, you know, 
+
+[00:34:43] Yeah, that's weird.
+
+[00:34:43] have so many questions, but we'll save that for another episode. 
+
+[00:34:47] Alright, thank you both time, this was a lot of fun. 
+
+Dan: Elixir Wizards is a production of SmartLogic. 
+
+Owen: You can find us online at smartlogic.io and we're @SmartLogic on Twitter.
+
+Sunday: Don't forget to like, subscribe, and leave a review. 
+
+Dan: This episode was produced and edited by Paloma Pechenik for SmartLogic.  
+
+Sundi: Join us next week for more Elixir Wizards Office Hours as we deep dive into another aspect of the software development lifecycle. 
+
+[00:34:51] Thank you, it was very fun, yes. 
+
+[00:35:29] Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+[00:35:48] We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day.
+
