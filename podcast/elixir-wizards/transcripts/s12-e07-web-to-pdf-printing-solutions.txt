@@ -1,0 +1,465 @@
+Sundi: Welcome to another episode of Elixir Wizards,
+
+Dan: a podcast brought to you by SmartLogic,
+
+a custom web and mobile development shop.
+
+Owen: This is Season 12, Office Hours, where we invite you to step into our office for candid conversations with the SmartLogic team about everything from discovery to deployment to the magic of maintenance.
+
+[00:00:10] Hey everyone, I'm Owen Bickford, senior software developer at SmartLogic, and today I'm your host for episode 7. We're joined by Charles Suggs and Joel Meador, both developers at SmartLogic, Joel's our staff engineer, and in this episode we're talking about the lovely, maybe not so lovely, world of printing.
+
+[00:00:32] We've all been on this printing journey on a recent project. I've thought more about printing on this project than any other project I've done. Is that true for you guys as well?
+
+[00:00:41] Yes.
+
+[00:00:43] Okay. So, let's talk about histories. Joel, I think you have a, you have more history just overall as a developer and obviously with printing as well. So, walk us through your history from like, you know, writing things in scrolls to whatever, where we started.
+
+[00:01:00] Yeah, I started, uh, I started writing twitter posts in cuneiform on clay tablets and it's just kind of gone from there. Y'all know how old I am, right?
+
+[00:01:03] You're really dating yourself.
+
+[00:01:10] 
+
+[00:01:10] previous company at about 2009, I wanna say,
+
+[00:01:20] 2008. And we had been doing a lot of printing stuff, too, as consultants before that at that company. , because we were working for Apple, and doing some apps there that had very heavy printing stuff for their customers. Which, I think I'm out of my Restricted time zone for that.
+
+[00:01:39] I'm pretty sure it expired in like 2016. Anyway, if it didn't, no one cares. I know they can't pin it on me. I used to be one of the people that owned and ran a service that took HTML from people on the internet and turned it into PDFs
+
+[00:01:51] 
+
+[00:01:51] and that was like our main source of revenue at the company or one of our primary sources the entire time I was there almost. I ran that 
+
+[00:02:00] and wrote a lot of that So that was like, 12 years?
+
+[00:02:03] 11, 12 years? 
+
+[00:02:05] So, I'm very intimately familiar with 
+
+[00:02:07] PDFs, and the process of making PDFs 
+
+[00:02:11] from HTML and other things. And almost every project I've ever 
+
+[00:02:15] worked on that had any kind of reporting has had PDFs at some point, and that's been almost every consulting project I've ever worked on. So I've been, I've been in it for a long time, including before I started at that company doing consulting in a different place, uh, where we did stuff like C sharp printing, which really was not fun. 
+
+[00:02:35] Oh, yeah, that sounds fun.
+
+[00:02:37] I don't remember enough of that to talk, detail, so I'm not gonna try. That's the very brief version.
+
+[00:02:42] And then, Charles, have you worked on an app before that had to do, like, where you had to think as a developer about printing at all?
+
+[00:02:51] Yes. And you asked about, aside from this most recent project, and prior to this most recent project, largely just write a few print styles to go alongside web styles in CSS or Sass and hide this or that, change this or that, but that was about the extent of it when it came to an app. 
+
+[00:03:17] And so this was primarily kind of taking the same content, but applying CSS styles to modify its appearance on a printed piece of paper.
+
+[00:03:28] Yeah, like if someone were to hit ctrl p on their keyboard or go to file and print, that we would just adjust it to enable that content to display better in a paper medium versus a web medium, because they have different, different rules and restrictions.
+
+[00:03:47] With this project, I learned a bit about how, we could just rely on the browser to generate PDFs, because these days, I don't think it's always been the case that you could just export a PDF directly from the browser. You would normally have to install some kind of Adobe products previously to make that happen. So the nice thing now is we can save at least some of the cost of building this stuff just by having the browser take care of that. It has not been easy though. I've got a laundry list here of things we've encountered as we've tried to factor printing into the equation of the features that we've been building. Uh, so it covers everything. So where do y'all want to start? Which part of the page would you like to start? The headers and footers, the margins, or somewhere in the middle?
+
+[00:04:33] The hammer that sits next to the printer. Yeah.
+
+[00:04:39] How much we love printers just generally.
+
+[00:04:41] Just love printing.
+
+[00:04:43] I think it's worthwhile to talk about kind of the, the APIs that are exposed and not exposed in modern browsers. As you might imagine, as someone who ran a business that did this stuff, like I'm pretty familiar with like CSS three and all of the stuff that CSS three is supposed to bring to the table in terms of like control of printing and one of the most disappointing parts of this latest project is how little browsers have moved since I got involved in this, I've been familiar with these actualities of this stuff since like 2010, 2011 and browsers have not moved like at all.
+
+[00:05:20] Like they still suck for this. There's a little bit better control but not much. You know, the page directive is is kind of the primary point of that. And one of the big movers and shakers in this realm, at least historically, has been a company from Australia named YesLogic. and other than that one alternate thing that Owen linked me last week and I don't remember the name is like Weezy Print or something. Maybe that was Dan, I don't know. It doesn't matter. Uh, someone sent me another one. Maybe that was Charles. We've all been talking about printing so much that I can't keep track who said what anymore. Um, 
+
+[00:05:53] If I
+
+[00:05:53] sent you anything about printing, I'm as shocked as anyone else. I'm like, I'm trying not to think about it until today.
+
+[00:05:59] So, yeah, there's there's kind of now like two two web engines, right? There's Firefox and Chrome and whatever. It's like Gecko and WebKit. And then Safari's got its own version of WebKit that's like weirder. and older and has different features, but it's, it's the web kit and they have kind of the same printing features.
+
+[00:06:20] And then there's YesLogic, which has the Prince XML engine. And then there's this other thing, which I think is called WeasyPrint, which has also its own rendering engine. And so the rendering engines in, these other two print things are very print oriented. So they have a lot more support for this, like CSS three page shenanigans.
+
+[00:06:38] And YesLogic has driven a lot of that stuff and been like, W3C, you have not addressed the needs of people who want to print stuff. Here's some changes you should make. So I think at least Mike Day, who's like the CEO of that company, used to be part of the working group for CSS3. I don't remember, but they've written a lot of like specs and stuff for that.
+
+[00:06:58] So the thing that you see in, in, in the browsers is you have this kind of Partial CSS support, and then if you're willing to write a little bit of JavaScript, you can get a little further in a headless mode than you can within the browser itself. But not very far in terms of control of what's going to be on the page, what's going to be in headers, how that stuff's going to be styled, And like, what's going on. and so, to me, coming to browser printing again Really felt like a huge step back because of the lack of features. And I really expected to be better because it's, it's been 10 years, like 15 years. I don't know, like it still sucks. It's really bad. And I understand that like from a corporate perspective, Chrome doesn't care about printing,
+
+[00:07:42] like Google, Alphabet, whatever it's called now doesn't care.
+
+[00:07:45] That doesn't make them any money. They just don't care. And, I think Firefox has lost so much market share and they're. Off going after AI and stuff. So like, I don't know what they're up to, but they also haven't responded. So it's just not a good place if you need stuff, particular things in printing.
+
+[00:08:03] And we did and I'll, I'll talk about a few of those, 
+
+[00:08:06] like, 
+
+[00:08:07] The shims I've seen for Chrome headless, for example, I 
+
+[00:08:10] want to put the same header on every page. Okay. I can do that with the 
+
+[00:08:13] JavaScript thing except the stuff that's there doesn't use the CSS from the page. You have to like, inject style blocks.
+
+[00:08:19] Like, that's, what? You can't left content out of, out of the page onto the header. You can't, you know, pull content other than strings out of the page onto the header. You can't do all these things, like offset printing is completely out. Like, you can't do offset printing for sure. , that's just not a thing you're getting from the browser.
+
+[00:08:36] I think there are some shims like pdf. js that have More stuff, but it's kind of a big, it's like a rendering engine built inside of JavaScript that runs inside of Chrome. It's super weird. Or maybe it's a node thing. I don't, I don't remember exactly how it works, but like you run into all these like corner cases that are not covered because the people that run the browsers and volunteer to write the browsers just like, do not care about this problem.
+
+[00:09:02] Cause no one cares about PDFs. If you're going to make a PDF, you're just going to pay someone a million dollars and they're going to work it out for you. Like us. Yeah.
+
+[00:09:13] I think that's kind of the root of our problem. So I want to come back to like why we did the things the way we did them. Yeah, like some of what you're saying underlines, like we, we ran into browser compatibility issues was, I think something we're kind of almost saying. So like it, I've really felt like whenever I was trying to solve printing problems that we were back in the world of IE versus Chrome versus, Firefox.
+
+[00:09:35] And like, we had three browsers and three different behaviors for printing. You could write the same rules and in 2024, you expect everything to appear roughly the same or exactly the same. And that is not the case with printing. So yeah, Charles, are there any kind of like weird kind of cross compatibility issues that you remember kind of like stumping your toe on or like how it affected you while you're implementing?
+
+[00:10:04] think I think the most recent one that I had encountered was in Firefox, it would add borders that didn't exist in Chrome around elements, and it would overlap them as well. And it wasn't an issue of some absolute positioning being somewhere on the page or that sort of thing that can easily cause those kinds of problems.
+
+[00:10:26] It was just, Firefox was interpreting the content and the layout very differently and the length of containers differently. And so then would overlap the next container starting content over the end of the content of the container before it. And I think, you know, maybe that's one of the reasons we decided to only support one browser with printing on that project. 
+
+[00:10:51] I've never opened up source code for browsers. I've listened to a couple of conversations, but it seems to me maybe what's happening is, so like when you open the print dialogue in whichever browser, you're essentially looking at another browser rendering engine, which you would think is the same exact engine that renders the rest of the content on the web, but it seems like it's a fork or the behavior is just different inside particular dialogue than it is whenever it's rendering content anywhere.
+
+[00:11:18] So it was like, we use grid typically for layouts so that things are kind of predictable the way they're arranged on the page. I think there was weirdness like that you're pointing to about how grid was either being rendered or maybe not being rendered correctly. 
+
+[00:11:32] Well, I think it was, I think it was like the box model was different enough between the two browsers, the three browsers that we were just running into issues where like the sizing wasn't right. You know, when you, when you open a webpage in your browser, if no reset CSS has happened, every browser has its own interpretation of that.
+
+[00:11:51] And they also have their own interpretation of What the default print styles are, right? So we're running into multiple layers of decisions that were probably made, you know, 20 years ago, that we have not much control over. And all that kind of adds up to like, you don't need a whole lot of difference between two rendering engines to end up with like, okay, this is just five pixels off the edge of the page now and it's gone forever.
+
+[00:12:16] Mm hmm. You can adjust margins to get stuff back, but then other stuff starts getting rendered incorrectly. Mm
+
+[00:12:25] Yeah, one thing I know Dan mentioned in our episode, previous episode, about reports and like generating reports is, you know, we touched on just briefly that, like we've talked about like differences between the browsers. There's also Just some content that will not fit on a page unless you shrink it so small that it's, you know, practically useless or illegible.
+
+[00:12:46] Like there, there are some, a lot of tables in these reports and features that we've been trying to format in a way for printing. And, you know, most of the tables can, like you can adjust the padding, the font size and everything. So things fit better on the page, 
+
+[00:13:03] one thing you can do if you have more control of the PDFs, which you can't, this is really tough, it may be impossible with the browser, I'm not sure, but, per page control is, is a real thing in these, like, more,
+
+[00:13:20] uh, more full featured PDF generators, right? Like, I need my cover page to be, like, A four and I actually need my, my report pages to be super wide.
+
+[00:13:30] I'm gonna print 'em on a, like plotter or something and they're like a 17 or something bigger, something super long. Or they're like legal size and you get into a lot more flexibility that way where you're like, you can still print this on standard paper sizes. It's just the paper size is not like eight and a half by 11 or, or a four.
+
+[00:13:47] Those are the two kind of standard. But depending on whether you're in Europe or America, the Americas, um. And I think that's a real problem for the kind of content that we were trying to generate, which is these super wide tables. They're like, okay, if you put it in landscape and we like, make sure everything kind of like flows to the next line.
+
+[00:14:06] And like, we take the padding off of this thing. Like, okay, it's all squeezed in there most of the time. you don't really want to be. Yeah, it really sucks if you have like a name that just has, that's longer than like 50 characters, which is not too common, but it is a thing. And then, you know, we don't have, we made some technical choices for, you know, time and most cases and just, like also lack of knowledge about the, eventualities of where we would get and, you know, normal project stuff.
+
+[00:14:38] And what ended up happening is we just had all these like you know, the technical assumptions about how good the browser printing would be and it just was not, like, it was not at all up to task. That's on me. I was the staff engineer on this project. I should have done more research.
+
+[00:14:53] But, it, it just, the, the browsers haven't gotten anywhere. They still suck so bad at this problem. I know we're, we're talking about printing, but, people print all the time
+
+[00:15:04] Everyone has 
+
+[00:15:05] to do what we did on this project, which is like, come up with their own custom thing, because the printing is so bad 
+
+[00:15:10] from the browser.
+
+[00:15:10] , so everyone has to do this if they've got anything meaningful to print. 
+
+[00:15:14] yeah, I think, and we're going to get to, I think, decisions we'll probably make differently in upcoming projects, but just to dig into that a little bit, a year ago when this project started, you know, we, we were very much not focused on printing. We had a bunch of stuff waiting to build before we could print anything of value. And so, at the time I think we had started you know I think discussing printing It's crunch time. It's, I mean, it's almost always crunch time on a project. I think it would have been hard to know how bad it would be without having just built a bunch of stuff. Cause you know, the needs of this project might be very different from like, just printing a small set of content.
+
+[00:15:53] If you just did like a minimal, prototype of printing, like, can I print hello world and will it appear the same on three, three browsers? It might've been deceptively consistent in that case.
+
+[00:16:03] Yeah, you almost, you almost have to have, like, image magic, right, to go and do, like, a pixel diff.
+
+[00:16:10] And the other thing is we're, you know, we're working in Elixir and Phoenix, and they're, you know, you do a cursory search for PDF in Hex, you know, our package manager, and there are a few packages.
+
+[00:16:24] It wasn't immediately clear whether those would provide the control or the, you know, all the features we would need for the types of stuff that we're going to be printing. So that's why we, I think we all kind of expected that you can print in all the browsers. We print things all the time in browsers and, or maybe not all the time, but, you know, we print things often enough that, you don't really expect this kind of weirdness to pop up and that's kind of what got us.
+
+[00:16:53] Mm hmm.
+
+[00:16:54] I think that the solution What we would do differently if we could do it over again or in the future would be rely on, whether that's buying or building tooling for generating PDFs on the server, and then, downloading those to the client and they can either save or print them to their delight. do you have thoughts about server side PDF generation? I know you did a bunch of research, Joel, on services. 
+
+[00:17:19] Do I?
+
+[00:17:20] One of the reasons I love Elixir and Phoenix is that we get to do so much without branching out to external services and paying higher bills because of that.
+
+[00:17:29] But this may be one of those cases where that's just a practical reality. Were there any other kind of open source tooling that you saw that might help us on this? a lot of this comes down to like who's done the
+
+[00:17:41] work, right? So we did look, I did do quite a bit of research into pdf. js, which I think is the name of it. And that one was actually really good. It's got a lot of support, but it was very much not reasonable to like spike out how to work that into the project at the time.
+
+[00:17:58] I think that probably would have worked and kept, you know, long term bills pretty low or like one time bills pretty low.
+
+[00:18:05] What was the name of the, the thing that there's a Hex package that I did some research on. And this is how I discovered like the JavaScript stuff for, for Chrome, right? How to drive putting numbers and putting page numbers and putting like header text and all this stuff into headers and footers reliably on every page.
+
+[00:18:26] Was it Chrom uh, Chromac 
+
+[00:18:28] Chromic, Chromic, yeah that's the one. And that's like pretty reasonable but you also run into all these issues there.
+
+[00:18:36] I immediately 
+
+[00:18:37] ran into issues, 
+
+[00:18:38] because it runs locally, uh, with our CSP stuff. So I had to figure out how to like get page content out of a LiveView. Which, I did some real shenanigans to do because there does not appear to be a way to just be like, tell me what's in this LiveView right now, like, the entire HTML of the page. From my standpoint, this app we've been working on, we have multiple technical challenges to solve just to get to the point where we could send any HTML to an external service, right? Or an external program on the server or whatever, because of the architecture of the app, it's especially difficult. 
+
+[00:19:20] You point to like a critical piece of the decision we made. So we've got a bunch of upcoming work that we know we need to like build for the web and the client also wants to be able to print it for their users, or their users will want to print it. So, I think what was driving us to just rely on the browser was also that we didn't want to rebuild every view you know, duplicate all this, you know, layout stuff and, and everything.
+
+[00:19:44] And, um, Like build it once for the web and then build it in a PDF form or like in a some other template because, anytime you do that, any change you make, whether it's requested by the client, design, or someone else on the team requires, you know, double or more amount of work, you know, to maintain all of that stuff.
+
+[00:20:03] So,
+
+[00:20:04] It's easier for there to be discrepancies that come up.
+
+[00:20:09] Yeah, we have another app that does reporting, does heavy reporting, that took a very different approach to this problem. But it's also, um, I would say lower fidelity in terms of like visual design so it can kind of get away with another challenge that you haven't mentioned is like how particular the client for this particular thing was about the actual like visuals of it if we'd been able to get away with a simpler design for these tables and stuff these data tables like We probably could have delivered a simpler solution quickly, but we ended up barring some of the stuff that shouldn't be in the print at all because it's from the web.
+
+[00:20:51] Like, you don't want your inputs to show up, for example. Like, it's almost pixel, like pixel perfect representation of what's on page. And like, we did not have to do that for the other app. And so it made printing a lot simpler as a problem.
+
+[00:21:07] There are all these kind of factors that, that roll together and you just end up in a mess, right?
+
+[00:21:11] And Charles, I know when you all did the most of the printing stuff, I was just kind of there making sure it was working as much as possible. Like you know all this stuff better than I do. You have all of these technical factors that go on top of each other. And then you're in the wild with one of our clients, like one of the actual people on the client team also had like, Some sort of Acrobat integration going on. So their printing was more weirder. So they had a different view even than we did because the PDFs were opening in Acrobat in their browser and a different rendering engine again. So PDFs have rendering engines too, right? So you're talking about, you're talking about the browser engine and then the print engine.
+
+[00:21:56] And then the PDF is a separate thing on top of that with its own format. And then every PDF renderer has its own features and rendering engine too. They're pretty consistent because of how PDFs work, but they're not consistent all the way. So we had some stuff come out of that and we eventually were just like, can you just like open this and, you know, you're in macOS's preview or whatever.
+
+[00:22:20] Just make sure it looks okay there for the, for most people. Um, so there's all these like, factors that make it hard to predict what's going to happen. And I think, like, what you're saying is, like, we'll put, we'll try and remove some of the uncertainty there by making at least the first step where we're rendering things on the server. , we're going to take away the, like, there are 400 million people with different versions of PDF rendering in their browser. We're going to eliminate that part. So, like, the inconsistencies are going to be New stuff that we introduced that breaks PDFs or, the PDF rendering engines are slightly different because of this particular box that shows up in this particular PDF or whatever.
+
+[00:23:02] So we're trying to eliminate that first step in the future because that first step turned out to be a doozy. 
+
+[00:23:08] I think part of what was driving Some of the complexity is that this is an application that we're building. It's funny. It's like a full circle application. So it, it starts as PDFs and printed material, which we're building like an interactive version of that, which requires you to think differently about the nature of that product that was, you know, designed for one format and then, you know, needs to operate a little bit differently for, for the web.
+
+[00:23:33] And then has to circle back around to like, I think ideally the client would have liked this to print in exactly the same template and format as the original material, but just not a, not something we could practically do because the difference in the web and the, you know, we're talking about dynamic content
+
+[00:23:50] Well, we did, we did offer that as a possible solution because you can fill out PDFs, fillable PDFs is a thing. Which is also a whole, I don't want to talk about it, but it's a whole thing.
+
+[00:24:01] I mean, that sounds like doable. I'm just trying to imagine us like rebuilding templates that look like the page version,
+
+[00:24:07] Yeah, that wouldn't have that wouldn't have gone good. 
+
+[00:24:10] yeah.
+
+[00:24:11] it's somewhat of a recursive app.
+
+[00:24:13] Right. It's a snake eating its own tail.
+
+[00:24:17] A little Ouroboros is a treat.
+
+[00:24:19] yes. So, okay, so we talked about some tooling. I know that the content that's going into these, I was kind of surprised at some of the ways we had to solve these problems. So part of this is, and Charles, you can speak to this somewhat. We had two different ways of tackling printing.
+
+[00:24:37] And I think it's just the nature of different people working in different portions of the app. At the same time or at different times, , part of the app would basically like print just the web view. If you clicked a print button, it would just, open the print dialogue for the page you were already on. There are other portions of the app where you hit print and it, it loads a print layout in Phoenix 
+
+[00:24:59] Yes. At a different route. 
+
+[00:25:00] So can you talk a little bit about maybe some things that worked well or didn't work well in both of those approaches, some of the things you saw?
+
+[00:25:09] of course, when in a situation where we had separate templates for web and print, it was easy for things to diverge, especially If we had a ticket that was specific to the web view or specific to the print view. It was easy to lose sight of, oh, well, there's a separate parallel template for this view that I should also check to see if this needs to be adjusted in the same way.
+
+[00:25:34] Or maybe it's adjusted differently because it's a different medium. Whereas in the situation where we were printing the same view, then, you know, sometimes, if a style was updated for the web view, it was more likely to also impact the print view in an unintended way when we were printing the web view straight to the print dialog.
+
+[00:25:58] I don't know where this kind of started, but I was looking at some of these print layouts and, so like we had print layouts that were separate and then we had basically CSS overrides.
+
+[00:26:10] So with Tailwind, you can do print colon and like change. Font size, blah, blah, blah. And I think some of the classes that we were using for print styles were copied out of Figma, which like we'll set like a pixel size and then whenever you do it that way, it means that you also need to override the line height because Tailwind, this is like one little nitpick that I have with Tailwind now after this project specifically is that.
+
+[00:26:35] Tailwind, whenever you define your font, XL font base, whatever, it's not setting just the size. It's setting a, like a rim or maybe even a pixel line height.
+
+[00:26:46] Mhm.
+
+[00:26:47] I think if I were to like contribute a big, this might be a big change to Tailwind, I would just make a line height, like maybe 1. 25 or whatever. So you don't need to like, , go and update your line height whenever you make a pixel size font change, you know.
+
+[00:27:03] Like making it proportional to the font size. the font size Yeah. Mm 
+
+[00:27:07] That stuff is, that stuff's also so complicated to get right because it's 
+
+[00:27:11] based on the actual font and how the font foundry has like set up the headers and footers on the fonts. It's such a mess.
+
+[00:27:19] Yeah.
+
+[00:27:19] But I agree that that's not, those shouldn't be, Yeah. 
+
+[00:27:24] And in some of those cases, it was The actual spec was for a font size and a line height that did not match up with one of the tailwind presets of extra small, small, what have you.
+
+[00:27:37] I think a way to clean that up would be to add another, just add a line to the Tailwind config that
+
+[00:27:43] is like 
+
+[00:27:44] our, basically not, it's probably not text print, but it's like text xxs.
+
+[00:27:50] Correct. Yeah. 
+
+[00:27:51] Basically, we needed something smaller. , it's weird, like the, the pixel size of a font on the web is very different from what's on the page.
+
+[00:28:00] So something like, you would probably never render pixel size eight or like text of eight pixels on a webpage. But on the printed page, it's actually like. It was readable or usable and because the density of the app, that's kind of what we needed anyway. The other kind of surprise for me was that whenever we needed content to repeat across multiple pages, we could do that with our separate layout approach that required tables. , because like Joel, you're talking about this JavaScript package that could potentially repeat information across pages, but that's using JavaScript and it's kind of hard to control. The way we did this was we built a, whenever you print a table, it will repeat headers, whenever the page breaks and you've got content that's stretched across multiple pages.
+
+[00:28:48] So these print layouts are basically like, email print layouts, right? you have to use tables to get everything to operate the way you need it to. It was just kind of like, oh, we're doing that with tables now. 
+
+[00:28:59] I mean, 
+
+[00:29:00] It makes sense. We're doing reports. It is generally tabular data. We should use tables, but yeah, like, stuff gets real funky real fast.
+
+[00:29:08] I wasn't surprised that we were using tables within a page, but to have a quote unquote header, That's formatted and has logos and blah, blah, blah. To make that appear across pages consistently, we had to wrap the entire kind of page in a table so that that header, quote unquote, header row would, even though it doesn't look like a table, it would appear on every page.
+
+[00:29:28] It was just, that's one of those little gotchas that I was surprised by.
+
+[00:29:32] If, and if you take that down to footers, which is where you might often see a page count printed in a print medium, getting that number to increment per page and print in a footer when printing from the web, you got to do a lot of backflips. 
+
+[00:29:52] Were you able to get that working? I don't even know how that would possibly, because like our app doesn't know anything about print, right? Like we have a print layout, but it doesn't know how many pages because the user is going to maybe change the margin size. They might switch from portrait to landscape. That all changes the number of pages. And 
+
+[00:30:12] because we're not generating PDFs, you know, we're just using LiveView templates, or even if they were just, you know, You know, deadview templates. We would not know the number of pages or which page you're looking at
+
+[00:30:23] without some kind of wizardry. actually another huge problem with printing from the browser is table of contents is extremely difficult to generate. Maybe not feasible? I'm not sure. 
+
+[00:30:36] Because it doesn't. It's just 
+
+[00:30:38] so lacking, right? So,
+
+[00:30:41] talking about the prints, prints. xml 
+
+[00:30:44] or Weezy, I've looked at Weezy a little bit, so I'm familiar at least with its gross features.
+
+[00:30:49] Because of how they work, you can put references to other parts of the, printout, right, the PDF, into pages that are earlier in the layout. And it will eventually make those consistent. So if you're like, okay, this is a link to the header on page 60 But it. doesn't know page 60 yet when it gets to that first page.
+
+[00:31:08] It's just like okay This is a link out to like this particular anchor and in my print Chrome is not gonna do that today like just will not it does not know how Because it takes a lot of work
+
+[00:31:22] To get that information. Like you have to, you have to, lay everything out and say, okay, this header actually ended up on page, you know, 45, okay, now I've got my table of contents now I've got to go back through and at the right time when I'm rendering, rendered 45, the number 45 here in the correct font, and is that going to change anything later?
+
+[00:31:45] Cause I, you know, I rendered 45. Well, I don't know. So there's a lot of stuff that goes on there, right? And Chrome just doesn't care. Like, Alphabet doesn't care. So that's never going to be fixed. So that's the kind of problem that you don't, you can't solve with, with these like simplistic solutions.
+
+[00:32:05] Like, it just isn't going to happen. And the same thing that you're talking about, like the consistent headers, like you can't do that because you don't know where you are. If you don't have a page aware rendering engine. So if you're like, okay, I need to change Another thing, like, if you're doing a book, right?
+
+[00:32:25] The margins on the left and right should be different depending on whether the page is the one on the left when you open the book, or The right, right, So you can fake that in Chrome, sort of, but it's hard. Let's say you want to put the chapter title you're in at the top. Okay, that's out.
+
+[00:32:44] You're not doing that in Chrome. It's just not happening. I don't think so. That's when it, when you need, you need something that's aware of what pages are when you're rendering, if you want to get like that level of control. Right. So when we think about our problem was we have this, this big thing and it has sections, right?
+
+[00:33:05] And ideally The section would be the thing that we highlight at the top of the page, right? Like every page of that section should have information about that section specifically, a little bit of context. So when you're looking at the page, you know what it is. There's some colors that go with each section, et cetera.
+
+[00:33:21] But like that is super difficult, maybe impossible to pull off with the browser printing. I think impossible. And that's like trivial, for example, in Prince XML, like I could do it in 10 minutes. Because they've built a page where rendering engine for HTML, basically. And it just happens to spit out PDFs.
+
+[00:33:42] Chrome has not done that thing. So what you get is just like wild, wild West, like this doesn't work. Sorry about, sorry about your life.
+
+[00:33:50] know, Google has created a PageWare rendering engine in Google Docs.
+
+[00:33:56] Yes.
+
+[00:33:58] It has not been applied anywhere else.
+
+[00:34:00] So what we need to do is put all of our content in Google docs first and then print from Yeah. Perfect.
+
+[00:34:06] Yeah. Naturally. All right. Problem solved.
+
+[00:34:08] Problem solved. uh, So, uh, Guys, I don't want to do another project where we have to think this hard about printing, but if we,
+
+[00:34:18] It's
+
+[00:34:19] if
+
+[00:34:19] we, it's going to happen. So, uh, like next time,
+
+[00:34:24] Winter is coming. so like, I'm thinking through, like, how do we actually solve this problem? Right. Like we, I want to say like, we could go the approach of, we actually do have PDFs that are fixed and we're just filling in data. But that's constrained. Like there may be, you know, if we're talking about, , lists of things,, you can pre build a table. That's got 20, a hundred rows or whatever. But what if you want to print 200? Like, do you just keep, I don't know. There's like, I can kind of see how to like do that on a per page basis. But
+
+[00:35:00] So you've got, you've got a lot of problems if you're trying to start and have infinite or, you know, dynamic content, right? So the place where fillable PDFs shine is I have a form that's fixed data. So I'm doing my taxes. Like most people can do their taxes in a fillable PDF because most people do not have complicated like Okay, I've got 10 percent ownership in this company and 4 percent in this one and I've got three 401ks that matured this year and I've got like three houses and I've got this rental property and my boat like fell into the Fell into a whirlpool or something like most people don't have that I don't own a boat by the way.
+
+[00:35:41] Um, no. Um, Charles does. Charles has a boat. Um, sailboat.
+
+[00:35:47] a fancy one.
+
+[00:35:48] I know. I was just making a joke and then I realized that someone on the call actually has a boat, so I made it funnier. but most people are just like, I got like a 1099, um, I put in my numbers and then I'm done. For most people, like a fillable PDF of their taxes is fine because they can just do it.
+
+[00:36:07] And that's the same way with like, a lot of the information we took for this app, we could have put into a fillable PDF, but then we have all these not fixed anything. And so one solution to that is, , you fill in the fixed part, and then you 
+
+[00:36:21] Put together another PDF. you generate a PDF and then stitch them together.
+
+[00:36:28] Again, you get into trouble if you're trying to do a table of contents or something there because now you've got two PDFs You're putting together and now you have to go and alter the first PDF
+
+[00:36:38] Or the combined PDF like that gets really complicated. I've done it a couple times and I was like, uh, maybe we shouldn't. But most people don't need a table of contents either.
+
+[00:36:46] That's like a very specific kind of thing So that's that's a solution to the problem If you've got fixed data and then like dynamic content you can like do that Just produce those separately. And that's potentially a solution. It doesn't solve all the problems of like, now I have different styles. Right. But if you just need data in a data table and then like metadata about that data, like you can probably do it.
+
+[00:37:13] At this point, I'd probably recommend different styles, like just have a set of known quantity PDFs, whatever the styles may be, , it doesn't have to be black and white, you know, outline tables or whatever, but make that a known quantity that we can fill with data and then, , not try to match, the web to the page because they're just inherently different and we think we.
+
+[00:37:35] I know that viscerally now. Charles, how many printers do you have on your yacht? You have like a up, up, up deck and down deck fax machine printer combo?
+
+[00:37:48] With a satellite dish and, um, uh, there's a swimming pool on top. And no, this, this, this thing has, has no deck. There is no electricity. There is no plumbing.
+
+[00:38:00] Ah.
+
+[00:38:01] It is not a wine and cheese cruiser. It is a, uh, get in and work your butt off to, to go really fast kind of boat.
+
+[00:38:09] The closest you get to a printer is like a Sharpie on your sail, basically. Like, please help me, I'm sinking.
+
+[00:38:15] Yes, it's true. In fact, we're not even allowed to use electronics, except for, , radio in very limited circumstances. And, you can use a digital compass as long as it's not one of these fancy ones that tells you tactically when to change direction and stuff based on the way the wind shifts, uh, so that it's more on, you know, Your skill as a sailor.
+
+[00:38:42] Nice. So I think before we, before we close the, turn the page,
+
+[00:38:50] Nice. Before we turn the page on this episode of the podcast, let's talk a little bit about accessibility.
+
+[00:38:58] You know, we, we think of accessibility, especially in, in some projects, because, you know, they are very much. Aware of, they need to support a bunch of different users with, uh, a range of different needs. And that extends to the printed page, right? Are the standards the same? Is it like double A, triple A, uh, or is it different? I'm
+
+[00:39:21] it's different. There's still, I'll talk a little bit. So Mostly when you talk about accessible PDFs, you talk about PDFA standards and there's like four levels of compliance and they're all like slightly different. PDFA 1 is pretty old. , and I will say Chrome has an experimental thing that you can try and create PDFA compliant PDFs from Chrome's printer.
+
+[00:39:44] If you use the JavaScript, API, you cannot do it from the web. So PDFA is basically like. There's, there's several components. One is like, I'm going to include all of the fonts that are necessary to generate this PDF so that I know what is going to show up in the PDF. Which may or may not sound reasonable to you, but the concept is like, if I'm, if I'm opening a PDF on my, on my computer from someone who created this in like India.
+
+[00:40:17] I want to make sure that I get the fonts they used in India so that I can read what they wrote instead of whatever my computer decides to render, which is probably not going to be correct on my US English computer, right? There's also this, I forget the technical exactitudes, but there's this document structure in the same way that we have document structure in HTML, like you need a document structure for it to be accessible as a PDF so that screen readers will allow you to like skip around.
+
+[00:40:49] If you've never looked at the binary format of PDFs, it's weird and a lot of it is text, in a super weird format. If you've never seen it, you're just like, I don't know what this is. but it's actually a text format with Some binary like tags and it's, it's very strange. And then there's some like rules about how images work and how transparency is not allowed and some other stuff.
+
+[00:41:13] But mostly it's set up to have that document structure and make sure that what you show is going to be consistent no matter where you look at it. And those are like the key points. And you just can't get that from browser printing right now as far as I can tell. So, and then there's A1, A2, A3, A4... A4 is fairly new, I actually learned about that today when I looked at the Wikipedia thing.
+
+[00:41:34] But, um, I knew about the others because we had to support those. There's also PDFX, which I think is like the most Pewpew, do whatever you want, pdf, and then there's also one that I had not heard of that I saw today, which is pdf e, which I think also may be some sort of accessibility thing, but anyway. pdf a is the standard and has been for a long time.
+
+[00:41:56] Cool, well, do we, does everyone here have a printer?
+
+[00:42:01] Yes.
+
+[00:42:03] Yes. The,
+
+[00:42:06] I do not, my, I'm in an apartment that has a printer, so I haven't needed to buy one yet. I probably will in a few months. So, what's your favorite printer? Do you have a favorite printer? Is it possible?
+
+[00:42:22] the brother laser printer that is on sale and it is not networked.
+
+[00:42:27] SmartMove, yeah.
+
+[00:42:30] At my previous job we had an old HP 5000 that we had connected to like some sort of little apple puck in the wall. So the ApplePuck was on Wi Fi, but the printer was not. And it was a champ. Uh, my favorite was the dot matrix printer that I had as a kid that had horribly expensive, color printer, 
+
+[00:42:50] ribbons. It had a very expensive color ribbon, which I used immediately to print things from Microsoft Encarta, the CD ROM encyclopedia. And my mom and dad were like, you spent 45 printing. This article about Egypt and I'm like, yeah, isn't it cool?
+
+[00:43:06] You know, I've just unlocked a memory. So like my dad used to have a, uh, a house like drafting service. So like, if you need blueprints and that kind of thing, you need a drafter to potentially help an architect with that. That's what he did. And he had a plotter. Maybe we'll get some plotter projects and we can like just. Go real, real, like, I don't even know what that would, it's still PDFs, right? They're just very big PDFs. Have you ever watched a plotter? It, so basically what it does, you know, it's kind of like dot matrix, but it's just like a arm and it's got motors that roll the page back and forth. So it's like a big, uh, what's the thing, uh,
+
+[00:43:48] That's just sketch. Yeah.
+
+[00:43:49] Etch a Sketch, it's like a big Etch a Sketch, but it's writing on a page and it has, you know, usually CMYK pens.
+
+[00:43:55] Yeah. I was going to say, it just uses like a pencil basically to write, doesn't it? Yeah. Those are neat. 
+
+[00:44:01] pencils, whatever. 
+
+[00:44:02] I personally hope that we don't have to do a plotter project, although it would be fun. Uh, Charles could stretch his nerves, nerves legs. 
+
+[00:44:10] Right. Yes. 
+
+[00:44:12] could be 
+
+[00:44:13] fun. 
+
+[00:44:14] in the future, we shall be printing large, large, large pages through, maybe not. All right. Let's tone it down. I don't know. I had to throw the pun in there somewhere. So, all right. We're turning the page, we're toning it down. I think that means it's time to call it a day. We've exhausted, I'm out of ink. I don't know. Anyone else got a pun? You want to throw in before we 
+
+[00:44:45] shut 
+
+[00:44:45] off this episode? 
+
+[00:44:48] Um, no, I don't. Sorry. 
+
+[00:44:52] All right. All right. It's time to rip holes off the side of the page then.
+
+[00:44:57] Yes.
+
+[00:44:58] to tear off the,
+
+[00:44:59] Go 
+
+[00:45:00] off the paper 
+
+[00:45:00] jam.
+
+[00:45:02] Well,
+
+[00:45:06] do that big rip, man. It's super good.
+
+[00:45:10] All right. So in the future, our projects will only be dot matrix printed
+
+[00:45:14] You know, that sounds better in a lot of ways. That really sounds much easier. 
+
+[00:45:19] Yeah. You can only print texts on a, right. On a, on a grid. Cool. Well, thanks everyone. Thanks you guys for joining us and, uh, yeah, we're going to call it. We'll be back next week with more Elixir Wizards.
+
+[00:45:32] Thank you.
+
+[00:45:33] Thanks. Have a good one. 
+
+Dan: Elixir Wizards is a production of SmartLogic. 
+
+Owen: You can find us online at smartlogic.io and we're @SmartLogic on Twitter.
+
+Sundi: Don't forget to like, subscribe, and leave a review. 
+
+Dan: This episode was produced and edited by Paloma Pechenik for SmartLogic.  
+
+Sundi: Join us next week for more Elixir Wizards Office Hours as we deep dive into another aspect of the software development lifecycle. 
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
+
