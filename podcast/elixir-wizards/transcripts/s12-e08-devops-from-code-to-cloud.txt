@@ -1,0 +1,393 @@
+S12E08 From Code to Cloud
+===
+
+[00:00:00] 
+
+Owen: Hey, everyone. I'm Owen Bickford, senior software developer at SmartLogic.
+
+Sundi: And I'm Sundi Myint, Engineering Manager at Cars Commerce. And we're your hosts for today's episode. For episode 8, we're joined by SmartLogic Director of Engineering, Dan Ivovich. Hey, Dan.
+
+Dan: Hello.
+
+Sundi: and we thought it would be fun to chat about all things DevOps. So for those who haven't ever had the opportunity and blessing to work with Dan.
+
+Dan is a wealth of knowledge when it comes to things that are DevOps related. And for a lot of developers out there, DevOps is just a cloud of mystery. And we thought, a nice little Q and A session with Dan would be a beneficial for everyone. So everyone gets a chance to hear what it's like to work with Dan.
+
+Right, Owen?
+
+Owen: Right.this will be like part of what it's like working with Dan.
+
+Ansible stuff, the getting it out to the world stuff.
+
+Dan: Dan's passionate allegiance to certain tools after years of being burned by others.
+
+Owen: for
+
+Sundi: I think lots of our guests might know your history, generally speaking. but do you want to speak to your history of you and DevOps and like how you've ended up in this field and why you're our go to people?
+
+Owen: all again soon.
+
+Dan: I got into the field before DevOps was even really a term we talked about a whole lot. and there was the operations of things, getting the applications hosted and there was development of them and never the two should cross. and.
+
+I don't remember exactly when or even all the background here. It's in that, that fuzzy things happened on the internet,space, but, there was a concerted effort to say, Hey, we should all know more about what each other are doing so that this can be more efficient, more effective.
+
+and so this like concept of DevOps where it's a mixture of dev and ops came out. And,for me personally,I've always been really interested in like the server administration side of things and figuring out how to configure machines, breaking a lot of machines along the way, figuring out how to host things.
+
+I learned a lot about Linux and servers through installing things like WordPress and, the Wikimedia like engine that powers Wikipedia or, Insert random, website engine like Joomla or, Drupal or, whatever. and just experimenting with those things and learned a lot about the command line and web servers.
+
+And it was just something I was really interested in. And, so when I got into professional software development, In an early job, I was trying to push for Ruby and Rails and these other open source platforms, and I was working with operations folk who were, very good, but very used to Microsoft-based hosting.
+
+and so there was a lot of knowledge sharing between me as a developer and them as operations folk on, how to make these things kind of work and get them running. and so I learned a lot and just strengthened my passion for that. so fast forward then to SmartLogic and,we were building Rails apps and trying to get them deployed, which was a much different story in 2011 than it is today.
+
+but there were, Railscasts that I found about Capistrano, and I really found the automation of configuring a server through Capistrano to be just awesome. and I think at that point I was like super hooked in. Being really familiar with not just how to write the application, but how to get it running, keep it running, monitor it, maintain it, update it, scale it.
+
+And, I've always,had a, had an interest in that and have made it part of how I support the SmartLogic team. 
+
+Owen: I was curious, I just did a quick Google search. PopQuiz, does anyone know when Docker came onto the scene?
+
+Dan: a lot newer than the technology Docker uses. I'm trying to think. I want to say sometime between 2007 and 2011. Can I make a four year window guess?
+
+Owen: you can!
+
+Sundi: earlier, or sorry, I thought it was later, like 2014, but I don't know why. I couldn't give you anything real on that.
+
+Owen: You're actually close. yeah, the initial release is March 20th, 2013, according to Wikipedia. assuming that's
+
+Dan: Okay. Yeah,
+
+Owen: it was right in between.yeah,I think whenever I think of DevOps now,we're deploying to the cloud in most applications. I can think of a couple exceptions where we're going to just a bare metal machine for, client, applications. But we're mostly in a, like a Dockerized world, whether you're using Docker, capital D, or, some,Firecracker VM or whatever else tooling that's built maybe a top of Docker. I don't know. How does that factor in? How does that kind of the Docker evolution compare to what you were doing [00:05:00] previously?
+
+Dan: Sure. so I think Docker, from my standpoint, it changed the game in the sense of It got you so much closer to shipping a binary,and people who are used to, Java based, where you're, we're sending jar files and various archives, war files, all these things.
+
+they were like, Oh yeah, we just, you send a file to the web server and it just does it, but for,Rails applications, like so much of what Capistrano was doing is, extract the code from GitHub, pull down an archive, put everything in the right place, simlink it in, install all the dependencies, all of these things to get the server ready to just run, Rails S, or, hopefully something a little bit more than that.
+
+But, and so Docker would give you an opportunity to say, you know what, just let me create a file system that is exactly what I need it to be so that I can run this one process that I care about. and that was like really cool. Um,I, we've done some hosting that way. what I find is a little bit of a disadvantage there is you need to really think through all the things you may want to do to that running server or that running process or that running code base.
+
+and I think for really small projects, for things that you, Maybe you want to put on a cowboy hat and edit on the fly a little bit or do some like rogue hot fixing or whatever. Docker can get in your way on some of those things. And so maybe for early prototypes or, beta or alpha applications, you're just trying to test the wheels on.
+
+I think the Docker can add a layer of complexity that maybe can get in the way. Now that said, I think, for us today,we don't necessarily deploy with Docker, but it's part of our toolchain for sure. And that's largely because CircleCI is, such a big user of Docker and, kind of everything we're running is, containerized to a degree.
+
+We're using those, the CircleCI convenience images to start with those base images and we're, from a continuous deployment standpoint, we're using it to build our, our Elixir or Erlang releases. and so we're using Docker images that are, that closely mirror from a, what standard libraries are available and what,C standard libraries are going to link against.
+
+We have, we match all of those, to that image that we're going to use to build so that binary will run on our target VM.
+
+Sundi: You said a few words there that I didn't quite follow. I don't know. And it makes me think about, Owen, you had a, a thought the other day, or it could have been last month or last year,
+
+Owen: to say I'm hard to understand.
+
+Sundi: no, but like framing things for certain people. So Dan, how would you describe what DevOps is to a junior developer who's really just gotten into it? And then maybe we could move to talk about a mid level engineer who's been working for a few years, to maybe how would you describe it to a senior engineer who's like ready to be managing and deploying apps regularly?
+
+Dan: Sure. So I think at its lowest level, the way I think about it, it is the approach that we choose to take to make sure that our software pairs as nicely with our infrastructure as possible. And so that can mean a lot of things. but to me it means, configuration, scaling, security, deployment, updates, monitoring.
+
+Owen: really excited
+
+Dan: That does cover most of it. And so it's making sure that those things, play nice and that everybody's aware of what's available, what's needed so that you have as few surprises when you go to hit go as, as possible. and then I think one step like further into your career on that side, it's a matter of being able to, potentially contribute to, or make recommendations on what infrastructure changes you need to support the code that you're working on, or to make sure that you understand how.
+
+Modifying a dependency may impact the next deploy that is going to require that dependency.and I think at SmartLogic, we tend to, work towards being as full stack as possible. And so we want everybody to understand. Not just okay, I can write the software and it works on my machine.
+
+Works on my machine is not a reasonable,outcome or solution to, I don't know why it doesn't work in production. and so I think being able to just understand further from, further down from I wrote code to how is it running on a server is important.
+
+Owen: think another part of DevOps that we're talking about getting code that you wrote out onto a server. I think another thing is you're on a team and you've got maybe four or five people. Maybe more with maybe identical laptops, but maybe not. And, people are using different IDEs, different configurations of things.
+
+Some people using Postgres. exe or the Postgres installer versus like a Docker image or whatever. So like DevOps also, I think, entails. Uh,I think it's like taking on different forms over time. Like sometimes it was promised to like, give you a consistent development environment if you're using Dockerized VS code, for example, dev containers.
+
+or I think maybe more generally like DevOps is also like helping the development team work with the common set of tools so that they're not focused. They're not spending hours and hours, throughout a project, trying to get things, get the server running on their own machine.
+
+Dan: Yeah, and I have friends who work in, SRE teams,[00:10:00] reliability engineering and things like that, where a large part of their effort is not just the production infrastructure or the QA infrastructure or the test infrastructure, but the development infrastructure. because I think, for some projects, for some teams, for some, some certain complexity of work that you're doing, development locally may not even be 100 percent feasible, or maybe not 100 percent desired, depending on your team and your.
+
+priorities. And building reproducible, forkable, PR specific, potentially, dev environments or test environments or staging environments can be a large part of what DevOps may mean for certain teams.
+
+Owen: I'm curious. So we're, the projects I've worked on are, I don't know if the terms like monoglot or like loglot,
+
+Dan: Mon
+
+Owen: it's primarily Elixir and maybe some JavaScript.
+
+Dan: yeah, okay,
+
+Owen: Like you can do a lot of stuff in a monorepo, but they're like basically Elixir plus some JavaScript or, other projects or Rails plus maybe some JavaScript, maybe some Rails on top.
+
+but there are even within monorepos, sometimes multiple different languages. So in a polyglot environment, like what are some of the implications of a polyglot environment where maybe you've got like part of your application written in Rails, part of it's written in Java, so on and so forth, Python.
+
+Dan: Yeah, I think that'll have big impacts on your, what your build and toolchain maybe looks like. we've had a handful of things where, The, to some degree, the server you're going to then ultimately run on, you're just saying, needs more dependencies. but with more dependencies, you now have, a larger surface area for maintenance, and patching, and potentially upgrades to things that then break other things.
+
+and the more moving pieces you have, the more, I think, you need to be a little bit worried about what if one piece moves and the whole thing. and I think that's where you get maybe a push towards microservices or lambdas where it's I know these are isolated because I am architecturally deciding for them to be insanely isolated.
+
+our work tends to be
+
+Owen: Okay.
+
+Dan: a framework like Ruby and Rails or Phoenix and Elixir. And then some JavaScript, which we are, quickly moving everything to be ESBuild,and DartSass potentially, if not Tailwind. and so that's giving us, a pretty reliable toolchain.
+
+I think the other aspect, especially when it comes to Elixir apps, the way we deploy them with, Erlang releases is, if you have the right,
+
+Owen: today
+
+Dan: system you're going to boot it on matches enough where you built it in terms of like libraries you're linked against, everything's there.
+
+It's all done, right? Like it's all compiled and ready. And your assets are in the static folder where they're supposed to be. And everything's configured, ready to go. And it's really just a matter of, untar and, run, which,awesome. that sounds good to me.
+
+Sundi: There's one question that I've always had in the back of my head that, I started thinking about when Fly. io was first on the scene. I think one of the taglines was, deploy your applications where your users are. And when I saw that, I remembered thinking,naively, because I'm very unfamiliar with DevOps.
+
+Oh, isn't the Internet everywhere?why does it matter where your users are? So could you speak to some of the localization, considerations that people have to have when deploying applications on like locale and things like that?
+
+Dan: Yeah, when you think about geography, I think you can think about a few things and, you think about where your users are in their geography that can have a lot of different impacts. maybe at its most basic level, it's just straight up latency, right? How long is it going to take for a packet to get, even if it's going as, as fast as possible, right?
+
+Or is in, is experiencing no congestion on the network, right? And it will just take time to, to move through the network from your server to your user and then back again. And so there's that aspect of just like geographic proximity. the other part of geography is obviously what's the quality of the internet, what's the quality of my connection, is it wired, is it wireless, is it, LTE, is it 5G?
+
+and then what's my computing power is always a big consideration when you think about the geography of your users and what their typical device may or may not be like, and so there's, depending on your application and your, latency needs, you, there may be real benefit to.
+
+Running your application in a way that it is, physically as close to this, the user as possible,but multi-data center load balancing and multi-tenancy across data centers. while from a relatively stateless application, although more stateless now with live view,maybe that's fine, but then you still have your database and there's just, there's a lot of complexity there.
+
+And that's where, systems like FLY and other things in that vein. are providing a real service because they can make that not a whole lot of like things that you have to worry about. If you're going to try to run, build that yourself with multiple, multiple regions in AWS, like that's a lot of work.
+
+but also the question is, do you need it?
+
+Sundi: Yeah, I think one of the things that I remember a lot from my early career was on the rare days, the AW East, what is it, US East 1 or whatever, like that region would go out on those rare occasions. Transcribed And [00:15:00] just like everyone in my, and all of my friends, because I only have friends with people in tech, I think, they were all be like, oh yeah, we're down, we're all down.
+
+And we were just like, okay, snow day? And it was like the same kind of cadence and occurrence level as a snow day in school. It was like, yeah, there's nothing we can do. And I remember thinking, why are we all on the same,
+
+I don't know what the right word is, cluster maybe? Pod? No, the pod's
+
+Dan: So the way Amazon does it is regions, which you can think of as like a data center, and then availability zones within that region. And so those are, isolated from a, connectivity, power, cooling, standpoint, such that an outage of certain, an outage of certain types should only bring down an amount.
+
+an availability zone and not other things in the same data center in a different availability zone. And so when you're looking for redundancy in AWS, you can think about it in terms of availability zone and then natural disaster, which would then maybe be region. 
+
+Sundi: Yeah. That makes a lot more sense. Probably should've asked that before.
+
+Dan: Yeah. So it's important if you are choosing infrastructure in AWS to make sure that you're spreading across. Availability zones and, certain, a lot of AWS will encourage you to do that in terms of, your load balancers will say, hey, you're not load balancing across availability zones, which means if, if us east 1a goes down and all your servers are in us east 1a, then,you're gonna have a bad time and so you want things spread out.
+
+And by default, multi az, RDS deployments, for databases spread across availability zones so that you have that redundancy inherently in them.
+
+Owen: I think, you made me, you triggered a little thought here, I think the last time I installed a new Phoenix project, and I don't know when this was added, but we've got, DNS cluster as, one of the default dependencies now, I think that's because if you're like everyone else, or like most everyone else in deploying on fly or AWS even, you're probably going to be connecting, to other nodes and DNS cluster is a way of just simplifying that.
+
+Dan: Yeah. I haven't looked a whole lot in DNS cluster. We use lib cluster a lot. We can usually pretty reliably specify the other nodes we're trying to connect to in the way our things are deployed. But I, I think. Moving to a more dynamic list of peered nodes would be nice, and so that's something we should definitely look into.
+
+Owen: yeah, I think, one of the takeaways I remember from this past ElixirConf, so 2023, was, Chris McCord talking about how, yes, once you're in a multi node network, you can go down the rabbit hole of,Raft and, CapTheorem and all this other stuff, and that yeah, That's, those are tools that are available to you, but, for most applications, what you really need is probably just PubSub.
+
+And if that will get you the efficient, eventual consistency that you typically need without, a lot of additional overhead.
+
+And I think DNS clusters are like a big piece of that.
+
+Dan: Yeah, I think if you're Leader election is often not something you need, right? You just need all the nodes to know about all the other nodes. And, you may have to worry about if they split off, but generally speaking, if your health checks can know that your cluster is connected, then I don't know that you necessarily need to worry too much about, the split brain problem.
+
+these are, like, these are scales that are, bigger than, the split brain problem. A lot of what we tend to have to work with day in, day out,there's, there's always dragons there,prepare accordingly.
+
+Owen: Count your dragons, then deploy. So I think another tool in the ecosystem, I don't know cause I haven't used it yet, it's just been on on the back burner of things to look up sometime, whenever I have the chance.so Docker is I think the default way of deploying most apps now, there's a thing called Burrito.
+
+So friend of the pod, Digit, and I think Quinn Wilton also. Collaborated on Burrito, and it's essentially a way of kind of packaging up your Elixir app so that it includes the Erlang build, and it uses some niffs to get your, your application with all its dependencies, with all its system dependencies
+
+Dan: Yeah, my understanding is it's like one step beyond, or maybe multiple steps, but some amount of steps beyond just a mixed release, an Erlang release, giving you more of what you need, but not necessarily going all the way to Docker, where you have an image of the entire file system at a change And then that's what you're passing around.
+
+So it's like a nice self contained in between
+
+Owen: Yeah. it's not like its own operating system. It's just the application, which lives inside of an operating system somewhere.
+
+Dan: have you, I don't think we've had any projects that use that. Have you
+
+Now that's not something we've had a reason to really push on Although [00:20:00] I did have a conversation today where it could become relevant. So We'll just you know, we'll see where we're at in a year
+
+Owen: Yeah. I think the, maybe the lower, lower hanging fruit, like that, maybe the easier value there is like embedded devices where you're not necessarily trying to install Docker along with everything else. 
+
+Dan: I think that's the kind of efforts that fell out of. Not, but it has more general usage. Or, opportunity for more general usage.
+
+Sundi: I think thinking about embedded devices is a really good way to bring up the context of, or I get, sorry, context, the concept that DevOps might, like a good way to think about it might even be, it's how to think about your software physically, like the physical manifestation of it in a sense that A lot of people start building code and you can generate as many projects as you want on your machine until you literally run out of memory, but that that's it, right?
+
+Like you, you can write as much code, make it do whatever you want, and it's like hard to think about the physical limitations that digital things have. And so even to think about oh, we couldn't,we were trying to. Frank Hunleth about some NERVS projects and he was picking out different, Raspberry Pis versus Raspberry Zero and talking about oh, they physically couldn't put something somewhere because it doesn't fit that, size or that device.
+
+And that was one of the first times where I was like, oh, yeah, that makes sense because that thing is, like actually physically tiny and has physical limitations to what kind of software you can run on it. So there are certain things that can't run. it helps put that into context. There are like some things that we take advantage or take for, what is this phrase?
+
+Dan: Take for
+
+Sundi: Take for granted. Some things we take for granted, because we don't think about it as much and I think it helps. At least me, who's a very visual person, to think about this is this is a certain number of pods that we have running, or like the certain number of X, Y, and Z that is happening right now.
+
+And that is what we have to work with. And we need more of that thing to make the thing that we're running into possible. Or we need to scale it back because of such and such reasons.
+
+Dan: there, yeah, it reminds me of a time when we were working with a, an external DevOps team, at a client, and we were building an Elixir application, and they had never deployed one before. and so we talk about the kind of marriage of ops and development. Part of the issue that we then had when we worked with them was that their normal monitoring thresholds for deciding they needed to scale were, like, very much based on, CPU usage.
+
+And then also memory, and we were using almost no memory, but every bit of CPU that we could, because of just like, how multi process Elixir is, or Erlang is. and so it was like, it's just because we're using, every CPU cycle available doesn't necessarily mean we need to scale.
+
+Because really, it's if we're keeping up with the load, then we, there's no reason to add a whole nother node.yeah. And so it was just like getting those thresholds correctly, and maybe you would normally say 70 percent utilization for more than a minute or two means start spinning up more VMs.
+
+And it's maybe that's not the right metric. depending on what you're deploying. And so I think that's in that vein of it being a collaborative effort between the people who are controlling infrastructure and the people who are writing code for it. And then like understanding what those performance metrics are and how to determine based on the monitoring that it is time to scale up or down.
+
+Because Sundi, to your point,it's all, no matter how much virtualization you have, it's all, There's a physical limitation at some point, and, the question is when are you going to hit it, and is it, how many VMs on, how many pods and how many Kubernetes nodes versus, how many applications or whatever processes can you run on a, a simple EC2 instance, and you will hit those boundaries at some point.
+
+The question is when and where. Yeah, and then is that malicious activity or is it actual activity that you care about or is it a, somebody left a, wild true in there that they shouldn't have? 
+
+Owen: Just use all the CPUs. so that makes me think, metrics are driving the scaling mechanisms? And, there's the concept of load shedding, and we have queues, all throughout the systems.is it possible to factor in kind of application metrics,
+
+Dan: I'm sure it would be, right? so our standard monitoring approach is Prometheus, and. with Elixir and go back to some older episodes here, right? Like the open telemetry stuff and just there's so much great effort that has been done recently around how to monitor applications.
+
+and so you can take a lot of internal metrics and expose them however you'd and then decide what to use there. But I think queuing back pressure, queuing size, queuing depth, queuing latency times, like those are certainly things to take into account because you may hit those limits far before.
+
+You hit some of your more traditional, memory usage or things like that. Now, I think like in our experience, the first thing you're going to hit every single [00:25:00] time is your database isn't going to keep up. so expect to start there. but.
+
+Owen: I was thinking like you deploy more and more machines in your database, wait, what? I'm the problem, not your, Elixir machines,
+
+Dan: Yeah, our experience has been that you can get such great multi threaded performance on an Erlang application that you don't even need that many nodes to start to overwhelm a database that isn't, that doesn't have the right indexes or is not provisioned to the right capacity, to be able to handle the kind of concurrent connections and the request types that it's being asked to do.
+
+Owen: full size two, maybe JK.
+
+Dan: Yeah, your first bet there is almost always check your indexing. because you probably, missed something or over indexed something else. It depends on where you're hitting that performance bottleneck.
+
+Sundi: You started touching on this when you were talking about the external DevOps team. Never having deployed with an Elixir application before, but, are there other particular differences about deploying an Elixir app versus other apps you've deployed in the past? With other languages, 
+
+Dan: I think, fundamentally, no.the joy of deploying an Elixir, an Erlang application is To the OS, it's one process, it's one binary, it's one thing, right? And we can run, all sorts of processes, and most particularly, Oban, to be able to run jobs all in the same contained thing. Without having to think about stuff, right?
+
+When you look at How we deploy some of our Rails applications, it's, it's our, whatever our web server is, the proxy in front of that web server, the Ruby server, Ruby web server, some sort of proxy in front of that, and then,sidekick, and then maybe also clockwork to, trigger sidekick things on a schedule, Depending on what we're, depending on how we're monitoring things, also a process to handle Prometheus ingestion and maybe some stats deconversion because, the tooling there, I'm not sure where it is today, but it was a little kind of lagging behind before.
+
+And on the Elixir side, we can do everything we just talked about, with one process. and that's, easier.
+
+Sundi: Cool.
+
+Owen: I think, observity, observity, observability, okay, look, guys, I've coined a new term, observity, it's better than observability, apparently easier to say, So how does, you already talked about a little bit about Promax on the Elixir side.so observability for folks who haven't maybe been to one of those conversations before is all about like being able to see the current state of an application, how it's performing,metrics, graphs, charts, that kind of thing, just to put it in layman's terms.
+
+Dan: Yep.
+
+Owen: so we have some tools for Elixir. We have some tools for Rails. Can you compare notes between those two? for
+
+Dan: the kind of the persistent root process aspect of Elixir and Erlang makes that really nice because you can have,
+
+Owen: hope
+
+Dan: like this really well shared environment of being able to just send messages around so you can monitor really self contained in that regard.
+
+on the Ruby side, the way we've done it in the past, is either to send, there's like bridges for StatsD, which is very common to Prometheus. And so you can have your Ruby application, send stuff into this like StatsD aggregator, and then export that into, into Prometheus. And there's a few other ways of doing it that are similar.
+
+Like you need a, you need a process that's going to sit there and gather everything for you when you're on the Ruby side, because you don't have the same. kind of supervision structure that you get out of the Erlang side. But at the end of the day, you're talking about, named variables with a type and some, attributes about them that, Prometheus just needs to be able to read on whatever interval you're trying to read it on.
+
+And um,you're heading in the same place. And you can implement your counters and timers and histograms and all of that, In mostly the same way. the nice thing with, Elixir and Erlang is that there's so much of it is just, inherent to the system. and so just by, connecting a Prometheus OpenTelemetry tool, you get just a ton of information about the VM and everything else, right out of the box, that can be really helpful.
+
+Sundi: We've talked about this also in the past, probably not on the podcast, but just generally speaking, it is very difficult for engineers who are interested in learning more about DevOps to just crack open a book and study it. It's you really have to do it. What would you recommend to someone who's it's part of their career path.
+
+They want to get better at DevOps and they need somewhere to start. Where should they start when it comes to learning the DevOps path?
+
+Dan: Yeah, so I think the way that I think about it [00:30:00] for, the SmartLogic developer is,I would like people to have an understanding of, Linux and, system administration at that level. and so there's an opportunity to just, Mess around with some VMs and cut your teeth on that as a learning exercise.
+
+A lot of this comes down to, like, how do you best learn, right? And I tend to learn best by breaking something. give me a VM to break and, great, okay. that's a place that I suggest. I think more generically, useful for people would probably belook at how your applications are deployed by whomever's, managing that, and try to understand the steps.
+
+Because I think that's the thing that's most, gonna be the most, able for you to break down into pieces that are actually useful. And then once you have those steps, then look at, What is this doing? How is it doing it? And I think really importantly, why is it doing it? So for example, if you took one of our like Ansible driven, Elixir deploy steps, you would look and you would say okay, we are like copy, we're going to download the.
+
+tar file of the built thing to the server, we're gonna extract it into a folder that's named for this release, and then we're going to, symlink all these other folders that are dependent to it, and then, and then you get to the point where it's okay, and then we're gonna like restart processes, and so you can look at each of those building blocks and say, what is it doing?
+
+What's the actual underlying like command that's happening on the operating system that's being done? Why is this important? Why in this order? and I think that's a good way to just understand those. And then once you understand that, like that kind of journey, then you can go deeper on the tool.
+
+In how those things are being accomplished. Because if you just look at I want to learn Ansible, that's just like a huge thing, right? Or if I just want to learn Terraform, it's okay, first of all, pick a provider, and then, now you have, if it's AWS, just hundreds and probably thousands of modules and you're like, there's no reason to learn all of that, but definitely there's a reason to learn the things that your team is using.
+
+Sundi: Yeah, it's Go ahead, Owen.
+
+Owen: My entry point, I think I started to understand DevOps a bit more as I was learning, CI. So like,I think one of the first applications I worked with that was doing CI stuff was in Jenkins, which is a very different beast from the ones we use now. I worked with some, of course we got, yes, it was super fun.
+
+we, I think, yeah, we here use CircleCI primarily. I've also, written, rewritten, refactored a bunch of GitHub Actions config, so a bunch of YAML.
+
+Dan: and I think you can, yeah, you can, that may be like a, maybe an alternate entry point. Because you can get through that, without necessarily understanding the underlying Linuxbuilding blocks.
+
+Yeah, that's a good
+
+Owen: does break things down into here's the steps. if you're looking at the default Elixir, YAML that you're suggested from probably GitHub or VS code or whatever, it, like there's a template from the community and it shows you it's going to run, it's going to build the app, it's going to, fetch the depths, then it's going to build the app, then it's going to run the test and it's going to run Credo if you add, and you can see how it works.
+
+It's going to cache things in a way that it's not particularly helpful. But then once you see how it runs, you can read the docs and go in and like refactor things a bit to improve caching or break things out into separate, flows and that kind of thing. All
+
+Dan: by piece. And so that can be, the YAML steps inside of GitHub Action, the YAML steps inside of CircleCI, the old, We used to configure Jenkins through, the GUI.
+
+so SmartLogic actually ran a Jenkins server for a while, and then we ran something called Drone for a while, and then decided, let's just, pay someone else for this, and moved to Circle. and, yeah, Circle's configuration I actually find to be For each individual job, pretty easy to follow because the run steps are pretty clear.
+
+To get to some of the advanced caching can be a little complicated depending on your use case and how you're going to know to bust caches. Because, it's one of the hard problems in computer science, right? and then how to join all of those jobs together in a workflow with dependencies.
+
+That syntax is a little weird. and then if you're also then going to trigger build or trigger Builds, specifically binary output builds based on certain tags or branches or merges or things like that, then that configuration can also be a little, aa little, weird. 
+
+Owen: right.
+
+Dan: and then GitHub Actions, we do, I think Owen, you probably have more GitHub Action knowledge than anyone else on the team.
+
+we use it a little bit for a few, automations to serve some of the SmartLogic internal efforts, but,nothing there that is nearly as full featured as what we're doing in Circle.
+
+Owen: Yeah, it was not easy to learn. There were many hours of like, why doesn't it work? all
+
+Dan: Actions, too, is that, there's a lot [00:35:00] of, third party actions that you maybe or maybe don't need, and to search the marketplace for things, It can be very overwhelming, and Circles configuration, if you get into like Orbs and everything else, can be equally, opaque.
+
+but you can do a lot with the kind of out of the box configuration.
+
+Sundi: As, someone who's not hands on keyboard anymore coding, but, has to still stay. in touch with various things that are going on. So I'm not, obviously deploying applications these days, but I still have to keep in touch with things. I have found that looking at the various monitors and things very helpful to understand and visualize what's going on.
+
+we use Datadog and just being able to, look at various charts and monitors and see where things are going. in the red or not in the red, they're green, they're yellow, they're like,trailing up. Oh, there was a huge spike on this day for what reason, for why, and then being able to trace things back.
+
+That really does help someone who's maybe not quite there yet with DevOps but is just getting to understand what is going on with your system. If you are lucky enough to be in an environment that has all of that data at your fingertips, then you can go in and check it. Take a look at what's going on under the hood, and trace things back.
+
+It does help peel back certain layers to give you visualizations of what's, happening in the system. I have found that very helpful. and I know that not everyone is deploying applications every day, like manually, which we've just said is a good way to learn. but this could be like a step in if you're in an environment like that.
+
+Dan: And I think when we talk about that bridge between the operations and developers, or in your case, engineering managers,it's that, okay, so we're capturing the metrics, but are they useful? because if all you had is a pile of data, that doesn't really tell anybody anything. And you also can make charts that reflect whatever you'd be that useful or not.
+
+And so I think, there is definitely an art, and it takes iteration, like with all things, to,take stuff and distill it down to something that is useful, and making sure that that you alert or, make the bar turn red at the right points. And you probably won't know what those are when you first start, and so it really does need to be iterative.
+
+Owen: Yeah, I'm curious. So I think we've been thinking and talking about like the happy path and like how everything goes great and you just build your app.
+
+Dan: That's all we ever experience, Owen.
+
+Owen: nothing ever goes wrong.so I think,before we. Before we wrap, I think it'd be good to talk a little bit about failure.
+
+not necessarily about personal failures, but 
+
+Dan: yeah, nothing
+
+Sundi: What a good way to end it.
+
+Dan: or end of the week. Hey, let's
+
+Owen: it's Friday before we push right before we deployed a prod, Friday afternoon, what might go wrong? There's security, there's like operations. Oh, there's logistics. So what are some failure cases that you have to consider when you're, building your DevOps pipeline?
+
+Dan: I think Let's assume that you don't have some like extremely robust, multi million dollar invested in,infrastructure and pipeline and everything where if in, in that environment, maybe you can, I can get pushed whenever I want, not worry that anything's going to come down because everything is just like quadruple checked.
+
+if you're a little closer to the metal, let's say,I think about what could go wrong on a deploy. I tend to look first at, I always, almost always start with what's the diff, right? what version is running? What version are we going to put on next and what changed?
+
+and a lot of our tooling, we have quick abilities to say, Hey, open, open up a, open my browser with GitHub that, is Compare between the SHA that's running on the server and the SHA that's,on the head of main right now. and then give you like a quick way to look at that.
+
+And then the folder I always look at first is the database migration folder and just say okay,multiple people worked on multiple PRs, making multiple changes to things. Uh,is there a change here that like, Could not apply cleanly, or would have a negative impact on what's running while this migration is applying.
+
+because it's a real, it takes a lot of discipline to do true zero downtime deploys when you're modifying the database out from underneath a system. And, it is super possible, but it's also unless you have that like really well ingrained across the board. It can be easy to miss that. and that's also just a big thing of like, how often are you deploying?
+
+are you deploying often enough that you can make those incremental changes such that, okay, we're going to change something now that, we will, remove in four versions, but it's important that it deploys on Mondays and the deploy on Wednesday works or what have you. and so it just takes a lot of planning.
+
+so I look there, dependencies that changed, did anything with the deployment scripts themselves change anything with the dependencies that this requires change,and these things may be less relevant depending on how you're deploying,and also what your dev infrastructure looks like, and this is where maybe Docker can have some advantages because if you're developing in Docker and [00:40:00] you're your container definition, is the same or has the same basis, for what you do in dev versus on production, then are less likely to have left something out.
+
+so yeah, so there's that aspect of it. and then I think really, it comes back to our conversation around monitoring and alerting. are you going to know? that it didn't go the way it was supposed to go? Are you going to know that, that it didn't come back up the way it was supposed to?
+
+does your toolchain allow you to keep deploying if, something fails along the way? And then what kind of information do you have about that failure? and so these are important parts of monitoring,along, along the way.
+
+Sundi: Cool. I feel like I have both learned a lot of things and also have discovered all the things that I don't know about my own systems that I would like to go off and learn.
+
+Owen: Yeah, we, You mentioned the word hot upgrades. We are Elixir Wizards. We've got to talk briefly about hot upgrades, right? we theoretically have the ability to just, run Elixir on a machine and then keep it running while we put new code on the machine
+
+Dan: Yes, that is technically
+
+Owen: of a beam.
+
+Dan: the beam can let you do that. Although I'm pretty sure if you dockerize it, you're really not gonna do that.
+
+Owen: yeah. Yeah, that's
+
+Dan: Docker has eaten the world, then goodbye. Hot upgrades.
+
+Owen: Yeah, I think, practically speaking, I feel like the hard part about hot upgrades is managing the state change. If you're, the more gen servers you're using, the harder that could be, like being gen servers, maybe that's also a factor you have to consider,The benefit there, which is hard to pull off, potentially is,maybe your application's running, your people are connected to your liveviews, if you're using liveview, and, you push an update, and they never see that disconnected error that you see when you're waiting for the app to restart or reconnect.so that's something I think, personally, I'd like to experiment with and tackle sometime, but, that's low on the list of experiments that I have, either in progress or on the list already. but on that note, you know what makes hot upgrades or what makes upgrades hot?
+
+Dan: and speed. I dunno.
+
+Owen: They're the ones, they're the ones that work out.
+
+Dan: yeah,
+
+Sundi: Do you see me like shrinking in anticipation for this?
+
+Owen: When you saw me like going off screen, it's cause I couldn't, I was like, Oh, I've got one. All right. So on that note,
+
+Dan: Yeah, that's a note.
+
+Owen: yeah,that's the last note for this episode. it's time to Friday afternoon to play. So thank you, Dan, for joining us and sharing your thoughts and bringing all your experience from, decades of DevOps
+
+Dan: trying to make stuff run. Yeah.
+
+Owen: And, yeah, so we'll be back again next week with more Elixir Wizards.
+
+Dan: Awesome.
+
