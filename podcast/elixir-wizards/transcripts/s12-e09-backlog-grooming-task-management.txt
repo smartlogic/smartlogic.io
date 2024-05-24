@@ -1,0 +1,379 @@
+S12E09 From Inspiration to Execution
+===
+
+Sundi: Welcome to another episode of Elixir Wizards,
+
+Dan: a podcast brought to you by SmartLogic,
+
+a custom web and mobile development shop.
+
+Owen: This is Season 12, Office Hours, where we invite you to step into our office for candid conversations with the SmartLogic team about everything from discovery to deployment to the magic of maintenance.
+
+Owen: Hey everyone, I'm Owen Bickford, Senior Developer at SmartLogic.
+
+Dan: And I'm Dan Ivovich, director of engineering at SmartLogic, and we'll be your host for today's episode. For episode nine, we're joined by Camber Griffin, developer at SmartLogic, and we're going to get into how discovery insights and brainstorming sessions get turned into actionable tickets and features for software development.
+
+Dan: Welcome Camber.
+
+Camber: Thanks. It's good to be here.
+
+Dan: So Camber, you're a long time listener, first time guest. how about you give, uh, the audience a little bit of background on who you are.
+
+Camber: Sure. I'm a developer at SmartLogic, born and raised in Louisville, Kentucky. I live here with my wife and three cats. And, yeah, I've been developing for the better part of six years at this point, maybe seven. got my start, in just like graphic design and HTML, CSS. Took a bootcamp for Java.
+
+Camber: and so I got my start in Java and then from there worked, for a couple of companies, worked through, Python, JavaScript, Go, a little bit of Rust. And then for the last couple of years, I've been mainly focusing on Elixir.
+
+Dan: Quite the polyglot. 
+
+Owen: Hmm, right. I'm
+
+Camber: Yeah. You know, language is just tools and you gotta learn how to use a lot of tools.
+
+Owen: and 
+
+Dan: to say that a, a common thread through all of your programming experience was having a backlog of tasks?
+
+
+
+Owen: yes, there's always been a backlog or an icebox everywhere I've gone.
+
+Dan: So as a developer here or in a previous role, what's been your relationship with tasks in the backlog? 
+
+Camber: starting as a developer, 
+
+Camber: you know, it was, the staff engineer or the lead, team lead would be working on what they called task triage, and we would get assigned a task and then later on you got a little bit more autonomy, and you start learning how to make tasks yourself.
+
+Camber: And so right now, with the project I'm on, and I'm one of the primary developers on that project. I do a lot of task writing myself, task grooming myself, and, deriving specifications from what a client is asking for. as I've grown as a developer, it's been growing a relationship with tasks and how to work with them and around them.
+
+Owen: What are some of the ticket slash task systems that we've all used? I can think of a handful,just to kick it off, I've, I've, dealt with JIRA, ClickUp is a system. And then, I think in my side projects, I tend to use GitHub projects. What are some other ones we want to throw out here?
+
+Dan: So in SmartLogic history, we've used, Pivotal Tracker, Zoom, and now ClickUp. I also did some work with, I think it was called Track, back in the day. And if you wanted to like really throw back, ClearCase, was something I used. yeah, that is a thing that exists,for managing software projects.
+
+Dan: Mm
+
+I've also, used like Zendesk, as well as, going back to non developer days, there's stuff like Grail, or even Salesforce,
+
+Dan: I know some teams use Asana 
+
+Owen: Post it notes.
+
+Dan: Trello. Yeah.
+
+Camber: I use Trello for personal stuff.
+
+Dan: Lots of options.
+
+Owen: Notepad. 
+
+Dan: Or just don't write anything down at all, and just guess at what you're supposed to build. 
+
+Owen: Right.
+
+Owen: I will figure it out. 
+
+Dan: So,
+
+Dan: Owen, how about you What do you have to do with, backlogs these days? 
+
+Owen: my role with the backlog changed a little bit over the course of some recent projects.I think I'm doing more of what we call ticket grooming, which is I don't know why we have all these terms like we're writing tickets and You know trying to make sure they're they've got enough detail to be worked by Whoever picks it up, right?
+
+Owen: So typically writing tickets Also being assigned tickets that other people have written and either cursing or, or, uh, going in and making some tweaks.
+
+Dan: Yeah, everybody likes things done their way, right?
+
+Owen: Yeah. Yeah, I think that's a good area to dive into. So, you know, how much detail goes into a ticket? This is something where I think I've been changing a little bit over the past year.so whenever I'm writing a ticket, whenever I'm writing anything for any, even when it was like, when I was in customer support writing tickets.
+
+Owen: Or like adding details to tickets and notes and stuff. It was always with the mindset of someone else is going to be looking at this eventually, and they need to know like what, what happened. So now in the engineering side of things, tickets are more about what needs to happen.so it's a little bit of a, kind of a other side of the coin.
+
+Owen: [00:05:00] sometimes if it's a bug ticket, it might describe what something that has happened that was an error. And it should also include, how to remedy the problem. But I think the.the kind of uncertainty for me sometimes usually stems around how detailed should I be? Should I be writing like a sketch of some code?
+
+Owen: Like here's a schema or here's some changes we need to make. Here's some function names. Or on the other end, do I just list like some kind of like plain English kind of things, rules, conditions that need to be met for this ticket to be approved. So I'm kind of curious, what are some thoughts you guys have about that?
+
+Owen: We'll go with Camber first.
+
+Camber: Yeah. Um so, it's interesting that you mention the difference between you know, those two types of tickets where one may be what has happened vs one that needs to happen. I think that there is a common denominator with those and that's reviewer steps, or steps to reproduce, because if you're giving... if have an error whoever's solving it needs 
+
+Camber: able to reproduce it and that bit of information gives you enough to hand that off to somebody else and they can test for themselves whether or not the issue has been fixed or what needed to happen has happened.
+
+Dan: Yeah, I think 
+
+Dan: that's an area where I have undervalued the effort for a long time of the steps to QA or the steps to review, or the steps to reproduce. I think there's something fun about, here's a bug, let me go try to figure it out, right? And like the good vibes of figuring it out, but those clear steps are really important.
+
+Dan: Owen, to what you were saying, when I think about our, the tickets we try to write here,I really try to break apart the, what the business needs, what the software needs to do from the outside versus into like, when we're thinking about acceptance criteria, try to not make them overly technical, But then we usually have a section for implementation detail, where we'll, if we have a specific way we feel it should be done, or a way that would then be consistent with the rest of the code, to kind of outline what we think is the engineering solution to the problem or feature or whatever that's being described by the ticket.
+
+Dan: And I think breaking those out is valuable for me as an author on tickets to think about, something I think about often. am I asking for this to be done a certain way because it's a requirement, because of like tradition and history, or because it's like my personal preference? And really trying to focus on the requirements and the history, because you do want your code to, have some consistency.
+
+Dan: You don't want everything written in a different, with a different vibe, and the requirements are the requirements. But if it's just my preference on how I would do it, I really try to check myself and not enforce my own style on teams here at the company.
+
+Camber: That can be, really good for especially a newer developer as well, like even if you don't want to give a specific route to a solution. I've noticed this from tickets that you've given me on projects that I wasn't necessarily familiar with was that there's always a good entry point to the ticket to where even if I didn't know exactly what was going on, I had a couple modules or even, just a couple so much.
+
+Camber: Bye. Bye. Bye. sites that have been scraped or something, that I could look at and get my bearings. So that just that one entry point can really make a ticket doable for newer developers.
+
+
+
+Dan: I think that's something where, Owen, I think about what you were saying a lot around, or what I've heard you say around who's the audience that we're writing this for. And so I think about that as far as, Who's on the team who's going to pick this up this ticket, or who do I know in particular is going to get assigned the ticket and write for that audience?
+
+Dan: and that may be a little bit more background on the project than, Then I would put in, for somebody else, or certainly that I would put if I was going to do the work myself. And like on one hand, that's like the fact that I celebrated 13 years at this company yesterday. and I have a lot of history on a lot of our projects, but also just making sure that, the work is approachable.
+
+Dan: And, if I know where to start, it's important to share that information, but do so in a way that is not dictating a solution. Because good ideas come from everybody. And I don't want to, write a ticket that, it's just spelling it all out, that, that isn't going to help us engineer solutions in the long run. 
+
+Owen: I think one thing I try to bear in mind, when you're trying to write like really good detailed tickets, you're really taking a lot of different context and trying to synthesize all this together. So there's just to be a little bit more explicit about that.
+
+Owen: There's, calls, there's meetings we've had, conversations with our client. Conversations within the team, there's all the documentation we write, whether it's RFPs, PRDs, anything else, call notes, all that stuff. you're trying to distill all of that into, and just also just your experience with even similar features in other apps, or as a user of apps.
+
+Owen: So you're trying to like distill all of [00:10:00] that, you know, accessibility, best practices. As well as, design considerations and stuff. And, then you're also trying to make sure that you're putting the developer, the implementer in a good place. So that whenever they meet all this criteria, that they're not going to be getting a bunch of change requests once they're in PR review and having to do a bunch of rework. so that. I think 10, so I think with the project that's been up and running for a while, it's really hard to find the exact kind of like best solution here, but like, I want to point to naming conventions if we have any, so that, if you look at a new module that has been created by this person, it doesn't look wildly different from all the other modules in the system or that, there's, a little bit clearer patterns and consistency to, to your point earlier.I think one tricky thing is, especially for new features or for features that use maybe some tools that haven't been introduced to the project previously. That's where I tend to go. I think a little bit further in technical depth of, all right, this is probably going to be something like a live component and this is the first one in the app.
+
+Owen: So I'm going to maybe describe a few, I'm not going to maybe write out all the code, but I'll do some pseudo code with some do this, do that. And then Maybe that's even like your copy paste starting point and you fill out the details.naming schemas, naming some modules and functions potentially.
+
+Owen: but again, that all depends on the audience. I might need fewer or more notes if I'm going to be implementing versus, someone new to the team or someone who, hasn't worked in even in that part of the application before.
+
+Camber: Yeah,
+
+Owen: it's a balancing act.
+
+Camber: absolutely. sorry. What I was just going to add was that, as far as,potential solutions, something that can help you is having, a little bit more prep before you write the tickets. you can always give links to designs and maybe data contracts. Thanks. Thanks. Just to, give whoever's working on the ticket, somewhat of an idea of, like you said, like, including modules, and naming conventions.
+
+Camber: Just that, everyone is on board, we should all, at this point, know what the project's gonna look like from a design perspective. And we should know what data is going to be going in and out of the application.
+
+Dan: I think in a way, what you're both saying to a degree is the tickets are a form of communication, right? And it's great because it's asynchronous and it's a historical record. but it isn't necessarily a substitute for having a conversation about it. or also just discovering, planning, working through what a solution may be.
+
+Dan: And,ultimately the ticket should reflect the state of that. And I think something that can be really helpful is to say, very explicitly, these are decisions that have been made, or these are, this is where you can go and see the decisions about this feature, but also call out maybe what is still to be determined or what needs to be figured out.
+
+Dan: And I'll find myself sometimes writing into the ticket,we could either this or this. And like, when you get to this point, like you'll probably have enough context, more than I have now writing the ticket. To make a decision, and if not, let's have a conversation about it. 
+
+Owen: Right. And I don't know, it's not, it's also not unheard of for, I feel like I'm like discovering assumptions as well. Once I'm actually writing out, I try to write in full sentences whenever I'm writing out ACs so that. Okay. It makes sense, not just like engineers, we tend to be a little bit maybe,terse sometimes.
+
+Owen: I think spelling things out so that not only the developer can understand, but also, the client, if they're looking at the ticket, they might be able to spot some Incorrect assumptions that we've had as we've prepared the work, and also whoever's performing QA can also have a reference of, when we're being really good.
+
+Owen: We try to spell out all the QA steps, but if they need additional context, that should be hopefully somewhere else in the ticket, also linking out to docs. So that could be docs about the feature itself. For the project or documentation about tools that you're going to be using, a live component is an example.
+
+Owen: I'll put a link to a live component docs, Obon, if we're doing background job stuff. So that way, so I want the, whoever's implementing, if it's not me to have to do as little searching as possible. I want them to know here's where you need, where you can find answers if they're not in the task already. And then, of course there's, there will be times where you need to huddle or, discuss as a team based on some amount of confusion. I'm curious, have you ever been writing a ticket and then thought, wait, do we actually need to do this feature? Or is this a bad idea? as you start writing out the AC, does that ever happen?
+
+Camber: Oh yeah, recently.
+
+Owen: Yeah.
+
+Camber: Just writing out, when you're trying to give an estimation for what needs to be done for a certain. overarching feature, you can come up with steps in brainstorming that seem necessary in the [00:15:00] beginning and as you're writing the tickets out, for an epic or what have you, you can absolutely find Tickets that just, that show steps that don't need to happen or that can be merged in, with another ticket.
+
+Camber: but the opposite can also happen where you have a step that clearly needs to be broken out into multiple tickets. so yeah, I mean it's always good to be mindful when you're writing the tickets that just because you have an idea of what tasks need to go into a feature 
+
+
+
+Camber: At the beginning,
+
+Camber: you got to keep your mind agile, I guess, in that respect and think about what the MVP really is.
+
+Dan: So how do you approach that? Like, oh, this ticket is too big or too small. How do you think about that, Camber? 
+
+Camber: When I am looking at tickets and breaking things out, what I have done is sort of try to break out a feature into the smallest full stack components I can, and that's because with our process. We're handing off our work to someone to review and,for a lot of back end features, it's, someone can review the code and they can, you can write automated tests. But anything else, if you need someone who isn't a developer to test what you're working on, you need a front end for it.if I can, I'll break up a feature into separate endpoints or separate interactions that a user can have with the application. Just trying to break out tickets in a way that I guess make, would make sense for someone using the application.
+
+Owen: I think another factor, so kind of like a, like we think of code smells in terms of like, is it, could this code be better? I think in terms of tasks, there's a task smell, maybe an AC smell. I don't know. Some smelly tasks that where,I think, if a task is going to be, and this Maybe team preference, company preference.I think there, there's some places that might break it even into smaller pieces, but, I think once the task looks like it's going to be more than eight hours, you should really kind of like pause, slow down at least and consider like, is, could this be broken down into a smaller ticket or maybe smaller tickets, plural? and that could mean. it's hard to, like, say, in an abstract way, like, how you would do this, because it's kind of case by case. But,if you're building a feature that requires a bunch of backend jobs, and then also needs a bunch of UI changes, and then has, like, kind of, like, multi steps.
+
+Owen: building all of that as 1 chunk of work, if it's 8 hours plus, A, it's gonna be hard for a person to maintain context over probably at least 2 or 3 days. While they're implementing, throughout meetings and other stuff that happened, slack conversations. And then also, once that code has been written, if it's eight hours worth of work or more, it could be a thousand lines.
+
+Owen: larger chunks of work typically tend to be harder to review.slicing it into smaller, smaller chunks, will usually make it, A, easier to actually accomplish, and easier to estimate, and then easier to, review for whoever's involved with those steps. . are there other, so we've talked about kind of logical chunks of work and kind of like maybe size.
+
+Owen: Some people describe it as t shirt size. I think right now we're using hours. Some people use points, Fibonacci points. are there other kind of maybe mental kind of triggers that make you think something is too big?
+
+Dan: The other thing that we've talked about is like work streams. So trying to keep tickets focused on one work stream, so that maybe means like design or development or, and then also what type of development, front end, back end, right? Like just trying to not mix those things necessarily.
+
+Dan: And I think that has, the practical advantages there I think tend to be more on project management of just like, Are we defining workload that this team can do in some amount of time when they're more broken out by who's going to do the work? but it can be another way of trying to draw the lines.
+
+Dan: And I think that, if you're using who's going to review it and what is reviewable and, you know, what is reviewable and by whom, then I think that also tends to fall under the same kind of boundaries as workstream, but not always. so it's just another potential way to divide it down. Let's talk about 
+
+Owen: consistency on our tickets. So I think one of the tools that we like to use, and this is something that gets changed quite frequently, I think, within a project and maybe across projects as well, templates. so the ticketing system we use right now allows us to define a template.
+
+Owen: I think most ticketing systems do this. So you [00:20:00] can say generally, whenever we're writing any ticket for any feature, it should include these sections. And here's like maybe some kind of like writing prompts or like placeholders for content.templates are a big topic, so what are some lessons you've learned as you've either not use templates or wanted to make changes to templates over time?
+
+Owen: Camber? 
+
+Camber: I think when you're approaching templates, it's first and foremost a manner of discipline, because you can have a great template but you've got to use it consistently. Which, I will admit, I have trouble with sometimes. When I need to get a ticket on the board, my first impulse is to, get the title and the reviewer steps and then the hours estimate.
+
+Camber: But that's not enough and so you've got to Slow yourself down a little bit and,get that sense of mindfulness so that you can actually write a good ticket. And,as said before, make sure that the ticket is actually necessary. so I think Having a template that can slow you down just a little bit so that you have to reflect and answer some questions about the work that you're trying to put forward can be very beneficial as long as it's very clear to read.
+
+Camber: That's another big one. to be clear to read. 
+
+Owen: Yeah, Dan, how have, what are some changes that you've made to templates? I know you're a template slinger in our task system. 
+
+Dan: feel like the last, like, year or so, I mean, part of it is because we changed project management systems, and so our template ability shifted quite a bit. , but I feel like our templates have been a pretty big moving target until, I don't know, maybe the last, quarter. I think they stabilized.
+
+Dan: We changed tools in the fall and then messed with templates a lot, I think, through the remainder of 2023. And really kind of revisited it in the last few months and I think have settled in a better place. And, you know, and it comes down to the, it's like a lot of things, right? You're going to give yourself placeholders that you're never going to fill in, you know, and it's just like, okay, this is an aspirational ticket, but if you're never going to put in all of that effort to a ticket, then what is it really doing?
+
+Dan: but then it's a balance because you also don't, you know, a big blank, empty space. Like writing into an empty void is hard and you want to guide the author of the ticket in a place that's helpful. and I think that's when we think about, ticket triage, ticket grooming, pre grooming, whatever we want to call it.
+
+Dan: Right. And I think we think about it that way as separate steps because it's a little bit of like, get it written the right way and then review it as a team. Make sure we all agree that is, complete and descriptive and then estimate it. not in a vacuum, not in a silo, but in, in context of everything else.
+
+Dan: and I think, we do that because it's, it leads towards accuracy and shared understanding and that helps projects perform better, teams perform better. I think it's description,there's the classic, like, you know, as a whomever I, in order to perform some business tasks, I want to be able to perform better.
+
+Dan: whatever we're building. And I think that's helpful, but also just general description of like, why is this important? Who is important to, that's what that sentence is trying to get to. And not everything falls into that format. and that's okay, but describe it. AC, we've talked about being focused on business logic, business, business behavior, application behavior, and not technical implementation, steps to, to QA, right?
+
+Dan: So, okay. In, in, in how we envision this being built. How will we actually test it? I find that to be particularly hard to do, especially on brand new applications or features that don't really exist yet, because we maybe don't actually even really know where, what the routes are going to be, or where we're going to navigate to.
+
+Dan: I mean if it's designed, hopefully you have at least some idea of what that button's going to be called. And then implementation details. And then I think the other places I like to spend some time, but maybe a little bit more optionally is like, what are the risks to this ticket? What are the things to like watch out for?
+
+Dan: What are the things that we feel like, are either explicitly out of scope or, might present challenges as we integrate this new feature into an existing code base. And that can be a place where somebody who has a lot of experience on the project can really provide some like there be dragons warnings to the rest of the team.
+
+Dan: And then, I think, critically,especially for something that's being designed fresh, where the design assets are, and what are the, what's the right current version of them, so that you can be working off the right spec.
+
+Owen: I think in terms of templates. Once we started on this new ticketing system, so my views have shifted a little bit in what I like to see in the template.I like the idea of writing prompts. there's like a little block or blob of text that says, what does the implementer need to know?
+
+Owen: Yada, yada. And it's It's maybe a couple sentences to get whoever's writing tickets generally into the mindset of who your audience is and what they need to know. But I think practically speaking, those blobs of text start to just, your eyes just start to skip them. After you've seen them a few times, myself included, and,the goal there was that you would replace [00:25:00] that blob, like remove that blob once you've actually filled it in with actual details.
+
+Owen: But a lot of times you would see all that kind of placeholder text still in line with all the actual real information. so I think one thing I've seen that's probably an improvement is that the ticket template no longer has those like writing prompts. It just has like kind of section titles.
+
+Owen: Maybe like checklists and empty kind of like lists that you start typing into, but it doesn't have nearly as much kind of placeholder content. And then it's really a little bit more on the team just to try to enforce or encourage more detailed tickets.
+
+Dan: Yeah, 
+
+Dan: your template can't be a replacement for best practices and training and people being aware of what's going on in a project. if it tries to, if the template itself tries to teach, it will be probably cumbersome and easy to ignore. Or, it won't be easy to ignore, but it will still encourage people to ignore the details of it because it will feel onerous.
+
+Dan: and so I think there's definitely a balance to strike there.
+
+Owen: And when you were talking about user stories and how sometimes a thing doesn't always fit into a user story. I've definitely written user stories, which are as a developer, I need to add a column to a table so I can blah, blah, blah. And it's cause like there wasn't like a user doesn't, isn't going to see this, this is really just for us.
+
+Owen: Like we need to log a thing, you know? And so I think I've moved towards, in those cases, just like we need to call them, we need to log this thing, whatever, it's not like I'm not using the.
+
+Upper,
+
+Owen: case, user story 
+
+Dan: yeah,we don't lean on task types a whole lot, but I do think that's a place where, at least on one recent project, we were able to find some successes, like those types of either developer improvement or really behind the scenes things we created as chores. And, chore can mean in some Agile systems, oh, this is like not working.
+
+Dan: Not productive work or not productive is wrong, but like it's not feature work. Um, but I think, I think of it more as like behind the scenes work. And so like maybe the, some parts of the implementation, the stories are the ones that your QA people are going to check. And the chores are the ones that just need, need to happen.
+
+Dan: And, having a system that gives you good dependencies between things is a nice way to then map out. work over the course of a period of time with individual pieces.
+
+Owen: Yeah, I think dependency updates are like another good example of that.We've written some tasks and now we're in a,we do agile stuff here. So we're in a grooming session. Everyone's looking at the task on the screen and trying to come up with an estimate. What are some types of feedback that you've seen come up during those sessions about tasks?
+
+Owen: The good, the bad. 
+
+Camber: sometimes, especially when you're making a feature that, needs to be tested. by someone in QA, you need to add a little more guidance, or, maybe another resource to that ticket that you might not have thought about, when you're developing. for instance, if I'm working on an API to export data, I, I don't know if that ticket is going to be QA'd by a developer or not.
+
+Camber: so it's good to provide, in this case, like a postman collection, for any, person on QA to be able to easily test that, feature out without having to know too much about the code base. So more awareness, like we've said before, more awareness of your audience can come forward when you're trying to groom a ticket.
+
+Camber: Because you're all looking at it as a team. And so if someone on QA is with you, they can ask the question, how am I going to review this? Or how am I going to get this tested? that's definitely one of the good parts of, grooming and really nailing a ticket down as a group is that you're going to get those perspectives.
+
+Owen: Yeah, I think writing the QA steps, has been a really good exercise for me as well. A lot of times it's kind of like writing test first, like integration test first. if I'm thinking about how do you, how does our QA person or any user get to this feature in the first place?based on what they've done previously, like you're going to need an account, you're going to need to get into this part of the app first, and.
+
+Owen: That, that's useful. And then you need to click on this button. Oh, I need to a add ac that this button needs to be added.then after you click that button, you should see all these things on the page. Then I'm like, keeping my AC in sync with these QA steps. So I think even in some cases, it's easier to write AC after I've written out the QA steps, because then I have a little bit better understanding of kinda step by step what should this QA person see if they're, going to know whether this feature works correctly. And, that helps build up some QA, I think.
+
+Dan: I agree with you, I just think where that can hit challenges where I've really struggled with that is especially on like [00:30:00] older systems or more complex like already existing systems and you're not doing greenfield development because there tends to be the first QA step is be in an organization that is configured in this very specific, complex way that takes 18 screens to like get all set up.
+
+Dan: and no one wants to write that out. you know, and so that's where you have to lean on like the, you know, having hopefully good documentation, knowledge sharing, existing understanding of, when we say that this feature is enabled, that empowers the next thing you're working on, like what that means and how to get to that point.
+
+Dan: But, the shared grooming is a good opportunity to review that and say, Does everybody know what I mean when I say, these four feature flags are turned on and how to do that. and I think good, really, a tightly integrated QA team, which is I think what we strive for here, will have plenty of opportunities through stand ups and slack and interaction with the whole team to ask those questions and get that clarification, which is good.
+
+Owen: think it's also important to call out and state explicitly in the task, if this is a chore or a type of feature where there's no QA, like user facing if this is a chore or a type of feature where there's no QA, like user facing changes. I Instead of just deleting the QA section, I think it's really important to say,
+
+Owen: QA steps like,
+
+Owen: there's nothing here for you, in better words, but like, you know, this is not a QA able ticket.
+
+Owen: or if it's depending like before you can QA this ticket, you actually need to QA this other ticket because it has,this is step two in the process maybe. And,I like putting those details, I think is helpful so that you're not trying to edit a record that you haven't actually created first, you know, just in high level terms. 
+
+Dan: well, that's a good point, too, because things don't always land in staging in a way that mirrors the build order, and the build order doesn't always mirror the actual, like, Hey, if a real person were to use this, what, what order would they build it in? In fact, often the opposite, right?
+
+Dan: we tend to make our build the back end tickets first, but then, the front end tickets, then leverage that. are dependent on it, and then when you go to QA, it's really, you just want the latter part, the interface side.
+
+Owen: Right.
+
+Camber: Another thing that can happen, I guess, when you're, all going through these tickets, to get them groomed and ready is that, sometimes there's time that elapses between, well, I mean, every time there is time that elapses between, but sometimes there's a long amount of time that elapses between a ticket being created and a ticket being officially groomed.
+
+Camber: And within that time,It's certainly possible for, say, that ticket, the work that ticket needs done to be done as a result of a ticket that's already being worked on. and so, you know, you can end up with estimates, that you were giving the clients that include hours for tickets that have already been done.
+
+Camber: and so it's always just good to keep in mind of what your sprint is, what sprints are coming up, and what work is, gonna be done with that.
+
+Dan: There's been time in my history where there was mentality, I don't know how much I shared it, but there's definitely mentality that existed at this company, where it was like, anything in the icebox that's, older than a month should just be deleted, And it's tough, because you can only do that if you are capturing requirements and potential ideas and some things like that in another place.
+
+Dan: But I think that is important, right? put those things somewhere that is not your backlog. Because things get stale really fast in a backlog, because the product is moving, the concept of the product is moving. And your backlog shouldn't be your spec. Requirements documents should be somewhere else and the backlog is like in service of that But everything's a moving target.
+
+Dan: And so things age very quickly And so yeah camber, that's a really good point around You know speccing something out and then it sits because it gets deprioritized eventually it should just probably get rewritten because the context for which it was written is just no longer true. 
+
+Owen: You And I thought, so I'm glad you mentioned time between a groomed ticket and then like working the ticket because even sometimes if it's been a day, more often if it's been more than a week, Either priorities or the understanding of the task may change. maybe facts will change.
+
+Owen: you groomed a ticket at one point in time, then you groom a bunch of other tickets and you learn a little bit more about the project or the feature, and then that changes all the things, some of the things, at least that you wrote about this original ticket. Which no one's worked yet, And so even if that work hasn't actually been done, a lot of times I think it's important to, if you're looking at a ticket that's several days old, just reread it, make sure that it still makes sense and that,if there are any changes you need to make that it's representative of, the state of the application, after all the facts have changed,
+
+Owen: I 
+
+Owen: don't have any, particular examples in mind, but
+
+Dan: Assuming you know what a ticket says is like the most dangerous thing you can do, I think as a developer, right? and yeah, just, if it's been a bit, read it again, even if it hasn't been that long. Read it again, read it 
+
+Dan: [00:35:00] closely. 
+
+Owen: And even if you wrote it, you will probably think of better way. If you're like me, you'll think, Oh, I could have worded that more clearly. Or actually, I was sleep deprived that day. We should change things a little bit here. Whatever the case may be.
+
+Dan: What's that,
+
+Dan: the adage, I would have written a shorter email if I'd had more time. You know, 
+
+Dan: and I think that's an important thing of like, sitting with it for a bit leads you to brevity and clarity. 
+
+Owen: it goes back to the balancing act. I think when I'm writing a task, I'm trying to use just the right amount of words to describe the problem and what needs to happen and not be too verbose or too terse, but that's where the difficulty and the skill lies. none of that's easy. But we don't want to leave in a bunch of surprises. So which is the other thing we're trying to address. Right. So like, you don't want to just say, all right, here's what the problem looks like and probably what we need to do and then like figure out, you want to leave some room for creativity and, critical thinking during implementation, but you don't want to like, just leave a bunch of surprises waiting for whoever's going to be,implementing a feature. Can you think of any cases maybe where you've. In abstract terms, where you've encountered a ticket, where as you're implementing, you discovered something surprising about the feature or the problem that you're solving. See some nodding.
+
+Camber: Oh yeah, this makes me think about the fact that there's processes that you can incorporate. to help protect your tickets and your sprints and stuff like that. one of which is, PRD Update Fridays. if anything, out of the ordinary starts to happen with a ticket, and you're not going by what the ticket is, has originally said anymore.
+
+Camber: Make sure that the actual documents of the project are updated for that, and that way you can update your tickets off of the PRD. But,I've had instances where we've looked at the designs and given estimates for the tickets based on designs, and suddenly, you know, you're implementing the ticket, and oh, where does this piece of text come from?
+
+Camber: it's not coming from the API, it's in the design, I needed to show up and that can be, you know, a large problem. because you have a piece of data and you don't know where to fetch it for your application. and that just goes back to taking your time and making sure that,you've looked over all of the resources for the project before you've, started this ticket.
+
+Camber: Because, yeah, it's hard to catch every detail, of a specification for a project, if you're not going over it multiple times, but yeah, that's happened to me before.
+
+Owen: I can even think of an example of how this happens. imagine. Kind of complex feature X, right?not the social platform, just some random feature. we're in client calls. We've heard the client describe what they want out of this feature. We discuss it internally. We go through design. We write our ticket.
+
+Owen: And maybe someone's even started writing the code. And then the next call, someone's back from vacation. And they happen to be a little bit more knowledgeable about the feature, or they knew a critical detail that maybe changes some small part. Maybe it's the whole entire feature. And yeah, so like that happens, right?
+
+Owen: Some people on vacation come swoop in andit impacts your understanding of the problem. And so you have to go back to either just make some corrections or sometimes worst case scenario, you go back to the drawing board on how to solve the problem overall. But, that's one example. Uh, some others might be,staffing changes that happen.
+
+Owen: someone comes onto the team, whether it's the client team or our team and has, new ideas about. Either how to solve the problem or what the problem is in the first place.
+
+
+
+Dan: or feedback from 
+
+Dan: the audience of the application itself, right? there's a lot of external forces that have impact on software. And I think, I'm sitting here reflecting on the conversation and just, the planning and the preparation is not the glamorous, oh yeah, look at my super efficient code that, can handle however many million requests per second, but you know you can't build a good product without the prep work that's necessary and,or you can build a product, but it may not be very good.
+
+Dan: It may not scale, and it may probably be really hard to maintain. and so I think, understanding that there's a balance here of you can't know everything, you can't prepare for every outcome, but, there is some balance here to walk on. preparing to build a feature and thinking it through.
+
+Dan: and makes you think about the known unknowns, right? Like the unknown unknowns, Camber, your example, Oh, here's some text and turns out we don't actually know where to pull it from. And I was like, that's something that is unknown that we didn't realize we didn't know, but sometimes you go into things and [00:40:00] straight up, like there's going to be something here.
+
+Dan: We don't know what it is. and we at least know that we don't know it. Is that ever come into play when you think about decomposing a ticket or reviewing something?
+
+Camber: Yeah, especially when it comes to trying to get an estimate for a feature that they're, the specs are still vague, but you need, estimates to even start working on the discovery. when I've found myself in that, those situations, it comes down to thinking up multiple solutions, for multiple potential solutions and coming up with, specs for those solutions and then estimates on how long that's going to take, and that's a weird place to be because When you're building specs and estimates off of, these known unknowns, your estimate for how long a project or a feature can take can, vary by up to 60, 70 hours or even more.
+
+Camber: but it enables you to, doing that work of coming up with multiple solutions enables you to present something to the client. And have a future conversation where you can build a more stable solution to that.
+
+Dan: Yeah, I like that because the question is always what can we change once we get into it? And sometimes the budget can't change. The timeline can't change. Sometimes the scope can't change, but especially if the scope's unclear, usually there's more than one solution and then, so you can at least have a conversation around.
+
+Dan: here's option A, B, and C, and we don't have time to do C, but here's A and B, and here's the pros and cons, and it's turning those known unknowns into assumptions and risk mitigation. And, yeah, I know for a lot of projects you and I have worked together on, that's a kind of a common occurrence of, we know there needs to be something, and we don't know the exact details of it, but we need to put some rough timeline around it so that we can figure it out.
+
+Dan: make sure that we have project time schedule to get it done and the details will come. but it also, it kind of empowers us as a team to use our professional experience to say we recommend this solution.and I think that's an important part of defining backlog is saying, you know, look, there's more than one way to do this, but this is what we recommend based on our experience. , 
+
+Camber: With this kind of stuff, you always have to think about the fact that you're working within a much larger project pipeline. and You've got to keep things moving within that project pipeline because, we all have people that we, are reporting to, or at least most people do, and those people want to know when they're going to see, what they're spending their money on.
+
+Camber: And in order to do the work, you have to get the information first sometimes, and you got to keep the pipeline flowing. 
+
+Owen: I know there's a pun in there somewhere. I, it's too late on Friday now. My pun skills are waning, maybe.I think we can wrap it up. We can mark this ticket as ready. There we go.
+
+Owen: There's, 
+
+Owen: it's not a pun, but sure, it works. so this ticket is ready for work now. I think we can estimate it. Eh, we'll estimate it later.
+
+Owen: So thank you, Camber, for joining us and sharing your thoughts about preparation and taking us from inspiration to execution. Had a great time with you on the podcast. Thanks, Dan, for being here as well. And we will be back next week with more Elixir Wizards.
+
+Camber: Awesome, thanks. 
+
+Dan: Elixir Wizards is a production of SmartLogic. 
+
+Owen: You can find us online at smartlogic.io and we're @SmartLogic on Twitter.
+
+Sundi: Don't forget to like, subscribe, and leave a review. 
+
+Dan: This episode was produced and edited by Paloma Pechenik for SmartLogic.  
+
+Sundi: Join us next week for more Elixir Wizards Office Hours as we deep dive into another aspect of the software development lifecycle. 
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
