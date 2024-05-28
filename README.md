@@ -6,17 +6,29 @@ This repository is for hosting smartlogic.io on GitHub Pages.
 
 You can run the website locally via:
 
-Install [asdf](https://asdf-vm.com/#/core-manage-asdf) and [asdf-ruby](https://github.com/asdf-vm/asdf-ruby)
+A) Install [the Nix package manager](https://nixos.org/download.html#nix-install-macos) following the multi-user installation approach. Verify it's installed with `nix --version`.
 
-```bash
-cd smartlogic.io/
+ ```bash
+ cd smartlogic.io/
 
-# Make sure you have the correct version of ruby
-asdf install
+ # Make sure you have the correct version of ruby
+ nix-shell
 
-bundle install
-bundle exec jekyll serve
-```
+ bundle install
+ bundle exec jekyll serve
+ ```
+
+B) Install [asdf](https://asdf-vm.com/#/core-manage-asdf) and [asdf-ruby](https://github.com/asdf-vm/asdf-ruby)
+
+ ```bash
+ cd smartlogic.io/
+
+ # Make sure you have the correct version of ruby
+ asdf install
+
+ bundle install
+ bundle exec jekyll serve
+ ```
 
 Then open [https://127.0.0.1:4000](https://127.0.0.1:4000)
 
