@@ -424,8 +424,8 @@ cite{
   z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
+  // width: 100%; /* Full width */
+  // height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background: #FFFFFFFA;
@@ -434,8 +434,16 @@ cite{
   height: 1080px;
 // top: -536px;
 // left: 2463px;
-// gap: 0px;
+}
 
+.modal-side-bar{
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40px;
+  background: linear-gradient(180deg, #63BBB0 0%, #F9DF52 100%);
 }
 
 /* Modal Content/Box */
@@ -443,15 +451,16 @@ cite{
   display: flex;
   align-items: center;
   align-content: center;
-  margin: auto 40px; /* 15% from the top and centered */
-  padding: 100px;
+  justify-content: space-around;
+  margin-left: 40px; /* 15% from the top and centered */
+  padding: 50px;
   // border: 1px solid #888;
   // height: 100%;
   // width: 100%; /* Could be more or less, depending on screen size */
 }
 
 .modal-case-study-details{
-  max-width: 50%;
+  max-width: 48%;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -495,37 +504,52 @@ cite{
   font-weight: 450;
 }
 
-.modal-content a{
+.button-container{
   width: 257px;
   height: 58px;
   border-radius: 6px;
   background-color: #000000;
+  padding: 8px 40px;
+}
+.button-container a{
   color: #FFFFFF;
   font-size: 18px;
   font-weight: 450;
-  padding: 8px 40px;
   text-align: center;
+  vertical-align: baseline;
 }
 
 /* The Close Button */
-.close {
-  color: #aaa;
+.modal-close {
+  align-self: start;
+  color: #000000;
   float: right;
   font-size: 28px;
   font-weight: bold;
-}
-
-.modal-side-bar{
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 40px;
-  background: linear-gradient(180deg, #63BBB0 0%, #F9DF52 100%);
 }
 
 .modal-logo{
   max-width: 267px;
 }
 
+.modal-picture-container::after{
+  content: ' ';
+  display: table;
+  clear: both;
+}
+.modal-overlapping-picture-first{
+  // max-width: 325px;
+  float: left;
+      width: 75%;
+}
+
+.modal-overlapping-picture-second{
+  // max-width: 440px;
+  // z-index:2;
+  float: right;
+    width: 66%;
+    margin-right: -100%;
+    padding-top: 15%; // arbitrary
+    position: relative;
+    z-index: 1;
+}
