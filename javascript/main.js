@@ -30,28 +30,6 @@ hamburger.addEventListener('click', function(){
   header.classList.toggle('header-hamburger-open');
 })
 
-// "Get Started" Landing page modal 
-document.addEventListener('DOMContentLoaded', function () {
-  var modal = document.getElementById('modal');
-  var btn = document.getElementById('openModal');
-  var span = document.getElementsByClassName('close')[0];
-
-  btn.onclick = function () {
-    modal.style.display = 'block';
-  }
-
-  span.onclick = function () {
-    modal.style.display = 'none';
-  }
-
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  }
-});
-
-
 // Landing page pillar cards
 document.addEventListener('DOMContentLoaded', function () {
   const previousCard = document.getElementById("back-arrow");

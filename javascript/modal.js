@@ -1,3 +1,27 @@
+// // "Get Started" Landing page modal 
+document.addEventListener('DOMContentLoaded', function() {
+  var modal = document.getElementById('modal');
+  var btns = document.querySelectorAll('[id="openModal"]');
+  var span = document.querySelector('.modal .close');
+
+  btns.forEach(function(btn) {
+    btn.onclick = function(e) {
+      e.preventDefault();
+      modal.style.display = "block";
+    }
+  });
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+});
+
 // Landing page case study modals
 const modals = {
   "wck-modal": document.getElementById("wck-modal"),
