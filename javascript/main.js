@@ -17,15 +17,16 @@ function initMap() {
 }
 
 var hamburger = document.querySelector('.header__hamburger-wrap');
-var header = document.querySelector('.header');
-hamburger.addEventListener('click', function(){
-  this.classList.toggle('open');
-  var content = this.nextElementSibling;
-  console.log(content);
-  if (content.style.maxHeight){
-    content.style.maxHeight = null;
-  } else {
-    content.style.maxHeight = "500px";
-  }
-  header.classList.toggle('header-hamburger-open');
-})
+if (hamburger) {
+  var header = document.querySelector('.header');
+  hamburger.addEventListener('click', function(){
+    this.classList.toggle('open');
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = "500px";
+    }
+    header.classList.toggle('header-hamburger-open');
+  })
+}

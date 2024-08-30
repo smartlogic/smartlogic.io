@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>{{ page.title }} | SmartLogic</title>
+  <meta name="description" content="{{ page.description }}"/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  {% include tracking-scripts.html %}
+  {% if page.include_structured_data %}
+    {% include structured-data.html %}
+  {% endif %}
+  {% if page.include_rss %}
+    {% include rss.html %}
+  {% endif %}
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header overview-header">
+      <div class="header__wrap overview-header__wrap">
+        <div class="header__logo overview-header__logo">
+          <a href="/">
+            <img src="/images/logo/smartlogic-black.svg" alt="SmartLogic Logo" />
+          </a>
+        </div>
+        <div class="header__cta">
+          <a class="btn" href="#" id="openModal">Get Started</a>
+        </div>
+      </div>
+    </header>
+    {{ content }}
+
+    {% include get_started_modal.html %}
+  <script src="{{ '/javascript/main.js' | relative_url }}"></script>
+  <script src="{{ '/javascript/modal.js' | relative_url }}"></script>
+  <script src='https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js'></script>
+  <script>window.jotformEmbedHandler("iframe[id='JotFormIFrame-242406661881055']", "https://form.jotform.com/")</script>
+  {% include ga-tracking-script.html %}
+</body>
+</html>

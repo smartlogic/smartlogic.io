@@ -1,0 +1,241 @@
+
+.at-a-glance {
+  background: linear-gradient(to bottom, #F2F2F2 65%, #FFFFFF 65%);
+  text-align: center;
+  padding: 40px;
+
+  @include tablet{
+    padding: 10px;
+  }
+
+  &__title {
+    @include circular(bold);
+    font-size: 32px;
+    color: $dark-black;
+    margin-bottom: 4rem;
+    padding-top: 2rem;
+  }
+
+  &__subtitle {
+    @include circular(bold);
+    font-size: 32px;
+    color: $dark-black;
+    margin-bottom: 1rem;
+    padding-top: 60px;
+  }
+
+  &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+
+    .stat {
+      flex: 1 1 calc(25% - 1rem);
+      max-width: calc(25% - 1rem);
+
+      @include tablet{
+        flex: 1 1 calc(50% - 1rem);
+        max-width: calc(50% - 1rem);
+      }
+
+      @media (max-width: 480px) {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      &__title {
+        @include circular(bold);
+        font-size: 16px;
+        color: $black;
+        margin-bottom: 0.5rem;
+
+        @include phone{
+          padding-top: 40px;
+        }
+      }
+
+      &__value {
+        font-size: 68px;
+        font-weight: bold;
+        color: $light-teal;
+      }
+    }
+  }
+
+  &__engagements {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-top: 20px;
+
+    .engagement {
+      background: $light-teal;
+      flex: 1 1 calc(25% - 1rem);
+      max-width: calc(25% - 1rem);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 325px;
+      height: 344px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      @media (max-width: 1024px) {
+        flex: 1 1 calc(50% - 1rem);
+        max-width: calc(50% - 1rem);
+      }
+
+      @include phone{
+        flex: 1 1 100%;
+        max-width: 100%;
+        margin: 0 20px;
+      }
+
+      &::before {
+        content: '';
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 140%;
+        height: 140%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 1;
+      }
+
+      &.full-lifecycle::before { background-image: url('/images/contents/full-lifecycle-logo.png'); }
+      &.team-augmentation::before { background-image: url('/images/contents/team-augmentation.png'); }
+      &.replatforming::before { background-image: url('/images/contents/replatforming-logo.png'); }
+      &.rd-mvp::before { background-image: url('/images/contents/rd-mvp-logo.png'); }
+
+    &__title {
+        @include circular(bold);
+        font-size: 28px;
+        color: $dark-black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        z-index: 2;
+      }
+
+      &::after {
+        content: attr(data-title);
+        @include circular(bold);
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 28px;
+        color: $dark-black;
+        z-index: 3;
+        text-align: center;
+        opacity: 0;
+
+        @media (min-width: 1025px) and (max-width: 1290px) {
+            top: 20%;
+          }
+      } 
+
+      .engagement__description {
+        @include circular(regular);
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-size: 18px;
+        color: $dark-black;
+        z-index: 3;
+        text-align: center;
+        opacity: 0;
+      }
+
+      &:hover {
+        background: linear-gradient(135deg, #63BBB0, #F9DF52);
+
+        .engagement__title { opacity: 0; }
+        &::before { opacity: 0; }
+        &::after { opacity: 1; }
+        .engagement__description { opacity: 1; }
+      }
+    }
+  }
+
+  &__cta {
+    margin-top: 2rem;
+
+    .btn {
+        @include circular(bold);
+        background: $dark-black;
+        color: #fff;
+        height: 58px;
+        width: 178px;
+        font-size: 18px;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        text-decoration: none;
+        text-align: center;
+        line-height: 36px;
+
+        &:hover {
+            background: $teal;
+        }
+    }
+  }
+}
+
+// At a glance modal for jotform form
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: rgba(99, 187, 176, 0.9);
+  background: linear-gradient(135deg, rgba(99, 187, 176, 0.9), rgba(249, 223, 82, 0.9));
+}
+
+.modal-content {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  max-width: 800px;
+  max-height: 800px;
+}
+
+.close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 40px;
+  height: 40px;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+  z-index: 1004;
+  cursor: pointer;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+}
