@@ -1,4 +1,7 @@
 .hero{
+  background: $secondary-yellow;
+  padding: 0 0 !important;
+  
   @include phone{
     padding: 15px 0;
   }
@@ -16,19 +19,56 @@
     }
   }
 }
-.hero__left{
+.hero__left {
   @include grid-column(8, $my-custom-grid);
-  @include grid-media($my-custom-grid-2){
+  @include grid-media($my-custom-grid-2) {
     @include grid-column(7);
     padding-left: $left;
   }
+
+  @include phone{
+    @include grid-column(12);
+    padding: 40px 0;
+    padding-left: 0;
+    text-align: center;
+  }
 }
-.hero__left-text{
-  margin-bottom: 10px;
-  .head-text{
-    h1{
-      color: #319b90;
-      @include circular(medium);
+.hero__left-text {
+  .head-text {
+    h1 {
+      @include circular(regular);
+      color: $black;
+      font-size: 72px;
+      line-height: 1.2;
+      text-align: left;
+
+      @media (max-width: 1300px) {
+        font-size: 72px;
+      }
+
+      @media (max-width: 1050px) {
+        font-size: 58px;
+      }
+
+      @media (max-width: 900px) {
+        font-size: 52px;
+      }
+    }
+
+    h2 {
+      @include circular(regular);
+      color: $black;
+      font-size: 28px;
+      margin-top: 10px;
+
+      @media (max-width: 1024px) {
+        font-size: 24px;
+      }
+
+      @include phone{
+        font-size: 20px;
+        text-align: left;
+      }
     }
   }
 }
@@ -36,28 +76,35 @@
   @include tablet{
     display: none;
   }
-  p{
-    font-size: 18px;
+  p {
     color: #6F7780;
+    font-size: 18px;
     line-height: 1.5em;
     padding-bottom: 1em;
-    @include tablet{
+    
+    @include tablet {
       font-size: 14px;
     }
   }
 }
-
-.hero__right{
+.hero__right {
   @include grid-column(4, $my-custom-grid);
-  @include grid-media($my-custom-grid-3){
+  
+  @include grid-media($my-custom-grid-3) {
     @include grid-column(5);
   }
 }
 .hero__right-img{
-  @include tablet{
-    margin-right: -25%
-  }
   img{
-    width: 100%;
+    width: 120%;
+    height: 120%;
+  }
+
+  @media (min-width: 760px) and (max-width: 1100px) {
+    width: 125%;
+  }
+
+  @include phone{
+    display: none;
   }
 }
