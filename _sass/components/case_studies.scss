@@ -1,0 +1,154 @@
+.case-studies {
+  text-align: center;
+
+  @include tablet{
+    padding: 10px;
+  }
+
+  .container {
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  &__samples {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-top: 20px;
+    margin: 0 20px;
+
+    .samples {
+      background: $light-teal;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex: 1 1 calc(25% - 2rem);
+      max-width: calc(33.33% - 2rem);
+      height: 440px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      &::before {
+        content: '';
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 140%;
+        height: 140%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 1;
+      }
+
+      &.world-central-kitchen::before { background-image: url('/images/contents/world-central-kitchen-background-img.jpeg'); }
+      &.challenge::before { background-image: url('/images/contents/challenge-background-img.jpeg'); }
+      &.charmcare::before { background-image: url('/images/contents/charmcare-background-img.jpeg'); }
+
+      @media (max-width: 1024px) {
+          flex: 1 1 calc(50% - 2rem);
+          max-width: calc(50% - 2rem);
+          height: 400px;
+      }
+
+      @include phone{
+          flex: 1 1 calc(100% - 2rem);
+          max-width: calc(100% - 2rem);
+          height: 300px;
+          margin: 0 10px;
+      }
+
+    &__title {
+        @include circular(bold);
+        font-size: 28px;
+        color: $dark-black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        z-index: 2;
+      }
+
+      .title-background {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 85%;
+          height: 85%;
+          background-color: rgba(255, 255, 255, 0.5);
+          z-index: 1;
+      }
+
+      &::after {
+        content: attr(data-title);
+        @include circular(bold);
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 28px;
+        color: $dark-black;
+        z-index: 3;
+        text-align: center;
+        opacity: 0;
+
+        @media (min-width: 1025px) and (max-width: 1290px) {
+            top: 20%;
+          }
+      } 
+
+      .samples__description {
+        @include circular(regular);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-size: 28px;
+        color: $dark-black;
+        z-index: 3;
+        text-align: center;
+        opacity: 0;
+
+        @include tablet{
+          font-size: 22px;
+        }
+      }
+
+      .arrow-icon {
+          position: absolute;
+          color: $dark-black;
+          top: 75%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 32px;
+          height: 32px;
+          opacity: 0;
+          z-index: 3;
+      }
+
+      &:hover {
+        background: linear-gradient(135deg, #63BBB0, #F9DF52);
+
+        .samples__title,
+        &::before,
+        .title-background { opacity: 0; }
+
+        &::after,
+        .samples__description,
+        .arrow-icon { opacity: 1; }
+      }
+    }
+  }
+}
+  
