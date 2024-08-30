@@ -1,13 +1,17 @@
 .header{
-  background: $secondary-yellow;
+  margin-bottom: 10px;
   transition: .5s ease;
   @include tablet{
     margin-bottom: 0;
     height: 56px;
   }
 }
-.header__wrap{
+.overview-header {
   background: $secondary-yellow;
+  margin-bottom: 0px;
+  z-index: 1000;
+}
+.header__wrap{
   padding: 20px 35px;
   display: flex;
   align-items: center;
@@ -25,16 +29,42 @@
     padding: 10px 25px 10px 10px;
   }
 }
+.overview-header__wrap{
+  background: $secondary-yellow;
+}
+.header__cta {
+  margin-top: 1rem;
+
+  .btn {
+      @include circular(bold);
+      background: $black;
+      color: #fff;
+      height: 55px;
+      width: 155px; 
+      padding-top: -10px;
+      font-size: 16px;
+      padding: 0.65rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      text-align: center;
+      line-height: 36px;
+
+      &:hover {
+        background: $teal;
+      }
+    }
+    
+  @include phone {
+    display: none;
+  }
+}
 .header__logo{
   flex: 1;
   display: flex;
   align-items: center;
   a{
     display: block;
-    width: 256px;
-    height: 44px;
-    padding-top: 12px;
-    padding-left: 2px;
+    width: 200px;
     @include laptop{
       width: 150px;
     }
@@ -47,26 +77,18 @@
     }
   }
 }
-.header__menu {
+.overview-header__logo{
+  a{
+    width: 256px;
+    height: 44px;
+    padding-top: 12px;
+    padding-left: 2px;
+  }
+}
+.header__menu{
   display: flex;
   align-items: center;
-  width: 100%;
-  justify-content: flex-end;
-  max-height: 0;
-  overflow: hidden;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 2;
-  background: #fafafa;
-  transition: .3s ease-out;
-
-  &.open {
-    display: flex;
-    max-height: 300px;
-  }
-
-  @include tablet {
+  @include tablet{
     width: 100%;
     justify-content: flex-end;
     max-height: 0;
@@ -79,139 +101,119 @@
     transition: .3s ease-out;
   }
 }
-
-.header__menu-list {
+.header__menu-list{
   display: flex;
   align-self: center;
   margin-left: -30px;
-
-  @include laptop {
+  @include laptop{
     margin-left: -20px;
   }
-
-  @include tablet {
+  @include tablet{
     flex-direction: column;
     text-align: right;
     padding: 15px 30px 0 0;
-    margin-left: 0;
   }
 }
-
-.header__menu-item {
-  a {
+.header__menu-item{
+  a{
     display: block;
     font-size: 14px;
     color: $hcolor;
     margin-left: 10px;
     padding: 8px 15px;
-
-    @include tablet {
-      margin-left: 0;
-    }
   }
-
-  .btn {
+  .btn{
     padding: 8px 15px;
-    background: $teal;
-    color: $white;
-
-    @include tablet {
+    background: $yellow;
+    color: #3b4044;
+    @include tablet{
+      // background: $green;
+      // color: #ffffff;
       margin-bottom: 20px;
     }
   }
 }
 
-.header__hamburger-wrap {
-  display: flex;
-  width: 30px;
-  height: 20px;
-  position: relative;
-  transform: rotate(0deg);
-  transition: .5s ease-in-out;
-  cursor: pointer;
-  z-index: 1000;
-
-  span {
+.header__hamburger-wrap{
+  display: none;
+  @include tablet{
     display: block;
-    position: absolute;
-    height: 3px;
-    width: 50%;
-    background: $black;
-    opacity: 1;
+    width: 30px;
+    height: 20px;
+    position: relative;
     transform: rotate(0deg);
-    transition: .3s ease-in-out;
+    transition: .5s ease-in-out;
+    cursor: pointer;
 
-    &:nth-child(even) {
-      left: 50%;
-      border-radius: 0 9px 9px 0;
-    }
+    span{
+      display: block;
+      position: absolute;
+      height: 3px;
+      width: 50%;
+      background: $black;
+      opacity: 1;
+      transform: rotate(0deg);
+      transition: .3s ease-in-out;
 
-    &:nth-child(odd) {
-      left: 0px;
-      border-radius: 9px 0 0 9px;
-    }
-
-    &:nth-child(1), &:nth-child(2) {
-      top: 0;
-    }
-
-    &:nth-child(3), &:nth-child(4) {
-      top: 8px;
-    }
-
-    &:nth-child(5), &:nth-child(6) {
-      top: 16px;
+      &:nth-child(even){
+        left: 50%;
+        border-radius: 0 9px 9px 0;
+      }
+      &:nth-child(odd){
+        left:0px;
+        border-radius: 9px 0 0 9px;
+      }
+      &:nth-child(1), &:nth-child(2){
+        top: 0;
+      }
+      &:nth-child(3), &:nth-child(4){
+        top: 8px;
+      }
+      &:nth-child(5), &:nth-child(6){
+        top: 16px;
+      }
     }
   }
 }
-
-.header__hamburger-wrap.open {
-  span {
-    &:nth-child(1), &:nth-child(6) {
+.header__hamburger-wrap.open{
+  span{
+    &:nth-child(1), &:nth-child(6){
       transform: rotate(45deg);
     }
-
-    &:nth-child(2), &:nth-child(5) {
+    &:nth-child(2), &:nth-child(5){
       transform: rotate(-45deg);
     }
-
-    &:nth-child(1) {
+    &:nth-child(1){
       left: 5px;
       top: 7px;
     }
-
-    &:nth-child(2) {
+    &:nth-child(2){
       left: calc(50% - 5px);
       top: 7px;
     }
-
-    &:nth-child(3) {
+    &:nth-child(3){
       left: -50%;
       opacity: 0;
     }
-
-    &:nth-child(4) {
+    &:nth-child(4){
       left: 100%;
       opacity: 0;
     }
-
-    &:nth-child(5) {
+    &:nth-child(5){
       left: 5px;
       top: 12px;
     }
-
-    &:nth-child(6) {
+    &:nth-child(6){
       left: calc(50% - 5px);
       top: 12px;
     }
   }
 }
 
-.header-hamburger-open {
+.header-hamburger-open{
   background: #fafafa;
-
-  .header__hamburger-wrap {
-    span {
+  .header__hamburger-wrap{
+    span{
       background: $green;
       // this is the closable "X" version of the hamburger
     }
