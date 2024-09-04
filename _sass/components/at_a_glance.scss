@@ -14,6 +14,10 @@
     color: $dark-black;
     margin-bottom: 4rem;
     padding-top: 2rem;
+
+    @include phone{
+      margin-bottom: 0rem;
+    }
   }
 
   &__subtitle {
@@ -22,6 +26,10 @@
     color: $dark-black;
     margin-bottom: 1rem;
     padding-top: 60px;
+
+    @include phone{
+      padding-top: 40px;
+    }
   }
 
   &__stats {
@@ -144,7 +152,11 @@
         @media (min-width: 1025px) and (max-width: 1290px) {
             top: 20%;
           }
-      } 
+
+        @include phone{
+          padding-bottom: 20px;
+        }
+      }
 
       .engagement__description {
         @include circular(regular);
@@ -196,7 +208,7 @@
   }
 }
 
-// At a glance modal for jotform form
+// Get started modal for jotform form located under the "at a glance" section
 .modal {
   display: none;
   position: fixed;
@@ -208,6 +220,10 @@
   overflow-y: auto;
   background: rgba(99, 187, 176, 0.9);
   background: linear-gradient(135deg, rgba(99, 187, 176, 0.9), rgba(249, 223, 82, 0.9));
+
+  @media (max-width: 600px) {
+    overflow: hidden;
+  }
 }
 
 .modal-content {
@@ -219,6 +235,21 @@
   height: 80%;
   max-width: 800px;
   max-height: 800px;
+
+  @media (max-width: 1060px){
+    top: 50%;
+    left: 47%;
+  }
+
+  @media (max-width: 600px) {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 
 .close {
@@ -237,5 +268,27 @@
     width: 100%;
     height: 100%;
     cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-content iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 1002;
   }
 }
