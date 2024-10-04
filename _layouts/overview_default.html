@@ -9,16 +9,17 @@
   <meta name="description" content="{{ page.description }}"/>
   <link rel="stylesheet" href="/css/normalize.css" />
   <link rel="stylesheet" href="/css/app.css" />
-  {% include tracking-scripts.html %}
   {% if page.include_structured_data %}
     {% include structured-data.html %}
   {% endif %}
   {% if page.include_rss %}
     {% include rss.html %}
   {% endif %}
+  {% include google-tag-manager-head.html %}
 </head>
 
 <body>
+  {% include google-tag-manager.html %}
   <div class="wrapper">
     <header class="header overview-header">
       <div class="header__wrap overview-header__wrap">
@@ -39,6 +40,5 @@
   <script src="{{ '/javascript/modal.js' | relative_url }}"></script>
   <script src='https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js'></script>
   <script>window.jotformEmbedHandler("iframe[id='JotFormIFrame-242406661881055']", "https://form.jotform.com/")</script>
-  {% include ga-tracking-script.html %}
 </body>
 </html>
