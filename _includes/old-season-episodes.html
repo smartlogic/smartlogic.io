@@ -3,10 +3,11 @@
 <section class="section podcast-horizontal">
   <div class="container">
     <div class="podcast-horizontal__article-wrap">
+      <h2 class="sr-only">Episode Listing</h2>
       {% assign episodes = site.data.elixir_wizards_seasons[include.season] | reverse %}
       {% for episode in episodes %}
       <article class="podcast-horizontal__article">
-        <div class="podcast-horizontal__article-img"><img src="{{ episode.itunes.image }}" alt="Episode Cover" /></div>
+        <div class="podcast-horizontal__article-img"><img src="{{ episode.itunes.image }}" alt="Episode cover art for {{ episode.title }}" /></div>
         <div class="podcast-horizontal__article-text">
           <p><a href="/podcast/elixir-wizards/{{ episode.slug }}">{{ episode.title }}</a><br />
           {{ episode.pubDateFriendly }}</p>
