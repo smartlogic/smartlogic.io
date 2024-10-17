@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Creating the Igniter Code Generation Framework with Zach Daniel | SmartLogic</title>
+  <meta name="description" content="To kick off Elixir Wizards Season 13, The Creator's Lab, we're joined by Zach Daniel, the creator of Igniter and the Ash framework. Zach joins hosts Owen Bickford and Charles Suggs to discuss the mechanics and aspirations of his latest brainchild, Igniter—a code generation and project patching framework designed to revolutionize the Elixir development experience."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K9MMX6TR');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  <meta property="og:title" content="Creating the Igniter Code Generation Framework with Zach Daniel" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s13-e01-igniter-code-generation-zach-daniel" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="To kick off Elixir Wizards Season 13, The Creator's Lab, we're joined by Zach Daniel, the creator of Igniter and the Ash framework. Zach joins hosts Owen Bickford and Charles Suggs to discuss the mechanics and aspirations of his latest brainchild, Igniter—a code generation and project patching framework designed to revolutionize the Elixir development experience." />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/1690d1d5-3359-4ede-8932-46c4bb244eef.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/1/1690d1d5-3359-4ede-8932-46c4bb244eef/cover.jpg" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+s8PyjjlO/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/1690d1d5-3359-4ede-8932-46c4bb244eef.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s13-e01-igniter-code-generation-zach-daniel">
+  <meta name="twitter:title" content="Creating the Igniter Code Generation Framework with Zach Daniel">
+  <meta name="twitter:description" content="To kick off Elixir Wizards Season 13, The Creator's Lab, we're joined by Zach Daniel, the creator of Igniter and the Ash framework. Zach joins hosts Owen Bickford and Charles Suggs to discuss the mechanics and aspirations of his latest brainchild, Igniter—a code generation and project patching framework designed to revolutionize the Elixir development experience.">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/1/1690d1d5-3359-4ede-8932-46c4bb244eef/cover.jpg">
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9MMX6TR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > Creating the Igniter Code Generation Framework with Zach Daniel
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>Creating the Igniter Code Generation Framework with Zach Daniel</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+s8PyjjlO" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        <h2>About this Episode</h2>
+        <h3>
+          Published October 17, 2024 |
+          Duration: 52:55 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/1690d1d5-3359-4ede-8932-46c4bb244eef.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s13-e01-igniter-code-generation-zach-daniel.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>To kick off Elixir Wizards Season 13, The Creator&#39;s Lab, we&#39;re joined by Zach Daniel, the creator of Igniter and the Ash framework. Zach joins hosts Owen Bickford and Charles Suggs to discuss the mechanics and aspirations of his latest brainchild, Igniter—a code generation and project patching framework designed to revolutionize the Elixir development experience.</p>
+
+<p>Igniter isn’t just about generating code; it’s about generating smarter code. By leveraging tools like Sourcerer and Rewrite, Igniter allows developers to modify source code and batch updates by directly interacting with Elixir&#39;s AST instead of regex patching. This approach streamlines new project setup and package installations and enhances overall workflow.</p>
+
+<p>They also discuss the strategic implications of Igniter for the broader Elixir community. Zach hopes Igniter will foster a more interconnected and efficient ecosystem that attracts new developers to Elixir and caters to the evolving needs of seasoned Elixir engineers.</p>
+
+<h3>Topics discussed in this episode:</h3>
+
+<ul>
+<li>Advanced package installation and code generation improve the developer experience</li>
+<li>Scripting and staging techniques streamline project updates</li>
+<li>Innovative methods for smoother installation processes in Elixir packages</li>
+<li>High-level tools apply direct patches to source code</li>
+<li>Progressive feature additions simplify the  mix phx.new experience</li>
+<li>Chaining installers and composing tasks for more efficient project setup</li>
+<li>Continuous improvement in developer experiences to boost Elixir adoption</li>
+<li>Encourage listeners to collaborate by sharing code generation patterns</li>
+<li>Introduction of a new mix task aimed at removing the &quot;unless&quot; keyword in preparation for Elixir 1.18</li>
+<li>You can learn more in the upcoming book &quot;Building Web Applications with Ash Framework&quot; by Zach and Rebecca</li>
+</ul>
+
+<h3>Links mentioned:</h3>
+
+<p><a href="https://smartlogic.io/" rel="nofollow">https://smartlogic.io/</a><br>
+<a href="https://alembic.com.au/blog/igniter-rethinking-code-generation-with-project-patching" rel="nofollow">https://alembic.com.au/blog/igniter-rethinking-code-generation-with-project-patching</a><br>
+<a href="https://hexdocs.pm/igniter/readme.html" rel="nofollow">https://hexdocs.pm/igniter/readme.html</a><br>
+<a href="https://github.com/ash-project/igniter" rel="nofollow">https://github.com/ash-project/igniter</a><br>
+<a href="https://www.zachdaniel.dev/p/serialization-is-the-secret" rel="nofollow">https://www.zachdaniel.dev/p/serialization-is-the-secret</a><br>
+<a href="https://www.zachdaniel.dev/p/welcome-to-my-substack" rel="nofollow">https://www.zachdaniel.dev/p/welcome-to-my-substack</a><br>
+<a href="https://ash-hq.org/" rel="nofollow">https://ash-hq.org/</a><br>
+<a href="https://hexdocs.pm/sourceror/readme.html" rel="nofollow">https://hexdocs.pm/sourceror/readme.html</a><br>
+<a href="https://smartlogic.io/podcast/elixir-wizards/s10-e09-hugo-lucas-future-of-elixir-community/" rel="nofollow">https://smartlogic.io/podcast/elixir-wizards/s10-e09-hugo-lucas-future-of-elixir-community/</a><br>
+<a href="https://github.com/hrzndhrn/rewrite" rel="nofollow">https://github.com/hrzndhrn/rewrite</a><br>
+<a href="https://github.com/zachdaniel" rel="nofollow">https://github.com/zachdaniel</a><br>
+<a href="https://github.com/liveshowy/webauthn_components" rel="nofollow">https://github.com/liveshowy/webauthn_components</a><br>
+<a href="https://hexdocs.pm/elixir/Regex.html" rel="nofollow">https://hexdocs.pm/elixir/Regex.html</a><br>
+<a href="https://github.com/msaraiva/vscode-surface" rel="nofollow">https://github.com/msaraiva/vscode-surface</a><br>
+<a href="https://github.com/swoosh/swoosh" rel="nofollow">https://github.com/swoosh/swoosh</a><br>
+<a href="https://github.com/erlef/oidcc" rel="nofollow">https://github.com/erlef/oidcc</a><br>
+<a href="https://alembic.com.au/" rel="nofollow">https://alembic.com.au/</a><br>
+<a href="https://www.zachdaniel.dev/" rel="nofollow">https://www.zachdaniel.dev/</a></p><p>Special Guest: Zach Daniel.</p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s13-e01-igniter-code-generation-zach-daniel.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <!-- <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li> -->
+            <li class="footer__right-menu-item"><a href="/about/privacy.html">Privacy Policy</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+</body>
+</html>
