@@ -47,7 +47,7 @@ include_rss: true
       <p><em> Listen to our latest episode:</em></p>
 
       <div class="podcast-audio-container">
-        <iframe style="margin-bottom:20px" src="https://player.fireside.fm/v2/IAs5ixts/latest?theme=dark" width="960" height="200" frameborder="0" scrolling="no"></iframe>
+        <iframe style="margin-bottom:20px" src="https://player.fireside.fm/v2/IAs5ixts/latest?theme=light" width="960" height="200" frameborder="0" scrolling="no"></iframe>
       </div>
 
       <p>Elixir Wizards is an interview-format podcast, focused on engineers who use the Elixir programming language.
@@ -135,22 +135,22 @@ include_rss: true
 <footer class="footer">
   {% include footer-common.html %}
 </footer>
-     <script>
-       const loadVideo = (iframe) => {
-         const cid = "UCs0l7lELt6hwxKCvS9IEK7Q";
-         const channelURL = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${cid}`)
-         const reqURL = `https://api.rss2json.com/v1/api.json?rss_url=${channelURL}`;
+<script>
+ const loadVideo = (iframe) => {
+   const cid = "UCs0l7lELt6hwxKCvS9IEK7Q";
+   const channelURL = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${cid}`)
+   const reqURL = `https://api.rss2json.com/v1/api.json?rss_url=${channelURL}`;
 
-         fetch(reqURL)
-           .then(response => response.json())
-           .then(result => {
-             const link = result.items[0].link;
-             const id = link.substr(link.indexOf("=") + 1);
-             iframe.setAttribute("src", `https://youtube.com/embed/${id}?controls=0&autoplay=1`);
-           })
-           .catch(error => console.log('error', error));
-       }
+   fetch(reqURL)
+     .then(response => response.json())
+     .then(result => {
+       const link = result.items[0].link;
+       const id = link.substr(link.indexOf("=") + 1);
+       iframe.setAttribute("src", `https://youtube.com/embed/${id}?controls=0&autoplay=0`);
+     })
+     .catch(error => console.log('error', error));
+ }
 
-       const iframe = document.getElementById('latestVideoEmbed');
-       loadVideo(iframe);
-     </script>
+ const iframe = document.getElementById('latestVideoEmbed');
+ loadVideo(iframe);
+</script>
