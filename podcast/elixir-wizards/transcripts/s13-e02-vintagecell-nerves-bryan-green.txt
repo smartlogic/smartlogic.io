@@ -1,0 +1,224 @@
+S13E02 Creating VintageCell with Bryan Green (Audio)
+===
+
+00:00:00] Intro: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is Season 13, The Creator's Lab, where we're talking to innovators who are expanding what's possible with Elixir, from groundbreaking projects to tools shaping the future with our favorite technology.
+[00:00:29] It may seem like magic, but it's really the result of talent and lots and lots of hard work. 
+
+[00:00:35] Dan: Hey everyone. I'm Dan Ivovich, director of engineering at SmartLogic.
+
+[00:00:39] Charles: And I'm Charles Suggs, software developer at SmartLogic, and we're your hosts for today's episode. For episode two, we're joined by Bryan Green, senior software engineer at Gridpoint. In this episode, we're discussing Bryan's VintageCell project, where he transformed a vintage 1930s rotary phone into a fully functional cell phone using Elixir, Nerves, and a variety of hardware components.
+
+[00:01:01] Welcome to the show, Bryan. 
+
+[00:01:03] Bryan: Thanks for having me here. 
+
+[00:01:05] Dan: It's good to have you. to start off, how about you give us a little bit of background? Who are you? Where are you from? What are you up to these days? How'd you get into software?
+
+[00:01:15] Bryan: so I'm a longtime software developer, too long to admit, born and raised in L. A. so I was born here and I've stayed. got into software at a pretty young age and have just stuck with it. 
+
+[00:01:31] Dan: Awesome. what about to Elixir? When did that happen? 
+
+[00:01:35] Bryan: so I was doing Node. js and, I, was taking the bus to work and, that gave me time to read the book, Seven Languages in Seven Weeks, and the sequel, Seven More Languages. And, Elixir clearly hit a chord with the authors and with me too. So, I just started, exploring it and it was a while before I could actually, get work doing it.
+
+[00:02:03] But, yeah, it was just a really intriguing story. 
+
+[00:02:07] Dan: Very cool.
+
+[00:02:09] Charles: Was there something particular about Elixir that really kind of struck a chord for you that drew you to it?
+
+[00:02:14] Bryan: I already kind of discovered, writing in a functional style. my Node. js was starting to look pretty, functional. And, I can think of a project I worked on where, it looked like an Elixir pipeline. I forget the JavaScript term for it, but it's just sequentially doing one thing after another.
+
+[00:02:33] I like the functional style. I like immutability and. not having to worry about, things like, bad concurrency story. I'm not a huge fan of Node. js's concurrency. it just felt like, a great building block to start from. I don't want to have frustrations that are coming from the language itself.
+
+[00:02:56] So, this just seemed like, a great, language and platform, and I still feel that way, having worked in it for a few years now. 
+
+[00:03:06] Dan: Awesome. So your hardware project. Did you have a lot of hardware experience before this? Had you done embedded work with other systems? Or was this your first embedded, and was this your first Nerves project? 
+
+[00:03:20] Bryan: I guess it was my first real Nerves project. I've tinkered with a few different, hardware projects. I had, an automatic cat door, which is going to be my next project as well.
+
+[00:03:33] Dan: Mm hmm.
+
+[00:03:34] Bryan: I was working on something that was a remote control robot arm controlled by a glove.
+
+[00:03:41] that was another one I explored. but, yeah, not a ton, that's about it. 
+
+[00:03:47] Dan: Cool. Were those, um, like Arduino projects, or
+
+[00:03:53] what were you using before Nerves?
+
+[00:03:54] Bryan: I used a lot of Adafruit stuff. The robot glove and arm was, Adafruit's, circuit playground, sewn onto a glove, with Bluetooth, and then I had, a little, uh, module that could do Bluetooth on the arm, as well. 
+
+[00:04:12] Dan: Very cool. So, uh, what was it about a telephone?
+
+[00:04:18] Charles: and
+
+[00:04:19] Bryan: So, what got, what got me started on it was, there was an Adafruit project to do a Star Trek communicator. and, so it was the 3D print, communicator, and you could turn it into a real phone with, an Adafruit, Fona 2G. Um, so I I was just getting into 3D printing. Um, I got that, I got the thing printed and I was able to make a phone out of it.
+
+[00:04:51] so that was a cool success and then I'm not sure at what point I thought, hey, let me take that modem, project and turn it into a vintage phone. I mean, I like vintage things so, it just kind of crossed my mind to do it. I've been interested in nerves, for a while, so I just wanted to do it in Nerves and, see where that took me. 
+
+[00:05:16] Charles: were there any, unexpected challenges or interesting moments as you were starting to build this? It sounds like, it was your first time, diving into using Nerves for a hardware project. but you've done some work with other hardware already.
+
+[00:05:33] Bryan: Yes. so the biggest problems, the biggest challenges that came with the phone, were more about the physical aspects of it. I started with, I started with a different phone. I started with a phone that's, called a Strowger Wall Phone, which is from like 1906. It was the first, widespread use, rotary dial phone. so I was working with that for a while and, I was having some trouble interpreting the digits. I'll, I guess I'll talk about how a rotary phone works for a second. So, rotary phone, the dial works by, you dial a number, and then when you let go, it will make a bunch of clicks on the line.
+
+[00:06:23] One click for every number that you're dialing. So if you dial a six, you get six clicks. it turned out that this vintage phone was a little too vintage, and needed a little TLC. And, I figured out that when You turned the dial, it would make clicks, and it's not supposed to. It's supposed to make clicks when you let go.
+
+[00:06:50] So, the phone was, unusable for the project in its current state. There was no way with software that I could really tell, you know, if that click was, I couldn't filter out those clicks. 
+
+[00:07:04] Charles: So are you reading, like, the audio of the clicks to then determine, or is it Like, how does that get converted into an electrical signal? 
+
+[00:07:13] Bryan: Uh, great question., So you use GPIO, which is General Purpose Input Output, that is just a standard thing on like a Raspberry Pi and all these boards. So it's just measuring electrical, it's kind of like a switch, the way the dial works. It's just doing a bunch of clicks on the line. the way you read that is you Send voltage on one end, and then you have the GPIO reading on the other end with a resistor in the middle.
+
+[00:07:48] And so you'll just, with, circuits. gpio, the Nerves library, you're able to get that as, as function callbacks, telling you, ones and zeros, clicks or no clicks. And to interpret that, with software, basically you'll, there's a bit of noise on the line. So anytime there's a click, I, see the click and then I wait a certain amount of time and filter any noise out that comes in.
+
+[00:08:21] So it's, it's just kind of a timing thing. So if you have six clicks, you filter out a little bit of noise that happens immediately after each click. And you count how many clicks you get in a certain time period. And, uh, if you're interested, the way that I diagnosed that problem is I hooked up some LEDs. Which I also controlled with GPIO, but these were outputs so that every time I detected a click, it would turn on one LED. And then as it was getting more noise or more activity on the line, I had another LED that would flicker, and an LED that was, was showing what I was filtering out as noise.
+
+[00:09:08] So, that was a great system for seeing what was going on. And of course, what happened is I dialed the number, and before I let go, it had already seen, the clicks on the line. So, you know, I knew that wasn't going to work. 
+
+[00:09:24] Dan: Debugging instead of a log, right? It's, use your hardware to your advantage and make additional outputs. 
+
+[00:09:29] Bryan: Yep. 
+
+[00:09:32] Dan: Yeah. It's kind of that, that's that incremental steps, right? in building something in hardware that I think mirrors really well into software often, and I think really well into Elixir.
+
+[00:09:43] so I'm curious, you know, This seems like it was one of your early intros into Nerves. You'd been working in Elixir. You know, any kind of like particular, like why Elixir for this project? Were there specific things? I mean, you've mentioned a few libraries already, but like, what was really the kind of like shining star of Elixir for this project for you?
+
+[00:10:03] Bryan: So, one question is, could this have been done on a more lightweight, system. yes, definitely. Um, you know, you could have gone with less hardware, not a full blown, uh, microprocessor, just a micro controller. a lot of it was just me wanting to do it in Nerves for the sake of doing it. 
+
+[00:10:27] And, uh, but also there's, A lot of benefits to using Nerves. I was able to SSH onto the phone, which is, a killer feature of Nerves. I could look at what's going on. I could look at the logs. I could call functions. , I could do all kinds of things on the device itself.
+
+[00:10:52] It was partly an exploration of, of Nerves. 
+
+[00:10:56] Charles: Were there any regrets out of that experience? You got to explore nerves. Was there a moment in there where you're like, Oh, I kind of wish I had just gone with something more simple than this. This seems like it's not a good fit. Or were you really enjoying working with it and getting to learn it?
+
+[00:11:10] And maybe some of the other, you know, you've already mentioned some other nice things that came along with working with nerves. 
+
+[00:11:19] Bryan: I don't regret using Nerves at all. I mean, part of it was just to kind of have a, you know, just a, a great example or, you know, an, an exhibit for, for Nerves. so Nerves was pretty cool to work with. you know, some of the other features I didn't mention, you get, over the air updates. So I could work completely from my computer, deploy code to the phone, SSH onto the phone, and not have to actually interact with the phone, except if I wanted to make a call. so that was pretty powerful stuff. I wouldn't call it a regret, but I'd say that the most difficult part of the, project was working with the hardware and basically just, getting the wiring from the Fona, which was, my modem to the Raspberry Pi, and, the wires on the phone, for picking up and hanging up the phone and for dialing.
+
+[00:12:21] So I went through a lot of iterations of putting boards together. I actually have the original. This will focus. Uh, so this, this is kind of ugly. It had the phone up plugging in here, the Raspberry Pi plugging in here, a bunch of wires, and then a That was, a bit on the clumsy side. And I was always trying to rework that and tighten up the wires. Cause a lot of the time I would be debugging, trying to figure out something in software. And the problem would be that a wire broke off. 
+
+[00:13:00] Dan: The Bane of Hardware is like, I get it working, and then I try to put it in an enclosure, and it doesn't work anymore. Right? 
+
+[00:13:08] Bumped a wire the wrong way, or Mm
+
+[00:13:11] Bryan: you know, I, I was trying to squash, the whole thing with, putting the case on and, having wires just crunch under it and not feeling comfortable about that. I ended up, making my own, PCB for this project. I'll show you that one. I don't know how good that focus is, but that's it. you'd still have the Fona plug in, one set of headers, and the Pi the other, but this is a little tidier with the resistors and the LEDs, and these plugs for, for wire harnesses, rather than these, you know, these, uh, solid wires that I used. so that was pretty cool. And that was a nice detour, into, learning KiCad, which was pretty cool. 
+
+[00:13:56] Dan: hmm. Yeah. So yeah, it's like keeping your code well organized, right? Is also keeping your breadboard and your PCB well organized. 
+
+[00:14:06] Bryan: and then something bad happened. 
+
+[00:14:09] Dan: Yeah. Mm 
+
+[00:14:10] hmm. Mm
+
+[00:14:12] Bryan: got an email from my phone provider And they said they were going to discontinue 2G. I thought, okay, my modem is a 3G modem, so hopefully, you know, I'll have another year or two to get this project done. but no, they had already discontinued 3G.
+
+[00:14:31] And it wasn't just my provider, it was, this is pretty much America. So, my Fona 3G stopped working. So I had to go and so this, uh, this, there will be no demand for the, uh, the circuit board I made. so I had to go and shop for a new modem and I ended up with a Waveshare hat and, had to do some work on a 3D case so that I could fit all this stuff into the phone.
+
+[00:15:03] And that kind of went out the window and I had to redo that with a new case. And, the newer modem had fewer features and was bigger. So that was definitely a challenge. 
+
+[00:15:15] Dan: in the talk that I saw you give, you talked a lot about like state machines and, you know, some advantages in Elixir to be able to work through all of that. curious if you could speak to like a little bit around that experience. And I think something I'm super curious about too is like, is it seven digit dialing, 10 digit dialing, or can it handle both? 
+
+[00:15:33] Bryan: , I'll start with that question. Uh, it's, I mean, currently 10 digits only. But it, it, it would be pretty trivial to, you know, to, to have it work on a, you know, , in la you have to dial, you know, on a landline if they still exist. you have to dial one, plus a 10 digit, uh, code, uh, number.
+
+[00:15:55] Otherwise you just dial seven and it'll start going. I just had it set up for 10 and one reason is, I never implemented timeouts, which was great for development because I didn't have to, be afraid of running out of time to dial a number. Um,
+
+[00:16:14] Dan: Mm hmm. 
+
+[00:16:15] Bryan: uh, sorry, what was the 
+
+[00:16:18] main question that I skipped over?
+
+[00:16:19] Dan: Well, yeah, I was just realizing we may have audience members who actually don't know anything other than cell phone digit dialing and never did a seven digit dial. But, you know, here we are. I guess I was just, the seven versus ten made me think about your state machines and, you know, keeping track of, you know, is the receiver on or off the hook?
+
+[00:16:40] where within the process of a phone call are we? And I think from, you know, from the presentations I've seen you give on this, that is a big advantage to Elixir, is being able to manage that kind of in some really clean code. And I was just wondering if you could speak a little bit to that experience of building those out.
+
+[00:16:57] Bryan: Yeah, for sure. so, the project uses GenStateMachine, which is just an Elixir wrapper around, Erlang's GenStateM. And the project is a finite state machine. There are only a few states that a phone can be in. It's either on hook, doing nothing. It's on hook, and there's an incoming ring call. It's off hook, playing a dial tone, waiting for you to dial. it's on hook, collecting digits. not playing a dial tone, or it's on a call. so, just a handful of states. And yeah, that's, what I emphasized in the talks that I gave, because that was kind of the most, exciting to me.
+
+[00:17:46] I really liked working with GenStateMachine. one cool thing about it is, you don't have to declare any of your states. you just name your functions the state that you expect to be in, and, in other functions, or in the return of functions, you're telling it what your next state should be. your next state is off hook, then you're going to have a function called off hook with a pattern match some kind of event transition. then, you know, offhook for a different one. , I guess I'll run through a quick example. So, first you're onhook. then you see that the phone has gone offhook. So now, you're in a state playing a dial tone
+
+[00:18:33] , waiting for digits. and then you'll have a digit come in. So you'll say, okay, onhook, digit dialed, six.
+
+[00:18:42] And it'll go to the next state, which is the same collecting digits, just not playing the tone. and then when it collects a tenth digit, it goes to another state, places the call, and goes into, active voice call state. so it's just a really clean way to have sort of the central control of the thing. 
+
+[00:19:03] Dan: if somebody is new to state machines or working in, , you know, in Elixir with state machines, is there any, like, particular advice or something you think they should really know? 
+
+[00:19:12] Bryan: I think probably the best thing is just to know when you would want to use it. So maybe just get familiar with what a finite state machine is and how you could use it. , we use them at work as well. I think just be aware of that and see if your, um, see if your software sort of fits that state machine paradigm. It was a lot of fun to work with that. so check it out. 
+
+[00:19:36] Charles: Were there any aspects of the project you think would be useful to extract into other projects? 
+
+[00:19:42] Bryan: GenStateMachine would be one. another thing I, I talked about a lot was Genservers. for this project, I had a Genserver kind of representing every piece of input on the phone. the rotary dial gets a Genserver. So its job to figure out the clicks and the noise and all that, and figure out that a digit has been dialed.
+
+[00:20:07] So the way I structured the program is I have this GenStateMachine, uh, kind of, you know, has central control, and then these Genservers just independently run and do their thing. I'll start with the hook server. all it does is listen for the phone going on and off hook, and that's it.
+
+[00:20:31] And, when that happens It sends a high level message to the cell state machine, my finite state machine, and says, Hey, a three has been dialed. then it can worry about the low level figure out clicks and noise, and then it just sends this very high level message to the cell state machine, and says, Yeah, somebody dialed a three.
+
+[00:20:56] You know, what are you going to do? And depending on what state machine, depending on what state, the machine is in, you know, maybe it's on hook and it's just going to say, you dial the three while you're on hook. I'm going to throw that away. so it's, it's just got sort of a nice, there's just these independent things that are running, that are waiting for things to happen and, Just passing messages to the, to the central control, which is the state machine.
+
+[00:21:30] And I think that's a, that's a really cool architecture. 
+
+[00:21:35] Dan: Yeah, it seems like, one of the big advantages of Nerves and, because of Elixir is that kind of ability to model the real world in a very specific way. And the phone project has Very specific states and very specific aspects of it that have to get handled with, some underlying complexity that you can then build a good abstraction on top of.
+
+[00:21:56] Bryan: Yeah, it was. 
+
+[00:21:59] Charles: What advice would you have for someone who's new to hardware or nerves but wants to get interested in solving a problem like this? 
+
+[00:22:05] Bryan: I feel like we're, I used this term before, but it's like a golden age for this kind of hardware development. There's all these companies, Adafruit and SparkFun and DigiKey, that are, producing really cool boards and not just what they produce, but they're putting some good, tutorials and learning around it.
+
+[00:22:26] so I think my first bit of advice would be get into it, try something. You know, play around with it. it's a good time to get into it. 
+
+[00:22:36] Dan: I think one aspect of your project is that it involved a lot of other Hobbies, right? Like the wiring side of it, the 3D printing side of it, 3D design, it sounds like you learned a lot to make this kind of come to life. That can maybe be overwhelming or intimidating to some people, so any advice specifically around how to get into something like this when it looks like it's, well I have to learn like eight new things, where do I start?
+
+[00:22:57] Bryan: Yeah, I mean, hopefully you won't have to design your own circuit board, but maybe you will. but for all these things, actually, KiCad was a pretty great experience, to learn, because I think I was kind of set up for success because I, I sort of understood, what the, the issues were with the wiring that I was trying to solve. Advice for people. There's a lot of community out there. There's a KiCad Discord that I used for that. there's, Elixir Slack, which has a nerves group and, a nerves, forum on the Elixir forum. people want to help you.
+
+[00:23:34] just make use of communities. 
+
+[00:23:36] Charles: Any,
+
+[00:23:37] pro tips to, how to save yourself some, some time? maybe it's debugging a hardware project. what kind of things would you mention to new folks in that regard? 
+
+[00:23:48] Bryan: for Nerves specifically, there's one little thing that bites everybody. if you're using a USB cable, to do something called gadget mode, you can use a cable to connect directly to your device. make sure your cable has data. If it doesn't have data, then it's gonna bite you and you're not gonna know what's going on.
+
+[00:24:08] So that's, that's one. What else have I got? Oh, get two of everything, if possible. Because you always want to be able to swap things out and see, Oh, okay, my, my, my modem was fried. So, you know, so that's one. Keep a journal of your progress. My project management for this was just one text file and I had a running list of what needed to be done and what I had done. 
+
+[00:24:37] Dan: I, I like the project notebook Aspect of that. That's good advice to write things down as you go. There's always command did I run? Which, which pin did I plug that into? And just like, it doesn't have to be pretty, right? 
+
+[00:24:49] Bryan: And speaking of
+
+[00:24:51] commands, I had a text file that was, just, uh, A file of snippets that I would just copy over and paste into IEX. , I never did get around to adding a Livebook to the project, but this would be a great use of Livebook because you could just set up, a bunch of code snippets to, ring the bell in the phone or, you know, check the state machine state, etc.
+
+[00:25:18] Dan: A little, uh, Livebook diagnostic dashboard. Very cool. That, oh man, that sounds like fun. Now I want to do it. So, as I'm feeling inspired, is there any other, any other work you hope that this inspires, or work that you're seeing it inspire in yourself?
+
+[00:25:35] Bryan: Um, so Some people might be interested in just the telephony aspect of this. I wrote a little library to wrap the communications to the modem. there's some different things you could do with that. Somebody suggested doing an SMS server. So maybe you, you know, could receive SMS on your project and tie that in with home automation.
+
+[00:26:01] Dan: 
+
+[00:26:01] Yeah, it, I, I really feel your kind of feeling of like a golden age in hardware, like it's so easy to get access to things. These days and the prices have come down on on so much to be able to just throw a Small project together and the community support You know discords, and forums, and slack channels, and things like that is is really stellar to try to make this kind of stuff work. Is there anything that we haven't asked you that you would like to share or wish we'd asked you about?
+
+[00:26:29] Bryan: No, I'm sure it'll hit me five minutes after we're done. 
+
+[00:26:33] Dan: Cool. Well, any other plugs or how can people find out more about what you did or, you know, if they're interested in getting started and want to look at your work, is that an option? 
+
+[00:26:41] Bryan: I did open source the code. I didn't, haven't really told anybody yet, but it's out there.
+
+[00:26:47] Dan: All right. We have an exclusive.
+
+[00:26:50] Bryan: Yes. Um, yeah, I, have open sourced it. I also have that, that library for modem commands. There's not a lot to it, but that's, that's out there. I'm working on a blog, which is codestorm. me. so, hopefully I'll, I'll get around to putting up a blog post for the phone. 
+
+[00:27:12] Dan: Awesome. Well, sounds like there's good ways to get involved already and more coming.
+
+[00:27:19] Bryan: yeah. And I, have videos up. There is a video up from the Nerves meetup group, where I presented this. Elixir Conf, I don't know if that's going to be public at any point, but, there is the Nerves Meetup, which is also a good place to go for Nerves help, for sure.
+
+[00:27:34] Dan: Awesome. Great. Thanks for your time, Bryan. It was really awesome talking about your project. I know I'm feeling inspired, so hopefully the audience is too, to check out Nerves and involved with more than just servers, but some hardware sitting on your desk in front of you.
+
+[00:27:48] Bryan: Well, thanks for having me. It was a lot of fun. 
+
+[00:27:51] Dan: Awesome.
+
+[00:27:53] Charles: Great. Thanks for joining us. 
+
+[00:54:09] Outro: Elixir Wizards is a production of SmartLogic. You can find us online at smartlogic.io, and we're @smartlogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik for SmartLogic. Thanks for joining us in the Creator's Lab, and we'll see you next week for more stories of innovation with Elixir.
+
+[00:28:28] Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+[00:28:46] We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day.
+
