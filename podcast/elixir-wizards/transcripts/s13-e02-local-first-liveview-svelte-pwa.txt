@@ -1,0 +1,419 @@
+S13E03 Creating LiveView Svelte PWA with Tony Dang (Audio)
+===
+
+​
+
+Hey everyone, I'm Sundi Myint, Software Engineering Manager at Cars Commerce.
+
+And I'm Owen Bickford, staff engineer at SmartLogic. We are your hosts.
+
+for today's spooky episode. 
+
+For episode three, we are joined by Tony Dang, creator of Local First LiveView Svelte PWA and Web Dev Enthusiast. Hi, Tony. How are you?
+
+Hi everyone, um, is this where I was supposed to introduce myself?
+
+Yes.
+
+So, alright. hi everyone, my name is Tony. I am a web developer, from the Bay Area in California. And, I guess my background is that I used to be a mechanical engineer and an engineering project manager for about 10 years. And it was around 2020 when I decided I needed a break and a change.
+
+I decided to self teach myself programming. And I think, like most people, I started in the JavaScript space, and then I also dabbled a little bit in, Python, PHP, and a little bit of Ruby before I finally discovered Elixir. And I think, since today is the 17th of October, I can still say that I have less than a year of, Elixir experience.
+
+And the reason why I say that is because the first day I, started learning Elixir was October 25th. And I remember that because I made this pr when I was going through the official docs, I saw a little error. So I made a pr, to fix it. And within 10 minutes, I got a reply from José. And I was like, whoa, this is really awesome that the creator of Elixir would respond within 10 minutes of me opening this PR.
+
+And it really gave a really good first impression of the Elixir community to me. And yeah, ever since then, I've been writing Elixir, trying to learn as much as I can and Yeah, that's, why I'm here today.
+
+So dear listeners, when you hear this, Tony will have been in this fully for, sorry, how many years did you say? 
+
+one year.
+
+one, one year? Hold on.
+
+One year. 
+
+One year. Heh 
+
+I heard you say that, but I thought we've known each other for longer than a year. That's not true. 
+
+Uh, no, it's not. Heh heh
+
+Okay, 
+
+we'll back up to that, but happy Halloween, everyone, if you're listening to this on the day that this releases, but that is also the day, that is six days after Tony's first first PR.That is incredible. and so I guess the mechanical engineering background gives a little bit, that, that'll be interesting to dig into also, because I see what today we're talking about, offline enabled real time app using Phoenix, LiveViews, Svelte, and CRDTs, which, I don't love acronyms, so we're gonna, we're gonna expand on that.
+
+but yeah, this should be really interesting. Owen, any, anything to add there?
+
+Yeah, actually, so if you're watching us on YouTube, welcome to the party. This is Halloween. Happy Halloween. We'll dig a little bit into, CRDTs and the project that you worked on. I'm curious, at a higher level, I can already kind of see how CRDTs might be useful for like maybe a factory or some kind of embedded systems where maybe you're offline most of the time, but, things are happening and you want to keep track of those even when they're, when your site is offline for whatever reason.
+
+is that kind of a, that a consideration for some of the stuff you're doing or a driving force or was it more just I want to play with some toys? 
+
+I think it's probably the latter. heh. And I really was just interested, and it was solving a real problem that I had. the app that I built was Something that required offline capabilities. so just to back up a little bit, I think one of the reasons why,I'm on this podcast today was because I built an app, with LiveView and I also made it work offline and this app, for some background is a to-do app.
+
+so it seems like a very simple thing, right? A simple to-do app. However, the reason why I wanted to make it work offline is because the to-do app is an app that I actually use personally myself, and I happen to live in an apartment complex where every day I would have to go up and down this elevator.
+
+And every single time I go up and down the elevator to enter and leave the building, I would lose internet connection. And also when I'm in the parking garage, no cell reception. So And usually, I just happen to always be on my phone checking off my to-do list as I'm going down this elevator, and the fact that it doesn't work, really annoyed me.
+
+this is an app that I built before I built my offline version, and it was just an app that I built in JavaScript. but when I was learning Phoenix LiveView, I decided I wanted to rebuild the app, but also make it work offline. So that was the impetus for making an app that worked offline using CRDTs is because I had this issue that I was trying to solve. 
+
+Okay. I've let this go on too long. You got to define that acronym. 
+
+We need a 
+
+segment. Define that acronym.
+
+All right. So CRDTs, it stands for conflict free replicated data type. And honestly, it sounds like a big mouthful. I think I can try to explain it. so let's get back to first what the problem is, right? The problem that CRDTs, solves is, let's say you have a Google doc that The three of us are collaborating on and let's say at some point in time, we all get disconnected from the internet.
+
+So we're all working on this Google Doc, but we're all offline. So I make some changes, Sundi makes some changes, Owen makes some changes. And now we all have different changes locally. Then what happens when we all reconnect, right? When we all reconnect, now we have three different states that may or may not be in sync with each other.
+
+And that is the problem that CRDTs try to solve. Is how do you merge all of these changes in a way that results in no conflicts, and there are many ways, there are many different CRDT algorithms out there, but one of the simplest ways, the most simple, CRDT example I have would be, let's say, I edit the document at 1pm, and then Sundi edits it at 2, and then Owen edits it at 3pm.
+
+One possible algorithm is to just use last write wins (LWW). So in this case, Owen's changes will win because he edited the document at the latest time stamp. So hopefully that explains the CRDTs a little bit better. 
+
+Yeah, I think 
+
+so. Okay.
+
+So backing it up a little bit, you're going into an elevator. You're losing your internet service or just cell service. make it through your to-do app. Why? Why would you
+
+I guess this is a silly question maybe, but like why would you even attempt to make a to-do app in an application that traditionally cannot work without internet connection?
+
+Like why even go that route?
+
+I think the answer to that is simply because I was in a state where I wanted to learn Phoenix and LiveView, and I could build my app with some other technology, But I am, I wanted to learn Phoenix and LiveView, and it just so happens that I have this other issue that I have to solve at the same time. so that's the reason.
+
+Okay, cuz yeah, for context, for the audience, When Tony first presented this application, I was like, you are brand new to Elixir and you're literally doing the thing that the technology says it can't do. You were attempting to-do and I was that is the boldest thing. And I love it. And I was like, we have to have, we have to have a conversation about this.
+
+so what did you learn while going through that?
+
+a lot of course. I learned a lot about how LiveView works under the hood. and I think I pretty much learned how to make LiveView. Well, again, I think saying making LiveView work offline is not entirely true because LiveView requires a WebSocket connection in order to work, right? so really what's happening is we're enabling a LiveView application to have a fallback, to work offline.
+
+But LiveView itself doesn't actually work offline because there is no WebSocket connection. So when I say a LiveView app that works offline, it just means that when there is no internet connection, the app will still work. And the reason why the app still works is by, basically writing JavaScript, right?
+
+JavaScript is the one language that will work in the browser when there is no internet connection. And therefore, that's the solution to the problem. And in my app, I particularly use a framework called Svelte. And the reason why I use that framework was because there's a library out there called LiveSvelte.
+
+And this library is made by another community member named Wout, and he Basically, was able to get Svelte and LiveView working seamlessly together so that you can write a Svelte component in JavaScript, but you can update it using the socket assigns from LiveView. And because the integration was so seamless, it allowed me to use Svelte, but it also allowed me to learn LiveView at the same time. 
+
+I think you're touching on a couple of things. I know that LiveView was debuted 2017, 2018, if I remember correctly.like in its kind of demo form. and it probably had been in progress. work had been done, I'm sure, for at least a year before that.and one of the first things I think we all understood was that And the pitch was, we're trying to like simplify the stack, write more code in a single language so that you're not having to cross the transom and context switch between languages.
+
+That's like the selling point for us as developers. There were a couple of limitations that came with it. Offline support is a no go, just because everything you said, in order to have a LiveView, you've got to be connected to the WebSocket, and you can't have a WebSocket if you're not online.
+
+and also, at least initially, this was an effort to reduce or eliminate almost all the JavaScript that you would have to write. Something that's interesting that's happened in the years since is that actually we've gained more tooling to be able to execute JavaScript, like just small snippets when we need it for copy paste, for toggling attributes, and then also for
+
+hooking into more advanced JavaScript, whether it's browser APIs or some other frameworks that we're talking to. so I think what's interesting here is that you're also pushing the boundaries on, as a brand new Elixir developer, on What a LiveView application can do whenever it can't talk to the server. 
+
+and this is something that we've seen, I think even at ElixirConf, Jose had part of his talk was dedicated to a sync, kind of prototype that he was experimenting with. Have you looked at that repo at all? Do you know anything about is there, there's some rhyming that's happening with what you did and sync and LiveSvelte.
+
+Yeah, so unfortunately I haven't had the chance to look. I know about the talk, I saw it, but I I'm still waiting for the talk to be released, actually, so I haven't had the chance to look at it. I did see that the repo was released, though, but I haven't had the chance to take a look at it yet, unfortunately.
+
+Okay, we'll have a link in the show notes here. It's archived. So I, I think our understanding is that this was kind of a pitch to the community. Like, here's some things we can do.this is not officially being developed. It was like maybe a weekend project or whatever. And we'll kind of see if someone picks it up, to carry it forward.
+
+but yeah, so I guess one thing that I think we as developers like to-do sometimes is shove to the side some concerns that, we don't think our users are going to encounter. So offline mode is one of those concerns.a lot of us in our community particularly are probably guilty and including myself of saying, Oh, offline mode isn't important.
+
+Any application that's. valuable that it's worth using needs to work. We get all these benefits from being online, but you raise one great example of here's the thing I have to do every day and I just can't use some of these apps when I'm offline because I'm on an elevator.I can think of some other examples where you might have either just fully out, you might be fully offline for a while, or you might have intermittent connectivity.so are there kind of other scenarios you can imagine where we have a real problem to solve, 
+
+aside from just on the elevator for a few minutes. 
+
+so I follow the local-first space a lot, and it's a community of people who basically are trying to build everything offline as much as possible. And what I get the sense is that the majority of apps that work best for offline is productivity apps. Like apps that really just work with your own data.
+
+and those are the apps that are basically the best, for being offline because you don't need to worry about like making a transaction to buy something, for example, those kind of apps, like e commerce apps, of course, you can't have offline, right? You can't buy things when you're offline without validating your credit card.
+
+I'm sure someone might be thinking, maybe it is possible, right? Maybe you can make the purchase and then later on, the transaction goes through later on. Maybe that is possible. But generally, I would say that apps that work with productivity software. Or maybe like music apps, for example, right?
+
+Those would be perfect use cases for an offline app. 
+
+I think even like a shopping cart, you might not be able to execute the purchase and like, you know, nothing's going to happen if you hit a buy button. But if you're offline, maybe you can edit your cart.if you've got a cache of some items that you could add or, you know, remove things from your cart.
+
+I think there's a potential here for, if we're not writing our entire application to be offline, there might still be like slices of an application that could benefit from some of these technical bits.
+
+yeah, most definitely. Because the nice thing about offline, local first apps, is that the feedback is instantaneous, right? Because when we are building something offline, it means that we are writing to a local database, which means anything we do should have instant feedback. And that makes for a very good user experience.
+
+Of course, it also comes with some downsides in terms of development. For example, now we have to worry about the conflicting state, right? Because your example with the shopping cart. Let's say, someone were to make updates on their shopping cart locally. but later on they open up another browser, then their shopping cart might not be in sync.
+
+so there's like issues like that, that come up as well. So it's nice when it works, but it is also quite difficult to make working as well.
+
+Yeah, I'm curious. So you, I was watching speed running the video where you're showing the LiveView and database syncing from the browser and the, and the server. and so there, there may be some technical bits in there that I haven't caught yet, but I'm curious how much you have to replicate either state.
+
+like schemas, like, do you have to like define your schema on the server and then also define it in Svelte? Like how much duplication are you getting back into by supporting offline? 
+
+Yeah, so there's actually not much duplication at all, because, In the app that I built, I am using a library called Yjs. So Yjs is a CRDT library, originally built in JavaScript. And it basically comes with this data structure that keeps the state of your app. And this entire data structure is just sent to the server.
+
+So there is actually no duplication. So I am not making a different, for example, Ecto schema or anything to keep this data. Everything is actually stored as a Yjs document. So there is actually no duplication.that being said though, I would say that the app that I built does have some flaws in terms of performance.
+
+The way that the app works right now, since I was trying to keep it simple, was every single time you make a change to a to-do list, you would send the entire CRDT state from the client to the server. And then if there are any connected clients, then the server will send that entire state, down to all the connected clients.
+
+So you're basically sending your entire app state, back and forth throughout the various clients. And it's definitely not the most performant way to do it. Ideally, what you would do is you would only send updates. So what would happen in the ideal scenario is when you start up your app, you will create your state on the client and then you send the initial state to the server.
+
+And then following that, Every single time you make a change on any client, you will only send the update of the change up to the server. And that's a much more performant way to do it. But the reason why I didn't do that, one is the way I did it was much simpler. But then the second reason is because of the need to run Yjs on the server.
+
+Because if you were to send updates from the client to the server, Then when you send the update to the server, you need to somehow be able to merge the state on the server with the update that you sent to it. And this would be possible if you can run Yjs on the server side. And it is possible to run Yjs server side, because there is, You can run the JavaScript library server side, but at the time in which I made the app that I did, there was no Elixir port.
+
+since then though, as of I think a couple weeks ago, there was another community member who made a Yjs port to Elixir. besides the JavaScript port, there's actually a Rust port of Yjs, that was also made by the creator of the original JavaScript Yjs version. And the Elixir port is actually a wrapper around the Rust port.
+
+so that you can run the Rust version of Yjs on an Elixir server. 
+
+how recent was that? 
+
+so that was like a couple of weeks ago when I first learned off the library, the Elixir port.
+
+Okay, cool.
+
+Yeah. So I haven't implemented this in my app yet. I'm just saying that if I were to-do it again today, I would probably, uh, pursue that solution. 
+
+It's funny
+
+that that happened to me. In the past year we did some work to there's a package that we're using for generating, let's say, PDFs and the way we had written all the templates,was not compatible with, with That package did a bunch of work, probably took two months to like kind of refactor things.
+
+So to support that version, literally the next week they announced support for everything that we had in the system originally. So it's kind of funny. I, you just have to laugh once you've, spent a bunch of engineering time kind of
+
+shoehorning things into the thing. And then, they obviate all the work you just did. 
+
+laughing is better than crying, Owen.
+
+But at least you made it work though, right? And you got it working sooner than you would have if you had waited.
+
+You are a better engineer today. 
+
+Yes. 
+
+That's how you have to 
+
+look at those. 
+
+yeah, I was just, thinking off this one, Joel Armstrong quote. I'm not sure if you're familiar, the one that goes, first make it work, then make it beautiful, then make it fast. Right? So I think. That quote really resonates with me because in the app that I made, I made it work.
+
+So it works offline, and I made it, aesthetically pleasing to myself so I can use it, but it's not the most performant. but. I've been using this app pretty much weekly since I made it, and I think I first released it in about February of this year, so I don't know how long that has been. And I haven't had any issues, really, performance wise.
+
+One thing that is happening is that the payload size of the data going back and forth through the WebSocket is definitely growing. as The more I use the app, however, everything is still working fine. And honestly, I feel like I want to push to see how far I can go with the app as is before I need to make any performance optimizations. 
+
+Cool.
+
+Yeah, I, so you talked about the simple algorithm, last write wins. I've done a little bit of reading up on CRDTs over the past few weeks as well, local first development, finding the same thing that you're finding, like yeah, it works great for, I think an obvious easy use case is like single user, productivity apps.
+
+Linear.app is actually a project management tool that I think has gained a lot of success as a local first app. And that even supports teams of people, I think.I'm curious, there are other algorithms. could you touch on maybe some other technical solutions you might need to consider, for maybe last write win isn't the thing you actually need for a particular feature.
+
+Are there alternatives to that?
+
+There are alternatives, but I'll be honest that I am completely not an expert in this. So I also just started looking a couple things up before this podcast, so I'm aware, but I am definitely not an expert. So my, the one I know the most is, the last write wins because before using the Yjs library, I actually implemented my own CRDT using a last write win algorithm.
+
+then when I switched over, oh, so let me, back up. The reason why I switched over to Yjs was because as I was writing my algorithm, I realized that it was getting very complex to make sure you hit all the edge cases. and not only that, you had to make it performant. and a battle tested library like Yjs pretty much did all the work already, and I didn't want to have to reinvent the wheel.
+
+I have not since looked at many other solutions. first off, besides Yjs, there are a lot of other CRDT solutions in the community. but I would say the two most popular ones at the moment are yjs, and another library called AutoMerge. And in terms of how they implement their CRDTs though, I am actually not aware of the exact algorithm they use behind the scenes, so I really can't say much about that. 
+
+Sundi, did you know that you've been using CRDTs this whole time?
+
+No, but that's kind of the true of everything that's got an acronym. I don't know I'm using it.
+
+if I remember correctly, there's some portion of the LiveView stack. I don't know if it's like Presence or PubSub, or if it's actually in LiveView itself that has some CRDTs to manage state and updates over time. Do you remember, Tony, where that might be?
+
+Yes, I believe it's part of the Phoenix Presence that there is some CRDTs being used for that feature of Phoenix. 
+
+Right. Okay.the other piece that I've, that it's kind of like a mental tab in my mind, that I'm going to come back and open again, is hybrid logical clocks. one problem that, that you'll run into is we're talking about it, essentially distributed system. You've got all these computers that are using your application.
+
+They need to synchronize with each other. You could just assume that the computer's clock is accurate. And then whenever you get all these events, once they reconnect. Then you have to figure out which ones are in order, but of course, those clocks are not trustworthy. They may be just inherently inaccurate.
+
+There's drift, there's people can edit their clocks and stuff. So there's a concept called hybrid logical clocks that will essentially take a timestamp and then append it with a hash so that you get a format that, regardless of what device it's coming from, you get all these events and they're timestamped in a way that they can always be sorted in a consistent. item potent manner, so you always get the same order of events out.is that something, it sounds like that might be something you could roll into the, into this application, potentially, if you were to like expand it to grow to more users, potentially. Is that something that's been on your radar? 
+
+honestly, no, because I actually feel that The Yjs algorithm as is already is working really well, so I don't think there is a need to move on to any other CRDT structures, at least for this application. Honestly, a to-do app is, it's quite simple, right? There's not really like an issue with, there's not too many issues with like merge conflicts.
+
+Cause for example, like in Git, right? When we are, we have two different branches and we do a merge and we get a merge conflict. It is because. Maybe it is the, commit that we made in the past that is actually the one we want to keep and not the one that we made, in the future, which is the latest one.
+
+Whereas I think with Yjs, if something is made in the future, it is going to win and I feel like with a to-do app. Most likely, that is what you would like as well. But I can see for other apps you might not want the one that happened in the past to win. So in that case, I would think that you would have to explore other CRDT algorithms or hybrid logical clocks in order to solve the problem. 
+
+Makes sense. 
+
+Any other fun app ideas, using Svelte or Yjs, rattling around in there? 
+
+I had this idea of, making this app 
+
+and I was just going to call it Phoenix Presence. And hopefully that, gives you an idea of what it does. It's just imagine, a screen that has a bunch of, floating particles. And each particle represents one person connected to the app. So the more people you have connected, the larger this bundle of particles grow.
+
+And you basically get like a flame effect, as you get more people. So I was thinking of doing something like that and also making it work offline as well. But it was just like an idea that I had. I'm not sure when and with if I would have time to actually make it happen.
+
+It's fun. it's definitely, it would have a wow factor if you were to present that at, a conference in a room full of people who are connecting to it and then creating the flame before your eyes. But, I definitely, I had my fair share of, like, code is art kind of projects in college, so that's kind of what it reminds me of. that's fun. before we circle back to future ideas, your to-do app, the current one that you have, is that something that is available out there for people to use, or is that mostly just a you thing? 
+
+it's available for other people to use. I did not intend for it to be like, a production app, because I have no guarantees on people's data or anything. If someone wants to use it, they can feel free to, but at the same time, I'm hesitant to tell people to-do that because I'm not sure whether or not I'll make any breaking changes in the future.
+
+that being said, I've actually been tracking, the number of people who have signed up. for the app since I released it, and I checked today and there was 256 people who have signed up, to test out the app. obviously I don't think all of those are people who are actually signing in every day.
+
+I don't have any, tracking to see whether or not people are logging in on a regular basis, so I'm not sure if there's anyone else. besides myself, who's actually using, the app regularly.
+
+You know what's funny? I just, 
+
+You're looking for a productivity app, Owen. Is this 
+
+No, I don't know. I, you said 256 is like, there's a pun, there's a joke in here somewhere. I just searched 256. There's a whole, it has its own page. 
+
+There's a Wikipedia page for the number 256. 
+
+oh. 
+
+So we're going to drop that in the show notes as well.
+
+Okay. 
+
+know if there's anything useful in
+
+All right. No one else sign up for the to-do app. Let Tony have a magical number.
+
+Yep. I mean, I can start, out all the bots because I can see that, like some of the emails are like, something at example. com is definitely not someone real, but for some of it I can see, oh, this might actually be a real person checking this out.
+
+That's a real person. Do you know how many times I've done Sundi at example. com? 
+
+Well, I mean, like, a real person's email, right? I know, it's cool to see that, I wasn't expecting to have so many people, sign up. And, it was good to see that this caught a lot of people's interest, and I still get a couple of signups, like pretty much every week there'll be one or two new signups.
+
+so I'm glad that someone out there is finding this useful and
+
+yeah, this kind of rounds back to one of the reasons why I shared it in the first place was because, as I mentioned, I built this app after, seeing the LiveSvelte package, by Wout and, I know that he was inspired to make his package because he saw an ElixirConf talk by someone else named Ryan Cook.
+
+Basically I'm hoping that since I was inspired by Wout to make this. Maybe someone else will see this project and get inspired to make something even cooler. So I'm hoping that the chain just keeps continuing on.
+
+Just keep the train going. so speaking of like being inspired by Elixir, this, the reason, so for again, for context, the reason why I was shocked at the beginning is because I feel like when you came to DC Elixir Meetup. I guess that was a year ago, but in my head feels like 10 years ago.
+
+So that's a different problem for a different time. and I remember you being new to Elixir. You're now almost a year in. Do you have any like takeaways, learnings, interesting things now that you've been in the Elixir space for a little bit and like any hope streams for the future with your development journey with Elixir?
+
+Like I said at the beginning, I think I'm still in a phase where I'm learning a lot. So right now, I'm My, the latest project that I'm building is actually not a LiveView project at all. and that's because I wanted to learn just like vanilla Phoenix. so with controllers and with, Phoenix channels.
+
+so I'm trying to learn that right now. And, one of the reasons for that is because I wanted to understand how channels work a little bit more, under the hood. Because there is actually one issue with,my LiveView, offline to-do app that I've had that I haven't figured out a solution to yet.
+
+maybe you can help me with a solution, actually. 
+
+Doing it live! 
+
+Everybody lean in, let's hear it.
+
+of the issues is that with this app, Since it works offline, what's happening is that I am caching the HTML so that when there's no server connection, the app can still load the HTML from a cache. However, what that means is that the HTML cache also is caching a CSRF token.
+
+So let's say that.I am connected to my to-do app and I connect to the server. Everything works. And then after that, I close my app and it goes into the background on my phone. One day later, I'll come back and then I'll try to connect. but what happens is that the CSRF token is now stale. So what needs to happen is that you need to-do a reload and fetch a new token from the server in order to reconnect your socket.
+
+And that's the issue I have is that when that reconnection happens there's going to be this flash because you have to reload the page in order to get a new token. And I'm wondering if there's any way For you to re establish a WebSocket connection when the CSRF token is stale. 
+
+this is an interesting problem.So my Spidey sense tells me, this might be the wrong path, but the Spidey sense tells me maybe there's a way that like a service worker could intercept, like this is one use case for service workers. Like they, they're good at like handling your network connection state.
+
+I don't know if there's like a new API that is just built into the browser that would be better for this now, but. essentially, I think you're asking, like, whenever you reconnect, you want to maybe discard the cached HTML and, like, just maybe fetch the new, LiveView HTML,and then sync the data.so if that's, if that's the goal, it seems like maybe a service worker is one possible tool to use, there may be some other ways to hook into either LiveView directly or like a browser API to there's also, I can start to imagine some really hacky things like
+
+Yeah,
+
+removing the tag from the Dom or something like removing the CSRF tag.
+
+I don't know if that might still blow up because then you don't have a CSRF tag at all, in real time, that's the first couple of thoughts that come to mind.
+
+gotcha. Yeah, because I was looking into this for quite a while and I couldn't figure out a good solution. because like the, removing and re adding the tag would work, but the issue I had was that you still need to pass the token to, the Phoenix,JavaScript client library in order to open the WebSocket connection.
+
+So somehow you had to fetch the new token, pass it to, LiveView or Phoenix JS and have that reopen up a new connection. And that is the part that I haven't figured out yet. And again, so this is one of the reasons why I was looking into just Phoenix channels, because if you just use a Phoenix channel without LiveView, you control the authentication.
+
+So you pass your own tokens and you can determine how you want to authenticate. So that's why I'm looking at that right now, just so I can understand that a little bit better. And I'm hoping that eventually I'll round back to see if I can make it work with LiveView well.
+
+I don't know if you guys can hear it. I can hear people yelling at their phones right now. So if any of our community wizards, just know the answer and they want to like, give it to you, how would they do that? They can contact me. Um. I guess the best way to get to me is
+
+I have a personal website at TonyDang. com and basically all my contact information is on there. You can send me an email or you can send me a message via Twitter or GitHub, anything. That would be great.
+
+And we'll have your, we'll have your socials in the show notes. But this will also be on YouTube, so I feel like if we want a timestamp, like the Tony question, and just give it a section, if you are watching on YouTube and you've got a suggestion for Tony and you feel like you, you just, you can't hold it in, you just, you have to get it out there, please comment and we'll make sure it gets to Tony. 
+
+Yes, it'll be very much appreciated. I have been, like, I, like I said earlier, I feel like this app is it's pretty much done for now, but I have not stopped, noodling in my head things about how I can improve it. Because eventually I know I want to make another app, similar to this. And I would like to make it,better in every single way.
+
+And this is definitely one of the areas that I need to figure out still. 
+
+so there's some interesting things to talk about here as well. so you've already, we've been talking mostly about adding support for offline, using CRDTs, using Yjs on the client. I've also done a decent amount of work interacting with LiveView through JavaScript,JavaScript hooks.
+
+I happen to know, and you mentioned earlier, some, a fun idea about animating presence with something that sounds like 3JS or D3 or 
+
+something,
+
+
+
+which would be another JavaScript integration. I think I also happen to know you, you gave a talk about authentication and pass keys recently. 
+
+
+
+So, uh, there's, this is kind of like another frontier.
+
+if we want to put on our drama glasses. There was a debate a couple months ago about Phoenix having a ceiling, right? oh, there's just so many things you can't do because, you know, don't want to, like, misrepresent the argument. But it was, there was, there were takes going back and forth.
+
+Blog posts were written, about Actually, yeah, we have all these tools in LiveView for interacting with JavaScript because sometimes you need the escape hatch, and that's what Elixir is really great at, is letting you reach out to other tools whenever you really need it. Can you speak a little bit about your experience looking for tools, like when you when you know you need to reach for JavaScript or interact with something just outside of LiveView? 
+
+so when I would need to reach for JavaScript outside of LiveView, for me personally, since I have a strong background in JavaScript, I pretty much, defer to actually building my front end using, JavaScript. for example, in the app that I built, the way it works is that I, Pretty much pass, once it hits the front end, Svelte is pretty much the driver.
+
+And then I am just talking to my backend via,the WebSocket connection that is given by LiveView. I guess my answer to the question is I, I would always defer to using JavaScript for the front end because I think that there is a larger ecosystem available for JavaScript specifically for front end.
+
+so I think that would be my answer for that. And I honestly think that at the end of the day, since we had that quick discussion about like ceilings and all, I think that honestly, at the end of the day, you can actually build anything you want in either languages, but there are trade offs. so for example, I think Elixir is for sure better at handling WebSockets.
+
+And doing things like background jobs. Hands down, it is going to be better than running it in JavaScript. But you can do it in JavaScript. It just wouldn't be as performant or easy. You might have to run up like another server. Whereas with Phoenix, you would only need one server. So there are trade offs there.
+
+And on the other side, though, I do think JavaScript has some advantages as well. And one of it, honestly, is just the size of the community, which means that there is probably a library available for what you want to-do. And of course, there's the flip side of that too, which is There is a library for everything you want to-do and more, which means there's going to be a lot of decision fatigue when you're trying to decide, what, libraries you want to use.
+
+And this kind of actually comes back to one of the reasons why I ended up at Elixir in the first place. so like, as I said, I have a really, long background in JavaScript. And one of the reasons why I started looking elsewhere was because I was getting a little bit, tired of all the, all of the decisions that I had to make in order to start an app in JavaScript, because in JavaScript, I think the first thing you have to-do is you have to choose a rendering framework.
+
+So do you choose React, Vue, or Svelte? after that, you have to choose your meta framework. are you familiar with meta framework? So, like, uh, after React, you have to choose, do you want to use Next. js or Remix? Or do you want to use SvelteKit, Astro? The list goes on and on. do you want And then after that, you have to decide, okay, what's your auth package going to be?
+
+What's your ORM? And as you can see, there's a lot of decisions you have to make in JavaScript, which is why I started looking for more batteries included frameworks. And in the web dev community, I believe the three that I know of are Rails, Laravel, and then there was Phoenix. And I honestly tried all three, and I just ended up really liking Phoenix.
+
+And one of the reasons for Phoenix is because, like I said, the WebSocket support I think is the best out of, any framework I've seen. And number two is that it does have the front end support that other frameworks don't have. Meaning, it, you can do things with LiveView. If you didn't want to write JavaScript at all.
+
+but, at the same time, you do have the option to use JavaScript if you want via the JavaScript hooks. it gives you the way to escape into JavaScript if you do want to. And, I guess since we're on the topic of, using, Phoenix with JavaScript, I'll also mention really quickly another library.
+
+I'm not sure if either of you have heard of, a library called Inertia. js. 
+
+Heard of it, not used it, but yeah, I, yeah, tell us about Inertia. 
+
+Yeah, so Inertia is actually a library that was born from the Laravel community.
+
+And what it allows you to do is use your Any backend you want. So you can use Rails, you can use Laravel, or you can use Phoenix. And you're able to use the router from the Phoenix framework. But when you render out your page from a controller, it actually renders out a JavaScript component.
+
+So on the frontend you can use React, you can use Vue, you can use Velt, you can use whatever. But what it does is it renders out the JavaScript component. JavaScript component. And then it also passes props from the server down to the client as well. And I just find that it's a very good in between in order to hook up any backend to any frontend.
+
+And I've been using it with Phoenix via an adapter. And it's been working really well, actually. So I just wanted to mention that as another option. If you wanted to use a JavaScript frontend with a Phoenix backend. 
+
+Nice.
+
+
+
+Sweet. 
+
+Yeah, I know, just the last thing I'll say on Inertia is I know that, there's a, an Elixir startup, Elixir backed startup called SavvyCal, from Derek Reimer, part of one of the, part of the team that, created Drip, the email marketing campaign thing. and so I think he's also using Elixir on the backend and then using Inertia on the front end to connect with the more real-timeclient side interactions.
+
+So.
+
+Correct. 
+
+Yeah. I believe, yeah, Derek is the one who made the, inertia adapter for Phoenix, actually.
+
+nice.
+
+Cool.Tony, I think it's going to be really interesting to see what you get up to in maybe the next year. So that's going to be fun. do you, okay, you already gave us your website, you already gave us, some of your socials and we'll again put that in the things below. anything else you have to add before we wrap up? 
+
+I guess one thing I wrote down that, so one thing I wish that maybe A lot of podcasts would ask of their hosts is, what packages do you use? cause I have a list of packages that, that I have been using and I really like. So I just wanted to, give them a shout out. I already mentioned Inertia.
+
+but I've also been using, Req a lot. It's the HTTP library from, Wojtek. I've also been using Oban a lot. And it's been really awesome. And then two other ones are Joken. Have you used Joken? , it's like token except with a J. And it allows you to, work with, JSON web, tokens.so it allows you to sign tokens and verify tokens.
+
+and then the last one that I just want to mention real quickly is Hammer. have either of you used Hammer? 
+
+I have not. Oh,
+
+Yeah, so Hammer is a library that allows you to-do rate limiting in your apps. so
+
+Oh,
+
+I heard it is, yes.
+
+yes.
+
+
+
+yeah. So basically you can protect, routes in your Phoenix application, and set a rate limit on it.
+
+And it's, I thought it worked really well, so I wanted to give that a shot as well. But yeah,I always like it when people recommend the, their most used packages, so I can, discover new packages to use myself as well.
+
+Nice.
+
+In the spirit of shout outs, I'll shout out previous guest, Zach Daniel. I've been using, Igniter this week to write code generators.
+
+Awesome.
+
+It's nice. It's really very nice. yeah. 
+
+Yeah, I actually just listened to that episode, so it was an awesome conversation. 
+
+It did release today. Today, the day that we're recording, not today, Halloween. Not to be confused. Well, Tony, it's been great chatting with you. I hope we get to see more from you soon. Thank you for joining us. We'll see everyone next week on the next episode of Elixir Wizards. Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day.
+
