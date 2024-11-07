@@ -1,0 +1,333 @@
+S13E04 Creating a Terrestrial Telescope with Lucas Sifoni
+===
+
+​Intro: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is Season 13, The Creator's Lab, where we're talking to innovators who are expanding what's possible with Elixir, from groundbreaking projects to tools shaping the future with our favorite technology.It may seem like magic, but it's really the result of talent and lots and lots of hard work. ​
+
+
+Sundi: Hey everyone, I'm Sundi Myint, Software Engineering Manager at Cars Commerce.
+
+Charles: And I'm Charles Suggs, software developer at SmartLogic. And we're your hosts for today's episode. For episode four, we're joined by Lucass Sifoni, Indie developer and creator of a remote controlled telescope prototype.
+
+Sundi: in this episode, we're discussing Lucass' project prototyping and building a terrestrial telescope with Elixir Nerves, Rust, and hardware components. And I can say right now, those are, that's the first time I've ever said that on this podcast. We've had a lot of repeat things. We've talked about Nerves a bunch, but a terrestrial telescope.
+
+I'm going to ring that as like a first time. Welcome Lucas. How are you doing?
+
+Lucas: I'm fine, thank you. Thanks for inviting me.
+
+Sundi: Yeah, we're super excited to have you. Before we get started, can you tell us a little bit about yourself, where you are in the world and what you've been working on up until now?
+
+Lucas: Yeah, sure. I live in southwest France, in the countryside, surrounded by cornfields and things like that. I don't have a fiber link at home so I'm in a design agency run by friends to be able to join you today. I'm a freelancer and indie developer. And I work on a software as a service product for architecture agencies in France.
+
+So, half time programming, half time meeting clients and discussing needs with them. Kind of love it.
+
+Sundi: Great. dream job. Sorry, just like before we get far in there. I definitely had a lot of friends in the architecture space who would have absolutely loved to do something like that. So that's really cool.
+
+
+
+Lucas: Yeah, it's, uh, it's quite nice. Actually, I've never been employed, just like, um, I met some architects just straight out of school and started programming for them and more complex and complex things over the years and now I'm making my own product with this.
+
+Wow. It's incredible.
+
+Charles: it sounds really, uh, really specific and very technical and very detail oriented, the kind of software. I was reading a little bit on your website about the work you do.
+
+Lucas: Yeah, it's cool. It's quite linked to French laws about construction and how you get to build a, some building or how you obtain the project when you're in an architectural agency. So it's kind of, uh, kind of a niche.
+
+Sundi: if the kind of the What you're doing now was a little bit unplanned. What did you study? What did you think you were going to be doing?
+
+Lucas: I've always thought I would be a computer programmer, so I studied graphic design and Continued learning about programming at night. I've never been employed as a graphic designer, just I was interested in that field. So, um, in the daytime I studied design, did not practice it too much, and at night time it was computers, programming, and I naturally started working with that.
+
+Charles: Did, did you ever have to spend time like doing outbound sales work, trying to find new clients or because of the connections you had with the architecture community, did that just kind of come organically?
+
+Lucas: Yeah, it kind of did it by itself. Actually, now I'm trying to sell something and that's kind of new. I never had to look for work, which is quite unusual when I talk to other freelance developers. But also I'm not working with people familiar with tech. So, it's I work for people who need technology, but there's no tech literate people or when they are, it's kind of exceptional.
+
+So, I can build small teams with other freelancers. I have a few friends who are doing Elixir too. Some are Lispers, that's kind of niche too. My clients aren't technical, so you have to learn about their work, but also kind of educate them about a software project and how to run it together to build something useful.
+
+But that's a part I kind of love too.
+
+Sundi: There's something really interesting here about this, like, non traditional background. I mean, you said you thought you would be a software developer, but then you went right into, but you majored in graphic design. So how did you, like, what, when you were teaching yourself to code kind of on your own time, did you immediately go in with Elixir, or did you learn something else a little bit more traditional?
+
+Lucas: Now I, I started when I was like 14 years old with, with C. And then I found, those installed DVDs of Ubuntu, uh, around 2006, where you could put your address online and you, you would get a physical DVD. So I, I discovered the Linux that way and was kind of hooked. Then I started making little websites with, with friends and went more into the PHP side because, in France, it's kind of the lingua franca.
+
+Everyone's doing PHP, and when I was 18, I started to feel uncomfortable with that. I was feeling It wasn't the best, uh, the best thing to, to keep doing. So I've started to experiment with a bit of everything. And I think when I was, uh, like, um, four years later, when I finished my graphic design degree, I started playing with Rust and Go and a bit of, uh, of, uh, modern front end development.
+
+Then I found Elixir some day in late 2017, I think, and there was something that immediately clicked, you know. The course I found showed how you could spawn a process, send a message to it, like loop and keep the state in a loop and gradually build a GAN server. I was like, uh, immediately hooked, um, and thought, Okay, this is the environment where I dwell in now.
+
+So I'm fully in Elixir since, uh, the start of 2018.
+
+Charles: Yeah, this seems to be a thread in conversations I've had with people who started working with some other kind of language and, and then, you know, Came to Elixir in some way and, and some things just kind of clicked and, and said, this is, this is something I need to spend more time with. Uh, it really seems to be a common thread.
+
+Lucas: Yeah, totally. I think the first month I called some developer friends and I was like, What are you doing tonight? Nothing? Okay, grab some pizza, I have something to show you. Then we would spend the evening in IEX and it was, um, it's a really nice memory.
+
+Charles: So has Elixir served you especially well in solving problems in the architecture space and providing services to that industry?
+
+Lucas: I don't think the language itself, um is particularly suited to architectural problems, but it's the way you can be like autonomous in Elixir, the way you can build systems instead of web applications. That was important for me, transitioning from websites that also did things to like more general systems that happen to be online and on the web, but It wasn't the same way of thinking and that gave me a lot of freedom to add complexity and cater to more complex needs over the years.
+
+Sundi: What about the hardware side of things? When did that become an interest of yours?
+
+Lucas: Um, it was in high school, uh, mainly in France, you can choose, um, if you want a few like special classes and I chose electronics. So we did things on microcontrollers or just integrated circuits and a bit of Arduino, but it was a bit too recent for the French school system. Um, so. We did not touch that too much.
+
+Then I started playing with Arduino on my side. But, a bit like the web development thing I spoke a bit earlier, I wasn't really satisfied with how I could approach those projects. It was very stateful. Like, Maybe you had a Raspberry Pi and a Linux image on it, so you built your environment, installed package, and kind of made up a system that did what you needed it to do.
+
+But that wasn't very deterministic or, You couldn't easily reproduce it so I dumped SD cards in case one got corrupted and I worked on the Raspberry directly talking to Atmegas and Arduinos and things like that, but It felt a bit scrappy or hacky. I wasn't satisfied with that
+
+Charles: And was that all prior to working with NERVS, it sounds like?
+
+Lucas: Yeah, absolutely
+
+Charles: Was that a bit of a change?
+
+Lucas: Yeah, totally. Nerves was like my second biggest surprise after discovering Elixir. Like, um, Elixir itself was refreshing and I only heard of Nerves like three years ago and played with it for the telescope prototype we're gonna speak about. And, uh I was like, uh, again, okay, this is it. It's like a natural way to build a hardware system in Elixir.
+
+And you can, I found it very easy to have a good development experience, even on your computer, not on the host code, and then you just dump your Elixir It was kind of fantastic. The ability to live update a running hardware system, it's also something you don't have in a lot of other environments, I think.
+
+Charles: Was, was that one of the reasons that led you to use Elixir for much of the telescope project?
+
+Lucas: Um, actually the project came, um, A bit, uh, in the reverse order, um, I wanted to build, uh, to build a terrestrial telescope cause I, um, I lived with my partner near to a lake with, uh, birds that came every summer. We wanted to film them. Um, uh, I was in, in the, in a few astronomy clubs and, uh, big Telescope nerd, I guess.
+
+Uh, so I set out to build one. Then like, um, all hobby projects, uh, time gets a bit weird and warped, so we had to move There was not dislike anymore, but I already candidate to give a talk about it at could be, uh, 23. So. I set out to build something that could be understood, uh, by the, by, by a tech audience on the telescope side, something very open internals and to build it in Elixir because I had decided to, to do it from my own learning.
+
+So it's, it started with a personal goal, but, uh, it became, um, like an exploratory programming quest. And the telescope itself wasn't really the subject in the end, but more the discovery of the process of nerves and working with hardware in Elixir and trying to produce something that people could relate to.
+
+That was my second goal.
+
+Sundi: before we get too deep into it, can you explain what the telescope project was from a high level point of view, especially for those who are listening who maybe aren't as familiar with nerves and aren't as familiar with hardware, and when they're picturing a telescope, they're looking at that, you know, stands on three legs, you look through one end, see stars on the other, like, high, high, high level view.
+
+Lucas: Yeah, absolutely. So, a telescope is just an optical device that produces an image of something far away. You can define far away like optical infinity, so the sky and the stars, but it can also be like 50 meters away, if you want, uh, if you want to use it, uh, in daytime, this has a bit of, um, implications on how you build it.
+
+But, uh, It's just a device that produces an image. So nothing stops you from doing this. So it needs, um, an image sensor, like a camera, a camera chip. It needs to be able to, to point at the thing you want to, to film or shoot. So it must move, um, in the, the case of this project, up and down and right and left, we call that altitude and azimuth.
+
+you need to be able to focus. So in the case of the stereoscope, there was a sliding sled that moved the sensor back and forth to the image plane. The image plane moves with the distance of the thing you want to point at. So in this case, uh, since it was a terrestrial telescope, uh, the sensor needed to move a lot for.
+
+Nearby, far, and further objects. So there was like an upper cage that could slide. And it was controllable with physical remote control that could be used to move. And displayed a little grayscale image on it. And you could also control it, uh, with your smartphone, with, uh, a live view app. So there was a bit of, uh, hardware, a Live View Phoenix app, and, um, some physical stuff to control it too.
+
+You could choose.
+
+Sundi: And to clarify, when you say app, you mean like a mobile web app, not a native application, or do you mean? Okay.
+
+Lucas: I did not go that far, but, um, with LiveView native, I, I guess you could know or soon.
+
+Sundi: Yeah, in theory. I don't know how far along they are. I didn't quite get around to catching that talk at ElixirConf US this past year, but there were a lot of them. So, you know, in theory. Um, did you? Uh, you, you said a few things there, um, when you were describing the telescope you built, um, is there a commercial version of this?
+
+Like, could you buy a telescope that did all those things and has an app and, and like all, every single thing there, um, is that out there for somebody to purchase if they're like
+
+Lucas: Yeah.
+
+Sundi: going to build one themselves?
+
+Lucas: Yeah, of course, um, there are a lot of commercial offerings, um, mainly for nighttime, so you have an app with a map of the sky and you can click on objects and the telescope will point to it and either shoot pictures that you will see on your phone, so that's a imaging only telescope, you can look.
+
+You cannot look through it, and there are telescopes that will point at the region you want of the sky, but you will look to it with your eye. So, in astronomy, visual and imaging are like two totally separate fields.
+
+Sundi: it wasn't necessarily like there wasn't something on the market for you, it's just that you really wanted build it.
+
+Lucas: Yeah, it was purely of, um Probably for my own hobby satisfaction, but you can totally buy that and save the hours.
+
+Charles: When you were talking about focusing and how, um, kind of the, the, the sled that, that slides, uh, further away and closer based on the distance of the object that you're trying to view, I, I didn't quite catch. Does it move, like, further out towards the end of the telescope for an object that is further away, or for an object that is closer by?
+
+And is, maybe this is getting too far into the weeds too soon, but is the light coming from, you know, far into the telescope, hits a mirror, and then bounces back to the item that's on the sled that's moving back and forth?
+
+Lucas: Yeah, it works that way. It has to do with the angle of the incoming light. So, a mirror or a lens has a designated focal length. And that's the distance of the image for an object at optical infinity, so the stars. And when you get closer to that, uh, the focal plane moves away from the mirror. So, the closer the object, the further the image plane.
+
+Charles: That makes sense. What was it, um So then, to make it do all this, you're communicating with a remote that's talking to, um, I believe the Raspberry Pi that then communicates to a pair of Arduino Nanos, or maybe it was talking directly to the Arduinos to activate the, um, the motors to move things around. Was that, um, I guess, can you describe the physical connection there, but also, you know, the Were you using the circuits library and nerves to set that up?
+
+How were you doing that from a software side as well?
+
+Lucas: Yeah, of course. Um, so there was two Arduino Nanos, uh, one to drive the motors and one in the physical remote control. Um, I had like a, a GAN server that listened to incoming serial connections. And tried to identify device with their device IDs. The two nanos had the same, so they announced themselves by emitting like special bytes.
+
+So, the pattern was matched to assign them to specific event listeners in the app. And what's cool with, um, circuits and, um, The circuit library is that, uh, after you've set everything up, it's just, uh, like regular Erlang messages. So you can pattern match on them and handle them like you would handle anything else.
+
+If your connection, uh, breaks or something goes wrong, uh, You get a message that says that, so you can set it up again. And I've tried to make the circuits library crash, but we didn't manage to get that. Like you could unplug the device, plug it again, and it would work. Like, uh, kill the, kill the server that, uh, handled its message and raising it to a new, so it is just the regular Alexia way at the, at the end.
+
+Charles: And those special bytes that each Arduino sent, that's something that you programmed each to do, so that you could then pattern match on that?
+
+Lucas: Yeah, in the, in the opposite direction. Um, since the communication between, um, the ar Venus and the mango pie, um, which by the way, the, the mango pie was interesting because it's, uh, uh, very low power. Like it's, uh, one core, one gigahertz, uh, risk five CPU with one gigabyte of, uh, Ram. So. So, one core, I was interested in seeing how the Erlang scheduler would react with that and how things would keep being snappy with a bit of load.
+
+We can go back to that later, it was interesting. In both directions, I emitted special bytes, like to send an image to the physical remote control. I took a frame from the camera, processed it a bit to make it grayscale, and packed the bytes together to make really small payloads that painted a few pixels at the same time.
+
+with, um, electronic devices and binary pattern matching in elixia, uh, either construction or the construction of binarys. You can get very far. There's, um, I think a cool blog post out there with, um, A PNG purse or in function heads with, uh, binary, binary unpacking, and that's a really great example of that.
+
+Sundi: Awesome. Um, where, so just like, To take it into perspective again a little bit, you were building this telescope, um, when you were preparing your talk for CodeBeam? Or, um, had you completed it fully? Can you remind me what you just said there?
+
+Lucas: Now, it was meant to be a summer project, then a few things came in life, and so I had to build it for the conference. So, I tried to build it in a way that would show how you can get into nerves without knowing it beforehand, and what nerves is in general, how you can I think my point was a bit to show how you can approach a hardware project when you are not a hardware person.
+
+Like, you never tried it, but you can write software, so you can research your ways through the weeds and manage to build something.
+
+Sundi: Okay, got it. Yeah, I'm asking because I know that sometimes the The way that we build something changes depending on the audience that we're building it for. So if you're just building something for yourself, you might cut corners, or you might glue something on, or you know, like, you just do whatever you want.
+
+It's just for you. It's just a hobby project. When you're building it for an audience, You might start with all of those goals, and then you start to make it very tailored towards the audience that you're going to showcase this work to. So, um, your talk, your CodeBeam talk, is on YouTube. We'll have that there.
+
+I have the, you know, the, the show notes, the link to the show notes, if for any listener who wants to take a look at your talk. So we don't have to get into the talk specifically, but is there anything that you would have changed about the way you built this telescope if you weren't going to build it for a talk?
+
+Lucas: Yeah, absolutely. Um, I think everything would change on the hardware side, uh, because I built something that is more meant to show how a telescope would work, uh, rather than a real telescope, since my need for it, um, It just came away, so I built, um, like a more educational device. And on the software side, it was my first time with NERVS and I made a few decisions with, uh, regard to image capture that now I would approach differently.
+
+I think I discovered a few parts of the ecosystem that I didn't know at the time. So. I think it was a good, um, introductory or exploratory work that allows me to, um, See how I would build it today, like what part of the ecosystem I would select for what part of the device. I think I would get into Membrane for media streaming instead of parsing frames out of FFmpeg or things like that.
+
+I've seen that there are a few libraries for astronomical coordinates too, so I think I would use that. Um, my handling of nerves is a bit better too. So, yeah. It's um, it was a prototype in a way Like you say build one to throw it away and then build a real thing It would be that way
+
+Sundi: Do you have plans to build the real thing?
+
+Lucas: The real thing is just behind me I don't think we can see it on camera just right there, but I rebuilt a scope for my real need of um I'm doing astronomy, so at night, it's more compact, more usable, and no f If I would automate it, I wouldn't automate it with image captures because I don't do imaging much.
+
+I'm a visual astronomer, but there are other needs like motion systems, pointing assistants, so An app with, uh, a map to, uh, do control. 'cause uh, we use, uh, telescopes outside at night and water gets, uh, everywhere. So you have to hit some parts, uh, to, uh, make them do free and continue using them. Um, there are a lot of things that, uh, Alexion nerves could do there, but, um, I think it's the difference between making something for.
+
+Like, demonstration purpose of, or for your real needs, like if you write some software and you dogfood it, um, it will be a bit more real than if you build for, like an imaginary audience.
+
+Sundi: Nice.
+
+Charles: there other skills that you brought to the project that you that were helpful to have already learned? Or did you have to go out and learn other things too? Like you 3D printed some parts, for example. Was that something you already had some experience with? Or was that something you also had to learn?
+
+Lucas: Um, I was already into 3D printing, but I didn't know how to use CID software. I used Blender from when I was a bit in graphic design degree, but Blender isn't made to do mechanical stuff, so I had to learn Fusion, which is, uh, like, uh quite widespread CID package and learn to do like deterministic and parametric design and that's a better way to draw physical stuff rather than blender.
+
+It's a bit like software, you can define some variables and they guide your design so you can change the dimensions of something afterwards and it's a, it's a cool skill to have. Now I'm, I'm done. 3D printing a lot more, and drawing a lot more, and getting more comfortable with this. And that has served me in some professional nerfs gig afterwards.
+
+So, it's cool too.
+
+Charles: Are you doing much, uh, professional nervous work now?
+
+Lucas: I would like to get more, but no, not much. I have had a few things, but not much. It's quite um, a niche in a niche and outside of my regular client's niche, so Not yet
+
+Sundi: Has there been any, uh, sorry, any, uh, has there been a, an NERVS conf in one of the CodeBeams or ElixirConf you use?
+
+Lucas: There was a NervesConf in Chattanooga, Tennessee this year. And there was a Nerves workshop and meetup at CodeBeam this October in Berlin. I couldn't go there sadly, but I felt that was really engaging. And the Nerves team is really friendly and engaging. Like, um You can approach everyone, ask questions, get real insights and collaborate.
+
+It's not like a walled garden of people who know hardware and are close to outside suggestions. In the first week I started with NERVs, I've sent some pull requests and asked questions like What can you do to contribute to NERVs? There are a few needs regarding specific libraries or things like that, but Any effort on like documentation or examples or Just a social promotion is really welcomed and so you, you can help even if you don't have a lot of time.
+
+But you can do something for nerves and people like close knit.
+
+Sundi: Yeah, I, I don't remember if this was specifically a thing they were looking for, but I remember having a conversation with Frank Hunleth once about, um, there's so many devices you could try things out on with NERVS. And it's a little different than, like, being able to simulate something on your machine and not, you know, one person could maybe simulate multiple scenarios against many versions of Elixir or whatever the software equivalent is, um, but, you know, to have people help with simulating on, on various devices, if you have a rare, um, nerves device that, you know, doesn't get tested very much and there's an update, um, to be able to contribute that way is, is nice if you happen to have things Those things.
+
+Um, I think the pretty obvious one is Raspberry Pi and then was it the Raspberry Zero? Maybe? Am I making something? Okay, cool. Thank you for making me not feel crazy. It's been a little while. Um, that was really popular in the, like, COVID times because I think Raspberry Pi sold out like that, um, in 2020. So yeah, I mean, that's, One of those things as well.
+
+Charles: Yeah. Excuse me. I thought it was really interesting how, when you were building the, getting started in the project, how much you were able to simulate and test without having any physical hardware that you were working with, um, and the, like, signal generator that you referenced. Can you talk a little bit about that, that process of, um, working through a lot of the project under an entirely simulated hardware situation.
+
+Lucas: Yeah, of course. Um, that's in the way I use, um, like literate programming or like a A bit like a blog post that you can run or like you write along your research, is I think a great way to approach a hardware project, because when you simulate the system, you You're going to mainly simulate the happy path, like you won't be able to simulate the various failure modes of hardware, but you will test your own assumptions against your own comprehension of the project and of the various sensors or hardware parts.
+
+So, you're gonna you're gonna get to a point where you understand the I don't know the meanings of, um, what you will be building, but you have eventually to get to, to the real hardware at some point, because there are like, um, physical events that you cannot really simulate or plan for. Like, um, if, some sensor overheats and needs to rest for a while.
+
+Maybe you did not simulate that. Maybe the datasheet mentions it, but you did not think about it too much or you did not think it would happen because, um, like extreme failure modes are extreme, so you don't necessarily think it will happen to you, but it's, it can. Like, How things react to being unplugged, or like a low battery tension or too high tension.
+
+Does something break fast or not? How something works in high humidity or low temperature? That can be something you need to care for, but Simulating that is a bit, um, like there's, there's too much state in the physical world to be able to simulate all that. So it's mainly define your components or actors, define inputs and outputs, um, how data flows through the system.
+
+You can simulate that. You can write a little, um, calculations helper to, um, to make sure you understand the physical processes or the math behind your project. But it's mainly the happy path. Wow, sorry, this was a bit long.
+
+Charles: No, you're fine. Uh, so when you're simulating or mocking hardware, you, are you generally referencing some documentation for the hardware that, that describes its inputs and outputs and how it interacts with the world? And then you're basing your simulation on that. Is that how you would do that?
+
+Lucas: Yeah, mainly, like, um, the signal generator I showed in the talk was for another project, which is WithNerves2, which converts, um, Like ambient electromagnetic field to produce a physical cloud It's for friends who run a digital art collective. They made Like a real cloud that reacts to the ambient Electromagnetic background.
+
+So we worked with a French startup called XM who built these Like EMWave's sensors, they gave us a spec on how the sensor could work or could not work. Stopped working, also in some conditions, so I simulated that so we had realistic inputs before we had this sensor and to to avoid running a sensor like for hours and hours and hours when the rest of the project isn't ready.
+
+And, and in this case, uh, the spec was really well defined. So you could, uh, remove the sensor, put on the fake sensor and it would just work fine. But you cannot always do that, I think. Um, On that point, um, Quinn Wilton's talk from CodeBeam23 showed a bit of that, like, um, Hardware that reacted differently in the physical world than in the spec because she, she ran into timing issues with communication between devices.
+
+So, it would work sometimes. If your computer was a bit busy and bytes came out a bit slower, it would work, but she had to add some delays and things like that. That can be described in protocols, can be missed too. You start bumping into those things when you build a real thing.
+
+Charles: I wanted to step back a moment to, you were talking about, um, executable blog posts as being, uh, a really useful way for describing hardware projects to people. Uh, and I'm curious what, what brought you to this approach?
+
+Lucas: Um, I think it's, um, It's something that came up, uh, quite, uh, naturally in my work because you, you often have to fight your own assumptions about things when you're coding. Like if you jump headfirst, maybe you, you jump in with a first rough understanding of the problem you're trying to solve, but.
+
+Quickly you realize that your understanding was too shallow, a bit, and so it's more complex than that. So you start writing commands or working on paper and executable blog posts or blog posts with interactive widgets and things like that. It gives you a lot of, uh, freedom to explore your own assumptions and like prejudice, prejudices about, uh, how things work.
+
+And since it's in writing, uh, you are a bit alone with that. You are free to, to get in, to get stuck. You are free to write something like, oh, today and I understood this part of the thing. And the next day write, okay, what are. I wrote yesterday was totally wrong, uh, here's how it works. And so, it's just a way to get things out of your head, uh, lay them down, and organize them, and have a bit of hindsight for free on them.
+
+I found that live streaming code works great for that too, because you, you have like an audience that's maybe unfamiliar with what you are working on, so a bit like rubber duck programming, you are forced to verbalize and explain the things, and it gives you some clarity.
+
+Charles: Have you used Livebook for doing this with hardware projects? Uh, has it been useful there?
+
+Lucas: Not yet, I thought of doing that and I spoke of that with a few people at CodeBeam and they told me they tried to use LiveBook for that but the comfort of like a full editor where you can write modules, you have distinct files, was a bit easier for them to use. To use for that matter. And I think today, I mean that, uh, that side of things, but I will get to it eventually.
+
+Charles: It's something that, uh, really stood out to me reading them. You're, you're right up on this and watching your talk is that it seems like with this project, there is a good deal of working at the boundaries of Elixir in a way, too. Um, you know, you had, uh, initially when you were first kind of proving out some ideas, you were using some JavaScript libraries that you ported into Elixir, but then also you're using Elixir's great interoperability, uh, to then work with Rust and, and so on and, and.
+
+I think it really kind of shined through how on this project, it showed that, well, you know, Elixir may have its limits and boundaries, but it doesn't have a big wall at that boundary. It, there are ways that you can poke through and, and get down to other, uh, other tools. What was, what was that experience like?
+
+Yeah,
+
+Lucas: great at that. Um, and especially in hardware, you have a physical boundary between your program and some things you, you want to drive. Uh, when you use NIFS, you have, um, like two languages. Elixir is, is great at, uh Operating stuff, like before Bumblebee, people used to drive Python models from Elixir, like Orchestrating and scheduling was done in Elixir and running the models was in Python.
+
+Um, it's a bit the same way there. Elixir is great at communication between stuff, organizing stuff, like handling parallelism, concurrency or Serializing events when you need it. So it lends itself well at orchestrating other stuff. Rust is especially great with the Rustler integration library. You can even I don't know if I managed to To transmit that very well, but you can initialize some memory Rust side, keep a reference to it in Elixir and pass that reference around to your Rust nif.
+
+So you're not constantly moving data between boundaries of the language. You can just, uh, like, it's a bit like an interpreter pattern. You build like a commands on the Elixir side and, um, deliver the real effects. It's on the Rust side and on data that's in memory on the Rust side. But you have a reference to it and you can pass it around or hold it in Elixir processes.
+
+It's, it's quite neat actually how Rustler works.
+
+Charles: I didn't realize that. That's pretty neat.
+
+Sundi: On the flip side though, did you consider doing this in a different language? Would you consider doing this in a different language?
+
+Lucas: Um, the whole project I, I think I wouldn't because the, um, the NERVs experience is just, uh, really well integrated. Like, um, If you, if you don't know about hardware but have a web app that you want to run on some single board computer, you can just use NERVS as a pre built system that will port your app on that, uh, computer.
+
+If you know a bit more, you can use it as a deterministic Linux system builder, since Nervs wraps Buildroot, which is a software to build kind of deterministic Linux images. So, it's just so well integrated, that, um, I don't think I would go for something else. You have all kinds of escape hatches too with NIFs or just running some other binary or just general Linux IO stuff that you can control from Elixir.
+
+The experience is just great. Some say it's not true embedded, but You can always say something is not the true version, so that go very far. I
+
+Sundi: That's what I heard.
+
+Charles: It, it said Elixir has a low, has low fragmentation with high quality libraries that are just kind of core part of the language, uh, for a lot of different tasks. Um, why do you, why do you think that is? What do you think might cause that to change in the future?
+
+Lucas: think the size of the community has something to do with it, like you see a lot of individual initiatives, like people publish their small library, but the community is small enough that A lot of us hear about, um, individual efforts. So, um, like Steam gathers quite quickly around things that prove to be useful.
+
+And those things slowly become like sub parts of the ecosystem itself. Like you have a membrane that was, uh, I heard about it a few years ago. Like it was, um, Smaller stuff. No, it's the designated, uh, like media streaming Elixir side. And I think the recent, um, work on the language server shows that, like we had, um, three or four different language servers.
+
+Uh, they gained steam and there was an official effort to unify them. I don't know. I think we are at a size where c stuff is noticed and people gather around it and make it, um, like, um, better documented, better known, and try to care about it.
+
+Charles: It's interesting that they're, that the, the language server project is even bringing together the creators of the different language servers to work together to create one. Uh, which like, that kind of grouping of people can, you know, when you've got people who are strong minded creators, I don't know any of these people individually, right?
+
+But like, if you're going to create a language server, you probably have some opinions. And, uh, it seems like it could be an interesting, uh, room to be in. Um, but I'm sure that something great is going to come out of it. I'm excited about the, about that.
+
+Sundi: Well, this was really fun. I think, um, we're kind of getting close to time and I wonder if, uh, Lucas, you have any thoughts, shout outs, asks of the audience, do you, do you want like a team of people to help you build the next, uh, newest, greatest telescope, or do you just want people to contribute to, uh, to nerves?
+
+Uh, what is your, what is your dream?
+
+Lucas: Uh, I would like, uh, more people to know about, uh, nerves and try, try it. Just, uh, try to build some hardware. It's, um. Like, I think we have this effect where you, you come for Phoenix and you stay for the Beam and OTP, so , you, you have access to something really bigger and there is a part of that. And Alex, developers seems to be like inclined to pick up new stuff and larger stuff.
+
+So. So, uh, the effort to go from Phoenix to Nerves isn't that, uh, huge. Of course, if you go into Linux internals and, and so on, it's like a whole field to learn about, but you don't have to. So you can just, uh, get started and build and learn along the way. And Nerves needs, uh, needs that kind of, um, like, uh, recognition, I think.
+
+Sundi: Yeah. If, uh, anyone listening is interested in trying nerves, we can leave some links below to some of those like starter kits and some of the live nerve books, sorry, nerves books that you can download and just use to get started. Um, I'll preface this with, I didn't do anything hardware in my entire life, but I got that thing running and if I can do it, you can, if I can do it, anyone can.
+
+Lucas: And, and there are people right now in Belgium, Mark Lenné and Thibaut Poncelet, I think, who are driving a car with nerves. Like, they took an electric car motor, put it into a, like a combustion engine car, and are rewriting the whole car software, including driving the electric car. The motor and the components in Elixir with Nervz.
+
+Um, their talk will be online soon and you have to see that. It's quite incredible.
+
+Sundi: Like they gave the talk already and we'll have access to it soon. I need it now. So like, what is it? When is it?
+
+Lucas: it was, uh, ElixirConf EU like, uh, back in April, I think. So it will be online quite soon, I guess.
+
+Sundi: Okay. I'm so excited. I must see this. It's
+
+Charles: this out.
+
+Sundi: not like I work at a car company that uses Elixir or anything.
+
+Charles: what?
+
+Sundi: cool. No idea. Um, awesome. All right. So we'll, we'll have a lot of those links down below as we can find them. Um, Lucas, do you have anything else? Any other shout outs, any plugs?
+
+Charles: How should people reach out to you if they want to hire you?
+
+Lucas: Uh, I'm a bit full of work right now with my, uh, product, but I'm open to discussions or small gigs on Nerve stuff. Specifically, I'd enjoy that a lot. But, um, I think the NerveScore team deserves a big shout out, um, because they are constantly giving away, uh, work for free on, like, really powerful stuff. I, I don't know if you know Noves Hub, but like, there's a whole software suite to live upgrade hardware components out there.
+
+It's quite, Quite incredible, and version 2. 0 just came out, so thanks to them for that, because like, live upgrading hardware isn't a given, and we have that. It's quite amazing.
+
+Charles: And for a fleet of devices, even.
+
+Lucas: Yeah.
+
+Charles: Great.
+
+Sundi: Incredible. Well, Lucas, it's been such a pleasure having you and this has been such an illuminating conversation and I hope everyone who's listening got to learn something and now has an intense desire to build their own telescope, um, or at a bare minimum, learn some nerves, jump into nerves. Um, cool. Well, thank you again.
+
+And, uh, for our listeners, we'll see you next week.
+
+Lucas: Thanks to you, it was really nice speaking to you.
+
+Sundi: Yeah.
+
+Charles: Yeah. I enjoyed this conversation. Thank you.
+
+and we're @smartlogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik for SmartLogic. Thanks for joining us in the Creator's Lab, and we'll see you next week for more stories of innovation with Elixir.
+
+Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day.
+
+
+
+
