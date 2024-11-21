@@ -1,0 +1,405 @@
+S13E06 Creating Standd with Stephen Solka
+===
+
+[​Intro:] Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is Season 13, The Creator's Lab, where we're talking to innovators who are expanding what's possible with Elixir, from groundbreaking projects to tools shaping the future with our favorite technology.It may seem like magic, but it's really the result of talent and lots and lots of hard work. ​
+
+[00:00:00] Owen: Hey everyone, I'm Owen Bickford, Staff Engineer at SmartLogic.
+
+[00:00:16] Charles: And I'm Charles Suggs, developer at SmartLogic.
+
+[00:00:19] Owen: So we're your hosts for today's episode. And for episode six, we're joined by Stephen Solka, CTO at Standd.io. That's Standd with two Ds. Welcome everybody. How are you, Stephen?
+
+[00:00:32] Stephen: Doing great. I'm really happy to be here.
+
+[00:00:34] Charles: Great. Happy to have you here.
+
+[00:00:37] Owen: Yes. we'll start talking a little bit about Standd here in a moment, but just as an introduction to the community, do you want to tell us just a little bit about yourself, where you come from?
+
+[00:00:46] Stephen: Yeah, I've lived around the D. C. area for the last 15, 20 years. Been bouncing around the startup scene here. worked at a lot of startups, in the fintech space self taught. so I dropped out of college, so I went down that journey. yeah, and then I joined Standd about two years ago.
+
+[00:01:07] Owen: Interesting. So another, I say semi self taught, like I learned from a lot of people on the internet, but, you know, did not pay to go to classes after the first semester. I just, I dropped out as well. So it'd be kind of interesting to talk about that for a moment. Cause you know, a large, large part of the community engineering community broadly is, you know, comes from academics.
+
+[00:01:30] Um, what was your journey from college dropout to, uh, you know, writing code for a living?
+
+[00:01:38] Stephen: Yeah, um, so my parents were programmers, right? So I had a lot of exposure as a kid, um, and you know, they were teaching me, uh, HTML and like C, uh, and so I was like playing with it, um, and then, you know, I didn't ever, I never really did great with academics, you know, memorizing and tests and stuff like that, uh, but, uh, I attempted to go to college, uh, but when, you know, when I'm like in these like late classes, I'm like, you know, or why am I here?
+
+[00:02:06] This is boring. You know, I'm learning on these like fundamentals. I could just be doing this thing, right? Like, you know, at the time, you know, I'm, I'm a little gray at this point, right? There really wasn't. Code academies or anything like that. Right. So, um, I just sort of dropped out, uh, and, um, and then just started applying for jobs, uh, as many as I could get off, you know, hold up, right.
+
+[00:02:27] Just hundreds of jobs a day. Uh, with, with, and looking at the, the, like, you know, the job recs, uh, they were just like, you know, must have a college degree. And I was like, doesn't matter. And I'm just like, it's kept applying until eventually, you know, someone gave, gave me a chance. And, and I'd say that first year was, uh, Pretty rough, right?
+
+[00:02:45] Trying to, like, keep employed through that all, but you know, the longer it went, the less it mattered, and now it's something that rarely ever comes up, and, um, I'd say the only really impact I've had on my career is that, like, you know, you're not going to stick me in front of a whiteboard and have me write a bubble sort, right?
+
+[00:03:02] And have it go well, right? I've just never had those algorithms burned into my brain. Um, but yeah, that's the, yeah, that's the main impact.
+
+[00:03:11] Charles: I, I also didn't come from an academic background when it comes to software. And, uh, I did finish college, but for journalism. But I'm, I'm curious, you know, what, what tools did you find as someone who was learning on your own, um, that set you so yourself up to, for success to the point that now, you know, you're, you're starting.
+
+[00:03:29] Companies that are making a splash and such. So, and
+
+[00:03:38] Stephen: right? You know, as, as, as you go, uh, I really didn't know what I was doing. Um, but then, uh, eventually I landed at, uh, a defense contractor at the department of defense. Uh, yeah, that's right. And they worked for the, the army reserves.
+
+[00:03:51] Um, and I just happened to connect with someone that, uh, um, saw the potential in me and, uh, sort of took me under their wing as a, like, um, Sort of an understudy, right? Uh, and they were like, they basically pushed across the desk, you know, here's like four books you need to go read like immediately. And, you know, once I remember like the Gang of Four Patterns book and, you know, Code Complete, like a lot of these, like, you know, foundational books.
+
+[00:04:18] And, and so I was there for five years, you know, uh, this is before I had gotten into the startup life and having that person sort of like Taking care of me from like my own professional development, uh, was instrumental. So I'd say finding someone or, uh, and that sort of, um, we'll be able to work with you on a day to day basis and, and, you know, review your PRs and give you feedback is, is really where I got most of the learning.
+
+[00:04:44] That and messing things up in prod. I tell engineers that the fastest way you're going to learn is, is, is the fail. And since I've been an engineering manager before, but, uh, yeah, that, that's really the main way.
+
+[00:04:56] Owen: Someday, sometime, [00:05:00] somewhere, I will mess something up in prod, but I
+
+[00:05:03] Stephen: Wow, wow!
+
+[00:05:07] Owen: just putting that out there into the world. That'll never come back to bite me. Uh, so, okay, that's great. So we know who Steven Sokka is now. Great. I'm kind of curious that takes us up to Standd. Like what is Standd for anyone who's, uh, not at Standd and like, what's the problem that you're trying to solve there?
+
+[00:05:26] Stephen: Yeah. So, you know, I'll give you the VC marketing spin of it, right? Uh, uh, that's, we are an AI native deal intelligence and due diligence platform. So what that means right behind the scenes and we're a technical lens is that, um, but banks and VCs, they have to make a lot of really critical decisions as part of their flow decisions on who they're going to invest in.
+
+[00:05:52] Um, as well as once I've been invested, a bunch of micro decisions about risks across the deal. Um, and while they're going through that process, it's a lot of document analysis. And. review to try to figure out, like, what do I know and what I don't know? So, um, we realized that, you know, with the AI technologies that we have available to us now, there's an opportunity to sort of make a disruption there.
+
+[00:06:18] And, and so we're doing a lot of document processing, uh, and then combing through information as it comes across the fence to highlight Things like red flags or, you know, missing material, um, as well as, you know, to do first drafts of things that like the, that are named like investor memo, which is an example of a, of a document.
+
+[00:06:38] Um, you know, these things could be like 50 pages long. Um, and so, yeah, it's, it, document analysis and, and text generation is sort of the, is the main play here.
+
+[00:06:48] Charles: so your audience, it sounds like is primarily banks and, uh, venture capitalists is that
+
+[00:06:57] Stephen: That's right. Yeah. Um, and you know, it's interesting. Um, we started off two years ago. Our CEO, Julie, shout out to Julie. Uh, she's amazing. Uh, she's, uh, uh, an ex DOJ lawyer, right? So we actually didn't start selling to that group. We started selling to lawyers. And the idea at that time was, like, law, from her experience, has a bunch of information that they need to sort through.
+
+[00:07:21] And, uh, these technologies can help them do the needle in the haystack. You know, types of search, um, and so we thought we'd go sell to lawyers this, this problem, this solution, right? Uh, and then a year of that goes by and, and sort of we realize, well, you know, lawyers take a really long time to make decisions on if they're going to purchase software.
+
+[00:07:41] And, uh, in, in a pre seed stage company, You know, we don't have that time. So eventually we found a group of people that had the money to pay, uh, and were interested in that and had a similar pain point. And that's kind of how we ended up in this group.
+
+[00:07:56] Owen: Nice. So this sounds like a very rigorous process. A lot of, uh, a lot of procedures that need to happen in a certain order. Can you talk a little bit about, uh, the, maybe the data structures or kind of like how, how this, like what role Elixir plays in this type of system?
+
+[00:08:17] Stephen: Yeah. I mean, it's a big Elixir monolith, right? So everything we do is through Elixir. Um, you know, uh, Elixir is sort of our coordination layer. You know, we do interface from the AI side with a set of models that are. Um, doing that sort of heavy lifting, uh, and depending on the model, that's like, that either means reaching out to some sort of thing in SageMaker or reaching out to something that's in like an API, right?
+
+[00:08:44] Like something like Anthropic, right? Um, so there's talking, so there's talking to the AI, and by then there's all the work to consume, like we support like 77 different types of APIs. File types, right? So everything from a pitch deck, PDF, or a slide deck to, to things like CSVs, financial models that are in Excel documents.
+
+[00:09:04] Um, so there's a lot of, uh, document conversion that has to happen to get it into formats that the AI underStandds. So, um, you know, internally, you might imagine that as like a, uh, an Obon job queue, right? That's like, you know, working through that work, uh, paired with Obon Pro, right? That, that has that workflow, um, uh, framework that allows us to sort of say this job depends on this other job.
+
+[00:09:30] Um, and then lots of Kubernetes scaling up and down as, as, as volleys of documents come across the fence, if that makes sense.
+
+[00:09:37] Owen: Right. Are those, uh, like custom models or kind of like using some open source tools or, uh, services? Yes. Yeah.
+
+[00:09:47] Stephen: AI development. It's like changed so much. Um, you know, uh, right now, uh, the answer is we are using, uh, a set of open source models, uh, as one [00:10:00] of which is fine tuned on a public data set. We don't, Fine tuned models on customer data due to the sensitivity of the data. Um, and then, uh, Anthropic has been, you know, one of the better partners from like publicly available models.
+
+[00:10:15] But, you know, we started on open AI and, you know, We've switched out different open source models over these last two years, so I had to make sure that the architecture could basically be model agnostic as, as the state of the art changed.
+
+[00:10:29] Charles: what, uh, what played into your decision to use Elixir here? And people use a lot of Python in the machine learning space and. And some other tools. What, what drove you to Elixir?
+
+[00:10:46] Stephen: there's sort of two versions of this story, right? So, the biggest problem that we have in AI, uh, is, is Not necessarily the like gen and AI side of it. Lots of people, PhDs are solving that. People are Standding up SaaS services to solve that. Um, the big problem I've observed across the industry is the, the user experiences for how do we take this generated information and make it consumable to people.
+
+[00:11:17] These are just like. Not solved, like problems, like, and basically everyone has said, well, I'll just make a chatbot. And, um, chatbots have been, sorry, my light keeps turning off, but chatbots have had, I mean, it's my take, hot take, that like chatbots are basically going to like fade away eventually, and they'll be sort of a smaller part of the AI landscape.
+
+[00:11:38] Um, but, uh, and so that means that like, I felt like I really wanted the ability to iterate quickly on the UI. And be able to turn out lots of versions of our product early on. Uh, and so live view was something that I specifically was drawn to because when this comes to the other side of the story, you know, I was the VP of engineering at AngelList.
+
+[00:12:00] Um, and they were a really big Next. js Rails shop. Uh, and so everything is React. Uh, in between those two are GraphQL. Um, and, uh, the, the thought there was that, like, when I was observing the engineers adding a single button, might involve changing or adding six files across the stack, you know, and I was like, I don't, if I'm iterating on the UI and I don't know what I actually need to build, I don't want to be in a position where I'm trying to maintain all these different layers.
+
+[00:12:30] So it all makes sense. I just want, like. The wire, a live view button directly to the back end. And we'll figure that out later. Um, and I'll say additionally that if you work in a really big Rails shop, it's been my experience that, um, you know, Elixir is this like, um, this, this golden, the green pastures that the Rails engineers will talk about Elixir and say that like, you know, if only we were in Elixir, this would be better, right?
+
+[00:12:55] You know, that's sort of a thing that you'll hear. Um, and that's been my experience at several different rail shops and, uh, and so I really wanted to give Elixir a chance because I've heard such great things about it and, uh, and so paired with the live view, uh, the, and that was really what drove me here.
+
+[00:13:09] Owen: that's funny. That I was that guy on a PHP team a few years ago. So by the, by the time I, you know, before I moved over to the smart logic, uh, the running joke was every week there was a meeting and someone would be complaining about a problem and, oh, if we just. We'll just rewrite it in Elixir. Ha ha ha.
+
+[00:13:28] Stephen: Yeah.
+
+[00:13:29] Owen: that a thing.
+
+[00:13:30] But you made a, uh, interesting point there. Um, yeah, the pattern that we're seeing, I think, across AI right now, and there are some exceptions, and I think you're working on one, is that, oh, we're just gonna, you know, keep talking to a bot as if it's a message thread. That's not how I work. Like, yeah, some of my job is talking to people on a, you know, a chat thread.
+
+[00:13:54] But. So much more of my work is, you know, writing code into a code editor, that kind of thing. I'm kind of curious for this industry, for the, for the domain that you're in, what are some kind of new novel user experience, uh, maybe experiments or some, some ways you're using AI in an uncommon way?
+
+[00:14:14] Stephen: Yeah. So, um, you know, there, I'll say sort of, again, two things I'm thinking about when you asked that question. Um, you know, one of them is that, um, People don't like to prompt engineer, right? As an example, uh, or, or there's just not a skill that a lot of people have, especially if you're not out of tech, you're not in tech, you're like, you're potentially like, you know, a VC or something, right? Um, and so one of the systems that we built is, um, I'm going to write your document for you.
+
+[00:14:47] Uh, but, uh, uh, but to do that, I want you to give me a couple of your documents. Um, and so if you give me a couple of your investor memos, I'm going to basically like reverse engineer. what I [00:15:00] believe to be your document writing process behind the scenes. Uh, and then I'm going to create some sort of internal template that represents all of the prompts that I would need to write something similar to what you just wrote.
+
+[00:15:14] And now you can take this artifact and point it at some other company and say, write a doc like I showed you, right? Um, and so, you know, I, I pulled up this statistic for Julie the other day, you know, the, to talk to. How many AI calls there are to do that sort of play, right? I think I, for one of our customers, counted 200 to 500 different calls that have to happen to do that work.
+
+[00:15:42] Um, and so if this was like a chat interface, right, to, to, to, to expose that, you know, you'd be going back and forth with chat GPT like all day long, multiple days, right, to try and reproduce that. And so we're, we're sort of in the belief that like. We just want to, people just want to get their work done, right?
+
+[00:16:01] And we're going to abstract away all of the back and forth of the AI and, you know, wrap that around with here, what task are you trying to accomplish? We'll make all the AI calls back and forth until we get to an answer. And then, uh, and then the other side of it is something that we're working towards is, um, autonomous agents, right?
+
+[00:16:21] So instead of you going to the AI and saying, I, Write me a code that is, that does X. We want our agents to come to you and say, I think based on what we've been seeing lately, you want a code that says X. Can I write that? Right. So that's like the code example. But the, the, the work example is, Hey, a new document just came across the fence that said, That so and so was employed, but they're missing their IP assignment.
+
+[00:16:50] You should really reach out to them and figure out what's going on there. So this is an agent reaching out to you to get you to do something. So this is the reverse of the chatbot. So those are two things that are on my mind right now.
+
+[00:17:02] Owen: That sounds really cool because I, as we're talking now, like I'm starting to see, yeah, the patterns are emerging and maybe not as much experimentation as, you know, you would expect out of our software industry. So, you know, the chat, you know, chat thread model is one. I think the other, um, You know, pattern that I'm seeing pop up is, Oh, just add AI buttons.
+
+[00:17:26] So like, uh, generate, like just add a slash command or click this AI button and it will generate some text for you. I think what's really interesting about your product here is that it's doing some monitoring, it sounds like in the background and as, as facts or data changes, it's actually alerting. your users to, you know, to maybe potentially act on something that's, that's changed, which is really interesting.
+
+[00:17:53] Stephen: absolutely.
+
+[00:17:56] Owen: Is that, uh, how's that going? It sounds like a really hard problem. Uh, is this, uh, going well?
+
+[00:18:03] Stephen: Yeah, I, I, uh, I'm really excited with our momentum that we have right now. Um, so, you know, a year ago, of course we, we got selected for the AWS Impact Accelerator and then Techstars as well. Um, but, uh, you know, accelerators are great. I think what really matters to me, at least as customers, uh, and, uh, um, customers are coming through.
+
+[00:18:27] So, um, there's a lot of really positive reception to this. You know, one of the things that I'm like constantly surprised. Not surprised, but something to have to remember is that, like, on these customer calls, because all these people are talking to chatbots, they're not even They don't underStandd what these systems are capable of doing, right?
+
+[00:18:48] You know, they're like, Oh, I can put a file in and get a summary. And it's like, yeah, that's true. You know, I could, I could do that for you. And there are parts of our system that do do that. Um, but how about I write like a hundred page investor memo that currently takes you three weeks to write and I get it done in 30 minutes, like, and like, and when, and we show them stuff like that, people just don't get it.
+
+[00:19:10] There's a sea change in people's underStandding of what's, what's coming next is sort of all I'll say.
+
+[00:19:16] Charles: Do you, to counteract that, is there, do you do much to try to like, educate your, your users on what's possible and how to use the tool effectively? Um, or does it kind of guide you through that based on it's monitoring and trying to kind of, uh, be proactive in terms of what it's, uh, bringing to you?
+
+[00:19:39] Stephen: Yeah. Uh, I'll say that we've had a mixture of results there, right? There are, of course, we do try to guide as much as we can. We have material that we'll also show you to like, um, you know, help you interface with these systems. Um, and then, you know, Julie likes to say we're a no prompt platform, right? So that's the whole, like trying to [00:20:00] reverse engineer their process without having them to tape anything out.
+
+[00:20:03] Um, but yeah. You know, You still are in the business of, you have to like, tune around the edges to get the best possible result, right? So once you get like, our output, you can still edit and try to do those things. And, and there have been people who like, struggled with that. Um, and sort of the answer to those sort of things is getting on calls with them right now.
+
+[00:20:22] We're so small, you know, we just sort of help them through that and try and explain. And so some of what we're doing is like, actually AI education, uh, and a little bit of programming. You know, prompt teaching, uh, that's happening.
+
+[00:20:34] Charles: Has that been one of your primary struggles or challenges, or are there others that have been more prominent for having success with the project?
+
+[00:20:45] Stephen: I'd say the biggest issue has been AI fatigue. Um, you know, how many AI tools have you two come across in the last year, right? Like there is so many companies and at this point that like when people see us, they say, they think, you know, I've seen this before. I've, you know, they've equated to some other tool and the VC space has a bunch of these AI tools too, right?
+
+[00:21:07] So it's hard to. You know, explain what, how we're different and to, to sort of break through that initial fatigue that I think people are feeling, which is just so, we're just so tired of talking about AI.
+
+[00:21:22] Owen: Yeah, that's another kind of thing that's happened. Another pattern is a lot of code generation tools. Uh, is that playing a role in the, in the, how you're actually Building the system, uh, or is your focus just exclusively on, you know, uh, delivering the product through AI?
+
+[00:21:45] Stephen: Yeah. So, um, just something I realized about six months ago is, you know, working here, I've had to build a lot of skills at Prompt Engineering, right? Like this is, this is what I do all day long. And I had the thought of, you know, What would it look like if I actually turned that on to code development, right?
+
+[00:22:04] Like, could I sort of change my process to sort of benefit from this thing that I've had to develop to solve professional problems, right? And so I sort of shifted my entire development flow and, you know, I'm now coding exclusively using a tool called AIDR. I don't know how to say that word. A I D E R.
+
+[00:22:24] Which is like a coding agent. Um, that you sort of interface with. Now I'll say that, like, it's, it falls over basically every 10 minutes. Uh, like these are not systems I would recommend for people. Um, But I, I find that it's helpful and I, I basically have Ader here and then NeoVim here and I'm just bouncing back and forth between them trying to like get code to go the right direction.
+
+[00:22:49] Um, but I think it's really helpful for me in my position as a CTO of like an AI company that's building agents to be like, I want to underStandd the agent's limitations in a space that I am intimately familiar with. Right? So, um, that's, that's sort of why I'm, I've been coding that way lately.
+
+[00:23:07] Owen: Yeah, that, how's it going with Elixir code generation? Cause that we're in kind of a, not entirely niche community, but you know, there's much more JavaScript and Python in the world and Java especially. So, uh, that has been my impression from the outside has been that like maybe Elixir, uh, like your ability to get quality Elixir code out of LLMs has been limited so far. Is that true still?
+
+[00:23:34] Stephen: Yeah, I'd say like first two months were absolutely terrible. Like it just generates, and I'd say it's still terrible. Like, you know, it generates a lot of code that just doesn't compile. Um, I've made progress with a technique that I've heard in other AI coder communities that I've talked about, um, which is basically like show the, uh, the AI, Several versions of a file that exists in your codebase.
+
+[00:23:59] So for us, that was like our ecto models or our live views, right? Like our components, right? And say, Write a document that in a markdown file that you could show to someone that that would explain the patterns and syntax of the files that you just saw. So now I have this docs folder that's filled with these markdown things that one's about Obon and then Obon Pro workflows.
+
+[00:24:22] One's about live view and there's another one about fixing Elixir compile errors because that's like something it constantly struggles with. Um, and, and so having these little documents and showing it to the AI later when it like, okay, now I'm going to go write a live view Helps bridge the gap to, to get it closer to the audience.
+
+[00:24:41] generating code that's on the level of the Python. Um, but it, you know, like I said, it's still everyday producing compile errors and stuff like that. It just, it just does better with that approach.
+
+[00:24:53] Charles: Yeah, I think I've pretty much never seen valid Elixir code. Generated by an LLM [00:25:00] yet that I've worked with. Um, back, back to the functioning of your, uh, of the platform. If let's say someone wanted to acquire Standd, how would they use Standd to complete the transaction?
+
+[00:25:17] Stephen: Yeah, it's funny you should say that. Um, our data room, um, so, you know, we've raised money. Uh, our data room is in STANT, right? So, um, that means all of like our safe agreements and our, um, I can't remember the term. The term that is that we've incorporated within a specific state. That document. These documents exist in Standd as a dataroom.
+
+[00:25:41] And Julie shares them with third parties through Standd. And they come and they look at them and they can interact with them just like anyone else. And it's a nice little thing. But, uh, from, uh, lens of acquiring a company. There's a lot of due diligence that's involved in that. Um, and so we've built a system that you, you can give us your due diligence checklist.
+
+[00:26:03] So this is like a big Excel doc that has a bunch of questions that have to get answered before a deal can close. Uh, and we do that sort of reverse engineering play on it and we bring it in the Standd and now you have a giant checklist. That's like every question you need to close the deal. Um, and those questions on the right.
+
+[00:26:20] will tell you based on the data and you gave us which ones you have the ability to answer and which ones you need to go out and talk to a founder about. Um, and for the ones that it can answer, it, it will tell you like how competent it is in those answers. So it, uh, there's sort of a, a workflow tool that happens in there and, and you kind of, Um, go through there and each one of those has a, like, you know, has this been completed or not state and that you could have interfaced with, but, uh, we call that our due diligence checklist.
+
+[00:26:47] Uh, and so there's some banker somewhere that's working through that list and making sure that we have all of the different pieces to make sure that our deal is good. Uh, and then one day that deal closes, um, we're primarily focused on that, like, information analysis and process improvement side of that.
+
+[00:27:04] There's nothing that really currently happens in our system. Like when the deal closes, like confetti doesn't shoot out and emails go off, but, uh, we're sort of helping them through that, through their day to day.
+
+[00:27:14] Charles: You use the term data room. Is that like, um, say a user's or a, an organization's collection of data within the system?
+
+[00:27:26] Stephen: Yeah, that's right. Yeah. So data room is the term that, you know, SmartLogic has a data room somewhere. And some lawyers, system, right? So data rooms can exist in a place called Google Drive, but most data rooms exist in like, um, these very expensive, a hundred thousand dollars a year, uh, companies that all they do is hold like, you know, a hundred documents and say they're safe, right?
+
+[00:27:50] But that's, that's a data room.
+
+[00:27:52] Owen: You know, something that I think almost all startups have to do at some point is pivot. You already talked about pivoting from kind of legal, like law, while your customers to, uh, banks and finance. Um, and if you're finding success there, what, how do you see this platform kind of growing in the next two to five years?
+
+[00:28:16] Stephen: Yeah, so, you know, our main goal right now is, um, sort of going up the food chain, right? So bigger and bigger deals are better for us, right? So we have to sort of prove our value to smaller organizations that are, you know, maybe buying a company for 20 million, right? But, uh, you know, if we can, So those organizations, we could be helping a company buy someone for a million or a billion dollars, right?
+
+[00:28:47] Like, and so right now we're focused on this private equity space and trying to be successful there. I will say that the problems that we're solving for VCs and originally for lawyers, right? These are. These are knowledge management and information architecture problems, right? Like if everyone's feeling information overload and, um, you know, there may be one day a Standd for like insurance.
+
+[00:29:14] companies that are dealing with all the paperwork that's involved with a specific case, right? Now, maybe that's us, but maybe that's someone else that solves that problem, but I could definitely see if we're successful in, um, the, the, the private equity VC space that we could move to other markets, but right now that's, that's, that's so far on the horizon that we're just trying to like make it here.
+
+[00:29:36] Um, I think that's really where the immediate term is.
+
+[00:29:39] Owen: Bigger deals. Everyone wants a bigger deal.
+
+[00:29:44] Stephen: That's right. That's right. Yeah, I think it's hard because, you know, uh, if you're, if you're transacting for, you know, a hundred million to a billion dollars, right. You don't necessarily want to trust, uh, seed [00:30:00] level company, right? With your, with your data. Um, and, and so, uh, it's, it's sort of a matter of developing trust in the industry and, um, name recognition until we, until eventually get to a place where we could, um, make a play there.
+
+[00:30:17] Owen: That's a hard lesson to learn, you know, uh, as an engineer is sometimes like, yes, we, we, I definitely want to build the best product possible. It doesn't always equate to success. And especially when there are established players in an industry. Uh, you know, it can be really hard to like, get to enter the, enter the market as a, as a new player and there's a bunch of shenanigans that happen, you know, so, uh, I don't know how much that has happened with you guys, but, uh, yeah, it sounds like you're, you're growing and.
+
+[00:30:52] And making, finding success, at least with what you've built so far.
+
+[00:30:56] Stephen: Yeah, it is a really hard lesson, right? It hurts, right? You know, you, you put a lot of love into the things that you build and it's, it's not necessarily best product wins, right? And, um, You know, for us, uh, we sort of saw a sea change with our engagement with customers, uh, when Julie actually started showing up at these, like, conferences that, uh, these VCs and bankers go to.
+
+[00:31:19] Like, having Julie in the room with them, um, was something that made Stan feel more palatable. Nothing happened in our product to make that happen, but you know, they, they, they, the people side of it. So, you know, it's sometimes about being in the right position physically such that you can, you know, capture these, these, these deals.
+
+[00:31:40] Charles: Perception is huge. Yeah. Any, um, any regrets at this point about decisions you made or didn't make or?
+
+[00:31:55] Stephen: Yeah, I saw that in the show notes, uh, I think it's a hard question, right? Like, uh, we've been running so hard for so long, uh, I thought of one. I got, I got, I got one, uh, which is that, uh, You know, I wish that I had made more of an investment in, like, integrating deeply with some sort of component framework, right?
+
+[00:32:18] Like, you know, I said that I really wanted to be running quickly and, like, stitching various UXs together such that, like, I could Um, get different versions of these AI interactions into production and see how customers reacted to them. Um, but, you know, I guess, I think partially it's because I was in LiveView, but like, you know, I didn't necessarily grab an off the shelf, like, I don't know how to say this one, but SHD.
+
+[00:32:41] DM, like that shadow component library. That's very popular in JavaScriptLand or some piece like puzzle piece thing that I could piece together like combo boxes and auto completes. And a so there's probably like Three different type of heads in our app for various reasons. Like there's, there's been a lot of like component drift and, uh, and I wish that early on that I could have made that investment, but like, you know, when you're, when you're, you've got no money, right, you got no paycheck and you're running as hard as you can.
+
+[00:33:12] Like, I'm just not necessarily thinking about like, how am I going to. Be maintaining this in two years. And so, but yeah, if I could go back, I would like probably build an adaption layer between live view and some JavaScript component library, or I would build my own, I'd come up with some sort of live view component library that I would use.
+
+[00:33:33] Owen: Charles, hear that?
+
+[00:33:35] Charles: Yeah.
+
+[00:33:36] Owen: Is that the magic word? Components? So, yeah, that's, while you're, you're singing to the choir here, you know, Charles and I both, uh, went to ElixirConf 2024, which is super fun in Orlando, and, uh, did a bunch of work over the summer building, uh, Kind of like a prototype component library, not something we intend to like share publicly, but something we would potentially use internally on client projects to kind of get up to speed and, you know, not have to spend, you know, several weeks or, you know, days or weeks building out things that we need, we always know we need.
+
+[00:34:10] Right. So, uh, and since then I noticed that there's been an uptick in, uh, component frameworks that are popping up in the Elixir space. Uh, whether they're specifically geared towards LiveVue or Phoenix more generally. Uh, I think we're starting to see, this is something I think that maybe a year ago, we were all a little bit feeling the pain of, uh, really wish, like, this is something like, yeah, we can build it, right?
+
+[00:34:37] Like, we're all, we love building things, but people who are coming, we're seeing LiveVue and Phoenix from the outside and very interested. A lot of times it's a hard sell if there's not a big set of components just ready to go, right? For all the reasons you were just talking about, you know, consistency and, and right.
+
+[00:34:56] So, and you know, even just adapting [00:35:00] existing component, uh, frameworks like Tailwind, uh, UIKit and all that kind of stuff. Uh, it's, it's a non trivial amount of time to take what you see and react and view code and translate that into live view. Maybe there's a AI agent in the future that will just do that for us.
+
+[00:35:18] Stephen: Yeah. I, I, I would love that. You know, two years ago when we started, we were doing Elixir then, and you know, I think Surface was around, and there was some component stuff in Surface, but it really, there wasn't even, like, I know that now that Phoenix has core components, like I saw that got released, so like, There wasn't much.
+
+[00:35:36] And, um, and so it meant a lot of building in house, right? And so there's all these components out there that I've built. And, um, and then for the ones that I just couldn't build, like a type I had, uh, you know, I, I tried to like, you know, wed, marry those with, um, Uh, you know, JavaScript, but I, I gotta say, like, I, I love LiveView.
+
+[00:35:56] I, no regrets on that decision, but every time I have to go into the hook's land and come back, like, it's, it hurts a little bit. Um, but, uh, so, uh, yeah, I'm, it's really wonderful to hear that the Elixir community is also seeing that gap and it's starting to like, um, iterate on it, cause I think that will really help new teams like myself that are trying to get companies up off the ground built on, on LiveView.
+
+[00:36:16] Owen: Type ahead. Someone build us a type ahead component, right?
+
+[00:36:23] Stephen: Yeah.
+
+[00:36:23] Owen: So we just need a live component.
+
+[00:36:24] Stephen: There you go. Yeah, for sure.
+
+[00:36:29] Owen: So,
+
+[00:36:30] Charles: for 50 a download.
+
+[00:36:32] Owen: there we go. Right. Like, someone's gonna make some money. Uh, yeah, so, what's the Standd origin story? We talked about kind of what it is and how it works. Before there was Standd, what were, what was the alternative? And like, why does Standd exist in the first place?
+
+[00:36:53] Stephen: Yeah. So, um, I guess there's the people origin story and then there's the, like, Standd as a tool for VCs origin story, right? So the people origin story is I've been at, I've worked at a lot of startups and, uh, most of them are series A forward. Uh, and so all of the problems that those companies have are like, We need to scale.
+
+[00:37:14] I'm really sad that graph is not going in the right direction, right? Like, and so, and so these are like people problems and graph problems. Uh, and, but I had never really gone from zero to one. I've never seen what happened before a, and, uh, you know, a friend of mine reached out who was working with Julie, uh, and said that we really need a CTO.
+
+[00:37:32] And I met Julie and the rest is history. And so Julie was, You know, an ex DOJ lawyer who, you know, defended his, uh, uh, policies in front of the Supreme Court and, you know, for herself, burnt out doing DOJ law, right? And, and thought, you know, I, I really want to start something and she had kind of become a serial startup entrepreneur at that point and, um, was trying to like solve a, this, this, a lawyer problem, which is the information overload, I don't underStandd all of these different documents sort of problem.
+
+[00:38:02] And at that time I was really into note taking. So I was contributing plugins to like Obsidian and, um, LogSeek and, and like all these different like tools. Cause I was like really, as a VP of engineering at AngelList, I was like taking all these notes about all these different teams and I wanted to underStandd them all.
+
+[00:38:19] And so knowledge management was something that was really on my mind at that moment. Uh, so it caught me in the right moment. And I, you know, worked at StartSand. From a VC perspective, you know, what they're doing is they, they hire, Treat as a people problem, right? There isn't tools that do what STAN does.
+
+[00:38:35] Um, they, they currently hire junior analysts or mid level analysts that are poring through these documents and attempting to write the things that we write. Um, and, uh, in that process can take, you know, if we're talking about an initial startup evaluation, you know, an hour to like a week. A couple of days, if we're talking about like coding a deal to close, you know, weeks to months, right?
+
+[00:38:59] So it just depends. Um, and so, Something that can help them get away from the actual writing and get to the reviewing and the thinking side of their work, right? The higher level side is something that's really sought after, right? And so, you know, we're not really trying to take away the decisions of who you're going to invest in or what's an important piece.
+
+[00:39:25] thing about this company. We want you to sort of look at our output and to think about what this means for your business and to sort of, and to edit it, you know, you have all the ability to like change everything. And so it's a matter of getting past the actual putting, typing letters into keyboards and getting back to thinking sort of.
+
+[00:39:43] Sure.
+
+[00:39:47] Owen: So this is a, this is a fun season that we're doing here because we're talking to folks, uh, some of whom are kind of maintaining a package or a library or did a kind of a, a cool project. [00:40:00] Maybe it's even kind of like a hobby project. Uh, and we're also talking to startup. Uh, folks, CTOs and founders and so on.
+
+[00:40:07] So I'm kind of curious, you know, I, I would expect that some portion of our audience has an idea at the back of their head that they might want to turn into a Standdup business someday. What kind of advice would you give to our technical listeners? I think we're going to safely assume that most of our Elixir wizards are fairly technical.
+
+[00:40:27] Like, uh, if they have that idea and they just don't know kind of like how to like transform it into a business, uh, what advice do you have?
+
+[00:40:36] Stephen: Yeah, um, I'll get some things that come to mind are, um, be careful building too much, right? Like, I think that's like the very common advice that we got. Um, even just, you know, You know, putting boxes and lines and putting them in front of customers. The faster you can get in front of someone who might give you money and say, like, is this something you would pay for?
+
+[00:40:58] Um, and get feedback at that level, the like better off you'll be. A very common problem that builders have is they, They love to build. And right. So the first time a customer sees something is it might even be a prototype that's an Elixir. Right. And, and, and, and at that point, you know, you, you may have baked in assumptions into your prototype that you're going to end up throwing away.
+
+[00:41:20] So like, basically everything that I wrote for the first year was ephemeral. It's just stuff that just got trashed. Right. So you have to be aware that like, sure, build stuff if you want, but like, It's all going to go in the dumpster because one of the customer gives you that feedback or you need to pivot or these things.
+
+[00:41:35] And, you know, we used to have the clock of how many days since we had some form of a pivot and it was like, you know, every other week, some pivot. Right. Um, and so, yeah, be careful building too much. And then I'll say like, okay, you, you have an idea and you actually want to like do this full time. You know, I say we, we've had a lot of success with accelerators, right.
+
+[00:41:54] You know, a lot of fundraising is about like who, you know, and then the network effect. And if you're. Like me, just some random Elixir guy, like you probably don't know a bunch of VCs, right? And so if getting connected into some accelerator, you know, the most well known one, Y Combinator, um, uh, but there are other ones like Techstars Google has one.
+
+[00:42:15] There's all these accelerators everywhere. Um, it's sort of an opportunity for you to build your network and to be introduced to people that potentially could be your investors. Um, and so, yeah, don't build and build your network is sort of the two sides of it.
+
+[00:42:29] Owen: Yeah, I think I rings true to me. I think, uh, I sometimes wonder, like, how much polish do you need? Like, there's sometimes the, if you're building a house, you know, you put up the frames and the interior decorator comes in and says, here's, this is going to be your kitchen. This is going to be your living room.
+
+[00:42:51] Everything's open concept or whatever, you know, so on and so forth. And, you know, some people get it, they can walk into the room and kind of fill in, like, kind of imagine the drywall and, uh, and what things are going to look like eventually. But is it a hard sell if you're building, if you're prototyping and demonstrating without a lot of polish?
+
+[00:43:13] Is that something you've, a challenge you've seen, or is it maybe easier than we would expect?
+
+[00:43:17] Stephen: Um, yeah, no, I, I say, I'll say that like, there's always gonna be someone that looks at this and says, there's not enough polish. Right? Like, I, I can't tell you that's not gonna happen. Um, and, and there really isn't a version of your product that you'll build as a pre-seed company that will have that. I mean, we just shipped a feature that's, that is closing checks right now that let you, it's the, the report writing one that I, I ran mentioned the one that it's like a hundred page reports.
+
+[00:43:42] You can't even delete them. Right, like we cut a corner to like, because like, I didn't want to do soft deletes and we need to get out the door. And so, yeah, it doesn't have polish, right? But like, you know, so we asked our customers to just ignore the extra lines of reports that they have and we'll ship.
+
+[00:44:00] deleting later, right? Um, but I'll say that your customers are surprisingly forgiving, right? And, you know, for you to be successful, to get a company off the ground, you've got to be chasing a really strong pain point, something that like haunts them day to day, right? And so this was what, this was ours for us.
+
+[00:44:19] Um, and when you found that pain point, they're not going to care that you don't have a delete button, right? They're not going to care that they're looking at screens that are, are You know, boxes and lines, they're going to say, when can I sign up? Like, that's like, that's, that's what you want to hear when you show them something like that.
+
+[00:44:37] Like, this is amazing. I want this now. Right. And so if you're getting like, oh, it's, this is not real enough, then you probably haven't found the pain point or the customer. That's like the right combination that will make that successful. Or there could be a lot of other things, but I think that's my reaction.
+
+[00:44:55] Owen: Sounds right, [00:45:00] yeah.
+
+[00:45:00] Charles: How, how have you found pricing model plays into, uh, attracting customers and does it affect their willingness to like, ignore that it's not a polished UI and doesn't have all the features and, and, and whistles yet? Um,
+
+[00:45:15] Stephen: Yeah. I mean, I'll say. Of all the time I've spent in startups, and I'll say this as far as true for Series A as well as Pre C, pricing is the hardest problem, right? I say that's beyond naming, right? Pricing is a very hard problem. Um, and, uh, and I, you know, the, the, the, we don't have our prices published, but, you know, I'll say that, like, you know, we're not selling apps on the app store, right?
+
+[00:45:42] Like, uh, to sign up for us is, you know, four digits a month, right? Um, So, in the range of like 5, 000 a month, and you can kind of like, you know, play that out. Um, and so, even though, you know, our price point is sort of, is on the high end, right, for, uh, because we found the right problem set, because we're, like, literally, like, saving them weeks of time with the work that we're doing, they're very, they're very willing to, to have some edges around it.
+
+[00:46:14] So, um, but. That doesn't mean that, that we picked the right pricing, right? Like there's, there's so many different ways to get pricing wrong. And, uh, you know, I think a lot about, um, my time at Upside Travel, right? Which was this local DC startup that, uh, really tried to make it big by selling travel to people going around the business traveling, right?
+
+[00:46:40] And so we're like, Oh, we'll give you a gift card if you book your, book your American Airlines with us instead of American Airlines, right? And, and you all like. Make it all work, basically. Uh, and that was their pricing model. And, you know, literally a hundred million dollars later, like spent, um, that was the wrong pricing model.
+
+[00:46:57] And, uh, then you might notice that there's just no more upside trap business travel, right? And because they, the, the pricing model, eventually they realized that like selling to companies, Uh, that do travel for, like, so I'm going to sell to SmartLogic and SmartLogic uses Upside and every, and then we give the savings back to SmartLogic instead of the individual business driver.
+
+[00:47:18] That was the right model, but there wasn't enough time to sort of save it. So I guess I'm just noting that, like, yes, polish and price is connected. People are generally pretty forgiving, but pricing in general is really hard, and you can sink your business on it too.
+
+[00:47:34] Owen: Yeah, so I gotta say, I love that we're talking business. So Elixir Wizards is typically a show about code
+
+[00:47:43] Stephen: Sorry, I'm so
+
+[00:47:44] Owen: the problems. No, no, no. Actually, I literally do enjoy this conversation, um, because we, we take it for granted sometimes that we just need to write some code, right? And all the problems will be solved.
+
+[00:47:57] But there's so much more to, you know, we've got to get paid by customers who actually use the thing. And, you know, there's a lot of complexity just to that side of the equation. So, so no, this is, this is great. And I'm sure our audience is going to really benefit from the conversation. I'm kind of curious, um, part of Part of operating a business, especially a very new business is finding the direction you found the direction.
+
+[00:48:26] I think you're going to always have customer feedback and maybe requests for features and things. Um, do you have any, A, do you have any fun, uh, requests that you can talk about and B, maybe talk about bigger picture, like how as a, as a CTO, how you manage, you know, solving tech debt problems versus. Balancing that with, you know, incoming requests for features and that kind of thing.
+
+[00:48:55] Stephen: Yeah, um, I'm not sure on the fun front. Uh, so, um, You know, one of the things that I'll say is, um, you know, early on, uh, when I was working with Julie, um, a lot of things that we struggled with was talking to customers and saying, what is the product like right now? Right. And specifically like, what does it do?
+
+[00:49:28] And, uh, and then, and there would be a lot of questions about like, okay, does it do X, Y, and Z. And, um, you know, the, and generally Julie is as a lawyer, right, is, is very, uh, methodical and exactly what we do currently do and what we don't currently. Um, and so what that meant was a lot of lost sales early on.
+
+[00:49:55] Uh, and so, um, eventually I got to some advice that I gave to Julie [00:50:00] that has been helpful, which is that, like, if someone's asking for something that, like, I tell you I can get this built before their start date. Then we already have it, right? Like, if they're coming into our product and they can use that thing, then, like, we're not lying to them.
+
+[00:50:17] We're just saying that, like, it's on the bubble. We'll get it, you know, it'll be available to you when you come online. And so, In general, you know, if they're not asking for something like crazy, this is early on, you know, when we're just trying to get those first couple of customers, you know, if, if, if the question is like, we have it and I, and I DM her and we're like, yeah, I could build that.
+
+[00:50:36] Then the answer is yes, we will figure it out. Right. Um, you know, we've gone away from that sense, but like in those early days, Uh, that's kind of what feature requests can look like at a pre seed company, um, which is really scary for, you know, Steven at the Series A, which really cared about like dates and things that we have and not over committing yourself and stuff, but, um, yeah, that, that's sort of my fun feature request.
+
+[00:51:00] What was the other question? I
+
+[00:51:03] Owen: Uh, I think at a, at a high level, like, so, you know, you've built, you've spent, you've spent several months, maybe over a year now, uh, building Standd. Right. So like, you know, you're constantly fighting at some point, you're going to be constantly fighting. I wish I like this part of the app is really hard to work on, but I also like customers just want new things.
+
+[00:51:26] So
+
+[00:51:27] Stephen: Yeah.
+
+[00:51:28] Owen: about making decisions around that?
+
+[00:51:30] Stephen: Yeah. No, for sure. Um, you know, um, One thing that's really fun about being a founder, a technical founder, is that I really don't have to ask permission from anyone to do anything, right? And working with a CEO that, that trusts me, Julie, again, shout out, she's amazing. Uh, you know, she trusts my instincts, uh, to sort of make prioritization decisions of like, this is the, this tech debt is more important than this customer thing.
+
+[00:51:59] Um, and so, You know, I will basically, uh, filter in improving pieces of our system as I'm getting customers, um, asks out the door. Um, so an example of that is, um, uh, I'm having some issues with our Sentry exceptions right now. I have like an open question in their, like, Discord. Uh, and so, um, I've been like, on and off iterating on that to try to get that right because, uh, error for me, error reporting and telemetry is like one of the most important things in our stack, right?
+
+[00:52:31] Like as one of the only people staring at the dashboards, like I got to have those dashboards work. Uh, and so, you know, I guess I'm just saying I, um, I prioritize my own mental health over a customer where I can, uh, and then I just make it work. Um, and I don't really ask for permission for those sorts of things. But that being said, we do have a lot of tech debt, uh, like, you know, there's all kinds of warts of things that are written in weird ways, and, um, you just face them as they come, you know, they basically get rewritten when parts of your system get torn down and replaced with something else. Um, that's sort of how we handle that sort of stuff.
+
+[00:53:12] Owen: Growing pains.
+
+[00:53:13] Charles: Are there parts to being a, a founder that you, you talk about how it's nice that you can kind of decide what's important on your own. You don't have to necessarily convince a manager that we really do need to deal with this tech debt before it eats us alive. You've got that trust with Julie. Are there parts to being a founder that you don't really like that you could do without, but it's just part of, part of the equation.
+
+[00:53:42] Stephen: Yeah, I mean, it's lonely, right? Like, I don't want to get emotional here, but like, yeah, like, I, I'm, I'm someone who's spent my entire career working on like, You know, teams of five to eight with a tech lead and a PM and a designer and shipping stuff to prod every day and rolling on whiteboards. And, and now it's me and, and, and, and Julie, and we have a salesperson and sometimes we'll have technical help, but most of the time it's not.
+
+[00:54:08] And, um, and so, you know, I don't have someone to review my PRs. I don't have someone to, to be like, I've been stuck on this doc X problem for two days that, Thankfully, you know, right before this call, everything's been solved and DocX is amazing now. Uh, but like before that, like it was, you know, despair. I had like, I was like, I don't know how I'm going to fix it.
+
+[00:54:29] There's no one I can ask. Right. Uh, and so. There's not a lot of supports out there. So, like, you know, today I happen to be at the WeWork. Thankfully, Julie and I were in the same area, and so we co work once a week. And I'm like, Julie, I want you to pretend like you're a technical person. I'm going to talk to you about what I've been facing.
+
+[00:54:46] And, you know, and, and so she, she rubber ducked my, my woes and we got through it together. But, uh, yeah, I guess I just sort of missed the, the camaraderie there. Um, I think the other side that's been really hard is [00:55:00] Raising money is just, it's, it's tough work, right? You know, it's totally great when you're, um, you're, you got a million customers and everyone's throwing money at you and you know, your, your last company was like, you know, Palantir or whatever, some big name.
+
+[00:55:14] Um, but, uh, you know, I, uh, it's, you, you get told no so many times. Uh, and you know, I'll say that like the amount of times I've been told no as a software engineer, Yeah, you write bad code sometimes, but like, it's not making constantly rejected by VCs for like months and months and months of your life.
+
+[00:55:36] Right. So I think the loneliness and the rejection side is hard. Uh, but like, yeah, I love who I work with. This is the best job that I've ever had. And like, it's so amazing to have built something and see customers so excited that you, you That you, not only they can use it, but that you're here and that you're improving their, their lives.
+
+[00:55:56] And I, and I wouldn't trade it for anything.
+
+[00:55:58] Charles: Your, uh, your description, parts of it remind me a little bit of, um, Ellen Ullman's book, Close to the Machine. I don't know if you've read that.
+
+[00:56:08] Stephen: I haven't. Would you recommend it? Okay.
+
+[00:56:11] Charles: I would. Uh, it's great. Close to the Machine, Technophilia and its Discontents
+
+[00:56:20] Stephen: Definitely check it out. I'm sure it'll be in the show notes.
+
+[00:56:27] Owen: Yes. Awesome. Well, this has been an excellent conversation. Um, just before we go, do you have any, uh, final plugs or requests for the audience?
+
+[00:56:38] Stephen: Um, plugs about, uh, Standd, uh, and, or sure. Um, yeah, I'll, I'll say, um, if you happen to know anyone that's in venture capital or banking or, and, uh, they're interested in AI, you know, please reach out to Founders at Standd. io. Um, that goes directly to Julie. Um, not only is that helpful for us from like a great demo customers, but also like, we're still learning a lot, right?
+
+[00:57:08] There's, this is such a deep problem and doing a lot of just customer discovery calls. So if you've got thoughts about how this should work, we'd love to talk to you.
+
+[00:57:16] Owen: Excellent. Awesome. Well, thank you so much, Stephen, for joining us on Elixir Wizards. And, uh, thank you to everyone who's listening. We will be back next week with more Elixir Wizards.
+
+[00:57:29] Stephen: Thank you.
+
+[00:57:30] Charles: Thanks. Great conversation.
+
+[00:57:33] Stephen: Yeah. A lot of fun.
+
+[Outro:] Elixir Wizards is a production of SmartLogic. You can find us online at smartlogic.io, and we're @smartlogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik for SmartLogic. Thanks for joining us in the Creator's Lab, and we'll see you next week for more stories of innovation with Elixir.
+
+Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day.
+
