@@ -1,0 +1,269 @@
+S13E07 Creating Castmagic with Justin Tormey (Audio)
+===
+
+[​Intro:] Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is Season 13, The Creator's Lab, where we're talking to innovators who are expanding what's possible with Elixir, from groundbreaking projects to tools shaping the future with our favorite technology.It may seem like magic, but it's really the result of talent and lots and lots of hard work. ​
+
+[00:00:00] Owen: Hey everyone, I'm Owen Bickford, staff engineer at SmartLogic, 
+
+[00:00:39] Dan: I'm Dan Ivovich, Director of Engineering at SmartLogic. 
+
+[00:00:42] Owen: and we're your hosts for today's episode. For episode seven, we're joined by Justin Tormey, co founder at Castmagic. How are you, Justin? 
+
+[00:00:51] Justin: Hey Owen. Hey Dan. Doing great. Thanks for having me on the show. 
+
+[00:00:54] Owen: the theme of the season is we're talking to creators who are making something or many things with Elixir somewhere in the stack. So, we're happy to be talking about Castmagic and how you're using Elixir in this particular domain. before we start talking business, can you introduce yourself a bit and tell us who you are and where you come from? 
+
+[00:01:13] Justin: So I'm Justin, a co founder at Castmagic. I originally grew up on the east coast of the U. S. in Connecticut, then lived in New York for a while, and now am in Austin, Texas. and as far as where my Elixir journey started, I began using the language around 2018. I'd actually been introduced to Erlang first, through the programming Erlang book.
+
+[00:01:37] I feel like usually it goes the opposite way where people find out about Elixir and then go to Erlang. and I love the fault tolerance built into Erlang and how you structured applications. And only after that did I find out, oh, there's a language that is built on top of this that also adds some nice syntactical.
+
+[00:01:57] advantages. and so after that, I wasn't using it at my full time job, but ended up leaving my full time job, which was at a company called Blockchain, where I worked on cryptographic wallets for cryptocurrencies. I started a consultancy in Elixir. I wanted to work exclusively in Elixir and helped smaller startups, kickstart their engineering teams and build, their applications, kind of write the first few lines of code or first few thousand lines of code to get them to market, and really love that experience. Then continued my sort of entrepreneurial journey, with a company called Upside, where my co founder and I. Created a, financing platform for companies in the consumer goods space. We ended up selling that after about two years working on it to a larger company doing, something similar.
+
+[00:02:50] that was almost all Elixir with a small React front end for the user facing application. And then shortly after joining the company that acquired us, The AI space was getting hot. And so, started Castmagic along with my two co founders. And we can get into exactly what the founding story was like there. 
+
+[00:03:08] Owen: Nice. So you've been in the trenches from blockchain to, consultancy to finance, now AI. You've kind of done it all so far. It sounds like.
+
+[00:03:19] Justin: Little bit of everything. Yes.
+
+[00:03:22] Owen: Cool. So I can imagine a few ways that Castmagic, cause I know a little bit about Castmagic. we are on a podcast after all, so, maybe tell us about the origin story. Was this a kind of a fun weekend project that grew out into something bigger or are there, is there kind of a different story for where it comes from? 
+
+[00:03:38] Justin: So Castamagic started from an idea, but it wasn't my idea. My two co founders have a podcast in the direct to consumer space, and as all of this AI technology was coming out, around when GPT 3 had launched and was one of the first AI models that really appeared to be capable of human mobile writing.
+
+[00:04:01] they realized that they could use it for their content marketing. they had this podcast and they wanted to take the audio and video of it and use it for their social media strategy. At the time they were paying a content agency A lot of money to do all this manually. because really the, I'm sure you can relate, Owen and Dan, the probably least fun part of having a podcast is promoting it, most fun part is, is hitting record and having discussions.
+
+[00:04:29] so the content marketing piece wasn't solved and we thought that we could use some of the AI, tools that were coming out to solve this for us, so what Castmagic does is it takes audio and video, and outputs social media posts, blog posts, newsletters, email follow ups, that kind of thing.
+
+[00:04:47] Really anything you want and we'll give you templates to, kind of kick you off. originally we were just for podcasts, since founding, we expanded to other verticals, such as coaching, teachers, , marketers, small businesses, really anyone who has audio and video that they want to extract value out of in the form of content. 
+
+[00:05:08] Dan: Awesome. so that's a pretty wide target audience, as you've kind of grown into all those verticals, as long as anyone has, it sounds like any content that they can put in terms of audio video, you can help build a campaign around or help build content for, so why Elixir? I mean, you have explained that's what you want to do, but is there anything in particular about this product, this challenge that you felt like it was really good fit for? 
+
+[00:05:31] Justin: Yeah, in general, for me, I pick Elixir to start projects because it's what lets me get going the fastest. it's what lets me get to market the quickest, especially with tools like LiveView. I'm able to build both the back end and the front end at the same time, very little friction. Elixir overall helps me reduce the noise that is happening while developing and really focus on the signal.
+
+[00:05:57] Kind of everything that I work on is going towards the final output of the product. 
+
+[00:06:04] Dan: so I know you had mentioned one of your other companies. I think you said it was Elixir plus React. but it seems like with Castmagic, is it all LiveView? or it was LiveView and Svelte, it sounds like?
+
+[00:06:16] Justin: Yes. CastMagic is all LiveView, and Elixir on the backend, which is really nice because then we have a single code base to work on and a single deployment target. and it all goes to fly. io in one Docker file, or one Docker image, I should say, and, in terms of the front end, we do have some Svelte code on the client side, but it's embedded in LiveSvelte.
+
+[00:06:41] So it interacts very well with LiveView. We actually have the creator of LiveSvelte on our team here. You can check out LiveSvelte at his GitHub - it's woutDP 
+
+[00:06:50] Dan: awesome. So what are the specific, what are you gaining from Svelte that you can't do with LiveView natively?
+
+[00:06:58] Justin: LiveView lets us do 90 plus percent of what we want to on the client side. it's very good at that and gives us really nice ways to reach into JavaScript when we have to. what we use LiveSvelte for is our rich live collaboration part of the app. So if you know, as you would see in like Google Docs or a Notion file, we have features that let multiple people on the same account, edit a rich text document.
+
+[00:07:28] And you can see like edits happening in real time and see each user's cursor, even light up in real time. and that's all embedded in LiveView very easily. it's kind of like multiple layers of technologies here because at the core, we use,something called ProseMirror, which is Very commonly used, rich text editing library for JavaScript that's wrapped in TipTap, which is another JavaScript library, which adds some better dev UX on top of ProseMirror and things like live collaboration plugins.
+
+[00:08:01] That's wrapped by a Svelte Tip Tap which is a Svelte library for tip tap, which is wrapped in LiveSvelte, which is then wrapped in LiveView which is then, you know, just connects to our Elixir server via WebSocket, and each of these layers adds some meaning,or some feature to the application. And as convoluted as it sounds, I know, I can tell you from experience that, this actually works
+
+[00:08:25] very well,for our specific use case and anywhere we don't need this. it's just plain LiveView and you don't need those extra layers of abstraction.
+
+[00:08:35] Dan: Yeah, I'm, I'm imagining us feeding this podcast into, Castmagic and just getting a bunch of marketing material around layers of onions or turtles all the way down, or, you know, so, but that sounds really cool. It's a lot of coordination, but you know, it seems like you're able to grab exactly what the best kind of fit library off the shelf is and integrate it all really well into LiveView, I mean, that's awesome. 
+
+[00:08:56] Owen: there's an explosion of tabs that just happened on my computer. Every JavaScript library just became a new tab and now I may be running out of memory. We'll see if I make it through this episode.so you mentioned live collaboration. We did have a discussion, earlier this season about offline support.
+
+[00:09:14] And a PWA, uh, with Tony Dang and that was where we touched kind of briefly on CRDTs. Are CRDTs kind of a component in the system here? or do you have another solution for managing those, the real time collaboration between multiple people?
+
+[00:09:28] Justin: Yes. So CRDTs are used here. of course this is not something that, we've built internally. TipTap uses something called YDoc for CRDTs. This is another JavaScript library.and so. It makes it so that you can have multiple people editing the same document without conflicts, as you could expect from the name CRDT.
+
+[00:09:53] Owen: are these kind of like advanced CRDTs or is it just as simple as last right wins? Is there anything complex you have to deal with or is it just kind of offloaded to the library there?
+
+[00:10:04] Justin: This is offloaded to the library. there is a WebSocket server that connects different clients and manages the different edits to the document. We don't support offline mode. At this time, that's kind of a requirement of LiveView, is that you are online. And so our editor requires you to be connected to the server.
+
+[00:10:24] If you disconnect, then any edits you've made will 
+
+
+
+---
+
+[00:10:27] Justin: go away. But of course, when you disconnect, we, we show that you've disconnected. So ideally, you don't make You know, 20 minutes worth of edits to your document only to find out they just kind of went into the void. and then the other thing on this document format is that it's stored in a large JavaScript object, as you can imagine.
+
+[00:10:51] but at the same time it's being edited, we're also syncing it back to our database, which we have a, uh, custom, kind of, way we store this document in Ecto using Ecto polymorphic embed, um, can think of this as a very deep tree of different types of nodes that can exist in a ProseMirror document. and the way we store it this way and not just as a map in the database column.
+
+[00:11:21] is that it lets us, do more intelligent things with the document,validate it, pull out specific parts as we want to. So if someone mentions another user, we can scan the document and pull out mentions, and that sort of thing, which, might be a bit more difficult to do without a structured format. 
+
+[00:11:39] Owen: So, what's happening right now for our podcast listeners is, if you've ever seen the gif of the mind blowing, you know, just, there's so much happening in JavaScript. We got some advanced data structures, polymorphic embeds, we're also describing something that might make a lot more sense visually than it does sometimes when you're describing it with words, but I can kind of start to see how these things are happening.
+
+[00:12:02] So,I think one thing I'm always curious about are like, what are the limitations that we run into with LiveView? You're working on a fairly sophisticated application here. Have you had to reach out for lower primitives like channels, or is this all just kind of flowing over the LiveView socket directly?
+
+[00:12:17] Justin: Good question. This is all over LiveView directly. We don't have any channels. because LiveView connections can function like channels in a lot of ways where you could have a JavaScript hook on the client side and you can send events over that. similar to how you would with channels. 
+
+[00:12:36] Owen: Cool. So We've been in the weeds talking shop here. So that's always fun. I think another aspect that's been fun to talk about the past couple of years, at least is AI. AI is kind of like core to your business here. Right now there seems to be a couple of different approaches, at least that you can take as a AI startup.
+
+[00:12:55] You can just do a bunch of calls to an API like ChatGPT. You can train some models or use some open source models.and there's probably a wide range of options in between. Can you describe a little bit of how you're using AI and technically how that's implemented in Castmagic?
+
+[00:13:13] Justin: there's a lot of exciting stuff going on in Elixir right now having to do with AI. We actually don't use very much of it. which I'm sorry to say right now, we do use some of NX. one of the things we use is, the Tokenizers library. so it's a very small part of the application, but we use it to count tokens before we send them off to models by OpenAI or, or Claude.
+
+[00:13:38] but for the actual model calls themselves, we use, these service providers, so OpenAI, Anthropic, et cetera, But from within the Elixir community, I can say that we do use, Instructor EX. so I don't know if you've had that mentioned on the show before, but that's a nice wrapper library that allows you to make structured calls to these LLM services. 
+
+[00:14:01] Dan: That sounds helpful.
+
+[00:14:04] Justin: yeah,
+
+[00:14:05] Dan: my perception of this is that working with these external services like, OpenAI's models or Claude that can be a little bit of a moving target. Has that presented any particular challenges or, you know, how has that experience kind of been building on top of that stuff?
+
+[00:14:20] Justin: it hasn't been that big of an issue for us. and it's actually been very nice to build on top of these because we're not the ones who are responsible for constantly innovating on the AI. so while for a lot of companies, that is their competitive advantage, you know, where they're, they have some AI model and it's proprietary and they want to keep improving on it.
+
+[00:14:41] for us, the value we add is at the product layer. So we take these off the shelf AIs and give you a really nice product for your workflow around it. so if Owen has a podcast and wants to get the most value out of it with content, you know, you might not necessarily care which model you're using as long as the AI is really good.
+
+[00:15:01] If the output is really good, you want a very clean workflow though. So that's what we provide. It's very easy for us to, you know, as new models come out in the AI space, change, you know, one line of code or one configuration parameter from, like GPT 3. 5 to GPT 4, or, you know, maybe by the time you hear this GPT 5, and then our users get the benefit of that immediately versus us having to.
+
+[00:15:30] You know, pick and choose from open source, have to figure out how to run it, and then also, you know, maintain that on our own hardware. 
+
+[00:15:38] Dan: So given that, what impact does it have on your local developer experience? you need to make live calls, , if you're not online, the product is hard to work on or how does that play out?
+
+[00:15:48] Justin: Yes, development, it's definitely easier when you have, an internet connection for this app, because we do make live calls in development. although, as with any mature application, like, we have workarounds for when you need to work offline. So let's say you're on a plane and you just have to get some feature done before you, make it to where you're going.
+
+[00:16:11] then we have a very simple config flag we can add called like. Offline true. And that'll swap out the modules for using for things like calling open AI, in development with a mock service that instead of giving you some real answer, it gives you a not very helpful, fixed answer or some lorem ipsum text, and, you know, you just have to kind of trust that with the live call, you'd get the response that you expected.
+
+[00:16:42] Dan: Nice. 
+
+[00:16:43] Owen: So let's imagine that Paloma, our excellent spirited producer here is going to upload this episode into Castmagic.what happens? What's the flow? What are the results that come up? Just using us as an example here.
+
+[00:16:59] Justin: Sure. And we can even do this after we record, you know, try it out, but so the steps you would take are you take the file. If you have it on your computer, you just drag and drop it into the app. that'll use LiveViews' live file upload capabilities, which are really good. we also offer like ways to import from links, but that's a separate feature.
+
+[00:17:21] Once you have the file in Castmagic. We transcribe it. so we'll use transcription services for this that are not OpenAI, they're different AI services, and we get a transcript back. so we'll load that into the database and then in the app you'll have a full transcript, which is editable.
+
+[00:17:39] and you can, you know, edit it, play back the episode,see how it went. And then very simply, we have a.section next to that, where we generate AI content for you. And to start, we'll give you, 10 different types of content. If you've said that you're a podcast, so we'll give you your show notes, a tweet thread, your newsletter, for that episode and so on, even some like kind of highlights in terms of like speaker quotes, but then from there you can, prompt the AI like you would chat GPT with the whole episode loaded as context.
+
+[00:18:12] and we facilitate all of that in the background with Elixir. 
+
+[00:18:17] Owen: some of these features sound familiar, like, there's Descript, like a podcast editor where you upload audio and video files. It transcribes and has some editing capabilities. my favorite feature there is it has like a really good, sound isolation plugin. 
+
+[00:18:32] I think Riverside just earlier this year, maybe released, some kind of editing features to compete, I think, with Descript. Is editing a part of Castmagic or is it more of generating the text that you would need to support an edited podcast?
+
+[00:18:45] Justin: We're more on the generating part. So we do have some editing and like clipping features, but for like true post production, Descript will be the better move. And Descript also has some AI features now too. So if that gives you what you need, then by all means, you can use that. Castmagic takes it several steps farther and lets you customize the content you get out, to a far, more fine tuned degree.
+
+[00:19:16] if you're doing tons of episodes or you want to extract all types of content, not just like bullet points or summaries or show notes, then you can create all of that in Castmagic, as like your AI content workspace.
+
+[00:19:30] Owen: Got you. And then are you integrating with social sites like, let's call it Twitter, Blue Sky. There's a little bit of a, uh, migration or exodus maybe to Blue Sky, threads, maybe not so much. Is Castmagic kind of generating content that you copy into those services, or is there like a button that just sends it out for you?
+
+[00:19:50] Justin: We don't have a post button yet. from the research I've done, it's difficult to integrate with all of these different platforms. And, some of them don't even really want you to integrate in that way. and we've seen, I'm not sure how true this is, but, you know, I've heard that automated posts to say Facebook or Instagram, are kind of regulated by their own algorithm so that, you actually get less engagement becausethey would rather not have like bot posts, be kind of like the most, the ones getting the most attention on their platforms, which I guess makes sense.
+
+[00:20:27] So it's not something we specifically plan to do. but something we have been working on recently is a way for you to collaborate with your team on your content, even after it's generated within Castmagic. And kind of high level what that looks like is rather than copy and pasting it from Castmagic into like Airtable or Notion or somewhere else where you kind of have like this ad hoc content pipeline where it goes through review and people look at it.
+
+[00:20:58] I don't know, you may even have something like that for Elixir Wizards. we built this really nice kind of flow within Castmagic, that means you don't have to leave the platform to edit everything and kind of. Get to consensus on, what it should look like before it goes out to the world. 
+
+[00:21:15] Dan: Yeah, that's cool. That's really interesting. I'm curious, you know, coming back to the tech stack side of it a little bit. It doesn't seem like you took convincing to go with Elixir just based on your history, but like, what's been the best part about building this in Elixir and what's been the biggest challenge? 
+
+[00:21:30] Justin: For me, my favorite thing about Elixir is typically the great tools we have access to. when I was first starting my consultancy and really Betting on Elixir. I saw all of the decisions that were being made by community members and early on, like with Chris McCord behind Phoenix and, the decisions he was making around LiveView and even Jose's vision for the future of Elixir, it just seemed like the path forward was really nice.
+
+[00:22:00] And since then that has proven to be true. And now, looking around at the tools we have, like liveView, the latest in Phoenix, Oban is a very core part of this application. I don't think I would want to go to a different programming ecosystem where I don't have any of those things. so, that's the best part about working on Elixir for this stack. And then did you, you also asked what the worst part was? 
+
+[00:22:27] Dan: the worst part, or maybe more specifically, just thinking about like the onion layers of JavaScript libraries, right? Like, do you ever wish that you just done the front end all in React so that was all JavaScript instead of this LiveView aspect?
+
+[00:22:41] Justin: Unfortunately, I think you also get those layers of libraries in JavaScript. 
+
+[00:22:45] Dan: Well, fair enough.
+
+[00:22:47] Justin: It's not a unique problem with LiveView.something that people often say is like the worst part about building in Elixir is Not having access to a lot of libraries, meaning, like SDKs or things like that, where, you know, you want to kind of pull something off the shelf and it's not there.
+
+[00:23:06] And I guess to answer your question in a different way, I personally don't have that problem. because like I said, for the big things, I find that really great solutions exist. And then the smaller things, like if you want to call an API in which there was an SDK for it. it's actually very easy to write, a single module that's, you know, 20 or 30 lines of code, and you have something that gets the job done without adding whole dependency trees to your application.
+
+[00:23:34] and so I actually see that as kind of an advantage, or maybe I've just convinced myself that it's an advantage, but,I think it is.
+
+[00:23:41] Dan: Well, I'll put one, I'll put a check mark on that,cause I agree. you know, and we've had that experience with you know, large libraries for like Stripe or Twilio or like, you know, these integration points when, you know, all you really need is four or five API calls often. and so just writing those requests yourself.
+
+[00:23:58] and having that be integral to your code. And then, it can be easier to mock. It can be easier to test. It can be easier to modify and maintain without having to bring that whole library along or wait for that library or fork that library. so I wholeheartedly agree.
+
+[00:24:12] Owen: Yeah, I think that sounds a lot like a point, I think, Wojtek Mach was making, I think, at ElixirConf this year. So, he gave a talk about prototyping with Elixir and think it was kind of also like a little,bit of a hype for Req, 
+
+[00:24:25] Dan: it's hype worthy.
+
+[00:24:26] Owen: very hype worthy. Yeah. So, , if you need to do everything that Stripe offers, then yeah, you probably use Strippity Stripe. But if you just need to like make four or five calls, you know, the HTTP, HTTP docs, you know, the rest docs are pretty great. And you can have a very small module where you actually understand everything your app does, uh, that full integration right there. Cause like SDKs are a double edged sword, you know, they're great at getting started quickly, but, once you've been around for a while, you see that, oh, the SDKs, the versions are hard to maintain sometimes. whoever's maintaining them may or may not be the actual company that you're trying to connect to.
+
+[00:25:05] And, you know, that's rife with its own problems. 
+
+[00:25:08] Justin: something I'd like to see more of, maybe not in a production sense, but as in like an experimental sense is calling LLMs at compile time. So imagine if there is a way where,you declare a module and you say, use generate API And you give it a link to some docs and like a description of what parts of the API you're going to use, and then at compile time, it calls an LLM and writes all the code for you, behind the scenes. And then you have an API that's ready to be used. I guess at that point, just generate the code, but,
+
+[00:25:43] Owen: Or, on the other side, like this is, I think you can kind of do both of these, right? Maybe, so there's, before compile and after compile hooks, in the, Elixir module, documentation's hard. Maybe we could just tell, an Ollama or a ChatGPT to, like, document this module every time you, you know, compile it through CI or something.
+
+[00:26:03] And maybe you get better, maybe you get better docs that way. I don't know. We'll have to try that out.
+
+[00:26:07] Dan: You would at least get docs that are written
+
+[00:26:10] Owen: True.
+
+[00:26:11] Dan: because we know, we know developers love to document things as a whole. Uh, maybe focusing from a tech side without like giving away your company's product roadmap, like, is there like particular places you want to take this tech stack? You want to take this approach that you're doing? Anything that's happening in the Elixir community that you think is going to potentially impact the tech work that you're going to do? 
+
+[00:26:32] Justin: Yeah, even though we don't use any Elixir NX right now, it's something I'm keeping a really close eye on and want to experiment with. So, you know, just even being able to run LLMs on our own hardware, where it could be cheaper than calling ChatGPT, and maybe in some cases faster or better, would be great for us as a company, but also our end users.
+
+[00:26:58] So that's something we're planning to give a try maybe sometime next year. and you know, hope to be able to contribute something back to the Elixir community, if and when that happens, cause I'm sure it'll be, you know, we'll have plenty of learnings from doing that 
+
+[00:27:15] Owen: I installed Olama for the first time last week and was doing some LiveBook very quick prompting just to kind of see does it know why the sky is blue? Thanks Dan for that prompt suggestion. And then, just kind of like seeing, can it generate charts of domains and stuff, you know, like kind of code we might be writing or not writing the code, but like writing like a document of guiding developers, potentially.I'm kind of curious, where do you see the future... for AI in general, maybe it's just for LLM specifically. you know, gen AI, AI that can learn and be kind of autonomous. Seems to always be a little bit off in the offing. You know, there's a lot of claims happening about how soon this will happen.
+
+[00:28:01] what are your thoughts as someone who's kind of deep in the AI minds?
+
+[00:28:04] Justin: as far as like what's next in the horizon?
+
+[00:28:07] Owen: there's so many questions that we could talk about here. So what it's like having a company that exists on top of AI and like whether you see the future kind of are we approaching a plateau? Do you think there's unlimited potential? Something in between? 
+
+[00:28:21] Justin: Yeah, it's a good question. Something I can only really speculate on. I think we're going to continue to get a lot of Cool things coming out of the AI space, you know, along the lines of agents and we already have multimodal AI where you can communicate with like voice or text and get back voice or text or images or what have you, or you can give it images as well.
+
+[00:28:47] I think we'll see more and more of that, especially going into video as time goes on. but really I think the bigger question is like, what will it take for people to adopt this kind of thing? Because as the tools develop quicker and quicker,I think it's becoming more difficult to figure out, or like for regular people to know what exactly they can do with it or what they even want to do with it.
+
+[00:29:11] and that one might be trickier to answer. as far as what I do, I try to keep up with the latest developments in AI, see what we can apply to our own product, and specifically what about these new features in AI, can we make easier to use and kind of like more easily bring people into the AI ecosystem, byusing traditional user experiences beyond just a chat interface. Does that make sense? 
+
+[00:29:41] Owen: Yeah. Yeah.are there any kind of specific either, I don't know, sometimes when you've got a project that you're really passionate about, you kind of like lay awake at night thinking, Oh man, I need, if only someday AI could do this for me, or like I could add this feature if only, you know, GPT 5 supported it.
+
+[00:29:58] Is there anything kind of like big brain out, out there that you've got in your mind or, that you can actually talk about?
+
+[00:30:06] Justin: Maybe not that I could talk about. We do have some things on the horizon, that are using some more like cutting edge AI, but they're things our competitors don't have yet and we don't exactly want to tip them off.
+
+[00:30:19] Owen: All right. Well, yeah, we don't want, we don't want to be responsible for leaking any proprietary data to the, to the non Elixir companies out there. So, 
+
+[00:30:28] Dan: But importantly,
+
+[00:30:29] elixir is the magic. Right? That's the, 
+
+[00:30:30] Owen: exactly.
+
+[00:30:32] Dan: it's a 
+
+[00:30:32] Justin: Yeah. The biggest secret's already been given away here.
+
+[00:30:35] Dan: Yeah. Use elixir. Life will be better. 
+
+[00:30:37] Owen: So, I think one, one thing that's been fun to talk about on a couple episodes of the season is, what it's like running a business. All of us here are engineers. Dan is our director of engineering. you've been here at SmartLogic for a long time, and Justin, you're running a startup , you know, you're a technical co founder.
+
+[00:30:59] I'm kind of curious, do you have advice for, the nerds in the audience who might have an idea that they want to transition into a business someday?
+
+[00:31:08] Justin: Yeah, I guess a bit more on how Castmagic operates. We're a fully bootstrapped company. my co founders and I have all kind of gone the VC path in the past. and so far we massively prefer the bootstrapped approach. it's more fun when you have full control over What you're doing, and over, you know, over your revenue.
+
+[00:31:31] And so, first of all, I would try to go that path first. That's kind of like my default now. And then beyond that, as an engineer, you're always thinking about how you can build something better to kind of attract people to your product. when really in a lot of cases, like what you should be looking for is a source of distribution first.
+
+[00:31:55] cause I've so many projects in the graveyard that, you know, I put a lot of engineering effort into, but didn't go anywhere because just of lack of distribution and by distribution, I mean some channel where you can get this out to people, like a source of customers. And so that's a big reason that Castmagic has succeeded up to this point is I started the company with people that had access to distribution and more importantly, were a captive customer.
+
+[00:32:25] So, you know, they were, they had a podcast, and I could force them to use this product even when it wasn't very good. So that's what I would say is. Look for distribution and, look for captive customers in your, co founders. So you know exactly what you're building. 
+
+[00:32:42] Owen: When you say distribution, of course, social media comes to mind. are there other examples?
+
+[00:32:47] Justin: Yeah, we've, tried so many things now. Some have worked and some haven't. But, some things that we've tried and have worked have been, an affiliate program. So, you know, as people sign up to your app, you can offer like, an affiliate link to pass on. That's a good way to grow by like network effects.
+
+[00:33:05] ads have worked for us, launching in like marketplaces. there are like software marketplaces where, apps kind of can launch sales, that kind of thing. so really it's about getting creative and showing up in these places that might not be as conventional. I guess ads it's pretty typical, but, other than that, like we've tried like influencer marketing, that sort of thing.
+
+[00:33:28] So, you know, get creative with how you market your app and, you might be surprised by what you find. 
+
+[00:33:35] Owen: Right on. Speaking of finding things, how do we find you? How do we find Castmagic on the internet? 
+
+[00:33:44] Justin: you can find me on Twitter slash X, I guess, @J_Tormey, and then Castmagic is castmagic. io. If you want to check out the products, maybe you, maybe it sounded like something you can make use of. and that's about it. 
+
+[00:33:59] Owen: Awesome. Well, thank you so much for joining us here and helping us cast some magic as Elixir Wizards. 
+
+[00:34:11] Justin: We'll workshop it. 
+
+[00:34:12] Owen: Uh, yeah, yeah. Maybe we'll have a better puns next 
+
+[00:34:15] Dan: see if the AI can generate better promotional material than that.
+
+[00:34:19] Justin: We'll start there.
+
+[00:34:21] Owen: Yeah. So, well, this was a magical discussion. No, we're going to keep going. All right. So, but thanks Justin for joining us and telling us a little bit, letting us peek a little bit under the hood of Castmagic. it was fun.
+
+[00:34:32] Justin: Definitely. Thanks for having me on.
+
+[Outro:] Elixir Wizards is a production of SmartLogic. You can find us online at smartlogic.io, and we're @smartlogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik for SmartLogic. Thanks for joining us in the Creator's Lab, and we'll see you next week for more stories of innovation with Elixir.
+
+Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
