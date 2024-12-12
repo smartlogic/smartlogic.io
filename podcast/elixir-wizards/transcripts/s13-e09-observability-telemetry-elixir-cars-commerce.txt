@@ -1,0 +1,387 @@
+S13E09 Instrumenting Elixir - Telemetry with Zack Kayser and Ethan Gunderson
+===
+
+[​Intro:] Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is Season 13, The Creator's Lab, where we're talking to innovators who are expanding what's possible with Elixir, from groundbreaking projects to tools shaping the future with our favorite technology.It may seem like magic, but it's really the result of talent and lots and lots of hard work. ​
+
+[00:00:10] Hey everyone, I'm Dan Ivovich, director of engineering at SmartLogic.
+
+[00:00:15] And I'm Charles Suggs, software developer at SmartLogic. And we're your hosts today. For episode nine, we're joined by Zack Kayser, senior software engineer at Cars Commerce, and Ethan Gunderson, principal software engineer at Cars Commerce. In this episode, we're discussing telemetry in Elixir. Welcome to the show. 
+
+[00:00:37] Hello, hello. Thanks for having us. 
+
+[00:00:39] Yeah. Thanks for having us.
+
+[00:00:40] Very excited to be on my first appearance of, The Wizards. Big fan. Long time listener. 
+
+[00:00:47] Long time, first time. awesome, so to kick things off, we were just in the pre show, the secret pre show talking about how, you know, Cars is pretty well known in the space, but maybe not so much the two of you. So Zack, why don't we start with you? You want to just, who you are, what you do with Cars, you know, how long you've been there, kind of what you're up to these days. 
+
+[00:01:07] sure. Yeah, so I'm, I'm Zack. I've been at Cars since, October 2020. So I just clocked over four years at Cars, a couple months ago. I've been doing Elixir actually since around 2016. kind of on and off. my last job was actually doing a lot of Elixir as well.
+
+[00:01:22] But yeah, loved it, loved Elixir so much that when I saw Cars was hiring, I wanted to go from working on smaller scale applications using Elixir to something that was going to be, you know, much larger in size in terms of traffic and throughput and volumes and things like that. so I jumped on the opportunity when I could, to join at Cars and it has been very much what I expected it to be.
+
+[00:01:43] when you're talking about orders of magnitude of, you know, the applications that I was building before in throughput, you see some interesting failure states and things like that.largely what I do at Cars though is, you know, I work across teams for, The majority of my time there, I've worked on what we call the marketplace team, which is the team that actually backs the Cars. com website, and data ingestion for the website and things like that, as well as we have tooling for, you know, admin users to use and dealerships to use and stuff like that to, to upload and work with their data. largely what I've done is I've been kind of an interface between, you know, SRE type role Yeah, adding instrumentation observability.
+
+[00:02:22] So that's where the whole telemetry thing started at with me was doing a lot of work in that space at Cars. and then also doing things on kind of like the intersection between actually running an Elixir application and then running an application in Kubernetes with Elixir, so, doing a lot of stuff in that space as well.
+
+[00:02:39] Awesome.and so Ethan, your background and journey at Cars?
+
+[00:02:45] Yeah. So I've been at Cars for almost six years now. I think, started in 2019. Yeah.yeah, this was my first Elixir job. before Cars, I was in, a security engineering role. Before that I had a stint as a manager. I really quickly realized management was not for me. so back into an IC position.
+
+[00:03:07] before that I spent about a decade in Ruby, doing a bunch of, kind of actually similar work. a lot of performance and infrastructure, tuning, that type of stuff. yeah, at Cars, I do a lot of similar things to Zack. I do a lot of floating around, just helping teams decide what to build, how to build it.
+
+[00:03:25] how to observe it. So how do you know when things go bump in the night, that kind of stuff. just generally try to be useful.
+
+[00:03:31] Awesome. So I'm actually not sure timeline wise when the big Elixir move at Cars was, but is that, were you either of you around for that or is you all both post that?
+
+[00:03:44] No, so that's like the whole reason I joined Cars. was I was pitched on the rewrite to Elixir. so I started maybe two weeks into the project.
+
+[00:03:54] Okay. So, so you were there for flipping the switch?
+
+[00:03:57] Yes. Uh, my heart has still not recovered from the
+
+[00:04:01] amount of caffeine I had that day. I was. in the driver's seat for a lot of it. So as we were pumping traffic from the legacy stack to the new stack, just scaling things up, adding databases. it was fun. I don't know if it's something I'd want to do again.
+
+[00:04:16] you know, my shoulder was a little sore from, you know, patting myself on the back that we actually pulled it off, but, uh, it was a, it was a trip. For sure.
+
+[00:04:24] We, we did it. Yeah. Yeah. I still remember that day very vividly. I was not around at Cars at the beginning of the kind of Elixir switch over when we started writing the application Elixir. when I joined, it was still pre production. So we had the application fairly well built out, but it was not actually serving real users at that point.
+
+[00:04:41] I think it was like my sixth or seventh month. At Cars, June 2021 was actually when we said, okay, 100 percent of traffic. yeah, funny story too, because when we were doing our load testing up front, we were estimating our traffic at the wrong volume. And we thought we were, you know, ready to handle all of the traffic that we're going to, we're going to get. we were like orders of magnitude off, right. And that caused, that caused some issues. On launch day.
+
+[00:05:09] Yeah.
+
+[00:05:11] So, you know, Zack, you mentioned in your intro and you know, kinda come up a lot, like this is a lot of traffic. I don't know how much, how exact of a number you guys can share, but when we say a lot, what do you guys mean by a lot of traffic? 
+
+[00:05:23] we pretty easily do hundreds of millions of requests. I know we've breached like into the billions in a day. And that's both HTTP and WebSocket traffic. 
+
+[00:05:35] do you have a sense for how much of that is like actually concurrent users? 
+
+[00:05:38] no, I don't. 
+
+[00:05:43] Yeah, off the top of my head, no. we do have, so I was actually just looking at this a couple of weeks ago, but we have a metric of how many OpenSocket connections do we have across, like specifically just across Cars. com, like that part of our stack, right? that broke down to, we have, you know, like an average early morning on a weekday or something.
+
+[00:06:03] We have something around a hundred thousand to 200, 000 WebSocket connections open.
+
+[00:06:08] That, that, that's pretty credible. 
+
+[00:06:12] So that's
+
+[00:06:13] It's not, it's nothing to shake a stick at, right? there are bigger sites for sure, but this is definitely enough to like, have some fun.
+
+[00:06:19] Yeah. So when we're talking, uh, you know, telemetry and building specifically, you know, this podcast, Elixir, building things with Elixir. What cool things are people building with Elixir? You guys come at it from an observability standpoint. And I know you've done some talks and some training on telemetry.
+
+[00:06:35] And, you kind of mentioned your kind of cross team role, right. To make sure everybody's monitoring and observing correctly. So like highest level view, what does that mean to you? 
+
+[00:06:46] the quote that I like to use here is in a running production software system, can you ask questions of your observability stack that you didn't know you need to ask? I think it's really easy when we're writing new stuff to throw log lines in for things that we know, like, this HTTP request failed, I'll throw a little log line in.
+
+[00:07:09] But to know, like, it was this user, they were looking at this piece, in our case, this vehicle or this piece of inventory, or they were doing, , this exact thing. And that triggered these downstream effects in this certain way.that's invaluable stuff when you're in the middle of trying to triage an incident,being able to ask and answer those questions is good observability in my stance, my viewpoint.
+
+[00:07:33] I think another thing to chime in and add here is actually, I'm going to steal something that Ethan says quite a bit. at Cars we know these as Ethanisms.so if you listen to Ethan talk for any period of time, you'll hear him mention the word or the phrase, Pit of Success. Which, uh, basically boils down to can you put things into place that prevent people from shooting themselves in the foot?
+
+[00:07:57] And so with our observability stack at Cars, like we want to make sure that we have observability without, you know, day to day engineers who are working on adding features to our systems, without them having to think about it whatsoever, that they get a bunch of observability out of the box. And really that's kind of what telemetry enables, right?
+
+[00:08:16] So we can say, Hey, we're going to look at all of the quote unquote entry points to our systems. So for a Phoenix server. It's going to be, you know, a request into Cowboy or Bandit and then through the Phoenix pipeline, the plug pipeline. Or it's going to be a message into a live view process. Or if you're looking at like data ingestion side of things, right?
+
+[00:08:35] maybe you just kicked off a message in a Broadway consumer, or you kicked off an Obamaworker or something like that. We want to make sure that we have whatever telemetry that we can get from those libraries. We'll spin up things like traces. That you're just going to get out of the box for free as a developer without you having to think about that.
+
+[00:08:53] And then when something goes wrong, inevitably you'll have at least, you know, traces, you might have logs, you might have metrics around that, those kinds of things. So, if we can instrument systems like that, we're out of the box. You're getting a lot of stuff, without having to think about it when you're actually introducing a new feature.
+
+[00:09:10] We're, well, you know, 10 steps in the right direction already.
+
+[00:09:15] Really think about how this work affects a developer's cognitive load, I think can have really significant impacts, particularly at scale when you're talking about lots of developers and I'm wondering if you could maybe clarify for listeners, you know, we've mentioned CarsCommerce and Cars. com, but I think not everyone might be familiar with kind of the larger kind of makeup of the company.
+
+[00:09:37] So, you know, What you're doing with Cars. com is not covering, say, all of the online presence of the company, right?
+
+[00:09:44] Yeah, that's correct. that's a good thing to clarify. So Cars commerce is Cars. com, dealer inspire, AccuTrade. There's a bunch of. Properties that they, that we've acquired over the last couple of years. and they all have their own tech stacks, right? we did not force them all to rewrite into Elixir.
+
+[00:10:03] That would, be crazy and never approved, as much as I would enjoy it. so yeah, Cars. com specifically is Elixir. Yeah, 
+
+[00:10:14] And so, you know, what, taking it back a little bit to, you know, getting the telemetry that you need and getting the telemetry you didn't know you need, what kind of problems are you trying to solve with this? Is this just, you Diagnosing an incident in production so that you can fix it quickly and prevent it from happening again.
+
+[00:10:30] Is there more to it than that? Or,
+
+[00:10:34] no, I think that, I mean, that's the gist of it. Yeah. So our observability stack would feed into exactly that. Um,if there's an active incident or even just, you know, error rates and overall latency, is this thing, is the request time where we want it to be? Like we can get into SLO development, you know, like,we want certain requests to operate in some certain amount of time.
+
+[00:11:00] You know, this gets really important when you talk about like Core Web Vitals. It's we really care about SEO. So we really care about SEO. The server response time on some of our pages. And so being able to set up, monitors and alerts. So we know when we breach that, it is pretty important to us, like outside of a, like an active incident.
+
+[00:11:21] and even getting to we're trending in the wrong direction. We should go take action before, you know, Google penalizes us or something like that is important.
+
+[00:11:30] so it's both, so it's also quality of service and then also early warning, to try to prevent an incident in the first place.
+
+[00:11:35] Yeah.
+
+[00:11:36] Perfect. Okay.And to add on there a little bit too, one of the things that we routinely do during actual production incidents, if we were caught by surprise by something that went bump, that we were not expecting, that's one of the first questions we ask.is there, you know, for example, is there a telemetry event?
+
+[00:11:56] That we could hook into to generate metrics that would help alert us of this. Are there metrics that we already have available that we're just not making use of as alerts, but things like that, or we don't have monitors on these things. that's kind of a routine of all of our incidents, whether it's actually on the, you know, on the incident call in real time.
+
+[00:12:14] If we don't ask those questions there, they are asked routinely during our postmortems on production incidents.
+
+[00:12:21] So do you end up with problems of too much noise and too much data? How do you parse the signal from the noise? Take, 
+
+[00:12:39] Just a moment, I'm trying to formulate some thoughts on that. That was a really good question. 
+
+[00:12:44] take your time. It's all good. 
+
+[00:12:53] I guess, so, there's one response to this because we recently had a conversation, kind of almost about this exact question and where we ended up going back to was during an actual production incident. When something has gone wrong, we'd much rather err on the side of having too much information than too little. case scenario, we have a production incident where users are reporting, you know, like a severe outage, and we have no idea what's going on because we have no tracing, we have no logs, we have no metrics that indicate anything is wrong. We'd much rather be on, oh, we have a gazillion traces that have hundreds of spans or thousands of spans each, and some of them are showing errors and some of them are not, right?
+
+[00:13:40] So digging through all the different spans to figure out where things are going wrong and why, I'd much rather be in that state. Then, just having too little, right. So I think that's routinely one of the things that we've pushed for here is if there's a question of whether or not I'm going to need this data and like triaging a production problem or something like that, err on the side of adding it anyway,
+
+[00:14:04] Yeah,I don't think we've gotten to the point where we have too much data at this point, at least at like the per trace. yeah, I completely agree with Zack. Like numerous,many times I regretted not having data. I've never once been in an incident and been like, oh man, it really sucks. I have all this data to look at.
+
+[00:14:23] it just doesn't. I'm sure you'll get to that point eventually, but I haven't seen it. yeah. So that is one aspect of data, I guess. The other one is like volume of data. And we have that problem. And for that, we just, we have to sample stuff. So out of all the data that we generate in the platform, we only send 1 percent of it to our actual observability tools.
+
+[00:14:46] And that can be a little problematic. mostly because I wrote the sampling algorithm and it's really naive. And so it's just, you know, random number generator. And so if you have a feature that's not used a whole lot, it still only has a 1 percent chance to get over to. our observability stack, and so oftentimes it's filtered out.
+
+[00:15:07] that's a different problem, I guess.
+
+[00:15:10] It's interesting. I wonder if you could talk more. Well, one thing I wanted to clarify for the audience for myself, when you're talking about tracing and spans, can you get a little bit more like technical on what do you mean by that? so people can have a better understanding of that.
+
+[00:15:24] And then I think then from a cost perspective, right, we're talking about how it's well, You know, measure everything. Maybe we don't keep all of it. You know, and is that because the measurement is generally pretty low cost with Elixir and telemetry, and it's more of the storage that's the bottleneck or, you know, just kind of unpack that a little bit further.
+
+[00:15:42] Yeah. So a trace, is, the measurement of execution of software, which is like a super broad definition, right? But think of a web request. You have a start from when the user request hits your server to when you send the response. It's you can think of that as a trace. And if you do just like the very, like bare minimum, you would have effectively like a set of data that tells you the start time and the stop time of that.
+
+[00:16:12] And then we talk about like context. It's like other things to tell you what's going on. So like it's a web request, right? So it's like, what was the method and the route and the path, like that kind of stuff. Then from there, you can add what we call spans, which are just like. Breaking that total request time down into different chunks.
+
+[00:16:35] So like you can span over database calls. So like we know that we did, you know, some number of database calls and they took so long and that composes so much time that we spent in the overall execution path or whatever.yeah, it's that's just represented by like effectively like structs with start and end times. And relationships, because it's like a tree, right?
+
+[00:16:59] Right. 
+
+[00:17:00] And 
+
+[00:17:01] then, those get collected together and then you send those somewhere.
+
+[00:17:07] I'm trying to think of how to phrase the next part without mentioning, vendor names. Yeah, I mean, you can send that to, a variety of different places. There, there are, you know, open source tools, like Jaeger is one of them. And then there are paid solutions. So, U Relic, Datadog, Honeycomb are all, Options in that space.
+
+[00:17:28] and that's really where like the expense comes in, right? Storage is expensive. actually collecting them and sending them is, I'm sure it like, I'm sure you can measure it in some way, but it's not impactful from what I've seen.
+
+[00:17:41] right. Relative to,
+
+[00:17:43] span in the trace is the sending it like externally. Yeah. So then, I guess I'm curious with, we talked a bit about like WebSockets, right? And LiveView just yesterday, I think, went 1. 0. so, 
+
+[00:17:59] Sockets are on everybody's mind. how does that change the game with any of this or does it not? 
+
+[00:18:05] So, yeah, I think that'sone of the really interesting things about running LiveView on a site that gets a lot of traffic. So our busiest page is our search page, right? So you just want to buy a car, they come to Cars. com, they search. That is a live view page. So, we have a, what are they called?
+
+[00:18:28] A router mounted live view, that renders that page. So the interest, the interesting kind of like dynamics that happen there for us are around deployments, right? Because if you think about what that means when you do a deployment, you know, outside of doing something fancy, like hot code reloads or something.
+
+[00:18:47] We are taking down the old servers that your sockets are connecting to. And by definition are cutting off those socket connections and they have to reshuffle around, right? So they might go to, you know, we spun up a new set of, instances that are running the Cars. com website. And now you have to reshuffle all of those socket connections from the old version to the new version.
+
+[00:19:07] So what does that mean? at a certain scale that can start to cause some like very interesting, very interesting issues around deployments specifically. and there's ways to get into it, but having the actual measurements of what's going on, right? what things are affected by a deployment.
+
+[00:19:26] So maybe you have. When you're loading up your LiveVue and a socket reconnects, maybe you're making calls to an external, you know, third party API to re establish LiveVue state when that socket reconnects. Well, if all of a sudden that third party API is going from let's say 20 requests per second to, oh, we've just reconnected all of our sockets, so they're getting like 50, 000 requests per second now.
+
+[00:19:52] For a very short burst of those sockets coming over, we want to be able to see exactly what downstream services and systems are being affected by that. Right. So that we could, we know what those things are, and we could figure out ways to solve for those problems.
+
+[00:20:07] Yeah, I think that's a really interesting kind of like use case around the importance of context, right? And trying to have like as much of a unified view of what you're doing as you can, right? it's well, we make these external calls and they're fine. You know, on Monday morning, as people are waking up and slowly getting some coffee and then going to shop for a car.
+
+[00:20:26] But if 100, 000 people are shopping for a car and we reboot everything, you know, the, the load on the system pattern looks very different.
+
+[00:20:34] Right. and that has been a thing historically that has kind of, kind of bit us. Operationally over the years, I think we've gotten better at, Preventing or mitigating those problems. but that was one, one of our first big issues was, it was just kind of, it was a lack of reading some very fine print in the Phoenix and the live view documentation.
+
+[00:20:54] There's a thing called auto recovery, Phoenix auto recovery for forms, right? And so it's really spartan in most cases, like that is actually the behavior that you want. The default behavior is actually what you want in the majority of cases. But what we didn't know is on our search page, if you change any of the inputs, those are all forms at the time.
+
+[00:21:13] I think there was six of them.and we had the default auto recovery behavior on all of those forms. Well, when you change one of those forms, what was actually happening was, You're firing off a request to Elasticsearch, right? Our search engine. So if you think about what does that mean during deployments?
+
+[00:21:32] Well, a user already has on their page, unless they're actually interacting with it, right? Or they're changing filters or whatever. They've already have the set of Cars that they were viewing. When we do a deployment. We're re firing that, that query against Elasticsearch six times per user per page to generate the exact same set of data that they already have on their screen, right?
+
+[00:21:54] And so that was causing massive load on Elasticsearch when that was the case during deployments. And so we would just see Elasticsearch flash bright red on deployments for a while as this was happening, didn't know what was going on there. And then we found out that. Actually, in our case, what we wanted was to turn off that auto recovery behavior, because we didn't need to refire those requests, right?
+
+[00:22:19] We also had the state of what is the user's query? It was captured in the, the query parameters in the browser, right? So we could get those back immediately. We didn't need to actually recover our LiveView internal state by firing off an Elasticsearch Quest when we already had those parameters available in the URL query params.
+
+[00:22:38] that's interesting because I know that's something that has tripped up a lot of people I've talked to over the years with LiveVue kind of coming on the scene is, you know, from a traditional RESTful background, it's well, if I go to the page, I do all this work, I run to the page. Okay, great. And then with LiveVue, it's well, I do all of that.
+
+[00:22:54] And then I also connect to Socket, which also reruns kind of everything. And Yeah, the deployment case of that of, well, now the socket's reconnecting again, but not because the user did anything, they're just still sitting there and there's 100, 000 of them. what is that going to mean? and so that's really interesting from a telemetry standpoint to be able to see that downstream impact of all of that work being done kind of twice or again, or all at once.
+
+[00:23:19] Right, right.
+
+[00:23:22] Are there other, things that are just different about having that amount of traffic running through a live view application, besides handling reconnects and, form restoration or not? Upon deployment, or is it largely just kind of around that
+
+[00:23:38] I think the, I always go back to deployments as being kind of the operationally, like that's where the challenges are going to be for the most part. it's actually, it was surprising to me to see you have all of these open processes from LiveView sockets or from sockets in general, where you're storing state, internally on the servers about what the view representation is for that user on the client side.
+
+[00:24:02] You would think that would blow up memory usage quite a bit. And it's not zero, right? It's not zero, but we surprising, it was surprising to me to see like you don't really have that many memory issues. We could make our, we could make our live view processes much, much leaner. I think in a lot of cases we tend to throw a lot of stuff in there that maybe doesn't need to be in the actual state of the live view.
+
+[00:24:27] but there have been just a few occasions where we've run into okay, We're starting to hit memory boundaries here and we need to do something about this. 
+
+[00:24:38] is there something different about instrumenting a large application like Cars that sees, you know, you're talking about millions of users per day, not entirely sure the concurrent number, but you know, how would that be different from say, instrumenting, instrumenting an application that has a few hundred concurrent users, maybe a few thousand, at their peak for half an hour a day or something.
+
+[00:25:02] Yeah, I think like the actual act of instrumenting is basically the same. You still, you know, want to start traces for all the things going on. You still want to add context. I think at that scale though, you get the benefit of not having to worry about sampling or probably cost in general. which I think would be actually really fun.
+
+[00:25:22] like to be able to get all of the data that you're generating and just have a complete holistic picture, like definitively is, take advantage of it while you can. So thinking then to like the developers listening to this, right, you guys spend a lot of time trying to make the monitor all the things experience at Cars better. You know, if somebody doesn't have, you know, the two of you on their team to help, like what, you know, what should they think about with telemetry or how should they kind of approach it?
+
+[00:25:52] You know, I mean, I think it's one thing to say, well, you know, record everything and then figure out what questions you want to ask later. But, you know, if I'm starting from zero. Any kind of sage advice on where to begin and how to evolve it?
+
+[00:26:05] yeah. So one thing we haven't talked about yet is another project called OpenTelemetry.which is, I talked about like vendor specific stuff before, like OpenTelemetry is a vendor agnostic specification for instrumentation data, which is probably the most like boring sentence I think you could ever say.
+
+[00:26:24] but Erlang and Elixir have great support for it. So. If you're starting from scratch, I would go check out the OpenTelemetry Erlang implementation. And then inside of that project, there's something called OpenTelemetry contrib, which is a bunch of telemetry handlers for popular libraries. So there's ones for Phoenix, you know, Bandit, Cowboy, Finch, Rec, Open, Broadway, and these are all drop in libraries.
+
+[00:26:58] So You know, add them to your dependency list. You call, there's usually an attach function. And then you just get traces for free out of it. Just it, the setup could not be simpler. They've done a really good job at making that easy. And then what I would do is I would look and see, like, how are those implemented?
+
+[00:27:18] Right? So get a general idea of, like, how you can use the OpenTelemetry libraries to accomplish stuff. I think reading source code is like a superpower, right? especially for like really well done libraries.and see like for the Phoenix one, like what attributes are they adding for you?
+
+[00:27:37] And just let that get your, get the juices going of Oh yeah, like they're adding this, it makes sense if I would go and add my user ID that I store over here or whatever, that's what I would do.
+
+[00:27:50] Absolutely, 100%. I can't, I cannot understate, how good of a resource those OpenTelemetry instrumentation libraries are. So when I say instrumentation library, I mean it's a library, it is a library that instruments the libraries that you're using, right? So you're instrumenting Phoenix, you're instrumenting Ecto, Broadway, Open, all that kind of stuff.
+
+[00:28:10] It's a great resource to look at, where you can look at raw, you know, kind of raw telemetry code. Like Elixir length telemetry, to generate traces and spans for your applications. you could do that too. if you want to instrument your own internal applications, you could follow the examples that are kind of set there.
+
+[00:28:28] so that's a great resource for everyone to go to. In addition to that, so right now, Ethan talked, he touched on the open telemetry, which is a specification that includes a bunch of instrumentation data. So, right now in Erlang and Elixir, the traces, tracing spans, that signal is stable, We have also implementations for metrics and logs and in Erlang right now, those are in an experimental phase.
+
+[00:28:55] You can still use them in your applications. but those, instrumentation libraries don't necessarily have, auto instrumentation for, for things like metrics and logs. but I think that's a really important thing to think about too. I think metrics as a, Set of instrumentation data is super important.
+
+[00:29:13] It's a necessary companion to traces, especially on a project of our size, where traces are going to be more expensive by definition to, to store and persist, which is why we sampled them down to 1 percent with metrics. That's not necessarily the case. So we can get a much fuller picture of how the system is performing, holistically. Using metrics, then we can't with traces. So you can use them to kind of compliment each other over time. And logs is again, another important piece there, too. But, yeah, just like looking into,the Elixir library called telemetry. metrics, which is a way to derive metrics and send them somewhere via some protocol.
+
+[00:29:56] so a lot of people will be using StatsD or Prometheus or something like that to generate metrics at this point in time. So looking at that and thinking about what kind of metrics do you want your actual. Do you wanna look at to make sure your system is healthy? are your product lines healthy?
+
+[00:30:11] Right? Are your business metrics healthy and things like that? it's a good starting, 
+
+[00:30:15] Yeah, 
+
+[00:30:16] to look at
+
+[00:30:17] I'm curious in that, in the metrics vein in particular, right? Cause I think it's easier for a developer to say, well, you know, I know the things I care about. I know about you know, query times and I want to see where this is blocking on and how long these things take, right? There's a whole set of like performance related data that I think inherently we understand.
+
+[00:30:36] The metric side is interesting because I often find that, you know, you'll get business requirements, right? In quotes about as vague as that sentence, of, you know, we want to know what's happening in the system. And it's okay, yeah, we got to be able to answer questions about the business. Okay. what are those questions?
+
+[00:30:52] We don't know yet, you know? And so you need metrics to drive answers to questions you don't know. and so I'm curious if there's anything from a metric standpoint, deciding what, you know, what types of things do you. Maybe suggest people think about measuring in a metric standpoint that like, maybe you could derive by looking at well, how many times did this endpoint get hit?
+
+[00:31:10] But you don't really want to do that. Right. Especially if you're sampling down. any thoughts on that?
+
+[00:31:14] So I have some, I think I have hot takes here. Um, 
+
+[00:31:19] we are a
+
+[00:31:20] totally focus on tracing just,
+
+[00:31:22] Yeah.
+
+[00:31:23] so even if you sample down, you should still get up sampling on report on the reporting side. Right. So even if you're sending less data, like the tooling should be able to figure out the actual, like overall percentage of stuff.
+
+[00:31:36] I don't know if there's like a real case where you know, You like, if that's true and it's even more true, if you're at a smaller scale, right, if you can ingest a hundred percent of your traces, like I would just go crazy there and focus all my energy on traces and I wouldn't worry about metrics and I really wouldn't worry about logs.
+
+[00:31:55] Like my hot, like my ultimate hot take is logs are garbage. They're super expensive, really low utility in my opinion. I would just focus it all on traces. I'd also like the stuff we're talking about here is I think different than a lot of business case for like analytic reporting and like user behavior.
+
+[00:32:17] that's, I think what a lot of you know, product people and business people care about, what are my users doing in terms of like how they're using the product and time on site and like that kind of stuff. I think that should be separate than your like observability software stack. maybe that's not always possible because of cost and other reasons, but I think the use cases and how you want to view that data.
+
+[00:32:39] are just going to be different. That's a good point.
+
+[00:32:45] Yeah, they care about how the users are doing. Are they interacting and driving us revenue? And on the other side, I suppose, are our costs eating up all that revenue? can
+
+[00:32:58] So yeah, especially when you get into like tracking, like user cohorts, like how do you, like the users we acquired through this, like marketing channel behave isn't something you're going to be able to get out of traces and metrics. There's just not the data there for it. So,Is there anything in the like, Elixir Telemetry, open telemetry space that you are not taking advantage of, that you would like to, or what's kind of like in your rosy future of telemetry, you know, in, in the Elixir space. 
+
+[00:33:41] I don't know. Bad answer.
+
+[00:33:47] So there is, is kind of recent news to me, and, to be fair, to be clear here, I think, this, what I'm gonna share here is, recently an open telemetry.there's a blog that came out this year called The State of Profiling and, in this blog post they talk about, adding support for a thing called a profiling signal.
+
+[00:34:14] Which is a separate signal from your, like the three pillars of observability, which are what we talked about, traces, metrics, and logs.there is, from what I could tell, there is very new initial work being done on the Erlang side of the OpenTelemetry Erlang project, which encompasses Elixir too, by extension, to get profiling added.
+
+[00:34:38] so I think that's a really interesting thing that will come down the pipe in the future. Maybe we use it, maybe we don't. but I think it's a really cool thing to look at, especially if you're kind of new to, well, if you're not if you're new to the space, if you've been in the space for a while and you're looking for kind of like, where is the ball going in the future, it might be an interesting thing to look at.
+
+[00:34:54] you describe for our listeners what is profiling versus other telemetry and metrics that we're collecting and talking about?
+
+[00:35:07] Yeah, so, try to think here of a way to actually describe profiling in a relatively concise way that, that people can, people can digest. having a hard time kind of putting this all together in a sentence, but,
+
+[00:35:43] Would profiling be more about like internal code performance the kind of likethe big markers in a trace, right? Of switching to call the database, waiting for the database to come back, right? it could be more, I mean, you could put traces around functions you know are expensive, but profiling would give you like, expensive call information without the need to trace that.
+
+[00:36:09] Yeah. Yeah. And I think that's kind of the idea there, right. Where you're trying to get a look at how the system. Or application performs and behaves, and like a very kind of dynamically, right? so I'm interested in like this one component of my system that is behaving weirdly.
+
+[00:36:26] I want to go throw on profiling and see what exactly is happening there, right? What function calls are being run? What you could do with tracing to a certain extent, right? How long are they taking? Is there, are there weird inputs or unexpected inputs that are causing this to behave and in strange ways and things like that?
+
+[00:36:41] it's kind of. One of the things that you might want to reach to profiling for.
+
+[00:36:46] Yeah, I think that's something we see a little bit early. So I feel like I've come across when dealing with more like JavaScript heavy things or mobile app heavy things where it's you know, the performance on device, you know, matters a lot, right. And so profiling becomes a big part of that.
+
+[00:37:00] And, you know, sample sizes and all of that. I think the idea of then mixing that into telemetry and saying, you know, okay, yeah, we know what our P99 is for our database, but once we have the data. Like flame graph, how's that performing? how are we crunching that? Maybe not so much on the web request side, but certainly in your like Broadway pipelines or other places where you're doing more heavy calculation.
+
+[00:37:23] You know, how can we layer in that profile data? Sounds, sounds super interesting.
+
+[00:37:29] Absolutely. Yeah. 
+
+[00:37:31] Cool.
+
+[00:37:33] There's a really cool tool. And I think people who've done JavaScript development for long enough, well, you'll know, right? Like you'll have gone into the DevTools and have profiled your page on certain occasions. So let me go grab a profile really quick. so let's see. Yeah, if you've done that before, you might have some experience with profiling and what it provides.
+
+[00:37:51] Nice. Ethan, how about you? Any, dream list for observability at Cars or in Elixir?
+
+[00:38:01] I don't think I have anything now. pretty happy with the state of things right now. I am looking forward to, I mean, as much as I don't like metrics and logs, like having, an Erlang compliant, implementation of those two things will be nice. but no, things are good right now.it's a good time to be a developer if you care about the space, for sure.
+
+[00:38:18] Can't agree more.
+
+[00:38:24] So, and so you guys have spent some time trying to help educate developers on this stuff. it's primarily a big part of your role at Cars. anything you guys want to plug in terms of, future, future knowledge sharing around telemetry or observability?
+
+[00:38:41] You want to take this one, Zack? 
+
+[00:38:44] sure. I'll take this one. so this will be my first public plug, I think, for this, but Ethan and I are currently working on a book called Instrumenting Elixir Applications. and we're working on this with, PragProg.the book has not yet been released in beta form, but we're expecting that to come sometime early next year.
+
+[00:39:02] So early 2025, just got to do a little bit more buttoning up on where we're at right now. And then hopefully that will be available at least in, in beta form in early 2025.
+
+[00:39:13] So, so the real reason that Ethan doesn't want anything new to come down the line is because you don't have to rewrite those chapters.
+
+[00:39:18] It's already happened.
+
+[00:39:20] So 
+
+[00:39:20] already happened. 
+
+[00:39:21] chapter one, and then a day after we published chapter one, which is about telemetry, the Elixir Erlang library,
+
+[00:39:28] Yeah.
+
+[00:39:29] they made a change to it. And it was a change to something that we specifically talked about in the book,
+
+[00:39:35] Of course,
+
+[00:39:38] Yeah. There you go.
+
+[00:39:39] It was minor, but it was like, okay, now we have to go back and rewrite. So, 
+
+[00:39:44] it's the trouble with books.
+
+[00:39:45] right, right,
+
+[00:39:46] yeah, so chapter one, we've had some rework. chapter two is all about metrics. And right now there is no, open telemetry integration with telemetry metrics. I mean, one, okay. One problem with this whole space is like the word telemetry is like massively overused. telemetry dot metrics is a library that helps you emit Metrics, it's whatever that is.
+
+[00:40:07] It could be StatsD, Prometheus, whatever. there will be another adapter for OpenTelemetry, right? that is being worked on right now and certainly will be done by the time the book comes out. So we'll have to go back to that chapter and add that in. yeah. 
+
+[00:40:28] Yeah, at least now with eBooks, it's a little bit easier to push out an update for folks and not have to go back to a printer and print a bunch of copies and have a lot of hard copies that are just out of date. 
+
+[00:40:43] 
+
+[00:40:43] is there, do you think that the, are there other monitoring tools, but still using Elixir, that you think? would, would work here or that are worth spending time with, or is, you know, or is this more of, you know, Elixir is a community where we don't have a million different tools that do the same thing. We've really focused on having one or two that do it really well. 
+
+[00:41:18] Yeah, I would definitely say I'd rather everyone focus on telemetry at this point. I know it's something that I kind of harp on, both when we develop libraries internally and when we bring in new libraries. if there's two libraries that are completely equivalent in every way, but one telemetry events and the other one has, you know, some, you know, Like callback systems are really popular, right?
+
+[00:41:39] register a module in config and we'll do something similar. Like I'm going to pick the telemetry one, like the mindshare of the community is really powerful in just consolidating on one, one tech choice. And it's not I don't know, it's a simple thing too. Like the telemetry library is like one module and maybe 300 lines of code.
+
+[00:42:03] Like It's really easy to figure out. So it's not even it's not even like asking people to go and learn this really like complicated thing. so I think that is also another benefit is it's kind of simple to understand what's going on here. so yeah, I don't know of another like competing tech choice outside of telemetry.
+
+[00:42:23] Yeah, I think I just agree with, with Ethan. I think it's a very, telemetry, the library itself is very approachable. Like you said, just, you know, maybe a few hundred lines of code, starting there and getting the entire community to kind of buy into it was just a huge, like you could see when telemetry was announced to when it was adopt, it was almost like it happened overnight where folks were going from having hardly any instrumentation, or maybe they were using like a.
+
+[00:42:50] paid solutions like SDK or something like a proprietary SDK or something like that to generate things like traces or metrics or whatever, to, you know, almost within the scope or the span of a couple of years, all of a sudden, all the major libraries in Elixir are using telemetry. They're all generating telemetry events.
+
+[00:43:10] They all documentthe metadata that they're adding. They all document the measurements that they're taking and you could build a ton of different. observability off, off the back of those things. So starting there at telemetry is a great place to start. and the more the community buys into it, right, the more kind of, the the more you can lessen the burden on, you know, where do I start with observability for, you know, day to day engineers working on products. 
+
+[00:43:45] this has been really great. you know, a lot of important thoughts here and yeah, I definitely would recommend to anyone in the audience if you haven't messed around with any kind of telemetry. And I think my first like kind of even just. into that space. If you use Obon and you want to like hook in exception notifications, like you're using that kind of underpinning of notifications within, you know, within Elixir.
+
+[00:44:06] And, that's like a cool way to get, you know, into the space of, Oh, okay. Like when that thing happens in this thing, whose code I don't even have to know about, I can get the information I need over here and then act on it in certain ways. And, at SmartLogic, we're big users of Prometheus and, it has made.
+
+[00:44:22] Yeah, I don't know that, that marriage of monitoring and Elixir and being able to expose all that stuff just very trivially is, it's been a big win. So as we, as we button up here, you guys mentioned your book, any other plugs or asks for the audience, open source libraries you're working on, or just the big plug is when it's available, buy it.
+
+[00:44:43] That is the big plug. We also do, trainings. So the last three years, is it? We've done full day trainings on instrumentation at ElixirConf. I plan on submitting it again. So I, if training is your thing, we definitely have stuff available for you there.
+
+[00:45:01] Awesome.
+
+[00:45:03] are either of you on social media or places people can follow you or do you stay out of that?
+
+[00:45:09] I am on, Twitter. Well, the app that's no longer formally known as Twitter. you can find me at Kaiser ZL, and on GitHub, ZKaiser, K A Y S E R. It's with a Y, not an I. so you can find me on a couple of those forums. 
+
+[00:45:26] And I'm on Blue Sky, just Ethan Gunderson, not creative on that one, but yeah.
+
+[00:45:32] All right. Well, thanks guys.
+
+[00:45:36] Cool. Thank you very much. Great conversation.
+
+[Outro:] Elixir Wizards is a production of SmartLogic. You can find us online at smartlogic.io, and we're @smartlogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik for SmartLogic. Thanks for joining us in the Creator's Lab, and we'll see you next week for more stories of innovation with Elixir.
+
+Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
