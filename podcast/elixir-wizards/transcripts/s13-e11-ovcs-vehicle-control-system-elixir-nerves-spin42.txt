@@ -1,0 +1,584 @@
+S13E11 OVCS Frankencar (audio)
+===
+
+
+[​Intro:] Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is Season 13, The Creator's Lab, where we're talking to innovators who are expanding what's possible with Elixir, from groundbreaking projects to tools shaping the future with our favorite technology.It may seem like magic, but it's really the result of talent and lots and lots of hard work. ​
+
+Dan: Hey everyone, I'm Dan Ivovich, director of engineering at SmartLogic.
+
+Charles: And I'm Charles Suggs, Senior Software Developer at SmartLogic. And we're your hosts for episode 11. This is the season 13 finale, and we are fortunate to be joined by Marc, Thibault, and Loïc the software engineers at Spin42. In this episode, we're talking about their experience retrofitting a car and building a new and open vehicle control system, OVCS, with Elixir, Nerves, and Raspberry Pis.
+
+Welcome to the show
+
+Loic: Hi!
+
+Charles: This is uh an exciting topic for us. We've been looking forward to getting to chat with you all about this. Maybe you could first start before we dig into the car, tell us a little bit about yourselves, where you're from, where you are now and what you're excited about.
+
+Loic: I think it will be easy because we all have the same background. Marc, you wanna go?
+
+Marc: , so we're all three of us have a master in computer science, I would say, at least, what we got as a diploma , from the same university. And, we met while we were working at a startup, basically, and we decided that we would just create a company, the three of us. So we started doing some freelancing for a few years and then we launched our own other company which was a, a banking aggregator, I would say, so pretty much like Plaid or even, uh, Teller that you might have heard of also using Elixir.
+
+So we did this also in Belgium here where we are living, I would say. And, we were fortunate that this company was acquired a few years back and we just left the company that acquired us about a year ago. And we've been playing with cars for, you know, about a few months now. And, uh, and I guess we're here to talk about it
+
+Dan: Awesome.
+
+And either you guys want to add anything else or is that, that good?
+
+Loic: I mean, we are working together since 10 years now, so, uh
+
+Dan: All right. You guys, you guys are super familiar with each other.
+
+Thibault: yes, indeed.
+
+Dan: , so what problem are you guys trying to solve here? Why do this at all?
+
+Loic: That's a good question.
+
+We were in the financial world for six years and, uh, first we wanted to, change something. To change what are the subject of, uh, our everyday jobs. , I mean, I like cars, Marc and Thibault were not so familiar them, at the beginning. but we are in a world where cars are just, ditched and we change them.
+
+Even if they are still working. it's true that old cars are not, easy to use. Or you don't have the infotainment or the GPS or it's not so easy to, to start and so on. And so we, were thinking about, first retrofitting a car. putting an electric engine in place of the old one, which could solve the problem of changing cars too often, even if they're still working, but to fit new regulation, as we have in Belgium, because in Belgium, we, I don't know how it is, over there, but, uh, in our country at least, well it's more and more pushed for electric cars. So we want to prove that we can actually take an old one and put an engine which is an electric one to push the life of the car a bit further. But then we want to go, we want to add something more, and add some new features in the car, like infotainments. And then it was not enough, so then we wanted to, I mean, remote control the car, and also try self driving, and things like this.
+
+It doesn't solve any issues, the last two points, but at least it's fun. 
+
+Marc: but it's just fun. Yeah.
+
+Charles: Yeah. It seems like there's going to be a lot of vehicle waste here in the next several years if we don't figure out a way to reuse them or change over.
+
+Marc: It's really like Loïc said, the idea of upgrading the car and trying to make it to the same level of expectation that people have today. that's at least why we, we, we started this at figuring out, is this actually possible? What does it mean to do this? And it turned out that we had a car on our hands, so we just got started, 
+
+Dan: Right. Right. Let's go. It's just a, a modern take on the, this car doesn't have a CD player. How do I get one in here? This car doesn't have an MP3 player. How do I get one in here? 
+
+Marc: Yeah, you remember those cassettes you would put in there with the cable, the jack cable?
+
+Dan: Yup. 
+
+Yup. Oh, I used to those a lot. Yeah. 
+
+Marc: Yeah, some of us are old enough to remember that.
+
+Dan: Yeah. So it's just, it's just that. but from a programmer [00:05:00] perspective. Yeah.
+
+Charles: Yeah.
+
+Dan: So why Elixir? Uh, you know, I mean, it sounds like you guys were working in Elixir, so that's maybe an obvious why, but like. For the car problem in particular, why Elixir and not like a, I don't know, more legacy embedded system?
+
+Thibault: based on the, the beam, it's, it's really designed to be embedded.
+
+And =also, um, we are mostly interacting with the CAN bus, which is the bus inside the car that connects all the components. And it's, yeah, mostly bytes that you have to parse. , And so in Elixir, it's so easy to do compared to doing it in C, for example, that it was really a nice solution. So that, that, that mostly, um, The reason why, and also because we like it and we wanted to push it as far as possible. to see if it could be used for such kind of applications in embedded systems, and we also played already a bit with Nerves, and it's really a nice tool to deploy firmwares over already, and you have all the tooling around it.
+
+we have some parts running on Arduinos written in C++ and that's, that is really a pain compared to, um, what we could do in Elixir. So, we try to have as much business logic. As possible in Elixir, and then, really, the basics, in C. So, it just feel more elegant, to do it.
+
+Dan: Was this your first Nerves project for the three of you? Anybody do one 
+
+before? 
+
+Marc: the first Nerves project that was supposed to actually work or, or actually be useful, . But no, Loïc, Loïc, you worked on the, quadcopter in Nerves as well. Okay, but that was, uh, in 2016.
+
+Loic: A long time ago. Yeah. 
+
+And again, it's the older, legacy language. Elixir is like also more attractive. And the goal also with this project is to be fun. and there is something behind the language that is easier to use than other language, like C or to, to dig deeper , to know things like, like.
+
+memory allocation, or things that you don't want to deal with, with it. And yeah, the goal with OVCS is basically that that's an open source project. So we want people to contribute, eventually. The more attractive the language, hopefully the more people we will have to contribute.
+
+Charles: And, and so you're about a year in, on the project. Is that right?
+
+Marc: Yeah, we, indeed, we have been working about three, four days a week on this for, for this year. of course we took some time off. We're in Europe, so we get some days off. I'm kidding, of course, 
+
+Charles: All of, all of August.
+
+Marc: yes. So, yeah, so we, it was also a way for us to take a break after, you know, seven years in finance, working on the company we sold and all that.
+
+So it was a really nice way to, to really take a break and do something completely different, where we could learn a ton of things, a ton of new things. 
+
+Charles: So a year in, it It doesn't sound like you have any regrets of, say, choosing Elixir as a primary tool to do this with. sounds like it's going pretty well. have there been unexpected challenges or unexpected &quot;oh, that was way easier than I thought it would be&quot; moments? 
+
+Thibault: It was mostly uh, quite easy, but, uh, of course, you're missing the real time part. So, for some specific needs where you really need to receive a frame at a specific frequency and check that the other component is emitting at uh ten milliseconds. Then you have Linux in between and all the stuff you can't control and then it creates some issues, but that was expected.
+
+And in practice, it's not really an issue because you have a real car that is moving and that's, it's not an extra two milliseconds that would Change really something. but still we have some things that we still have to work on to be sure that we
+
+Marc: Keep it safe. Yeah.
+
+Thibault: we keep it safe and, uh, yeah. But the, the fact that you have all these processes running in parallel, the, the distribution mechanism, uh, the paradigm of Elixir, it's, it really fits, uh, what we need. 
+
+Marc: Well, I mean, it's only missing the real time part. If it had the real time part, it would be 
+
+Thibault: it would be perfect.
+
+Marc: a pretty, pretty good fit, 
+
+Thibault: Because in a care you have all these components that are working independently and then they emit on a bus. And you can really mimic that behavior with GenServers that you spawn and that handle each of the components and that discuss together over an internal bus and then you can really, you can really design your code as the hardware.
+
+So it's, it's really, it feels really natural. 
+
+Dan: which So, which components of the car are you really trying to replace? Because I would imagine a lot of the existing microcontrollers for certain components are still there, right? And they're just talking on the bus. which areas, you know, are you trying to replicate or remove ? 
+
+Thibault: the biggest part we are building is the vehicle management system, which [00:10:00] is the brain at the center of everything. But for example, it's still legacy AVS control module, which is controlling the, the brakes and so on. But then you have to translate the messages between the old Volkswagen messages.
+
+And then you need to talk to the Nissan engine that at the bottom that we've put in the car. And you have to translate the RPM messages from Nissan and send them to the dashboard of the Volkswagen. And so this is the module where you have the most business logic, actually.
+
+Marc: , there's also simple stuff like the steering pump, for instance, that was providing assistance in the car was only starting at the idle RPM of the thermal engine, but you need to control it another way, because now you have a motor that has zero RPM when it's idle. So you need to figure these things out and you need to have a component that acts as the brain of the car that will decide when to start something or talk to a component of the Volkswagen or translate messages from another brand to, to Volkswagen or what, and we also have a Tesla iBooster server brake in the car, which is the same as you have in Tesla Model 3s. when we started working on the remote control, we needed a way to control the brakes. So we had to also reverse the CAN messages of that component in order to control it through the CAN. So the VMS, or the Vehicle Management System, handles all of that aggregation. So I guess we're in the business of aggregators. We did it for banks before. Now we do it for, uh, car components and car parts, but that's the idea. You aggregate all of this and then you, you make them work together. And it allows you to do some pretty neat stuff. Like, like Thibault mentioned, we kept the original dash of the car so that we can show the real RPMs of the motor.
+
+But also it's the actual ignition lock That starts the relays to start the electric motor. So you don't have a separate button to start the electric motor. everything is done naturally with the car ignition lock, which makes it almost like the car was always like this to begin with.
+
+If you have this kind of component, you can really make these transformations on cars or other vehicles really seamless and, and make it look like it was always there to begin with.
+
+Loic: So it's more extending more than replacing, basically.
+
+Dan: So , only one of you is sitting in front of the car. So do you guys like, do you get in the same space to work on it? Or like what's the dev environment like for this? 
+
+Loic: My house,
+
+Marc: That's where Loïc is sitting. It's Loïc's house.
+
+Loic: my basement, actually.
+
+Marc: So this is, this is where we work. He's standing right in front of it. So two days we work with a car and two days we work at home. So, well, Loïc never, never leaves the car, I guess, but, for Thibault and I two days at home and two days with the car, which means that the two days at home are mostly about software development and then we test things on the car, twice a week.
+
+Dan: cool.
+
+Charles: Did you have to build tooling to support this kind of development workflow? 
+
+Marc: Thibault, you want to go for this one?
+
+Thibault: depends on what you mean by tooling. In Linux you have a lot of CAN tools already. So you have the Can-utils suite that allows you to interact with the CAN. You have virtual CANs, so you can have a virtual CAN on your laptop. Allowing to, to play locally. , then you have socket can d which is a demon that allows to stream, a canbus, the the can messages, on the, the network so that you can develop on your laptop and you don't have to upload the firmware every time you want to test something.
+
+the biggest thing we, we built was uh cantastic which is, uh, an Elixir library library to. to send and receive CAN messages in a clean way, let's say. Because there were some CAN libraries already existing, but They were not really maintained anymore, and using, um, NIFs, and actually, uh, in Erlang you have a socket module that allows you to interact directly with the TOS socket.
+
+So you don't really need external dependencies. So we tried to build something around this without the C extensions.
+
+Loic: Then we also build, well, it's not really Elixir tooling, but it's helping us to develop. We build a big power supply over there, which is replacing batteries, because we made mistakes in the code. And the power supply helps us to keep us safe, basically. for example, put 100 percent throttle instead of 1%, 
+
+Marc: It happened. It happened. 
+
+Loic: it happens.
+
+
+
+Loic: for supply, it's just, just the diffuser blows up. So, it's not mean software tooling, but in the dev environments, that's something that we also use a lot.
+
+Marc: Yeah, I would say that for development, also the existing tooling around Nerves is already pretty much there, and there's nothing we really had to build. So of course we wrote a few [00:15:00] bash scripts to make it easier for us to build multiple components at the same time. But that's, that's pretty much it.
+
+There was nothing really that we had to completely build in order to get started.
+
+Charles: And can you talk a little bit more about Cantastic? how does it parse incoming signals? How does it ensure that timing is precise at different intervals and sending outgoing messages when they should go out? And
+
+Thibault: the idea was, uh, as I said, to build it entirely in Elixir and Erlang. So, trying to avoid having C dependencies, because it's nicer in Elixir. Took some time, because actually you have a socket module in Erlang, but the CAN part is not officially supported, so you have to Find the magic numbers, and understand how to interact with it based on the C implementations. And then, um, once you are connected to the socket, it's just one, uh, gen server per, um, CAN network, which you have a loop that is receiving messaging and then dispatching to, uh, everybody that subscribe to this message. And in the other way around, we have one genserver per emitted frame, where you have a loop that is running every, at the frequency you defined and then it's sending that message and then you just have to update the genserver if you want to modify a signal value yeah, so we try to, to distribute as much as possible so that you have every message handled in each own process.
+
+And that's where Elixir is really powerful, of course. And, um, you know, to have something easy to, to use, we have created a small DSL in a, in a YAML file so that you can describe your messages and your frames, in a clean way. Because, uh, the, the format that I use usually for CAN is really ugly. 
+
+Marc: Open DBC, DBC files.
+
+Thibault: It's DBC files.
+
+Uh, it's, uh, yeah, it's a old flat file. which is not even an open source one. It's something from Bosch in the nineties and everybody's using it, but you don't really have an official spec and it's really ugly. You have tools that's like only running on Windows. one missing part would be to write a translation tool to generate DBC files or to create YAML files based on these DBCs, because that's what's used in the industry.
+
+So sometimes, for example, for Tesla, you have DBC files available on the internet, and it would be nice to be able to translate them automatically in the Cantastic format.
+
+Marc: Or to support DBC in Cantastic that's also an option, but yeah.
+
+Thibault: It just felt too ugly, but yeah, if we would build a commercial tool, probably we would have to. 
+
+Marc: It might be something we need.
+
+Loic: We won't survive to this feature.
+
+Thibault: But the idea of Cantastic is really to hide all the heavy lifting, and you provide a configuration file, and then you can interact with these gen servers that are automatically spawned, and you just say, okay, now I want to send an RPM of 1000 and everything else is hidden and you don't have to say, I want to send it every 10 milliseconds or whatever you, you say, I want to start emit and then on the canbus, you emit continuously.
+
+And then when something is received, you can just subscribe to it and then your, uh, your process will receive a message. So that's, yeah, it feels pretty, uh, natural in Elixir actually.
+
+Charles: yeah, it sounds like a really, really good fit. for many aspects of this. 
+
+Thibault: we used also a lot of the, the bit strings features and all the big endian, little endian, sign and sign and all these things, because yeah, every manufacturers have their own ways of putting the bytes on the on this network. They could use one bit only for a true or false or three bits or.
+
+And, um, even in one case, so in the Volkswagen one, you can see that they have contractors that have built their own systems and they don't use the same NDNS. They don't use the same value for true or false. But when you start writing C code to, to do this, you can then understand where it comes from because you start doing something and then you have two bits and then two other bits and then later and you don't.
+
+Really want to move everything back because you have to manually parse every
+
+bit while in Elixir and if it's a YAML file, you just add a new entry and you don't have to think about it. Then refactoring your frame, it's much more easier.
+
+Dan: And people thought supporting multiple browsers in the early 2000s was hard. Geez.
+
+Marc: Well, I, I, I actually don't know what we prefer working on. I think we prefer working on making all of these things compatible than working on multiple browsers, uh, back in the days.
+
+Dan: it sounds like you guys are dealing with just like, a much larger amount and kind of like more secretive proprietary, like this environment is very different than I think what a lot [00:20:00] of people in the Elixir space are, are used to, right? So it sounds like there's a lot of reverse engineering to just kind of figure it out.
+
+Marc: mainly. Yeah, there's a lot, a lot of reverse engineering, but, in all honesty, it's not like we start from scratch all the time. like Thibault said, there's a lot of DBC files you can find online. There's also a repository on GitHub, uh, open DBC, which was, I think, started by the people from Comma.ai. but yeah, there's, we can find some DBC files that we can start working from. It's not always that you have all the information you need. So you have to also do your own extra reverse engineering, I would say, like what happened with the Tesla iBooster, for instance, that we had to work, because we couldn't find any DBC for that one.
+
+but yeah, there is a lot of reverse engineering indeed involved and, and sometimes it's as stupid as, somebody's in the car, somebody else's in front of a Savvy can and then you, okay, pull the handbrake and then you see what changed in the frames and okay. Release the handbrake.
+
+Okay. Open the beams. So it's, it's, it's a little bit of a stupid work, but, but it's also fun in a way, because when you figure it out, you're, you're kind of happy. And well, maybe we, maybe other people might, might not , agree with that, but then we have different ideas of fun maybe, but, but yeah, for us, at least this is fun. Doing this is fun.
+
+Dan: The real world impact, like physical world impact of hardware projects is, it's, it's a whole nother thing, right? And it's like, everyone should experience it. It's, it's awesome. 
+
+Loic: For the record, someone wanted to do the same, we made one big mistake at the beginning. We just pulled off the engine of the car before trying to reverse the canbus. So, the thing is, when you want to see which is the frame for the RPMs, without any engine, you can't see it, basically. So, we advise to first take a trace.
+
+Marc: Yeah. 
+
+Dan: it's the take a picture of it before you disassemble it thing.
+
+Marc: Yeah, and do a very big, very long can dump of, of everything that passes through the canbus before you do anything on the car, which we didn't do. And that's, you asked about regrets. That's probably the only regret we have. Just going straight at removing stuff and stripping the car and then figuring out, okay, how do we actually reverse a canbus, afterwards?
+
+That was not very smart, but. We got away with it, I guess.
+
+Charles: Do you still have the engine? The old engine? Or do you, it's, it's gone, gone.
+
+Marc: It's at, It's at Loic's feet. 
+
+Loic: He's just under my desk.
+
+Marc: It's It's, right under his desk.
+
+Charles: It's a good footrest.
+
+Loic: It's a bit, it's a bit dirty, so
+
+Marc: Honestly, honestly, it's probably all it's worth right now being a footrest because that car could not have been able to enter a city like Brussels today, for instance, because of the environmental regulations that we have on cars now. So it wouldn't even be allowed to enter without getting a fee.
+
+So some, some of these cars, they're still usable, but you can't really drive them any, anywhere. Even, I think in Germany, it's also the same. Some there's low emission zones and things like that. So some cars are just forbidden to go. and that's a little bit, the reality of it. We have cars that are still perfectly drivable that we're just going to throw away because we can't drive them in cities. And it makes sense, right? We want cleaner air and all of that. That makes total sense. But why produce an enormous amount of waste in this at the same time? It feels a bit illogical here. 
+
+Charles: I won't be surprised if a secondary market develops outside of places like the EU where there are stricter air emission regulations like that, where people say, Oh, fine, we'll, we'll buy those cars from you. Just send them over here. We don't care.
+
+Marc: yeah.
+
+Thibault: Yeah. That's what's happening at the moment.
+
+Charles: it is, okay, yeah, it'd be nicer to see a repurposing, like what you're working on.
+
+Marc: Yeah. But we're focused a lot on cars right now, but There's other types of vehicles as well. you know, there's buses, trucks, also every construction machinery, mining equipment , all, I mean, there's a lot of stuff that, at some point, gets thrown away for good or bad reasons. Uh, sometimes they just get thrown away because they're not modern enough or, you know, the, the equipment lacks productivity features or whatever.
+
+So, the idea of trying to see how we can, and every, every of those vehicles Have some kind of communication bus. It could be CAN, could be ISOBUS on agricultural machines. It can be, um, I think, NMENA or something like that for boats, for instance. So there's always something where there's a, an equivalent of the CAN bus in a vehicle.
+
+So the idea of trying to work on this and augmenting those vehicles, making them better, or at least translating those messages so that they get compatible with modern hardware or software makes sense in a way. Is it a lucrative business? We don't think that for personal cars, it's actually the way to go, even if we are working on one, but, but for other industries and other settings, it might make sense to do this. 
+
+Charles: I think I read that you decided to [00:25:00] build a custom PyCanbus hat. Is that right?
+
+Loic: Yeah.
+
+Charles: Why did you end up needing to do that or deciding that that was the, the way to go?
+
+Loic: At the beginning we, we bought some can module, from internet. but they were not can fd. We wanted to be can fd ready. The one that we got at the time were not working with 3V3, which is required by the Raspberry Pi.
+
+There were only 5V for Arduinos. so, we decided to build our own, because then the, the schematic will be open source also. Well, the goal is to have the full kits, I would say all the prints , the schematics, the code will be online. So we wanted to build, I would say, our own PCBs to have this, schematic our own and at least fitting our needs, but also the, the SPI, uh, well, the can FD module.
+
+We, I think we have like eight or nine on the VMS, something like this. So we, we made a design that so that we can stack them. to avoid having the SPI wire always going through the Raspberry Pi. So the goal was also to, to make them in a smaller format, because we can decide which design what we, what we wanted, rather than buying some and having to fit the design of, Someone else inside other design.
+
+And because it's also fun and the goal was also to have fun. So, it's important. 
+
+Marc: But like you said, Loïc, we have about eight canbusses on one of the components. There's no hat that we could find with eight, you know, canbusses. So it's also, this is also the kind of limitation we got into. And on the Arduinos as well, we, in the beginning, and it's, that's something we shared at the ElixirConf Europe.
+
+We used on the Arduinos, an off the shelf relay hat. So to activate relays. But at the same time, I think it was the SPI pin that we wanted to use. So the hat was designed so that one of the relays was on one of the pins of the SPI. So which meant that we could not use the hat and the SPI at the same time.
+
+So we bought an actual hat that was supposed to be designed by people that know really damn well how Arduino works. And they made a choice. to somehow use that pin instead of another one that was probably free. So, and there's probably again, good reasons to do that. But in our case, sometimes you, you hit roadblocks like this and you're like, okay, why don't we just, you know, build it ourself?
+
+Because in the end it's probably going to be easier that way. You don't want to, you don't want to debug somebody else's hardware, basically.
+
+Loic: And we spent some time finding the spin was come on with the relay. 
+
+Marc: Yeah. We lost hours on this and for nothing in the end.
+
+Loic: Really the goal at the end is, is to have, is to have everything online published. I mean, if you want to do your own PCB, you can download the, the, the, everything you need, you can also solder the components yourself. There will be a BOM. I mean, even if it's not perfect, because we're not an electronician, at least it's a good step forward.
+
+It can be improved, but, um, yeah.
+
+Charles: That's great. So many projects will open source the software, but not the hardware. it seems to be a trend moving towards more of the hardware also being open sourced.
+
+Dan: So we've talked a lot about control and reaction and translation, but I know, I mean, a big part of a car is also like the driver knowing what's going on , right? Dash, infotainment. How does like the display part fit into what you guys are doing? What does that look like?
+
+Marc: so we did decide indeed to, to build a new infotainment system, which is very rudimentary at the moment. It's not like you have, it's like you can play audio, video, Bluetooth and all that. So it's very simple. We just show information. and there was also one main reason why we decided to build that is that we didn't want to have a button to.
+
+To select the parking, reverse, drive, all of that. So we, we thought let's, let's just put a touchscreen in the car so that we can do that because we didn't want to bother wiring a button or whatever in the inside of the car. So we decided to build this for that specific reason and to add some interesting information as well, because we saw that on the canbus, we were seeing some information about the car body status, I would say, like which door is open, for instance.
+
+whereas in the stock car when we, when, because it's, it's actually my first car and then Loïc drove it, whatever. So we can talk about the history of the car later, but, we didn't have that, that, that level of detail before, but we noticed that it was actually on the canbus, and so we thought, yeah, why not just add this also to the infotainment and show each door being open separately, and some additional information.
+
+And we also wanted to have a way to easily check the status of every component that we built, like the vehicle management system, uh, if the, the pre charge re days or the, the, all the, everything was, uh, you know, properly, uh, activated before we could go to drive and all that. So we, we show some information about the [00:30:00] car status and the car safety or sanity, I would say, uh, on that screen as well.
+
+Um, and so it can go much further than this, but for now that's all we have. But, but it's a, you know, it's a blank canvas also using Nerves that we can use to build all sorts of things. So yeah, it's, uh, at the moment it's very simple, but it, it does the job.
+
+Dan: So what is that display then? Is it a browser or are you using like Nerves display technology or how's that working?
+
+Marc: So in the beginning we, we just picked A basic Nerves image and the Nerves kiosk image at the time we started this were not up to date, so we kind of tried to build one ourself and go for web technologies at first. Uh, so we started trying to have WPE WebKit , in Nerves and, and try to show, so we were booting Weston and all of that.
+
+So having the whole Wayland nightmare part as well in Buildroot. So we got that working, we got, we got WPE WebKit working and we had this Vue. js frontend that was being, uh, shown, and talking to a Phoenix API and, and channels. But we realized that the performance was not that great actually, because we were really, um, maybe, or maybe we messed something up in the hardware, the 3D acceleration, or something like that.
+
+I don't know, but, we thought the performance was not that great when we were updating the, the speedometer and all of that. And so, We decided to go away from the idea of doing purely web stuff in a browser. And I had a discussion with Frank from Nerves and, it turns out that they were, they were using Flutter on Nerves at SmartRent.
+
+So we shared a couple of build route recipes on how to, to get it done. And so after working on it a few days, we got it working. And so now everything is in Flutter. So, what we have basically is a Raspberry Pi running Nerves PhoenixApp and Flutter as the front end, and the performance is really great, honestly.
+
+So, I don't think we would go back to, to Vue. js for this, so definitely Flutter for us was the solution.
+
+Dan: so that's Flutter with the, like the Linux target as far as what it's building for? 
+
+Marc: I'm sorry, come again?
+
+Dan: cause so Flutter is cross platform, right? You know, but is it, it's building like a Linux application that they're putting in the build route? 
+
+Marc: Yes, it's a Linux application.
+
+Dan: Yeah. Okay. 
+
+So why, why Vue. js when you guys did made that choice back then?
+
+Marc: I can see where the question is going. Why not LiveView and all of that? This was really early in the project and, we didn't know exactly where we were going. So, it felt like keeping the options open was the best choice. And in the end, we're glad we did because we could switch from Vue.
+
+js to Flutter quite easily. And test things out without rewriting quite a lot of the, the, the code that we had. So for us, it was just this, like keeping our options open and figuring out if we would want to maybe run the the backend code on a completely different Pi or machine or whatever. So we just wanted to keep the flexibility there, even if it meant doing a bit more work.
+
+But like I said, the, the infotainment is so simple in a way that it's not like there's too much code, but yeah. We felt like keeping it separate was the way to go at the beginning.
+
+Loic: We also have a background with Vue. js, because we've been running microservices for years, and we also have our back end in an app, and front end in another, so we have a separate deployment cycle. So, I mean, we still have the background behind us, so we are always, uh, old 
+
+Marc: habits are hard to kill. 
+
+Charles: sure. Yeah. I think I, I used Vue primarily before Elixir and LiveView.
+
+Loic: yeah, same for us.
+
+Charles: What's the, this cat, oh my goodness. What's the hardware that you used for the, the screen for the infotainment system? Is it just like a tablet or?
+
+Marc: It's just an HDMI touchscreen that is hooked up to a Raspberry Pi 5.
+
+Charles: Okay. Okay. Yeah. 
+
+Dan: Cool.
+
+
+
+Marc: And so it's running Nerves and Flutter, so FlutterPi, so we, we have custom systems for everything, obviously. this one embeds FlutterPi and, and libflutter engine, uh, in, in it.
+
+Loic: But try to keep everything simple and affordable for people that want to try it, so And you can also put your computer screen in the car if you want to.
+
+Marc: if you want to have a really big 21 inch touchscreen in your car, you can do it. well, uh, I'm not sure the infotainment screen will auto scale to, to that, but, uh, but yeah, you could do it. So right now we, I think we bought a, uh, Uh, 11, 12 inch touch screen that we put in the car. I think, is it, is it 11?
+
+I don't remember anyway. So it's a, it's a big enough screen, probably too big for that car. [00:35:00] Honestly, we could have gone for something smaller. The, the basic seven inch would have made sense as well, but we went for something bigger because bigger is better,
+
+uh, 
+
+Charles: no.
+
+Dan: I never, never have. I had a car where I'm like, man, I wish the screen was smaller, 
+
+you know,
+
+Marc: it's true. it's true. It's true. I'll just dock for my tablet. I can just you're, yeah. yeah. 
+
+Makes sense.
+
+Charles: A question stepping back momentarily. You've talked about some of the signals and everything that are coming from the car and that it was, I forget who's first car. , I'm curious, what's. Marc's first car. So what year is the VW and what's the, what model is it? 
+
+Marc: So it's, it's actually a model that has never been sold in the U. S. It's the Volkswagen Polo. So I think in, in, we also have in, in Europe, we also have the Golf, which is slightly bigger and I think you call it the Rabbit in the U. S. but in different makes that they do they have a smaller one in Europe, which is called the Polo and an even smaller one at some point was called the Up.
+
+But those two, you never got them in the U. S. So it's, it's a Volkswagen Polo. And it was my first car that I started driving in 2007, that I sold to Loïc I think, in 2014.
+
+Loic: Something like that,
+
+Marc: Yeah, and then you kept it ever since. And then we bought it back in the company, I would say, and, and started working on it.
+
+Charles: Is it diesel or gasoline?
+
+Loic: Diesel.
+
+Marc: it was diesel and it was what they branded as the blue motion technology. So it was kind of a three cylinder diesel car and making a tractor noise, but, uh, being super fuel efficient with particle filters and all of that. So it was at that moment, kind of a, Uh, a first step into getting cleaner engines from VW.
+
+, but right now it's, it's worth nothing in itself. I mean, we can still, uh, see people driving around with this kind of car in, in, in Belgium and in Europe, but it's not worth much anymore.
+
+Dan: I knew somebody who had an odd numbered cylinder vehicle and most mechanics didn't believe them when they were like, I need this many spark plugs. It's like, no, 
+
+Charles: Mm-hmm
+
+Loic: I guess why is this the weird, weird, weird noise, uh, because three is not, uh, the
+
+Marc: Yeah.
+
+Loic: level is not good, but three is weird.
+
+Charles: Mm-hmm VW is a great, it seems like a very appropriate pick too. 'cause there's such a huge community around modifying VWs and, making different things out of them. I had a rabbit pickup with a 91. It was from 82 with a 91. Jetta, turbodiesel, engine under the hood. That thing
+
+Marc: wait, wait, they did a, they did a rabbit pickup.
+
+Charles: Oh yeah, it was a unibody, like the, I don't know if you know the El Camino?
+
+Um, 
+
+Marc: Yeah. 
+
+Oh my God. 
+
+Dan: in America. We'll pick
+
+Marc: Yeah, you will do a pickup, you will make a pickup out of anything! Yeah,
+
+Charles: Throw the kids back there, no seats, no seatbelts, it's perfect.
+
+Marc: okay, the Rabbit pickup..
+
+Dan: so what's next guys?
+
+Marc: well that's a very good question. So the reason there's still this power supply on the, on, on the roof of the car is because the battery is not finished yet, for many different reasons. The first one being that we don't want to die making it. So we were waiting for some cable tester, that, that failed to arrive for months, but we, we know now that we are supposed to receive it tomorrow.
+
+So hopefully. You know, by the beginning of next year, we will have the battery finished, but we got the car out of the garage, but basically with the power supply on a very long extension cord. So it would be really lovely to drive it with an actual battery in it. So that's, that's really the, the last very big step to make it fully drivable, but, but it will be Fully drivable.
+
+And so we added the remote control feature. So, we control the car through a Mavlink transmitter. So it's basically a drone controller. It's pretty fun. So you can steer, accelerate and, and brake. and we're also working on the autonomous features in the sense that we're building a ROS2 bridge.
+
+So robot operating system bridge. With the pretty good RCLX library, which makes it quite, quite easy for us to do so. And so , we're writing all the notes that we need in order to get the right information, get the images from the cameras and all that. that's also why we have this rack on the roof, because we're going to install some stuff there, , and, and equip the car with some of the equipment.
+
+We, we're working on, with our own funds. So it's not like we're going to buy a lighter, uh, suddenly, unless, unless one of the, the people looking at, or listening to this podcast want to offer us a lighter. We're not going to get a lighter. Uh, it's too expensive. [00:40:00] So we're going to work with some basic, cheap cameras.
+
+We don't aim to be at, you know, professional quality, certifiable quality, which we see this car as a laboratory on wheels to learn a lot of stuff, but the goal, the ultimate goal would be that it drives Alone around the track somewhere, a local track somewhere. That's, that's the aim. So it's not going to be self driving features that you can take on an open road for sure.
+
+But we want to get to that level so that we can learn really the stack from, from soldering stuff, to making the car self driving and it doesn't make us specialists in all of these domains, but at least it gets us through the whole process of building one. 
+
+Dan: Ah, this is so cool. 
+
+Charles: Yeah, I have so many more questions, but I think we also want to try to be aware of the fact that it is getting on 11 p. m. where you are, and it's pretty late. Is there any particular topic we've not covered that you want to make sure that we cover before we wrap for this episode?
+
+
+
+Marc: I think we didn't really talk a lot about the safety of the components. I don't think we talked about that one. And also, so we could maybe have a question on this topic and hardware failures, maybe
+
+Dan: Yeah. Why don't we talk about safety? Cause you mentioned it's kind of like a laboratory on wheels. You're not going for like. Being able to drive it autonomously except on a track. So how do you think about physical safety and, and how is that playing in?
+
+Thibault: The first safety is that we have two, uh, big red switches that if you, you activate them from inside or outside the car, uh, all the high voltage is it shut down. Uh, all the relays are shut down, so you don't have any power steering anymore. You can
+
+It's already safer. You have more than a ton that is moving, so that felt like a, a good idea. Then as long as you have at least a human in the, the car, you can still pull the end brake, or push on the brakes. Everything is, is still working and you have a, a steering wheel. You have brakes, and if you shut down the whole OVCS stack, then it should be okay. 
+
+Marc: I don't think, I don't think the should makes it very safe for the audience. I guess
+
+Loic: And there is always things that we didn't think about, I
+
+mean,
+
+Thibault: so that, that's, that's why we have this big red button, because then you shut down everything and you still have the manual control on the car. That's, that's the last result. And then of course, at the software level, we also have fail safe mechanism. We are monitoring that VMS. We are monitoring all the controllers that are actuating, uh, the, the different functions and the relays and so on.
+
+And if one of them sends an error, uh, status or stops emitting frames, then we would switch to, to the fail safe mode of every component. And yeah, so it should, it should allow us to, it should stop, uh, steering the car and so on. But yeah, of course you cannot think about everything, 
+
+Dan: right, 
+
+so are there certain systems like, like the braking, like, brake pedal to actual braking, is that completely independent? Like, that will happen even the central control is not working correctly, or? 
+
+Loic: everything in the car is still mechanically connected. Well, there is, uh, there's no drive by wire, wire or something like this. The, the brake is hitting the, the pedal with the, with the oil coming to the, the brake clips. Uh, same for the steering column is, is, is mechanical also, but we had a motor to, to drive it.
+
+Same for the, the brake pedal. And then we still have the, the gearbox. So you can also put it in neutral manually if you want to.
+
+Dan: Oh, okay.
+
+Charles: Oh, is it, was it a manual? I assume it was a it was, yeah, most cars are manual in Europe, you know, so we're getting more and more to automatic, but yeah, most cars were manual.
+
+Dan: Yeah. So you kind of have a lot of inherent yeah, it's just still mechanically safe as a car would be safe, you know, and then you're just trying to like supplement generally.
+
+Marc: Well, the only thing that's not mechanically connected anymore is the throttle pedal, because you control the motor with the can. But if you shut down everything there, it's not like you want to accelerate suddenly. So if something goes wrong, you don't want to go faster. Basically, you want to go slower.
+
+So you want to make sure that brakes and steering are okay. And for this, the brakes will still work because the iBooster, the Tesla iBooster, Um, the good thing about it as well is that it's, it, it operates in fail safe mode by default, so if you don't send it any messages, but it's still receiving 12 volts, it still operates and gives assistance, uh, braking assistance.
+
+So it's not like we needed to re implement everything in terms of safety. We just needed to make sure our components were operating to safety, but the components like the Tesla iBooster and even the motor itself, They have their own fail safe mechanism because the, the manufacturer put, put these mechanism in place.
+
+So we're not stripping down everything from the components and replacing it [00:45:00] with ours. We're, we're trying to, that's why we want to control them with CAN, because then we can still use and rely on the, on the engineering that they've done. We don't need to replace everything. 
+
+Loic: I Don't think we mentioned it before, but just to be clear, what Marc said, we have four main components. We have the infotainment we talked about, we have the VMS we talked about, then we have the controllers. Those are lower level controllers, Arduino actually, that are making the link between physical components And CAN bus.
+
+So, for example, the throttle pedal is connected to a controller, which is reading the analog value, and then send it to the CAN. and all those controllers have a small code base. We try to keep it as small as possible to avoid issues. And then we put failsafe on them also. So we have failsafe at multiple levels in the car.
+
+Dan: Awesome.
+
+Loic: And then we have the bridges. Bridges, they make links, like, with, MavLink, with, camera, with uh, ROS also, 
+
+Dan: Wow. Well, I think the good news is since I can probably, I'm gonna come up with like a thousand questions the second we hang up. I think no matter what topic we pick for a future season, it'll probably overlap with something you guys are doing, just given the dynamic nature of this thing. Uh, so , when there's inevitably overlap, we should definitely have you guys back on 'cause this is, uh, really cool.
+
+There's, there's so much here. And yeah, I mean, anytime we do a, even light hardware project on this podcast, it always like ignites this, like, I must do all the Nerves things, vibe. And I hope the audience picks up on that too, because it is cool.
+
+Marc: Yeah, we, we hope to find the time to document more and share more, but it's not like we're going to stop next week. So it's going to take time, but like Loïc said, everything will be shared. Even the, even the STL files for the, all the, all the things we 3D printed, because there's a lot of 3D printing involved.
+
+Uh, the blueprints for some of the pieces, all of that will be, will be released. Right now it's mostly the software that's being open source because it's easy, but we still need to put all of this online as well. , document things, um, you know, the things we talk about, we need to write it down so that people can read it properly because the documentation we have on Git right now is not good enough, or at least it's decent to start with, but not good enough.
+
+So.
+
+there's still some, quite a lot of work to do.
+
+Dan: Yeah, which actually then is good question. Like, is there, is there help you're looking for? Are there ways people can get involved or, you know, would they have to come to your basement to, to do anything useful?
+
+Marc: Well, no, I think, I think honestly, it, well, in all transparency, We kept enough money in the company to stay afloat, or at least to be able to work on that project for a bit more than a year, but we're, we're going to have to start taking contracting work in 2025 because we're going to be too low on funds.
+
+So if people really want to help, uh, find a way to send money, I don't know. So we can keep working on this faster, but it's fine. We, it's not like we're asking for money or anything, but the, the The thing is that we're going to have to slow down a bit on the time we put on the car, uh, in the next year, because we still have bills to pay and kids to feed.
+
+So, so we have to get back to some contracting work, but we've got to keep some time available to keep working on the car project.
+
+Dan: Cool. Is there anything you're looking for feedback on or, you know, people to like read and review and just say like, Hey, this is thumbs up, thumbs down. 
+
+Thibault: Just to add on this, the VMS we built in Elixir, it's really generic, so it should be usable on any vehicle. So you don't have to come to Loïc's basement, but You would need a vehicle, which is quite expensive. You need the basements. Yeah, you need the tools and so on. But then, in order to make sure that we could use it on several vehicles, we also built a small, remote control car where we put the Arduino, the Raspberry Pi, and to make sure that it also works.
+
+Dan: Go to your own garage. Yeah. 
+
+Marc: yeah, if you, if you ask how can people help. We, we would love to find contracting work related to what we did on the car.
+
+So we just don't want, we don't, the problem with this kind of project is that you don't necessarily want to go back to building web apps.
+
+Charles: Yeah.
+
+Loic: So it's like, uh, the small version, but without the wheel that we just removed 
+
+Marc: Yeah, so this is the OVCS Mini, so same software and hardware stack than the big one, and that's what we use to test the remote and
+
+self driving features. 
+
+Dan: I really want to do that.
+
+Charles: Yeah.
+
+Loic: You can, you can do it. Everything will be open source. It's like, the base is in Traxxas. And then you have just this, this part. You just screw it in. And then you have everything that you can put on the top. 
+
+Dan: Oh, man.
+
+Loic: I think this one is [00:50:00] rated to go like 100 kilometers, but it's too fast, so it will never go this fast. 
+
+Dan: Cool. guys, this is awesome. 
+
+Charles: Dan, I hope to see you, uh, showing a car off on video here in the next several 
+
+Dan: Well, you know, it's like, I don't know. I don't know what other people's situation is like, but I feel like, like, A lot of us are at that age where we have like a parent or an in law in my case, who has like the hobby car that's been sitting in the garage his entire career. That's his 
+
+retirement plan of like, I'm going to tinker on this thing.
+
+It's like, great. You have a son in law who now knows about an open source vehicle control system. So 
+
+we're going 
+
+to get that firebird rolling and we're going to control it with Elixir. Uh,
+
+Marc: only big problem is that none of what we do is certifiable or certified in any kind. It's not automotive grade components. So again, it's, it's really just a, I would say a massive hobby project, unusually massive hobby projects, and that's how it should be seen for now. So we're not claiming that any of this is road safe or can be used.
+
+Loic: After that, everything could be certified at one point if the project goes further. 
+
+Dan: sure.
+
+Marc: I think right now it started really as let's do something like this. And then now we're thinking, Hmm, maybe there are some products we could build and sell. And, now we're also, looking for opportunities there. So are there any specific segments where this might make sense? Like we talked about boats. In transportation, there might be some, might, especially in, in Europe where we have those very long boats, uh, on, on rivers. might make sense. We know that some companies are trying to retrofit, electrify these boats, so is there anything we can bring with the, with the vehicle management system and trying to hook it up to existing hardware, , creating that interface between the new components and, and the old, uh, the old components?
+
+Maybe there's something we can do there, but it's just exploration at this point. There's no real case, uh, so far.
+
+Dan: Awesome. Well, if people are interested, you know, we'll have all the links for the projects and the show notes. Is there particular ways you guys want to be contacted? Is there a company website, social media handles you want to drop?
+
+Marc: I think the easiest is, the info email. So it would be info@spin42.com that's just the easiest, the three of us received these emails and then we just process them. That's the easiest way to, to reach us. 
+
+Dan: Awesome. Well, thanks so much for your time, guys. This was super exciting. Uh, you know, I, I've got the hardware itch again, so we'll, you know, we'll, we'll have to see where that goes for me, but, mini car feels real, real good.
+
+Loic: Welcome to my basement, if you want to. 
+
+Dan: Yeah, yeah. Short commute. No problem.
+
+Awesome.
+
+Charles: Let's go.
+
+Dan: Thanks
+
+Marc: well. Thank you guys for inviting us and, uh, yeah, well, see you soon, maybe.
+
+Thibault: thank you. 
+
+Sundi: Hey listeners! As we wrap up Season 13, we'd love to hear your thoughts on the show. What's working, what could be better, and what you want to hear in the future. Please fill out our listener survey at smr. tl slash ews13. Your feedback helps us shape the future of Elixir Wizards, and we really appreciate it.
+
+Thank you for listening! 
+
+​ 
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
