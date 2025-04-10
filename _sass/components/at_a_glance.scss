@@ -36,7 +36,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-top: 2rem;
 
     .stat {
       flex: 1 1 calc(25% - 1rem);
@@ -52,15 +52,24 @@
         max-width: 100%;
       }
 
+      .icon {
+        max-width: 50%;
+        margin: auto;
+
+        @include tablet{
+          max-width: 50%;
+        }
+
+        @media (max-width: 480px) {
+          max-width: 25%;
+        }
+      }
+
       &__title {
         @include circular(bold);
         font-size: 16px;
         color: $black;
         margin-bottom: 0.5rem;
-
-        @include phone{
-          padding-top: 40px;
-        }
       }
 
       &__value {
