@@ -1,0 +1,385 @@
+S14E01 Isaac Yonemoto on Zigler Audio
+===
+
+​
+
+Dan: Hey everyone. I'm Dan Ivovich Director of Engineering at SmartLogic.
+
+Sundi: And I'm Sundi Myint software Engineering manager at Cars Commerce. And we're your host for today's episode for the first episode of Season 14. I can't believe we're on season 14. We are joined today by Isaac Yonemoto creator of the Zigler library, CEO of Vidala Labs, and friend of the pod. We haven't had you on for a while. Hey, Isaac, how's it going?
+
+Isaac: Yeah, it's been a while. It's going great. 
+
+Sundi: Today we are talking about Zigler and the Zig NIFs and let's say the Zig code directly from Elixir. I can't believe we wrote this down this way. Dan!
+
+Dan: Well, you know.
+
+Sundi: we're talking about Zig and all things Zig, because this season we are talking about the Elixirverse the elixir tangential, all the things that are close and near to Elixir that might not be Elixir specific. So Isaac, welcome back. How is life? How is it going?
+
+Isaac: It is going good. So I have semi left the Elixir community. I don't actively program for a, a living anymore, um, but I'm still maintaining the Zigler library and I've promised to maintain it until at least 1.0. And that'll, that'll happen shortly after Zig goes 1.0, which I don't know when that'll be. Not in my control. So I'm sure we'll get into that later. Uh, I'm currently outside of the country. I've left the United States for a few months to work on my startup. So I left Elixir, I left tech, and I'm now doing a biotech company where I'm going to be building drugs for way cheaper. So there are these drugs that cost say, like 100k to 200k per patient, sometimes per year, uh, sometimes more. And part of the reason why they're so expensive is the manufacturing costs are high. So I'm refactoring the manufacturing to bring the cost, the price down to like, I don't know, like 10 k, maybe even. Maybe even less if, if I can do really good. So I'm finding, one of the interesting things I'm finding, I'm still using Elixir!
+
+Dan: Nice.
+
+Isaac: Just the other week I needed to do some bioinformatics and I was like, I don't want to learn all the bioinformatics packages. And I had to do a pretty custom bioinformatics pipeline. so I wrote my own bioinformatics scripts in Elixir, which I don't think anybody else really does.
+
+Sundi: No, but this totally tracks for you though.
+
+Isaac: yeah. Yeah. And it, I mean, it took me, it took me like 30 minutes, right? Like, uh, and there was no way I would've figured out how to, like. Do all the incantations to like do the right things in whatever else it was written in, there's so much faster just to just do it myself. Right? 
+
+Dan: Nice. 
+
+Isaac: So, um, and like I'm, I'm running into like how to like problems of how to like, keep lab notes. So kind of in the back of my head I might be building out like, uh. Effectively. So I'm, I'm currently using Obsidian,
+
+Dan: Mm.
+
+Isaac: is like a markdown based note taker. And it's, it's actually quite nice. It syncs, it syncs between my lap, my, my computer and my phone. So I can take a picture of something that I see in the lab and then put it into my lab, quote unquote lab notebook, but there's just some rough edges that. That, that make it like, I mean, it's, it's not annoying enough that like, I won't use it. and it's certainly better than almost anything else that exists. But there's some rough edges that I'd like to smooth out and I'll probably wind up using Elixir to like spin up my own sort of private SaaS for doing science.
+
+Dan: Excellent.
+
+Isaac: and, and there's some sense in which, like for what I'm doing, I don't really trust a third party, a third party, um, you know, vendor with the data
+
+Dan: Mm-hmm.
+
+Isaac: in my, that i'll, that I'll be accumulating. So it'll be nice like be able to self-host effectively. Yeah.
+
+Sundi: That's a lot of life updates in like 
+
+Dan: two minutes.
+
+Yeah, big, big update.
+
+Isaac: Yeah. We covered a lot of ground there, but everything else is the same.
+
+Sundi: yeah, I was, I was thinking about like the last time we chatted and I think we had you on the show and there's a note here that says 2021 and while my brain's like, yeah, that was last year was not, in fact last year. I think last time I might've seen you was probably at an ElixirConf in Denver, perhaps.
+
+Isaac: I think that sounds right. Sounds 
+
+Sundi: Yeah.
+
+Isaac: Yeah. 
+
+Sundi: so that's how life's going for you.
+
+Isaac: Right. 
+
+Sundi: I remember, so I was thinking back to that conversation, that we had on, on the podcast. 'cause we have talked to you about Zig before. So I guess just for the new listener. What is it? Does it at all relate to work you're doing now?
+
+It doesn't sound like it, but I'll let you answer that question regardless.
+
+Isaac: Yeah, so what Zig is, is it's a low level programming language. So sort of like C. the genesis of Zig actually is that the author didn't like how C did a lot of things, so he took the bad parts of C and deleted them. And then added back in one thing, which turned out to be quite, quite like it, it turned out to like increase the complexity a lot, um, but also increase the power, like a huge amount. So maybe like the way to think of it is like, it's sort of like in Elixir how you have macros. You can do meta programming. There is a meta programming system in Zig that isn't actually macros. You're not manipulating the code, but you are doing like meta programming. And so. Zig offers this sort of third way. So, on the one hand we have, um, like if you're used to see, there are these things called lexical macros, which basically take a snippet of code and cut and paste it, and they're really awkward. IDEs have a hard time with them. You can get yourself into a lot of trouble, by, you know, you could substitute like false for true, for example. And every place that says true in your code, it will be substituted with false, right? Which is probably not what you want. Nobody really does that. But, it kind of gives you a feel for like what sort of foot guns can happen. But you could also like have a macro that opens a parentheses and like if you don't have the macro that closes the parentheses or closes the parentheses in a weird spot, it could be really hard to debug. So that's kind of like C style. Actually, Erlang does this too. Erlang has lexical macros as well. And then on sort of the other side, we have AST manipulators where you write some code that will generate code. So Elixir is on that sort of end of the spectrum. and, maybe rust also has like macros where you're effectively writing code. And so that gets compiled into actual code. So the nice thing about that is that you, you are restricted in, in terms of like, you can't use a macro to write code that's a syntax error. But I would say Zig is even more like restrictive. The meta programming stuff that you can do in Zig. There's just a whole bunch of things you can't do. The essence of it is there are some types of variables that you can only access at compile time and you can manipulate them, but treat them as variables and you can also run your code at compile time . So that's, that is, that's the essence of how Zig's like, um, meta programming works. Anyways, it's a low level programming language. If you wanna do stuff like access low level operating system things, network calls, if you wanna go fast, because Erlang does all of its computation in boxed terms. So it has to take those data, say, oh, that looks like an integer. Okay, now I'm gonna add it to this other integer thing that might be an integer.
+
+It unboxes the integer from that, and then it does the computation, and then it has to rebox it back into an integer. So that's like a. That's like a very steppy process, right? That's part of why Erlang is quote, slow at math. If you wanna do math faster, for example, or if you wanna access low level things, you might use, want to use something called a NIF which is a bridge between stuff in the Erlang virtual machine and low level code. Most people write NIFs in C. Rust is becoming popular as well, and I wrote Zigler so that you can write this thing called a NIF in Zig. I, I hope that's a good summary.
+
+Dan: That's great. So thinking then back to four years ago, uh, you know, over the last four years-ish, what has changed with Zig? You mentioned in the intro trying to stay on to 1.0. Like where, where, where has Zig been going? Where has it been recently? 
+
+Isaac: okay. So the one, unfortunately the one big change in Zig that has happened since the last time I talked a lot about Zigler is that Zig removed something called async mode. So this is famous famously hard to do in JavaScript, famously hard to do in in Rust. And it, it, it's like this thing where you can you know, you write your code and it can be interrupted at any particular point in time. And the problem is that in async, if you mark your function as async, only another async function can call it unless you have a very painful bridge to bridge between part, async functions, and the non async functions. So, the joke in, or I guess like node.js is all async. So, you wind up having, all of your functions are async in node effectively, right? I think also maybe an async function can call a sync function, but a sync function can't call an async function, if I recall correctly. Rust also has this as a huge pain point. and Zig had a half, I would say actually 80% working async implementation. There were enough like sharp edges with it that they decided to put a pin on it. And come back to it later. So, async has been disabled in Zig for the last three versions. It's probably not gonna come back for another two versions least. Okay, so what does that mean for Zigler? So Zigler supported a whole bunch of different NIF modes. So this is maybe a little bit detaily, but when you call out to low level code in Elixir and or Erlang, there is a requirement that you must come back.
+
+You must finish up what you're doing within one millisecond, if you don't finish up what you're doing within one millisecond. Very bad things can happen and they're very hard to track down. Bug reports will not tell you that this problem has happened. And so there are a couple of escape hatches. One is called running a dirty NIF. Most people run dirty NIFs. I think it's even default in some of the NIF packages. I think maybe Ruster does dirty NIF by default. I could be wrong about that.
+
+You're gonna describe the name, right? Or why it's like that?
+
+Sundi: Why is it called a dirty NIF?
+
+Isaac: Oh, it's, it's called a dirty NIF because it's a NIF kind of dirty.
+
+Dan: It, it doesn't behave.
+
+Isaac: It's designed to a lot, it's designed. Okay. Yeah, that's a good question. I actually don't know why it's called a dirty NIF. I mean, it kind of like feels right. It makes sense to me. the NIF isn't the NIF, it doesn't behave. So you can put it in this thing that's designed to like, to, it's got a different scheduler. And it's designed to handle these cases where it doesn't do what you want. I, yeah, I, I don't know why, why they called it 
+
+Sundi: that.
+
+If nothing else, I'm here to ask the hard questions. Isaac.
+
+Isaac: that's a great question. I, you know, anyways, they're called Dirty NIFs. Um,
+
+Sundi: Okay.
+
+Isaac: the restriction though is that you can only have one dirty NIF per core. Also if you kind of overload the dirty NIFs, I think there's something where like the virtual machine can sometimes like not give as sort of a, a latency for, you know, your P99s could get a little bit wonky, but it
+
+Dan: Mm-hmm.
+
+Isaac: it won't cause weird crashes. But if you exhaust all of your CPU power running, dirty NIFs, you could wind up having, I guess service level problems that, that, um, that are very subtle and you may not even see it.
+
+So it may not matter. The other option is to run in a separate operating system thread and let the operating system manage the time between the Erlang Virtual machine and what your, your NIF is. So Zigler supports doing it the normal way, which says, Hey, you need to manage the one millisecond requirement. it allows you to run Dirty NIFs, and it also allows you to run NIFs in its own thread and changing between the different modes is literally just setting one, one setting on your, on your configuration and that's it. So you can flip between them and it's completely transparent. you can try the, try the different ones out.
+
+Maybe, you know, maybe one works better than the other, and so you go with that. It used to support something called yielding. Which the NIF subsystem gives you a way to like call into a function and put a pin on it and say it's okay for you to come back later. And then when it comes back later, it's, you know, it starts it, it starts it up again. Using Zigs async system, I was able to have that connect very nicely with, the BEAM. Uh, unfortunately that had, that, that has temporarily been deprecated
+
+Sundi: Temporarily. 
+
+Isaac: until, until Zig brings it back, brings Async back.
+
+back which they might not. So it could, it might also be permanently, I don't know.
+
+Sundi: Okay, so that, that was my question because usually when you hear about something being deprecated, you don't hear that being like on a hiatus. It's just kind of deprecated.
+
+Isaac: deprecated is not the right, um, regress, regress is the right word. Yeah.
+
+Dan: Right temporarily, potentially maybe forever turned off.
+
+Isaac: regressed. Yeah. Turned off. I would like to see them bring it back. I understand like what the pros and cons of having an async system in a low level language. we'll see what happens. I,
+
+Sundi: So if I were to re recap that, does that mean that if they don't bring back that feature of Zig, Zigler cannot exist?
+
+Isaac: Oh, no, no, no. Zigler can exist. It, it works just fine.
+
+Sundi: It's just that async feature. 
+
+Isaac: you just can't do yielding 
+
+Sundi: Okay, cool.
+
+Isaac: easily. You can even do yielding manually, and maybe, maybe if it never comes back, I'll include a guide on how to manually do that, but it, it, it won't be as simple as I'm gonna flip a switch between these different modes and my code will automatically like, move into one or one of the, one or the other, you know, other modes.
+
+Sundi: Cool.
+
+Isaac: that kind of goes into sort of the design philosophy of Zigler. So when I built it,, I wanted exploration of all the different ways to run NIFs to be easy, and also to, to try and like remove all of the pain points specifically pain points where it's easy to make a mistake.. If you've ever written a NIF for Elixir or Erlang you can't just take a C function and just say, run the C function. When the BEAM calls into your NIF, you have to give it a function with a very particular signature that says what the arity of the function is. What the terms are that are, that are going into the function and there's also something called env, which is like, where all the variables are allocated on the stack, the heap of the function. A whole bunch of like internal details of the BEAM are kind of hidden this thing called env. And so you get the env you get the arity and you get the, you get the terms. That are in the parameters, and then you have to, you have to manually unbox them. I remember how I was talking about how like, okay, computationally is slow because every time you do an addition, you have to unbox and box. You still have to unbox and box coming out of a NIF but maybe you could chain like 20,000 additions together without having to do the unboxing and boxing.
+
+You can see where the performance benefit comes, comes out at the end. but you still have to kind of do that manually and. There's a lot of things you might forget to do. Like suppose you have an addition of two numbers and, you know, the BEAM is not a typed, I mean, it's strongly typed internally, but like, a term can be anything, right? So you're, the function gets called with this thing that's just, just a term. But suppose you threw, you sent it an atom. Or a string or, or a, you know, an Elixir string or, or a list or a map or a struct or whatever, right? You can't do an addition on that, right? That doesn't make sense. And if you forget to check, Hey, did you actually send me an an integer? You're gonna have a big problem on your hands, especially when you're going down to the low level, because when you work at the low level, you can cause things like crashes. And, so there's a, there's a hundred different things that you're gonna forget to do and so what Zigler does is it builds all those things for you automatically. And before when I said you can't take a function and just say, "Hey, BEAM, call this thing." And you have to build that like shim between the way that the BEAM wants to call into the low level versus what you have to do. So, what Zigler can do is it can read the function that you've written and say, ah, okay, these are the parameters that you're expecting.
+
+I can build a function that looks exactly like that systematically, then it builds that shimming function for you. So in practice when you run Zigler, you write a Zig function that has a signature that makes sense in Zig. And like let's say you wanna add two integers. You say, okay, my two parameters are two integers and my return value is an integer. And then it can read that function that you've written and says, okay, this function has this name. And it takes two integers and then it returns an integer and it builds all of the unboxing and boxing bits. And then it creates inside of your module a function with the same name as the function that you wrote in Zig. And that whole process to connect the two bits is done automatically and without error. So if you pass a map. Then it'll say, "I'm sorry, I need an integer." You passed in argument one a map, so it's very easy for you to see what the errors, what what you did wrong .
+
+Dan: So. It sounds like if somebody is looking to add a NIF and has no reason to pick any one over any other, the advantage of Zigler and Zig is that, Zig is lightweight, small. You could probably learn how to do what you need to do quickly, and then you've made the integration of that now faster math code really easy.
+
+And, if I pass the wrong thing in, you'll give me an error message that makes sense and not. You know, try to figure it out from the wreckage.
+
+Isaac: Yeah, exactly. So the other interesting thing is Zig understands C, so there's even a mode that I have called easy C where you can say, go read this C code and it will build the shims out just as if it were, were Zig code so you could potentially supply C code. It would have to be like a header file.
+
+Dan: Mm-hmm.
+
+Isaac: uh, it would read the header file and it would say, okay, these are the, well you tell it which functions. So C has a namespace that like includes the world, so you have to specifically tell it like, 'cause uh, uh, so this is a little bit of inside like low level stuff, but, you know, in Elixir we have these name spaces that are modules, right?
+
+But in C there's no such thing as a namespace. So every function is exposed to every other function. So if it tried to read everything, it would dump everything into your module, which is not what we want. So, so for, for when you, so when you use C, you have to specifically say, please include these explicit functions, please. And then Zigler will read that and it'll say, okay, you made a function that like, is a C function, maybe it's like a process. Audio file or something like that. Right? And it will go find that function. It'll say, okay, you asked for a string which is gonna be the path, and then like, maybe like how many seconds you want, or something like that, and then it outputs a binary that is like the .wav file or the wav data, and Zigler will sit, will know, hey, like, okay, you wanted this, this is a C function. That's fine. I can handle it. It will know that you need to pass like a binary for the path, and then it knows that for the return, it'll be a binary for the data and it will know that it's an integer for how many seconds you want, for example.
+
+Sundi: What is the, oh gosh, this is gonna sound so high level. What is like the target market engineer? Who's reaching for this? Is it like the elixir engineer who needs some assistance on some lower level things? Or is it like a C engineer who needs some Elixirisms?
+
+Isaac: I, You know, I actually don't know, but I know what I've used it for. So I, I used it in the last, in the last company that I worked at. And what we were doing is we were building custom LLM hardware. So you could load up a, you could load up like llama-3-70b for example, or llama-3-8b or Mistral or Mixtral, or pick your open source model. And the company had hardware that would basically do the math really fast. That hardware requires because it's hardware, right? Like it requires like a low level interface. And, I was able to interface that with, with the beam using Zigler to call in to the hardware. So the hardware developers all wrote C functions, c actually C++ functions. But they, they were pretty easy to like mount into, into Zigler. . I guess the question you could ask is, why were we using the BEAM besides the fact that it was something that I knew? So we also had a load balancer that would present an API that looks like the OpenAI API. And hardware, especially bleeding edge hardware can be unreliable and it could choke on random situations. Maybe ran outta memory maybe. Some hardware condition that we hadn't figured out yet got tripped. Right? And then we needed a, we needed to not to make, do demos where, hey, like if this hardware kind of, you know, carks it, either it presents like a reasonable error message or better yet the end user doesn't notice. And so the load balancer, which accepts the HTTP connection, would go and find a hardware unit over the network. So it wasn't necessarily on the same machine. In fact, we had the load balance for a lot of our demos. We had the load balancers up in fly.io and we had machines in our data center that actually were the hardware and The request would hit the load balancer and then the load balancer would find the hardware. These were all in Erlang network. it is weird, like I always said, you shouldn't make asymmetric like networks. So then I made an asymmetric networks and it was just fine. , But it, the request requests would start streaming, right, and then it would start sending tokens back, and the tokens would be sent back up to the load balancer, which would send it back to the user. But if the hardware died, you get a node down message over the network. Right? so, because the process in the load balancer, which was running Phoenix, right? Because that process had a, had a, Is it, was it a link or was it a monitor?
+
+It was a, I think it was a monitor. It, it monitored the process, the BEAM process that was managing the LLM request. And it could keep it state so remembered all the tokens that had gotten generated. Right? so if this, if this guy, if this hardware down here blew up, it would know that something unexpected had happened, it would, would be able to re-dispatch the request with the, so far completed tokens attached to it. Send that to another node and it would just keep going. And like, there was maybe like a 20, 30 millisecond hiccup usually. and the end users never notice. Like we had incidents where. The hardware would go down and nobody, nobody was the wiser.
+
+Dan: So you had your kind of like your fault tolerant, wonderful OTP stuff, but then were able to interact with these low level C libraries to get to the low level hardware.
+
+Isaac: Exactly.
+
+Dan: And so that was kind of the, the originating use case.
+
+Isaac: So I, I really wanted to like, schedule the individual matrix multiplies, using, using the BEAM, which I think we could have done. But I just couldn't figure out how to, like, in retrospect, I know how to do this now, but like, uh, but like I couldn't, I couldn't quickly figure out how to get NX to do what I wanted it to do. although like I said in retrospect, it's just so simple. I should have, I should have, you know, when you're in a startup, sometimes it's a go, go, go and like, I had a hundred things on my plate, so,
+
+Dan: Mm-hmm.
+
+Isaac: Like working on this other idea was not a high priority.
+
+Dan: And so why, why not just write the Erlang NIF in, like for the C code that you already had? Like why introduce Zig?
+
+Isaac: Oh, okay. So, I wanted a, a really fast token picker. I. so this is maybe a little bit of a detail of how LLMs work, but an LLM will generate probabilities for every token. And then you have to, pick which token is 
+
+Dan: gonna 
+
+Isaac: be the one that you send back to the user. and I wanted a really, really fast token picker, and I knew how to write a very fast token picker in SIMD. so SIMD is like single instruction, multiple dispatch, so you can, so this is a CPU feature where you can do like say, , eight multiplications or 16 multiplications simultaneously. And the hard, the hard part is you need to do a top K sort on your, for some, for most of the way, for the way that most people use LLMs, you need to do something called a top K sort. So, you all these probabilities. Say your token space is like a hundred thousand possible tokens. You have a floating point number for every single one of these tokens, then you need to do a top K sort and find the top 150, or let, let's say two, 250 or 150, or like a hundred or maybe even 16, I don't know. So you cut out all, you cut out all the chaff, which is like 99% of these, right? So like, or 99.9%, right? So like out of two, a hundred and a hundred thousand possible tokens you first wanna see, I wanna only know what the top 100 is, and then I'm gonna pick out of the top 100 the one that I want. So that is really hard to do with the standard C libraries are c the standard C++ libraries are not equipped with the type of sort you need to do to do this.
+
+Dan: Okay.
+
+Isaac: it's not hard to write, but it's also not easy.
+
+Dan: Mm-hmm.
+
+Isaac: And I knew enough low level SIMD that I could get that done. And so we wound up with a very fast token picker.
+
+Dan: Okay, so Zig for your SIMD, for your token picker. And then also it was great that you could just leverage the C code that went down to your low level hardware.
+
+Isaac: right, right. Exactly. So that is one possible use case for it. One of the things that might wind up happening, I'm gonna be talking to like, , robotics, bio robotics person soon.
+
+Dan: Mm-hmm.
+
+Isaac: Um, they have an open source. At least they claim it's open source. It's called Open Trons. it has an open in the name.
+
+I don't know if it's actually open source. We're gonna test how open source it is,
+
+Dan: Yeah.
+
+Isaac: would be, it would be cool to like low level control some robots with
+
+Dan: Mm-hmm.
+
+Isaac: With Erlang. So that might happen and I might once again be using, using Zigler to do, to control some like low level stuff, for robotics purposes in the bio lab. But we'll see.
+
+Dan: So then are these things that you couldn't do with Rust and Rustler, or you just, you had a familiarity with Zig already or where does that fit?
+
+Isaac: Yeah. I don't have a familiarity with Rust or Rustler so that was easy for me to choose. I also know how to do SIMD and Zig, so that was helpful for, for that purpose. 
+
+Dan: If somebody's listening to this and doesn't know Rust and doesn't know Zig and maybe learned C 20 something years ago, like how approachable is Zig?
+
+Isaac: If you learned C 20 years ago, Zig is like perfect for you. 'cause that that's me, right? 
+
+Dan: because you forgot all the bad parts of C and they're just not in Zig.
+
+Isaac: I never, you know, use it hardcore enough to like ever get there. Right?
+
+Dan: Yeah.
+
+Isaac: I'm like writing insane macros. And, if you're quote an old, old C head, you're gonna love Zig. And maybe you'll like Rust too. Like, I don't wanna say like, I think Rust definitely feels more like C++.
+
+Mm-hmm.
+
+it has like a lot of that it does implicitly. and if you're fine with that, then, by all means use Rust. It's also memory safe, which means that there's a class of errors that you can't get with Rust, that you can get in Zig. 
+
+Dan: Right, because you're doing your own memory allocation in Zig, right?
+
+Isaac: your own memory allocation. So I hold out hope that someday Zig will, not necessarily in the language itself, but come out with tooling that will tell you that you're not memory safe.
+
+Dan: Mm-hmm.
+
+Isaac: at the end of the year, while I was kind of like decompressing off of being a, you know, primarily a programmer. I did kind of like a little proof of concept where I, I tried to write a borrow checker for Zig. I wrote it in Elixir. 'Cause I knew that that would be the fastest way for me to get the stuff done. And, I was able to write a very rudimentary b And so I, I, I hold out belief that it is possible for borrow checking to it did. It did more than just borrow checking. I'm a scientist too, right? So like, one of the things that I, I had to do was I had it, you could annotate variables with units. So you can say this, this variable holds the units of meters per second, and this variable holds the units of like seconds. And then when you, if you multiplied a variable that had the units of meters per second and a variable that had units of seconds, it would know that the next variable that came out of that multiplication had units of meters. And if you tried to like add two things that have in incompatible units, it wouldn't let you, it would tell you exactly where where that error was, which units you tried to like add. it could also tell you where those units were set. anyways, a little bit of a digression. There, there, there was a little bit of a hobby project, but, I just wanted to prove to myself that like a future for like memory safe Zig is, is a possibility. and I think, first of all, I don't advocate for anything like, just to be written in Elixir. I just did it because I, I knew I had like a month and a half to just kind of mess around.
+
+Dan: Mm-hmm.
+
+Isaac: And I wanted to do, do things quickly. 
+
+Dan: Sure. Well, we, we've all got that, like, when I wanna do something quickly, what do I reach for? Right? And everybody's got the one, whatever it is. we hope it's Elixir, but it isn't always. so on like a real world project where you're amassing like this Zig code , some C code , how do you keep things organized?
+
+CICD, any kind of like tips for teams that are gonna start adding this in to like start to manage all these pieces?
+
+Isaac: Oh boy. Um, I think there isn't one right answer. 
+
+Dan: Of course.
+
+Isaac: if you like, have a tiny bit of low level code, I guess this is kinda like one place where I took issue with how Rustler does things. You have to create your own cargo infrastructure around it, and it has to effectively be in a separate repo. I mean, I guess you could probably mono repo it somehow, because I think cargo you can do separate directories. It kind of forces you, it kind of shoehorns you into like this particular structure.
+
+Dan: Mm-hmm.
+
+Isaac: with Zigler, the way I designed it was so that the primary use was for you to like write your code in line inside the module, so you never have to leave that single file to look at what's in your module. Now you can instruct it to go, Hey, look at this file elsewhere. And if you have dependencies, you can certainly pull in like a different directory as a dependency. When I was doing the LLM stuff. We had a completely separate repo that was the C++ repo and that just generated a shared object file. And, we just made it so that that shared object file was mounted into the BEAM as well as one of the, as part of the initializing the module step.
+
+So you would, your module would load and then it would look for the shared object file. And then it would mount that in into the beam as well as the shared object file of the, of the NIF. and that was actually pretty painless. So, but organizationally, that made sense because for what we were doing, like the, the teams were separate, right? So, you know, if you're, if you have like separate teams for doing low level stuff versus high level stuff. You probably should organize it so that their code bases can be somewhat independent and all you have to do is have like some contract between the two, two sides.
+
+sides You know, like a header file or something would do great. But if, if you just like, need like a handful of functions to be called, you should probably keep it in the module. 
+
+Dan: Just, just, yeah. Sigil z it and call it a day. 
+
+Isaac: Sigil Z it and go. 
+
+Go. 
+
+Sundi: That needs to be on a sticker.
+
+Sigil Z it and go.
+
+Dan: Sigil Z. And go. Yeah.
+
+Sundi: I don't know if we're still in the, the trend era of stickers on laptops, but
+
+Isaac: you know, I never really, caught onto that.
+
+Sundi: Yeah.
+
+Dan: So, so you mentioned your, your kind of day-to-day involvement has shifted a bit, at least until you start commanding robots with, with Zig. 
+
+Isaac: Yeah. 
+
+Dan: so, you know, how has the community responded to Zigler? You mentioned you're gonna stay on and try to support it through 1.0 and 1.0 Zig, you know, what, how has the community around it, is there anything that you're looking for for help with, or.
+
+Isaac: Y yeah. I know some people are using it, but , they don't really tell me, unless they have an issue, and then I see new faces on the issue tracker.
+
+Dan: Sure.
+
+Isaac: so I don't know. I actually have no idea. I haven't, I haven't put much effort into community building, which is probably, I should, 'cause like if I hand over the reins at 1.0, I mean, like if I'm building robots with it, I'll probably just keep, 
+
+Dan: Just keep going.
+
+Isaac: keep maintaining it.
+
+, I also anticipate like a pretty high level of stability at 1.0, I may not, I may not even need much maintenance. It may just be, you know, version up done. Right. Also in my experience, the drift between Zig versions has gotten like smaller and smaller, like the. The amount of time I've had to spend like updating the core infrastructure of Zig Zigler to get it to work has gone almost down to like nothing. Like if there's new, there's like a handful of new bits of syntax in Zig, you know, I might have to like add a couple lines to the parser. 
+
+Dan: Right 
+
+Isaac: recognize this new syntax. 
+
+Dan: It would just be things that affect how you bridge between the two. Like, like whether async is a thing, right? Like that kind of stuff. Yeah.
+
+Isaac: yeah, that, that was the biggest one that, and I was just commenting out like this one, one feature, uh, but I, I mean, I have spent a lot of time with each release. I've been spending more time refactoring my code. 'cause there, there are a lot, there's a lot of weird ad hoc stuff.
+
+And now with 0.14, like I've, the way that all the options are handled and the error messages that you get if you set up you misconfigure it are, is just much saner. So I'm like able to spend more time on, on like the user experience aspects of Zigler, which makes me happy. 
+
+Sundi: Yeah, that's awesome. I mean, especially if it's not like in your face, your day-to-day programming life, the easier it is, the better. Right?
+
+Isaac: plus, I mean like, maybe I'm a sicko, but I love refactoring. Like especially, I mean, you know, especially if it makes everything like, ah, you know, that feeling.
+
+Dan: Mm-hmm.
+
+Sundi: it's refreshing. I get it. So, you know, our audience is primarily Elixir folks. Usually, we, we do get the odd, one-off other language here and there for Elixir engineers who are interested in getting into using Zigler and they've listened to this episode and they're thinking, ah. Isaac just described five scenarios in which I think that applies to my life. Where would they get started? What resources are out there for them?
+
+Isaac: so probably the biggest resource is the Hexdocs repo. So if you go to the Hex, the, if you go to Zigler in Hex Docs, it'll point you to, the main sort of documentation. I think the most important thing to point out is that there's a whole section on the left called guides, which include, I should double check to see if there's like a, how do you get started? Maybe I should write a how to get started guide and release that with 0.14. The guides show you how to do a whole bunch of different things that you may not necessarily have known that you needed to do or maybe not known that, you know, maybe that you didn't know that you could do. , And all of the guides are tested, so all the code in the guides is guaranteed to be correct. 
+
+Dan: That's awesome.
+
+Isaac: Yeah, one of the interesting things is actually, okay, so, uh, I'm really excited about this. MacOS is now like a first class citizen in Zigler. and, windows is experimental, but working and free BSD is also experimental, but working.
+
+There are some corner cases, there's some sharp corner cases where it won't work in Windows and free BSD, and they'll be documented. Okay. So I'm like, as of the recording, but probably before broadcast time, it'll get oh point 14 will be released.
+
+Sundi: Oh, I thought you were gonna say, I'm gonna have a How to get started guide. Ready?
+
+Isaac: uh, well, yeah, sure. That too. , So I'm like 90% finished with the, with the 0.14 release. there's just like one feature. I wanna do. And then, it'll be, it'll be good to go. 
+
+Dan: And when you say support for those operating systems, is that like because of differences in the Zig tool chain on those systems?
+
+Isaac: so the Zig tool chain is the same on all of those systems.
+
+Dan: Okay.
+
+Isaac: and so, yeah, I, uh, it, it, it turns out that Erlang is different on those
+
+Dan: Oh, okay. Well, there you go.
+
+Isaac: specifically. Windows,
+
+Dan: Windows was a little bit challenging. yeah. Um, FreeBSD FreeBSD was just like, that wasn't hard. I just couldn't figure out how to get GitHub CI working on that, and I didn't wanna declare it was supported
+
+Sure.
+
+Isaac: experimentally if I didn't have a CI badge, so
+
+Dan: Yeah. Well, I gotta say, you know, the examples and documentation you have is just stellar. Like this is first rate. I want to jump off this call and learn me some Zig and find some math I want to do really fast. 
+
+Isaac: remember about the 0.1 millisecond rule,
+
+Dan: sure. Yeah. Real, real fast. Yeah.
+
+Isaac: Real fast. But
+
+just make it threaded, you know, if you, if you're, when in doubt, just make it threaded or, or dirty. Or dirty.
+
+Dan: right.
+
+Isaac: Dirty is good
+
+Sundi: Well, if Dan has a question, he knows who to reach out to. Um, but that's just Dan, what about everyone else? Where can everyone else reach out to you if they need to or do you not wanna be found?
+
+Isaac: uh, no, no. I mean, like, I, I think, I'm reachable on Twitter @ DNAutics. I'm also on BlueSky although I check that far less frequently than Twitter. I refuse to call it X or call it Twitter.
+
+Sundi: Yeah.
+
+Isaac: I'm also on BlueSky there, but, I'm way less there and like if you have no other mechanism, you can ping me on Slack, the Elixir Slack, I probably check that with a, maybe a once a month frequency,
+
+Sundi: Cool.
+
+Isaac: better than zero, I guess.
+
+Sundi: Yeah, that's fair. Any final plugs or ask for the audience?
+
+Isaac: have fun with Elixir for me.
+
+Dan: good advice.
+
+Isaac: No, no. I'm still having fun with Elixir. if you like, if you know of great markdown stuff, let me know.
+
+Sundi: Cool.
+
+Dan: Awesome. Yeah, this is, this was really great. Appreciate the, the deep dive walkthrough and, uh, I think there's a lot to really like here, so I hope that everybody checks it out .
+
+Isaac: Awesome. Well, thanks for having me on.
+
+Sundi: Thanks Isaac.
+
+
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
