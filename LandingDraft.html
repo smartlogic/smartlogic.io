@@ -1,1039 +1,1029 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book a Call with Us</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  
-  <style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Call with Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     
-     * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Montserrat', sans-serif;
-  line-height: 1.6;
-  color: #333;
-}
-
-.container {
-  width: 90%;
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
-.hero {
-  background-color: #3ebeb1;
-  padding: 40px 0; 
-  color: #FFFFFF;
-}
-
-@font-face {
-  font-family: 'Boston Regular';
-  src: url('fonts/BostonRegular.ttf') format('truetype'); 
-  font-weight: normal; 
-  font-style: normal; 
-}
-
-.site-logo-container {
-  margin-bottom:0px;
-}
-
-.site-logo-image {
-  height: 50px; 
-  width: auto;    
-  display: block;
-}
-
-.main-page-headline {
-  font-family: 'Boston Regular', serif;
-  font-size: 5.5rem; 
-  font-weight: normal;
-  color: #FFFFFF;
-  text-align: center;
-  margin-bottom: 30px;
-  line-height: 1.2;
-  width: 100%; 
-  display: outside; 
-}
-
-.main-page-headline,
-.on-call-text-col h2,
-.section-heading { 
-  font-family: 'Boston Angel', serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.content-columns-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: stretch;
-  gap: 20px; 
-}
-
-.form-column-content {
-  display: flex;        
-  flex-direction: column;
-}
-
-.form-fields-grid-wrapper { 
-    grid-template-columns: 1fr 1fr; 
-    gap: 15px 16px; 
-    flex-grow: 1;
-  }
-  
-.image-column-content {
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-}
-
-.hero-image-actual { 
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-.form-wrapper {
-  background-color: #e4e6e7; 
-  padding: 25px;
-  border-radius: 40px;
-  color: #000;
-  width: 100%;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.hero-form {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  row-gap: 20px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.hero-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-family: 'Montserrat';
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.hero-form input[type="text"],
-.hero-form input[type="email"],
-.hero-form select,
-.hero-form textarea {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #A0C0BC;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-family: 'Montserrat', sans-serif;
-  background-color: #ffffff;
-  color: #333333;
-}
-
-.hero-form select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 50px;
-  padding-right: 40px;
-}
-
-.hero-form select.placeholder-selected {
-  color: #757575;
-}
-.hero-form select option {
-  color: #333;
-}
-.hero-form select option[value=""][disabled] {
-  color: #757575; 
-}
-
-.hero-form textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.hero-form .form-group.full-width,
-.hero-form > .cta-btn {
-  grid-column: 1 / -1;
-}
-
-.cta-btn {
-  background-color: #fddf26;
-  color: #000;
-  border: 5px solid #000;
-  padding: 15px;
-  font-size: 1.3rem;
-  font-weight: 700;
-  text-align: center;
-  border-radius: 25px;
-  cursor: pointer;
-  text-transform: uppercase;
-  width: 100%;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.cta-btn:hover {
-  background-color: #e6b800;
-}
-
-@media (min-width: 768px) {
-  .hero {
-    padding: 30px 0; 
-  }
-
-  .main-page-headline {
-    font-size: 5rem; 
-    text-align: left; 
-    margin-bottom: 20px; 
-  }
-
-  .content-columns-wrapper {
-    grid-template-columns: 1fr 1fr; 
-    align-items: flex-start; 
-    gap: 10px; 
-  }
-
-  .hero-form {
-     display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 16px; 
-  }
-
-  .hero-form .form-group.full-width,
-  .hero-form > .cta-btn {
-    grid-column: 1 / -1;
-  }
-
-  .on-call-section {
-  background-color: #3ebeb1;
-  padding: 30px 0;
-  color: #000000;
-}
-
-.on-call-grid {
-  display: grid;
-  grid-template-columns: 1fr; 
-  gap: 30px; 
-  align-items: center;
-}
-
-.on-call-image-col img {
-  max-width: 450px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
-.on-call-text-col h2 {
-  font-family: 'Boston Regular', serif; 
-  font-size: 3.2rem; 
-  font-weight: normal; 
-  color: #000000; 
-  margin-bottom: 25px;
-  text-align: center; 
-}
-
-.on-call-text-col ul {
-  list-style-type: none; 
-  padding-left: 95px;
-  margin: 0;
-}
-
-.on-call-text-col ul li {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.2rem; 
-  color: #000000;   
-  margin-bottom: 12px; 
-  padding-left: 30px; 
-  position: relative; 
-  line-height: 1.5;
-}
-
-.on-call-text-col ul li:last-child {
-  margin-bottom: 20;
-}
-
-.on-call-text-col ul li::before {
-  content: '•'; 
-  color: #000000;
-  font-weight: normal; 
-  font-size: 1.1em;
-  position: absolute;
-  left: 0;
-  top: -4px;
-}
-
-@media (min-width: 768px) {
-  .on-call-grid {
-    grid-template-columns: 1fr 1fr; 
-    gap: 50px; 
-  }
-
-  .on-call-image-col img {
-    display: flex;
-    justify-content: center; 
-  }
-
-  .on-call-text-col h2 {
-    text-align: center; 
-    font-size: 3.2rem;
-  }
-}
-
-.what-we-do-section {
-  background-color: #ffffff; 
-  padding: 50px;         
-  color: #000000;       
-}
-.section-heading {
-  font-family: 'Boston Regular', serif;
-  font-size: 3.2rem;
-  font-weight: normal;
-  color: #000000;
-  text-align: left;
-  padding: 15px;
-}
-
-.services-list {
-  list-style-type: none;
-  text-align: left;
-  padding-left: 0;
-}
-
-.services-list li {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.15rem;                 
-  color: #000000;
-  margin-bottom: 20px;               
-  padding-left: 35px;                 
-  position: relative;                 
-  line-height: 1.7;
-  text-align: left;                 
-}
-
-.services-list li:last-child {
-  margin-bottom: 15px;
-}
-
-.services-list li strong {
-  font-weight: 700;
-}
-
-.services-list li::before {
-  content: '•'; 
-  color: #000000; 
-  font-weight: bold;
-  font-size: 1.1em; 
-  position: absolute;
-  left: 0;
-  top: -0.1em;
-}
-
-@media (max-width: 767px) {
-  .section-heading { 
-    font-size: 2.6rem;
-    margin-bottom: 30px;
-  }
-
-.services-list {
-    max-width: 100%;
-  }
-
-.services-list li {
-    font-size: 1.1rem;
-    padding-left: 30px;
-  } 
-
-.services-list li::before {
-    font-size: 1.1em;
-  }
-
-}
-
-  .testimonials-section {
-  background-color: #788687;
-  padding: 50px; 
-}
-
-  .testimonials-heading {
-  font-family: 'Boston Regular', serif;
-  font-size: 3.2rem;
-  font-weight: normal;
-  color: #FFFFFF;
-  text-align: left;
-  padding: 15px;  
-}    
-
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;              
-}
-.testimonial-text {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.1rem; 
-  line-height: 1.7;
-  margin-bottom: 20px; 
-  color: #0e1111;    
-  position: relative;
-  z-index: 2;
-}
-
-.testimonial-author {
-  font-family: 'Montserrat', sans-serif;
-  font-style: italic;
-  font-size: 1rem; 
-  color: #0e1111;
-  display: block; 
-  position: relative;
-  z-index: 2;
-  margin-bottom: 5px; 
-}
-
-.testimonial-author { 
-  font-weight: 700; 
-}
-
-
-.testimonial-author .testimonial-org {
-  display: block; 
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: 0.95rem;
-  color: #0e1111; 
-  margin-top: 4px;  
-}
-
-
-.testimonial-author .testimonial-org a {
-  color: #0056b3;
-  font-style: italic;
-  text-decoration: underline;
-  font-weight: normal; 
-}
-
-.testimonial-author .testimonial-org a:hover {
-  color: #003d80;
-  text-decoration: none;
-}
-
-
-@media (min-width: 992px) {
-  .testimonial-text {
-    font-size: 1.15rem; 
-  }
-
-}
-
-.testimonial-item.css-bubble {
-  background-color: #e4e6e7;
-  padding: 30px 35px;
-  border-radius: 30px;
-  color: #000000;
-  position: relative;
-  margin-bottom: 45px; 
-  border: 6px solid #fddf26;
-}
-
-.testimonial-item.css-bubble::before,
-.testimonial-item.css-bubble::after { 
-  content: "";
-  position: absolute; 
-  width: 0;
-  height: 0;
-  border-style: solid;
-}
-
-.testimonial-item.css-bubble.bubble-left::after {
-  left: 40px;
-  border-width: 25px 15px 0 15px; 
-  border-color: #fddf26 transparent transparent transparent; 
-}
-
-.testimonial-item.css-bubble.bubble-left::before { 
-  content: "";
-  position: absolute;
-  bottom: -20px; 
-  left: 42px;  
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 20px 13px 0 13px;
-  border-color: #e4e6e7 transparent transparent transparent; 
-  z-index: 1; 
-}
-
-.testimonial-item.css-bubble.bubble-right::after {
-  right: 40px;
-  border-width: 25px 15px 0 15px;
-  border-color: #fddf26 transparent transparent transparent;
-}
-.testimonial-item.css-bubble.bubble-right::before { 
-  bottom: -20px;
-  right: 42px;
-  border-width: 20px 13px 0 13px;
-  border-color: #e4e6e7 transparent transparent transparent;
-  z-index: 1;
-}
-
-.testimonial-text,
-.testimonial-author {
-  position: relative;
-  z-index: 2; 
-}
-
-@media (min-width: 992px) {
-  .testimonials-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-  }
-  .testimonial-item.css-bubble {
-    padding: 35px 40px;
-    margin-bottom: 35px; 
-  }
- 
-  .testimonial-item.css-bubble.bubble-left::after { left: 50px; }
-  .testimonial-item.css-bubble.bubble-left::before { left: 52px; bottom: -20px; }
-
-  .testimonial-item.css-bubble.bubble-right::after { right: 50px; }
-  .testimonial-item.css-bubble.bubble-right::before { right: 52px; bottom: -20px; }
-}
-
-.client-logos-section {
-  background-color: #ffffff; 
-  padding: 60px 0 80px;  
-  text-align: center;  
-}
-
-.client-logos-heading {
-  font-family: 'Boston Regular', serif;
-  font-size: 3.2rem; 
-  font-weight: normal;
-  color: #0e1111; 
-  margin-bottom: 0px;
-}
-
-.client-logos-subheading {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.1rem; 
-  color: #333333;   
-  line-height: 1.7;
-  max-width: 700px; 
-  text-align: left; 
-  padding-bottom: 60px;
-  padding-left: 15px;
-}
-
-.logos-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px 20px; 
-  align-items: center; 
-  justify-items: center; 
-  max-width: 900px; 
-  margin: 0 auto;  
-}
-
-.logo-item {
-  display: flex; 
-  justify-content: center;
-  align-items: center;
-}
-
-.logo-item img {
-  max-width: 100%;
-  max-height: 70px; 
-  height: auto;   
-  object-fit: contain; 
-}
-
-@media (min-width: 768px) {
-  .client-logos-heading {
-    font-family: 'Boston Regular', serif;
-    font-size: 3.4rem;
-    text-align: left;
-    padding: 15px;
-  }
-  .client-logos-subheading {
-    font-size: 1.15rem;
-  }
-  .logos-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px 30px; 
-  }
-  .logo-item img {
-    max-height: 80px; 
-  }
-}
-
-@media (min-width: 992px) {
-    .logos-grid {
-        gap: 50px 40px;
-    }
-    .logo-item img {
-        max-height: 90px;
-    }
-}
-
-.footer__wrap {
-  padding: 40px 0;
-  background: #fddf26;
-}
-
-.footer__wrap .container {
-}
-
-.footer__wrap-col {
-  display: flex;
-  flex-wrap: wrap; 
-  justify-content: space-between;
-  align-items: flex-start; 
-  gap: 20px;
-}
-
-.footer__left {
-  display: flex; 
-  align-items: left; 
-  text-align: left; 
-  margin-bottom: 20px; 
-  flex-grow: 1;
-}
-
-.footer__left-logo a {
-  display: inline-block;
-  margin-right: 25px;
-}
-
-.footer__left-logo img {
-  width: 160px;
-  height: auto;
-  display: block;
-}
-
-.footer__left-text {
-  text-align: left;
-}
-
-.footer__left-text p {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 13px;
-  color: #000000;
-  margin-bottom: 3px;
-  line-height: 1.5;
-}
-
-.footer__right {
-  display: flex;
-  align-items: flex-start; 
-  margin-left: auto; 
-  gap: 30px;
-  text-align: left; 
-  margin-bottom: 20px; 
-}
-
-.footer__right-socials {
-}
-
-.footer__right-socials-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap; 
-  gap: 12px; 
-  align-items: center;
-}
-
-.footer__right-socials-item {
-}
-
-.footer__right-socials-item a {
-  display: block;
-  margin-top: 120px;
-}
-
-.footer__right-socials-item img {
-  height: 22px; 
-  width: auto;
-  display: block;
-}
-
-.footer__right-menu {
-  text-align: left;
-}
-
-.footer__right-menu-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer__right-menu-item {
-  display: inline-block; 
-  margin-right: 15px;   
-  margin-bottom: 8px; 
-  white-space: nowrap;
-}
-.footer__right-menu-item:last-child {
-  margin-right: 0;
-}
-
-
-.footer__right-menu-item a {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 13px;
-  color: #000000;
-  text-decoration: none;
-  position: relative; 
-  padding-left: 12px;
-}
-.footer__right-menu-item a:hover {
-  text-decoration: underline;
-}
-
-.footer__right-menu-item:not(:first-child) a::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-right: 6px;
-  color: #000000;
-}
-
-
-@media (max-width: 991px) {
-  .footer__wrap-col {
-    flex-direction: column;
-    align-items: center; 
-  }
-  .footer__left {
-    flex-direction: column; 
-    align-items: center;
-    text-align: center; 
-    margin-bottom: 30px;
-  }
-  .footer__left-text {
+    <style>
+      
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      }
+
+      body {
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      }
+
+      .container {
+      width: 90%;
+      max-width: 1600px;
+      margin: 0 auto;
+      }
+
+      .hero {
+      background-color: #3ebeb1;
+      padding: 40px 0; 
+      color: #FFFFFF;
+      }
+
+      @font-face {
+      font-family: 'Boston Regular';
+      src: url('fonts/BostonRegular.ttf') format('truetype'); 
+      font-weight: normal; 
+      font-style: normal; 
+      }
+
+      .site-logo-container {
+      margin-bottom:0px;
+      }
+
+      .site-logo-image {
+      height: 50px; 
+      width: auto;    
+      display: block;
+      }
+
+      .main-page-headline {
+      font-family: 'Boston Regular', serif;
+      font-size: 5.5rem; 
+      font-weight: normal;
+      color: #FFFFFF;
+      text-align: center;
+      margin-bottom: 30px;
+      line-height: 1.2;
+      width: 100%; 
+      display: outside; 
+      }
+
+      .main-page-headline,
+      .on-call-text-col h2,
+      .section-heading { 
+      font-family: 'Boston Angel', serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      }
+
+      .content-columns-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      gap: 20px; 
+      }
+
+      .form-column-content {
+      display: flex;        
+      flex-direction: column;
+      }
+
+      .form-fields-grid-wrapper { 
+      grid-template-columns: 1fr 1fr; 
+      gap: 15px 16px; 
+      flex-grow: 1;
+      }
+      
+      .image-column-content {
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      }
+
+      .hero-image-actual { 
+      max-width: 100%;
+      height: auto;
+      display: block;
+      }
+
+      .form-wrapper {
+      background-color: #e4e6e7; 
+      padding: 25px;
+      border-radius: 40px;
+      color: #000;
+      width: 100%;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      }
+
+      .hero-form {
+      display: grid;
+      grid-template-columns:1fr 1fr;
+      row-gap: 20px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      }
+
+      .form-group {
+      display: flex;
+      flex-direction: column;
+      }
+
+      .hero-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: 'Montserrat';
+      font-weight: 600;
+      font-size: 0.9rem;
+      }
+
+      .hero-form input[type="text"],
+      .hero-form input[type="email"],
+      .hero-form select,
+      .hero-form textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #A0C0BC;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #ffffff;
+      color: #333333;
+      }
+
+      .hero-form select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 50px;
+      padding-right: 40px;
+      }
+
+      .hero-form select.placeholder-selected {
+      color: #757575;
+      }
+      .hero-form select option {
+      color: #333;
+      }
+      .hero-form select option[value=""][disabled] {
+      color: #757575; 
+      }
+
+      .hero-form textarea {
+      min-height: 100px;
+      resize: vertical;
+      }
+
+      .hero-form .form-group.full-width,
+      .hero-form > .cta-btn {
+      grid-column: 1 / -1;
+      }
+
+      .cta-btn {
+      background-color: #fddf26;
+      color: #000;
+      border: 5px solid #000;
+      padding: 15px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 25px;
+      cursor: pointer;
+      text-transform: uppercase;
+      width: 100%;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+      }
+
+      .cta-btn:hover {
+      background-color: #e6b800;
+      }
+
+      @media (min-width: 768px) {
+      .hero {
+      padding: 30px 0; 
+      }
+
+      .main-page-headline {
+      font-size: 5rem; 
+      text-align: left; 
+      margin-bottom: 20px; 
+      }
+
+      .content-columns-wrapper {
+      grid-template-columns: 1fr 1fr; 
+      align-items: flex-start; 
+      gap: 10px; 
+      }
+
+      .hero-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 16px; 
+      }
+
+      .hero-form .form-group.full-width,
+      .hero-form > .cta-btn {
+      grid-column: 1 / -1;
+      }
+
+      .on-call-section {
+      background-color: #3ebeb1;
+      padding: 30px 0;
+      color: #000000;
+      }
+
+      .on-call-grid {
+      display: grid;
+      grid-template-columns: 1fr; 
+      gap: 30px; 
+      align-items: center;
+      }
+
+      .on-call-image-col img {
+      max-width: 450px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      }
+
+      .on-call-text-col h2 {
+      font-family: 'Boston Regular', serif; 
+      font-size: 3.2rem; 
+      font-weight: normal; 
+      color: #000000; 
+      margin-bottom: 25px;
       text-align: center; 
-  }
-  .footer__right {
-    flex-direction: column;
-    align-items: center; 
-    gap: 25px;
-  }
-  .footer__right-socials-list {
-    justify-content: center; 
-  }
-  .footer__right-menu {
+      }
+
+      .on-call-text-col ul {
+      list-style-type: none; 
+      padding-left: 95px;
+      margin: 0;
+      }
+
+      .on-call-text-col ul li {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem; 
+      color: #000000;   
+      margin-bottom: 12px; 
+      padding-left: 30px; 
+      position: relative; 
+      line-height: 1.5;
+      }
+
+      .on-call-text-col ul li:last-child {
+      margin-bottom: 20;
+      }
+
+      .on-call-text-col ul li::before {
+      content: '•'; 
+      color: #000000;
+      font-weight: normal; 
+      font-size: 1.1em;
+      position: absolute;
+      left: 0;
+      top: -4px;
+      }
+
+      @media (min-width: 768px) {
+      .on-call-grid {
+      grid-template-columns: 1fr 1fr; 
+      gap: 50px; 
+      }
+
+      .on-call-image-col img {
+      display: flex;
+      justify-content: center; 
+      }
+
+      .on-call-text-col h2 {
       text-align: center; 
-  }
-  .footer__right-menu-list {
-    
-  }
-  .footer__right-menu-item {
+      font-size: 3.2rem;
+      }
+      }
+
+      .what-we-do-section {
+      background-color: #ffffff; 
+      padding: 50px;         
+      color: #000000;       
+      }
+      .section-heading {
+      font-family: 'Boston Regular', serif;
+      font-size: 3.2rem;
+      font-weight: normal;
+      color: #000000;
+      text-align: left;
+      padding: 15px;
+      }
+
+      .services-list {
+      list-style-type: none;
+      text-align: left;
+      padding-left: 0;
+      }
+
+      .services-list li {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.15rem;                 
+      color: #000000;
+      margin-bottom: 20px;               
+      padding-left: 35px;                 
+      position: relative;                 
+      line-height: 1.7;
+      text-align: left;                 
+      }
+
+      .services-list li:last-child {
+      margin-bottom: 15px;
+      }
+
+      .services-list li strong {
+      font-weight: 700;
+      }
+
+      .services-list li::before {
+      content: '•'; 
+      color: #000000; 
+      font-weight: bold;
+      font-size: 1.1em; 
+      position: absolute;
+      left: 0;
+      top: -0.1em;
+      }
+
+      @media (max-width: 767px) {
+      .section-heading { 
+      font-size: 2.6rem;
+      margin-bottom: 30px;
+      }
+
+      .services-list {
+      max-width: 100%;
+      }
+
+      .services-list li {
+      font-size: 1.1rem;
+      padding-left: 30px;
+      } 
+
+      .services-list li::before {
+      font-size: 1.1em;
+      }
+
+      }
+
+      .testimonials-section {
+      background-color: #788687;
+      padding: 50px; 
+      }
+
+      .testimonials-heading {
+      font-family: 'Boston Regular', serif;
+      font-size: 3.2rem;
+      font-weight: normal;
+      color: #FFFFFF;
+      text-align: left;
+      padding: 15px;  
+      }    
+
+      .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;              
+      }
+      .testimonial-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem; 
+      line-height: 1.7;
+      margin-bottom: 20px; 
+      color: #0e1111;    
+      position: relative;
+      z-index: 2;
+      }
+
+      .testimonial-author {
+      font-family: 'Montserrat', sans-serif;
+      font-style: italic;
+      font-size: 1rem; 
+      color: #0e1111;
+      display: block; 
+      position: relative;
+      z-index: 2;
+      margin-bottom: 5px; 
+      }
+
+      .testimonial-author { 
+      font-weight: 700; 
+      }
+
+
+      .testimonial-author .testimonial-org {
+      display: block; 
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: #0e1111; 
+      margin-top: 4px;  
+      }
+
+
+      .testimonial-author .testimonial-org a {
+      color: #0056b3;
+      font-style: italic;
+      text-decoration: underline;
+      font-weight: normal; 
+      }
+
+      .testimonial-author .testimonial-org a:hover {
+      color: #003d80;
+      text-decoration: none;
+      }
+
+
+      @media (min-width: 992px) {
+      .testimonial-text {
+      font-size: 1.15rem; 
+      }
+
+      }
+
+      .testimonial-item.css-bubble {
+      background-color: #e4e6e7;
+      padding: 30px 35px;
+      border-radius: 30px;
+      color: #000000;
+      position: relative;
+      margin-bottom: 45px; 
+      border: 6px solid #fddf26;
+      }
+
+      .testimonial-item.css-bubble::before,
+      .testimonial-item.css-bubble::after { 
+      content: "";
+      position: absolute; 
+      width: 0;
+      height: 0;
+      border-style: solid;
+      }
+
+      .testimonial-item.css-bubble.bubble-left::after {
+      left: 40px;
+      border-width: 25px 15px 0 15px; 
+      border-color: #fddf26 transparent transparent transparent; 
+      }
+
+      .testimonial-item.css-bubble.bubble-left::before { 
+      content: "";
+      position: absolute;
+      bottom: -20px; 
+      left: 42px;  
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 20px 13px 0 13px;
+      border-color: #e4e6e7 transparent transparent transparent; 
+      z-index: 1; 
+      }
+
+      .testimonial-item.css-bubble.bubble-right::after {
+      right: 40px;
+      border-width: 25px 15px 0 15px;
+      border-color: #fddf26 transparent transparent transparent;
+      }
+      .testimonial-item.css-bubble.bubble-right::before { 
+      bottom: -20px;
+      right: 42px;
+      border-width: 20px 13px 0 13px;
+      border-color: #e4e6e7 transparent transparent transparent;
+      z-index: 1;
+      }
+
+      .testimonial-text,
+      .testimonial-author {
+      position: relative;
+      z-index: 2; 
+      }
+
+      @media (min-width: 992px) {
+      .testimonials-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      }
+      .testimonial-item.css-bubble {
+      padding: 35px 40px;
+      margin-bottom: 35px; 
+      }
+      
+      .testimonial-item.css-bubble.bubble-left::after { left: 50px; }
+      .testimonial-item.css-bubble.bubble-left::before { left: 52px; bottom: -20px; }
+
+      .testimonial-item.css-bubble.bubble-right::after { right: 50px; }
+      .testimonial-item.css-bubble.bubble-right::before { right: 52px; bottom: -20px; }
+      }
+
+      .client-logos-section {
+      background-color: #ffffff; 
+      padding: 60px 0 80px;  
+      text-align: center;  
+      }
+
+      .client-logos-heading {
+      font-family: 'Boston Regular', serif;
+      font-size: 3.2rem; 
+      font-weight: normal;
+      color: #0e1111; 
+      margin-bottom: 0px;
+      }
+
+      .client-logos-subheading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem; 
+      color: #333333;   
+      line-height: 1.7;
+      max-width: 700px; 
+      text-align: left; 
+      padding-bottom: 60px;
+      padding-left: 15px;
+      }
+
+      .logos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px 20px; 
+      align-items: center; 
+      justify-items: center; 
+      max-width: 900px; 
+      margin: 0 auto;  
+      }
+
+      .logo-item {
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+      }
+
+      .logo-item img {
+      max-width: 100%;
+      max-height: 70px; 
+      height: auto;   
+      object-fit: contain; 
+      }
+
+      @media (min-width: 768px) {
+      .client-logos-heading {
+      font-family: 'Boston Regular', serif;
+      font-size: 3.4rem;
+      text-align: left;
+      padding: 15px;
+      }
+      .client-logos-subheading {
+      font-size: 1.15rem;
+      }
+      .logos-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px 30px; 
+      }
+      .logo-item img {
+      max-height: 80px; 
+      }
+      }
+
+      @media (min-width: 992px) {
+      .logos-grid {
+      gap: 50px 40px;
+      }
+      .logo-item img {
+      max-height: 90px;
+      }
+      }
+
+      .footer__wrap {
+      padding: 40px 0;
+      background: #fddf26;
+      }
+
+      .footer__wrap .container {
+      }
+
+      .footer__wrap-col {
+      display: flex;
+      flex-wrap: wrap; 
+      justify-content: space-between;
+      align-items: flex-start; 
+      gap: 20px;
+      }
+
+      .footer__left {
+      display: flex; 
+      align-items: left; 
+      text-align: left; 
+      margin-bottom: 20px; 
+      flex-grow: 1;
+      }
+
+      .footer__left-logo a {
+      display: inline-block;
+      margin-right: 25px;
+      }
+
+      .footer__left-logo img {
+      width: 160px;
+      height: auto;
+      display: block;
+      }
+
+      .footer__left-text {
+      text-align: left;
+      }
+
+      .footer__left-text p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      color: #000000;
+      margin-bottom: 3px;
+      line-height: 1.5;
+      }
+
+      .footer__right {
+      display: flex;
+      align-items: flex-start; 
+      margin-left: auto; 
+      gap: 30px;
+      text-align: left; 
+      margin-bottom: 20px; 
+      }
+
+      .footer__right-socials {
+      }
+
+      .footer__right-socials-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap; 
+      gap: 12px; 
+      align-items: center;
+      }
+
+      .footer__right-socials-item {
+      }
+
+      .footer__right-socials-item a {
+      display: block;
+      margin-top: 120px;
+      }
+
+      .footer__right-socials-item img {
+      height: 22px; 
+      width: auto;
+      display: block;
+      }
+
+      .footer__right-menu {
+      text-align: left;
+      }
+
+      .footer__right-menu-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      }
+
+      .footer__right-menu-item {
+      display: inline-block; 
+      margin-right: 15px;   
+      margin-bottom: 8px; 
+      white-space: nowrap;
+      }
+      .footer__right-menu-item:last-child {
+      margin-right: 0;
+      }
+
+
+      .footer__right-menu-item a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      color: #000000;
+      text-decoration: none;
+      position: relative; 
+      padding-left: 12px;
+      }
+      .footer__right-menu-item a:hover {
+      text-decoration: underline;
+      }
+
+      .footer__right-menu-item:not(:first-child) a::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-right: 6px;
+      color: #000000;
+      }
+
+
+      @media (max-width: 991px) {
+      .footer__wrap-col {
+      flex-direction: column;
+      align-items: center; 
+      }
+      .footer__left {
+      flex-direction: column; 
+      align-items: center;
+      text-align: center; 
+      margin-bottom: 30px;
+      }
+      .footer__left-text {
+      text-align: center; 
+      }
+      .footer__right {
+      flex-direction: column;
+      align-items: center; 
+      gap: 25px;
+      }
+      .footer__right-socials-list {
+      justify-content: center; 
+      }
+      .footer__right-menu {
+      text-align: center; 
+      }
+      .footer__right-menu-list {
+      
+      }
+      .footer__right-menu-item {
       display: inline-block;
       margin-bottom: 10px;
-  }
-  
-  .footer__right-menu-item:not(:first-child) a::before {
+      }
+      
+      .footer__right-menu-item:not(:first-child) a::before {
       display: inline; 
       position: static;
       transform: none;
       margin-right: 6px;
       padding-left: 0;
-  }
-   .footer__right-menu-item a {
-       padding-left: 0; 
-   }
-   .footer__right-menu-item:not(:first-child) a {
-       padding-left: 12px; 
-   }
-}
+      }
+      .footer__right-menu-item a {
+      padding-left: 0; 
+      }
+      .footer__right-menu-item:not(:first-child) a {
+      padding-left: 12px; 
+      }
+      }
 
-@media (max-width: 480px) {
-    .footer__left {
-        margin-right: 0; 
-    }
-    .footer__right-menu-item {
-        display: block; 
-        margin-right: 0;
-        text-align: center;
-    }
-    .footer__right-menu-item:not(:first-child) a::before {
-        display: none; 
-    }
-    .footer__right-menu-item a {
-       padding-left: 0;
-   }
-}
+        @media (max-width: 480px) `{
+          .footer__left {
+            margin-right: 0; 
+          }
+          .footer__right-menu-item {
+            display: block; 
+            margin-right: 0;
+            text-align: center;
+          }
+          .footer__right-menu-item:not(:first-child) a::before {
+            display: none; 
+          }
+          .footer__right-menu-item a {
+            padding-left: 0;
+          }
+        }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <div class="site-logo-container">
+          <a href="https://smartlogic.io/" target="_blank" rel="noopener noreferrer" aria-label="SmartLogic Homepage">
+            <img src="images/brand-assets/smartlogic-logo-white.png" alt="SmartLogic Logo" class="site-logo-image">
+          </a>
+        </div>
+        <h1 class="main-page-headline">Let’s Plan Your Software Project!</h1>
 
-   
-   <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book a Call with Us</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100.900;1,100.900&display=swap" rel="stylesheet" rel="stylesheet">
-  <style>
-  </style>
-</head>
-<body>
-  <header class="hero">
-    <div class="container">
-       <div class="site-logo-container">
-        <a href="https://smartlogic.io/" target="_blank" rel="noopener noreferrer" aria-label="SmartLogic Homepage">
-          <img src="images/brand-assets/smartlogic-logo-white.png" alt="SmartLogic Logo" class="site-logo-image">
-        </a>
-      </div>
-      <h1 class="main-page-headline">Let’s Plan Your Software Project!</h1>
+        <div class="content-columns-wrapper">
+          <div class="form-column-content">
+            <div class="form-wrapper">
+              <form class="hero-form" action="https://submit.jotform.com/submit/242406661881055" method="post">
+                <div class="form-group">
+                  <label for="full-name">Full Name</label>
+                  <input type="text" id="full-name" name="full-name">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" name="q5_email">
+                </div>
+                <div class="form-group form-group-desktop-full-width">
+                  <label for="organization">Organization Name</label>
+                  <input type="text" id="organization" name="q8_organization">
+                </div>
+                <div class="form-group form-group-desktop-full-width">
+                  <label for="services">What Services Do You Need?</label>
+                  <select id="services" name="q7_interestedIn" aria-label="Service needed">
+                    <option value="" disabled selected>Select a service... </option>
+                    <option value="discovery">Product Discovery & Design</option>
+                    <option value="web-dev">Custom Web App Development</option>
+                    <option value="mobile-dev">Mobile App Development</option>
+                    <option value="devops">DevOps & Infrastructure</option>
+                    <option value="legacy">Replatforming & Legacy System Modernization</option>
+                  </select>
+                </div>
+                <div class="form-group full-width">
+                  <label for="challenge">What's Your Biggest Challenge Right Now?</label>
+                  <textarea id="challenge" name="q18_projectDescription" rows="4"></textarea>
+                </div>
+                <button class="cta-btn" type="submit">Book Your Free Strategy Call</button>
+              </form>
+            </div>
+          </div>
 
-      <div class="content-columns-wrapper">
-        <div class="form-column-content">
-          <div class="form-wrapper">
-            <form class="hero-form" action="https://submit.jotform.com/submit/242406661881055" method="post">
-              <div class="form-group">
-                <label for="full-name">Full Name</label>
-                <input type="text" id="full-name" name="full-name">
-              </div>
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="q5_email">
-              </div>
-              <div class="form-group form-group-desktop-full-width">
-                <label for="organization">Organization Name</label>
-                <input type="text" id="organization" name="q8_organization">
-              </div>
-              <div class="form-group form-group-desktop-full-width">
-                <label for="services">What Services Do You Need?</label>
-                <select id="services" name="q7_interestedIn" aria-label="Service needed">
-                  <option value="" disabled selected>Select a service... </option>
-                  <option value="discovery">Product Discovery & Design</option>
-                  <option value="web-dev">Custom Web App Development</option>
-                  <option value="mobile-dev">Mobile App Development</option>
-                  <option value="devops">DevOps & Infrastructure</option>
-                  <option value="legacy">Replatforming & Legacy System Modernization</option>
-                </select>
-              </div>
-              <div class="form-group full-width">
-                <label for="challenge">What's Your Biggest Challenge Right Now?</label>
-                <textarea id="challenge" name="q18_projectDescription" rows="4"></textarea>
-              </div>
-              <button class="cta-btn" type="submit">Book Your Free Strategy Call</button>
-            </form>
+          <div class="image-column-content">
+            <img src="images/brand-assets/SoftwareSample.png" alt="Software samples on devices" class="hero-image-actual">
           </div>
         </div>
+      </div>
+    </header>
 
-        <div class="image-column-content">
-          <img src="images/brand-assets/SoftwareSample.png" alt="Software samples on devices" class="hero-image-actual">
+    <section class="on-call-section">
+      <div class="container"> 
+        <div class="on-call-grid">
+          <div class="on-call-image-col">
+            <img src="images/contents/call-illustration.png" alt="Illustration of people on a video call planning a project">
+          </div>
+          <div class="on-call-text-col">
+            <h2>On the call, we will:</h2>
+            <ul>
+              <li>Discuss your needs and current tech</li>
+              <li>Brainstorm actionable solutions</li>
+              <li>Map out a realistic timeline & budget</li>
+              <li>Decide on next steps that work for you</li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
-
-  <script>
-    const serviceSelect = document.getElementById('services');
-    if (serviceSelect) {
-      function updateSelectColor() {
-        if (serviceSelect.value === "") {
-          serviceSelect.classList.add('placeholder-selected');
-        } else {
-          serviceSelect.classList.remove('placeholder-selected');
-        }
-      }
-      serviceSelect.addEventListener('change', updateSelectColor);
-      updateSelectColor(); // Initial check
-    }
-  </script>
-</body>
-</html>
-
-<section class="on-call-section">
-    <div class="container"> 
-      <div class="on-call-grid">
-        <div class="on-call-image-col">
-          <img src="images/contents/call-illustration.png" alt="Illustration of people on a video call planning a project">
-        </div>
-        <div class="on-call-text-col">
-          <h2>On the call, we will:</h2>
-          <ul>
-            <li>Discuss your needs and current tech</li>
-            <li>Brainstorm actionable solutions</li>
-            <li>Map out a realistic timeline & budget</li>
-            <li>Decide on next steps that work for you</li>
-          </ul>
-        </div>
-      </div>
-    </div>
 
     </section>
 
-  <section class="what-we-do-section">
-    <div class="container">
-      <h2 class="section-heading">What We Can Do For You</h2>
-      <ul class="services-list">
-        <li>
-          <strong>Product Discovery & Design:</strong> Plan, prototype, iterate, and design the right platform.
-        </li>
-        <li>
-          <strong>Custom Web App Development:</strong> Improve your workflows with scalable web applications.
-        </li>
-        <li>
-          <strong>Mobile App Development:</strong> Seamless mobile experiences that go wherever your users do.
-        </li>
-        <li>
-          <strong>DevOps & Infrastructure Management:</strong> Deliver faster and run with confidence.
-        </li>
-        <li>
-          <strong>Replatforming & Legacy System Modernization:</strong> Get your older code up to speed.
-        </li>
-      </ul>
-    </div>
-  </section>
+    <section class="what-we-do-section">
+      <div class="container">
+        <h2 class="section-heading">What We Can Do For You</h2>
+        <ul class="services-list">
+          <li>
+            <strong>Product Discovery & Design:</strong> Plan, prototype, iterate, and design the right platform.
+          </li>
+          <li>
+            <strong>Custom Web App Development:</strong> Improve your workflows with scalable web applications.
+          </li>
+          <li>
+            <strong>Mobile App Development:</strong> Seamless mobile experiences that go wherever your users do.
+          </li>
+          <li>
+            <strong>DevOps & Infrastructure Management:</strong> Deliver faster and run with confidence.
+          </li>
+          <li>
+            <strong>Replatforming & Legacy System Modernization:</strong> Get your older code up to speed.
+          </li>
+        </ul>
+      </div>
+    </section>
 
- <section class="testimonials-section">
-  <div class="container">
-    <h2 class="section-heading testimonials-heading">Client Testimonials</h2>
-    <div class="testimonials-grid">
+    <section class="testimonials-section">
+      <div class="container">
+        <h2 class="section-heading testimonials-heading">Client Testimonials</h2>
+        <div class="testimonials-grid">
 
-      <div class="testimonial-item">
-        <div class="testimonial-item css-bubble bubble-left">
-          <blockquote class="testimonial-text">
-            "We have been able to scale this program significantly because of the new systems that SmartLogic built for us."
-          </blockquote>
-          <cite class="testimonial-author">
-            Kristi Katz, Head of WCK Direct
-            <span class="testimonial-org"><a href="https://smartlogic.io/case-studies/wck-direct">World Central Kitchen (WCK)</a></span>
-          </cite>
+          <div class="testimonial-item">
+            <div class="testimonial-item css-bubble bubble-left">
+              <blockquote class="testimonial-text">
+                "We have been able to scale this program significantly because of the new systems that SmartLogic built for us."
+              </blockquote>
+              <cite class="testimonial-author">
+                Kristi Katz, Head of WCK Direct
+                <span class="testimonial-org"><a href="https://smartlogic.io/case-studies/wck-direct">World Central Kitchen (WCK)</a></span>
+              </cite>
+            </div>
           </div>
-        </div>
 
-      <div class="testimonial-item">
-        <div class="testimonial-item css-bubble bubble-right">
-          <blockquote class="testimonial-text">
-            "SmartLogic has been a fantastic partnership ... they have just incredible depth and technical strength and are able to be incredibly agile and responsive."
-          </blockquote>
-          <cite class="testimonial-author">
-            Mike Fried, Chief Information Officer
-            <span class="testimonial-org"><a href="https://smartlogic.io/case-studies/bchd">Baltimore City Health Department (BCHD)</a></span>
-          </cite>
+          <div class="testimonial-item">
+            <div class="testimonial-item css-bubble bubble-right">
+              <blockquote class="testimonial-text">
+                "SmartLogic has been a fantastic partnership ... they have just incredible depth and technical strength and are able to be incredibly agile and responsive."
+              </blockquote>
+              <cite class="testimonial-author">
+                Mike Fried, Chief Information Officer
+                <span class="testimonial-org"><a href="https://smartlogic.io/case-studies/bchd">Baltimore City Health Department (BCHD)</a></span>
+              </cite>
+            </div>
           </div>
-        </div>
 
-           </div>
-    </div>
-  </section>
+        </div>
+      </div>
+    </section>
 
     </section> 
 
-  <section class="client-logos-section">
-    <div class="container">
-      <h2 class="section-heading client-logos-heading">We Love Our Clients!</h2>
-      <p class="client-logos-subheading">
-        Our clients love us too; many of them come back to us over and over again to develop new features and new projects.
-      </p>
-      <div class="logos-grid">
-        <div class="logo-item">
-          <a href="https://smartlogic.io/case-studies/aepsi"><img src="images/logo/aepsi.png" alt="Aepsi Logo"></a>
-        </div>
-        <div class="logo-item">
-          <a href="https://smartlogic.io/case-studies/wck-direct"><img src="images/logo/wck.png" alt="World Central Kitchen Logo"></a>
-        </div>
-        <div class="logo-item">
-          <a href="https://smartlogic.io/case-studies/bchd"><img src="images/logo/bchd.png" alt="Baltimore City Health Department Logo"></a>
-        </div>
-        <div class="logo-item">
-          <a href="https://smartlogic.io/case-studies/orderup"><img src="images/logo/orderup.png" alt="OrderUp Logo"></a>
-        </div>
-        <div class="logo-item">
-          <a href="https://smartlogic.io/case-studies/challenge"><img src="images/logo/challenge.png" alt="Challenge.gov Logo"></a>
-        </div>
-        <div class="logo-item">
-          <a href="https://smartlogic.io/case-studies/stanley-black-and-decker">"<img src="images/logo/sbd-square.png" alt="Stanley Black & Decker Logo">
+    <section class="client-logos-section">
+      <div class="container">
+        <h2 class="section-heading client-logos-heading">We Love Our Clients!</h2>
+        <p class="client-logos-subheading">
+          Our clients love us too; many of them come back to us over and over again to develop new features and new projects.
+        </p>
+        <div class="logos-grid">
+          <div class="logo-item">
+            <a href="https://smartlogic.io/case-studies/aepsi"><img src="images/logo/aepsi.png" alt="Aepsi Logo"></a>
+          </div>
+          <div class="logo-item">
+            <a href="https://smartlogic.io/case-studies/wck-direct"><img src="images/logo/wck.png" alt="World Central Kitchen Logo"></a>
+          </div>
+          <div class="logo-item">
+            <a href="https://smartlogic.io/case-studies/bchd"><img src="images/logo/bchd.png" alt="Baltimore City Health Department Logo"></a>
+          </div>
+          <div class="logo-item">
+            <a href="https://smartlogic.io/case-studies/orderup"><img src="images/logo/orderup.png" alt="OrderUp Logo"></a>
+          </div>
+          <div class="logo-item">
+            <a href="https://smartlogic.io/case-studies/challenge"><img src="images/logo/challenge.png" alt="Challenge.gov Logo"></a>
+          </div>
+          <div class="logo-item">
+            <a href="https://smartlogic.io/case-studies/stanley-black-and-decker">"<img src="images/logo/sbd-square.png" alt="Stanley Black & Decker Logo">
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="footer__wrap">
-    <div class="container">
-      <div class="footer__wrap-col">
-        <div class="footer__left">
-          <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic-black.svg" alt="Smartlogic Logo" /></a></div>
-          <div class="footer__left-text">
-            <p>8 Market Pl Ste 377</p>
-            <p>Baltimore, MD 21202</p>
-            <p>888-544-SMRT</p>
-          </div>
-        </div>
-        <div class="footer__right">
-          <div class="footer__right-socials">
-            <ul class="footer__right-socials-list">
-              <li class="footer__right-socials-item">
-                <a href="https://twitter.com/smartlogic">
-                  <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
-                </a>
-              </li>
-              <li class="footer__right-socials-item">
-                <a href="https://www.facebook.com/smartlogic">
-                  <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
-                </a>
-              </li>
-              <li class="footer__right-socials-item">
-                <a href="https://www.linkedin.com/company/smartlogic-io">
-                  <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
-                </a>
-              </li>
-              <li class="footer__right-socials-item">
-                <a href="https://github.com/smartlogic">
-                  <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
-                </a>
-              </li>
-              <li class="footer__right-socials-item">
-                <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
-                  <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
-                </a>
-              </li>
-              <li class="footer__right-socials-item">
-                <a href="https://www.twitch.tv/smartlogictv">
-                  <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="footer__right-menu">
-            <ul class="footer__right-menu-list">
-              <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
-              <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
-              <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
-              <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
-              <!-- <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li> -->
-              <li class="footer__right-menu-item"><a href="/about/privacy.html">Privacy Policy</a></li>
-              <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
-  
-            </ul>
+      <div class="footer__wrap">
+        <div class="container">
+          <div class="footer__wrap-col">
+            <div class="footer__left">
+              <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic-black.svg" alt="Smartlogic Logo" /></a></div>
+              <div class="footer__left-text">
+                <p>8 Market Pl Ste 377</p>
+                <p>Baltimore, MD 21202</p>
+                <p>888-544-SMRT</p>
+              </div>
+            </div>
+            <div class="footer__right">
+              <div class="footer__right-socials">
+                <ul class="footer__right-socials-list">
+                  <li class="footer__right-socials-item">
+                    <a href="https://twitter.com/smartlogic">
+                      <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+                    </a>
+                  </li>
+                  <li class="footer__right-socials-item">
+                    <a href="https://www.facebook.com/smartlogic">
+                      <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+                    </a>
+                  </li>
+                  <li class="footer__right-socials-item">
+                    <a href="https://www.linkedin.com/company/smartlogic-io">
+                      <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+                    </a>
+                  </li>
+                  <li class="footer__right-socials-item">
+                    <a href="https://github.com/smartlogic">
+                      <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+                    </a>
+                  </li>
+                  <li class="footer__right-socials-item">
+                    <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                      <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+                    </a>
+                  </li>
+                  <li class="footer__right-socials-item">
+                    <a href="https://www.twitch.tv/smartlogictv">
+                      <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="footer__right-menu">
+                <ul class="footer__right-menu-list">
+                  <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+                  <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+                  <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+                  <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+                  <!-- <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li> -->
+                  <li class="footer__right-menu-item"><a href="/about/privacy.html">Privacy Policy</a></li>
+                  <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+                  
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+
+      <script>
+       const serviceSelect = document.getElementById('services');
+       if (serviceSelect) {
+         function updateSelectColor() {
+           if (serviceSelect.value === "") {
+             serviceSelect.classList.add('placeholder-selected');
+           } else {
+             serviceSelect.classList.remove('placeholder-selected');
+           }
+         }
+         serviceSelect.addEventListener('change', updateSelectColor);
+         updateSelectColor(); // Initial check
+       }
+      </script>
+  </body>
+</html>
