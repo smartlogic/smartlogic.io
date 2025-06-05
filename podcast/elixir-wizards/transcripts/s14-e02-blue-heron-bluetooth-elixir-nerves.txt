@@ -1,0 +1,427 @@
+S14E02 Connor Rigby with Blue Heron Bluetooth
+===
+
+​
+
+Dan: Hey everyone. I'm Dan Ivovich, director of Engineering at SmartLogic.
+
+Sundi: And I'm Sundi Myint, software Engineering manager at Cars Commerce. And we are your host for today's episode for Season 14, episode two. We're joined by Connor Rigby, creator of Blue Heron, Bluetooth for Elixir. Hey Connor, how's it going? 
+
+Connor: It's going great.
+
+Sundi: Yay. Awesome. So in this episode we're talking about the Blue Heron Elixir Library for Bluetooth support in your OTP apps and Real world IoT use cases.
+
+I think I didn't ask this question right off the bat, or I didn't have this planned, but now that I've read it twice, Blue Heron, please tell us the origin story for Blue Heron. 
+
+Connor: As in the name or 
+
+Sundi: Yeah.
+
+Connor: I was working with Frank at the time, and we were just throwing names around and. That one came out and kind of stuck, uh, you know, cool Bird.
+
+Sundi: I'm also doing bird related names at work, so I'm gonna throw that one out there in case anyone needs something. 
+
+Connor: Yeah. Smart rant at the time was using bird names for everything and, or I guess they still do, you know, their, their whole product lines are code named after birds, so 
+
+Sundi: Oh my gosh. 
+
+Connor: it was kind of a, a nice fit.
+
+Sundi: I can't wait to tell my product managers about that. Yay. so we talked a little about the name, background on the name. What about any background on you, Connor? I know we've had you on the podcast before, but , for any of our new listeners, can you introduce yourself, what's your specific space that you like to work in?
+
+All that good stuff. 
+
+Connor: Yeah, I primarily work in Nerves stuff. So on the embedded side of the Elixir community, yeah, we make embedded firmware for say embedded devices, lower end devices, things that would traditionally run Linux operating systems and things like this. It's not that much different than Phoenix, just more scaled down.
+
+background is just in connecting things. I, I love getting things connected to other things. Just a, a fun little quirky thing to do. And, Bluetooth is one of the easier ways to get that going.
+
+Dan: Great. So we're talking about Blue Heron in particular, Bluetooth. I assume it's related to your, your work with Nerves and some need to, to leverage some Bluetooth devices, but, you know, can you talk a little bit more about, kinda like the motivation for a stack for this? Was there something that you were replacing greenfield?
+
+where did this, library come from?
+
+Connor: Yeah. So, the original use case was actually for, uh, SmartRent products. They sell smart thermostats and smart home hubs and one of the ways that, you know, some of these smart devices connect is via Bluetooth and BLE specifically. I'm gonna say Bluetooth a lot, but I mostly mean BLE.
+
+There is a difference there. Part of the same specification, but Bluetooth classic and BLE are two different things, and Blue Heron specifically is for BLE. what that functionally means is your Nerves device, for example, isn't a set of headphones or other communications devices like that.
+
+BLE just doesn't support that sort of, I think they call 'em profiles. But anyways, so, you know, communicating with things like smart locks. we also used Apple's iBeacon Protocol, which is a way to pseudo locate devices. It's how essentially "Find My" works, you know, the find my iPhone or whatever.
+
+That's something that's a recent addition to Blue Heron and that it supports now. And one of, I think probably the most major use case for SmartRent who was kind of sponsoring the development at the time.
+
+Dan: Great. so you have like the Elixir part of it, which, you know, needs to tightly talk to Nerves. I assume kind of like an OTP application manages the connection Bluetooth LE, beyond that, now we're talking hardware. What does that kind of integration look like?
+
+What was that process like to build that out?
+
+Connor: Yeah, so Bluetooth is super specified, and BLE even moreso. They have this, oh, let's see, uh, 3,226 page document that specifies every single thing that you could possibly do in BLE. You are, you're right. It is a, just an OTP application that kind of handles all of that for you.
+
+And so, creating a Bluetooth stack, so to speak, is really just implementing as close as possible to what the specification says. So it's a lot of, Binary pattern matching and things like this. You know, like there's of course the hardware level, there's a couple of different hardware transports to communicate with these chips over UART SPI SDIO, et cetera.
+
+But like once you do that, it's all the same kind of... they're packets essentially that you have to send back and forth. And so, you know, the Elixir Library is able to create and dispatch and communicate all of these packets, which is a really good fit for not just Nerves, but just Elixir in general.
+
+we have it so easy with those sort of things compared to like implementing it. I've, I've seen Rust, I've seen Go, I've seen C implementations of pure BLE or Bluetooth, et cetera. It's so much more work and I'm not gonna say it's free in Elixir, obviously it was still a lot of work, but, certain parts of it are much easier.
+
+Certain parts that you would traditionally struggle with. You know, you don't have to worry about managing memory for packets and decoding them in any specific way. You know, like it, it either matches the pattern or it doesn't, and it's really easy to just keep that happy path going. 
+
+Sundi: You took the words right outta my mouth. My next question was like, how do other languages traditionally handle this? Is it a better fit typically? 'cause I feel like. For a long time you didn't think, oh, I'm working on hardware and therefore I should reach for Elixir. I know Frank has been doing a lot of socialization to make that more 
+
+normalized. 
+
+Connor: Yeah.
+
+Sundi: yeah, you just answered that right off the bat, so thank you. is there anywhere Elixir might not be a good fit for it though? 
+
+Connor: so there is this uh, reoccurring constraint that comes up a lot when talking about Nerves specifically, and it's that right now and probably for the foreseeable future, it requires that you have Linux underneath everything. Like, we we get this really fancy set of tools with OTP and Elixir, of course, that handle a lot of these really hard problems for us just like kind of magically, right? But there is like a bare minimum set of requirements that are higher than what you might expect for some devices, right? And it, it kind of comes down to cost of developing a device, right? If you're going to develop a battery-powered tiny sensor, Nerves might not be the fit there because just all of the prerequisites to get Nerves running, it costs more than your entire BOM costs.
+
+Your, your bill of materials for that device that you want to make a lot of times, right? So you have to be able to start with a relatively, I don't think powerful is the right word, but you know, you wanna start with closer to like mobile phone specs than you do on those like tiny sensor type devices. that's not to say it's not possible, of course. it's been done. 
+
+Dan: it seems like the, the minimum energy floor, right for a, a Nerves device is still just a little too high for that, like battery run sensor only type device.
+
+Connor: right. And there are just so many optimizations that you have to make for like battery powered devices that I don't think, it's not that OTP isn't fit for or Elixir or whatever. It's not that it's not fit for it, it's just kind of not the same paradigms that you would use, right? Like if you're building a battery powered device, for example, it's going to be doing nothing almost all of the time.
+
+And there's very little time that OTP is doing nothing. Its whole thing is doing stuff all of the time, so you don't have to do it, right? And so if you have a device that's doing nothing like Nerves is going to be overkill for that because most of the time it needs to just be essentially off to save battery power.
+
+And anything that's not essentially off is just cutting into your battery, which would end up being like, assure it would be a great experience to develop in. But if your device can only last an hour and a half out in the field before it needs a battery change or whatever, you know, like, have you really gained anything?
+
+Dan: Right. So, Elixir, OTP, great fit for the message processing aspect of BLE right? Pattern matching on packet headers and handling binary data like super good at all of that. mentioned that like you really need to run on Linux. I assume that's like a driver or C interface to the actual hardware problem.
+
+Can you kind of like talk more about, okay, so we've got Elixir, we've got OTP, like what's, what's next to talk to Bluetooth?
+
+Connor: For Bluetooth specifically, it's actually a rare case of not needing the driver. , I'm working on a new set of features you'll say to Blue Heron and to use the built-in Linux drivers for Bluetooth. But really all the built-in drivers are doing is the lower level is called HCI, I don't remember what that stands for.
+
+Hardware control interface is what I just came up with, but that doesn't sound correct, that I'm pretty sure that's wrong. Whatever. Anyways it's, it's sort of that, that communication layer that we implemented in Elixir. and so the Linux driver, so to speak, implements that. But the user land, user land is just after the kernel, right?
+
+Like, you know, OTP exists in user land. Still has to implement all of Bluetooth itself. So Linux is kind of weird in that their Bluetooth stack, you know, the official Linux Bluetooth stack is a, a user land application for the most part. There's almost no kernel level Bluetooth, which is good for things like security.
+
+You know, like you don't really want your door lock to be able to accidentally touch things in the kernel if it implements Bluetooth wrong, like it, it just deletes an entire problem space if you don't do it there. and so Bluetooth in particular, there's no C ports, there's no port drivers or NIFs or anything like that in Blue Heron, specifically.
+
+Nerves does use those things for other things. toggling like changing pin, like GPIO, access, SPI, UART or whatever, there will be some sort of C interface there, but Blue Heron in itself doesn't use any of that. It does it all in, in user land, which is pretty cool because it means you don't actually have to use Nerves.
+
+you could run a desktop application and get Bluetooth out of it, which is kind of a cool concept. I've never tried it, but could technically work.
+
+Dan: So, so what is the Elixir component communicating with? You mentioned like HCI. Is it a socket, is it a port? Like what, what's kind of that bridge there? 
+
+Connor: there are four different transports in Bluetooth transport, just how you move data from left to right. Right? one is called UART, which is a really old and pretty simple protocol. We have a library for it called Circuits UART. At one point in time it was called Nerves UART. it's two wires or four wires and bits go up. Bits go down. It, it does all of the, you know, it's not especially hard to understand, but the cool thing is you don't have to understand it and you don't need to waste your time learning about it because the library handles it all for you. Right? And so the primary form of communication is that UART layer. There's technically support for a USB layer, so you can implement USB bluetooth devices, which is like, you know, those little dongles that you would get on Amazon or whatever. Those are all using the HCI-USB layer. Blue Heron supports those as well. As well as there's a SPI layer, which is kind of like UART, but three wires instead of two. And then there's one called SDIO, which is SPI times four.
+
+It's just SPI four times, in more of a parallel way. And really what Blue Heron is doing here is just forming all of those packets, keeping them in the right order. There's internal signaling that needs to happen to keep the Bluetooth chip in sync and all this. So it's doing all that for you and you can just stick to implementing your BLE central or whatever you, whatever you need, you know.
+
+Dan: Okay, so. Blue Heron then as a library assumes you have something that will handle one of those four transports. it contains no transport specific code. Really in that, in that regard then, is that, am I understanding that right? 
+
+Connor: Sorry. No, it has two of the four transports implemented. You can select whichever one you want when you are configuring it, right? Like you have to give it... in Linux, we have serial ports they show up in /dev. I think Mac is the same way as well. I don't use Mac, but, you know, you have these like /dev/ttyACM0 or whatever is one of them, if you've ever used one of these types of devices. And you feed it one of those in config.exs for the supervision tree. The supervision tree starts up that transport, handles all the communication in BLE or sort of like as a application developer, since they're targeted at such low spec devices, they sort of assume you speak C and just know all of the packets.
+
+I've done my best to make it so you don't need to know every single packet type of BLE in Blue Heron, but you have to know the concepts of some of them. there's a connection packet that's pretty important. There's like request what the device does, that's pretty important. And then there's all these sort of higher level protocols that exist on top of those packets that you kind of have to know about. So when we say "stack" in the web world, you know, you're not thinking of it so much as one on top of the other, right? Like you don't have Phoenix on top of Postgres, on top of Linux.
+
+You don't think of it that way in the web world. But when we say stack in Bluetooth, for example, it really is one atop the other. 
+
+Dan: Right.
+
+Connor: You cannot have the higher level ones without the layer below it. It just won't work. and so when we say stack, I've implemented all of those protocols basically inside Blue Heron and such that you just have your application code.
+
+Dan: So then in terms of compatibility with various Bluetooth hardware, as long as what the OTP is running on top of can expose that hardware via one of those two standard transports, like you're kind of agnostic then to the hardware itself.
+
+Connor: Supposedly 
+
+Dan: Okay. Yeah, the, the famous last words in computer science,
+
+Connor: right there there's a table of like, officially supported devices on the Read Me that I know and use well. just like anything in the overly specified space, you find that once you actually start interfacing with these devices, a lot of them don't implement the spec correctly, or they've interpreted it in a slightly different way that maybe is correct or maybe is not. and so Bluetooth has this special thing called manufacturer specific commands, which is a HCI packet that is essentially nothing. You can put whatever you want in it. and when I say you, I mean the manufacturer and they can, it's sort of their, their cheat code out of the official specification.
+
+So there's a lot of, like the, the chip on the Raspberry Pi in particular. That one is very well supported out of the box. It just works. But like there are some other chips like that you would find in maybe like lower end tablets. That don't behave quite so well. They don't do the things that they're supposed to do.
+
+And you do have to do a bit of messing around before you find the magic sequence of the specified commands that make it work correctly. There are a lot of devices that are supported. anyone that you would find on like a dev board in the last like five years, you know, Raspberry Pi, the Beagle Bone, the Google Corral board, those are all supported, because I've gone out of my way to test them and make sure they work. There are tons more that are supported. Like, for example, I've got this device here. Uh, this, you know, you only be able to see it on, on video, but this chip right here is, um, oh, I was hoping you would be able to see the, 
+
+Sundi: We can kind of see it 
+
+Connor: there, there's a model number on there anyways.
+
+It's a, it's a Broadcom chip that just... it does work because I've made it work. But it was a real nightmare. They didn't support anything that they're supposed to support out of the box. And, uh, you know, it comes down to your hardware designer, which chip they pick it, it turns out the more common the chip, the cheaper it is.
+
+And the cheaper it is, the less likely, in my experience it is to implement the spec correctly. You know what I mean?
+
+Dan: Right. 3000 pages, you know, it's, uh,
+
+Connor: Right.
+
+Dan: that in a chip.
+
+Sundi: I feel like you just named a lot of things that I didn't really kind of experience as a traditional Elixir developer. What is one thing that's kind of like, oh yeah, this is just a day to day. I'm writing Elixir kind of thing, situation versus like, another situation on the flip side that's, oh yeah, this is very hardware specific.
+
+Do you ever kind of have those moments.
+
+Connor: I think the most common one is like, kind of not that interesting, but it happens so often. It's on hardware specific stuff, you're writing a GenServer for everything. Whereas on the web side, I won't claim to be like, I. I don't do web primarily, right? So I'm not going to just like say it always is like this, but like, it seems like if you're just booting up a Phoenix app, like a brand new one, and you have to make a GenServer, like you've probably done something wrong.
+
+You're in a weird space already, right? 
+
+Dan: Mm-hmm. 
+
+Connor: if you're just making like a normal to-do app or, or whatever, right? Like some simple app. Whereas like the first thing, the first piece of code that you write on a Nerves application is going to be a GenServer. and that is a little bit of a weird separation between the two.
+
+It's, you know, part of OTP, it's the thing that makes it OTP. But on Nerves, you're using it every single day. Like every line of code you write is probably more often than not going to be in a GenServer, whereas I guess it's probably true of Phoenix as well. It's always in a GenServer. You just don't have to know about It. It just works for you behind the, under the hood, you know?
+
+Dan: we boot and supervise a lot of GenServers and we add them in when we add things like Oban and Prometheus stuff or whatever, right? 
+
+Connor: Exactly
+
+Dan: we're not necessarily writing 
+
+those from scratch. But I think similar to the Elixir space, like sometimes we end up writing OTP applications, GenServers that talk to things that are external to the system, right?
+
+And so like when we mock out an API or write something that's gonna talk to some third party API, maybe we're pulling in a package that is really just gonna be a supervised thing or we're writing our own so that we can put some caching in there or swap out the implementation or, you know, for test or, or what have you.
+
+And so that is in a similar vein, right? Like the, once you start talking to something else, you might be reaching for a GenServer.
+
+Connor: Right. what you said, testing things, mocking out an API very common. , If you are building a Nerves firmware and you like, want to test it locally on your machine first you're gonna write some sort of wrapper, some sort of API wrapper.
+
+It's probably gonna be a GenServer just to keep track of some state and, cache some data, whatever
+
+Dan: So that begs the question, what does testing look like when you're working with Blue Heron and not, maybe not as developer of it, but as like somebody who's leveraging it in their application.
+
+Connor: I haven't written any specific test support code for Blue Heron, and I consider that kind of a feature because a lot of the application code that you're going to write in Blue Heron is based on this concept in Bluetooth. In BLE called, GAT -- generic attribute table. there's two T's, I don't remember what the second T is for.
+
+Um, GATT. And so they specified it as this table for low end devices. You know, you, you have the key to the table is. One integer, like an eight bit integer, zero to 255, and the value to the table can be anything or whatever you want it to be. And with that really simple concept, you can implement like the majority of Bluetooth, you return the right number at the right time, the right string at the right time per each of these keys, right?
+
+Like there's of course, Implementation specific values, but there's a lot of them that are also like totally specified. Like if you're making a thermostat or a temperature sensor, it's like zero, you know, like zero two or whatever. It's one of the first ones, and then you, you would just put the temperature and then like you can load up any Bluetooth temperature reading app and it automatically works, right?
+
+It automatically knows that it's in Fahrenheit or Celsius and it knows how to calculate the value and give you a temperature back. And so, in testing, you just make sure that you're returning one of those values, right? And, you know, you assert that whatever your, whatever your temperature, API is returning an integer or it's actually a float, and you assert that that float is correct and boom, test done.
+
+You've exercised all of your code.
+
+Dan: So it's kinda like when we're building an application, we don't test that like Finch is working correctly, or Cowboy or Ranch or whatever's working correctly. 'cause like we just, as long as we're testing that we're gonna send the right stuff across that wire. Like yeah you're kind of outside of that. So you don't have to support any specific kind of test interface necessarily. 
+
+Connor: Right. And I have these ideas on how it could be implemented, but I've like kind of gone out of my way not to because I really don't like when I'm writing tests when I have to like know how the internals of a library work. I don't want to have to mock out a behavior just to test if this function returns zero or not.
+
+Right? Like. , I don't wanna waste all of the, the time typing out and building out these interfaces just for it to be only one implementation ever. Unless you're, testing in which it's still the same information, it just isn't going to the, the chip, right? So most of it is stateless.
+
+You don't need any sort of special capturing of messages or anything like this. You just test. You just test the pure functions.
+
+Sundi: I think this is kind of fun in that if I were to like create a case for why an engineer might wanna look into building with Blue Heron or just even work on hardware Nerves in general, it sort of sounds like it's a, you get to play with GenServers more and, uh, you don't have to write tests. wouldn't, Who
+
+wouldn't, uh, buy that product? 
+
+Connor: you, you win every way. Exactly.
+
+Sundi: Um, it, it is kind of interesting though 'cause I feel like that is one thing I hear a lot is like, people wanna work with GenServers more and they don't know where to start or how to do it. 'cause like a lot of people feel like. Even building a simple Elixir app, just a to-do app, it feels kind of dumb 'cause they're like, I don't know, what am I gonna do with this ever?
+
+I'm not really learning much, 
+
+Connor: Right.
+
+Sundi: but building a GenServer from scratch is something a lot of people have on their, their list of things they want to do for career advancement in Elixir specifically. and I think I can now tell 'em to build some stuff over in Nerves Land.
+
+Connor: You will learn it. It's not an option, you know? Um, and I, I think that is like sort of a feature because we on Nerves specifically, , one of the kind of core central ideas is just like keeping it as simple as possible. And so that's not to say that like Phoenix is unnecessarily complex in comparison, right?
+
+It does a much bigger task than what we're doing here. It's just we don't need all of the, the extra macros and code generation or whatever. It really just is you and your code on the device. It, it will run that code. And you can look for it real easily. You know, on your editor you press control p type the name of the server you're looking for, and there it is, there's the code that you need to implement or whatever.
+
+And uh, I think there's something special about that where there's, you know, of course there is like the boilerplate of the GenServer, right? You have to write start link like 10 million times in every single module. But like once you kind of. Get used to it. I think of it a lot as like you would create an object, or a class in Ruby, right?
+
+You're going to, you're gonna write the, in it function, it's gonna assign some parameters. You're gonna write the functions you need. It's sort of the same deal there. You're not using Ecto you're not using a Phoenix controller. You're just writing some functions.
+
+Sundi: Not using Ecto. That is not something I thought about, but that makes perfect sense now that you've said it out loud. 
+
+Dan: it is possible to build applications without Ecto, Sundi
+
+Sundi: Yeah.
+
+Yeah. the other thing is like you can of course use ecto. , This is more of a Nerves, less of a Bluetooth specific thing, but like the SQLite driver for ecto works amazingly on Nerves.
+
+Okay.
+
+Dan: I feel like SQLite, having like a, a resurgence, everybody's like
+
+turns out is actually really great and super performant. 
+
+Connor: I love SQLite. It's one of my favorite pieces of software ever written. I love SQLite.
+
+Sundi: Why, like you wanna elaborate for, for the people who agree and disagree with you out there?
+
+Connor: it's got one very specific problem that it solves and it does it everywhere. You know, you want a relational database on your ESP32? SQLite. you want a relational database on your billion dollar server? SQLite. In its performance everywhere. They have a very opinionated, I think it's just a pair of devs, maybe more now, but it's just like a handful of guys that have a very opinionated vision of what their software is, and they made it, they release it for free. they don't want you to contribute to it. They don't want you to fork it. They just want you to use it. And I, I don't know, there's something so special about that to me. Just some dudes that make a piece of really, really good software that works everywhere.
+
+Sundi: Can't really argue with that.
+
+Connor: It is hard to, like, it's of course not the answer for everything, right? Like if you need 40,000 users accessing a database at once, it's, that's not what it's for. But you know, the things that it's good at, it's really good at them, and I love that.
+
+Sundi: Nice.
+
+Dan: So we talked a little bit about bad behaving chips, right? Like things that don't implement the protocol or interpret it in a different way.
+
+Connor: Right.
+
+Dan: Since we're talking about Bluetooth, there's also the device the Bluetooth is talking to. Does that have weird impacts on what you as a developer are doing when you're using Blue Heron?
+
+Connor: I'm gonna say supposedly again, there is, there is a lot of profiles. I talked about the Bluetooth course specification, the 3,200 page specification. There's another a hundred page specification. Of these profiles that you can implement in, in BLE and Bluetooth as well.
+
+They're the same thing, which essentially tells you, which parts of GATT, GATT, you know, generic attribute table that you have to implement, and some devices. Do that correctly. And some of them do it their own way just 'cause they can. The thing about Bluetooth is there is a specification for everything, but you are not required to use it.
+
+Right? Like, if you want to make your temperature sensor use the non-standard thing, you want to, I implement it yourself, you are more than welcome to. And, a lot of the times it's not because you didn't want to use the specification, it's just the specification is so huge that you didn't know it was there.
+
+So like it, it's, it's really easy to see, oh, of course there's a temperature and humidity sensor specification. I can just implement that and that will most of the time work. Like you have to go well outta your way to not implement that one. But like the really complex thing, like a glucose monitor that is part of the Bluetooth spec for some reason, and.
+
+I feel like if you're just like a developer who is tasked with making a Bluetooth monitor, you're not gonna open the spec and be like, does Bluetooth have a glucose monitor specification? Why would you? Right. It makes no sense.
+
+Sundi: Can you, can you like dig into that 
+
+a little bit more? Are you talking about the things that are out there that could use Bluetooth and that's like part of the spec for everything or?
+
+Connor: Correct. There's all kinds of stuff in there. Like I'm not aware if there are any Bluetooth enabled glucose monitors on the market right now, but if there was such a thing, I'm not sure if there is, it's supposed to implement a specification that the Bluetooth core group decided on.
+
+It's supposed to work this way. Right. 
+
+Sundi: I'm sitting here like why wouldn't they be Bluetooth, but Okay.
+
+Connor: well, I, maybe, maybe there are. I, I've never used one. It's just that, that's the one in particular that always surprises me. When, when you're like going down the list of devices, you're like, oh yeah, the Bluetooth core group, they were like, There's gonna be Bluetooth glucose monitors, and as such, we will design them for them.
+
+Right? And so as the application developer, you might not be aware of that. You might implement your Bluetooth glucose monitor some other way just because you didn't see that it was in the a hundred page specification that you were supposed to have done it a different way. Right. And so there are all kinds of things like that.
+
+And then on the flip side of that, there are. holes in the specification that you would think would just be there. I'm like an LED light bulb that you would have that you would just screw into your light socket, right? Perfect Bluetooth device. You want to control it. It, there's only three colors it that you can make every other color with.
+
+Why wouldn't they specify how that works? And they don't. It's not, it's not a device that they specify. So like there's this like weird juxtaposition of very specific devices, a glucose monitor. Versus something that like everyone in their mom buys a light bulb. Uh, you know, like they specify one but not the other and it's not the way that you think.
+
+So there are plenty of devices out there and, ideally when, like at SmartRent, when we're working with this, um, they give us the specification that they implemented, right? We're working with the designer of a product of a smart lock. They give us the API that it Implements in the similar manner of like, you would get a swagger doc from a third party, API.
+
+It is sort of the same deal, just like less, less structured. They say what they implement, how they implement it, what you should and shouldn't expect, and you hopefully get to trust them. That is not usually the case. They're usually. Telling you things that don't actually happen with the real device, but it's supposed to happen, so you treat it like it's supposed to happen.
+
+You know, I'm sure you've had the same situation with APIs. They're supposed to do something, but they don't. Right. It, it's, it's sort of a lot of that. It's, it's supposed to do this, but it does, it just doesn't.
+
+Dan: Yeah, I mean, I've seen the same thing even with Bluetooth devices, right? Like you end up with real cheap like Bluetooth audio device and your battery powered audio device and like sometimes it reports the battery correctly and the
+
+Connor: Yeah.
+
+Dan: that's how much battery has left.
+
+And sometimes it's like it's 80% forever because like they probably didn't use the attribute right.
+
+Connor: right. Exactly. That's exactly what it is. And so like it, and this is like also one of the reasons that I didn't implement all of the profiles in Blue Heron, there's a couple of 'em that are implemented. Like, the SMP security management profile is one I implemented because that's not one that I want anyone to have to manually 
+
+do, right?
+
+Like no one wants to have to spend their own crypto. This goes to same for Bluetooth. , If you want encryption, you just tell it you want encryption. Actually, I think I put it on by default by now. I think you have to go outta your way to turn off encryption on Blue Heron. , But like that was a pro, that's just a profile in GAT that you have to implement and that was the type of one that I wanted in the library and not users to have to implement themselves.
+
+whereas like the, the thermostat one, I could of course implement that and just all you would have to do is implement to the Get sensor reading function. But not all devices are going to implement the spec that way. So it's such a small amount of code that, you know, I kind of want you to own it.
+
+You have to decide how you are going to get your sensor readings and things like this.
+
+Dan: So where are the edges then as a, you know, if somebody's new to working with Bluetooth, working with Blue Heron, right? Like they, I've got a device with a Bluetooth chip on it. I have something I want to connect to, everything's connected so that I can, you know, put the right path to the device in, in my config.exs file.
+
+What do I have to do next? Like, do I have to write connection code? Reconnect logic? Do I have to worry about packet transmission rates? Or do I get to just start implementing a profile or use one of the ones that's in there? Like kind of where are those boundaries?
+
+Connor: So the, I'll call it the happy path. I'm not gonna say happy path in the way of like, you know, the way that you want things to and not to crash, right? Just like the happy path of the developer sitting there about to start a project is you write a module that implements the generic attribute.
+
+Behavior. I think you implement, get and write. It might be read and write, I can't remember the name of the functions, but two, two very simple functions. The first argument is a number, that you would traditionally put as like a module attribute to match on, you know, or what, however you prefer to write your, you know, you could do a case statement, whatever.
+
+and for. write you, you get a value as a second argument. And for read, you return a value and that's it. That's all you have to do. You look up the number that you need or you can invent your own number if you're that guy., And you return the value and everything else is kind of handled by OTP supervision.
+
+When you have Blue Heron on your device, it is an OTP application by itself. You have to give it the device file to open, otherwise it will fail and do nothing. Of course. But once you're at that point, you just write the, the behavior. And I suppose you have to tell Blue Heron about that behavior, right?
+
+You gotta give it, tell it. The module is in there somewhere. and the application code for your Bluetooth is ideally pretty small. Per each table entry, right? You're going to have potentially a lot of files if you know you're implementing multiple attributes at a time, right? Like every attribute will probably be one file, sometimes multiple attributes per file, depending on the profile.
+
+and yeah, you're ideally just writing read and writes and very pure functions. There's, not any. Any special like magic under the hood, behind them. If you want to test those functions, in X unit, you just test the module, you know your implementation. Read with the number you're expecting, outputs the other number you're expecting, you know?
+
+Dan: Now with, with Bluetooth LE there's not always pairing, right? 'cause sometimes you're just like, you can kind of just read stuff, but like for locks and stuff, there is some sort of like pairing mechanism.
+
+Connor: So that, that's the security management profile. SMP, by default, BTLE, Bluetooth, low energy is just reading and writing single values. There are some, uh, what do you say? There are some extra things for reading and writing multiple values at once, but it's functionally just reading and writing values. That's all BTLE does.
+
+and it. It's a lot of work to get there. You know, just reading and writing values, like when you think about all of the stuff that has to happen just to get one phone and one device to read and write values to each other. There, there's like this huge handshake of things that has to happen, but like functionally, device connects, device reads and writes values.
+
+That's all you have to worry about. when you get to actually using a device, most of the time, You probably don't want any device on the planet to be able to listen and see what is going on. You know, like I'm thinking of the glucose monitor. Maybe just publicly broadcasting your glucose levels to the open world for anyone with like a cracked droid to read is not like the greatest thing.
+
+So you put it under, under the security profile, which is another thing that you have to implement in it. Like if you're using. Blue Heron. You have to tell it how to exchange these numbers, which is like an implementation specific thing. If your device has a screen, you put the four digit code on the screen.
+
+I'm sure you've done this like with your radio or whatever it says, you know, here, here are four numbers. Do they match what's on your device? You have to be able to. Communicate to the user, those four numbers. You blink an LED four times, you know, whatever, 
+
+Dan: Sure. 
+
+Connor: however you wanna come up with it. It, it by default just goes to logger.
+
+So you logger next or, whatever the logger commands are, and you just find the code and type it in or whatever. But, for example, a device I worked on was this like internet connected pillbox that had this dot matrix screen on the front of it. So we would, we'd flash the, the number across the screen, and you know, you type it in on your phone, then you're paired up and now you can communicate back and forth securely.
+
+just like that. So that is a thing that you have to like think about. And I suppose there's probably ways that could, uh, you know, macro-ify this, such that there is some unified interface for it, but I just made it a behavior that you have to implement. You know, it's like read and write code or whatever, and you put the code on the screen, you put this code on the web browser.
+
+Wherever you're connected to the device, you type it in, then you're paired up.
+
+Sundi: Cool. One thing I was kind of thinking of through this conversation is a lot of folks who will tune in and, you know, if you're listening now, it's probably 'cause you're interested in Bluetooth or writing Nerves with Elixir or doing things outside of the norm with Elixir. What's one piece of advice you'd give to an Elixir dev who's diving into BLE or working with Blue Heron?
+
+Connor: you just gotta suck it up and read. Um, sometimes it just be that way, you know, like there's,
+
+Dan: Everybody's least favorite advice.
+
+Connor: I mean, like. Everything is written out in black and white for you. And there is some amount of testing things out to make sure that it behaves the way that your mental model is saying.
+
+But like most of the time when something doesn't work, right, go back to the very beginning, read the specification, and then you'll find this like. You know, two point font that says, with the exception of this one very specific case, it'll do the right. And you just have to find all those stupid little things.
+
+and that's like the hardest skill to learn is finding all of those, those little things because they're there somewhere. you know, I can probably count on one hand the number of times I've found an error in hardware documentation because it was an actual error and not just me interpreting it incorrectly.
+
+And that's really what it is. You gotta find the most authoritative source. what I find a lot of people do when coming from like web specifically, is they go to maybe another library or a blog post or some other piece of information that has a lot of really good information and, you know, it's, it's probably not incorrect information, but it's often missing important information that the author maybe assumed you already had or, or something like this.
+
+the Bluetooth specification does not assume anything of you.
+
+Sundi: Okay.
+
+Connor: It starts from scratch and it tells you everything. And it's a, it's a beast of a document, but once you kind of get to know it, you don't have to read the whole thing. You don't have to read it front to back. You just have to read the parts that are important.
+
+Right. And that's what I think really messes people up. They, they think of it like, bible of sorts that you have to read and memorize front to back. That's not what we're doing here. We're looking for specific pieces of information that you need to know right now and you need to know how to get around the document, how to find what you're looking for rather than memorize the entire thing.
+
+'cause that's insane. No one would do that
+
+Sundi: But you know what that lazy developer would do? The lazy developer would put the 3000 pages into some 
+
+Connor: into ChatGPT
+
+Sundi: situation and ask it the question that it, 
+
+Connor: You know, I'd be lying if I said I haven't done it before. But I mean, you know, it's, it's just one of the, you gotta know how to use the tool if you ask it. A lot of times what I'll ask, like if, I don't think I've ever tried to dump the 3000 page document into it, but what I have, like ChatGPT knows this document. It might not know the latest version, but changes are minimal. It's been roughly the same since Bluetooth 4.0. We're at, we're at 5.2 now. and ever since 4.0 it's been roughly the same. It's just more stuff keeps getting added. Um, and you can ask Chad, GBT, uh, you know, in the Bluetooth core specification, I want to implement a scale device.
+
+What profile do I need to implement? It'll tell you, it'll, you can, you know, hopefully ask it where it got this information and it'll tell you it. It's really good at this document in particular. I'm not gonna say documents 'cause I don't know, but, it knows this documents in particular quite well, and it can tell you the section you need to know to get what you want.
+
+You know, things like this.
+
+Sundi: I am mostly kidding, about the fact that it's 2025 and that's what people will do because Absolutely. You know, for a fact it would probably take less time for them to read a document, find the answer than it would to write the thing that, then gives them the ability to access the questions, but developers be doing what they'd be doing.
+
+So,
+
+Connor: yeah, every day.
+
+Sundi: yeah. Cool. Well, Connor, it's been real fun chatting with you. Do you have any final plugs or asks for the audience? Any shout outs or anything that you want people to be aware of?
+
+Connor: Uh, j just try Nerves, you know? You buy a Raspberry Pi, they're 30 bucks or whatever on Amazon. You get it the next day and you can blink some LEDs. You can connect some devices. For me, all it took was just like that one initial light bulb moment to realize that like, you know, with a relatively small amount of information, you don't need to be an expert, but, a couple of relatively small pieces of information gets you really far and now your toaster's connected to the internet.
+
+Come on!
+
+Sundi: A real literal light bulb moment. Perhaps?
+
+Connor: Perhaps.
+
+Dan: Awww! Sundi!
+
+Sundi: I am sorry.
+
+Dan: Well, as is always the case, whenever we talk about anything hardware related, I now want to go do all the hardware things.
+
+Sundi: I was waiting for Dan to say that every time.
+
+Dan: I do of this where it's, we're talking about this stuff, 
+
+Sundi: it's like once per season.
+
+Dan: it's like, oh, you know, my exercise equipment, has like, I've got a cadence sensor and a heart rate monitor, and they're both Bluetooth LE and I could connect them to my home automation stuff and like, yeah. 
+
+Sundi: Also, as always, with our hardware conversations, we'll try to link below all of the, like, getting started with Nerves, guides and things. we share it every time, but we'd like to include that in show notes for anyone who's just like, I want a quick way to get started.
+
+Connor: Yeah, the Nerves Livebook actually has a Blue Heron example built into it. It works on all of the devices that have Bluetooth enabled on them, to my knowledge. There's a pretty, pretty good little Livebook in there. You boot it up and it'll, it'll show up on your phone. You can connect to it, write some values you, you know, you can configure wifi, I think, as part of the example.
+
+So it's got some really good boilerplate, some really good example applications that you can kind of just get started with. You don't even need any external hardware. You just need the Raspberry Pi and a phone. 
+
+Dan: Awesome.
+
+Sundi: Nice. All right, so hopefully by the next time we chat with you, Connor, we'll all have tried it out, including Dan. Well, especially Dan.
+
+Connor: And, and open any issues that you find because I, I love working on Blue Heron and I'm, I'm not gonna say it's feature complete, but I only really add things to it when someone requests it. Uh, so, you know, if you find that it doesn't do something you want, let me know. And, uh, I'll, I'll do my best to, to work that in.
+
+Sundi: All right folks. You heard it here first. Connor's open for issues. All right, thanks Connor. We'll chat with you next time.
+
+Dan: Bluetooth to the Elixir verse everybody.
+
+Sundi: Yep.
+
+Dan: You. Thank you for chatting Connor.
+
+Connor: Yep. 
+
+​ 
+
