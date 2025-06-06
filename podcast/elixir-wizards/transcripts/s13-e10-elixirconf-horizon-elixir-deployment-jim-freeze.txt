@@ -1,0 +1,426 @@
+S13E10 Creating the Horizon Deployment Library with Jim Freeze
+===
+
+[​Intro:] Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is Season 13, The Creator's Lab, where we're talking to innovators who are expanding what's possible with Elixir, from groundbreaking projects to tools shaping the future with our favorite technology.It may seem like magic, but it's really the result of talent and lots and lots of hard work. ​
+
+
+Sundi: Hey everyone, I'm Sundi Myint, Software Engineering Manager at Cars Commerce.
+
+Owen: And I'm Owen Bickford, staff engineer at SmartLogic. And we're your hosts for today's episode. For episode 10, we're joined by Jim Freeze, ElixirConf organizer and creator of the Horizon Library. Welcome, Jim. How are you?
+
+Jim: I'm doing fine. Thank you. 
+
+Sundi: It's nice to have you. Jim, I think one of the things that we always You know, associate you with as, Elixirists are the one who brings us all together once a year, our illustrious conference organizer. but you also do a lot of your own, you have a life outside of ElixirConf, and I feel like we, we never, we never talk about that.
+
+So I thought maybe this would be a kind of a fun place to, to get us started. what are you up to recently in your own life that is not ElixirConf related? and then maybe what is also not ElixirConf related that is Elixir related that you'd like to tell us about. Let's go there.
+
+Jim: Okay. my life's pretty boring,because I don't have time for anything outside of Elixir and ElixirConf.but yeah, ElixirConf is a full time job and I've always had a full time job when I've been doing it. So, , that kind of was one of the reasons that led me to create the Horizon project because I had a little bit of time recently to do that because I was always just barely managing.
+
+To get my apps deployed. And so, yeah, so that's kind of where we went.I spent, and we'll go into this more, but I spent, what is it? the month of October basically working on Horizon.
+
+
+
+Sundi: Okay, so that's October 2024 for those who might be listening in the future.
+
+yeah. And so, life outside of Elixir doesn't really exist that much. and so, but lives outside of ElixirConf right now has just been horizon. All right, cool. You want to dig into that, Owen? You got the first question?
+
+Owen: it would be a crime to not talk a little bit about ElixirConf first, right? that's your claim to fame. I think that's howI know you primarily as the ElixirConf guy.I'm kind of curious, if you could tell us a little bit about the origins of ElixirConf.was this the thing you founded or had you done conferences before?
+
+and what's that journey been like for you personally? 
+
+Jim: I think I've said all this before, but there's probably people don't know the story. It's a, it's an interesting story. I'm the crazy guy who went to the first 15 Ruby conferences. there was only like 10 of us, I think, to the, went to the first 10. And I made it all the way through the 15 and I'd probably still be going if it wasn't for Elixir.
+
+so that's when I jumped ship and was focusing on that. But I started, yeah, I've been doing conferences for 20 years. we started Lone Star Ruby Conference. we decided we could, you know, back in the day, Regional conferences were great, right? And they were all over the place. And, we were the one in Austin and it was fantastic.
+
+We had a lot of great people there. So I just remember having a lot of fun doing that. I did that for like six or seven years. and then we started ElixirConf. and I decided, well, What happened with ElixirConf is, it was brand new, right? And I, I, I watched Dave Thomas's nine minute video on Elixir and I'm like, Oh, okay, this is what I'm going to be doing.
+
+I don't know how long, I think it was, I was doing it for less than a year. Then I decided that I wanted to be the one who did the main conference. So I started ElixirConf and it was called Crazy and even got a bananas award for being totally bananas for doing that. You can ask Jessica Kerr about that.
+
+Owen: The bananas award. All right.
+
+Jim: yeah, I should have brought it. I have this,they went to the very first conference. There was like 105 people at it and they went to Dave and Buster's the night before, and they won this stuffed banana that was like life size and they awarded me that at the conference for being bananas for starting a conference.
+
+Owen: That, so yeah, I mean, it's, I thank you for starting the conference. That's one of the highlights of my year. Every year vacation is nice too, but like it is also kind of like a vacation because
+
+Sundi: It's my one and only vacation in the year.
+
+I'm also maybe don't have a life outside of Elixir.
+
+Owen: Yeah. Actually, next year I'm going to have my first non-Elixir related vacation in a while, I think. we're all. Coding [00:05:00] losers or winners. I think you're hinting at something that I was interested to ask you. what are some of the challenges of organizing a conference like this, that's growing in scale?
+
+And also maybe what are some things that a typical conference goer might find surprising, or take for granted that you're maybe more painfully aware of as the organizer.
+
+Jim: so I can't read people's minds, but from talking to people, I believe the Conference goers are unaware of everything. It's unbelievable what you have to do to put on a conference. and I know the reason I say that is because I know a ton of individuals that have started conferences and they do it for a year and then they're done.
+
+but it's getting harder now. So ever since Covid, people's, expectations and, you know, the way they think about life in general, I think it's kind of changed somewhat. so before. We didn't expect to have online, videos and stuff of content. Now it's kind of expected. prices have gone up recently.
+
+we used to have four day conferences, we're moving away from that. I think now it's, it's going to be a max of three day with a day of workshops and two days of conference.I think one day is probably not enough, but two days is about right. So I think. We need to change some things, but we don't really know all what needs to change, but I'm, I'm very open for if anyone has any input on what they'd like to see for the upcoming conference.
+
+we're right in the beginning stages of planning a lot of details. and more than happy to, to adapt, because I think we need to adapt and adjust, and you're going to see that in the coming years. we're going to adapt as much as we can, because I think we need to meet the needs of the community.
+
+the bottom line, the main thing that Elixir produces, I believe, is the content from all the talks. we have So many talented individuals out there, who give such great content and my YouTube stats are always, you know, they don't look great cause I'm not getting millions of views.
+
+But when you look at like the hours. Like hundreds of thousands of hours of watch time. and I find myself, going and watching these videos all the time as a reference. So it's, it's a great, great value, I think, to the community.
+
+Sundi: That actually is something I've never thought about asking about, or just something I hadn't thought about, is like YouTube stats, obviously, like where this podcast is on YouTube before, and I've never really thought about the evergreen nature of a lot of these talks and how you can watch them again and again like as reference or background, if you just want to hang out with your friends, you know?
+
+but. That is actually really interesting to think about is like the watch time and the reuse, can you see, if somebody's watched it again, can you see rewatches or things like that? Or do they all just count as views?
+
+Jim: I don't see individuals. but I do see watch time and, I see views, and the watch time is pretty good. but you know, Some of them are monetized, some of 'em are not monetized. And so I'm making, I mean, I'm making a whopping $2 a video sometimes, so it's well worth it. Lemme tell you.
+
+I actually wanted to ask that one time. Cause I remember thinking, Ooh, can I curse in this talk? Jim's going to put it on YouTube and I don't want to demonetize it.
+
+so far, I don't think I've been being demonetized on any of them.
+
+Owen: So we need more hot takes in our conference talks. That's what you're saying.gotta get those views up.this conference has been around for many years now. Are you seeing kind of trends, upticks? Are the numbers, number go higher or kind of the same, or are you seeing ebbs and flows over the years?
+
+Jim: before Covid, we were, we were 750 and we were heading at the rate of growth. We were heading for about 850 now combined, we're hovering above 600. online and in person. I'd like to see that 600 number be 600 in person or even higher. and we have, you know, we think that shortening the conference times will help us with that because we're kind of at the mercy of the venue and their cost.
+
+we can definitely lower our cost per ticket. By reducing the conference length. So we hope that gets people out. Elixir is so active on so many fronts, right? I mean, it's hard to imagine almost everything in tech out there. Elixir's got something. That's cutting edge. we've got LiveView Native.
+
+We got the NX project. We got all these things and now some PostScript work. It's, it's amazing how, how many fronts Elixir is excelling on. we just need to get the word out. I think that's the biggest thing is not many people know how great Elixir is. And yeah, even after what, 12 years, it's still a niche market compared to some other languages.
+
+Sundi: Owen, do you remember, I don't remember if it was like a tweet or something where it was like you know, they're an [00:10:00] Elixir engineer because they don't ever shut up about how good Elixir is.
+
+Owen: Ha
+
+Jim: It's not like we're vegans. I'm sorry. Can I say that?
+
+Owen: ha. I, that's a sentiment. It's also a truism and it is very true for me personally. I mean, like there are people, just like friends of friends who are like, they say the word programming or code and it's like, Oh, Elixir. It's just, it's yeah. Every conversation that's, you know, it's going to come up.
+
+I think I've told you in person, but I would not be an Elixir engineer. I don't think if it wasn't for those talks being available online. I watched many, many, many hours of talks. I've kind of transitioned more to like reading docs and source code and stuff now, but, there's still a tremendous amount of value in the videos.
+
+And I still learned a lot from videos, but definitely early days for me, I learned a whole lot just from watching the content, not only about technical, like Elixir specific stuff, but how people present information, and how they kind of,make things fun as well. or how they don't make things fun.
+
+so yeah, I learned a lot and I appreciate that. Not only the conference is a great place to like make friends and hang out with people and stuff, get a bunch of great food if you're near a bunch of good food in Orlando, for example, but also just the content and the talks and stuff is really top notch. 
+
+
+
+Jim: I always get very inspired at conferences to talk to people and hear what they're working on. And invariably I always get new ideas or I learn something or two or three things on how to improve my daily Elixir life. So, you know, you think, oh, it's all online, but no, it's, it's really, it's like sitting down next to someone and saying.
+
+Oh, yeah, I got a solution for that. And you're like, oh, yeah, okay, thanks. I've been wondering how to do that. And there's so many, there's so much knowledge to share in person. and, and, uh, I, I think that's kind of sometimes forgotten.
+
+Sundi: One of the things that I think I, I was surprised to learn about you a few years ago, not about you specifically, but just about the way that the conference and stuff is put together. I didn't realize that you put together the website yourself. is that true? Am I misspeaking? 
+
+Jim: Yeah, that is, I did.
+
+Sundi: and you do some other of your own like tech support behind the scenes.
+
+You build it with Elixir, right? Right. Can you describe some of that and is some of that kind of why you started Horizon? 
+
+Jim: It's 
+
+Absolutely why I started Horizon..
+
+so I'm always running a day late and a dollar short. and It's literally, I'm like, my philosophy in life has been like, okay, I got five trains running at me at a hundred miles an hour. And so my job is to dodge the closest train. and then I move to the next train that's going to run me down. and if you look at the websites and it, I mean, yeah, I, you could just say, Hey, I'm dumb. I didn't do it right the first time, butI have a website for every year and it's only until recently that I've started to combine those. but I just never had time to, to formalize something right.
+
+That I could reuse. And so it was easier just to kind of copy and update and change the website. And then I would say, ah, I need to deploy this. And I'm like, ah, well, I'm on an old version. So now I'm just, it's just going to be easier just to create a new version. You know, and update it. And so that's, that's kind of what led us to where, we're at with horizon.
+
+This, you know, I had, I couldn't go back and update these websites. I couldn't update the servers. It was, I could, I just didn't have the time to do that. and so finally I sat down and wrote a system that let me, manage that a little bit better.
+
+Sundi: Okay. So I guess from the top down , what is Horizon? If you're at a different conference and they were like, Oh, what have you built recently? how would you describe it to them?
+
+Jim: Have you heard of Kamal? it's a deployment strategy, I think that DHH uses. what Horizon is, it's a way to deploy, it's targeted for Phoenix deployments.
+
+Okay? With Postgres on FreeBSD systems. That's bottom line, what it is. It lets you stage, build, and deploy in a very simple process.
+
+Sundi: Who's the competitor? I
+
+Jim: Ah, that's a good question. I haven't thought about that. everybody? I don't know. Nobody?
+
+Owen: all cloud services.
+
+Sundi: If you, if you were going to pay for a service to do the same thing, what would have been your next pick out of home growing something?
+
+Well, that's a good question, because I don't know. the best competitor would be Fly, probably, right?That helps to categorize it for some people who are listening in, who really, who maybe kind of understood what you just said, but maybe they know what fly is. okay, cool. Thank you.
+
+Jim: yeah, everyone else, this is, you got to roll your own. You got to still do some work with this, right? But, Fly has kind of done everything that I've wanted to do, but they've got a nice little interface for it. 
+
+Owen: yeah, so just to put a little bit more, detail on that, I think if you're on a hobby project, you're probably, if you're on a [00:15:00] hobby, Elixir, Phoenix project, probably defaulting to fly these days. If you're running a startup, you're probably at least considering AWS, DigitalOcean, if you're following the industry patterns.
+
+But I think what you're building on is this notion of, Just run your own kind of bare metal machine and write some code or like write a framework that will help, make deploying your application to that bare metal machine a little bit easier. Is that kind of what Horizon's doing is abstracting away some of the deployment process for Elixir apps? 
+
+Jim: Yeah, we're just kind of putting a framework in a little package and putting a bow around it, what you could normally just write yourself.but we're not, we're not specific to anything. The only requirement is that you have a machine, that runs SSH, that I can SSH into. That's all that the requirement is.
+
+So you can run this on AWS, you can run it on Google Clouds, you can run it on DigitalOcean, you can run it on Hetzner. It doesn't really matter, you can run it on your own. System with Proxmox. I've got a little Geek computer over here, my home lab. I meant to unplug that so I could show you, but, yeah, it's a little bitty box and it's awesome, so I can, if I wanted to, I could deploy to that and I could use CloudFlare to tunnel into my machine at home and deploy for free, which I might do on some things that are like antiquated and I don't need it anymore.
+
+Owen: Yeah, like low risk, low cost, you know, whatever kind of like, I don't know, home monitoring. If you're not doing a pre rolled or pre cooked solution kind of thing.
+
+Jim: Yeah, if you had a static side or something, right. yeah, so what we do is we let you... do you have any apps,any side projects that you want to deploy?
+
+Owen: yeah. So I've got every weekend, a new side project at this point. yeah, I've got one in mind. I could, I will eventually want to deploy if I, you know. I have something I want to show off to other people. 
+
+Sundi: What does Owen have to do to get his app? 
+
+Owen: owensacme. com. Let's let's deploy.
+
+Jim: Owen's acme app. Okay. All right. So first of all, you need to decide where you deploy it.doesn't really matter. DigitalOcean, Hetzner. I was a big Google cloud person until when I started working on this project, I introduced ZFS into what I was doing and I don't know if you know anything about ZFS, but it's like, once you start, once you learn ZFS, you never want to go back.
+
+Sundi: Does it stand for anything? I'm going to stand by my queen of the hates acronyms title here. 
+
+Jim: ZFS is the file system that basically snapshots are free, 
+
+Sundi: Zettabyte file system?
+
+Jim: ZFS, it's awesome. So, If you think about it, how many computers do you need if you're using Kubernetes, right? there's at least like three or four involved if you're deploying Kubernetes. if you were just deploying a side project, you would need maybe one.
+
+You could get by with one computer, right? You put Postgres on that same computer. and you run your Phoenix app on that same computer. You could do that. Horizon would let you do that. It's not going to stop you from doing that. but what I have kind of, all of my examples and stuff is I set up two.
+
+web servers, okay, and I use Nginx to proxy between those, and I set up a Postgres server. And with the Postgres server, I backed that up with, uh, a snapshot to, to a different server, every 30 minutes. And so that's all the examples that I have. So that takes four computers and on Hetzner, at the time, there was like seven bucks a server, right?
+
+So for $28 a month, I've got a fault tolerant system with two web servers, and a backup failover Postgres client, right? if you ever paid for managed databases, those are expensive. Here, you've got everything you need. , the one I just deployed for ElixirConf, I'm running like one, two, three, four, I'm running five services, five web apps on that same thing.
+
+Right. And so that's easy just to deploy it. Just add another. web app, it doesn't matter. And in Horizon, you just add another web app to it. in Nginx, it says, Oh, sure. I can serve this one up too. and so all the apps have failover, and load balancing, automatic load balancing. So it's, I've got, it's a compromise, right?
+
+So yes, I could add more servers, but I now have pretty stable system. That's fault tolerant with four servers, 30 bucks a month. It's like. Yes, I should have been here years ago, but it's taken me a while to get here.
+
+Sundi: How much time did you use to spend on the general tasks that you are now not having to spend because you built yourself this tool? 
+
+Jim: for example, like every year I would have, I'm like, okay, at one point I started saying, [00:20:00] I really need to put my Postgres server on a different box. And so I would stand up a Postgres server. But you know, when I only do that once a year, it would take me four hours or more to go in and go, ah, what, I got to do all this stuff.
+
+I don't remember what I did, what are the, all the configurations. and so now it's literally I can stand up a Postgres server in like Three minutes. and it's got all the logging set. It's got all the controls, all thehost based authentication, it's all ready to go. So, and then I also wrote some helpers to, restore, so you can back up and restore your databases.
+
+So if you have an existing database, you can, you can back it up with PSQL, or you can back it up with PSQL over SSH in case you don't have access to that. And then you just turn around and do a restore of the databases and change the ownership and boom, you're ready to go on your new server.
+
+Sundi: Okay. I mean, I ask because I think it's like the tale as old as time question for engineers. Do you spend the time building it so it can save you not that much time, or do you spend that time building it and it saves you a ton of time? So it sounds like that was in fact worth it. And I guess this is a task you do every year and it's lengthy, right?
+
+Jim: Yeah, yeah, absolutely. it's definitely not category A and I've done plenty of those.the nice thing is it lets you, it lets you so called eat your own dog food, but you're a little bit higher on the food chain and if I needed to deploy a new Postgres server. I don't have to think about it.
+
+It's just literally like a push of a button and I could deploy a new Postgres server. things are a lot different when you can, when you have tools with a lot of power like that, you just change the way you think and the way you act so you can do things that are better for you in the long run instead of cutting corners.
+
+
+
+Owen: How does this compare to something like Terraform? It sounds kind of similar to Terraform in some ways. I'm not the Terraform expert. that would be Dan, our other Elixir wizard here. but I think of Terraform as provisioning machines and sometimes will be Ansible to also kind of provision the application on that machine as a second or third step.is Horizon kind of like Terraform and or Ansible, or is it something else?
+
+Jim: Terraform is very,sophisticated, right? It has a little bit different mindset. I mean, it's very nice, but you would tell it, I want five servers in this project, say, right. And if you deployed that or executed it and you had six running, it would shut one of them down for you.
+
+Right. So It's like knows what you want and so it kind of owns and controls your whole environment. There's also Ansible, right? So Ansible would be a way to install software. So when I started this, I'm like, okay, I don't want someone, I don't want dependencies. I want to minimize dependencies as much as possible.
+
+and I don't want people to have to learn something. Right. I don't want to be dependent upon that because what I did every day was just super simple. Right. And so the most advanced scripting I do is Shell scripting. I don't do Bash scripting. Part of that's because of FreeBSD, but I just wanted something that, that was as simple as possible and got the job done without cutting too many corners.
+
+that's why I shied away from, the dependencies like Ansible. I mean, I looked at Ansible. and I've done, I did Terraform a long time ago, but I would say if you're doing that,you're in your own enterprise class, you're doing this full time. if you have a project and you're deploying your five servers or whatever, and you have a problem, I wanted you to be able to understand that immediately and go in and fix it.
+
+I didn't want you to have to go, Oh, great. Now I've got to buy tech support for. Terraform or Ansible or something like that.the other design goal that we were doing is, I used to work for a company and we used a lot of, GitHub Actions, right, to deploy. And guess what? GitHub was down when we wanted to deploy.
+
+Owen: Oh. Oh no.
+
+Jim: So that was another design goal is like, SSH is my only requirement. So all I need for you to deploy. Is your, your service provider to be running. And if your server provider is down, you can't deploy anyway. So that was a big requirement. It's like, we don't want any requirements other than you and your service provider for you to make deploy 
+
+Owen: And your internet provider. So yeah, like there's a couple, like you're, but those are always going to be true no matter what you're doing. Right. If you're deploying.
+
+Jim: Yeah, well, you could, you could deploy it. Like I said, you could deploy your house. 
+
+Owen: there you go. Yeah.
+
+
+
+Owen: yeah, so this is like an Elixir native deployment tool. Whereas like Terraform/Ansible, those are more abstract, universal tools that would support any language. I think what I appreciate here is that you're reducing dependencies. This is a package you install, your developer machine connects directly to your [00:25:00] server, or maybe your CI platform does this kind of as an intermediate step, and then it provisioned the application and launches it, And you don't have to do as much. Is that the TLDR?
+
+Jim: Yep. Yep. Stage, build, deploy. 
+
+Owen: There we go. Yeah.
+
+Jim: So we made it simple.
+
+Owen: what brought you to FreeBSD? Linux is kind of the language of the land when it comes to deploying apps. Typically. I know that FreeBSD is not, that's nothing new. It's been around for decades at this point. are there particular benefits? I know you're going to say ZFS, ZFS and others.
+
+Are there like benefits to running particularly an Elixir app on FreeBSD?
+
+Jim: I would say yes, because you know, I chose that, but,it's like,how much can I go against the grain or, you know, shots fired if I say anything here,which I don't want to do. Right. So way back. 
+
+Owen: Drama.
+
+Jim: Yeah. Oh, I got, so I have so much. PTSD, you know post traumatic stress syndrome, or whatever, it's PST.
+
+What is it? anyway, I used to own a company where I was a, service provider, right. for basically doctors and dentists and stuff like that. And, we had this one app. And it ran, it was for a doctor's office and it ran on Red Hat and I had to help them update it.I mean, it's Red Hat, right?
+
+And I'm working with their installers and they had me go to a PC, Download the FTP tool and FTP to the Red Hat server. 
+
+Sundi: Can we inquire about the year?
+
+Jim: They didn't have to do it then. they still do this today. It's it's unbelievable. I was just like, hey, you've got a SCP or FTP right there on the Linux server. what are you doing? And, so I had a little stress with that. It's like, wow, and then I created a backup device for offices and man, I tell you, I learned so much stuff.
+
+I would go into offices and they say, yeah, we got this backup device. And you would look at it and you're like, yeah, it's backing up our stuff. 
+
+Owen: It's tape. 
+
+Jim: it's like, there's nothing, there's nothing in the backup folder. 
+
+Owen: Oh, even better.
+
+Jim: They just plugged the box in and thought it would work. Right. but I, I wrote one and I tried to do it with FreeBSD but I wasn't that smart.
+
+and I had a friend who just, man, he knew everything about Linux andso we started using CentOS and he helped me and so we, and it was nice. So Linux was great, right? We had uptimes of three or four years, no big deal. and then I think, CentOS, died somehow or changed. I don't know. it's 
+
+Owen: there was 
+
+changes. We had to do a whole migration for a, for an application off of CentOS. Ubuntu, that was,
+
+Jim: Yeah. That was a sad day, right? That was a sad day. But if you go back, if you roll the clock way back, , when BSD Berkeley Systems, software was, out there. the reason Linus started Linux is because of licensing, right? AT&amp; T said, hey, you know, you owe us for this. we want to get paid for this.
+
+and that started, that was the impetus to start Linux, and now you roll the clock forward, it's kind of funny. now you have FreeBSD and, and ZFS, right? And. The Linux people want to use ZFS, but the license says in ZFS that it opens up whatever you put it on or something like that. Anyway, I'm not a license person, but the point is no one can ship it.
+
+Owen: I think I've heard that Ubuntu will do an upstream compile for that, but,Oh, right.
+
+Jim: so the, the point I'm getting at is here. So if I did Linux, and by the way, I wrote, I wrote Horizon where you could add stuff. There's no reason why you can't add Linux, but then you're going to have to do one for each flavor, right?
+
+You don't have to do one for Debian and one for like Red Hat and stuff like that, because they're going to use a little bit different systems. but I wanted a system, that was simple. And again, that was one of my design goals. And I knew FreeBSD was super stable, like absolutely. . Stable and it's secure.
+
+it's got one of the best,performance architectures and network architectures as well. and a lot of, some of this thank you, Netflix, right? Cause Netflix, has. Beat the heck out of a CIN file, and found a lot of bugs and stuff. FreeBSD is super robust. The other thing is fundamentally,the user land and the kernel are all written together, right?
+
+All that's developed and shipped is a single coherent unit. so you didn't get that with Linux. basically I was trying to avoid a system where I had to worry, I didn't want to worry about a bunch of external things. I wanted a solid OS, that was secure and performant, and that would do the job.
+
+And so a couple points to that. again I'm kind of targeting serverless people, right? If you're running serverless, you don't know what you're running. Neither should you care, right? So if I told you, Hey, you're going to use package A or package B, package A is a little more performant, a little more secure, or package B, which you won't, you're going to choose package A.
+
+And if you never had [00:30:00] to hit the command line, what do you care, right? you might as well use FreeBSD.so FreeBSD makes a good option. for that, the reason to not use FreeBSD would be if you, and this is always the case, Linux is always more, up on the cutting edge with compatibility, right, and applications you may need.
+
+However, in the web space, that's going to be very rare, right? if you did have an application that you, Did need to run and it wasn't available on FreeBSD. Then you would have to like hope someone has already written a Linux package for Horizon.
+
+Sundi: could other people either help you with this project? Or could, if somebody wanted to spin up their own project with Horizon, how easy or difficult would it be for them?
+
+Jim: that's a great question because it should be easy, but the problem is, When I started writing the docs, I think I, There was so much to write, because it just turns out that when you're starting to, you know, you got to choose a provider and then every provider is going to have a different way to build a machine.
+
+Right. there was just a whole bunch of steps. As mentioned, you know, it's just stage, build, deploy, right? Once you get everything set up, it's super trivial, but it may take you 30 minutes if you haven't done anything. to get stuff set up and probably more realistically it would take you three to four hours because you may have to mess with your DNS and you may have to go to a different provider or whatever.
+
+So this original setup to get those four machines running, you know, it's a one time expense and it may take you a little bit of effort but once you're there, everything's so easy. And very manageable.
+
+Owen: I've been looking at these docs while we've been talking and if I could, I would give you a standing ovation right now. Like this, if I ever need to install FreeBSD again, this is probably where I'm going to start because I tried FreeBSD several years ago, just kind of on a whim just because I was.
+
+DistroHopping and I heard this one was even better. So, you know, I figured I'd try it out. The documentation was good enough. I was able to get started and do things, but I think it assumed a lot of knowledge that I just didn't have at the time. It might be easier now, but, I'm liking what I'm seeing here just by skimming through the docs, got a lot of screenshots, you're essentially documenting how to install FreeBSD.
+
+In addition to All the Horizon stuff you're doing. So 
+
+Jim: Yeah,
+
+Owen: I think that's even on its own is like a really valuable piece of literature that you've put together there.
+
+Jim: I put a clock on it. It took me three minutes to do that the previous installed and that wasn't really a speed run. 
+
+Owen: Nice.
+
+Jim: and then I made a little script for you to finish it off, but I learned something in that whole process. Guess what I learned?
+
+Owen: Uh,
+
+Jim: hex limits you to 8 megabytes
+
+Owen: Hex. Oh, Oh, cause yeah, all these images are, I'm sure a little bit more than eight,
+
+Jim: or 8 gig, whatever it is. I had to go and recompress all those images or I had to figure out a way to put them external. I opted for figuring out a way to compress them. yeah, that was kind of a, it's like, oh, I can deploy. Oh, no. It won't let me deploy. 
+
+Owen: Yeah. So for our listeners, we're going to have in the show notes, a link to the Horizon docs. And if you go to the pages, there's free BSD installation. That's the thing we're talking about here. It shows you step by step all the screens you're going to see when you're setting up free BSD on a machine.
+
+And of course you've mentioned Hetzner. I think you could do the same thing on DigitalOcean or any kind of, your local machine if you're able to you know install your own OS. We've talked about a little bit about kind of, service providers. I know Hetzner is the one you kind of started with here. And then I think just within the past week or two, there's been some changes to pricing and has that impacted your kind of how you see Horizon and its emphasis on Hetzner?
+
+Jim: it's probably worth exploring other things, but, I'm, I'm still in the zero terabyte range,
+
+even for running five apps on the same four servers. but you know, maybe it's per server, right? I don't know. I'm not sure how that's going to turn out, but, yeah, I think my cost, well, I believe I may be locked in.
+
+Okay. But if I created a brand new, web cluster topology, like I've shown there, it would probably be 30 a month instead of 28 a month. So unless I'm going to get killed with some DDoS stuff, I don't, I don't think 
+
+Owen: hmm. 
+
+Jim: issue.
+
+Owen: And you're not serving those Elixir Conf videos from these Hetzner machines.
+
+Jim: Yeah, that's 
+
+right. Everything is, yeah, exactly. I think if I did, I could. That's still very generous. but yeah, they did, that was a strange thing. They went 20 to one or something like that. Right.
+
+Owen: Yeah. It was basically the, I think the allowed bandwidth was, it sounds right, like 20. If we had the internet, we could fact check this, but yeah, from maybe 20 bytes, terabytes to a [00:35:00] one terabyte allowance per month.
+
+Jim: Yeah. I kind of ran out of time, but I was going to write some docs for how to do this AWS, how to do it for Bolter, how to do it for Google cloud, By the way down. sad news for Google Cloud I've been using it for years, but they're based previous d install, which by the way, you don't have to install yourself, doesn't come with ZFS. And so I would have to go write the instructions for how to swap out the current drive that they give you for a Z FS one. And I'm like, eh, I don't wanna do that. If someone wants to do that, that's great. and then you can use the,you could use this on, on Google cloud, but, right now it's just, I'm trying to figure out a way to do all the things I have to do in the amount of time and it's, it's just not worth my effort to go do that,
+
+
+
+probably not worth many other people's time either when you get a solution as, as nice as Hetzner here.
+
+Owen: if you had to do it all over again, or if you were going to give advice to somebody else who was going to build a similar tool. What would you do differently, or what would you tell somebody, to do differently in your stead?
+
+Jim: yeah, I don't know. I think I did most things right in this, right? Now, again, I'm very low on the feedback. I got like 160 people on using this, right? Woo.
+
+Owen: You're living the life.
+
+No users, everything's perfect.
+
+Jim: I am changing at least one or two lives out there. Maybe, hopefully this can be used to show if nothing else to showcase that you can run your own server, you can run, you don't need Kubernetes, you don't need all the fancy stuff.
+
+I think a lot of people are afraid. of running their own server. And it's not that hard. and I know people are afraid of running a managed, you know, running a neural Postgres server, but it was like, I've essentially got a managed Postgres server, I've got backups. I guess one of the next things I could add to this, there's a couple of things that I'm on the drawing board that I need to do, one is to deal with, certs and I have a, PKI methodology to deal with that.
+
+but that's mainly for teams. You don't need it as an individual. and the other one is to stand up a hot, standby for your Postgres server. and so maybe if there was a way to charge for Horizon , kind of like, you know, Oban has a free part and a paid part, maybe that's something I could, could look into, but, But yeah, it wouldn't be hard for anyone actually to set up. There's so many documentations on how to set up a hot failover. And now you can create the server in minutes. You just need to add the config to it. And, uh, you have a highly available distributed Phoenix cluster. I mean, it's pretty awesome for 32 bucks a month.
+
+Owen: It's hard to beat.alright, let's walk it through. Let's imagine, alright, Acme, Owen, Owen's Acme, whatever we called earlier. I'm deploying my Phoenix app. I see like there's maybe an extra step I have to do for Tailwind. are there any other kind of common Elixir dependencies that need a little bit of TLC to run on FreeBSD?
+
+Jim: Okay. That you bring up a good point. David Cottlehuber, I don't know if I'm saying his last name right. DCH, he's a FreeBSD core member and he was so generous with me. He spent, a good two or three hours with me and we were working through Tailwind stuff. And so he hosts. So now everyone's using ESBuild, right?
+
+You don't have to install Node. and he's built, he builds the,Tailwind.I guess they're binaries, for people to use, right? So you don't have to use Node. Socouple drawbacks here. So there's a new tool. The tools are kind of broken. For FreeBSD to build these binaries.
+
+And that's, so he, he's got a process that he can do that, but right now he could only do it for AMD 64 machines. Right. So if you want it on the ARM machines, I was working with him,I'm just there for moral support. I'm not saying I'm helping him, but, We found a way A different method that was quicker, that would get an ARM binary compiled.
+
+But upstream of that, there were some issues with, some patches that need to be applied to some of the tools that are used. And so I think he's been working on that process. I guess one thing to note. for right now, if you don't, if you don't want to install ARM, which my setup doesn't rely on ARM, you have to use AMD 64. 
+
+that's one notable thing. so as far as I know, and then,Jose did a good job with, Tailwind that on the Tailwind install that you can just give it a URL and it'll download that, right.but when they did that, they took out the flag that said, don't do that if it's already installed.
+
+Owen: Oh, so it's missing the if, missing the if missing
+
+Jim: yeah. and so you learn a lot of this stuff when you start doing this stuff. So basically I had to write my own little check. To make sure that wasn't there. And then I download it. And one of the nice things I did with this so there's the things, there's this path you have to do, to [00:40:00] get a server running the first time you do it.
+
+Right. And then there's a different set of things you have to do every subsequent time. And I wrote my code such that I didn't have to worry about that. Right. and I think you know, all the good, Systems seem to kind of do that. I think Fly was maybe like that as well. But basically, when you say build.
+
+You don't have to worry about if it's the first time or not. I go in and I check. I do all these checks, to see if,Tailwind's installed and stuff like that for you, and I don't reinstall it. and it's the same way with, with the, uh, the installs, right? So you can run an install script five times.
+
+And it won't reinstall stuff. It'll check, Oh, it's already installed. Don't have to do that. set your path. Oh, don't have to do that. Path is already set. So that was a lot of the work in this is just making things really easy for people and kind of somewhat bulletproof. but yeah, the Tailwind issue is probably the stickiest issue, right now.
+
+And that's because, you know, I don't know, should I say that word? Uh, JavaScript. 
+
+Sundi: We don't 
+
+We don't 
+
+curse on this podcast.,
+
+Owen: that, which should not be named, and this
+
+episode will never air.
+
+Jim: but you could tweak this whole thing. If you really wanted to run on ARM, yeah, you could install Node on your FreeBSD system and do it that way. So that 
+
+Owen: Okay. 
+
+Jim: possibility.
+
+Owen: So it's a little bit more like install node, maybe compile from source, yada, yada, and then get ES build and Tailwind. Okay. Gotcha.
+
+Jim: Yeah, and if anyone needs, a way to compile Node, a special tailwind binary, I have the instructions for that I can share with them.
+
+Owen: Sounds good. We, there's so many. Subtopics to dig into here. So it's unfortunate that we're not like one of those five hour podcasts where we can just go off and wander the, the, you know, the FreeBSD Horizon deployment. Landscape. 
+
+Sundi: Yeah, I mean, Jim, you are already living the dream. You answer to no one. You deploy what you want, when you want, and you made it. So you can do really whatever you want with it. But if, anyone wanted to help you, or if they were just interested in the project, is there somewhere they could find out about it, a GitHub URL, any kind of social media or anything like that ? 
+
+Jim: yeah, so I think all of my DMs are open on, on, most of the social media channels out there. I'm jfreeze on GitHub, and , I believe you can submit issues on the Horizon project, on GitHub as well. So yeah, I'm be more than interested if someone wants to help out or add something to it, and if you are trying to use it and you need some help, if I have time, I'm more than happy to hop on a call and, walk you through it because I think it, it'll bring some value to some people and we'll see what happens.
+
+Sundi: Yeah, if I could ever wrangle together another, pair programming night with my meetup stuff, that could be fun. We could get, owen's deploy out there live. 
+
+Jim: Oh yeah, that'd be good. Have a deploy fest. Yeah. Are . 
+
+Owen: DeployFest. All right, new conference. All right, before we go fully off the rails, off the tracks, derail, it was a fun conversation. I look forward to deploying more apps and taking a stab at using this Horizon package. thank you, Jim, for ElixirConf, for Horizon, all the documentation, and,
+
+Sundi: for joining 
+
+us today. 
+
+Owen: yeah, thanks for joining us as well.
+
+Jim: Thank you. 
+
+Sundi: Hey listeners! As we wrap up Season 13, we'd love to hear your thoughts on the show. What's working, what could be better, and what you want to hear in the future. Please fill out our listener survey at smr. tl slash ews13. Your feedback helps us shape the future of Elixir Wizards, and we really appreciate it.
+
+Thank you for listening! 
+
+[Outro:] Elixir Wizards is a production of SmartLogic. You can find us online at smartlogic.io, and we're @smartlogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik for SmartLogic. Thanks for joining us in the Creator's Lab, and we'll see you next week for more stories of innovation with Elixir.
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+

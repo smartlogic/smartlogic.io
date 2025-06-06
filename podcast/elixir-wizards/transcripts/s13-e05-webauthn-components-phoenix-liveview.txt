@@ -1,0 +1,420 @@
+S13E05 Creating WebAuthnComponents with Owen Bickford
+===
+
+[​Intro: Welcome to Elixir Wizards, a podcast brought to you by SmartLogic, a custom web and mobile development shop. This is Season 13, The Creator's Lab, where we're talking to innovators who are expanding what's possible with Elixir, from groundbreaking projects to tools shaping the future with our favorite technology.It may seem like magic, but it's really the result of talent and lots and lots of hard work. ​
+
+[00:00:00] Dan: Hey everyone, I'm Dan Ivovich, director of engineering at SmartLogic.
+
+[00:00:15] Charles: And I'm Charles Suggs, software developer at SmartLogic, and we're your hosts today for episode five. We're joined by Owen Bickford, Elixir Wizard and creator of the WebAuthn components library for Phoenix LiveView. In this episode, we're discussing Owen's work, creating a hex package for passwordless authentication to LiveView applications.
+
+[00:00:36] Welcome to the show, Owen.
+
+[00:00:38] Owen: What? What's happening?
+
+[00:00:41] Dan: Many time host, first time guest.
+
+[00:00:43] Owen: Right, long time first time. I've never been a guest on this podcast, have I? 
+
+[00:00:48] Dan: Uh, not that I can, not that I can recall. So, Owen, why don't you tell us about yourself?
+
+[00:00:53] Owen: Right, so I am a co host of a little podcast you may have heard of called Elixir Wizards. Should check it out sometime and, uh, I've been, uh, fortunate enough to write Elixir full time since 2021. So just over three years. Wrote some Elixir for fun before that and, PHP, some JavaScript as well.
+
+[00:01:15] Enjoying my career as a software engineer and I'm actually really excited that we're getting to talk about passkeys because this is actually one of those rare technologies that improves security without making your users miserable. 
+
+[00:01:28] Dan: tall order there.
+
+[00:01:29] Owen: Tall order. Yes. 
+
+[00:01:31] Dan: so why don't you start off by setting the stage? Why passkeys? Where did we start? Where did we go? Why are we here?
+
+[00:01:37] Owen: Okay. Buckle up. It's going to be a journey. This has been what? 50 years or more of evolution on how, how you authenticate a person on a system. So that's what passkeys is all about. So, I'll try to speed run the history of how we got to Passkeys, right? So, our audience is mostly engineers, software engineers.
+
+[00:01:57] So, typically, when you're writing an application, whether that's Elixir or any other application, if you need to protect access to the application, you're going to require an email and password. That's kind of like bare minimum, right? That's kind of like the most common way of authenticating a user.
+
+[00:02:13] Authenticating means like confirming that the person is who they say they are. Now it's imperfect. There has been an evolution of, maybe several decades ago, you would put just a password in a file or in a database just as raw text. And then whenever a person types it in, in the browser, you would just compare the strings.
+
+[00:02:34] And if they're exactly the same, you would let them in. But then you've got problems with databases can be compromised. Data leaks. So then, we evolved to encode and hash salt and salt and hash our, our passwords with all these different encryption methods. So your application would have something called a secret key.
+
+[00:02:54] And whenever a user would enter a password, you would do some math to kind of. Uh, hash and solve the password using one of a set of algorithms. And then that would go in that, you know, encrypted password. We go into the database. So that was an improvement to plain text passwords. Then the next challenge is that, well, actually once enough of those have been, Save to databases and those databases have been compromised.
+
+[00:03:20] There's something called a rainbow table where at least common passwords and phrases can be easily decrypted using something called a rainbow table, which is just kind of a table of previously Unencrypted or decrypted passwords that have been compromised. One of the main problems is that actual real world users tend to reuse passwords across multiple sites. We're expecting our users to remember a password. And, they'll typically use password 123 or something kind of contrived to get into their, some of their most sensitive accounts, which is really bad. And, you know, it's been kind of a, a whack a mole cat and mouse kind of game of improving security and also putting a bunch of requirements on users to keep changing how they, You know, generate passwords, what those passwords should include, how frequently they should change.
+
+[00:04:09] And none of that actually solves the problem of protecting access to the secrets for these users. the next step in the evolution, I think, would be multi factor authentication. So, if you're looking at an application that has multi factor, you're usually signing in with a username or email in addition to a password.
+
+[00:04:26] And then once you provide a correct match of identity and password, then the application is going to ask you to confirm a code, either through a phone text message, SMS, or it's going to send you a code through email, or it's going to send you a code through a one time password application. Each of those is vulnerable in different ways. your phone can be hijacked. This is a thing that is unfortunately maybe less easy to do now, but still probably not impossible where a person can impersonate you whenever they call your phone provider and tell them they need to activate a new sim and [00:05:00] then, long story short, once they do that, They get access to all of the incoming calls and text messages.
+
+[00:05:07] There's also some other ways of working around the system, even without having your sim replaced, that we don't have to get into. email can also be compromised. You know, your email, whether it's Gmail or Yahoo, Yahoo has notoriously been compromised several times over the years. But your email might be compromised.
+
+[00:05:24] So. Those authentication codes that were supposed to go to you might be going to someone else instead. And then, the fun part about the one password application is that, it's possible to create a site that looks like the authentication site, which is generating a code. Or accepting a code, but you know, what you're actually giving is you're giving the code to a bad actor instead of the actual site that you're trying to access.
+
+[00:05:50] Usually you can kind of tell by the URL, but sometimes they're just different by a single character. Maybe it's an I instead of an L. And if your provider hasn't bought up all the possible domains, then they're kind of vulnerable to that compromise. So that's the evolution of passwords.
+
+[00:06:07] It's probably skipped over a lot of different nuances and details and things that have happened over the past several decades, but that's kind of like, I think, evolution of passwords and authentication before we even get to passkeys and the underlying tech there.
+
+[00:06:23] Dan: Awesome. So yes, we have the current slash hopefully fading mess of passwords and MFA and sites that look like they're real, but aren't. So enter, I think at the stage then right, enter WebAuthn, which is where the namesake of your library comes from?
+
+[00:06:42] Owen: Yes, and actually, I just remember there's one other type of authentication that's actually fairly common, which is third party authentication or OAuth, open authentication, open connect ID. There's like different flavors of this, but you might, as an application developer, you might decide, I don't want to deal with all that complexity with passwords and vulnerabilities and storing all that information in my database.
+
+[00:07:07] So one other option up until now has been, you can actually just trust a different vendor. So you can allow people to sign in using their Google account, their Gmail, I mean, their GitHub account, or, you know, whatever, like sometimes the social providers. So it kind of depends on your application and which providers your users are likely to be coming from.
+
+[00:07:29] But there's trade offs even with that. it might be more secure than the password mechanisms, but then you're locking your users into remaining on that platform, especially if there's no alternative authentication methods. So all of that history kind of leads us up to something called passkeys, which is a culmination of lots of years and lots of development from people through throughout the industry. and it's built on top of a technology called webauthn or web authentication. So in the browser, which is where I work most of the time, because I'm building web applications. There's an API built into the browsers. It goes back several years now, but it's called Webauthn API. And so it provides a mechanism for, uh, for an application to request existing credentials and create new credentials for users. And there's a little bit of a dance that happens between the server for your application and the client or the browser to, you know, to check is, is this supported? Are we creating or retrieving credential?
+
+[00:08:34] And then, you know, there's attestations and a bunch of other kind of steps along that process. So that's at a very high level what Passkeys are. Passkeys is actually kind of a nice kind of rebranding of WebAuthn. WebAuthn's kind of like a developer-y kind of term. I wouldn't expect most of my family to understand if I just said WebAuthn.
+
+[00:08:54] Their eyes would immediately glaze over. I think with Passkeys, at least they might be a little bit intrigued. What Passkeys does, aside from just giving us a simpler, you know, a better brand for this type of thing, is it actually, it was an effort by all of the operating systems and hardware vendors to build in support.
+
+[00:09:14] So there's a couple of things you, you need in order to, support passkeys., You know, you know, the browser is going to support the WebAuthn API, but the browser needs, or the operating system needs to be able to support, you know, biometrics, so we have FaceID, TouchID on most of our Android and Mac devices, Windows has Hello, Windows Hello, if I remember correctly, Linux has different implementations, I think, for supporting passkeys as well, and then also most of the hardware will have a trusted That's a TPM.
+
+[00:09:47] It's Trusted Platform Module, if I think is the term. So I think, uh, most devices that support passkeys are using the TPM module buried deep within the laptop or the phone [00:10:00] to, to manage the actual credential generation and storage.
+
+[00:10:03] Dan: All right. So back to Elixir then all this stuff exists. LiveView exists. You are one of the most pro LiveView people I've ever met. So you made a library. What was it trying to do and why'd you do it?
+
+[00:10:19] Owen: I think really what I was trying to do was build on the success of the Phoenix gen auth. So, you know, someone, I forget who originally developed that as a package, it was external to Phoenix. If you rewind maybe three to five years, there had been several different authentication packages.
+
+[00:10:39] I think UberAuth, Pow, I think Ascent is another one. And we hadn't really, as a community, Settled on one kind of blessed path for authentication. And there's still a lot of variety in the ecosystem, but someone somewhere along the way, developed a package for generating code on Phoenix applications.
+
+[00:11:02] So that it, we would run a command, it would inject a bunch of code into your app for creating users and user sessions and tokens, as well as Automating a lot of the setup you'd have to do manually for adding, you know, users encrypting pass keys, using the correct or the most trusted encryption methods and that kind of stuff.
+
+[00:11:24] I think it was successful enough that it did eventually get rolled into Phoenix proper. So it's now, if you generate a new Phoenix application, I think by default, or maybe it's a command you run later on, but, you can get all this authentication stuff kind of baked in. it is still username or email and password. So, uh, it's still using kind of the, you know, the password as your, as your secret, which is still susceptible to all the vulnerabilities that we talked about previously. But as a kind of like a north star of how to implement passkeys, that's kind of where I started.
+
+[00:12:00] So you mentioned LiveView and me being such a rabid LiveViewer, LiveView slinger. I've been on the LiveView hype train for a long, long time now. And thank you, Dan, for letting me write LiveView at work. I, this was, I think, 2021, 2022, uh, over the summer. I was kind of getting ready for ElixirConf and this might've been a conference driven development thing.
+
+[00:12:26] I don't actually remember the details now, cause it's been a while, but leading up to that conference, I wanted to give a talk about WebAuthn, cause I think I'd just been kind of casually studying it a little bit, And so anyway, I spent a few months kind of reading up, experimenting, doing a bunch of trial and error, and I came up with a package that essentially does the same thing as PhoenixGenAuth, but an external package, so it has its own place in the HEX package manager, and it has its own tasks now. Basically what it does is it Establishes a bunch of live components that are actually being used from the package and that it generates a bunch of code for you.
+
+[00:13:05] So it generates migrations for your users table, user tokens, I think, which is following some of the same patterns as the auth generator. And then it injects some LiveViews as well. So you get a registration and then an authentication LiveView. Those used to be a single LiveView.
+
+[00:13:23] And so what that's intended to do is kind of give you like a starting point, which might be good enough for your prototype application or your MVP. But it also gives you the ability to customize the appearance of the components. You can pass in Tailwind classes to the buttons, for example. And you can also kind of reconfigure if you don't like the way the migrations look, if you want to add or remove columns, or if you want to switch from email to username or vice versa.
+
+[00:13:51] Then it gives you the flexibility before you actually put this in your repo to override the defaults there. So that's kind of what happens. And the, the way you do this is you, you add WebAuthn components as your dependency on your Phoenix application. You fetch your dependencies.
+
+[00:14:07] Then once you run mix help, you'll see a couple of tasks from this package. And if I remember correctly, it's a WAC. install, W A C dot install. So I think I'm going to rename that. I can come back to some of the plans I have for the future later on, but yeah, you WAC install and then you get the LiveViews the migrations and all this stuff for, supporting passkeys.
+
+[00:14:31] If it works as well as it has worked for me when I've tried it out, then you run this command within five minutes, you've got passkey support for your Phoenix application. One trade off there is that it, it doesn't play nicely yet with the default Phoenix authentication generator.
+
+[00:14:46] So it expects that you have not run that already. I'm not sure yet if that's something I want to support, but that's just something to know before you start down that path.
+
+[00:14:57] Charles: You mentioned about, in the initial migrations that it [00:15:00] generates, that it sets up, I think, an email column in the database table, for users or that you could change it to username or something, but is it possible to just have no identifier aside from Say the user's public key or something, , so that there's even less identifying information in the application.
+
+[00:15:18] Owen: Yes, and this is something I've kind of gone back and forth on. Technically you can generate passkeys without any username or email. The tricky thing there is that practically for the user, you're going to provide something called a display name, which is going to show them whenever they actually look at their passkeys later on, it's going to show them a username or email, assuming you continue using an email or username.
+
+[00:15:44] If you, if you opted out of that, then I think the only fallback would be the domain or the, origin.
+
+[00:15:51] Mm Which would be your site. So like if you're doing this on localhost, all passkeys that you would generate would just say localhost and you wouldn't be able to distinguish between separate users.
+
+[00:16:00] So something that happens in the real world is a user might have separate accounts or you might have a family using a single computer or sharing and there's a bunch of different reasons that you want people to be able to create separate accounts from the same device. So I think that's one reason you do probably want to have some form of identification. Email, like you said, is PII or personally identifiable information. so a username might be a, a, a better default.
+
+[00:16:30] Also emails change and you have to confirm that kind of thing. So I think I'm, I'm more in the camp of using username as the identifier, and then we can dig into what is a passkey, maybe as the next topic here. Did that answer your question?
+
+[00:16:46] Charles: Yeah, and, and that is a good segue to talk about, , what is a passkey, what is that, I think it's asymmetric key cryptography that it's based on? How does that off flow work?
+
+[00:17:00] Owen: Right, so I think before we actually even try to explain what that is, I think if you've, if, if you're a developer listening to this podcast and you've ever signed into SSH on any kind of machine, even if it's just GitHub, you have generated an SSH key, which is , asymmetric cryptography.
+
+[00:17:19] These words really trip me up. But it's essentially you're getting kind of two secrets. So you get a public key and a private key. The private key stays on your device, so on your computer, your machine, your laptop. Or maybe even your password manager. And then the public key is actually shared with the application.
+
+[00:17:37] So that's the part that goes up to the cloud, goes to the server, goes to GitHub, goes wherever, you know, depending on where you're signing in. think I would leave it to the documentation, the experts to kind of explain in depth, the algorithms and how all of this works. I'm more of a user and like kind of package implementer of that stuff. so I know there's like a, the. Ed something, something, some number algorithm is like the one I typically use because that's the new secure default. It's more secure than RSA, I think, from what I remember. But essentially, passkeys work the same way as those SSH keys that you generate. You get a public and private key.
+
+[00:18:15] This all goes through that browser WebAuthn API. If you're developing on native apps, I think they all support passkeys as well. The API may not be WebAuthn, it may be something slightly different, but if we're talking about Chrome, Safari, Firefox, probably not Internet Explorer anymore, but if you're on the modern browsers, then you're talking about WebAuthn API.
+
+[00:18:40] And so, you call the API, there's documentation we can point to for kind of, Going through the dance of creating a credential, getting the metadata about the credential back up to the server. And then whenever the user returns to the site, then , they tell the site who they want to sign in as using a, probably a username, like we said, potentially an email address, depending on your site's implementation.
+
+[00:19:06] And then your site would fetch, if it finds a valid credential, it's going to fetch the public key. And maybe a key ID, if I remember correctly. And it's going to tell the browser, this is the key that the user's attempting to use. So we're not gonna let them sign it as anything else, but the credential that matches this key ID in public keys.
+
+[00:19:27] So once the user is presented with a prompt, as long as they use their face ID, touch ID. They can even use an operating system PIN or password. Once they go through that process, then the device, the browser, will generate a signature, send a bunch of data back up to the server, and the server will kind of validate that. There's a whole challenge and attestation process that's part of this. And assuming everything goes successfully, then the user is authenticated to the application. And in the case of [00:20:00] WebAuthnComponents, we create a new session in the UserSessions table, or I think it's UserTokens specifically. So we create a session token, and then that allows them to be signed in without having to constantly reactivate the passkey whenever they go to a new page.
+
+[00:20:16] Dan: So, so yeah, it does have parallels to like the SSH key kind of approach. Right. But it's because it's baked into the browser, you're getting this extra layer of. They're being generated per origin and they're locked to that origin, right? And so like, a fraudulent site that tries to look exactly like it would have to exploit like an issue in the browser to even get that workflow to start for that credential. To try to even get it to run through somewhere else. And then on the back end, without the matching public key, it's useless to you anyway. To like, you never get the secret. You know, you're just communicating, you know, encryption and decryption back and forth, you know, asymmetrically. which 
+
+[00:21:01] is cool. 
+
+[00:21:03] Owen: Right. Very cool. Once you know enough about security, it's really hard to call anything bulletproof, but this one feels pretty good. Right? It's like the, the glass is pretty thick on this at least. 
+
+[00:21:14] Dan: I think where I struggle with it are the implementation details and that's where I'm really interested to talk about like how you have decided to make these components work and where they kind of fit in because I always see the issue with like, I guess if you're using a password manager and now with like, uh, iCloud keychains and things like that, this is becoming less of an issue.
+
+[00:21:32] And I know, I think they're working on a spec change too, to be able to make passkeys kind of have like an export format. That can have some amount of security to it, to get them into somewhere else. But it's like you generate this thing that's stuck on your device. And if it's the only thing that identifies you, I can never go to another device and log in and then add a new.
+
+[00:21:50] Like passkey as a, like second alternative, because this is a different device I use. Again, this can be solved through cloud sync, but now you have this like syncing vault that is another vulnerability. And so like, I kind of, there's a mental hurdle there. And I think that's why. I'm curious how you think about this and how you think about it in the terms of the library.
+
+[00:22:09] I feel like what we're seeing a lot of is the passkey is replacing a second factor as opposed to being the only factor. so I think like GitHub is probably the thing our listeners are most commonly using . Your second factor in GitHub can be a passkey, so you still authenticate. Or you can still authenticate and then it will your username and password, and then it will say, okay, you know, do you wanna provide a time-based, one-time code, use a hardware authenticator, or use a passkey?
+
+[00:22:34] Owen: Yeah.
+
+[00:22:35] Dan: From your library, where do you see that playing out?
+
+[00:22:39] Owen: Yeah, so for the package, it's, I think it's a little bit more agnostic. It probably starts as just like the authentication method. It's not a multi factor step. So there are no passwords. if you run Phoenix new and then you add WebAuthnComponents and WAC install, You're not dealing with passwords at all.
+
+[00:22:59] You don't have to store them. You don't have to encrypt them and decrypt them. You don't have to worry about anyone compromising the database and having a password that might've been used elsewhere. It's just not a thing you have to think about. I do think it's secure and I think you bring up a good point.
+
+[00:23:14] So I think because it's a new technology, it's not, it's not the case that like everybody's comfortable with it being the only authentication method. There are some nuances. There's a few things I want to hit on and I'm sure I'll forget at least a couple of them. So there's, before, before we had passkeys, capital P Passkeys, we had a thing called a Yubikey.
+
+[00:23:33] So this type of thing right here. It's a little USB thumb drive that it's not for storage. It actually has authentication. 
+
+[00:23:43] Dan: I think all of us can reach for a YubiKey at this exact moment if we'd like to. 
+
+[00:23:48] Owen: Yes. Look, we're nerds. Okay. We got Yubikeys laying around. I, I think I've maybe gotten all my accounts to where they don't actually need these anymore, but every once in a while, I still find one.
+
+[00:23:58] I'm like, Oh, I need to grab this one. So, so anyway, these were a second factor or a multi factor, so it might have been possible that this could be your only factor as well, but, what really kind of got me excited about these was that in the real world, Google had been fighting a bunch of battles with compromised accounts, getting, you know, their employees getting phished because they are a globally important company, right?
+
+[00:24:22] So they're basically everyone at a company like that's going to be a target for bad actors So using these hardware security keys, they were able to, , A, enforce that everyone got one and activated on their account. And then B, that reduced, I think, or maybe even eliminated all of the compromises they were facing up until that point. and then basically WebAuthn, the API for the browsers, could support passkeys. And it still does. Or I mean, it could support these hardware keys. passkeys is just a way of getting the same benefit without requiring yet another piece of, of physical hardware. everyone in [00:25:00] the, in our world has a phone.
+
+[00:25:02] Everyone has a laptop or tablet or some kind of device. So practically speaking, as of this year, I think it's, I would say it's fairly ubiquitous in terms of support. you know, there, there will be exceptions, you know, where people are using a very old,
+
+[00:25:15] Dan: yeah,
+
+[00:25:15] I don't think I have a device that can't use it, right? it's really more about which sites are supporting it and which scenarios. 
+
+[00:25:23] Owen: exactly. 
+
+[00:25:25] Dan: think I encountered the other day, like, Walmart. com supports it, but only on a mobile phone, not in desktop, which I thought was a weird choice.
+
+[00:25:34] And yeah, and then, like I mentioned, like I'm seeing some places where it is the, you put in your email, you know, whatever your user identifier is, and then it will say, okay, you've opted in to Passkey, so it just challenges for that and doesn't challenge for anything else. And then there's other places where I'm still seeing it as username and password.
+
+[00:25:54] And then the second factor is, you know, one of lots of options. I think I've even seen some sites where they're like either tap your hardware key and it'll, you know, I could hit, still hit my existing YubiKey or hit the, you know, okay, browser, go ahead and send my passkey over.
+
+[00:26:09] At some level they're kind of the same thing, right? Like, I mean, there's, there are different pieces of the FIDO standard, but you know, the, the goal is similar.
+
+[00:26:17] Owen: Yeah, I think the decision about whether it's your only form of authentication or it's a an optional upgrade for the nerds. At this point, it's more of a business decision than a technical decision.
+
+[00:26:30] You know, if you're at a national or international bank, you've got a huge wide variety of users, maybe with different security profiles, maybe with, well, definitely with different levels of technical ability. 
+
+[00:26:44] So you don't want to like foist a brand new technology upon everyone and then drive up your customer support costs because what is a passkey?
+
+[00:26:53] You know, it's gonna be a very common question for maybe a large set of users. If you are someone like GitHub and your user base is highly technical, Developers, then maybe you don't make it a required form of authentication, but you can make it your only form of authentication for users who opt in.
+
+[00:27:12] So like for me, I can sign into my GitHub account with just my passkey. I think I'd still provide my email address first, but, Or one of my many email addresses, and then it will give me the option to sign up with the passkey. If, if for whatever reason, I'm on a device that does not have access to the passkey, then I can sign in with my, one of my other forms that is enabled for GitHub.
+
+[00:27:32] Dan: Yeah. 
+
+[00:27:33] Owen: that actually touches a little bit on cross device support. 
+
+[00:27:36] Dan: Yeah, I was gonna say, cause to me that's the thing is, if I don't have a syncing mechanism in place, or it's not working, or if I'm I would say offline, but then I'm not hitting a website. But you know, like , if something's not happening there, and I, you know, I'm a worry about all the worst case scenario kind of people, right?
+
+[00:27:51] So it's like, okay, my house burns down. I didn't have my laptop with me. I did have my phone, but then it falls in a lake. Like what's my recovery scenario. and I think that's where it's, you know, I think from a customer service standpoint, it's not just, am I familiar with the technology, but also like, what are my account recovery options?
+
+[00:28:08] Charles: Yeah, what happens when you lose the device that has all the keys on it?
+
+[00:28:12] Owen: What is the device?
+
+[00:28:14] Dan: yeah.
+
+[00:28:15] Owen: Are we all 1Password users on this call? 
+
+[00:28:18] Dan: I am. 
+
+[00:28:18] Owen: Do we want to admit? Okay. 
+
+[00:28:21] Dan: I feel pretty confident in their security element that I use it
+
+[00:28:24] Charles: also been using KeePassXE for a long time.
+
+[00:28:28] Owen: let's start with users who just have a Mac, just for example. sometime within the past year, Apple released, like you already had key chain support for your iCloud account, but I think they rolled out a separate passwords application. 
+
+[00:28:42] Dan: In iOS18, yeah.
+
+[00:28:44] Owen: which also supports passkeys. And yeah, I know it's available on the phones and tablets. I think it may also be available on desktop as well now. But basically that's kind of a centralized place to manage all of your passwords for legacy sites and then passkeys for any sites that where you've registered a passkey and that's just easy mode synchronization for those passkeys and all your credentials, right? So as long as you're connected to the internet, any changes you make are synchronized to your iCloud account. 1Password is essentially the same thing but through a separate organization. So it's a, it's an application you can install to your devices. It's also nice because it can be a browser extension for Chrome, Safari, Firefox as well, and same thing.
+
+[00:29:31] As long as you are online at the time that you register a credential, that credential will be synced, or I guess if you come back online later on, it will be synced as well. If you lose the physical device, like if I lose the laptop where I've been signing in as myself across GitHub and Google and everything, I would be okay because what I would have, what would happen is I would get a new device, sign into my iCloud account and as long as I have a second device,
+
+[00:29:57] I could even sign into my iCloud account potentially [00:30:00] with a passkey because it will ask for me to scan a QR code if it doesn't have passkey set up locally for a origin or domain, and then I can scan that QR code on a device where I do have my password manager running, and then I can, like it does this kind of invisible handshake to where you approve the credential from your active device and it will enable authentication for the, , for the new device
+
+[00:30:25] Dan: Hmm.
+
+[00:30:26] Owen: You know, for the device where you haven't registered or authenticated before.
+
+[00:30:30] Charles: I've seen that same flow on, like, MatrixChat and other kind of more security conscious tools. 
+
+[00:30:37] Dan: Yeah, so I think we've jumped the shark off the Elixir library into like all the nuance of this seems like as a, as a library author, your stance is here's the tool you decide what fits your business workflow. So. Cool. then back to your library, can we revisit a little bit, like what you install, what's in the library, what gets copied into the app?
+
+[00:30:59] And then like, what does that upgrade process look like? You know, because I, I think for me, my apprehension around like authentication related libraries, especially things that bring UI along with them is like, Okay. Well, I want to modify this. Then I want to upgrade it cause it's security. And if there's a problem, I want to upgrade it right away.
+
+[00:31:16] But if it's going to be a pain because of everything it installed. Can you just walk me through like, how does.
+
+[00:31:22] Owen: How do? Okay, so, looking at the repo for WebAuthn components, the mixed file and looking at what are my dependencies here? I think most of these are for testing and maybe for some code generation as well. So I've got Credo, Dialixir, FlowKey and stuff like that. So I can run tests and make some assertions about the code that I've written , but there's a, there's a couple of opinions that I've baked into this. It will generate schemas with EctoULID, which just comes from my experience using UIDs and ULIDs are a little bit more user friendly. but that's something you could, you could opt out of once you run this generator, if you don't want ULID, you would just replace those primary keys and foreign keys with UUID or just plain integer IDs if you wanted to.
+
+[00:32:11] So the things that are generated are the LiveViews, for our registration and authentication. And then the migrations, and some ectoschemas. So, and I think even a context, like there's a Phoenix context with just functions for creating, managing those users and their credentials. and then the things that are kind of outside of your, Your application are the components.
+
+[00:32:36] So there's a handful of components that if I perform updates to WebAuthn components, these are the things that you would, you know, run mixed steps update, and then you would have slightly different code coming from these components. So I have. A handful of components here.
+
+[00:32:54] We have a support component. So this one's very simple. It just checks. So these components are live components and they're live components because they need to manage their own state. And they also need to communicate directly with the browser. So this is a choice I made. I could just generate the live components in your Phoenix application, generate the hooks JavaScript as well, and then Your LiveView would be responsible for handling all the messages and stuff.
+
+[00:33:20] But that would be very brittle. And if you make any mistakes there, there would be a lot of issues, you know, coming my way for how to fix that. And it would be really hard for me to support. Right? So what I do is I have, I think three, four or five components. So the first one is support component.
+
+[00:33:37] It uses a Phoenix hook just to see, does this browser support the browser APIs that we need? WebAuthn components in particular. And it will, if it comes back as false, we can't support that, then it will send an alert to the LiveView as a process message. And the, the generated LiveView code will put a flash message to the user that, sorry, we are unable to.
+
+[00:33:59] You know, register or authenticate you because this device does not support. It's something not probably that verbose, but it will advise the user that web passkeys are not supported. So that's just the support component. Then in order to use passkeys, you need to be registered to a site. So the next component we could talk about is the registration component.
+
+[00:34:19] And this is the first one where you start to see dozens or hundreds of lines of code. So if I open up this module here, there's about 200 lines of code just over that. And basically what it's doing is it's using, a separate package called wax web authentication. So this one, that one actually handles some of the implementation details on the kind of like the very, very backend side of things. So that's the thing that actually creates the challenge, can generate and handle attestations and stuff. And so my components are wrapping all of that functionality, making it easy for application developers to just kind of drop in the stuff and then update it whenever they need to. The registration component basically takes care of [00:35:00] the whole dance of once a user clicks the registration button, take whatever, form values we need. We have like a struct that defines, you know, like a, a name and like we have a WebAuthnUser struct that defines like, here's the data we need in order to actually move forward. So once you generate that or your LiveView generates that. then the component manages the challenge, the attestation, and once the attestation comes back from the browser and everything passes, then, we send a message to the LiveView that, alright, now you can go ahead and create the user and then go through the flow of user creation, user token creation, and then signing in the user so they can move into your application. So I'll pause there because the authentication component is also a little bit complex. This is one of those things I'm trying to describe code out loud. 
+
+[00:35:52] So it's hard to follow, I think sometimes, but yeah. Did that make sense? At least at a high level? 
+
+[00:35:57] Dan: mm hmm 
+
+[00:35:58] hmm 
+
+[00:35:59] Charles: Yes, it did.
+
+[00:36:00] Owen: I'm kind of curious here. Is any of that surprising or confusing? Are there new words that you're hearing here that you want to, we should dive into.
+
+[00:36:10] Dan: No, I mean, I think the place I continue to get stuck is the like, that you start with the pass key. And, you know, just cause like, that just, it still feels a little foreign to me. I'm just, I don't know, maybe I'm just being too old school about it. Uh, I totally admit that that could be a thing. Uh, it's been known to happen.
+
+[00:36:25] But, yeah, I mean, I think that the flow and what you're building and where it fits in, you know, makes sense.
+
+[00:36:32] Owen: I can speak to that a little bit. So there's one, one thing I have on my radar that I do. There's an open issue. That's probably been there for a year or more that I think I want to do that. I do want to come back around to if someone doesn't open a PR for me is I want to support registering additional.
+
+[00:36:48] Passkeys for an existing account.
+
+[00:36:50] So right now, , this is something a developer can kind of do manually once they've run all this, once they've run the task, they can go in, they can look at the code and say, all right, I see how to do this. I just need to like go and modify this file and that file. Then I can support registering an additional passkey. It's not terribly difficult, but I want to make that easier. So I think one thing I want to do is update the user profile page or the user edit page, you know, figure out where that's going to happen, but allow adding passkeys to a single user, so that, , that would allow you to use, register an iCloud passkey, a 1Password passkey, a YubiKey, or other devices, so that would give your most hardcore security nerds ways to provide some redundancy, so they can access their account, even if Apple iCloud goes out as an outage or something.
+
+[00:37:43] I think we can all imagine scenarios where that, it might be rare, but it might actually, you know, happen,
+
+[00:37:48] Dan: Sure, yeah. 
+
+[00:37:49] Owen: I think the lesson of the past 10 years is don't take anything for granted, everything can go away. Right.
+
+[00:37:54] Dan: Right.
+
+[00:37:55] Owen: That would tie in nicely to being able to maybe run a separate, a different command. if you've already got username and password implemented on your Phoenix application, it's possible you could run a command or I could create a command, a task you would run that would add Passkey support as a second factor or multi factor to a, to an account like that. I would have to kind of think through edge cases and complexities about things I would run into.
+
+[00:38:25] So like, one thing I think the auth generator lets you do is choose between a controller or a LiveView implementation. This, my package, my library is specifically for LiveView because it needs, it really depends on the Phoenix hooks, cause in order to do that dance without a bunch of HTTP calls,
+
+[00:38:43] we need to pass a bunch of messages across the web socket. And it's just so much easier to do that with LiveView than it would be if, if I was trying to add the support to like a user profile controller, I'm not actually sure how it, where I would start there. It seems like it's possible, but it would probably require a bunch more code that would add support burden.
+
+[00:39:02] And at this point, this is just a single person repo. So, no, Yeah, I mean, I have actually had some contributions over the past year or two now, so, , I'll take a quick moment to shout out a few people who've, uh, who've opened PRs and actually have merged some of their commits. most recently, Peaceful James out of Ireland, added some, like, he tackled some of the issues that I'd opened, which was really helpful.
+
+[00:39:26] Also came along and, and helped implement some, I think some new features in, in WebAuthn, , cause the API is stable, but there are, I think, some incremental changes that have happened over the past couple of years. So that's, that was nice to see. there've been a handful of other developers who have come along and picked off an issue or applied a patch to either documentation or the features themselves.
+
+[00:39:50] And I've got a small but healthy list of issues on things that do need to be tackled sooner or later. 
+
+[00:39:56] Charles: So this integrates with browser APIs. So [00:40:00] you, you probably had to write a bit of JavaScript to, to make this work. How much of the code base is JavaScript versus Elixir? And, would users of the library need to also have to write some JavaScript or would folks be able to stay pretty comfy in their
+
+[00:40:15] Elixir space?
+
+[00:40:16] Owen: I think I've abstracted away the JavaScript for, at least for the WebAuthn Passkey stuff. I'm going to take a quick look at the, so I have, there's two repos that I have here. I have the WebAuthn components, which is where the components and the generator task lives. Then I have a separate repo, which is the WebAuthn components Demo.
+
+[00:40:36] So that's an actual Phoenix app where I ran the task to show you, here's what the final code looks like. If you just run with all the defaults. So the first repo, just the components, it's 90. 4 percent Elixir, 5. 9 percent JavaScript, and then 3. 7 percent HTML. So that's the code in my repo that generates all the stuff.
+
+[00:41:01] Now, if I go to the demo
+
+[00:41:06] Charles: I wonder how much of that is depths versus actual, like, library code.
+
+[00:41:12] Owen: That's looking at assets. So the JavaScript lives in the package. So if you add this as your hex package to your Phoenix application, you're not going to see a bunch of JavaScript code generated on your Phoenix app. It all lives within, this is kind of an unusual thing, right?
+
+[00:41:25] Like we don't think of JavaScript living in a Elixir package. But in this case, it does, because we have a live component that depends on that JavaScript and that specific version of that JavaScript. So I was kind of actually curious, Dan, you asked about upgrades a minute ago. And I was like, I don't actually know, but now I'm looking at the code.
+
+[00:41:44] If, if I apply an update and I change either the organization or how things work on the components and the JavaScript, as soon as you update to that next version, you're going to get all the JavaScript and the component code up Upgraded. If there was anything that was going to break your LiveViews, then that might require changes to the LiveViews.
+
+[00:42:02] Cause I assume people are going to, some people are going to accept the default. Some people are going to see the LiveViews and want to move things, rename things, maybe they put things in a menu, nav bar instead of a separate page. You know, there's a bunch of stuff people can do once they've got the code generated. But, uh, yeah, looking at the demo repo, which has a bunch of other Phoenix code in it, uh, you know, I don't see any of the generated JavaScript in there. It's just, just the default Phoenix JavaScript and CSS.
+
+[00:42:34] Charles: And I was meaning More like the Elixir depths that are within the components library, like, you know, cause that GitHub percentage is going to include all that.
+
+[00:42:43] Owen: So that, yeah, so the GitHub is, it's looking at, there is elixir code that here that will technically be in your depths folder, but won't be called, so like the, uh, like the tasks are elixir code, the components are elixir code, and there's a bunch of templates, which are EEx files, if I remember correctly.
+
+[00:43:05] I have not actually added the EEX extensions, but they are templates. They're, you know, named ex for now. I would love to talk about generators next, but that's, yeah, that's registration component. I think authentication component is one we didn't quite get to, but basically what it does is, whenever you go to an authentication page or you hit the authenticate button there, you don't actually need to enter a username or email. As soon as you click that button, the operating system is going to present to the user, any passkeys that are registered for this domain. So that may just be one passkey in most cases. But if I've say like I've got a developer account, a marketing account, my personal account on a site, then I would see those three passkeys presented.
+
+[00:43:47] And I could choose at that time, who am I signing in as a developer, marketer, or , just guy, you know, and then the authentication put component basically does a slightly more complex dance of, all right. Which key ID did this user select? Do we have a key ID matching that in our database? we will form a challenge.
+
+[00:44:07] The challenge would go to the browser. The browser will Handle that challenge, respond to the server, there will be an attestation. And once that whole process is finished and successful, we create a session and then we put the user back into the application as, as a signed in user.
+
+[00:44:22] Dan: There you go.
+
+[00:44:24] Owen: So bing, bing, bang,
+
+[00:44:26] there's hmm. 
+
+[00:44:26] Bob's your uncle.
+
+[00:44:28] Dan: So you said you wanted to 
+
+[00:44:29] talk about generators. What do you want to say about generators?
+
+[00:44:32] Owen: Okay. So. Y'all know I've been on the, I've been on a generator kick lately. We, we do. We Mm hmm. yes, internally, for our team, I've been writing generators that are not related to this project. And this is all Zach Daniels fault. He was on our podcast episode one this season. Go back and watch that episode.
+
+[00:44:52] If you haven't already, he's talking about igniter, which is a really cool tool for building mixed tasks. Low hanging fruit is [00:45:00] being able to generate new code. Uh, you know, so generators are like the first thing you can do there. he recently added some some abilities for refactoring and patching or refactoring code.
+
+[00:45:10] So one of the things that igniter is really nice about is. It allows you to patch code. So WebAuthnComponents currently is just a set of mixed tasks and templates and components that your application uses. The tasks that I've written are, they're really easy for the, for the stuff that's just copying templates and injecting, you know, module and application names, the stuff that's a little bit less great is.
+
+[00:45:37] Stuff where I have to inject code or patch code. So for like the mix file, , for config files, I think I I've used Sourcerer to do that. So, uh, that's using the, looking at the AST, you're kind of like pattern matching on where you're at in the AST when you're using Sourcerer. Igniter makes that a little bit easier, actually much easier in some cases.
+
+[00:46:00] And I think there's even a few places where I might be using regex or regular expressions where Igniter might allow me to use something a little bit more reliable. , I even heard yesterday that they're, debating whether or not they want to start parsing the JavaScript AST so you could do some real, you know, Reliable JavaScript modifications.
+
+[00:46:20] But that's one where like, you know, I just have to look at the app JS file and figure out where to inject the hooks. I'm going to do my best effort with regular expressions, and then you're going to see it break if you've already got hooks in your application. So you'd have to manually fix that. One thing that I will do eventually, once I have a little bit more bandwidth is go back, revisit the tasks that I've written and refactor them using Igniter, maybe split out tasks.
+
+[00:46:45] So you can kind of opt in and out of different things. And that would enable you to potentially, I think this goes back to the goal. discussing a few minutes ago about maybe I've already got authentication. I just want to add another option for my users of Passkeys. And you wouldn't necessarily want to run the full generator.
+
+[00:47:04] You might want to run just the registration generator. So then that would kind of hook into your existing system. So I think that would open the door to a little bit more customization and opting into things instead of like it's all or nothing
+
+[00:47:20] currently. 
+
+[00:47:22] Charles: That sounds like some nice added flexibility to be able to kind of pick and choose.
+
+[00:47:26] Owen: I'm all about developer experience.
+
+[00:47:30] Dan: Yes,
+
+[00:47:30] Owen: You know, like you, you could, you could like, look, anyone. Before this package existed, you could do this, right? There was nothing blocking you aside from browser and operating support. You could have written all this code. The problem is, you know, security is such a crucial factor on every application that we deal with.
+
+[00:47:49] There's maybe a couple of examples where there's no users and no security necessary. What 99? Percent or more of applications need strong authentication and security or they have strong requirements for that. And, you know, passwords just aren't cutting it. Multi factor just isn't cutting it. So that's why passkeys exist.
+
+[00:48:12] And that's why I wanted to make it easy for developers to do the right thing and to, to use something that will increase their security, not only for themselves. But also for their users. So when I say yourself, like if you've got a database full of passwords, that's worth money, like real money, right?
+
+[00:48:29] Cause like there are people on the internet. DarkWeb or otherwise, who their mission in life is either to make you miserable or they see value in the data that you have. So as long as you have the data in your database and it can be used, then, you know, you're going to be under attack and you're staying up at night, worrying about potentially, the vulnerability of that data.
+
+[00:48:51] So Passkeys kind of removes at least that Vulnerability from your system. You still got to think about you know, securing and encrypting other PII in your application. This doesn't solve every security problem, but it does solve one of the most common security vulnerabilities, which is usernames and passwords. 
+
+[00:49:09] Dan: Awesome.
+
+[00:49:10] Charles: let's say that your device got stolen that had passkeys on it. , and maybe your iCloud password for the, for the key chain was not very strong. How easily could someone integrate into this The ability to require user presence whenever a passkey is used. You know, maybe that's, you know, do a fingerprint scan or something like that that's biometrics, but some way of, that other kind of like human presence second factor to the passkey.
+
+[00:49:37] Owen: There's an acronym that I think touches on this. This may be one of those so far in the weeds details that I can't fully explain here. I, what's coming to mind is UVPA. I'm trying to find the actual description of that. that might be a different thing. There's discoverable pass keys.
+
+[00:49:53] There's a user presence. I'll try to describe what I think, how I think this works in layman's terms, and then, [00:50:00] you know, I can be corrected by the internet. Uh, so, passkeys, as far as I understand, do require user presence. So, and that's the user of the operating system, right? So here's another scenario that came up when I kind of presented this for the first time.
+
+[00:50:18] Let's say I were a dad. Maybe my cat has access to my laptop, right? So I've already signed into my laptop. My laptop's open, the keyboard, the screen's on. I've got, you know, the browser open. What if my cat goes to my bank account and wants to take all my money? Can't they just access my bank account now because I've already signed into my laptop? No. So the way Passkeys works is it uses the same credential platform, either from your hardware or from your cloud provider where you're storing their credentials. But whenever you go to a site or an application that requires WebAuthn, it's going to ask you to authenticate again, using your face ID or touch ID or whatever your platform security. So, uh, there are a couple of flags you can set and, I think WebAuthnComponents that are passed through down to the browser that allow you to control some of this, uh, like do we accept physical USB keys? Does it have to be a passkey? There are a few options there. It's not fully configurable. From this library currently, but that is something I do want to extend the ability for application developers to control every option that's available in JavaScript through the LiveView code.
+
+[00:51:35] That may be something we kind of stretch into, but. To my mind, I think the user must be present before they can register or authenticate to your system because the operating system is going to request their biometric ID before it allows them to proceed into your application. And there's a timeout.
+
+[00:51:55] So if they wait too long, I think it's 30 seconds by default, maybe 60 seconds. Once that timeout passes, the Browser will push a message to the WebSocket, the server will receive that message from the MyComponent, saying this request timed out, you know, try again.
+
+[00:52:10] Dan: let's say we've convinced everybody to do this. what kind of feedback are you looking for? What do you think your next steps are? How can somebody get involved?
+
+[00:52:18] Owen: Right, so I guess if, if you listen to this and you just want to hear. Different versions of what we've talked about today. One resource is the ElixirConf talk that I gave, where I introduced the library and published, I think the night before on stage, the WebAuthn components. So that talk is available.
+
+[00:52:39] I think that one's nice because it, it's a, you know, it's got slides, it's got animations of a very kind of like oversimplified version of like how this thing works. But yeah, if you're interested in looking at the source code, I definitely recommend taking a look at WebAuthnComponents. We'll have a link to that, I'm sure, in the show notes. And, also WebAuthnComponents demo will show you kind of what your application would look like once you've actually run the command. And I try to keep those in sync so that whenever I make updates to the, to the library, I will also, as long as I remember, I will update the demo app as well. , like I said, I do have a small set of issues.
+
+[00:53:19] So if people are, if you, the listener are running this on your application and you run into a problem or something is unclear, definitely open an issue on WebAuthnComponents. So I can, I can answer your questions. We can discuss if we need to make any changes. There are a collection of existing issues.
+
+[00:53:38] Like I want to add telemetry. I want to support multiple keys for users and that kind of stuff. So if, if you are intrigued, and you want to jump and open a PR, definitely welcome PRs as well. I typically can respond to issues and PRs usually within one to two weeks. You know, kind of depending on what's going on out in life.
+
+[00:53:58] Dan: Awesome.
+
+[00:54:00] Owen: so I think issues and PRs are great. I've also got a thread on the Elixir forum, so I'll find that link and make sure we have that in our show notes as well. So if you just want like a more of a free form discussion, but yeah, so you got a few ways to jump in if you want to contribute or just use the library.
+
+[00:54:19] 
+
+[00:54:19] Charles: Great. 
+
+[00:54:19] Dan: Well, this was , super interesting. I think, you know, there's a lot here and I think you've created an on ramp to an important and hopefully more common technology for us to make web applications and everything more secure. , also a lot here throwing back to our conversations around generators and, pulling library code in and things like that.
+
+[00:54:38] So, a lot of rich kind of intersection, of what we've been talking about this season. Before we wrap up Owen any other plugs? You know, we just, we talked about, how to contribute and where to find you, but anything else you want to promote, , or how can people get in touch with you? Not about, , WebAuth stuff.
+
+[00:54:55] Owen: That's a can of worms. Let's leave it at web authing components. That's, it's a [00:55:00] big topic on its own. I think if people are opening issues in PRs, I'll be super happy because, you know, I'm not a security researcher or an expert by any means. I'm just a guy who spent a few months kind of researching and building a thing that people could use.
+
+[00:55:14] So I, I have had a conversation. I've got some improvements I want to make to, you know, how we've stored sessions and tokens and things. Just so that there's not other vulnerabilities that might be laying around in the, in the repo. So I, I do want to eventually make this a 1.0 release. So there's a few things I wanna work on before we get there, but, , that would be the biggest thing, is if you find vulnerabilities, you wanna report open an issue or a PR if you know how to fix it.
+
+[00:55:41] And then, , if you just want to talk things through, , hit me up on the forum. We've got the thread open and we'll, we'll chat.
+
+[00:55:49] Dan: All right. Well, thanks for your time, Owen. And thanks for helping us make our web applications more secure.
+
+[00:55:54] Charles: Let's get rid of passwords. Thank you.
+
+[00:55:58] Owen: Hundred percent.
+
+[00:55:58] Dan: Something we can all agree on.
+
+[00:56:01] Owen: Heh heh. 
+
+Outro: Elixir Wizards is a production of SmartLogic. You can find us online at smartlogic.io, and we're @smartlogic on Twitter. Don't forget to like, subscribe, and leave a review. This episode was produced and edited by Paloma Pechenik for SmartLogic. Thanks for joining us in the Creator's Lab, and we'll see you next week for more stories of innovation with Elixir.
+
+Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day.
+
+

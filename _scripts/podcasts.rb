@@ -4,6 +4,7 @@ require 'date'
 require 'faraday'
 require 'nokogiri'
 require 'yaml'
+require 'faraday/follow_redirects'
 
 def parse_date(date)
   Date.parse(date).strftime("%B %e, %Y")
@@ -62,15 +63,20 @@ transcripts = rss_xml.xpath("//channel/item").reduce(transcripts) do |transcript
     transcript_url = transcript.attributes["url"].value
 
     unless File.exist?(transcript_path)
-      response = Faraday.get(transcript_url)
+      conn = Faraday.new(url: transcript_url) do |faraday|
+        faraday.response :follow_redirects # use Faraday::FollowRedirects::Middleware
+      end
+      response = conn.get(transcript_url)
 
       if response.success?
         File.write(transcript_path, response.body)
+        transcripts[slug] ||= {}
+        transcripts[slug]["English"] = "/#{transcript_path}"
+      else
+        puts "Couldn't get transcript for #{slug} #{transcript_url} due to #{response.status} on #{response.env.url}"
+        transcripts.delete(slug)
       end
     end
-
-    transcripts[slug] ||= {}
-    transcripts[slug]["English"] = "/#{transcript_path}"
   end
 
   transcripts
