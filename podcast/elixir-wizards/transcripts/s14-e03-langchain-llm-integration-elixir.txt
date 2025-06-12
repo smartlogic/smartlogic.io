@@ -1,0 +1,349 @@
+S14E03 Mark Ericksen (Langchain LLM Integration) (Audio)
+===
+
+​
+
+Dan: Hey everyone. I'm Dan Ivovich, director of Engineering at SmartLogic.
+
+Charles: And I'm Charles Suggs, software developer at SmartLogic. And we're your host for today's episode for Season 14, episode three. We're joined by Mark Ericksen, creator of the Elixir LangChain Framework. In this episode, we're talking about large language model implementation with LangChain for Elixir applications.
+
+Welcome to Elixir Wizards. Nice to have you back.
+
+Mark: Thanks guys. It's great to be here. I haven't been on the show with either of you before, so that's a special treat now.
+
+Dan: Oh, there you go. That's right. Multiple time attendee but first time with Charles and I. So that's cool. I doubt that anyone listening doesn't know who you are, but just in case, Mark, you wanna give us a quick overview of your pathway to Elixir personal background, what you're up to these days.
+
+Mark: yeah, so Pathway to Elixir. I went from Ruby on Rails, was my most previous framework that I was working in and discovered Elixir because everyone in the Ruby community at that time was kind of buzzing about it. And I was like, wow, what is this thing? So that's, that's what jumped me over into it.
+
+And once I discovered that, I was like, oh, I'm not going back. This is it for me. So I, I've been loving it. I've run a meetup for a while and , I worked at fly.io doing DevRel kind of work, so very public stuff. But then, yeah, I guess you know about me. I live in southern Utah near-ish to Zion National Park, if you're familiar with that area.
+
+So it's a lot of beautiful Red Rock desert, which I enjoy. I also run the Thinking Elixir podcast, and I'm currently working at a company called Kuali, which is an EdTech company and they make administrative software for universities and research institutions.
+
+So that's been an interesting new domain to have to learn about.
+
+Dan: EdTech is a, a vast domain. So we're here to talk about LangChain. What is it? What does it solve?
+
+Mark: originally the, the OG LangChain was written in Python and there's like two different versions of it. And really the whole idea was to be able to abstract away directly talking to these AI services in a way that kind of shields your application from the differences between the different LLM services or the changes as, as different things come up, 'cause it's, it's crazy, but it's a very fast developing industry, as we all recognize. I took the inspiration of the name.
+
+Thinking, well if you know what LangChain is, then this is an Elixir implementation of those ideas. And now I'm wondering if I should rename it, you know? 'cause it's, I think it's, uh, maybe confusing for some people. And, there's been just a big diverging from where the TypeScript and Python thing have gone and where the Elixir one has gone. So maybe it's time for a new name change. I don't know. So if you guys have any suggestions, I'd love to hear.
+
+Dan: Yeah. We'll have to see if anything comes to mind as we, as we dive in.
+
+Mark: Yeah.
+
+Dan: So you're trying to bridge a API of Elixir to a, what I assume is a bit of a moving target with all the LLMs,
+
+Mark: Yeah.
+
+Dan: why would someone choose LangChain over just trying to integrate with whatever their favorite LLM is of, of this moment or
+
+Mark: Mm-hmm.
+
+Dan: know, kind of how does that work?
+
+Mark: Yeah, well, it's really easy to get started with any given LLM for the simplest case. And the simplest thing is where you're just saying, I want to be able to post a request and get a response. And that's where you're putting all of your messages in one post request and you're not streaming the response, you're just getting the response back.
+
+And that's like super easy. You can just whip that up in anything. So it gets a little bit more complicated when you start saying, well, you know, for our business case, we've found that OpenAI does a really good job with this type of content or this kind of feature that we're wanting to build.
+
+But then, Claude over here is doing a really good job with the thinking models and the way they're doing code creation and things like that. So when you start getting into multiple different LLMs, then you are being exposed to more of the differences in their APIs, the way they want requests to come, the way they give you the responses back.
+
+What the library is trying to do is really be that buffer of making it easy to switch between different LLMs. So if you haven't worked with an LLM before, like ChatGPT, and I mean by in code, probably everyone has used it through the web interface.
+
+But what happens is, is you send a message, and you get a response from an assistant, the assistant response. And what you have to do is keep track of that entire conversation. So you have to keep track of the original system message, your initial user message, the AI's response message, a new user message, and that is the chain.
+
+And every time you want to add to something in that conversation, you send the entire conversation back. what's interesting is the LLMs are stateless in that way. They just expect you to always provide the entire context. In more recent times, the different services are providing more of that.
+
+We'll remember stuff for you and if you're using ChatGPT like pro or something like that, it's doing some of that remembering for you. But if you're writing to the API, you're doing it. So what this is doing is helping to manage that list of messages to make that list of messages portable.
+
+So I could take that whole conversation and pick it up and go from Google Gemini, and then pick it up and move it over and go to Claude and continue the conversation that way.
+
+Charles: Could you theoretically then say, if you're working on kind of a multi-step process for your company and. Like you described, Claude does this job well, but then Gemini does this different job well, but they kind of pair together. Could you essentially take the outputs of one and pipe it into a call to the next one and kind of build on the chain that way? Or is that, is it still too apples to oranges? 
+
+Mark: Really what's interesting is you kind of have to end up tuning how you write some of those system messages, the system prompts and the initial user prompts to the LLM that you're working with because they behave a little differently. And so you tune it for that particular one. That's the one you're testing and developing on.
+
+So really, yes, you're exactly right though that you do want to be able to say, I wanna be able to leverage multiple LLMs for different purposes. Like maybe this one's cheap and fast and it's really great at this easy use case that I'm gonna use a ton of says, well, that's the cheaper option. And then this other one is the more expensive model that I need for special operations.
+
+So if that's the kind of case, then you're often just doing multiple requests. You know, you're, you might take the result of one of those and have that be an input into a separate one, but they're not all part of one conversation. You keep that separate.
+
+Charles: Okay. That makes sense. 
+
+Dan: So is there a current favorite set of integrations for LangChain or are you really trying to be as agnostic as possible? How does support for various LLMs work for you?
+
+Mark: Yeah, so it's a good question. So like some of the more recent changes were, adding thinking support and the way OpenAI does thinking models is different than the way Claude and philanthropic do thinking models. So it's trying to make it where the messages that I'm managing for my application don't have to know it, like trying to find a common solution or a common way of representing that data and then sending it back to each LLM the way they want to see it.
+
+Charles: Kinda like an ORM. 
+
+Mark: yeah, it's an abstraction layer is really what that is, and just trying to help give you that separation and really the whole, the big point for me was I want to shield my application from breaking everything or having big code changes. If we decide as a business that we need to switch to this other LLM or we want to add this other different one for some other use case.
+
+Charles: have you had a lot of churn to deal with? You know, we talked about how it's such a fast moving space and you're essentially maintaining like an ORM for multiple different providers. Has that been kind of what you had expected or better or worse? 
+
+Mark: Yeah, that's, that's a good question. It's been painful. Mainly because there's primarily two that I care about the most because I use them the most, which is OpenAI and Anthropic. Those are the ones I use the most. then other people are coming along and saying, Hey, we'd like to be able to use Grok or Perplexity or Gemini, and then Google comes out with two different competing APIs for like Vertex AI and Gemini. It's like, why? Why are you do this? You're the, you're one company and you can't come up with like one consistent API.
+
+Dan: That feels like a very Google play.
+
+Mark: Yes. So I have really been depending and grateful. I'm very grateful for the contributions in the community where they might come and say, Hey, we want to add this new feature to Gemini because that's what we are using and so PRs are welcome in helping to bring and continue that growing support. I've been working a lot with PRS and you know, trying to find out how can we bring this new feature in, in a way that makes sense that isn't just a complete break from how it's done in other LLMs.
+
+Sometimes that means you kinda wait for the second one to come along that does something similar to see how can we unify this.
+
+Dan: Right. 'cause it's not like Ecto where the domain is well understood and not moving a whole lot, and it's just like a plugin approach for each individual database. you couldn't even necessarily make a plugin approach for each model, because that may have impact on Your public interface side of things, right?
+
+Like as you bring in a new LLM with new features that may need to impact the API you are presenting to the application that's using you. And it's kind of unavoidable, right? Because like there was no contract everybody agreed on like SQL to start with, which, and I use that with like the biggest air quotes of SQL being something we've agreed upon.
+
+But, you know,
+
+Mark: Right. Yeah. Yeah. And, and even still there's been divergence, of course. but yeah. I did wanna touch on a couple other things going back to one of your early questions about why would you use this? What problems does this help solve? There's a couple big ones. One is tool usage. An LLM is kind of a curiosity and something just fun to play with by itself, but it becomes actually useful when you give it tools.
+
+And the tools that are the most useful and most fun for me are the ones that are in my application. So I am creating some functionality in my application that I'm exposing to the LLM to say, you have access to this tool to create a document or to list documents or read a document or maybe it's pulling up an account and doing some type of analysis on an account and
+
+giving it access to something from your application where you're letting the LLM decide which tool to use. That's like the most exciting part, honestly, for me with LLMs is saying, how can I let my application become available to the LLM so it can call into different functionality and it's, it's deciding when to do it.
+
+So what that does is it's coming up with a structure and I call it a function. You define, these are the arguments that I want. So what that means is you're able to get structured data output from the LLM. Another one of the recent creations or things that came out was multimodal LLMs.
+
+Multimodal means you can send it an image and text. You can ask it, say, looking at this image, extract all of this data and put it into this particular JSON structure that I want. And you can call my tool with all the data that you extract from it. So that's like really cool. Like you can give it a picture of a receipt and it can grab out all of the data from a receipt and post that into your application.
+
+Or maybe it's a resume, like a digital copy of a resume that you want it to extract data from, or, you know, anything like that. Right? And then you're saying grab that data, put it into a structured format of these are the pieces of data that, and information I care about. Call a tool to give me that data.
+
+And then you can have change sets behind that. What ends up happening is that ends up getting tied up to and linked up to one of your functions in Elixir and you might have like a change set behind that and you might be able to add additional validations and if those validations fail, you'll send an error message back to the LLM.
+
+It will figure out if it can adjust and make another call to try and correct it and then get data out of that. So like tool usage is super cool. It's the most important aspect, I think. Then the other thing that's a, a really big benefit is the need for retries and fallbacks. So what happens is, an LLM might try to call a tool and it gets it wrong because it doesn't meet the schema or your change set says
+
+actually that that has too many characters in that name. You need to shorten it. So you're telling the LLM that it made an error and it has a retry. So you're creating automatic loops there. So the LangChain library helps build in support for that. There's also just retries for my connection to the server failed.
+
+I need to retry for that. But the big one is fallbacks, and this is when you say. Like if you're ready to go to production and you start using Claude or OpenAI for any real amount of time, you'll see, oh, they just released a new model and now everyone's flooding it and uh oh, now they're having a small outage.
+
+Right? And if that functionality is critical for your application, that becomes a big deal. So what you have to do is plan for that and have a fallback. And so in this whole ability to make these requests, you can pre-plan and make available these different fallbacks to say, try for the OpenAI API first, and if that fails, we're gonna fall back to this other one on Azure.
+
+what I want to stress here is. I'd mentioned before that like the system prompt and that user in the initial user prompt, you are giving it the LLM lot of context about how it's supposed to behave and what you want it to do. So those are pretty much tuned to a specific LLM. So you don't want to necessarily say, gonna go for open AI and then fall back to Gemini because it's probably gonna behave very differently and you may not have the consistent behavior you want. So couple things to be aware of is OpenAI had, because of their Microsoft partnership on Azure are the OpenAI models. They're hosted on Azure. So you can subscribe to that and you can even subscribe to multiple regions in Azure to say, I want to access the model here, or model there.
+
+Model there. If you want to go to that level, and then with your fallbacks, you say, well, we're gonna go for OpenAI first fallback to Azure, this region fallback to Azure, this region. And that's how you can keep your application behaving consistently while dealing with those types of things that come up.
+
+Especially you care about that if it's like critical for your app. And I just wanna mention that Anthropic Claude has the same situation. But those models are hosted on AWS Bedrock, so The Langc hain Library has the support for both of those, you know, Azure and Bedrock, and Bedrock hosted models too.
+
+So yes, those are the big reasons why you'd say, I want to use a library like this, because I don't wanna have to figure all of that myself.
+
+Charles: I guess two part question.
+
+Mark: Mm-hmm.
+
+Charles: One with more specifically Azure regions, could it be that it's overloaded in this region, but not in this other region 
+
+Mark: Yeah. 
+
+Charles: okay. And then if the fallback feature or functionality so far in LangChain is this. Does it only work? Like, say OpenAI then falls back to Azure and maybe falls back through multiple regions? Or could it switch to a different model that requires different inputs and outputs as a fallback? or does that require a good bit more work in your own application where you're implementing LangChain?
+
+Mark: Yes,
+
+you can do that. And I set it up to allow for that. So when it comes to the fallback, it's passing in the model as well to, so you do have the option to say, I'm going from this model. I need to go to this model. So maybe you've pretuned and say these are the system prompts we want for Gemini.
+
+And honestly, sometimes, the prompts are maybe generic enough that you don't need to even tune them. You just choose which, which new model you want to use and that model can be the same ChatGPT, like chat OpenAI, just on a different service. Or it could be, you know, something completely different like Gemini.
+
+Charles: Okay.
+
+Dan: So we've got the Ecto parallels in terms of like talking to different things and giving you a common API. But now we also have like the Oban, I feel like parallels where it's like, sure, I could spin up a task, but you want a lot more features than just like an OTP task. And so here you're bringing in a lot more than just look we've wrapped an API.
+
+There's a lot of like common workflow things that you would need when working with these LLMs that you're gonna get by using LangChain.
+
+Mark: Right.
+
+Dan: Great. , I'm curious, we, you know, we're talking about a lot of APIs, a lot of configuration. Does LangChain do anything to help manage that? Is it kind of like, hey, you're using Elixir and Releases, or however you're managing, you know, vapor or just, MVars. Is it just kind of like your standard configuration there, or do you kind of have other ways that you think about configuration with all these fallbacks and everything else?
+
+Mark: Yeah, that's a good question because that has come up as a request from users where it depends on your application as to what you need. Like the default way is just a standard application setting gets loaded in by an MVar, you know, that's the, that's the default, that's the easiest way. And then what, what can happen is you with the messages.
+
+One of the more recent additions was adding token usage where we're tracking that. So you can say on your side of the application, say I'm using my OpenAI API key, so I'm using my key, and then I'm tracking the usage and linking that to a specific customer. So maybe I bill that way, or maybe I'm just wanting to track who's the bigger users, you know, whatever makes sense for your application, but you can track that.
+
+Then the other approach is where people say. My customer wants to bring their own key, and that's up to your application as to how you want to store that key securely. But then when you're coming to make a request, you can override and say, use this key for this request.
+
+Dan: Is there anything in terms of the workflow and fallback that could be dynamic to that extent? Because I could see almost like some kind of layer of like the service discovery or like depending on where I'm deployed or what's responding, changing behavior. Is that anything that we can do dynamically or is it generally kind of that fallback is coded in and not super flexible yet?
+
+Mark: Yeah, currently, it's just coded in. I haven't had a need for that, but that is an interesting idea, to say that I want some function to decide what my fallback should be based on some available information.
+
+Dan: Cool. I'm curious about testing.
+
+Mark: Mm-hmm.
+
+Dan: Does LangChain help me test my LLM integration code in any particular way?
+
+Mark: interesting question. So not particularly, , I've heard of other companies doing things where they might set up automated tests where what you're testing is the system prompts and the prompts that you're using. So it's running hundreds of iterations and comparing outputs to say, is this like correctness?
+
+Because that's one of the crazy things is it's not , it's not absolute right? Like.
+
+Dan: Mm-hmm.
+
+Mark: It's not deterministic, you know, given the same input. That's one of the beauties of the LLM is I get different output. But that makes testing difficult. I went to a Google IO conference and one of the people was talking about this idea and it's like, that makes sense.
+
+It's like normally you would say for doing TDD or something like that, I might spend this much time testing my application to have a high level of confidence that it's gonna behave the way I want. And he said, you know, you gotta expect like 10 times that amount of time for working with LLMs. One of the experiences I've seen is it will do something completely unexpected that is still in line with what the prompt said. So it wasn't like. Breaking the rules, but it just, I'd never seen it do that before and it might not do that again for a long time. You know, so you get that kind of stuff.
+
+Dan: Mm-hmm. 
+
+Mark: I don't, I don't, there's nothing built in to help plan and prepare for that.
+
+Dan: Is there, kind of makes another thought then too, like if you need like a human in the loop
+
+Mark: Mm-hmm. Mm-hmm.
+
+Dan: You know, we talked about tools, right? If the LLM is saying, Hey, do this thing, write this to an Ecto change set, you know, commit it to the database. Is there anything that LangChain's doing to help with like a, a human in the loop step there, or is that kind of up to you to write it to the database and then maybe like, flag it as still needs to be reviewed or kind of whatever makes sense for your workflow?
+
+Mark: Yeah, it's a good question. 'cause really the LangChain Library is very narrow focused. I haven't built in any database persistence, right? Because as, as I've used it, I find what I want to store in my database and how I do that is really very application dependent and I don't know how to generalize that in a way that really makes sense.
+
+You know, this conversation might need to be attached to a project in this one. Maybe it's a customer in that one, or what I need to display to a user is gonna be different in this app versus that app. And what I mean by that is like, Claude with thinking right by default you might hide the thinking, but it's accessible.
+
+And as a debug tool, I'll turn on and display and see what was the thinking behind this? So you might not care to persist that to your database because it's kind of noise and takes up space if you don't actually need it. It's really just focused on how does my application talk to the LLM.
+
+And have that continuing conversation and how do I expose tools to it?
+
+Dan: Kind of then playing on that debugging concept, is there anything in LangChain that makes some of that debugging easier? Or is it just, well, you have everything, so instrument to your heart's desire?
+
+Mark: Yeah. There's nothing in particular. Well, you, you can turn on verbose logging. You know, really see all the messages that are going back and forth, which is really helpful in the early days of trying to figure out how something's behaving.
+
+I guess what I would recommend for people is have some tests that you are maybe mocking out the API call, right? So your automated tests are saying, assuming that this API call is made to the LLM and I get this type of a response, that's my test and, and I can go on with it, but then have some of your tests that are actually making live API calls and you won't want to run them all the time because you will get rate limited.
+
+' cause they'll depending on your account level, they'll say, Hey, that's too many requests in this short, narrow of time. Because Elixir's just really good at sending a lot of requests.
+
+Dan: Right. You thought your CI bill was high. Now just wait until, yeah,
+
+Mark: Yeah. Yeah. So I would say you want some of them to be live, just to ensure that everything is still working at a base level.
+
+But most of your tests you probably wouldn't want that.
+
+Dan: what about like other instrumentation , like telemetry, observability from like an Elixir standpoint into what's going on? 
+
+Mark: there's been some contributions in the community right now adding telemetry support. Um, haven't finished getting that all the way in. Actually no, I think it did get added. I don't even remember. I just got back from a vacation.
+
+Charles: Nice.
+
+Dan: soon to be in
+
+Mark: I.
+
+Dan: looking for additional contributions. So,
+
+Mark: yes. But like telemetry is one of those requests that it totally makes sense.
+
+Dan: Cool.
+
+Charles: you mentioned rate limiting. I'm curious, how much does LangChain handle the various rate limiting schemas that are used by the different APIs? Is that transparent? Is that kind of handled or is that something that you need to also build into your application to make sure that you are backing off if you need to back off? Not sending more per minute if it's kind of a, a hard rate that they use.
+
+Mark: Yeah, and what's interesting about those rates is that it's really account level based, right? You can be at a certain account level with Claude and Anthropic to, they'll give you a much higher throughput. So it's like at my current rate, maybe I'm being rate limited to this many requests per period of time or Yeah, that's usually what it, uh, I've seen is happening.
+
+Charles: And they have that in like their response headers or something so LangChain can kind of figure that out and
+
+and adapt. 
+
+Mark: one thing I should mention is the LangChain Library itself does not manage processes, so it is just I know how to talk to the LLM and give you an integration with your app Elixir application. Like it really depends on the use case, right? if you've seen Chris McCord's, ElixirConf EU talk where he showed off his app that he's been creating and it's using GenServers to do all this AI and just continually run.
+
+Vibe code on steroids and a, an Elixir app. but for a lot of the use cases that I'm using personally, I might just tie that into a LiveView. And so that's tied to a user's interaction. So it becomes an agent servant to a user of. You tell me what to do, I might do a bunch of steps to take that action and do a bunch of operations in one go, but then it comes back to the user.
+
+It's like the human in the loop. Now, if you have some that are maybe open jobs and you're doing batch processing, there are different APIs that you can call that have cheaper batch processing rates. So that works better for that. And then you'd probably in the Oban thing, just need to be able to detect that I am being rate limited, I need to back off.
+
+But that would be handled separately.
+
+Charles: So you were talking a minute ago about verbose logging and that, that can be helpful when you're maybe initially getting started with something and just to see how it's playing out. If someone were to get started with LangChain, first time, maybe they've done a little bit of interacting with some LLM APIs. what's kind of the first thing they should maybe get started with? Direction they should go in, or is there kind of a set of concepts that would be good to start with?
+
+Mark: what I would recommend really is from the GitHub project, there's a link to a demo.
+
+Charles: Hmm.
+
+Mark: So the demo is a good place to start. It's may, it might be a little bit out of date, like I'm, I think it all still works, but it's not showing off the latest features or something. But also in the docs, there are Livebook notebooks.
+
+The, like a getting started example and one I think is showing how to do multimodal where you're sending images and getting text back, like descriptions of what is this image about, that kind of stuff. So those are good places to get started.
+
+I have not taken the approach of saying, I'm going to help you get into the head space of working with an LLM, like explaining this is how a conversation works, this is how this series of messages work. I'm not trying to teach that just 'cause that's a lot, but yeah. So like, if you're coming new to it, that is a hurdle, right?
+
+It is a whole different way of thinking about things and I kind of think of it as what you're doing is you're starting to put business logic decisions outside of your app and letting an LLM decide when to make a certain business type of decision, and you decide what you want to give it access to. You can have that as limited and narrow focused as you want.
+
+Or you could say, Hey, you can write SQL and drop tables. You know, you can, you can go all over.
+
+Dan: Yeah. So like, Phoenix makes it so you don't necessarily have to understand how HTTP works, but Ecto doesn't mean you don't have to understand databases. And LangChain doesn't mean you don't have to understand LLMs. It just makes them easier to work with.
+
+Mark: Good point. Yep.
+
+Charles: So where are you thinking of going next? I know there was, I think earlier this year it was kind of a more significant release and you had mentioned on Thinking Elixir about it having an actual like, release candidate phase. Where's the roadmap heading from here?
+
+Mark: Yeah, so I've got a RC out right now. It's a 0.4.0-rc0. The current public release is 0.3.3, this latest release, the 0.4.0 release adds content parts, and this is really helpful for thinking models. And so as a breaking change, trying to make it as backward compatible as possible. So your application, the way you are using it will adapt and kind of migrate into that. But, everything that you'll be getting back from an LLM will be a content part instead of just a string.
+
+So a content part is where it might send back text, it might have a content part that is the thinking part. Then there's a redacted thinking part that Claude sends, and you need to be able to preserve those and send those back if you want to preserve continuity of its thought process.
+
+And a lot of what that is is just that. It's giving you insight to what it's thinking, but it's doing it with assigned data to say you can't manipulate it because that, that's the fun thing, right? really great prompt engineering is where you can provide false assistant messages and send those back as part of the conversation saying, well, you told me this before.
+
+And, you can do that to put an AI really into a mode that you want it to act from. But anyway, that's, that's a side Side topic there, but yeah, the biggest, the biggest change there is content parts and metadata being stored on the message. Metadata includes the token usage. So with token usage, there's the input tokens that I'm sending, and that includes the entire conversation.
+
+And then there's output tokens of what is being generated. And the output tokens are usually the more costly part. That's the one you're paying more for. And that's where the value is, right ? Uh, but then there's other built in tools to help you say, take this conversation and summarize it so you can say, maybe I have
+
+10 back and forth turns like of the system message user, assistant, user, assistant, user. Like have those different turns and you might say, I want to summarize what's been happening here, and maybe have specific instructions about how it should summarize what data you want it to pay attention to.
+
+So you can customize that, but then it will come back. So like there's a, a LangChain tool built in there to say, summarize this conversation. Gimme back a new conversation that has fewer messages so I can maintain continuity of behavior while keeping my token usage lower. Helpful tools like that.
+
+Dan: Hmm. So. We've, we've talked a lot about the moving target of all of this, and that's, I think a really good example of it. Any generalized lessons or maybe surprising things that you've found trying to maintain a library like this and like, are you gonna stay in not 1.0 forever so you can just keep breaking things?
+
+'cause that's the world we're in now, or.
+
+Mark: It certainly feels that way. Oh my goodness. Yeah. I can't wait to see, like right now I don't, I haven't checked to see if it's happened since I was on vacation. I don't think it has. But for the longest time, OpenAI came out with Sora, right? For video. And like with their latest models, they were not giving API access to it.
+
+So you'd have to use that model only through their ChatGPT Pro interface where they're managing the web interface. So stuff like that where they just don't give you API access and you just have to wait. So, it's one of the challenges, one of the challenges was like Gemini models. They were just awful for so long.
+
+I was like, why is anyone using these? These just, they give me trash. but now, like now, because of the back and forth race
+
+between all the different vendors, the latest version of Gemini is supposedly really good. So that, that's where the benefit comes in to say, I need flexibility to be able to jump and take advantage of whatever is the latest and greatest.
+
+Dan: That's why competition is good. Not calling anybody out. Microsoft teams.
+
+Mark: Oh, funny. 
+
+Dan: Anything surprising from running this in production that you just maybe didn't expect or any weird stories you've heard that you're like, oh yeah, I didn't think about that.
+
+Mark: Nothing comes to mind actually in terms of problems. the, the biggest problems are like, you start using it and then Anthropic will just say, we're overloaded. Come back later and that's when you have to have fallbacks.
+
+Dan: Yeah. If only we could also make our apps behave that way too, right? Nah, sorry, we're just feeling a little busy right now.
+
+Mark: yeah. We'll, we'll, we'll get back to you.
+
+Dan: Yeah. 
+
+Charles: Mark, are there any real world production uses that you've heard of that you'd like to share that are fun to talk about? 
+
+Mark: Yeah, well one of 'em, you, you may have seen, you may have noticed in the Elixir community that Zach Daniel is prolific for one, but he has also been talking a lot about doing some fun AI stuff with Ash framework. So the idea that you can have a conversation with your app. So you can, in the console, be typing and asking it questions and having it create records for you and query records and things like that.
+
+And that's actually built using the Elixir LangChain Library. So that's been baked into Ash and that's in production in a number of different companies. I've built it into my own applications, both user facing AI features and then there's also like the admin features of admin AI of this is helping me inspect my app.
+
+This is helping me build out content in the app. So it's like helping build the app not in terms of writing code, but creating records, creating articles, creating content. Those have been fun use cases. And then if you check out the hex packages, the LangChain over on Hex.pm you see like there's over 8,000 downloads from Hex PM in the past seven days.
+
+So, you know, people are using this in production.
+
+Dan: Well, mark , It's been awesome learning a lot about LangChain. If a listener would like to get involved, contribute, how can they best help you out?
+
+Mark: you can check it out on GitHub. That's really where it is. And prs are welcome. The main challenge with something like this is, someone will come in and say, Hey, can you add support for this entirely new model and this new API service?
+
+And that's not necessarily my focus, right? Because I, I'm not using that. But if people are willing to take on ownership of helping to maintain that service going forward. I'm happy to add support for it. I think it's great to just have it grow, but yeah, prs are welcome. I primarily focus on OpenAI and Anthropic. Contributions are really the way other stuff is being maintained.
+
+Dan: Excellent. And, if anyone doesn't know where to find you on the internet, how can they best find you on the internet? Mark?
+
+Mark: Yeah, so you can check out my podcast at thinking Elixir dot com. I have a link to the podcast there. It's on YouTube too. You can find me at on Twitter, x, and BlueSky as @brainlid. And that's it, I guess.
+
+Dan: Well, thanks for your time, mark. like most of our podcasts, I'm now wanting to use all the things we've talked about.
+
+Charles: Yep.
+
+Dan: Uh, so you know, Charles and I do these podcasts and we're like, oh, well there goes all my side project time.
+
+Mark: That is, the challenge and the blessing, I guess. It's like you get to learn about all this cool stuff that other people are doing, and sometimes it just feels overwhelming. Right? You're like, I'm missing out on all these cool things. I can't do all of them. Yeah, it's a challenge.
+
+Dan: and that's, uh, you know, compared to other tech spaces I've been in, you know, Elixir adds to the whole Nerves hardware side of
+
+Mark: Mm-hmm.
+
+Dan: like, okay, great. Now even more that I can't wrap my head or you know, that I can't make time in my day for. Um, so
+
+Mark: Yep.
+
+Dan: Awesome. Well, thanks Mark.
+
+Charles: been great. Appreciate it.
+
+Mark: Well, thanks guys. It was a pleasure. 
+
+​ 
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
