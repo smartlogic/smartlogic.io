@@ -1,0 +1,499 @@
+S14E04 Sean Moriarity (Nx and Machine Learning with Elixir) (Audio)
+===
+
+​
+
+Sundi: Hey everyone. I'm Sundi Myint, software engineering manager at CARS Commerce.
+
+Charles: And I'm Charles Suggs, software developer at SmartLogic. And we're your host for today's episode for Season 14, episode four. We're joined by Sean Moriarity, co-creator of the Nx Project and author of Machine Learning in Elixir. In this episode, we're talking about Nx, Elixir's machine learning ecosystem, and the latest AI workflows and capabilities with Elixir. 
+
+Sundi: Hey Sean, 
+
+welcome 
+
+Sean: Hey, how's it going? Yeah, thanks for having me.
+
+Sundi: It's been a, a little while since we saw you last. Um, can you give us some life updates? Career updates, book updates? 'cause I think we, we, we said author of a single book there and I think it's multiple. Yeah.
+
+Sean: Yeah. Yeah. Yeah. So I think since the last time we chatted, I, oh, I, at least I know in the last couple of years, we published the Machine Learning in Elixir book. I can't remember if the last time we had chatted, if we had Bumblebee out. But, there's like a lot of exciting updates in, in the past year from the uh machine learning ecosystem in Elixir.
+
+Since we last chatted, I, I started working a new exciting company called Magic, uh, working on Large language models for software engineering. So
+
+Sundi: Did you say it's called Magic? 
+
+Sean: It is called Magic. Yes. magic.dev is is the website. We are pre-training and post-training our own large language models for software engineering.
+
+Sundi: Okay, cool. I was, I was about to say, how in the world did you guys get magic.com, but okay. magic.dev makes more sense.
+
+Sean: Yeah. I don't know the specifics about the magic.com versus .dev. I'd assume magic.com is hard, is hard to get.
+
+Sundi: and how long have you been at the new gig?
+
+Sean: I guess officially, since May I transitioned outta my old role. For those that don't know, I was in the military for the last five years. And then, I finished in the military, officially June 1st, but. I went on terminal leave and got a dd214 actually May 2nd. So, a little over a month now.
+
+Sundi: but like officially five days passed. So,
+
+Sean: Yeah, officially. Yeah, yeah, at, at the time of recording, I will
+
+At the time of recording.
+
+Sundi: yeah.
+
+Awesome. 
+
+Charles: Welcome to Civilian Life. 
+
+Sean: yeah. It's exciting.
+
+Sundi: just to kick us off, I, and I don't remember if you said this in an official capacity or if this was like a post dinner ElixirConf conversation, but you said something along the lines of, I will never write another book again.
+
+And I don't remember that was post first book or post second book. So like, how are you feeling on, on the author space right now?
+
+Sean: So that, that was probably in the middle of writing the second book. 'Cause I think post first book, I had also said, I'll never write a book, another book again. And then I had talked to José a little bit about it when we had started working on Nx, and he was like, yeah, you know, if you want to, it'd be great if someone would write a book on machine learning in Elixir.
+
+And he is like, I recommend that you don't, because it's not fun to write a book about a framework that you're like actively developing. And then Sophie from the Pragmatic Bookshelf hit me up and she was like, "Hey, do you wanna write a book?" And, and. I had told José I wasn't going to, and then Sophie hit me up and I was like, ah, I guess I actually will.
+
+which may or may not have been a mistake. I mean, it was fun writing it, but like, José was absolutely right that it is not fun to write a book about a framework that you are actively developing.
+
+Sundi: Yep. Fair. Absolutely fair. And as a victim of the No, until I said yes mentality. I can feel your pain on that one. 
+
+Sean: Yeah. I don't, it didn't take much convincing, to, to get me to do it. So.
+
+Sundi: Charles, uh, have you had a chance to, to play around with anything, machine learning or anything, Nx and Elixir yet?
+
+Charles: I have. Yeah. In my previous role I was working on a platform that would enable people to do some basic machine learning tasks without having to stand up a lot of the general infrastructure around it. At the time, I was just kind of getting to know Nx little bit and we were calling out to Python at the time.
+
+but I understand that that's not necessarily always needed anymore because NX can interpret, I guess, any kind of numerical representation or numerical model that you give it.
+
+Sean: Yeah, that's correct. Yeah. I think, one of the things that makes like Elixir such a unique language is orchestration is, its, its strong suit. And I think NX kind of like benefits from this a little bit as well. So you don't necessarily need to take an all or nothing approach to doing machine learning in Elixir. Like, it's not like a okay, if you choose to do machine learning in Elixir, I need to only use Elixir. Because you can kind of use , the strengths that Elixir already has as an orchestration layer. Maybe do some, like pre-processing or whatever, or post-processing with like Nx., But then shout out to Python for something.
+
+If it's easy, if your machine learning team is already working in Python., And obviously being pragmatic, the, the Python ecosystem is, isn't going anywhere. It's obviously massive. There's been a ton of progress in that space. And so being able to take advantage of that is, is very important.
+
+I think Elixir does does a good job of striking the balance between taking advantage of what exists in Python, and then also adding our own little like flavors on top.
+
+Charles: and the Python part of that is so ubiquitous within academia where a good portion of this work is happening. And so that's the tools that people know.
+
+Sean: Exactly. Yeah. One of my favorite libraries right now in this ecosystem is called ortex. It's ONNX Runtime . And then they have like an NX wrapper, but it's an ONNX runtime for Elixir. And like ONNX is, is, I think it stands for like Open Neural Network Exchange.
+
+It's a project that I think is either from Meta or Microsoft or both, or a conglomerate of all of them. It's in a way, like a sort of common format, especially popular, in I think like embedded systems development. But you can also target for like server level deployments.
+
+And with ortex, you can take any ONNX model and, and just serve it with Elixir like relatively easily. So, if you can export a model to ONNX, then you can use it. It's a little less friction than say, like Bumblebee, because Bumblebee, you have to implement the model from scratch yourself if it's not available.
+
+And so it does strike a nice balance. You benefit from some work that either someone in academia or in Indu like another industry has done before without actually having to retrain your own models.
+
+Charles: Yeah, we were, we were starting to look at ONNX at the time that I left as probably very useful for the work that we were looking at doing there. Mm-hmm.
+
+Sean: Yeah, it's very popular. I think I, I last used it for a project doing voice activity detection. There's a, a model called Solero, which does like sub, like 10 millisecond, voice activity detection. and yeah, it was, it took about five minutes to get the model imported and, and running an Elixir, which was incredible.
+
+I think there's actually a Livebook Smart Cell for doing it now too. 
+
+Sundi: I really love how normalized using Livebook is in all of our knowledge sharing systems and all of that. Now that's cool.
+
+Charles: Mm-hmm. 
+
+Sundi: So I guess, just from the top, what are some of the machine learning projects you are currently working on?
+
+Sean: Yeah, so I don't know how much I can talk about like my, my current role, but I will talk about some things that I'm interested in. So Paolo has been working on some graph splitting, which essentially like lets you run models in a distributed way, kind of natively in Elixir.
+
+I think that's a pretty interesting project. I also like to follow a lot of the work that Thomas Millar does. If you follow him on Twitter. He's, he's pretty big in like integrating large language models. He's not necessarily doing much in terms of like, straight machine learning in Elixir, but taking advantage of the, uh, existing sort of frontier models from ChatGPT and Claude, and using them with his library Instructor, which I find is like one of the most powerful libraries, I think is out there in the Elixir ecosystem. And we can talk a little bit about structured outputs as well.
+
+And then, yeah, I haven't followed as much of the phoenix.new and Tidewave stuff that Chris and Jose are working on, but I also find those to be some pretty compelling machine learning type use cases.
+
+Sundi: Yeah, I. Really wanna dig more into Tidewave. We're not there yet.
+
+Sean: I talked to Jose at length about what he was planning to do with Tidewave. And I think, honestly, he's struck something that I think will be very, very popular. And I think elixir in particular makes it very easy to do. I don't know necessarily know how they're gonna achieve the same functionality that they have with the Tidewave Phoenix server, but, uh, in other ecosystems. But, Tidewave is a very interesting project.
+
+Sundi: and that's another thing that's like new about, like right now, 2025. We're June of 2025 right now. And I guess compared to when we chatted roughly two years ago, what is interesting or new about working with machine learning in Elixir now in 2025?
+
+Sean: So, so when, when we started the Nx project, it was pre-ChatGPT and it was pre large language models. BERT was relatively new-ish, I think, which was BERT was like the original transformer. So we were pre any of this like AI wave happening.
+
+And I think we kind of naively thought like we would be able to get up to the same level of functionalities, like Python and then sort of like be able to run from there. And I think there was a talk that Soumith Chintala had done. He's the creator of PyTorch, where he talks about how difficult it is to create like machine learning frameworks. And I, at the time was like a college, like new grad, so I was like, there's no way that he's right. This is pretty easy. We can figure this out. And then, you know, like a couple years in we're like, oh, this is actually pretty hard. And then ChatGPT happened.
+
+And obviously like AI accelerated and I think in particular, like, tooling in the Python ecosystem kind of accelerated. And so I think my focus at that point shifted a little bit from how can we do ML natively in Elixir easily, to how can we benefit from what people are doing in other ecosystems and then take advantage of them like in Elixir with the frameworks that we've already built.
+
+So I look at Elixir right now as like an orchestration layer. And then a lot of the work that we had done on the, the ML Foundation helps with that orchestration piece. I don't know if that's necessarily a satisfying answer. Like I've made a bunch of updates to Axon in the last year to make it easier to train models natively in Elixir.
+
+But my focus has sort of shifted away from "how can we train natively in Elixir?" To, like, " how can we orchestrate the tooling that's out there in Elixir?"
+
+Charles: Where do you see as you're doing that? Kind of the, I mean, some of this may be an obvious answer, but what pieces of Elixir are you trying to really kind of preserve in this approach to working with existing tools and existing expertise that's out there beyond just Elixir?
+
+Sean: it's difficult to like draw a concrete boundary. Like I, it, it kind of really depends on what your application is. There are certain things that are very, very difficult to do natively in Elixir. So like, and I shouldn't say natively in Elixir. What I should say is that there are certain things that are very, very difficult to replicate from scratch that already exist in other ecosystems. So like, a good example of this is where we draw the boundary with Nx is, in particular like XLA is a machine learning compiler and I would never like want to rewrite a machine learning compiler specifically for the NX project. So like we draw the boundary at like a very high level sort of numerical computing framework, right? Where you're not having to deal with the specifics of the hardware. You really just care about the algorithmic details.
+
+And then Axon's, like a level up from that. I think there are a lot of high performance ML serving frameworks out there. In particular, like LLM serving frameworks. People care a lot more about LLMs than traditional machine learning models in a lot of different contexts.
+
+Which I don't necessarily know is right or wrong. I know, I know there are people out there that are still interested in traditional machine learning models, but they're just not as hyped up as large language models. But there are like LLM serving frameworks like VLLM, gosh, I can't remember any of the other ones now.
+
+But VLM is like a very popular one, I guess, like, uh, a llama CPP for example. Those are also projects that are very, very difficult to replicate in terms of like the scope. And their performance. And so yeah, it really depends on what you're doing, deciding where you're going to draw the boundary.
+
+I had some success serving, uh, I wouldn't call them like large language models. I would call them like medium-sized language models in particular, like embedding models natively in Elixir. And you get a lot of benefit in doing that because I think like embedding in particular is like an interesting problem because it's a weird thing to get responses from a server that's returning JSON because embeddings are like these massive arrays of floating point numbers. And so like, there's a lot of overhead in like JSON serialization and deserialization there. Uh, whereas if you do it natively in Elixir, you, you don't have any of that overhead.
+
+You can actually just pass them around as binaries and then they go right directly into like PG Vector for example, if you're using that or we have like HNSW as a library for doing vector search in Elixir. And so you don't have that serialization and deserialization overhead. So if the like few hundred milliseconds you save there is critical to your application, then it makes sense not necessarily to like shell that out, but, it's hard to give a concrete answer on, on where you draw the boundary because it's so application specific.
+
+Sundi: I think also a question that I'm sure a lot of companies are asking themselves now because, many different companies have a strong requirement or need or want for a, like pure data science team to be running these larger models, to be running predictive services or anything, match algorithms and things like that.
+
+But if you're running an Elixir backend, you might now have an option to run some machine learning stuff in Elixir. And I wonder if anyone is bridging that gap right now. Uh, have you heard of anyone doing that? Can you speak to that?
+
+Sean: Yeah, so I don't, I think I've definitely heard of setups where it's like they have a data science team that's writing Python and they're just gonna like throw models over the wall to their Elixir backend team. 
+
+Sundi: Okay. I'm sure
+
+that is super cohesive and works
+
+Sean: yeah, exactly. It always works, obviously.
+
+Uh, it's like the ivory tower setup. Nothing better than an ivory tower. Yeah, I, I've definitely also worked with teams that are trying to do a lot more natively in Elixir. And I think at times you can get met with, with friction that's just like kind of what you get when you're dealing with like a first mover, trying things out.
+
+Like Chris Granger's probably the, the quintessential example of somebody whose company is embracing Elixir as much as possible. And he's kind of paved a lot of the way in that regard. 
+
+Sundi: And for those who aren't familiar, Chris Granger's Company, what do they primarily do?
+
+Sean: I believe like patent search and tooling around patents. One ElixirConf one year. He gave me a long rundown about patent law and all of the intricacies and complexities, 
+
+Sundi: Okay. 
+
+Sean: His company's called Amplified. I remember nothing from, from the patent law specifics, but I do remember some of the technical specifics about what they were doing.
+
+so it, it is a lot of like retrieval based work. You can imagine like a lot of embedding, a lot of vector search. And then in general like full tech search as well. But they are doing a lot , of native machine learning and Elixir, and I think they also kind of blend like the. Which I, what I, I do see a lot of companies doing is blending like the usage of frontier models like ChatGPT and like Claude and like Gemini with more traditional machine learning and full tech search like stack.
+
+So it's like a traditional in, in a way it's like a rag application with some LLM usage sprinkled on top.
+
+Sundi: and I know it's a pretty broad conversation. when would an Elixir app call for a Python based model, or when would you lean more on an elixir based homegrown solution? Can you speak to that a little bit before I get more into my company example?
+
+Sean: my opinion changes constantly in this regard. Recently I have found, a lot of the machine learning that people want to do. Like if anything involves text, you may or may not be better off just using one of the closed source.
+
+And I, I know, like, it sounds like heretical, but you might be better off using like a frontier model, specifically just because the engineering costs and the prototyping costs and everything that you save relative to what you would get from training your own model is just like, I think it, the pros outweigh the cons at least initially.
+
+For example, if I was training a model to do like transaction entity recognition, 'cause that's something I've done in the past where it's like extracting entities from a transaction. I would probably initially deploy something that just uses a frontier language model because it's extremely easy to get like something that works within like a day.
+
+And I can ship something and then immediately start to build this sort of data flywheel where I am consistently able to rank and label the responses that, that this language model is putting on my real production data. And then as the need arises, whether it be like a cost optimization or like a performance optimization, I can train something maybe hyper-specific for this problem from scratch.
+
+
+
+Sundi: And can you give a quick definition of the frontier model?
+
+Sean: Frontier model would be something, , it doesn't necessarily have to be a closed source model. It could be something like an open source model, like Llama 4 I think would be considered somewhat frontier. Any of like the Mistral open source models would be considered frontier. I think anything that is, and I don't even know if I'm using the word correctly, but I would consider anything, Frontier is like anything that does good enough on benchmarks.
+
+I think when people say Frontier, they're generally referring to ChatGPT, Claude, and, and Gemini. But it is not exclusive.
+
+Sundi: I think for us, um, I wanna say humans on planet Earth, I might have just called that like out of the box solutions.
+
+It's just like things that you can just log into and try using. 
+
+Sean: Yeah, yeah. Um, And like the same goes for a ton of other applications too. Like obviously there are a ton of models out there for doing other things like transcription. There's a lot of like APIs you get out there you can use to do, transcription that work really well.
+
+And there's also a lot of open source models like Whisper that you can use to do transcription really well. And so, that's one where it might make sense to initially start off using something out of the box like an API, just to get a solution up and running. And it sort of helps you focus on like developing the application around the model that you're using which in most cases is, is much harder than actually deploying the model. it's funny, like people, I think pretend that machine learning is a lot harder than it is, especially now. Like, if you wanted to get into the specifics of machine learning, it's obviously like it's difficult.
+
+There's a lot of like math involved. But if you're just on the surface level, like look at the applications of things that can do with machine learning, there's a lot of frameworks out there that make it incredibly easy. and I think people, are generating a lot of value for themselves by pretending that machine learning is a lot harder than it actually is.
+
+Sundi: I have another new question. 
+
+Does the size of the data set that you would like to work with matter when you're picking your tools? 
+
+Sean: Yes, absolutely. Yeah. So if you already have a ton of data, then maybe it does make sense to train something from scratch. And honestly, like you can even use a lot of these outta the box solutions for synthetically generating a dataset as well. So. that's one of the biggest advantages of working in ML today, is that it's much easier to deploy an application because it's much easier to get labeled data very quickly.
+
+Back on this transaction entity recognition, right? Previously, pre-ChatGPT , I would have to sit down and label like hundreds of thousands of these to get a model that's somewhat reasonable, which takes a lot of time. And obviously that time is money. Now I have hundreds of thousands of raw transactions.
+
+I can just send them to ChatGPT and say, give me labels for all of these and it's probably gonna be wrong in some cases, but it's going to be right enough of the time that you can get a model that's on par with maybe ChatGPT out of the box. That's significantly smaller, significantly less expensive to serve, significantly faster to serve.
+
+Not necessarily like if you have a privacy restriction, for example, you could probably get away with like training a model on synthetic data and then deploying your own. So you don't have to deal with the privacy concerns that we're using an out of the box solution like t.
+
+Charles: It sounds like there's maybe a difference too, if you're trying to add machine learning or some model to an existing application that you have versus starting a new application where that is baked into your original plan.
+
+Sean: if you have an existing application like where you're trying to sort of like sprinkle ML in, I think it's easier to start with something out of the box versus if you're starting from scratch, it might be easier to, to do something from scratch as well.
+
+Sundi: Cool. I mean, yeah, it's something. I think about like back when I worked at a travel company for example, and we had all this travel data about flights, and that's an easy one to be like, okay, this is a suggested next best flight or suggested next best. the hotel algorithm specifically I think was a big thing.
+
+And now obviously I'm, I'm in the car industry and there's years and years and years, decades of car data out there and it's like, where do you start, you know, for the average Elixir engineer.
+
+Sean: Yeah. I think one of the most exciting things about working in just tech in general, I, I won't even say like machine learning because I think everybody, in tech now especially, knows about large language models, knows how to use large language models. It enables essentially everybody to become a data scientist or like a machine learning engineer in a way, because I think everybody has unique ideas of what to do with the data that they have, but previously people may not have had the, the skills to do it. Now, like ChatGPT and Claude and all these like kind of enable you to do extremely unique things with the data that we have.
+
+Sundi: I just thought of like seven different examples that I probably can't talk about.
+
+Sean: Exactly.
+
+Sundi: have there been any particular challenges with integrating Elixir based machine learning with external services or languages that you've experienced recently or in the past perhaps that have now maybe gotten better? 
+
+Sean: I don't think I've necessarily had any like, technical challenges. I think every single engineer can tell you about like, the political friction of trying to introduce a new framework to an organization. I think a lot of the challenges I've had in my like career or have just been like social or political challenges, trying to push for things that I think are right and Elixir in general, like.
+
+Is is more difficult to push for, especially in the machine learning space because there are like out of the box solutions out there that work well. I haven't had any like technical problems. I always think that the hardest problems are the ones where I'm trying to convince somebody to, to use.
+
+Yeah, Yeah.
+
+Sundi: Well, we have several seasons of podcast episodes about why you should use Elixir. If you need any of them, Sean, we'll link them in the show notes below. Uh, I think there's like an entire season dedicated to that. And then I think one, one of my own actually experiences, I think it was actually during the season where I was looking for a job before I landed at SmartLogic.
+
+I was interviewing at a company that was a, like a, primarily a machine learning company. Don't ask me why. I think I maybe I, I like knew through somebody else, the person who was interviewing me, I think it was like the person, not the company. and I said, Hey, look like I'm trying to stay in, in the Elixir space.
+
+Any chance you're gonna do any of this work in Elixir? Like, I know there's some stuff out there now. It was like, gosh, that was like, 2020 I suppose. Yeah, I think it was in, in 2020. And they, they said, no, we're definitely a Python company. And I was like, okay, talk to you later.
+
+Sean: Yeah, 
+
+Sundi: and I, yeah, there's no way I would've had the clout to, or to even speak to that.
+
+So I guess what, how do you, what's, what's the normal situation you run into where you're trying to convince somebody to use Elixir for their tech stack?
+
+Sean: I usually try to introduce Elixir to people through the lens of things they understand. So like, in my like recent role, I, I work a lot with Ray, which Ray is like a, a distributed, I guess you can call it an actor based framework for Python. So with Ray, what I can do is I can, I can create like a, a function or like a class, and then Python is all about decorators.
+
+So I wrap this function or class in a decorator. And what essentially it's going to do is it's going to start a new Python interpreter for me, because obviously like Python is not necessarily good at doing out of the box parallel things. And then Ray has all of this orchestration around it.
+
+So it has like an object storage where I can essentially store objects like globally and then all of my ray actors can access them. I can call functions in other ray actors from. Other Ray actors, so a lot like what you can do with Elixir's distribution. And so I try to explain why for example, Ray is doing what Elixir does out of the box like much worse.
+
+And then I sort of like introduce them to the Elixir way of doing things. And usually, the conversation ends with, " that's really cool, Sean. Now let's get back and focus on what we're doing." 
+
+Back to reality! Come back!
+
+Yeah. Exactly. Yeah. but in general, I find that people, are interested in learning things through the frame of things they already know.
+
+And I think I have had success, like bringing people to the Elixir way of thinking. Um, no, I don't necessarily know if that's like a, a good like rah rah success story for me, like convincing an entire company to use Elixir. But, it takes one person at a time. That's about as good as I can do in some cases.
+
+I think I have had success convincing friends in particular for like applying to Elixir jobs. And then like helping, uh, Andres Alejo , is a good friend of mine. We had met while working together for the last couple years. And, yeah, he was a big like Python guy.
+
+And then I sort of like showed him Elixir and, and showed him the way and enlightened him down this path, and have kind of sold him completely on it. So I have had success in like bringing people completely over. I don't know if I had success bringing like companies over to this side. Uh, maybe at some point I will when I have enough clout in the tech space.
+
+Sundi: Maybe I'll bring you on as an external consultant sometime.
+
+Charles: Has, I'm curious if elixir's ability to be distributed has worked as a selling point in any cases when trying to convince people that Elixir might be a, a reasonable tool to use with machine learning.
+
+Sean: in some cases, I think it definitely is a reasonable selling point. I like, I know Chris Granger another, like, I keep bringing up Chris, but, uh, he, he's someone that has taken advantage of that and used that quite a bit. I think FLAME is like a very compelling tool for not just machine learning applications, but like any applications.
+
+So I, I actually like, have, have worked a little bit. I was on a side project doing VM orchestration. So, if you know, like what firecracker VMs, they're, they're basically micro VMs and you can start a micro VM in like a hundred milliseconds or something like that. It's what fly runs on.
+
+So I was messing around with doing essentially what looks a lot like Kubernetes, where if I can start let's say like a few hundred micro VMs on like one node, and then I can use flame and start many nodes, and then I can use Elixir as the orchestration layer there. That's just like an example of, of something that's somewhat simple to do in Elixir.
+
+But, there's like layers of abstraction that are built for you that make it simple to do. And yeah, I think there's a lot of other compelling use cases of flame as like a, a good example of something that, it doesn't necessarily have to be machine learning based, but, it is just technology that you just won't find in other ecosystems.
+
+Charles: how would you leverage distribution? Like you need to run some inference operation and you might have that run on a separate node and return back the result or?
+
+Sean: Yeah, I think a good example would be if I have a machine learning application that I'm deploying and let's say I'm doing it all on Elixir. We have this concept in, in NX called a serving, which is essentially like a wrapper around I guess a model serving framework.
+
+So it encapsulates like pre-processing, inference, and then post processing. 
+
+Charles: Mm-hmm.
+
+Sean: So you get what looks a lot like text in, text out, and you're not dealing with like the internals of the model. I can use distribution in Elixir to say " start my serving, on one node." In my little application supervision tree, I check what node I'm on or I check some flag or whatever, and I say, okay, only start the serving on this node.
+
+I actually did this for, for a project a while ago. I was just messing around with trying to essentially serve a model from my local GPU on a app that's running on Fly. And it worked surprisingly well. So I had, I, I forget the specifics exactly what I did, but I essentially checked a flag and it was like, okay, if this flag is set, I'm gonna start the serving.
+
+And that means it's running on my my local machine. And then I think Fly supports these WireGuard VPNs or whatever, where you can add your own machine to that VPN, and then you can run your Fly app and so you have your app running and then I can use my serving, I guess transparently would be the right word, where I can just call my serving as if it's running in the app. As if it's running on the node that my app is running on, but it's actually running on my GPU at home. I think I have a writeup on this somewhere on my Twitter. It took like an hour, which was shocking to me as well. This is like every experience I have with Elixir where I think something's gonna be difficult.
+
+I haven't like interacted, like I think, uh, pub sub was like a good example of this like Phoenix Pub Sub, where I was like, oh gosh, this is gonna be really hard. How am I gonna introduce this like real time, chat updates or whatever to this application that was for like an ElixirConf talk I was doing.
+
+And it took me like 30 minutes and I was like, wow, that was a lot easier than I thought it was gonna be. That's like every experience I have working in Elixir.
+
+Sundi: that's a solid selling point in itself. I feel like the case that I, I, I hear about the most is like a larger company has an external data science team. They do. Or not external, but like, you know, external to their Elixir, backend devs. Right? And they either wanna consolidate or they wanna bring some of it in-house.
+
+I mean, I think you've talked about this, you touched on it a little bit, but is there, is there a major recommendation you have for some Elixir engineers in a scenario like that where they're supposed to kind of take on some of those projects that are not just throwing it across the wall? What are some best practices there?
+
+Sean: the first thing I would say is doing any machine learning project, step one should be determining if you actually need to do machine learning. and then, and then I think like my second best practice would be like, decide if you can use an LLM, at least at first before trying to do something super complex. 
+
+Sundi: Okay.
+
+And 
+
+Sean: then the third step is, is going through the it's like an eight step machine learning, solving problem, 
+
+Sundi: A decision tree.
+
+Sean: Design process. Yeah. Yeah. Essentially where it's like, this is step one. I actually talk a little bit about this in my book and now since it's been probably two years, since I've written it, I've also forgotten exactly what I wrote in the book.
+
+But, uh, yeah. Uh. Yeah. Naturally. Exactly. Yeah. Um, yeah, I would say step one is just decide if machine learning works. I have a lot of examples of naive rules beating machine learning a lot. Maybe a, a good example if I wanna predict like the, the country that let's say a tweet has originated from.
+
+You can use machine learning for that, I guess, right? Or you can just look at the language that a tweet is in and then make a best effort. Maybe some simple localization rules will get you like a 75% solution like 10% of the time it would take you to train and deploy a model.
+
+Yeah, I think the second step would be like, can I use a large language model to solve the problem that I'm doing? And, in some cases that's not practical, like maybe like something audio based or, I would say vision based. But I think there a lot of the vision capabilities of large language models is good.
+
+And yeah, I would assess can I do this with the language model? If I could, I would probably get something at least scaffolded out with a language model and I would assess how well it works. I think one of the things that's so important, especially now, for a lot of companies is deploying evals, like understanding what they're trying to achieve with the machine learning model that they're deploying.
+
+This obviously was still a thing when people were doing machine learning pre LLMs, but now that everybody's doing machine learning, it, it might somewhat get lost. And so I think you really have to understand that there is a business reason you are deploying a machine learning model.
+
+And so you want to understand what the business metrics that you are trying to achieve are with the model that you are deploying. And that can only be assessed through evals. So coming up with a good eval like that essentially assesses whether or not your model contributes to the success of your product or your team or whatever.
+
+I would then assess the language model against that, that eval. And if, if it does good enough, I would probably get it deployed and then see if I could optimize it on some front, either by training my own model, or if there's time better spent elsewhere that I would do that. And then we can go into the specifics of what I would do if I had to train a model.
+
+But I don't necessarily think it's as interesting. As, as like those, those first two steps of deciding like, okay, should I use machine learning? Should I use a language model? And then, okay, if not, let's, let's, let's think about training our own model.
+
+Sundi: Just because we can build it doesn't mean we should.
+
+Charles: mm-hmm. So, such an important concept. what makes for a good eval?
+
+Sean: Yeah, that's a good question. I don't know if I have a good answer for it. I think a good eval is something that if you get a good score on your eval, it correlates directly to like customer satisfaction or like team success, which is obviously the thing that all of us working are like trying to capture in one way or another.
+
+We're working with places that are trying to achieve some goal. And a good eval is tied directly into whatever your organization's missions are. But those are such abstract concepts that they're hard to capture. It's easy in some cases, right? Like if I work at a hedge fund.
+
+My eval is like, okay, how well does my model do at Making money? And that's like the easiest, like obviously I can, I can do that, like I can assess that very well. But, for a lot of other people, either your company's or team's missions are like very abstract. And so capturing that in a good eval is, is very, very difficult.
+
+So I don't know if I have a good answer that's like a good recipe for creating a good eval. I would just say something that captures. Your teams, and I hate the word, I hate when people say KPIs, but, but I guess like it captures your, your team's KPIs.
+
+Sundi: Okay. I guess you are fully in the corporate world now, huh?
+
+Charles: That 
+
+didn't take long. 
+
+Sundi: Not even five days. 
+
+Sean: Yep.
+
+yep. 
+
+Sundi: All right, starting off with some non Elixir or non machine learning acronyms over here.
+
+Sean: Yeah.
+
+Sundi: so we probably asked you this last time we talked as well, but for an Elixir dev who's starting to learn this now. Especially because as you mentioned, we have definitely gone on the hype train of we need machine learning engineers and somebody who wants to add that to the resume.
+
+Like, where would they get started now, June, 2025,
+
+Sean: obviously there's a lot of resources out there. I could plug my book, but if I plug my book and you don't like it, then I'm sorry. Uh, um, 
+
+Sundi: is anyone gonna tell you to your face that they don't like your book? 
+
+Sean: I've had people tell me over email that they don't like my book, but, uh, it's fine. I, I, I don't get offended. And in some cases I, maybe I agree with them too. Uh, no, I think it's a good book. It's a good starting point, especially for doing ML in Elixir. There are also a lot of other good books in like, other ecosystems like François Chollet's Deep Learning in Python was the first book I had ever read.
+
+That's like machine learning related. That's the one that kind of got me into machine learning in the first place, even before I was into Elixir. And then don't necessarily learn very well through books, which is ironic after having written two books. I learn by doing, and I actually learn by teaching, which is why I, I wrote two books as well because I think it, it teaches you a lot more about the subject matter.
+
+I would tell somebody if they were interested in getting started to find something that you're already passionate about maybe outside of the tech world, for example. So I in college was very interested in sports betting because that's what all my friends were into.
+
+And so I learned machine learning through the, the context of sports betting because I understood sports betting like quite a bit. And it made applying like the machine learning concepts much easier because I had. Sort of like the prerequisite knowledge of I understand how sports betting works, I understand what my success criteria is, how can I use machine learning?
+
+And then I would teach myself something about machine learning and be like, okay, how can I apply this to sports betting? And it gives you like a very easy, first off, it helps you stay motivated because you're working on something that you're already interested in. And if you're not interested in like the projects that you're gonna do, like, there's a lot of example projects in machine learning, and I don't think any of them are particularly interesting 
+
+Sundi: Like the equivalent of the todo app when you do a new Phoenix 
+
+Charles: Mm-hmm. 
+
+Sundi: project.
+
+Sean: there's a ton of like, uh, uh, interesting. Like, I think one of them is like predicting whether or not a plant is like a certain species. Like, and, and unless 
+
+Sundi: wait. I am actually maybe interested in that one.
+
+Sean: yeah, yeah. So if, if you are interested in plants, which I'm not, then, then, then maybe that's a perfect starter project for you.
+
+Uh, but yeah, I would say if you find something that you're already interested in and then, and think of a, a problem you can solve with machine learning in that context, and then, and then do that.
+
+Sundi: Okay. Well, sports betting is kind of a waste because that's really not relevant to the Elixir ecosystem at all.
+
+Sean: There's, there's, there's a bunch of, uh, Elixir companies doing, uh, uh, sports bet. Simple bet.
+
+Sundi: my sarcasm didn't 
+
+Sean: okay. Yeah. Yeah. 
+
+Sundi: Yeah, I think sports betting might be Elixir's claim to fame right now.
+
+Sean: Hey, you can't complain.
+
+Sundi: Yeah. Yeah. Fun. Cool. I guess okay, I'm sure you're probably still on, not gonna write another book, that kind of train. You also said reading books doesn't help you that much.
+
+Are you thinking about doing any other kind of content that might help push out more awareness of the kind of work you're working on, especially now that you've kind of switched gigs?
+
+maybe have more time 
+
+or less time? I dunno.
+
+Sean: unfortunately I've much less time, which I didn't anticipate coming from like the position I was in previously to this, but, yeah, I'll never write another book. 
+
+Sundi: You heard it here first folks.
+
+Sean: yeah, I, I will over the next six months start writing a lot more. I did like a conference talk recently at Code Beam in San Francisco, and that conference talk was a lot closer to the things that I'm, like, I've been interested in, in the last, like six months than I think like the, the very hands-on machine learning.
+
+So like the high level applications of a lot of these, I'll call them frontier models again, or, out of the box models. I'll probably start writing quite a bit more on my personal blog about some of these concepts. It may be a little bit more high level than some of the content that I put out previously.
+
+As my sort of like corporate transition kicks in. That's maybe where my mind has, has like drifted towards. I might at some point do some, some, like coding live streams. I've, I've thought about that for a while, but I just don't have the patience or to sit there and, and, and have people critique me while I code.
+
+I also find like I have like weird ticks while I'm coding. Like, I like move in weird ways and like do weird things. So I don't necessarily know if I wanna put my terrible posture while I'm coding on, on camera. Because otherwise if, if people have to watch me sit straight trying to look good for the camera. Yeah. I'm like, well, it depends. Like, I'll, I'll just like lean back in my chair or like kick my legs up, or like, sometimes I will like sit there, you know, like huddle down at the, the keyboard. Or I'll like spend like half the time with like my hands on my head like this, thinking about problems. So if, if people wanna watch me code well, then I, I don't necessarily know if I wanna put that on camera.
+
+Sundi: Yeah, that's fair.
+
+Sean: I think I'll, I'll still, probably do a conference talk here or there. And who knows, maybe I will write another book, but, yeah, never say never.
+
+Charles: in that talk, I think you mentioned something about writing more DSLs. Do you wanna expand on that just a little bit while we're, while we have a little bit more moment?
+
+Sean: Yeah, so like that's a concept I've been thinking about for a while. I talked to Zach of the Ash framework about this a lot because Ash is obviously like all about like writing, it's very like declarative I guess you could say. And it's about like. Modeling your domain and then, and then it just takes care of everything for you.
+
+So your only focus should be on like, modeling your domain. And I probably got his tagline wrong there. I haven't used Ash much, but I do think that he, he's onto something. What I'm thinking here is that a lot of people are creating agents for interacting with the web and dashboards and applications in ways that, that we interact with them.
+
+And I think that's a mistake. I think you're trying to shoehorn language models into, into context that they were never meant to be used in. But language models are already very good at writing code, for example. So if I have a business problem that I can model, with like a DSL, then it's very easy for a language model to help me solve that business problem.
+
+And like the, the easy example I gave in that talk was if I have A marketing team, for example, and they're developing like email and outreach flows for, for getting in touch with customers over email, SMS or whatever. The only way they're interacting with like ChatGPT is like by having it write the content for them, which doesn't necessarily make any sense because one, I think ChatGPT content is just very inauthentic and it's easy to, to understand when somebody is using it when they're talking to you.
+
+you should let your marketers be marketers, that's their strength. And so. Let them do that. , What you should have ChatGPT helping them with is building out the, the flow. And I think like MailChimp has like a UI for like, I can send an email here and if they respond then they go through here and it's like a, a graphical way to like express this.
+
+But that's something that's very easily expressible with code. So it's like, okay. Why don't I have my marketer describe exactly what they want in terms of this email flow, and it's gonna say after this email they would get this and this and this, and they would focus on the content. ChatGPT takes care of like the logic and the structure.
+
+And I think that's like a very powerful way to solve problems with language models more so than having a language model that like does things in your browser for you. So I think if you can express the problems you're trying to solve with code, then you can use language models much easier than I think how people are trying to use them.
+
+Sundi: Yeah, that's fair. , Well, we're kind of at our hour and it sounds like you are still gonna to conferences. Planning to write some more blogs. Do you have any plugs, any, uh, shout outs for places that people can find you on the internet?
+
+Sean: you can find me on Twitter. I don't tweet as much anymore. I also don't really spend much time on Twitter, so if you like DM me or anything on Twitter, and I don't answer, I'm sorry. It's just, just because like, I'm not checking it. You can find me. I have a blog. Sean moriarty.com also, don't write a ton there.
+
+I am. I am still in the EEF Slack, the Erlang Ecosystems Foundation Slack. That's probably like the quickest way if people want to get in touch with me or ask questions, to just find me on there and send me a direct message. 'cause I do check that every day. 
+
+Sundi: Okay, so that 
+
+one and not the ElixirLang Slack.
+
+Sean: And not the ElixirLang Slack.
+
+No, I don't, I don't spend much time on the ElixirLang Slack. And I do still go on Elixir Forum. I don't answer questions as much on the Elixir Forum anymore. Mainly out of out of time as well. But, if you do like tag me on something, then I will eventually see it because I do check in from time to time.
+
+Sundi: Okay, so I guess the, the takeaway there is try not to reach out, Sean.
+
+Sean: yeah. Well, and then I guess, now that I am like corporate, I have to plug my, my LinkedIn, so I can get my connections up , and really go full in on this, this corporate persona that I'm trying to build for myself. 
+
+Charles: I guess you, you could just do that with your blog too.
+
+Sundi: Yeah.
+
+Yeah. I honestly, I find those to be, I find personal blogs to be way more, um, engaging than any other kind of content, although I will say that I, I might put my stake in this, hot take that LinkedIn is like the last true social media out there.
+
+Sean: didn't have a LinkedIn for the longest time. I think literally up until like eight or nine months ago, I had one, and then I deactivated and then I created it again. And then, uh, I've been spending more time on it and I, I think one, it's just shocking. It feels like Facebook in 2010, just like the things, the content you 
+
+see, you see on there is, is hilarious. 
+
+Sundi: That is exactly my point.
+
+Sean: And, uh, yeah, I don't necessarily know if I wanna go all in on, on LinkedIn, but, if it comes to it, and I, you know, I, I do go full corporate, I will.
+
+Sundi: I do find that that is a good way to keep up with what people are doing. Like truly, honestly, that is where people I know post what they're up to. Whereas like Facebook is like three things you can do to get cats to come into your yard.
+
+Sean: I think, I think my last two years of my Facebook post has been, just pictures of my dog. I don't think I posted any, I think I got married in, in December and I don't think I posted a wedding photo. I think it was, it's just pictures of my
+
+Sundi: yeah, that sounds about right. Actually also high five 2024 weddings.
+
+Sean: Ooh.
+
+Sundi: Um, yeah, I, yeah, mostly my, actually not even a lot of my cat, it's mostly food. I post food. That's really it. Only thing that matters. 
+
+Sean: Yeah. The, the recipes you find on Facebook are actually amazing
+
+too. that's, true. I do cook them a lot. 
+
+yeah. Yeah. They're very good.
+
+Sundi: All right, so I guess takeaways here. Sean's got a Twitter, a personal blog, a LinkedIn, and it's a kind of a, a roulette of what will work if you need Sean. 
+
+Sean: Yes, exactly. Yeah. You can try to email me as well, but ...who 
+
+knows?
+
+Sundi: Why don't we all try to get out to more conferences and maybe you'll find a Sean in the wild.
+
+Yeah. 
+
+Sweet.
+
+Charles: That sounds like the way.
+
+Sundi: All right. Well, Sean, it's been great having you back on, talking about machine learning again. Let's do it again in two years. Yeah.
+
+Sean: Yeah. Sounds great.
+
+Sundi: Cool. Thanks for coming on. 
+
+​
+
+Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
