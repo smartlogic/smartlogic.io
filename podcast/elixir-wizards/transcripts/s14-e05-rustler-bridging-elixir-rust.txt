@@ -1,0 +1,357 @@
+S14E05 Sonny Scroggin with Rustler
+===
+
+[00:00:00] ​
+
+[00:00:09] Charles: Hey everyone. I'm Charles Suggs, software engineer at SmartLogic.
+
+[00:00:14] Sundi: And I am Sundi Myint, Software Engineering manager at Cars Commerce. And we're your hosts today. So for season 14, episode five, we are joined by Sonny Scroggin, Rustler core team member.
+
+[00:00:25] In this episode we're talking about the Rustler package for bridging Elixir and Rust. Welcome Sonny. Thanks for being on the show today.
+
+[00:00:31] Sonny: Yeah, thanks for having me.
+
+[00:00:33] Sundi: we're gonna start this off with a disclaimer. Both Charles and I have not written any Rust. Is it zero Rust, Charles, are we both at zero for zero?
+
+[00:00:41] Charles: yeah, I helped troubleshoot an Elixir package that has some that uses Rust, where there was a problem with the NIF, but that's as far as I've come.
+
+[00:00:49] Sundi: so we're, we're starting at ground zero. So maybe, uh, Sonny, if we could kick off, can you explain to us and our Elixir listeners, what is Rust and where does it sit in the ecosystem of programming languages?
+
+[00:01:00] Sonny: So Rust is what's I guess they tout as a systems programming language. Actually, I like to say that rust is like a high level, low level language. So low level languages you think of like, you know, C, C++. These are languages that are dealing with really low level memory management and all, all that kind of stuff. You have a lot of control over how you want to allocate memory and free it and all that kinda stuff. But Rust really shines because it gives you that freedom and flexibility. But it does it at the compiler level, right?
+
+[00:01:38] So you don't have to sort of like think about allocating memory as much and you don't have to really worry too much about how memory is freed. And so the compiler actually helps you to essentially like removes a whole categories of bugs that are prevalent in C, especially memory safety issues.
+
+[00:01:58] So like use after free, things like that. Where you're trying to use a piece of memory that's already been deallocated and then it causes all sorts of problems and especially like security vulnerabilities and stuff like that.
+
+[00:02:10] Speaker: Cool. That's one of the like five follow up questions. But since before we get down that path, since you just introduced Rust, can you also introduce yourself and like what is your history with software engineering, as it relates to Rust and Elixir.
+
+[00:02:23] Sonny: I started dabbling in sort of software back in like 1998 when I was in high school. I had a drafting class and a computer aided drafting class, and the only time I actually ever had access to a computer was at school. And so I didn't actually have like programming classes or anything like that, but because I was always ahead in those classes, my teachers would allow me to like sneak off to the computer lab and I would like tinker around with building websites. And so back then there was like basically just HTML. I think CSS was sort of like kind of coming out, but I had no experience with it at that time. I think even like JavaScript was called DHTML back then, so
+
+[00:03:07] so I ended up tinkering around playing with HTML building websites and stuff. Had like an Angelfire website at one point. I don't even know if those things are relevant anymore, but, I ended up fast forward like 2004 ish, I was in a band and, we needed a website.
+
+[00:03:23] And so because I had some experience with that, I took a stab, sort of like started playing around with it again. And I ended up actually going into and started playing around with Flash. I made a bunch of, like, animated websites. I started tinkering with like decompiling, some really cool websites that I'd find for like other bands and stuff, and decompile stuff, and figured out how to make our website even cooler with Flash. But of course, Steve Jobs ruined Flash when the iPhone came out, so I sort of ended up pivoting towards more traditional backend services like with PHP and like databases to make the website more dynamic. But yeah, I really allowed like the band's website to sort of like drive my curiosity on how things worked to sort of drive forward.
+
+[00:04:15] So I wasn't a professional developer until quite a bit later. I think 2010 is when I got my first professional job and I started out doing UI/UX stuff. So I was actually more on the design and front end side of things. but I was kind of more of a full stack person at the time. So it allowed me to sort of transition throughout my career to get me into like doing Rails and all that kind of stuff.
+
+[00:04:40] So like the Ruby side of things allowed me to progress into like Erlang and Elixir and stuff like that. What got me into Elixir was in 2013, I was working at a company that, we had an XMPP server for like chat. All of our internal chat was using XMPP.
+
+[00:05:00] And at the time we had this server, it's called ejabberd. 
+
+[00:05:04] And, ejabberd is this like Erlang XMPP server. And it's been around for a long time. So I had to actually build and learn how to program in Erlang in order to like pull this project off. And so I had to build a bunch of modules and learn how to like, hook it into ejabberd so that we could have like logging and storing like history, chat history in a separate API and all this kind of stuff.
+
+[00:05:27] And so, all that really got me hooked. And at the same time, it was right around the time I think Elixir was like, I don't know, 0.5 or something like that. And so I ended up spending a lot of time in the IRC channels and sort of tinkering with the community and got involved with improving some things on plug early on.
+
+[00:05:47] Got to work on like the cookie store, the session stores. The message signer and verifier and all that kind of stuff. And then got to work on a little bit of Phoenix for, for a little while with Chris. And then, fast forward a couple years later, I started helping out with, with Rustler. So, that's where it all started from there. With Rustler. I think it was about 2016. 
+
+[00:06:12] Speaker 3: Charles, you have a burning question?
+
+[00:06:14] Charles: I don't have a burning question though. I I have several I could go with. I know you had some as well.
+
+[00:06:19] Speaker 3: I had a burning question. Just real quick aside, is your band website still up?
+
+[00:06:24] Sonny: No, no. I, um, I actually tried going through the Wayback machine and finding it, and I found like a Swift file or a Swift file that, I can't get it to play anywhere, so, all the data of course is like gone. So unfortunately I don't, don't have access to it anymore, but
+
+[00:06:42] Charles: Mm-hmm.
+
+[00:06:43] Sonny: yeah, it's a bummer.
+
+[00:06:45] Charles: Angelfire reminds me of GeoCities.
+
+[00:06:47] Sonny: Yeah. Yeah. That was the other one at the time.
+
+[00:06:50] Charles: Yep. So then what catalyzed you jumping into Rust , and working with Rustler? Where did that, how did that come about?
+
+[00:06:59] Sonny: Yeah. So at the time, I guess it was probably right around the time I started to dabble in Erlang and Elixir. I was also really interested in Rust at the time. So, one of the guys that was going to the Nash FP so in the Nashville area we had a functional programming meetup where we did a lot of like Erlang and Elixir stuff.
+
+[00:07:24] And one of the guys who is the co-author of the Programming Rust book, the O'Reilly book, was a friend of mine, he worked at Mozilla. He was working on the Firefox engine at the time. So he would, he would always teach me stuff about Rust. So I was really interested in, in it and I was like, well, I know that there's NIFs in Erlang.
+
+[00:07:47] How cool would it be to be able to like use Rust instead? And so I started to look around at what options there were, and at the time there was this library I. I think it was called erlang_NIF-sys and erlang_NIF-sys was essentially just like a wrapper around the, the C API for the Erlang NIF API. And that library essentially allowed you to write your NIFs in Rust. But it was very, very low level. Everything looked exactly like it was kind of like mimicked the C, but it was actually even more verbose and quite, quite ugly to work with. And this is not a dig at the library itself, but it was more of like the fact that because of Rust's you know, nature, you have like lifetimes and all these different types of things all over the place.
+
+[00:08:35] It ended up being pretty hard to work with. You have to really like decode every little detail, kind of like the C API. Then fast forward, I don't remember exactly when it was, but I ended up finding Rustler. So Hans Josephsen had started Rustler, as essentially like a nice wrapper around that library, the erlang_NIF-sys.
+
+[00:08:55] And at the time that I found it, there was something broken on MacOS and so I ended up sort of fixing that, making a pr and from there. I started chatting with Hans and just started like, contributing and asking him a bunch of questions and trying to like, learn more. And, eventually we just started fixing things and, collaborating on things that we should improve.
+
+[00:09:21] It's been a while, so I don't remember all the ins and outs of everything, but, over the years as I find time and interest in like continuing to push the project forward, I've done some improvements on, on some things. like in particular when, when I first sort of found the project, much like the erlang_NIF-sys where it was very low level, usage, you would have to do the same type of thing in Rustler NIFs where you would have to in your, in your Rust function, and maybe I could back up and explain a little bit of how, how it sort of looks and feels. The Erlang NIF API, essentially all NIFs have the same signature, so it takes, the first argument is this thing called an Erlang or an ErlNIFEnv
+
+[00:10:13] This Env is like an environment that represents an execution context for the calling process. And so this thing is really, it's like an opaque pointer to some, you know, memory and you don't really, you don't have access to do anything with it other than pass it into other like NIF API functions.
+
+[00:10:37] And so, you can't really do anything with it directly, but it's what you have to use to do anything with your NIF. So, then essentially it takes like, you know, an RC, which is a count of how many arguments the NIF gets called with, and then it has like a vector of NIF terms and similar to like the NIF environment, this NIF term is like also very opaque and you have to like figure out what it is by sort of like you, you. Try to decode into a specific type and then you kind of know what it is. Because all of the NIF functions have the same shape, it allowed me to essentially write the, like what you use today with Rustler, which is these macros that you annotate your functions with. And you could just say, this is a Rustler NIF.
+
+[00:11:25] And you write it almost like you would any Rust function, and you can just basically. Like in the example on the Read Me, you just have like a, you know, an ADD function I think it is, where you just have two arguments. You have an A and a B, and they're like I32s or whatever. And then the function returns an I32,
+
+[00:11:45] And then in the body of your function, you're just adding the two numbers together. Whereas like in the C API, you would have to go and you'd have to get the zero width argument, decode it into an integer, get the second one. Do do the same thing, then add them together, then like take that value and encode it back into like an Erlang term, and then return it to, to the, to the caller.
+
+[00:12:09] And so what this NIF's macro allows you to do is it basically just takes your Rust function. It basically writes a wrapper around all of that and effectively does the decoding for you automatically. It calls your function and then takes the value, the return value, and then coerces it into the return type so that it's going to be returned to your, uh, your caller as it's supposed to.
+
+[00:12:39] So it wraps up all this boilerplate for you so you don't have to think too much about it. 
+
+[00:12:45] Sundi: what kind of projects are you working on that lend you towards looking for this kind of solution? I can visualize a C engineer, it's like my friends at NASA or something, Elixir engineers, sports betting as we've talked about in the past, or you know, Cars, we use it.
+
+[00:13:01] A lot of use cases for Elixir. When are you reaching for Rustler and creating NIFs to do your daily job?
+
+[00:13:07] Sonny: Yeah, so that's a great question. Me personally, I don't actually use NIFs a whole lot, even though it's an interest of mine. I have written a handful of NIFs at different various places that I've worked over the last like five or six years or so. the only time you really want to reach for a NIF is when you've got some sort of like CPU intensive work that needs to be done.
+
+[00:13:31] And doing it with Erlang or Elixir is just going to be too slow. For instance, the first real NIF that I ever got into production, I was working at Bleacher Report and anytime we had like a ton of traffic. I don't know if you have ever spoken to anyone else that's worked at Bleacher Reports, but like it's very spiky traffic and so you, you know, we've got like the alerts that go out and now you have like hundreds of thousands of customers coming to the site all at the same time.
+
+[00:13:59] And so it got really spiky traffic and our auth server would get overwhelmed with like trying to sign JWTs for, for all these customers that are coming in. And so, signing JWTs because it's got crypto involved and all that kind of stuff, using like the Jose or Jose Library for doing that sort of stuff.
+
+[00:14:22] I think most all the stuff is done in like Erlang. Whenever we'd get these really large spikes, the CPU starts getting saturated. And when you get to a certain level of saturation on CPU, the Erlang scheduler starts to, you know, pile up with processes in the run queue.
+
+[00:14:44] So when your schedulers are like really full and you're doing a lot of CPU intensive work, every time you're calling into a process and scheduling that process, it's sort of having to do a lot of work. And then if it gets preempted before it's done, it's gotta go to the back of the run queue. And essentially your run queues are really long, and by the time it gets, you know, rescheduled, it might actually start timing out.
+
+[00:15:11] Because it's taken so long for it to actually get back to the beginning of the run queue. So anyways, we ended up building a NIF to do our JWT signing, and this helped improve that because instead of doing that in Erlang and Elixir with byte code, you now are just calling a NIF. So it's able to do it much faster with less you know, scheduler, uh, use.
+
+[00:15:36] Charles: does that present any risks in terms of that process getting in the way and not being supervised by a supervisor and Elixir and causing other problems, if that starts to get backed up, or does that lead to a a less graceful crash scenario than what Elixir tends to do out of the box?
+
+[00:15:58] Sonny: when you write NIFs with Rustler, the cool thing is, is that if you're running into any errors, your NIF if even if it panics, it's not gonna crash the BEAM. Um, that's like the biggest problem with people writing NIFs in C is that if you have some sort of crash that happens in your NIF, you actually will segfault the VM, which will take everything down. 
+
+[00:16:22] Charles: Yeah, I've experienced 
+
+[00:16:23] this even 
+
+[00:16:24] with Rust.
+
+[00:16:25] Sonny: Yeah. So with Rustler , we really take a lot of care to, to, you know, try to wrap the NIF API properly so that using Rustler should never segfault the VM. I have run into that only one time, and there was a bug in Rustler around the sending of messages back to your process. So in Rustler we have this functionality where you can actually spawn like a separate operating system thread. So you can do long, like lengthy work on a separate OS thread, and then that thread is no longer like managed by the BEAM. And you can actually still call back in and like send a result back to the, the calling process.
+
+[00:17:10] And so there was a, an issue where we have this function, it's called Send and Clear. This environment, when you send stuff, you're supposed to clear the environment so that if you reuse the environment , it can have new terms being created in this memory space.
+
+[00:17:26] So the, the function was called Send and Clear, but we weren't actually calling Clear. And so this actually caused, caused the problem where it would actually like, try to like reuse a piece of memory and it was getting corrupted and so it would segfault. So, found that and fixed it, which is nice.
+
+[00:17:44] But , that's the only segfault I've ever run into. We haven't had any reports of other issues like that for very long time. So that's one of the goals of the project is that, you know, writing NIFs in Rust should be extremely safe and you should never segfault the VM . but getting back to your original question, I think you're, you're talking about like, if you encounter an error on the Rust side, does it interfere with supervision trees and, and all that kind of stuff, or was that the gist of your question or?
+
+[00:18:16] Charles: you did kind of answer it, just how do exceptions and other more serious issues get handled because when you're using this, it can, you know, like we're talking about, you can get a segfault, et cetera. I think you did kind of answer that question. 
+
+[00:18:31] Sonny: just to clear up anything there, the NIF API, usually when you get an error in Rustler, you'll encode it back as like an error tuple and so you're, you're calling process is just gonna receive like a normal term of that tuple.
+
+[00:18:47] Similar for like, if you're raising exceptions, so a lot of NIFs will like raise a BadArg or something like that. It's just like this exception that gets raised. So those are all basically the same. You, you can, put like try catch around those things if you need to. But most of the time when I'm designing these, these NIFs, on the Rust side, I am essentially designing it in such a way that it's actually just returning.
+
+[00:19:11] Nice errors instead of like these, you know, like most, most of the BIFs and like built-in functions in Erlang and the other NIFs that come prepackaged in the Erlang VM. Like a lot of times when you call them with like the wrong arguments, they just, they just error with like bad arg and you're like.
+
+[00:19:30] Which one,
+
+[00:19:31] Charles: Yeah.
+
+[00:19:31] Sundi: useful,
+
+[00:19:32] Sonny: which, which one? So I, I remember, like, when I was trying to figure out how to do all the message verifier and the message signing in plug, I was using like the internal like crypto or stuff from Erlang and trying to do the encryption and all that kinda stuff.
+
+[00:19:48] And I was just so frustrated because the docs were not very clear. On what things should be and calling these things is getting these like opaque errors and it was very difficult to, to figure it out. So , that's one of the things that I, I think is, is nice when you do write your own NIFs is that with Rustler you have a lot of control over the error handling that Rust gives you, with the result type, stuff like that.
+
+[00:20:12] So you end up getting the ability to like produce nice errors for your users.
+
+[00:20:16] Charles: That's lovely. Taking a brief step back. I don't think we really define for listeners what a NIF is for folks who aren't familiar with the term. Do you wanna take a, a pass at that?
+
+[00:20:28] Sonny: a NIF is, it stands for native implemented function, and so the Erlang virtual Machine has what they call the erl_NIF API, and it's just a C API. and Rust is a language that actually is, uh, it's compatible with the C API. So you can actually generate bindings to C programs.
+
+[00:20:53] And so if you just get like the header file from a, like a CE program, you can run it through tools like bindgen. I think it's called c bindgen. And it will actually take that, that API and it'll produce Rust code that basically wraps the C API. And then from there you can now like use Rust to interact with the C code.
+
+[00:21:17] For instance, the erlang_NIF-sys library, that essentially was just the C bindgen. Code generation and then you end up with this produced results that, that you are still very low level. What you end up doing with that is you end up writing something like Rustler, which sits on top of that, which cleans up the API surface so that you can use it with nice types and stuff like that.
+
+[00:21:41] So you're not like dealing with raw pointers and all that from a user perspective.
+
+[00:21:46] Sundi: Cool. And then so now that we defined it and talked about when you would reach for it a lot, when would you reach instead like with Rustler, with Rust, a port or an external service instead because then it sounds like it's like easy to, or easier for you at least to grab for implementing a NIF in certain situations.
+
+[00:22:06] But when is it not the solution?
+
+[00:22:08] Sonny: I would say that before Rustler, when to reach for a NIF is like, almost never. Um, like, um, now I, I would say like, you know, if you're a C wizard, you might feel comfortable building NIFs. But most people, nowadays we're, a lot of us come from like web, web backgrounds and stuff, and we're dealing with higher level languages. And so If you don't know what you're doing, it's really not something that you should reach for, for sure. And even if you do know what you're doing, there's a lot of times like it is better to just build it in Erlang or Elixir if you can.
+
+[00:22:48] But like I said, if it's something that's really CPU intensive and you need that performance and you have to reach for a NIF, there are other options, like you said. So like a port, I don't actually use ports ever. Because I think I would, I would personally would like just reach for s NIF, because it's sort of there, but if you're gonna do a port, then you've gotta like serialize things over, standard in standard out. And so you end up using like the Erlang. I'm not sure exactly what other people do, but, if you're gonna like serialize stuff into JSON and send, send stuff back and forth, you can also do stuff with the Erlang external, like ETF.
+
+[00:23:29] The external term format, and there are Rust libraries that you can use to actually make that pretty easy. I think the one's called like EETF. And so you can actually in Rust from your Erlang program if you spawn this like binary and you can communicate back and forth with this like binary term format, which is gonna be better than like JSON for instance.
+
+[00:23:54] The other option that you mentioned too is you know, if you have a, a microservice just doing like either GRPC, that I, I find is also gonna be pretty helpful. If you already have existing libraries and you can just throw an interface on it. And then you're just, obviously you've got network latency that you have to deal with there.
+
+[00:24:15] But if it's not a big deal and, you know, deploying another service isn't that big of a problem a lot of times. That I think, is probably the cleanest way if performance isn't like a big, a big deal, and then you can, that system can be in any language, which is nice. But obviously when performance matters.
+
+[00:24:36] You know, you're obviously gonna reach for the tools that are gonna do the, the right job. You're gonna reach for the right tool for the, for the job, right? So.
+
+[00:24:45] Speaker: Right. I guess would, would people be implementing Rustler because the org already using it, or are they implementing Rustler as a conscious decision because it hits some criteria, and if so, what's that criteria? When are you reaching for Rustler in a project? 
+
+[00:25:04] Sonny: I would say that you're gonna reach for something like a NIF with Rustler if you are in a, in a team environment that's confident and comfortable, I guess with building these things. There are some things to consider. When reaching for a NIF, and that is that if you're doing any lengthy work in a NIF, you can actually cause more harm than good.
+
+[00:25:34] The Erlang Virtual Machine Scheduler is designed in such a way that it's usually running processes and, you know, running the byte code. And so it has preemptive scheduling built in, so it can, it can stop that process and, you know, reschedule it later. But once you call into a NIF, you take that away from the scheduler.
+
+[00:25:55] You're actually running machine code in the scheduler thread at this point. And so now the BEAM doesn't have any way to actually preempt it. If you actually do the wrong thing and you spawn off something that's just sitting there looping forever, you'll cause problems. But then even if you call into something that's pretty CPU intensive and , it, it doesn't, doesn't return within like a millisecond, you will risk actually causing performance degradation in the BEAM over time.
+
+[00:26:27] So now there are, cool things that the VM has for this. There's actually a thing called dirty schedulers. 
+
+[00:26:36] Speaker: Great name. 
+
+[00:26:38] Sonny: yeah, so dirty schedulers are, actually, I think ets and Mnesia have like these dirty functions. It's like kind of part of the, the parlance. The dirty schedulers are, I think they were introduced in OTP20.
+
+[00:26:53] And essentially what that does is, when you start the VM, you get a scheduler thread per CPU core. And then on the side of that, they actually have a separate thread pool that is called, is Dirty schedulers. And so those are specifically set up. You have another scheduler, dirty scheduler thread per core CPU core.
+
+[00:27:16] And so what that allows you to do is that when you have NIFs that run for longer than they should, you can just schedule it on the dirty schedulers and it frees up the normal schedulers so that they don't get blocked. So that's kind of a nice thing to have. And so if you, if you are building NIFs that you don't really understand, a lot of times you can just annotate your Rust NIF function with dirty CPU. And then that will schedule it on the dirty CPU scheduler.
+
+[00:27:45] Sundi: this is just like, so in line with this season. We did have a conversation with Isaac Yonemoto at the beginning of the season, and we talked about Dirty NIFs. So I guess it's really putting it out there. The, the, this is really just a nomenclature.
+
+[00:27:59] Sonny: Yep.
+
+[00:28:01] Charles: Those dirty, dirty NIFs..
+
+[00:28:02] Sundi: Uh, developers should not be allowed to name things. I stand by this. Yeah. I'll agree with you.
+
+[00:28:09] Fun stuff. Not changing subjects, but like, just generally curious. For someone with an Elixir background. How would they get started with Rustler? We've talked a little bit about different kinds of projects that might have you reaching for it or what kind of environments you might be in that lands you in this space.
+
+[00:28:25] But say you, you know, you've landed a new job and tech Stack has Rustler, like, where, where does someone with the Elixir background going for learning more about it?
+
+[00:28:35] Sonny: if you wanna learn more about it, obviously going, going to the, you know, GitHub repository. We actually need to do a lot better at documentation. Right now the docs are pretty, pretty poor, I would say. The library itself has been around for a very long time, since at least 2016 is when I began tinkering with it.
+
+[00:28:55] So there are lots of improvements still to be made. And like we've decided that we're not gonna launch 1.0 until like, pro, it's probably gonna be a while before like 1.0.
+
+[00:29:07] Speaker: I have never heard that story before. Not ever.
+
+[00:29:12] Sonny: Yeah. There's always constant improvements that we can be making. Documentation is obviously one of them. We do have links to other projects that use NIFs. There's also, of course, like the Elixir Slack.
+
+[00:29:25] You can jump on there and you can ask questions. 
+
+[00:29:29] Sundi: Is there a Rust channel in there?
+
+[00:29:30] Sonny: There is a Rustler channel in there.
+
+[00:29:33] Sundi: okay. 
+
+[00:29:35] Sonny: so if you have questions, you can, you know, feel free to ping and we'll try to help out. I think a lot of the, the contributors though are, they're all in Europe other than me, and, two of them are actually like working on, they're in two different companies.
+
+[00:29:51] They're actually working in the same industry, virtual power plant technology. 
+
+[00:29:55] Charles: Oh, interesting.
+
+[00:29:56] Sonny: And so they, they're both using a lot of, Rustler and Erlang in that.
+
+[00:30:02] Sundi: Virtual power plant?
+
+[00:30:04] Sonny: Yeah,
+
+[00:30:05] Sundi: also known as an oxymoron.
+
+[00:30:07] Charles: No, it's, it is a thing.
+
+[00:30:09] Sonny: is, yeah, it's definitely a thing. Yeah. I don't know too much about it, so I can't say too much there. But Yeah, it's definitely a thing. And so yeah, we've got people that are, are using Rustler for, for real, like real world cool stuff.
+
+[00:30:22] Charles: I think the idea is to use the ability to moderate demand, so it's like a demand response kind of thing, so that if you can moderate demand where maybe it doesn't need to be as high, or you have also energy storage that you're managing, then that in a way can function like a power plant that brings more capacity online or maybe by dropping demand so that the grid can still meet the necessary demand that it has. I, I 
+
+[00:30:52] think that's, generally what a virtual power plant is. 
+
+[00:30:56] Sonny: that sounds about right. 
+
+[00:30:57] Sundi: I'll have to take your word for it. 
+
+[00:31:01] No, I'm, I'm genuinely 
+
+[00:31:03] curious and I'll look this up later. And for, for an engineer who's like doing their typical development cycle, what does the workflow look like? Are they using mixed tasks or like, how does compiling work? Do they get to take advantage of hot code reloading, all of that stuff.
+
+[00:31:19] Sonny: Yeah, so in the development workflow, if you're starting out and you're building a new NIF, we have like a Rustler new mix task and you can install that as like an archive. So you can say, you know, , mix Rustler new and it will sort of prompt you for like, what's your module name gonna be and all that kinda stuff.
+
+[00:31:39] And that sort of like generates some boilerplate code for you to get started. And then from there, once you sort of have your project up and running, you run tests and, and build your tests through mixed tests. Currently you have to drive the tests through Erlang and Elixir because everything is sort of based around your module.
+
+[00:31:59] Backing up to the question where you asked me about, what is a NIF and how they work. There is a, like a module in like Erlang and Elixir that, that backs this native code. And so what happens is, is that your module itself, it has like an a knit callback that, gets triggered when the BEAM loads the module.
+
+[00:32:21] And so there's this onload callback that happens. And this is actually like code that you would normally write in a module. And essentially what it does is it says, oh, I'm in a NIF module. I need to go and like load this dynamic library. There's this function that you call, it's like Erlang load NIF, I think it is.
+
+[00:32:42] It's been a while because we like totally erased that boilerplate from, from you. If you're doing Elixir, you just say like, use Rustler in your module and you tell it like a create path and it just generates all that code for you. At least the boiler plate stuff. There is still like some stuff that you have to do.
+
+[00:33:00] You have to go in and actually define functions for your NIFs, and these are effectively just stubs. And so, you write the definition and then as the body of the function, you just return, Erl ang NIF, uh, NIF error. And they just say like, NIF not loaded. And the reason for that is because these stubs are essentially supposed to be,
+
+[00:33:21] if there's a problem loading the Dynamic Library code, you can actually write in a, a backup. Like you can write a real implementation in there, and that will be used instead of the NIF. So that's sort of how, how it kind of works. But essentially, if the, if the NIF can be loaded, then it just replaces the functions with the calls to the native code .
+
+[00:33:48] Um, and so that effectively, gives you the ability to write all of your API definitions in one file, in your Erlang Elixir, so you can see which functions are available and then you go into your Rust code, which is sits in the native directory. We just create a native directory at the top level of your project, and then you have like your different.
+
+[00:34:12] Rust crates in there that provide your new functionality 
+
+[00:34:14] Speaker 4: Okay, 
+
+[00:34:15] Speaker: so that sounds like a pretty easy way to kind of get into it. Not like a huge learning curve. Are there any other gotchas or are there any gotchas for an Elixir engineer kind of like a, something that feels not intuitive when you're switching from one to the other?
+
+[00:34:32] Sonny: there's a pretty big learning curve when it comes to rust. , I think that's getting better as the rust compiler improves over the, over the years. The borrow checker is like the biggest thing that people get hung up on when they first start learning it.
+
+[00:34:47] But the more you, get, uh, going with it, , it becomes easier and easier to understand what's going on. I've been doing rust for quite a long time, but I, I haven't really done a lot of like hardcore rust until, , the last couple years where I'm actually like building real production systems in rust that are not actually tied to Erlang or Elixir.
+
+[00:35:07] So like building APIs and GRPC servers and stuff like that. There's gonna be learning curves for getting started. With Erlang But then the main things when it comes to like actually building NIFs, for the, the BEAM, I think there's a challenge for all languages.
+
+[00:35:24] Doesn't matter if it's like Zig, C, C++, or Rust. There are some like constraints that the Erlang NIF API gives you that you have to sort of like learn how to stay within. And so like, for instance, the scheduler, uh, problems where you wanna make sure that NIF s are really, really fast.
+
+[00:35:43] Stuff like that. So there's definitely a lot to learn when, when you are writing NIF s 'cause you wanna be really careful.
+
+[00:35:49] Charles: While we're on the topic of, of workflow, is there anything special or particular about setting up a development environment to work on Rust and Elixir Erlang in the same project? 
+
+[00:36:02] Sonny: It's pretty straightforward. With Rust getting started, there's a rust up tool. I forget the exact website, it's like rust up sh I think., But they have like a really quick install that's like a tool that's similar to like A SDF or, you know, whatever, package manager type thing you're used to.
+
+[00:36:20] And it allows you to install like whatever versions and stuff like that. , And so when you're compiling your project. The Rustler package, Rustler mix package, which comes with, Rustler. Automatically takes care of actually calling the rust tool chain to actually compile.
+
+[00:36:39] Your NIF code. And so that's part of the, in your module when you say use Rustler, that's sort of this hook that, causes the, at compile time. It basically invokes the, the rust tool chain to build everything for you.
+
+[00:36:55] Charles: I use Nix to set up a lot of my development environments, and I
+
+[00:36:57] think, , it was also pretty straightforward and easy to get rust added into a, an Elixir project. 
+
+[00:37:04] Sonny: Nice. 
+
+[00:37:05] Sundi: that entry, the barrier to entry. Being low is always useful for having folks adopt something that they're not familiar with outside of the general, like, Hey, your job uses this and you need to learn it. But even then, even then, it's nice that that is a little bit more familiar and kind of an easier entry point.
+
+[00:37:23] We're kind of getting close to time here, so I guess what's your elevator pitch for getting somebody into the Rust Rustler experience? , if you're at ElixirConf and you're, trying to poach everybody over into the Rust space.
+
+[00:37:35] Sonny: there's definitely not like a, oh, you should definitely write rust type of thing. If the, uh, problem calls for it, then definitely, but I love, I love the BEAM, I love erlang and Elixir. The VM provides you with so many awesome things on dealing with, the problems that we deal with writing modern applications.
+
+[00:37:56] And so especially with like all the distributed stuff. Trying to do that in Rust is actually not super straightforward. I know that it seems like every other week, you know how JavaScript has like a FA new framework, a new web framework every, every week. Um, like in Rust there's like, I don't know how many projects have been started that have basically tried to build like an "Erlang" like actor system.
+
+[00:38:23] There's a ton of them that , have come out and some of them get like adopted for a little while and then they phase out. And so I don't think that there's going to be like a big replacement for the BEAM anytime soon.
+
+[00:38:38] And especially the fact that you're able to do a lot of things dynamically. doing dynamic things in, in a statically type language is, is much more difficult and you have to like really, make some of that stuff available when you're, you know, building your system, you have to think a lot differently.
+
+[00:38:55] With Erlang, you have the ability to just like reach into the code and , you have REPLs and you have all these dynamic tools that you can use in production, right? You can, you can get into a box and like start tinkering around and seeing what's available on your system.
+
+[00:39:11] Doing like real, real time debugging and stuff. So as much as I love rust, it's a great tool for specific things., it's useful for almost anything to, to be honest, but , when it comes to orchestration, and building these like super dynamic systems, like with Erlang, and Elixir, it's, it's pretty hard to beat.
+
+[00:39:31] Charles: Cool. Shifting our focus to the future just a little bit. How do you see Rust and Elixir interoperability , and Rustler evolving, into the future, across the broader Elixir verse? And then second to that, beyond Rustler, what other language or tool integrations do you think are gonna shape some of that future of the broader Elixir verse of characters?
+
+[00:39:52] Sonny: Yeah. So as far as like other tools, that I can see being, you know, pretty interesting in the future, I think Wasm is a pretty, pretty awesome technology. There is a, a Rustler crate called WasmX, I think it is. And that is of course, trying to allow you to like be able to compile Wasm to
+
+[00:40:16] run on the BEAM so that you could build, you know, functions in whatever language that supports wasm., And then be able to provide, like if you wanted to provide your customers with the ability to like, , build their own custom function that's for like a transform of some data or something and you could just like plop it into your system and allow your customers to execute some custom code or whatever.
+
+[00:40:39] Those sort of like use cases are pretty, pretty interesting. And as far as like the sort of like major features, coming to to Rustler in the future, some things that we're currently working on. I'm sort of focused on building an Async NIF interface, so, , as you might be aware or maybe not,
+
+[00:41:03] in Erlang, like everything is basically asynchronous behind the scenes, but you don't program with like o other than like if you're using the task module, right? So in the task module there's like async and await, but in normal everyday Erlang Elixir code, you're just basically writing your code as it's, like it's synchronous and the, the Erlang VM takes care of all the asynchronicity.
+
+[00:41:28] But in Rust it is very similar to like, JavaScript. JavaScript and Rust. Both have like this Async await syntax. And so with Rust, there's actually a runtime environment or like a, a runtime that needs to be added in order to take advantage of these features. And so you have like, Tokio is like the main one.
+
+[00:41:48] And that provides something that's very similar to the Erlang VM where you spawn this async runtime and then you can spawn. It's funny because it actually uses the same language as Erlang like spawning processes and things like that. So you spawn a task onto this async runtime, and then you can then await the value .
+
+[00:42:10] And so like all these asynchronous tasks right now, it's very difficult to do those things in Rustler. You have to actually do all the work manually. You have to spawn and create this async runtime, and then you have to be careful about how you use these things within the runtime. there's not really any like documentation on how to do this other than like, I usually just point people to a repo that I've, you know, experimented with this stuff.
+
+[00:42:37] What I wanna do is I wanna basically build the support for adding the async keyword to your NIF function and then having that automatically turn the body of that function into all of the, the stuff that you would have to do manually, which is gonna be spawning some async task onto a separate, you know, run queue and then taking the result and awaiting that and actually sending it back to the process that called it.
+
+[00:43:01] And that should be really nice, because you won't have all this overhead of building all that stuff. The other thing that we're working on too, is a Rustler like CLI tool that will help with potentially the build process for your NIFs. Recently we, we've actually like cleaned up the API for, for NIFs.
+
+[00:43:24] You used to have to like have this macro at the end of your function that like specified all the. NIFs in your, in your package. And that would essentially be like a, just basically a giant list of, of like function pointers. And in the most recent, versions of Rustler, you no longer have to do that. These functions are registered with the macro, and so you don't have to do that any longer.
+
+[00:43:49] But there's also, it would be nice if in your, your Elixir module, you didn't also have to specify all those functions in your Elixir code. Essentially there would be this tool that would essentially be able to, dynamically generate that module completely for you. And so rather than having to spell it all out, , it would basically be able to interrogate your NIF functions and generate that for you, which is pretty, pretty nice.
+
+[00:44:18] Let's see some other things that we have on the, on the roadmap. We have some, like API modernization efforts as well. So right now you have to do a lot of stuff with this like term type and, it's not very nice. You have to like, if it's, if the term is a map, you have to say like term colon, colon map, get.
+
+[00:44:39] And so instead we want to create like a map type. That has like a get functionality. And so, we'll have some of that stuff coming in the future. And then there's actually some really interesting work going on with , static NIFs. And so there, I guess there's some efforts right now, I'm not too, too familiar with it, but there are some efforts going on right now to be able to, to actually compile the BEAM on iOS and Android devices.
+
+[00:45:08] And, and actually have like a beam running on on these devices. And so there's, there's been some reach out from somebody in the community who's working on this effort. And one of our other maintainers, Benedict has been working on the things that are, are necessary for making that possible.
+
+[00:45:26] It's also going to enable the ability for the Rustler tool functionality that I was telling you about. So that feature that allows you to interrogate which functions are in your NIF, it's also going to allow you to stitch together multiple NIF libraries, and then specify which one of them actually is the primary, which will have all of the functions that are defined in it. This will actually allow us to essentially share like a Tokio runtime within one library, and then actually have it shared across multiple NIFs.
+
+[00:46:06] So that you only have to have one Tokyo runtime if you have a bunch of async stuff that you're doing. And so like one of the problems is right now is that every single, uh, NIF package that needs to do any async stuff will have its own like Tokio runtime and spawning this thread pool. And so you might have like a bunch of NIFs that need their own thread pools and you have all these extra thread pools that are potentially.
+
+[00:46:33] using up resources. So being able to have one, sort of consolidated runtime will be really nice.
+
+[00:46:40] Speaker 3: Cool. 
+
+[00:46:41] Charles: Awesome. Well, I think we're, we're kind of at about time for us, unfortunately. This is a, a fascinating discussion. , Are there any final plugs or asks for the audience? , Where can people find you on social media? Uh, are you open to prs?
+
+[00:46:57] Sundi: Sounds like there's a lot of help. So if there's GitHub links too, we'll, we'll toss it in the show notes.
+
+[00:47:02] Sonny: Yeah, yeah. So obviously Rustler is available on GitHub at Rusterlium/ Rustler. And so that's where the GitHub organization is. And then, obviously if you want to, you know, contribute, feel free to get involved, put up an issue. Uh, I think we have discussions also enabled on the repos, so you can ask questions, try to help you out.
+
+[00:47:27] And yeah, excited for, for people to get more, more involved.
+
+[00:47:32] Charles: Excellent. 
+
+[00:47:33] Speaker: Awesome. Well, thank you again for joining us Sonny.
+
+[00:47:36] Sonny: Yeah, absolutely. 
+
