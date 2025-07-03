@@ -1,0 +1,395 @@
+S14E06 SDUI at Scale: GraphQL & Elixir at Cars.com with Zack Kayser
+===
+
+[00:00:00] ​
+
+[00:00:11] Charles: Hi everyone. I'm Charles Suggs, software engineer at SmartLogic.
+
+[00:00:15] Sundi: I'm Sundi Myint, software Engineering manager at Cars Commerce, and we are your hosts today for Season 14, episode six. We're joined by Zack Kayser, staff software engineer at cars.com. Welcome back, Zack.
+
+[00:00:26] Zack: Hi. Good to be back, friends.
+
+[00:00:28] Sundi: Yeah, it's nice to see you. Not that we didn't just see each other
+
+[00:00:31] Zack: Yeah. I literally just saw you 30 minutes ago.
+
+[00:00:34] Sundi: So in this episode, we're gonna be talking about some fun stuff here.
+
+[00:00:37] We're talking about how cars.com uses. Obviously we know Cars uses Elixir , if you're a long time listener to the podcast. But we have been really dabbling in GraphQL and we've implemented server driven UI recently to ship UX updates across web, iOS, and Android applications. It has been a trip, it has been a fun time.
+
+[00:00:56] We're gonna talk all about how that has gone and the technical implications of that, the limitations we faced and how Zack was really helpful with all of that. So yeah, Zack. How's it going?
+
+[00:01:07] Zack: Well,, I'm glad to 
+
+[00:01:09] hear that it was helpful. Appreciate that feedback. It's good. The last six months or so is when we really started picking up pretty heavily on, on the SDUI, or if you're not familiar with that acronym, it's server driven ui, and I think especially folks from like Elixir, including myself, about a year ago.
+
+[00:01:24] When I hear SDUI, server driven UI, I think it's easy to conflate that with server side rendering and those are not the same thing, so, we'll, we'll probably get into that during this conversation. But 
+
+[00:01:33] Yeah. things are 
+
+[00:01:34] good. I. 
+
+[00:01:34] Sundi: before we get too far into it, do you want to tell any new listeners about you, uh, your history with Elixir and, your title and all that good stuff?
+
+[00:01:44] Zack: For new listeners or first hearing of me. , Hello everyone. , So I'm Zack. I am a staff software engineer at at Cars. So I work specifically on, on the marketplace side. We call it the marketplace side, but you can think of that largely as just cars.com, the website itself and all of the data ingestion, pipelines and things like that, that power, all of the views, UIs and peripheral apps around cars.com.
+
+[00:02:06] So I've been at cars for about five years now. Well, I'm coming up on five years in October. Prior to that, I worked at a software development consultancy out of Cincinnati. It was formerly known as Gaslight. Today it's known as Launch Scout. They did a bunch of Ruby and Elixir and, you know, a few other things depending on what the project needs were.
+
+[00:02:24] So I was doing Elixir quite a bit there. Got my feet wet in like some of the more of like interesting use cases with distributed Elixir and things like that when I was at Gaslight. And then even before joining Gaslight, I was actually living in Japan before I came back and started working there.
+
+[00:02:37] And when I was in Japan, I was just doing Elixir for fun. So I was just building out, kind of toy apps for myself. I think like the most ridiculous thing that I built was a Japanese verb Conjugator in 2016. And if you look at it, it is just a, a monstrosity, piece of Elixir that is like 4,000 lines long on a single module.
+
+[00:02:58] Don't do that. I wouldn't recommend doing that today. But yeah, that's, that's kinda where I started from. That was probably, I started Elixir in 2016, so like I'm getting close to the decade point now, being in Elixir. Over the last couple years. I have done three years in a row at ElixirConf, training sessions for
+
+[00:03:13] instrumenting Elixir applications. Currently, me and one of our colleagues at Cars, Ethan, are working on a book on the topic as well with Prag Prog. So,
+
+[00:03:24] Sundi: if you wanna hear more about that subject, please refer to our last episode with Zack and Ethan from last season. It'll be in show notes below.
+
+[00:03:32] Charles: Yeah, that was a great episode,
+
+[00:03:33] Zack. Thanks for that intro. Since we're talking about server driven ui and, and you mentioned how this is different from server-side rendering. Can you give our audience some overview of what server driven UI is and maybe at least dabble on how it is different from server-side rendering.
+
+[00:03:49] Zack: Absolutely. So I, I'll take a, I'll take a hack at it. 'cause there's actually multiple kind of facets or, or sides of like what exactly is server driven ui. And I think depending on who you talk to about server driven ui, they might give you slightly different responses about what it is and like what the, what the key philosophies are behind server driven UI at a high level, server driven UI is really, trying to encapsulate like abstract UI at the server level, right? So you might think of something like, okay, I have a page that has a layout and it contains a grid of cards, just like abstract cards. Well, what does that mean? Maybe the server is defining what exactly a card is, like what are the data, the pieces of data that make up a card?
+
+[00:04:36] Then on the flip side of that. The server can send that, that data anywhere, right? So it can say, Hey, here's a card and here are all the data points that go along with a card. And it could send it anywhere, right? It could send it to maybe an iOS app written in Swift. It could send it to an Android app written in Kotlin.
+
+[00:04:53] It could send it to a terminal UI app written in whatever language. It could be like, you know, a Rust Terminal UI or something like that. Or it could be a web app. And it could also be a, you know, a Phoenix server that's rendering HTML or something like that. It could also be a JavaScript front end.
+
+[00:05:07] The idea is you have these, these UI kind of components or elements is, is one way to think about it. And you have their abstract definitions of what exactly those UI elements are on the server. And so why is that important or like why is that kind of like an interesting approach at defining UIs?
+
+[00:05:25] To get into that, I kind wanna talk a little bit about like where it came from at Cars, what motivated us to use it at Cars specifically. There's a few points here. But one of the big things was, we have a fairly decent sized Elixir engineering team, and everybody feels relatively comfortable working on the web, there's a lot of LiveView.
+
+[00:05:48] So, you know, if you're an Elixir engineer, you feel relatively comfortable going into making changes to a LiveView page or even something that has fairly complex JavaScript on it. We have a much smaller mobile apps engineering team. So our iOS apps and our Android apps, they're actually very crucial to the business because people who are looking for cars, seriously, are generally using the mobile apps to do so.
+
+[00:06:11] So we get a lot more leads coming through the mobile apps than we do the web apps. Most of the access to cars.com itself is done through mobile devices at the very least. So it might be the mobile web browsers, but, there's a lot of traffic that comes from the iOS and the Android native apps as well.
+
+[00:06:26] The fact that the, the teams there were a lot smaller than on the web meant that the web teams might be pushing out multiple different features in parallel on the web. That left the mobile team's kind of behind. So we would do this specifically, like maybe we write a bunch of stuff in LiveView.
+
+[00:06:42] We'd write the HTML templates or the HEEx templates, and we could ship something fairly quickly that way. Well, when it came to, to look at, okay, well how are we gonna implement this in iOS? Or how are we gonna implement this for Android? We would need to come back to that. Maybe potentially months down the road.
+
+[00:07:00] We've always had a GraphQL API that the mobile apps consume from. And a lot of the times when we, we would be like re-implementing or rebuilding a feature or like, replicating a feature that we had on the web for the mobile apps, we would have maybe one person who was like the GraphQL person that would go take, okay, we have all this logic that's happening inside of this LiveView or this Phoenix controller, and I'm gonna basically reproduce that or replicate that entirely in the GraphQL layer. 
+
+[00:07:27] Charles: So was the LiveView layer not using GraphQL at all at that point? 
+
+[00:07:30] 
+
+[00:07:30] Zack: It was not using GraphQL at all. There was a lot of business logic being done in the, the LiveView layer even Phoenix controllers. It wasn't necessarily just like LiveView modules themselves. but that was all to serve the web and it was all specifically wrapped up inside of our web server code, which is separate from our API code, right.
+
+[00:07:49] Separate from our GraphQL layer and all of that. So we would have to basically copy business logic things like that, just all in all was a very brittle and difficult and painful way to develop, especially when you have mobile apps that are, are relatively important to the business.
+
+[00:08:06] Sundi: And of course we, we always did it perfectly. There was never Yeah, nothing ever went wrong,
+
+[00:08:12] there was never a deviation on business logic where the LiveView logic said, oh, if you see this, do that. And the GraphQL copy said, if you do this, do this other thing. Never,
+
+[00:08:24] Zack: That never. That never happened. No. We're, we're perfect engineers and our requirements are also always perfectly well written and clearly understood and shared by everybody.
+
+[00:08:33] Charles: So you got rid of your on-call schedule. 
+
+[00:08:36] Zack: we're perfect. There's zero, zero errors on all of our apps. Sundi brought up a really good point, right?
+
+[00:08:42] So that was one of the other big motivators here, which is: we would pretty frequently have a you know, a feature that would be sitting out in production and what was supposed to be the same feature for web, iOS, and Android. We would have folks come to us with questions about like, Hey, when I'm using the iOS app, I see this, or this thing happens.
+
+[00:09:02] Or maybe the price of a vehicle is formatted in a specific way. On web it's different. And then on Android it's different. So where did that go wrong and what is the correct behavior supposed to be? Those were very, very difficult questions to answer . So the other big benefit that you get out of SDUI is the server is defining what the actual UI looks like.
+
+[00:09:27] There is very little logic done on the client side. So if you think about that from a LiveView perspective, instead of going out and fetching data and then manipulating it and transforming it into something that we're gonna render later in our HEEx templates, we get back and abstract what the UI should look like.
+
+[00:09:43] And then it's just a matter of, Hey, do I have a card component? Well, okay, I'm just gonna drop my abstract card data into my card component and it will render correctly on the UI. There'll be corresponding implementations of you know, like an abstract card component. There would be concrete implementations on the iOS app and the Android apps written in their, their native frameworks.
+
+[00:10:03] But all of that transformation and display logic and everything is happening on the server. 
+
+[00:10:08] Charles: So, like, your string manipulation, formatting the prices, colors, 
+
+[00:10:13] Sundi: Buttons, badges, popovers.
+
+[00:10:16] Zack: Buttons. Right. So does this, this button have a purple border or does it have, I don't know, A gradient, purple and bluish color?
+
+[00:10:23] Sundi: Which it just feels, that just feels so trivial, right? As an Elixir engineer to be worried about like, is it purple right now? Do I wanna make it black? I can change that, whatever. And this is like one of those things, you know, we're talking about coordinating across all clients. How does something behave?
+
+[00:10:40] How does it look? How does it feel? What kind of data does it get? And you make those decisions so far in advance. People who like to code fast and loose, especially Elixir engineers who have like, so many like quick things, Tailwind libraries at their disposal. Just quickly mock up a thing, oh, I can get this thing running in LiveView, like really quickly.
+
+[00:10:58] You have to suddenly like just stop and actually plan it out. Really plan it out ahead of time.
+
+[00:11:04] Zack: Yeah. And that was, that was a big change for us, honestly. If you are working in a LiveView world, you can do all of the data fetching. You could do all of the rendering, you could do all the display logic really quickly, and a lot of the times that would happen in a single PR. .
+
+[00:11:16] Now, there's more of a push to have the web engineers, the server side engineers, the, the mobile app, native app engineers, all working together upfront on saying, what do we, what do we do first? Right? We call it API first, because we're looking at the GraphQL layer. What do these UI elements, if we haven't actually defined what a card is, we need to get together and talk about what makes up a card?
+
+[00:11:38] What are the types of data that go into showing a card across platforms, like what makes sense for web? What makes sense for iOS? What makes sense for Android? That kind of thing. That's Kind of changed the process and the way that we work quite a bit.
+
+[00:11:51] Charles: I'd be curious how the ratio of time spent planning versus time spent writing code changed as you implemented this change at Cars.
+
+[00:12:02] Zack: Yeah, that's a, that's a good question. I think. I probably don't have a like, a good concrete answer of the breakdown of, of planning versus, versus actual code hands-on coding. we certainly do a lot more upfront planning now than we did before. That's definitely true.
+
+[00:12:19] Even that said though, even today, maybe it's like we're trying to work around, well, what actually does this, this new component that I want to show on screen, what does it look like and what are the data points that I actually need to render it? A lot of the times what will happen is we'll have people just go out and do like a throwaway spike or exploratory branch on getting that up and running. They'll bring that to a discussion, right?
+
+[00:12:42] And they'll say, this is what I got. I got this working over here on the web. If we were to go to this route, here's the data, here's what it would look like, and then they can throw that to the team as an actual, like, concrete example of an implementation that would get cross team communication started on.
+
+[00:12:58] Right.
+
+[00:12:58] Sundi: Yeah, the, the planning process, Charles really did have to get refined in that, designs had to be really ready and we couldn't be playing it fast and loose with designs. 'cause obviously server driven UI. If there was a button that appeared out of nowhere, that's a data change. That's a schema change. That is a breaking change depending on if you're removing the button for mobile apps, breaking changes can crash mobile apps.
+
+[00:13:24] That's not something that we are familiar with as Elixir engineers. One thing that the API engineers have been doing upfront is they have been making mock data schema outlines to get an idea of what that data could look like. And so then coordinating with the mobile apps engineers and saying like, this is the mock data and then they put that forward and that's actually, that lives in the code base while the clients build out the UI. And then another API engineer or the same one will come through and make the real API appear.
+
+[00:13:55] Charles: Is that kind of your general process for how you coordinate those schema changes between the backend API and then the three or more clients that the server is needing to drive the UI for?
+
+[00:14:05] Sundi: Right now. Yeah. That's what's working for the teams. Zack, do you, uh, we're technically, me and Zack are on different teams right now. Are you guys doing that kind of the same or differently?
+
+[00:14:14] Zack: it works the same on on, the team that I'm currently working with right now. For the most part. There are occasions where we, we look at something and we say, well, maybe in this one specific case it makes sense to let the clients just be smart, Let's bypass all of the SDUI kind of philosophy and just let the clients render some raw data that we send it in whatever way that they see fit. That does happen on occasion, but for the most part, yeah, 
+
+[00:14:41] the, the planning process works the same way where we look at the kind of abstract, what does this UI look like, and, and how do we define it upfront, before actually going into implementation? 
+
+[00:14:52] Charles: so, let's say you've got a client that has requested some data to display a screen. That has different sections in it. And the API responds with all the data about what needs to be there, the details on how that UI should appear. But are you sending any markup over the wire at all?
+
+[00:15:11] Like, I'm using markup loosely here because I know mobile, it's not HTML and so on, but how you described your write your elements in code that appear on a screen. Is any of that sent over the wire?
+
+[00:15:24] Zack: For the most part, no. There is one caveat I think that is, is kind of exceptional or unique about the way that we do SDUI at Cars specifically for the web. At Cars, one of the key performance indicators that we look for is to have good server side rendering response times.
+
+[00:15:44] And so generally when you're, you're serving a GraphQL API, so all of our SDUI is wrapped up behind a GraphQL API. Generally you're having like a, a front end. It might be like, you know, a React app or a Vue app or something like that, hitting the graph, graphQL API, and the server upfront just sends you the blank payload with the JavaScript app bundled up in it.
+
+[00:16:04] Well, for us, we have pretty, we have pretty strict requirements to render a lot of those pages, like our, you know, our vehicle detail page. So if you actually go look at a, a listing on cars.com, you call that the vehicle detail page or the VDP. That was one of the first big pages that we did SDUI for.
+
+[00:16:21] So we actually render that server side from our web application. And so there's like a little bit of a mix here where we have our Phoenix controller will just go run a GraphQL document. So Absinthe has a some features built in that will let you use a GraphQL query inside of a, just a plain old Phoenix controller.
+
+[00:16:39] And then we get the SDUI data in the controller level, and we just dump that into our HEEx template that is rendered server side. On top of that, there's also JavaScript code that mimics and replicates some of the things that we send back from Phoenix. So there is like a little bit of cross communication there.
+
+[00:16:56] Like, Hey, this, this element that we render from the server, it needs to share the same markup kind of as the JavaScript implementation of that element. Otherwise you might end up in a state where you interact with something on the page and then JS modifies it where it should look the same, 'cause it's the same component, like a button or something.
+
+[00:17:13] But it looks different when it's rendered from the server versus when it's rendered from JavaScript or something like that. So there's like a, a little bit of a I don't want to call it a hack there, but like a little like nice little seam that we put in there when we do need to share markup HTML markup between server and client. But as far as like, do we send markup to the iOS or the Android apps? The answer there is, is no. Occasionally we'll send, kind of like style style indicators, right? Like, hey, this is a specific color. There's like kind of a decoding. 
+
+[00:17:44] Yeah, there's like a decoding factor that. The clients know what to do with those, those indicators. Oh, it's this purple. I turned it into this, like this exact, you know, hex style or something like that, so.
+
+[00:17:56] Sundi: One thing that helps with that too is we do have a we have a design system that is fairly well implemented in that it is mature, might be the word, like a fairly mature design system that we are utilizing that was already built or we finished building it in order to make sure that we could implement it alongside SDUI, right?
+
+[00:18:17] So when you have common components to reach from, then suddenly, you know, that's a common button and therefore that's a common schema that you can design and you can work from there. I think there might have been a larger leap without that common design system in place. For Elixir engineers who are listening to this and maybe are going, oh, I don't know about this. This is maybe not a world I wanna work in. What is the biggest difference, would you say, in working from a pure Elixir Phoenix LiveView environment to now in the SDUI system? What's been the biggest change in your opinion?
+
+[00:18:54] Zack: we can get into a few different topics from that question alone. But just in terms of the day-to-day really, like the work has gone largely from, Hey, I'm working on a UI feature. It used to be largely Doing a lot of work inside of Live View or doing a lot of work inside of a Phoenix controller.
+
+[00:19:11] We have an app called Transmission at Cars, and Transmission is like technically supposed to be the, the data bus that would be shared between the web servers and the API servers to do like. Hey, this is the thing that knows how to fetch logic from data stores or from third party APIs, and we could share some code there, between web and our API servers.
+
+[00:19:31] Realistically, where we ended up was we would have that layer, but then we would also have a lot of transformations on top of the data that came back from there inside of the web app. And then different mutations and different transformations would happen inside the API app. Now. The day to day when you're working on a feature on the Elixir end of things, you are mostly spending your day in, in Absinthe and within the transmission app itself.
+
+[00:19:56] And in transmission you're just working in that's just plain old Elixir modules and functions. You're just dealing with inputs and outputs really. So that, that layer is fairly simple, but you are also in there defining what the types of these things are. So we have a lot of our type specs are defined in there. We've actually moved all of our GraphQL schema from our API server code itself into Transmission. So the definitions of the SDUI types and everything is contained within this, this transmission app now.
+
+[00:20:25] Sundi: Types is like a trigger word for Elixir engineers right now. Do you wanna describe what a type might look like in this world?
+
+[00:20:32] Like a GraphQL schema type?
+
+[00:20:34] Zack: and it's easy to conflate because types can mean a few different things here. But largely at the end of the day, when we're defining SDUI types, you start at the GraphQL schema layer. So you might be creating a brand new object that is an, an object or an interface, or if you've done GraphQL before, it could be an interface, it could be a union.
+
+[00:20:52] But largely, you know, if you, if you just take the concrete example, you're creating a new object, maybe that object is a button and a button may be made up of a, a label where the type of the label is a string. And maybe there's an interaction on that, that is an, an interface. Maybe you have to navigate somewhere when somebody clicks that button, maybe you tell it to send off like an analytic event.
+
+[00:21:18] When somebody clicks on that button or when somebody views that button, or something along those lines. At a high level, that is what we're talking about when we're talking about types. We also, on top of that, we will also have a lot of the times, corresponding like Dialyxir type specs for those things as well.
+
+[00:21:35] Charles: which brings up a question for me is how much are you leveraging Credo and Dialyxir to help you in terms of like streamlining your work to build for multiple target platforms? 
+
+[00:21:47] Zack: Yeah, so like honestly, the team really leaned into Dialyxir pretty early on in this process. more, more so than like, oh, hey, let's use Dialyzer for the, you know, like the static code analysis and, the, like, success typing. It's more like, Hey, I just need to communicate upfront what I think this data is gonna look like.
+
+[00:22:07] This is a really simple example. This is not like real world, but I'm gonna go create a button module and there's gonna be a button struct in there and it's gonna have these properties or these fields that are gonna be of this type.
+
+[00:22:19] Like that kind of thing. So largely our, our type specs are more there for documentation and for communication about what we expect those things to look like. And also it gives us a, a fairly easy way to come to the front end web engineers or the iOS engineers and the, the Android engineers point them at a PR and be like, this is, this is kind of like the types that I'm looking at or I'm thinking about and, and point them to. To the type specs themselves so everybody can like pick up on what those type specs are Pretty quickly.
+
+[00:22:46] Charles: Okay, let's maybe dig a little deeper into the GraphQL part of this. It seems like it's kind of the glue for everything in a, in a large way. And you've talked a little bit about how it plays in, it sounds like your GraphQL responses probably have more than just data. Like for people who have worked with GraphQL before, you know, you're largely just getting back data about the system that you might then turn into stuff you display.
+
+[00:23:11] It sounds like the GraphQL responses also include all of the UI details as well. How is that playing into the strategy and helping you to deliver flexible data and layouts?
+
+[00:23:22] Zack: Yeah, that's right. So GraphQL is, is like the, the mechanism that we use to push out the, the SDUI or communicate the SDUI, what is this view, what does this UI look like to all of the clients? So GraphQL is a very central piece to it all here. And again, GraphQL schema, that's where we actually have the.
+
+[00:23:40] The source of truth of what those types are, right? Like what, what is a card or what is a button or what is a carousel like tho those kind of type definitions or server driven UI domain objects. What are those? The source of truth for that is inside of our GraphQL Absinthe implementation.
+
+[00:23:57] If you get the benefits of, of GraphQL out of that, which are, you know, for example, if we go back to the vehicle detail page I was talking about earlier, again, that's the, first really big page, high traffic page that we rewrote to use SDUI. Now if I look at that page, you're gonna have, for example, like an image carousel that's gonna show the photos of the vehicle.
+
+[00:24:18] You'll have information about pricing and mileage and all that kind of stuff under it. And as we're developing this out, we start at the API layer. So we start by saying, well, what are the SDUI objects that we need to be able to render this view across apps ? If you just take a step back, like how can we render this view kind of abstractly, right?
+
+[00:24:41] Like if I'm just spitting out Elixir data structs, we have like an abstract you can think of that as having like an abstract UI of what that page looks like. Now we start there and then all of a sudden that opens up. All of the front ends, web, iOS, and Android, to immediately go start consuming from the data that's available via GraphQL.
+
+[00:25:03] sometimes web iOS might be ahead of Android or you know, vice versa. Maybe Android's ahead of everybody else or iOS is ahead of everybody else, the clients, given that it's GraphQL now you can choose, right? You can say, in my query, I can handle these things. I can render a card. I can render this specific button, but I cannot render a carousel, so I'm not gonna ask for the carousel yet. So we get that, that kind of benefit of like kind of unlocking parallel development across all of the different client platforms that we develop for, whereas before, like just going back to the beginning of this conversation, that was not the case, right? Like we had features developed specifically for, for web in traditional LiveView, traditional Phoenix controllers.
+
+[00:25:48] And then only later would we go back and port that over to an API implementation of the same thing. And then we would also have business logic, quote unquote business logic done on the client side. So either, you know, like inside of a Phoenix controller, inside of Phoenix templates or inside of JavaScript.
+
+[00:26:03] And then we would also have similar logic being done inside of the iOS native code and inside of the Android native code. We no longer really have to, to worry about that as much these days, right? Now it's just the server defines what these things look like. Yes, the clients are gonna actually have to write the code to render those objects correctly.
+
+[00:26:24] but once those are done, you can just query for them from the GraphQL client. And then get back and render whatever the server tells you your view should look like.
+
+[00:26:32] Sundi: Yeah. And one of the big benefits of that that I think, uh, Elixir engineers, again, don't think about every day. This is like one of those big differences is if you are an Elixir engineer, you can deploy hot fix to any, anything that's like not working on, as Zack was saying, like on the vehicle details page, let's say, you're looking at a history report of if the vehicle's been in an accident, and that's an API call if that API is not responding for some reason, and it's an external dependency.
+
+[00:26:58] Any, anything like that. And they say they're, they're down, they're down forever. They go under the company goes under, you know, whatever it is like. We're just sitting there like sitting ducks, right? And so on the front end, LiveView, whatever, like we can, we could do a quick update, hot fix, deploy outside of our normal deploy cycle
+
+[00:27:14] to get a fix to stop calling that or stop showing that module. Mobile apps... they have to wait for the app release cycle. The app stores have to review that app version, and even once it's out there after however long that takes multiple days usually,
+
+[00:27:29] you cannot force a user to get the new version if you are one of those hoarders who do not update your apps, i'm talking to you. But in this case, in this API first server-driven UI world, you can turn off that module from the API layer and that disappears for all three of them in, uh, one deploy, which is pretty incredible. Honestly. Very powerful.
+
+[00:27:53] Charles: Mm-hmm. It's way more than just fetching text via a translation service to update it.
+
+[00:27:58] Sundi: Right? Yeah. But you kind of touched on the flexible layout and like the flexible data, Zack, do you wanna get a little bit more into what that kind of looks like and what we can sort of do with that in this system?
+
+[00:28:11] Zack: Yeah. Yeah. And then like, if I could add on to the point that you were just making, so Sundi was just talking about The lead time that you have with native mobile apps that you don't have with browser apps, right? Because with browser app, I can push a change and the server will send you back the brand new set of HTML with all the brand new markup and all the brand new assets with new JavaScript and all that kind of stuff, immediately, as soon as the server is up.
+
+[00:28:34] And that's not the case for, for mobile apps. So there's a huge lead time between changes being made and Windows can actually make it get into the hands of users. And then on top of that, there's like, at Cars we do, we have like three months support back for if your mobile app version was up to three months ago, we will support you officially.
+
+[00:28:53] If you go beyond three months, we're not gonna support that version of the app anymore. So there's, there's a minimum supported version, but what that means is , if you're within three months and we had a, you know, kind of a bad UI or a bad experience that we shipped exactly two and a half months ago and you haven't updated your app might be broken until you update to, to newest.
+
+[00:29:15] And we say that we support that app too. There's really not that much we can do about it from the server side in a lot of cases in the traditional form that we had, and maybe we could remove some of the old, like canonical data representations that we had that would fix the issue . But that's not always the case.
+
+[00:29:33] Anyway, I went on a little bit of a diatribe there. What I really wanted to get out with the flexible data and layouts is that a huge motivating factor that we haven't even talked about for kind of transitioning to the SDUI approach is that starting kind of like mid last year, we had a, a lot of stakeholders like on the product and design side of cars.com wanting to do a lot more with experimenting, like doing AB testing and changing layouts for given users or different experience or personalizing things .
+
+[00:30:05] And largely our response to that from a technical side was. Well, we could, you could kind of do this pretty well with SDUI because you're putting the, the control of, for example, what order are components laid out in. You're putting that in the control of the server at that point. And so where in the old world, maybe you have the vehicle detail page on iOS will show an image carousel and then.
+
+[00:30:34] A vehicle history report, and then maybe there's a lead form where you can enter your information and say, I am interested in this car. And that was all, like the order of those things were all hard coded in the client. So if you wanted to experiment with that, you wouldn't be able to really, on the fly, update the order of those components we'd have to push out a brand new release. We'd have to do the whole, you know, one to two week wait lead time to get that into the app store for review and actually get it rolled out to users. And even with that done right, like Sundi was mentioning, you're still gonna have this big lead time of old, old versions of the app that sit out there in production for months at a time, potentially.
+
+[00:31:09] Now in the SDUI world, you can change that, right? Because the, the server is saying, I'm gonna send you a list of the, the image carousel and the vehicle history report and the lead form. But maybe we wanna see if you, if you send us more leads, if we put the lead form above the vehicle, vehicle history report, right?
+
+[00:31:28] And so that's something that we can now dictate from the server and that goes across clients. It doesn't matter if you're on web or iOS or Android, you could do that on the fly without needing a release or an app store review or anything like that . So it really cuts down on lead time to be able to do that.
+
+[00:31:43] And that's why SDUI was largely our answer technically for how do we introduce more personalization and flexibility into into UIs and do that across platforms.
+
+[00:31:53] Charles: So if it simplified AB testing, were there other parts of that that it complicated? Or is it largely a simplification?
+
+[00:32:01] Zack: It did also introduce other complications. When you're working with SDUI, I think it's very important when you're introducing it, you don't want to just write every single component that might exist on your application all at once, all in SDUI. It Probably will not go well for you.
+
+[00:32:15] It'll be a huge, a huge undertaking and a big effort. 
+
+[00:32:18] Sundi: You will not convince anyone to let you have the time to do that.
+
+[00:32:22] Zack: Yeah, absolutely. And just like there, realistically, there is no organization that's gonna have the time to be able to do that. I think in order to do this kind of transition, well, you have to, you have to iterate. And one of the big factors for us in those, in those conversations is, okay, we need to be a little bit pragmatic to keep, you know, the business running to keep , you know, features rolling out on a decent schedule.
+
+[00:32:43] What are the things that we do really want to experiment with? We have to force those conversations to happen upfront. The things that we really want to experiment with, those have to be known so that we could say, alright, these are candidates for SDUI. we're gonna focus on maybe these three components.
+
+[00:32:58] And then just be able to use those two to manipulate the AB test and changing order of things on the fly. For example. That does complicate things quite a bit though, 'cause you might have Right. As you're iterating and building up to a more mature SDUI framework, you might have things in there that are still just, you know, raw or canonical data representations of, for example, the price of a vehicle, maybe is raw, it's adjacent object that has pricing.
+
+[00:33:26] And then there's the suggested retail price plus the actual list price from the dealer. And maybe there's a few discounts added in there. That's not, you know, A SDUI element that is the server giving raw data to a client, and the client has to figure out what to do with that, where to put it, and how to show it.
+
+[00:33:45] Charles: So the client has to know how to tell if this is, or maybe it's something you write into the code. 'cause you know what is SDUI data and what is not so that it can handle it differently. 
+
+[00:33:58] Zack: That's correct. we give ourselves, you know, I, and most, I think most of the places that you look at that are doing SDUI, you give yourself a lot of flexibility up front by setting, well, what are the, like what are the abstract containers? For example, a an easy way to think of this is, like if you just think of like a one dimensional array, this is true for a lot of mobile screens, right?
+
+[00:34:16] Where you just have like basically a table from, from top to bottom, you just have a single list of, of elements or a single list of components on the screen. If I have a list of elements, then the server can change the, the order of the elements that show up in that list, and that will influence the way things end up in the UI. a single element in that list might just be a raw representation of some data, and then it's known that the client is just going to make determinations about how it wants to render that piece of data, or it's gonna know exactly what it wants to do with that piece of data.
+
+[00:34:49] Charles: Mm-hmm. Mm-hmm.
+
+[00:34:50] Sundi: Which is getting a little into something I mention at work all the time, which is like SDUI is a spectrum. 'cause a lot of the times when we, or sorry, when we first introduced this, a lot of people were like, okay, everything is server driven now. Everything has to go through Transmission, everything has to go through the GraphQL queries and we need to, and it was like, okay, hold on, hold on, hold on.
+
+[00:35:09] It is a spectrum and I think, Charles, you asked me a question earlier this week around like boundaries of like, where does something start and end? This is actually a good spot for you to get into that if you wanted to kind of explore that thought further.
+
+[00:35:21] Charles: Yeah, I was really curious how and where you draw the boundary between,
+
+[00:35:27] Let's consider a vertical slice of a feature, and if that vertical slice were to include all three platforms, native UI implementations of its parts, as well as the server side UI driver. Where is the boundary between how the screen sections actions and placements actually get turned into native UI components and screens versus how much of that is sent over the wire?
+
+[00:35:52] And I think I asked sort of this earlier, but um, yeah, how, how do you define that, that boundary, and where is it?
+
+[00:35:59] Zack: We could probably tackle this just by talking about, and, this might be reiterating a point that Sundi made earlier. The big really like key determining factor in where do we draw the line between what the server can dictate versus what the client just needs to decide on its own.
+
+[00:36:18] And our North Star there is: what is our design system? So in our design system, we have the right uh, components is probably like the colloquial phrase to use for these things , right? So there's a, there's a cars.com card, and then there's a carousel, and then there's, you know, a button and there's different types or different variants of the button.
+
+[00:36:40] What we really want to put on the server, or like the abstract SDUI layer. Are the abstract definitions of what those components in the design system are and things that go kind of beyond that. And actually, let me take a step back 'cause when we were first talking about and discussing SDUI what it means for cars.com, a lot of people made this point and it's a really good point.
+
+[00:37:06] If you go too far with SDUI, you are effectively re-implementing HTML and nobody wants that.
+
+[00:37:13] Charles: Mm-hmm. 
+
+[00:37:16] Zack: have to be like, well, what is a P tag? Right? You have to like define an abstract P tag and like a span and all that kind of stuff. nobody wants that. So where we ended up is really all we need to do is our design team and our product team have this shared language of the design system.
+
+[00:37:35] We need to have an abstract technical representation of that design system, all of the pieces of that design system, and we need to put that as a, like in a concrete implementation inside of our SDUI framework that is served from GraphQL, that's kind of our driving star there. more granular things like, you know, if I have a card and maybe it shows some text in the card, like there's a paragraph that describes a vehicle's features or something like that. We don't want to say like, Hey, if you're a web, if you're the web, go put this in a P tag. And so we're, we're gonna send you like a, a fake P tag or something like that. those decisions are, are left up to the client, right? Like they're, they're just implementing on their side. So they're implementing things like the, the card component and they could choose at that level, right?
+
+[00:38:20] So this is gonna be a P tag. it's going use. Maybe we use, a header for this, this, this piece of the card or something like that. An H1 tag. And then on the native app sides, they're using, you know, like the, the SWIFT UI version of those things and it's free for them to choose, you know, what SWIFT UI element or view.
+
+[00:38:41] They actually want to reflect that.
+
+[00:38:43] Sundi: Yeah. I feel like Charles is about to ask a question about tests, and I feel like I might want to like close my ears for this one.
+
+[00:38:51] Charles: well, Sundi's intuition has worked again. And yeah, this, this does bring me to tests. I'm, I'm really curious how you're writing what your test suite look like for covering three different platforms. Plus, of course, you have the whole server layer and. What you need to do there. How, how does that look like, and this kind of dovetails a little bit for me to another question around how you structure your repo or repos for all of this.
+
+[00:39:19] Zack: no, that's a really good question. And, Sundi's right to want to close her ears for this one. 
+
+[00:39:24] Charles: 98% coverage. You're good.
+
+[00:39:25] Zack: we, we got, we, we have a percentage coverage, I don't know how many percentages, but we have some percentage coverage. the test story is, is largely, I mean, it's broken down, on different levels.
+
+[00:39:39] From the Elixir side of things, our testing, like largely we have kind of integration tests at the GraphQL layer, right? So, we have, Hey, I'm gonna send out this query. I'm gonna run it through our GraphQL or our Absinthe layer, and then just assert on the, the actual, the JSON object, essentially the GraphQL response that comes back from it.
+
+[00:40:02] So that's, that's one layer of test. That's like the, the closest to, to the Elixir developers, for the most part., On top of that, and going to your question or kind of responding to your question about how the repos are, are structured, the iOS app and the Android app at cars are separate repos altogether.
+
+[00:40:20] And largely our iOS and Android developers, they're not developing against our Elixir platform locally. They're developing against. Like our staging environment essentially most of the time there. So they're reaching out to our staging environment, GraphQL API to get all the data that they need.
+
+[00:40:36] The mobile engineering team, they do have, this is kind of like a, a recent addition to cars, but in the last year, maybe a year plus, we've invested a lot in quality engineering. So we have qe, quality engineering folks who are setting up like real official end-to-end test suites. Saying, I'm gonna go look at this page in the mobile app.
+
+[00:40:55] And they set up automated tests to, to verify that the UI renders certain components that there's no errors. That kind of stuff that you expect to see in automated, automated test suite. 
+
+[00:41:07] Sundi: Big shout out to qe.
+
+[00:41:09] Zack: big shout out to QE Yeah. 
+
+[00:41:11] Sundi: Our QE team is the best QE team on the planet. I'm just gonna put that out there.
+
+[00:41:14] Zack: They are, they are very good. And like also they're, they're very thorough, right?
+
+[00:41:18] Because if you have a bug in a mobile app that goes to a production app store, rolling that back is very painful. 
+
+[00:41:25] Charles: What is your production rollback story? What does that look like? And I suppose it depends on the platform.
+
+[00:41:32] Sundi: I think we only know how to talk about it for web. Because I have no, do you know? I, we don't, I don't think we know the mobile one.
+
+[00:41:37] Charles: Sure.
+
+[00:41:38] Zack: Yeah. For, you know, what happens if, we ship a corrupt or, or broken mobile app? I'm not, I'm not a hundred percent sure what happens there. Presumably an incident happens and then we figure out what to do on, on the call. Hopefully that doesn't happen. Knock on wood. However, I, you know, on web there are a few things that can break when you go to production.
+
+[00:42:00] One of those things might be, we've prevented this a little bit by adding process into our release cycle. One of the things that could be, like, the most common thing when we first started doing this was you would introduce a breaking change to the GraphQL schema, and given that largely like the Elixir engineers would be working on web, it'd be like, okay, I have the brand new client.
+
+[00:42:22] I have the brand new GraphQL query and so I can change this type and it doesn't really matter to me. But what that doesn't take into account is there is a, you know, a three month old iOS app that has an old query that you can't change. And if you change the type of a field in GraphQL and the client is not ready for that change type, then that client is gonna break when it tries to access that field.
+
+[00:42:42] we don't want to do that. On occasion we have done that. And that could be as easy as like, okay, depending on how easy it is to fix or how quickly we can identify the issue, we might just revert, well, you're gonna end up reverting that change regardless. or we could just do like a quick, since we're running on Kubernetes, we could just do a quick Kubernetes rollback to get us back to the, the former state that would fix that issue.
+
+[00:43:04] there might be cases where, you know, you get data in. To your service in prod that you weren't expecting, and you get a 500 error. And again, there it's like, okay, is it more pragmatic or practical to do a fix forward if I can identify the issue and fix it fairly quickly? Or do we just wanna roll back and then revisit that issue?
+
+[00:43:25] So a lot of the times, uh, especially for like our higher traffic pages. Things that are high profile and that are important to the business, like the VDP, like the vehicle detail page. We'll roll back just for pragmatism to get the server back into a healthy state as quickly as possible, and then we'll fix forward.
+
+[00:43:43] There are occasions where it's like, eh, this is kind of like an edge case and you know, we have below 1% error rate on this, on this page. So it is feasible to go make a quick change and then just do a quick hot fix to production. That's something that we could, we could do fairly quickly.
+
+[00:43:58] Sundi: I did say earlier this week to Charles that this subject is of course near and dear to my heart and I had a feeling we would go way over time. So I just wanna point out that we're probably gonna need a wrap soon. And I did also wanna see, Zack, if you had any advice for folks who are teams considering.
+
+[00:44:19] Doing SDUI, it's possible that we crawled so others could run. What general advice would you give to other people who are starting in this process, particularly in the Elixir space?
+
+[00:44:28] Zack: Absolutely. So the most, the most important thing is to go slowly. To iterate and to be very selective about what things actually need to be SDUI and just make sure that your, your team is not being too dogmatic about absolutely everything needs to be SDUI immediately and from the start. Because that, that's gonna lead to a lot of pain.
+
+[00:44:49] And it's very difficult to get there. It's something that needs to happen over time. It needs to happen gradually, and you need to get buy in from folks that are outside of engineering in most cases. On top of that, another thing that helps, that's really helped us right, is having a, a well-defined design system and have that be your, your North star of what do we actually wanna represent, in this abstract SDUI format? That's really key.
+
+[00:45:16] I think without that we wouldn't have SDUI at Cars. It would've been a quick experimental run with, Hey, there's this SDUI concept, and we tried it and it didn't work for us. So having that in place first is a good way because it, it ropes in both the design and product sides of your, your organization, right?
+
+[00:45:33] They have a common language for how they describe what a new feature should look like or what, uh, you know, what a design or a UI looks like. And to be able to share that and reflect that in code is very helpful.
+
+[00:45:45] Charles: would you answer that similarly for a Greenfield project that's considering SDUI
+
+[00:45:50] that knows they, they need to target multiple platforms from the get go?
+
+[00:45:53] Sundi: Kind of, it's, it's probably a, just because you can, should you, you need to know if that's your use case. Do you need to iterate quickly on all three clients? Is that important to your business strategy? Those are the questions that you need to ask. It's probably not a developer question, honestly. Yeah.
+
+[00:46:11] Zack: Yeah. And I would also say, on a Greenfield project, again, just keeping in mind that having a, a shared and well-defined design system that everybody across engineering and, and product and designers and all the other stakeholders that you might be talking to kind of share, and agree upon a lot of the times in Greenfield projects that that may not be the case.
+
+[00:46:32] 'Cause you don't want to end up in the state where you, you really are redefining HTML.
+
+[00:46:36] Nobody wants that. 
+
+[00:46:38] Charles: No need to reinvent the wheel. Zack, this has been a, a great discussion. Thank you for joining us. I would love to keep going, but we, we do have to wrap unfortunately. Are there, how can folks follow your work, connect with you? Are you on social media?
+
+[00:46:53] Zack: Yeah, absolutely. So you can find me on Twitter, X, XTwitter, @kayserzl. I occasionally tweet there largely. I just get on there to see what other Elixir people are doing and then ignore everything else. I also, uh, you can find me on LinkedIn, Zack Kayser. Occasionally I'll post, , Elixir related content there or talk about what we're doing at Cars a little bit.
+
+[00:47:15] And then outside of that, look out for the Instrumenting Elixir Apps book, upcoming from Prag Prog, hopefully in the next few months here.
+
+[00:47:23] Charles: Sounds great.
+
+[00:47:24] Zack: Thank you.
+
+[00:47:25] Sundi: thanks for being, willing to chat about what I hope is a fun project. But I guess you'll, you would tell me or not tell me if it was not a fun project.
+
+[00:47:34] Zack: It's fun. Of course. been fun, Sundi. Yeah, it's, it would've been, it would've been really good to, to have the, you know, like one of our native app engineers on here too, to,
+
+[00:47:43] to talk about the, like from their perspective. I think it's really interesting to hear, but
+
+[00:47:47] Sundi: we did. We did. try. Yeah. We couldn't make that happen this time, but I, I honestly do kind of wanna have a part two, so maybe next time. But 
+
+[00:47:54] Zack: Sure. Yeah. 
+
+[00:47:55] Sundi: coming on, Zack. Appreciate it.
+
+[00:47:56] Charles: Thanks. 
+
+[00:48:00] ​
+
