@@ -1,0 +1,317 @@
+S14E07 Set Theoretic Types in Elixir with José Valim (Audio)
+===
+
+​
+
+[00:00:27] Dan: Hey everyone. I'm Dan Ivovich, director of Engineering at SmartLogic.
+
+[00:00:31] Charles: And I am Charles Suggs, software engineer at SmartLogic. And we're your hosts Today for Season 14, episode seven. We're joined by José Valim, the creator of Elixir Programming Language. José, welcome back to Elixir Wizards. It's nice to have you.
+
+[00:00:47] José: Thanks for having me.
+
+[00:00:49] Dan: Great to have you back. Top of our mind outta the gate is, is types and where we're with that. I know we're at 1.19 release candidate, but maybe before we dig into that, for anyone who maybe doesn't know who you are, which seems hard to believe given the topic of the podcast, but, you know, what have you been up to recently and what's new with you lately?
+
+[00:01:07] José: Right. Yeah. So, you know, I am, uh, José Brazilian living in Poland. Uh, allegedly created Elixir and, what I've been doing for the last more than a year for sure. I think most of my time actually goes towards the, the type system, working on the type system, which is good, which should be one of the topics of today.
+
+I am involved with a few other things, like a few other projects here and there. Right? In the last years did a little bit of Nx (Numerical Elixir), still do a little bit of LiveView and LiveBook as well. And recently one of the projects that we, we launched as part of Dashbit, something called Tidewave, looking more at the AI side of things.
+
+So there is a little bit of work, you know, machine learning web and stuff, but the main focus is for sure the type system.
+
+[00:02:00] Charles: what's driving you to devote so much energy into introducing a type system into Elixir? Is this largely driven by people in the larger community? Is this something you always kind of were thinking you might want to introduce into the language?
+
+[00:02:14] José: It's, it's a little bit of everything, to be honest. I would say I am like generally a curious person. That's why like I end up, you know, doing a little bit of Nx, a little bit of Phoenix. Because for me, like that's the exciting part about being a programmer is, you know, being able to learn all those different things, the different domains that is.
+
+Always something new for you to learn. And type systems is something that I've, it's always a topic that I was interested on. Right. But, I think like similar to machine learning is like, look, we can find machine learning interesting, but unless we know a good way of bringing machine learning to Elixir that is going to be efficient, that is going to be part of the language, it doesn't make sense to add, right? Like I, I'm not going to work on something that feels, that is, it doesn't something that ultimately I would have to tell people, oh, you cannot use it because it's too slow or because it's too clunky. Right? So with the type system, I actually did like a, a proof of concept.
+
+And I even have like this joke in ElixirConf. I think it was like around 2018. Where I actually explored building a type system, like reading papers, exploring the literature like by myself for Elixir. And, you know, I worked on it I think for about like six months, so this was before the current announcement. Right? And then, you know, I was running to some limitations and it was really funny because, I was implementing something called intersection types. A uh, a very particular implementation of intersection types on the Hindley-Milner type system. And, and then I was having to, I was running to like very
+
+like bad performance . And then I went to talk to John Hughes, which is a very, known professor in the field of functional programming. And then he's like, oh, it's very known that this particular implementation is very slow Right. And I was like, I mean, lot of the papers said it.
+
+It's like, yeah, like the papers, they are the theoretical part, but when it comes to the implementation, it's kind of known. And then I went like to ElixirConf. And then , my joke was, I have two news to tell everybody. Right? And then my fir and the first news was we started working on that type system for Elixir , and then like half of the room started clapping.
+
+Like very excited. And then the second news is that we stopped working on a type system for Elixir Exactly, because we couldn't figure out how to do it. And even before like the current iteration, even before we announce it to the community, we work on it for like almost a year.
+
+Like just kind of trying to see like, look, before we go and tell the community we are doing this, are we sure that this is something that is going to feel a part of the language? Uh, it's not going to be like, you know, like a subset of Elixir or it's not going to feel like you're writing something completely different.
+
+So, so yeah, like the interest has always been there, and this was a matter of like finding the right theory and the right people. So we have been working with the CNRS, with Giueseppe Castagna, which is a very known researcher in this area. We have a PhD student, so the interest was there, but we had to find like the, the right background
+
+and the right people to work on it. And then we put that together with the fact that that's something the community has. Like there was a very vocal part of the community and even non vocal like, uh, say, look, this would be great for, this is something that we are looking, that we are looking for. I remember asking, I think, ElixirConf Europe like 2021 or so.
+
+Like who here would like more like static analysis on the Elixir code base. And it was more than half of the room for sure. So it was clear that that's something the community was interested in. right. But it's also important to say it's not because the community want it, right.
+
+Because I think like when it comes to type system, I hear so many things that are just clearly not true and overblown expectations, be it for Elixir or even other languages, like people saying like, Hey, a type system would catch like 90% of my bugs. And I'm like, uh, uh. I think, I think those statistics, you know, like, uh, I feel like, uh, the web should, you know, like on Wikipedia you have like citation needed.
+
+I feel like this should be like a feature. On all of the forums, discussion forums, it should just be able to say, Hey, citation needed on this. Right? Like, you know, I need a little bit more concrete evidence on this. But, but yeah, so it's a balance of all those things. It's the interest, it's the community asking is being able to find the right people is being able to explain what it is and what we are going to get from it.
+
+So all those things, they have to go together.
+
+[00:07:04] Dan: So then thinking about this like set theoretic type approach, right, where you're pretty far into it now. I guess like kind of at a high level, how's it going? You know, are you happy with this approach? Do you think maybe a different theory would've panned out better, or is it going how you would've hoped?
+
+[00:07:20] José: It is going pretty well. I'm way ahead of whatever I tried in 2018, like 10 times ahead, citation needed. But,
+
+[00:07:30] Dan: Sure.
+
+[00:07:31] José: but yeah, we are quite ahead to the point that it's part of the language. Right? And I think the thing is that we have an existing language and we have the idioms, the things, the code that we wrote.
+
+So the big question is: how much of the language can this type system support? Because if the type system does not support it, we have two options. We will have to say, oh, this is dynamic code. We don't really understand it. Right? Or we say the type system. Then just slap dynamic on it and it's always going to be dynamic.
+
+Or we have to say, oh, this is a feature that we no longer support. This can no longer be part of the language because it's dynamic and we want to mostly have features that the type system can understand. So we have been working on like adding it to Elixir.
+
+The theory has been happening before, but the process of adding it to Elixir is going to be three releases at this point, which is 18 months. And the amount of things that we say look. This doesn't work with the type system as well as we wanted. They are very few still. Right? And, with 1.19, we have basically typed like the huge majority of the language constructs.
+
+So that's good, that's a very positive indicator. And for me that's like, it's the biggest metric that we should tackle right now because just to recap, like the type system. It's behind the scenes. we users are not adding type signatures. The whole purpose of the work we're doing right now is that we are typing the language.
+
+We are trying to find bugs for you for free. You don't have to change your code. We are just going to go there. Type your program and find potential bugs. So that's the metric. Like are we going to have like false positives, warnings that should not be there? Are we going to have to remove things from the language?
+
+And I think the only notable thing that is kind of saying, oh, this, this does not really work with the type system. It's a deprecation that we introduce in Elixir 1.19. Which is Struct updates. So if you use the struct update syntax for updating struct in Elixir 1.19. The first release candidate, which is rc.0.
+
+It emits the deprecation warning, but that of course, that caused some discussion in the community. And for that discussion, we're actually able to find a good semantic for that operation in the type system. So we are actually reverting the deprecation. We are converted to something more. But I think it's a really interesting example of like, look, we have this construct. We have to tell what this construct means in a way that makes sense for everybody that makes sense for existing Elixir developers, dynamic programs and static programs. And that was something that was very hard, but it was good. We put the deprecation out there, we got feedback, and they're like, okay, now we have a semantics.
+
+So what we are doing is that the next Elixir rc, which I think is going to come next week, is not going to have the deprecation anymore. The deprecation is going to be slightly different, and then when 1.20. Before we release the next, next version, I'm going to have another discussion with the community.
+
+Like, well, we upgraded our code bases, we see how this new feature looks like, do we want to keep the struct update syntax or not? But I think it's a very good example, and we are going, and I, I believe there is an issue in the Elixir repository where we say features that will have to change because it's not because they're incompatible with types, it's just because they end up being poor, like the way we implemented some things, do not allow the type system to express the things we wanted clearly. But I think like right now we have two or three, two or three entries in the list, right? For all of Elixir. So it's going, it's going pretty well. That's, I think that's the digest for the metric that we set for ourselves.
+
+[00:11:41] Dan: Yeah, I know like, you know, in our, however long we've been doing Elixir now a long time, the path of kind of upgrading version to version has always been. I think delightfully not a big deal. Right? Like, years ago, I think when you were early on the podcast with us, we talked about like, well, you know, is there ever gonna be a 2.0?
+
+Are we ever gonna break anything in the language? Right? And it's like, you know, that that list of things that could potentially break if you ever did that just has remained extremely short over what, 12 years now? That's, that's really fantastic. And this idea, I think something that you said that I really wanna maybe peel back a little bit more on is the idea of like, we're not, you're not making a type system for the user to interact with.
+
+Right? The developer isn't typing their language out. You're not adding, we're not adding a lot or really anything. Right. You're, you're inferring it yet. Sure. So maybe can we just talk a little bit more about like, okay, so set theoretic and the type system you're doing like. What can it do right now?
+
+What can't it do? You know, because you, you mentioned a little abstractly, like there's some things like the struct update. I don't know, can you just talk a little bit more about like where are the boundaries of the type system as it stands?
+
+[00:12:49] José: let me give you like, one example. I believe there were three or four things where the theory as it existed did not support Elixir. So for example, in Elixir we have maps, and we use those maps for like structs for like have structured keys, well-defined keys, and in other programming languages.
+
+And in type theory we would call them records. So record is a construct that has a well-defined set of keys. You usually you can add and remove keys, but you usually don't add and remove keys. And those set of keys are like known statically. That's a record. And, other program languages, they have dictionaries, right?
+
+Which is, you know, you can say, oh, I have, or they call them hashes, something that is a key value store. You can say that the key value, the key is an integer. The value is going to be a string. And so those in most programming languages, those are true distinct data types. But in Elixir, we use maps for both because maps changes behind the scenes and can be efficient for both.
+
+So, when we started doing this, there was no theory there. There was no way we could, we could implement this. So, there was, we actually, and by we, I mean, Guillame and Pepe, they actually had to develop new theory, published papers, prove that things are correct, right? So that's the kind of work that we have to do.
+
+And there is something, for example, and, and again, like we are being able to support. Huge majority of the language, which means that set theoretic type is being able to do everything that we needed to do. So we don't have a lot of things that, oh, we can't do that yet, right? Like all those things, the, the things that we found that we can't do it, we actually did research and published new research so we can do those things and it's great, right? 
+
+[00:14:42] Charles: Yeah, that's fantastic.
+
+[00:14:43] José: the fact that we are being able to publish research, not only it's great in itself, which means that we're able to get a foundation and extend it. If we were stuck by the foundation, the foundation like, ah, you can't do it. Right? That would, that could potentially be problematic. So that's all we have the one thing that we are working on right now that we don't have is behaviors. So, actually I should clarify that. So behaviors like when you, in Elixir you can define a behavior, right? And you can implement those behaviors. Most of the times you're implementing behaviors. So every time, so a GenServer for example, is a behavior. It tells the callbacks that you should implement.
+
+Most of the times we're implementing behaviors and with the type system we have today, the theory that we have today. Allows us to do behaviors as well as we have them today. So you can define the interfaces, what it accepts. So we can do that. We, we can do the same thing that we do today, but one of the things that I really want the language to have is like, well, if we are rethinking types, I want to have like proper behaviors.
+
+And by proper behaviors, I mean, look, I wanna say that I'm implementing a GenServer and this GenServer is going to have this state. Everything is derived for us. All the types, the requests, the response, like it figures a lot out for us because the way we, we do type with Dialyxir today on those things, it's quite loose, so it's one of the things that we can't do.
+
+There is research going into this right now and uh, I believe we, we solve like the biggest problem to make this possible, but we can already do what we have today. It's just that we are being picky and say, no, it should be better. We should bring the next level of features, so, and make those interfaces look more like, you know, type classes in Haskell or more advanced type features, or even interfaces in Java where you can parameterize the interface or things like that. So, I, I, I'm not giving like very specific examples because when we are finding things that we can't do, like we, we are trying to solve them because that's our goal for now, right? Is to solve all of those things.
+
+[00:16:57] Charles: you mentioned Dialyxir. How does the introduction of set theoretic types interact with Dialyxir and I guess some of the other tooling that Elixir developers are used to today? Does it, is it gonna make it moot? Will Dialyxir kind of go away or. 
+
+[00:17:12] José: Yes. That's the hope, right? So the hope is, so I'm treating them as completely different things. And one of the things we, we, I, I did explain other presentations, but the idea is like, we have been writing, somebody's gonna say, Hey, I just wrote a bunch of type specifications. I want to use my type specifications.
+
+And I'm pretty sure even despite me asking, like, don't do it. Some people will write like an automatic converter from one to the other. Right? But the thing is, the set theoretic types, they are more precise. They're more powerful than Dialyxir ones. And I think an automated translation can be harmful because your type specs, they're not necessarily being checked for this level of precision.
+
+Right? So it can mean that you are going to write your programs in a very imprecise way that is going to make our life harder later. Right. So one of, one of the. So, let me give an example. Lemme try to give a more concrete example, which is imagine that you have a function that if it receives an integer, like okay, the Unary Plus in Elixir, right? The Unary Plus, if it receives an integer, it returns an integer. And if it receives a float, it returns a float. Right? So what we can say is that, well, this is a function that is exactly that. If it receives an integer, it returns an integer. And if it receives a float, it returns a float, right? Like we can say, you can think of two arrows integer to integer, and float to float.
+
+That's a very precise definition. So that's what precision means, like you are giving it a very precise definition on what it does. But you could go today. Right and say, well, the type of this thing is that it receives integer or float, it returns integer or float. And that type is also correct because if you give an integer, it is going to return an integer or float.
+
+You know it's always integer, but it is integer or float. And then if you give it a float, it's going to return an integer or float even for, you know, that you, you know, it's just going to be float. So those two definitions, we can use them to type the same function. But one is very precise. One tells you exactly that if you give it an integer, the only thing that it can return is it's going to return.
+
+So that's what I mean about precision. So when we wrote dialyzer today, we were not worried about precision. That's not something that we had to worry about. Right? Because even in some cases, dialyzer when it says like. Large type signatures. It actually collapses the types because the goal of dialyzer is to find a possible error, right?
+
+While here we want an actual type system. That example. It's kind of the main point I want to have. Precise definitions that capture the full behavior of our code, the full behavior of our functions. And we have not been thinking about this. So we wrote a lot of type specifications that do not adhere to that.
+
+And, and that's why I think, we should take this opportunity and start with a clean slate and say, look, we're going to type using these new properties that we want. So in the future, assuming that all this works, you will be replacing one by the other, right? You're not going to be using Dialyxir, you're going to be using Elixir type system.
+
+And the goal is that it's going to have better messages, error Messages, is going to catch more bugs, and it's going to be faster. So just to give you an idea right now, like we have been working a lot with remote remote.com. They have a large Elixir code base and on 1.19, typing their code base, which has more than 12,000 modules, which is a lot, right?
+
+It's taking 20 seconds. Which is pretty good. Like that's when you compile the whole project. When you change just one file, it's going to be, well, you can do 20 seconds divided by. I think it's like, it, it's going to be very quick. Right? And, and we look at that, they're like, okay, that's too slow. And now we are optimizing it and bringing it down.
+
+Hopefully bringing it down back to around 10 seconds. But that gives you. Kind of like where we are going at in terms of performance as well, and finding bugs and all those kind of things.
+
+[00:21:35] Charles: So right now when a, a developer is writing Elixir code, the existing type system in wi within Elixir, like it's kind of transparent, I guess, or even opaque. Like it's not something I've noticed personally working in the latest 1.18 release. You know, everything is just working. I'm still writing Dialyxir type specs and, and that sort of thing.
+
+But as, as more of this gets introduced to the language, at what point should we as developers start anticipating planning for, and kind of changing our behaviors a little bit so that our code and our planning works well with the introduction of the type system.
+
+[00:22:11] José: so for now, I still would say you don't have to worry about or change anything. My goal was that for Elixir 1.19, We would be done with the inference things, we would have implemented everything that is inference so we can focus on actually changing the language and allowing people to have like typed instruc or maybe typed signatures.
+
+But we did not add, so, so the funny thing is that full inference is actually implemented, almost fully implemented in a language. We do full inference for everything except for guards. But I like to say that we, we got to the draw the owl, you know, the meme draw the owl that we have on the internet.
+
+So like, it's like, oh, first you do a circle. I'm not, I'm not sure if I'm pronouncing the name of the animal correctly. Owl, right? Like, so the meme is like, yeah, draw the owl. So step one, draw a circle. And then step two, draw the rest of the *BEEP* owl, right. Like do the everything else. And we are kind of pretty much in the stages of, because we added inference to everything in the language except guards.
+
+What happens is that we started having so much type information flowing through the code. That we, it started finding places where it had in our backlog like, oh, we have to implement this feature. We have to add this precision here. But because this information now is all flowing through, all those things are showing up as false negatives, like warrant or false policies always getting confused, but warnings that we're not supposed to see, they were showing up.
+
+And then we're like, okay, now we have to work on all of those things. Like we have to do the rest of the work because, because otherwise they're going to have, imprecise information going through. So we have to constantly refine. And then when we did that, again, more type information going through, which means that we have larger types, which is going to bring some bottlenecks in our implementation, which is natural.
+
+So going back, right, so the goal is it's still, we are working on being able to do things so you don't have to touch and do anything. That's still our goal. I was hoping it would be done by one point 19, but now it's most likely going to be done by one 20, which is going to be end of this year. So there is a chance that by May, June next year, about a year from now is when we are going to see actual things that you need to change in your code if you want to have better support for those features. So how exactly that is going to look like? We don't know yet. So my goal here would be, well, we'll have these features.
+
+We are going to add them to Elixir, and then, because there's always a gap between me changing Elixir. A new version being released. So I'm going to add them to main. I'm going to play with them. And whoever wants to try Main out can try main out and give feedback. But there is a chance, it's very likely that, you know, whatever's in my head right now, I'm going to implement it.
+
+And we are going to try it as we say, well, this is bad, this is not good. So we have, you know, we have to go back. Right. So I would, but basically what I'm saying is like the, the, the. The short answer, don't expect anything before June 2026 June next year. But even that can change, right? So I don't think we should change the way we're writing Elixir code because again, a lot of what we are doing is to be able to support the code we write today.
+
+I don't think we have to worry about that, but if you're like, oh, I finally wanna type my things with the new types, I think a year from now at least is a reasonable estimate.
+
+[00:26:00] Charles: I, I really appreciate the, level of thinking that's gone into how to introduce a type system in a backwards compatible way. I think maybe it was a blog post on Dashbit that you wrote that laid out kind of under the hood what's going on with unions and intersections and how you would type a function.
+
+And you're drawing on your example of the unary plus operator and how it returns a type based on the input type, and how you would write that out and how that would. How new types are more of a super type I I, if I remember this correctly, of what was already there, so that what's already there, existing code, will still function just fine and you can add the types as you go.
+
+I really appreciate that and I certainly recommend listeners to check out that, that blog post, it was pretty informative to read.
+
+[00:26:52] José: and that's very important, right? That's something that we had. So it's, it's actually, it's two things. So at the beginning, my approach into this was, look, we don't have to worry about existing code because if you want a dynamic program, then you don't write the types, which is basically how we have been writing all along.
+
+Oh, somebody's like, oh, I, I, you know, I, I don't want, I don't want types, I want a dynamic program. Yeah. Don't write the types. You already have it. You're good. You're covered. Right. So when we started out, I was like, I don't care about the dynamic things. But after the work started, it was when we realized that, hey, we can actually, so like this idea of having full inference for Elixir codebase.
+
+I think a year ago we did not have this idea. It was like a very recent like, realization that's like, wait, what? We can actually type, we can have actually have full inference for everything. So in a way, like the schedule that I had for this actually got postponed because we added new features.
+
+So there's a, a scope creep happening there , never happened before, right? Un heard. 
+
+[00:27:58] Dan: first First scope creep ever 
+
+in the world of software development. 
+
+Yeah.
+
+[00:28:01] José: Yes. So , but it's because we realize we can do that and then we are even bringing more features. But it was very important for us to be like, look, we don't wanna have, like, and that's how a lot of other languages, when they added the types.
+
+That's how it behaved. Like they would run the type checker and then the type checker would come up with a bunch of violations that were, they're not actual bugs, it's just that the type checker being like. Yeah. You know, you, you, you can't write this. So it goes back to what I was saying, like that's something I wanted to avoid since the beginning.
+
+Right? Like the existing code, we should only say it is a bug if we are a hundred percent sure it's a bug. It's not because, I don't quite understand this. And then the type checker is like kind of giving up. Yeah.
+
+[00:28:52] Dan: what is the world of like, kind of downstream impacts of what you're doing been right? Like we've, we've talked about for the developer, the idea here is no change, right? You just get more useful warnings from the compiler about your types. But what about like live book CI pipelines, language servers?
+
+Have you started to see any kind of impact on that work at all?
+
+[00:29:13] José: I would say it's still too early for us to see that. I mean, we are definitely seeing bugs being caught, right? So there are people when they upgrade, they're like, oh, the type system found dead code. Like we found dead code on Phoenix.
+
+On LiveView. On LiveBook itself. So, even some bugs we, we, we find in those projects as well. So I think it was LiveBook. There was a place where we were doing a rescue and then e message. So we are kind of assuming that all exceptions have a message field and other types, like you can't assume that.
+
+So we are definitely finding bugs. But the thing is when you upgrade your Elixir version in your existing code base, it, it is hopefully a code base with tests, right? Because. We need tests, types. They're not going, I talked a lot about this. We can talk more, it's a separate topic, but we can talk about it later.
+
+Types do not replace the need for tests, right? So, so what happens is that when you upgrade your Elixir version and we do find a bug, it's because it is a bug that your tests are not catching, right? So that's why I say like the. It's limited what we are getting and seeing because you already have the tests that are catching all of those things, right?
+
+So the test already caught many of the bugs that the type system would have caught. So I think like the limits of our work. It is still the impact, it's limited given the nature of where we are in the implementation and where we are as a community.
+
+But the goal is for it to increase. And there are things that, we don't do yet, which is, for example, it's implemented, but it's not going to be 1.19. It goes back to the full inference thing, is that if you call Ecto Passing a bad argument. We are not considering the types that we inferred from Ecto.
+
+We, we consider just a little bit, we don't consider it fully, so like the amount of information going through, it's still limited, but yeah. So in other words, I, I don't think we are seeing that now. I think we are most, I mean, you can get a warning, a warning on CI for sure. That can happen, but we're mostly fixing them when we find them in our machines.
+
+And, it's still too early for IDE integration, for example. So one of the questions people have like, oh, can you infer the type , if Elixir is inferring the types for my functions, can you show me? Can you go add the type and show it to me. And I am like very skeptical about doing that for now because, because I think those types, they can be huge, right?
+
+Like, because imagine like you have a function with many clauses that calls a function with other many clauses. And if you're just getting those signatures and giving them to the user, they can look really bad. Why, what you should do is that, well, so imagine one of the examples I gave recently is imagine that you, you're doing payment processing, when you're doing payment processing, the thing can go into a couple different statuses, right? It can be, you know, it can be overdue, it can be on trial, it can be okay, right? The user can have canceled, right? And all those things. Today, there are patterns in our code base, in our function clauses.
+
+So if we just say, Hey, infer this for me is going to bring, give you like a huge union with all those things. And the crack would be, well, I want to define a type called the status that define all the possible types. So you break those things into proper definitions and then you start using that in your signatures.
+
+So, so basically we, we, yeah. I think short answer is we don't have anything right now, but I think. I want to be very careful also with that part, right? I don't wanna say, Hey, here's the type that we inferred, right? I wanna make sure that everything that we are doing is conscious. Nothing is like automatic.
+
+And I know that means work, and sometimes people are like, don't make me think, don't make me work. But, you know,, I think it's something that is important enough that it does deserve some thinking. It does deserve some working.
+
+[00:33:32] Dan: So right now all of the output from the type system work is compiler warnings effectively where we're at right now.
+
+[00:33:40] José: Yes,
+
+[00:33:41] Dan: Okay. So if you're doing the, if you're doing the right thing, which is in CI, you're doing dash dash warnings as errors, then your build will fail with your types.
+
+[00:33:49] José: Yep. That's how you did.
+
+[00:33:51] Dan: Okay. 
+
+[00:33:53] Charles: Perfect.
+
+[00:33:54] Dan: Man, developer experience, man, that's just, uh, you know, just, it just happens, right?
+
+Your code is just more checked.
+
+[00:34:00] Charles: Yeah, I could use more supervision.
+
+[00:34:01] Dan: awesome. So things are going well, things are going, how you'd hoped. Maybe you, you wish you were a little further along. But yeah, I mean, I can tell you from the outside, it's been like just easy, right? Like it, it just. It's like, it's not there, but we get the value of it without having to really think about it.
+
+Which is probably the best case scenario, right?
+
+[00:34:21] José: For now. Yes. 
+
+[00:34:23] Dan: For now, I guess. Yeah.
+
+[00:34:24] José: Right. Yeah. But That's the thing. Like if you're happy with the status quo, right, you can still stay with the status quo in the future, right? You can just say, I don't care about types. I'm happy with the amount of guarantee that Elixir inference gives me by default. And you know, and if you're happy with that, then.
+
+Then you're good . You just continue doing whatever doing you, as you said, just have dash dash warnings as ever and you're good. But if you wanna look, I want proper types, then yeah. Then you have a, a full banquet to enjoy. 
+
+[00:34:59] Dan: In about a year you'll have some syntax you can add to 
+
+[00:35:02] José: Yeah. 
+
+[00:35:03] Dan: Yeah. 
+
+[00:35:03] José: Potentially. Yes.
+
+[00:35:05] Dan: Fantastic.
+
+[00:35:06] Charles: I feel like I've seen the LSP tell me about type issues that I hadn't noticed before, but I'm assuming it's just passing through something. It's finding through recompiling the code as opposed to anything that's built into the LSP specifically.
+
+[00:35:22] José: Yeah. So the, yes, so the compiler emits diagnostics about what went wrong during compilation. So from the LSP point of view, a Undefined variable warning is the same type of diagnostics as a type violation. So the LSP is just getting all of those. 
+
+[00:35:44] Charles: Hmm. 
+
+[00:35:45] José: so whenever we improve Elixir, you get it as a warning on CI, and it also shows up in your LSP, as a warning as well.
+
+[00:35:54] Charles: Has this impacted any of the work on the Elixir LSP project? Are they interacting or is that entirely separate Tracks of work?
+
+[00:36:03] José: So I would say it's, it's still entirely separate tracks of work. We have a shared communication channel, and one of the good things about establishing this channel is that we can give and receive feedback early on.
+
+So of course we are being very mindful of what is happening there. But, I think given both are still highly in development, they are separate tracks.
+
+[00:36:29] Charles: how is the LSP project going? Is there anything you're able to share at this point, or is that still people are heads down making it happen?
+
+[00:36:37] José: Yeah, so I am, I am not involved on it directly, to be honest. So, I know they are working on it. I know there are companies sponsoring the work like Fly and Tau Space. So those are two companies that are, sponsoring people working on the project, and the project continues to, to develop.
+
+But I really don't know like the, the exact details of where they are, you know? So that's a, that's an episode to have with them.
+
+[00:37:04] Charles: Yes,
+
+[00:37:05] Dan: Yeah. 
+
+[00:37:05] Charles: absolutely is. Is there anything else ongoing in the Elixir universe that are part of day-to-day Elixir developers work that ties into this or that you'd like to bring to the table today?
+
+[00:37:18] José: in particular with types. I'm not sure if there is anything worth calling out. I mean, I think there are things, so one of the things that I mentioned, and in the topic of interop, that I mentioned in the keynote was having types can also potentially mean having interop at the types level. For example, oh, I, what if I can get, An Elixir, type, a struct type and convert it to TypeScript and use that to have better integration between front and the backend. So that's something that we actually build some proof of concept, proof of concepts, or proofs of concept. Anyway, one of those options or maybe, uh, or maybe proofs of concepts anyway, but yeah, so we, we did build some exploring those ideas. So I think that can be interesting, but it's too early. Of course there are like many things happening in the ecosystem in terms of interop and AI, but I think like types related, it's still mostly still on core.
+
+[00:38:28] Dan: Yeah, I mean, I think that's a testament to the approach that you guys took here, right? Is, is how focused it can be, how much you'll be able to give the developer for, for really no effort from, well, from our part, lots of effort from your part. but uh, yeah, I mean, this has been fantastic. It's really great to hear kind of where things are with all of this and, you know, the experience, I think.
+
+At least for me has been so like, like it's not a big deal that I think it's easy to think that it wasn't really, that it has, that you haven't gotten much. But I think the reality is we've gotten a ton and the fact that we don't know it is really just a benefit of, you know, how great this language is and how, how great the work that's going on behind the scenes is.
+
+[00:39:10] José: Our goal for, for now should be like conference wifi. You know, if it works, everybody's happy. Nobody complains, right? And if something is wrong, somebody's going to complain loudly so we can fix it. Uh, but yeah, we hope to stay mostly still, like, you know, everything is going and another, so there is like a big. Big, uh, big companies, they have, there is a word for this. They do. I think it's like, let me tell what it is. When they wanna add a new feature, they launch the feature, like kind of disabled, to see like the load on the server, so I think like Facebook did that. For example, when they launched the messenger, the first thing they did is that they loaded the messenger on everybody's page.
+
+They loaded the whole thing, right? Had it sent like the initial messages, but without ever showing to the user so we they could exercise the performance, the impact this would have on their servers. There is a, this, this thing has a particular name, there is a, this technique, right? that's also the other thing because we are talking a lot about, well, getting the warnings, but it's also very important.
+
+The warnings is we go back. The performance should also be really good. That's the other benefit of this approach is that the type system gets more complex. Every release, we add more features, it's doing more work and it should be fast, right? And when it's not fast, like it's getting stuck in some cases, and then people do the report, that's when the conference wifi fails.
+
+But people do the reports and then we fix them. But that's the other very important thing for this, right? Because it will happen, but it would be really hard, like if people are like, oh, I added this type signature. Now, like my program takes, you know, 30 minutes to compile, which will happen because we are going to have like all types systems, they have those things.
+
+They have those really corner cases where, a lot of type systems, the algorithms, their theoretical complexity can be like very high. It's just that we don't hit those particular cases in practice. So that can be for everything so that was the other thing. And it gives us confidence, the fact that we, we keep on adding features and the compilation times are good.
+
+And when they, they got bigger, then we were expecting we can do the work and bring them back down again. And, that's all very exciting.
+
+[00:41:34] Dan: in terms of maybe like, asks for developers who are trying out 1.18, 1.19, the new release candidates, all of that, it sounds like, let you know if things take a long time, you know, if it takes a lot longer to build than it used to. And, developers should not be ignoring their warnings. 
+
+[00:41:48] José: Yes.
+
+[00:41:49] Dan: Beyond that, are there any, any asks for the audience or any any plugs you'd like to make?
+
+[00:41:53] José: Yes. So very good. So I'm going to recap yours. So, when you, before your upgrade Elixir. Do a mix compile dash dash force and there is a flag called profile time. So mix compile --profile time --forc e that is going to compile your project fully, compile only your project, measuring the time it takes for compiling and the time it takes, in particular for the type system which we call.
+
+Group path. That's the group path. So then you upgrade Elixir, you compile everything, you run your tests, see if you're happy. If you're happy, then you run it again. Mix compile dash dash force profile time. And you should see large projects, should see like A big difference in compilation times in 1.19 because we did some work on this area.
+
+So I was talking about remote. , their code base compiling three times faster, which is just amazing. So that's one thing you can do, right? So you do that and don't do that on the release candidate zero that is out right now. So we are going to announce, release candidate one, and then you can do that.
+
+Because we already know we already got, we already got the reports of bad wifi. We already know that it's failing in some cases we fix those. We are working on the next release, and then when rc.1 is out. Please try it again. Let us know the times. Let us know if things are looking good as we expect them to look.
+
+Yeah, so reporting the times. Try out the rcs and yes, please don't ignore the messages. Go through the messages and if something is making you scratch your head, don't say like, ah, you know, like, i'm not too smart to understand this, you know, or this is confusing. If it can either be, I would say that most likely it's a bug in both cases.
+
+So if you get a report, you don't understand what it is, it's most likely a, a bug in Elixir, we're not supposed to be getting that report, or it's most likely a bug in Elixir. We could be doing a better job. In that particular report, so it's less confusing for you. So if you're up, uh, upgrading, you see a warning, you're like, oh, I can't, I can't solve this. 
+
+I don't know what it wants me to do. Let us know because, it should be clear. We should be saying like, Hey, you know, you are expected to do this. Or, uh, you know, this is the change you need to do. Or There is a bug in your code and here's how you can spot it easier. So, yeah.
+
+[00:44:23] Dan: Awesome. Well, thank you so much for your time and this was just a great update on where we are with Types in Elixir and, yeah, hope to have you back again soon.
+
+[00:44:33] José: Thanks for having me. See you next time.
+
+[00:44:35] Charles: Yeah. thanks for joining us, José. 
+
+​
+
+[00:45:08] Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
