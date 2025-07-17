@@ -1,0 +1,295 @@
+S14E08 NixOS with Elixir (Norbert Melzer NobbZ) audio
+===
+
+​
+
+[00:00:26] Dan: Hey everyone. I'm Dan Ivovich, director of Engineering at SmartLogic.
+
+[00:00:31] Charles: And I am Charles Suggs, software engineer at SmartLogic. And we're your hosts today for Season 14, episode eight. We're joined by Norbert (NobbZ) Melzer, senior software developer at JobRad(R) Loop. In this episode, we're talking about using Nix for package management, development environments, and deployment in Elixir Projects.
+
+Norbert, welcome to the show.
+
+[00:00:55] Norbert: Hello.
+
+[00:00:58] Charles: thanks for joining us. I believe you're new to the Elixir Wizards Podcast. Care to introduce yourself, tell our listeners a little bit about you, where you're from, how you got into Elixir.
+
+[00:01:11] Norbert: Yeah, I'm from Germany and currently living close to Hamburg. The Elixir story is a bit longer, but, I was interested in programming, basically since forever. And, then I started studying computer science in 2013. Was more interested and involved in Ruby back at that time, and someone told me about Elixir, which looked like functional Ruby, but I didn't get warm with it back then.
+
+But, half full year later, someone said, here, we have a programming contest at the uni. Do you want to attend? And I wanted to try Elixir and tried. And realized doesn't work on the Uni computers, so I fell back to a raw Erlang implementation. Because we had OTP 16, but Elixir back then required OTP 17 and in the following years, I kept looking at Elixir, was active in the forum, used it for personal projects, site projects.
+
+I tried to introduce it in the company where I, uh, worked. Besides the studies and, it never was accepted by that company, but, I used it personally. I was quite involved in the forum back at that time. So eventually someone contacted me. A bit after the pandemic and offered me a job with Elixir and, I accepted the offer, stayed there for about one and a half year, and then switched to JobRad(R) Loop where I'm working now as a senior software developer.
+
+[00:03:14] Charles: So someone reached out to you unannounced and said, "Hey, I want you to come write Elixir with us."
+
+[00:03:21] Norbert: Yes. 
+
+[00:03:22] Charles: Nice. 
+
+[00:03:23] Norbert: They knew about my activity. They have seen that I have had occasional posts about Elixir meetups in my LinkedIn and Twitter back then. And, then they just wrote me and made me an offer.
+
+[00:03:39] Charles: Very nice. Some of our listeners will already be familiar with Nix and are probably using it in some way, maybe for a development environment or, or something else. But I think we have other listeners who haven't touched it.
+
+Can you kind of go over like, what is Nix and what is Nix versus NixOS? And then we can dive into a little bit of how they work.
+
+[00:04:05] Norbert: Yeah, Nix is advertised as a package manager, as an alternative package manager that allows for reproducible package installations. Personally, I like to treat it more like a build tool. Because treating it that way explains a lot of its weirdnesses and idiosyncracies and makes it easier to accept how you have to deal with it. NixOS is a Linux distribution that allows us to use files in the Nix expression language to describe how we want to have our system. I like to explain it as a Linux was built in Puppet, Salt, Ansible, whatever of these tools you know best, it's just built in into NixOS. And those, declarations in Nix to produce or build, a complete Linux system that you can then in a second step activate and boot into. There's a lot of symlinking going on to achieve these goals and some people say those symlinks do have a negative impact on the system's performance, but whoever tries to prove this will realize that it's usually just during start time and as soon as the software runs and has built up its disk access, caches and whatnot, the effect is not measurable anymore. we had some users reporting startup times from about an hour for very specialized software on very specialized hardware that is known to be slow with ELF binaries.
+
+it, it was foreseeable that it would have that effect for this machines. But the slowdown is, as said, only during startup of the application. And, the reproducibility guarantees that they have from using Nix is worth that upfront startup cost.
+
+[00:06:34] Dan: Great. So, at SmartLogic our usage of Nix is very much like centered around nix-shell and direnv and like hooking up so that we can pull in dependencies at specific versions with not having to do a lot of compiling. We moved to it really heavily as soon as the Apple Silicon Max started to come out, because then it gave us a good repository of both Intel and the M series kind of chip architecture binaries to pull things in.
+
+So, can you speak at all to like Nix Darwin, Home Manager, or just like, if you're not using the full OS, what can a developer's experience with Nix feel like for a development environment?
+
+[00:07:12] Norbert: personally, I do not use Nix Darwin. I have played with it when I had a Mac, but I prefer to work on Linux generally, and, at my current company I had the opportunity to use a Linux laptop. So I am at Linux now.
+
+[00:07:32] Dan: Okay.
+
+[00:07:33] Norbert: NixOS? no,
+
+[00:07:36] Charles: no.
+
+[00:07:37] Norbert: NixOS I do only use for my personal computer , not for the work computer, because on the work computer. I have to run software that isn't available through Nix packages. And, also when a coworker comes to me and says, I have this, can you run it for me? I have to be able to run it.
+
+[00:07:56] Charles: Mm-hmm. Mm-hmm. Yeah. 
+
+[00:07:59] Norbert: NixOS is not easily capable to run random binaries from the internet. You always have to. You have to patch it, you have to use Docker.
+
+You have to there. There are many workarounds. All have its own downsides, all have its own upsides. Some are easier, some are harder, but you have to go through some hoops to make it work.
+
+[00:08:25] Dan: Mm-hmm.
+
+[00:08:27] Norbert: yeah.
+
+[00:08:27] Dan: Yeah. So I know at SmartLogic, I'm a Linux and nix-shell user. Charles, you're, are you using Home Manager or is that just Stephen?
+
+[00:08:36] Charles: Stephen's using Home Manager. I'm, I am using Nix Darwin on my Mac laptop and my, my personal laptop, which was a previous work laptop, is running NixOS. it's been running NixOS since 2001. I wanna say something like that. Or, sorry, 21. 2021.
+
+[00:08:58] Dan: Yeah.
+
+[00:08:58] Charles: I didn't start using Linux until 2003, so.
+
+[00:09:01] Dan: Yeah, so, so I think there's lots of paths then to get to, I think we're where we're all kind of dancing around a little bit is like getting to that declarative Nix expression language of like, this is what I wanna describe. Whether it's the entire system or just a bunch of stuff to do before a shell is invoked to create an environment that you're looking for.
+
+From your standpoint, like what, what is great about these sandbox builds? How does this set, you said it describes itself as a package manager. What kind of sets it apart from other managers or Docker-based workflows? 
+
+[00:09:36] Norbert: I cannot really say what sets it apart from Docker based workflows. I have never used them. In the very old days when I was at a company where I had to use Windows. There, I used WSL remote shell building things. It worked well enough. I used ASDF back then to control the versions of my tools, and we did Go, back then, mostly, but also PHP and Python, but Go was the main offender.
+
+I had it often that I built some Go binary in that WSL environment, then got it through our deployment target and due to the by default dynamic linking of the binary and some version mismatch between the GLibC on my local desktop and the GLibC on the host, something broke. Go is often advertised as compile here, run anywhere.
+
+But in my experience it works only if your systems are about the same age, given the patch, applied patches and updates.
+
+[00:11:05] Dan: Yeah, that kind of resonates with me. In, in, we were, I think across the company heavily ASDF users before we moved to Nix. And we would get into places where of nine people, two people's machine could no longer compile either a dependency or even like a specific version of Ruby and with like really hard to understand errors of like, for some reason, even though these are the same OS, same whatever, Home Brew has, you know, done something to some, some path here or whatever.
+
+There was enough inconsistency that it would really just kind of like strand a developer with error messages that nobody else had seen. And the kinds of things where when you Google them, you get lots of different things that will lead you down the wrong path. And Nix gave us a really solid opportunity to kind of build that shell that was more consistently a known state.
+
+And we've still had some struggles, but I think overall they've been much more minor in terms of when things don't work. How do we kind of resurrect ourselves out of that? So when you think about a, a Nix shell for an Elixir project or any kind of project, how do you kind of approach that to help everybody have that same build and runtime environment?
+
+[00:12:18] Norbert: the main benefit I see it does not only ensure that you have the same Elixir and OTP versions, but also ensure that you have the same library if you want to run a NIF That depends on the system library because especially those I have seen are often problematic. And this is true for any language.
+
+Whenever you have some interaction between a C library and your actual implementation language, you often have the problem that you have to manage this C library by another means than you manage your development environment. Whether you have to install the library where you're at first or on a Red Hat RPM.
+
+With Nix shell, you can just drop your LibC for compression support side by side to your, I want to use Erlang OTP 25 and Elixir 1.17 and you're fine. It will usually be found usually. And that is one of the biggest upsides I personally see in the Nix development shells. 
+
+[00:13:45] Charles: Have you worked with Nix with using flakes as a way to do this as opposed to just straight Nix Shell? For a number of people here too, there's kind of a regular question of, well, what's, what's the difference? What is a flake? Why do I need that? Or how is that different from an overlay?
+
+For listeners, these are various approaches for how you might define an environment and set of packages that you need and maybe, you know, pinning to a very specific version of this package or that package, and possibly overriding what the default is coming out of Nix packages to make it specific to your use case. If you've got some experience working with flakes and other ways of doing this, I'd like to hear kind of how that's gone for you and if there's been some, some lessons learned or, or not.
+
+[00:14:35] Norbert: personally I'm using flakes for nearly all of my projects, because I pretty much enjoy the log file that I have there. It makes my expressions even more reproducible. Than an implicitly defined channel would do otherwise. flakes do much more than only giving us a log file. they ensure that our builds are, not only built, but also evaluated within a sandboxed environment. And, you cannot access files outside of your flag anymore, which was totally fine in the old way. you have some tighter coupling into Git to make files visible to Nix or invisible and, especially this Git integration makes it often hard for new users to debug because, hey, I haven't found file X, but you type LS into X is there, 
+
+[00:15:47] Charles: I have 
+
+been bitten by this. Yes.
+
+[00:15:50] Norbert: it, it's a common first starter problem and we help people through this often, either because flakes are the first Nix experience or they switch from channels to flakes or to a mixed approach. the thing that I wanted to come to is flakes have been proposed to solve too many things at once, and
+
+now they are there, do what they do, do it the way they do, and even though they are somewhat better than the status quo, they are far from perfect and. I use both approaches to managing my shells or projects as it makes sense. Most of my own projects are indeed flake-ified and I have the flake within the repo.
+
+I commit it like that and anyone who wants to contribute can use the flake, but slowly moving to also providing flake-less alternatives for those who do not want to use flakes. Also, especially for bigger repos, I try to avoid flakes because a flake always requires that the complete repository will be copied over into the Nix build area.
+
+And, this causes this where it takes a lot of time, sometimes, especially if you have many small files in the repository. and in most projects, most files aren't even looked at. If you want to just open a dev shell. So it's some overhead currently that I try to avoid, especially with larger repositories.
+
+There is work ongoing to reduce this overhead, but we are not there yet.
+
+[00:18:00] Charles: at what point in a project size do you tend to decide this is too large for a flake, unless you have some particular reason?
+
+[00:18:09] Norbert: it's a matter of feeling
+
+[00:18:14] Charles: Mm-hmm.
+
+[00:18:14] Norbert: When I have the feeling that after Nix develop, it takes too long to get me into a shell. I do not see actual builds or downloads happen.
+
+[00:18:26] Charles: Mm-hmm.
+
+[00:18:28] Norbert: Then I try it again without a flake by quickly copy pasting into another file and running Nix minus shell, and if that is feeling significantly faster, I tend to switch over.
+
+[00:18:45] Charles: Okay. 
+
+[00:18:47] Norbert: There is no hard rule about that. It's, it's a matter of feeling and as it's a matter of feeling, I tend to do the switch for private projects much earlier than I might do for a work project if we were using Nix at work.
+
+my personal computer is, not tomato, uh, slow and uh, potato
+
+[00:19:14] Charles: Yeah. 
+
+[00:19:15] Norbert: yeah, I'm quite quick with switching and my work computer is, 13th Gen I9 and, has, uh, a lot more memory. And, when I do something here, there is basically no delay between trying to enter the shell and being in the shell because it's much quicker on this machine than on my personal computer.
+
+[00:19:39] Charles: Mm. Mm-hmm.
+
+[00:19:40] Norbert: And I have said we don't use it at work, but I use Nix myself on this computer to manage my dependencies for the project.
+
+[00:19:52] Charles: Mm-hmm.
+
+[00:19:53] Norbert: And, my thought files and other things.
+
+[00:19:56] Charles: You, you mentioned people switching from channels to nix flake. I just wanna define for our listeners channels, 'cause I think it's come up a couple of times here. And so in, in like in a lot of, we'll say package distribution systems, there might be a concept of channels for a stable channel and unstable channel.
+
+And Nix has this too. So when you're using Nix packages. Or even NixOS you typically choose a channel that you want to pull packages from, but you can, you can say, I want these packages from the stable channel. I want these packages from the unstable channel. You can get pretty specific if you want or need to. I don't know if you want to add anything about channels.
+
+[00:20:39] Norbert: No, it's all said.
+
+[00:20:42] Charles: Okay. 
+
+[00:20:43] Dan: So I think, you know, as developers we're always updating dependencies, right? New, new CVEs, everybody. Hopefully patched Git yesterday. 
+
+[00:20:52] Norbert: Wait, wait, what?
+
+[00:20:53] Dan: oh yeah, there's a, you wanna be on what? Git 2.5 I think or 2.50.0
+
+[00:20:58] Charles: 2, 2 50 2.50.1 or 2.49.1. There's some older patch versions too, but some remote code execution. 
+
+[00:21:08] Norbert: Not again? 
+
+[00:21:10] Dan: Yeah, yeah. For pulling from an insecure CDN places anyway, so we're always updating stuff. So how does Nix make that better for the developer?
+
+[00:21:19] Norbert: I wouldn't say it's better 
+
+[00:21:23] Dan: Okay. 
+
+[00:21:23] Norbert: many people rely solely on the upstream package repository, Nix packages, and a minority actually does, packagings by their own or add something or patches as needed. and due to the way how the Nix package repository works, we have a delay of three to five days before a patch or a new version can actually be rolled out.
+
+And this still implies that we have an instant merge on the GitHub repository that collects all the descriptions and build instructions. But The one point where Nix can really help is if you know there is a problem that can be fixed with applying a single patch file, you can use a mechanism called overrides to directly patch the package in memory cause and trigger a build from source. And it will be dealt with by Nix properly. Though on the other hand side, because of the way we avoid to have packages installed globally, but only available in development shells. And each shell is different on its own.
+
+You often miss to patch it on all shells, but on the other hand side, because it's not running all the time in the background and not always available. It's sometimes less necessary, but I'm not a security expert, and this is by no means an advice, but just my personal experience.
+
+[00:23:21] Dan: when thinking about various host operating systems, CICD, local development environments, deployment environments. Where do you find Nix to be the best fit? Or if somebody's looking to adopt it, like where in their flow should they first start thinking about pulling it in?
+
+[00:23:36] Norbert: if you have already a project. And start slowly and only start with a dev shell such , that all developers are on the same side regarding the development environment. once you have that and everyone feels comfortable with adjusting this environment. You can eventually start packaging it such that you can build the project within Nix. and once you have managed to do that , you can relatively easily wrap a Docker container around it, also built by Nix, and with that at hands, you can slowly build from the developer's machine to CI and even deploy because you are still on Docker, which is, at least in my experience and observations , currently the most common deployment thing.
+
+One way or the other. so using these steps, you can gradually go from all developers use the same to we have a Nix build, something deployed somewhere. And, within the community there is some desire to run NixOS on the deployment target and use the descriptiveness of the Nix or as declaration to deploy to the target system.
+
+But personally, I consider that, not really. You do not want that. It adds another layer of complexity if you have NixOS on the deployment target. There is some hate about Docker in the community. I do not know if it's justified or not, but in my opinion, having many applications in many containers makes it the easiest to deploy it, and it's something that most, uh, DevOps or operation people can deal with.
+
+They know Docker. They do not have to learn something new.
+
+[00:25:51] Charles: When, when I've deployed with Nix in the past, we wound up building a, an Elixir release the way you might typically build a, an Elixir release today. And then the target environment was running NixOS. And the configuration for the target environment was in the repo. And so as part of the deployment, that file could also.
+
+We could make changes to the Nix configuration, rebuild that, switch to it, and also deploy the new release so that the OS level changes could happen at the same time as a release, but without having to build the release as a Nix package itself. and that seemed to work all right.
+
+[00:26:34] Norbert: Uh, that's an interesting approach that I have never thought about.
+
+[00:26:39] Charles: And define your system D with Nix. Right. And. 
+
+[00:26:43] Norbert: I am used to thinking in terms of the encapsulated built product that knows which Elixir it was built with. With Erlang it needs to run under and sure if you embed the runtime and do some other tricks, you can for sure. Just upload your release file and run it as regular. it's an approach that I might consider it myself for some things in the future.
+
+but it's really after about five years of Nixing now, my thought processes have adopted to thinking in terms of how can I do it with Nix and only Nix? And, I realize that when I am using something in the company, I have to Okay. It's Sudo update and, what will happen then? And, yeah, the number of steps I have to keep in mind when applying security patches.
+
+On the, deployment target is, we have our checklist and we have to go through it, but it's a completely different, mental load compared to, knowing I have my flake, which describes my system, which I just do a NixOS rebuild switch. And I know after this there will be everything as I want it.
+
+And as we are speaking about this, I had in the past problems that made my system unbootable.
+
+[00:28:24] Charles: Mm-hmm.
+
+[00:28:25] Norbert: Because you messed up or because some defaults changed for let's say the LVM stack for logical volumes on your PC and no hard disks were found anymore on my PC. If I had have that with Arch or Ubuntu, I had to go into a rescue disc.
+
+I had to edit by hand the files and try the update again and reboot and check again and hope it works now and with NixOS, Okay, boot failed. I didn't know how to decipher the error message. I hit control alt delete reboot In the boot selector, I just selected a preview known to work, generation of my system.
+
+It booted right through and I was able to first use my beloved browser to check if there are any known issues. And after I found the already opened issue on the GitHub issue tracker, I was easily able to. Apply a workaround or fix into my configuration. I rebuilt again and rebooted and saw it works now.
+
+this is a much smoother experience than I had on similar occasions with Arch or Ubuntu in the past because you can just reboot into a slightly outdated version of your system that doesn't have all newest, shiniest versions available. But it works the same as your system worked yesterday anyway, and you don't have to deal with, restricted rescue discs that do not provide the editor with your
+
+configuration, but only an ano that no one knows how to leave.
+
+[00:30:19] Charles: The, the rollback feature of Nix and NixOS is, is, is so great. It's amazing. Speaking of getting into issues may be a, a bad build that broke something and, and you need to roll back. If someone is new and diving into Nix, what kinds of things should they be aware of? You know, we mentioned about how if you're writing a, a flake in a Git repository, if the flake is not tracked by Git then you get weird error messages about can't find a file.
+
+Are there other kinds of gotchas or trip hazards that someone should be aware of as they're getting into using Nix for the first time? 
+
+[00:30:59] Norbert: I have to answer questions about this often in the Discord but the problem is even though there are common questions and issues. there are so many different problems people have with different things that are similar but not the same because of different use cases or slightly different versions.
+
+I really can't say what the common pitfalls are. the most common misunderstanding though is definitely people come from Ubuntu or Arch or whatever are used to install the Erlang the GCC, their whatever language they want to work with Systemwide. And due to the way how Nix Nix-C environment's work the way how they fill or do not fill environment variables, and use them in the patched versions of the build tools. So this makes global installations often, barely useful 
+
+[00:32:13] Charles: Hmm. 
+
+[00:32:14] Norbert: uh, partially defunct.
+
+[00:32:16] Charles: And, and if we were to focus on more of kind of the Elixir Erlang space with Nix, what if someone was using, say, private hex repos in their project? Should people consider managing their mixed dependencies with Nix or just leave that up to mix and have a clean separation there?
+
+Is that a tricky space? 
+
+[00:32:42] Norbert: for development, I usually just use mix to manage the dependencies. That's good enough and. This way, I can copy my shells mostly across projects. The only thing I have to adjust is, the versions of OTP and, Elixir I want to use, sometimes a system library added here for compression support or other things.
+
+But if you want to actually package, you have to use some specific helper functions that pull in your dependencies through the log file. And especially with regard to private Hex repos. There you have to provide environment variables or otherwise configuration that knows how to authenticate, against the private repository.
+
+And so far I have not found a way that would accommodate Nix in regards to pureness of evaluation and at the same time does not require. Putting the credentials straight into the file in the repo.
+
+This is one of the parts that I already mentioned on my talk, last year. And, uh, I skipped the, I I mentioned and. Uh, that we had, uh, private repositories, which I just removed, and, uh, a couple of months later , we weren't affected by that anymore because, Oban Web is free to use now.
+
+[00:34:33] Charles: Okay. Interesting. So there's, there's definitely some room for some folks to figure out maybe a nicer approach to being able to package, mixed packages more directly with Nix. But That is it's a relatively straightforward process you do not have uh private repositories that you have to authenticate against because then you have your Mix file which you 
+
+[00:35:00] Norbert: You 
+
+Do a specialized built against that just pulls all your dependencies and builds them, and then provides them in an event pass to your actual build.
+
+[00:35:17] Dan: So all three of us are pro Nix. And if, if anyone has listened and be able to follow along, you know, and hopefully see some of the advantages. You mentioned, a good starting point is like the development environment, right? What you need in your shell right now. So if somebody's like, yeah, okay, I wanna try that.
+
+What advice do you have to them in terms of getting started? Any good tutorials? Do you have stuff up on the internet that would be good to check out? How can somebody get going with Nix?
+
+[00:35:48] Norbert: I have some blog posts online that cover Nix but not the beginnings. More intermediate to advanced topics, and it's also just. Five-ish posts, including the initial Hello World.
+
+[00:36:04] Dan: Mm-hmm.
+
+[00:36:05] Norbert: , a more common resource that I suggest more often is a blog post made by, , I don't remember the name, but it
+
+Explains what a dev shell is, how to use it. It has examples for a C Shell, for a python shell, for a rust shell, and some other common use cases. No shell for Elixir, sadly. I have it on my to-do list to provide an example, but, there's always something coming in between and I haven't managed to, to contribute to that blog post within the last year despite wanting to.
+
+[00:36:51] Charles: If, 
+
+if you find a link to it after the show and send it to us. We can add it to the show notes for listeners to go find. I've found some like Nix Flake template examples out there and a few different repositories that people have put online and some of them work, some of them don't. Some are trying to do a lot for a lot of different use cases it seems like. And so it can be harder to actually pull out stuff to learn when you're newer.
+
+But it has also helped to adapt and expand my knowledge. So there's, there's some stuff out there. 
+
+[00:37:28] Norbert: sure. 
+
+[00:37:30] Dan: Great. Well, we're running outta time here. I definitely am pro Nix. I know Charles is. Hopefully we've convinced some listeners. Is there anything else, that you'd like to add to the conversation you wanna make sure people know in terms of, maybe approaching Nix an an Elixir developer?
+
+[00:37:44] Norbert: the most important thing, whether you're an Elixir developer or not, find someone you can ask your questions to find a human. You can ask questions.
+
+[00:37:57] Dan: It's an important caveat these days.
+
+[00:37:59] Norbert: Yes. , Nix is something you have to, if you try to learn it out of the available resources, it's quite a steep wall, but if you have someone who can explain step by step as much as necessary, and getting your way along and introduce it to more and more concepts as they are needed. To deepen your understanding, that's a much better approach than to trying to find the relevant information out of this, pool of overwhelming and partially outdated blog posts.
+
+The manual isn't perfect, especially as it's a single page. Document and
+
+[00:38:46] Charles: I, yeah, I share 
+
+the frustration. 
+
+[00:38:49] Norbert: you, do not need to ask your neighbor, but. Asking questions in one of the discord communities, the metrics rooms, the, uh, official forums, in such places. Just open a thread or a channel and ask your question straight away. There will be someone helping you.
+
+[00:39:09] Dan: Awesome. Yeah. Community makes a big difference. You know, we, I think we definitely, we know that from the Ruby and Elixir spaces, having a good community is important. And, uh, it sounds like the Nix, there's lots of ways into the Nix community as well. So pick your, your favorite online communication protocol and, uh, see who's out there.
+
+Right.
+
+Awesome. Well, any, anything else you want to ask of the audience? Is there anything you're involved in you'd like people to check out or where can people find you online?
+
+[00:39:38] Norbert: if someone wants to contact me, I have, uh, open channels at BlueSky. We are @nobbz.dev as my handle. I am findable on LinkedIn as Norbert Melzer and in the Elixir Forum you can just send me a direct message, via NobbZ.
+
+[00:39:58] Dan: Excellent. Well, thank you so much for your time. It was great to dig into Nix and your experience with it. And, uh, yeah, just thank you. 
+
+[00:40:07] Charles: Yeah, thanks. It's been a great conversation.
+
+[00:40:09] Norbert: You're welcome. 
+
+​ 
+
+[00:40:43] Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
