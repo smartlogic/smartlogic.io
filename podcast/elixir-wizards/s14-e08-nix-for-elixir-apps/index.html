@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Nix for Elixir Apps with Norbert (NobbZ) Melzer | SmartLogic</title>
+  <meta name="description" content="In this episode of Elixir Wizards, Dan Ivovich and Charles Suggs sit down with Norbert “NobbZ” Melzer to discuss how Nix enables reproducible builds, consistent development environments, and reliable deployments for Elixir projects. "/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K9MMX6TR');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  <meta property="og:title" content="Nix for Elixir Apps with Norbert (NobbZ) Melzer" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s14-e08-nix-for-elixir-apps" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="In this episode of Elixir Wizards, Dan Ivovich and Charles Suggs sit down with Norbert “NobbZ” Melzer to discuss how Nix enables reproducible builds, consistent development environments, and reliable deployments for Elixir projects. " />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/6e6e0640-adc7-4174-b610-d0d8926f2b7e.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/6/6e6e0640-adc7-4174-b610-d0d8926f2b7e/cover.jpg?v=1" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+IKXjvcw1/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/6e6e0640-adc7-4174-b610-d0d8926f2b7e.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s14-e08-nix-for-elixir-apps">
+  <meta name="twitter:title" content="Nix for Elixir Apps with Norbert (NobbZ) Melzer">
+  <meta name="twitter:description" content="In this episode of Elixir Wizards, Dan Ivovich and Charles Suggs sit down with Norbert “NobbZ” Melzer to discuss how Nix enables reproducible builds, consistent development environments, and reliable deployments for Elixir projects. ">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/6/6e6e0640-adc7-4174-b610-d0d8926f2b7e/cover.jpg?v=1">
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9MMX6TR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > Nix for Elixir Apps with Norbert (NobbZ) Melzer
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>Nix for Elixir Apps with Norbert (NobbZ) Melzer</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+IKXjvcw1" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        <h2>About this Episode</h2>
+        <h3>
+          Published July 17, 2025 |
+          Duration: 41:15 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/6e6e0640-adc7-4174-b610-d0d8926f2b7e.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s14-e08-nix-for-elixir-apps.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>In this episode of Elixir Wizards, Dan Ivovich and Charles Suggs sit down with Norbert “NobbZ” Melzer to discuss how Nix enables reproducible builds, consistent development environments, and reliable deployments for Elixir projects. </p>
+
+<p>Norbert shares his journey from Ruby to Elixir, contrasts Nix with NixOS, and walks us through flakes, nix-shell workflows, sandboxed builds, and rollback capabilities. Along the way, we cover real-world tips for managing Hex authentication, integrating Nix into CI/CD, wrapping Mix releases in Docker, and avoiding common pitfalls, such as flake performance traps. </p>
+
+<p>Whether you’re spinning up your first dev shell or rolling out a production release on NixOS, you’ll come away with a clear, gradual adoption path and pointers to the community mentors and resources that can help you succeed.</p>
+
+<h3>Key topics discussed in this episode:</h3>
+
+<ul>
+<li> Reproducible, sandboxed builds vs. traditional package managers</li>
+<li> Nix flakes for locked dependency graphs and version pinning</li>
+<li> nix-shell: creating consistent development environments across teams</li>
+<li> Rollback and immutable deployment strategies with Nix/NixOS</li>
+<li> Integrating Nix with the Elixir toolchain: Hex, Mix, and CI/CD pipelines</li>
+<li> Flakes vs. standard shells: when and how to transition</li>
+<li> Handling private Hex repositories and authentication in Nix</li>
+<li> Cross-platform support (macOS/Darwin, Linux variants)</li>
+<li> Channels, overlays, and overrides for customizing builds</li>
+<li> Dockerizing Elixir releases using Nix-based images</li>
+<li> Home Manager for personal environment configuration</li>
+<li> Security patching workflows in a Nix-managed infrastructure</li>
+<li> Common pitfalls: flake performance, sandbox workarounds, and symlink behavior</li>
+<li> Community resources and the importance of human mentorship</li>
+</ul>
+
+<h3>Links mentioned:</h3>
+
+<p><a href="https://jobrad-loop.com/" rel="nofollow">https://jobrad-loop.com/</a><br>
+<a href="https://nixos.org/" rel="nofollow">https://nixos.org/</a><br>
+<a href="https://nix.dev/" rel="nofollow">https://nix.dev/</a><br>
+<a href="https://nix.dev/manual/nix/2.18/command-ref/nix-shell" rel="nofollow">https://nix.dev/manual/nix/2.18/command-ref/nix-shell</a><br>
+<a href="https://github.com/nix-darwin/nix-darwin" rel="nofollow">https://github.com/nix-darwin/nix-darwin</a><br>
+<a href="https://asdf-vm.com/" rel="nofollow">https://asdf-vm.com/</a><br>
+<a href="https://go.dev/" rel="nofollow">https://go.dev/</a><br>
+<a href="https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/packaging_and_distributing_software/introduction-to-rpm_packaging-and-distributing-software" rel="nofollow">https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/packaging_and_distributing_software/introduction-to-rpm_packaging-and-distributing-software</a><br>
+Nix Flake templates for Elixir <a href="https://github.com/jurraca/elixir-templates" rel="nofollow">https://github.com/jurraca/elixir-templates</a> <br>
+<a href="https://www.docker.com/" rel="nofollow">https://www.docker.com/</a><br>
+<a href="https://www.sudo.ws/" rel="nofollow">https://www.sudo.ws/</a><br>
+<a href="https://ubuntu.com/" rel="nofollow">https://ubuntu.com/</a><br>
+<a href="https://archlinux.org/" rel="nofollow">https://archlinux.org/</a><br>
+Nobbz’s blog <a href="https://blog.nobbz.dev/blog/" rel="nofollow">https://blog.nobbz.dev/blog/</a> <br>
+<a href="https://ayats.org/blog/nix-workflow" rel="nofollow">https://ayats.org/blog/nix-workflow</a><br>
+@nobbz.dev on BlueSky<br>
+@NobbZ1981 on Twitter<br>
+<a href="https://www.linkedin.com/in/norbert-melzer/" rel="nofollow">https://www.linkedin.com/in/norbert-melzer/</a> <br>
+<a href="https://youtu.be/HbtbdLolHeM?si=6M7fulTQZmuWGGCM" rel="nofollow">https://youtu.be/HbtbdLolHeM?si=6M7fulTQZmuWGGCM</a> (talk on CodeBEAM)</p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s14-e08-nix-for-elixir-apps.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <!-- <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li> -->
+            <li class="footer__right-menu-item"><a href="/about/privacy.html">Privacy Policy</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+</body>
+</html>
