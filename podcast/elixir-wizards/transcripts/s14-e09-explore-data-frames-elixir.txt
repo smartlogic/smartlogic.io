@@ -1,0 +1,341 @@
+S14E09 Explorer: Data Frames in Elixir with Chris Grainger
+===
+
+​
+
+[00:00:28] Charles: Hi everyone. I'm Charles Suggs, software engineer at SmartLogic, and I'm your host. Today for season 14, episode nine, we're joined by Chris Grainger, co-founder and CTO of Amplified and creator of the Explorer Library for Elixir. In this episode, we're talking about explorer, a -dplyr and pandas inspired data toolkit for Elixir and how it bridges into machine learning and the wider Elixirverse.
+
+Chris, thanks so much for coming on the show.
+
+[00:00:57] Chris: Thanks for having me.
+
+[00:00:59] Charles: Absolutely. Why don't you tell us a little bit about yourself. I think this is your first time on the Elixir Wizards. 
+
+[00:01:05] Chris: it is my first time. I'm excited to be here. I'm a big fan. I am the founder and CTO at Amplified, as you mentioned. effectively we're a, knowledge management platform. It's AI based and AI powered knowledge management platform for patents and intellectual property.
+
+And I've been kind of working on the, the patent world for, I don't know, I guess it's, i, I wanna say 15 years now, which is kind of scary. Not quite 15. 14. And, I come from a, an academic background. I was actually working on economics and econometrics and trying to figure out ways of plugging patent data into econometric models where I was trying to measure the way that climate policy affect the rate and direction of innovation. That led to a lot of work in machine learning.
+
+And I kind of was developing dense vector based representations of documents way back in like 2013, before even Word2Vec and Doc2Vec and stuff like that. I was actually using topic models and things like that. But I was using primarily R at that point, a little bit of Python and have Evolved since then. Been doing a lot of data processing and, and data consulting for government, things like that. And ended up starting a company based on the work I doing my PhD.
+
+[00:02:21] Charles: Cool. Okay, so then what brought you to Elixir from R and and Python and that world?
+
+[00:02:28] Chris: So, yeah, I, my, I guess my first love with data processing was R and I was working around the time that the started to come to fruition. So -dplyr first came out, I think it was around. I wanna say 2013, 2012. And this was a time, there's a guy called Hadley Wickham who kind of pushed all of this forward in the R community.
+
+He was really pushing on this concept of tidy data, and that really spoke to me. And I really loved that whole environment. We can talk more about that, you know, as, as we chat today. Then I kind of had to go into the Python world because that's what, where all the
+
+machine learning libraries started to be, that's where all the, the deep learning libraries started to be. But I never lost that kind of respect and love for the R community, particularly because of the, approach to data processing that they used which was largely functional. You know, they have copy on modify semantics, which is a little bit weird, but it's mostly functional and focused on immutable data structures, or at least perceived as immutable data structures. And so when I started building the company and started looking for the stack that I wanted to use for what, what we were building, Elixir seemed like a natural fit.
+
+Um, you know, I had the pipe operator, which I had kind of started using in R and it just had this, this kind of clear data in data out functional approach that made a lot of sense to my R trained mind, I guess. And so over the course of a few years, you know, we went through a little bit of a process.
+
+We had an Elixir backend and a React frontend for a while. I dabbled with Go dabbled with Ruby, dabbled with a few various different things. Go partly because of the concurrency model. Doing a lot of like calls to expensive machine learning operations is something that you need a good concurrency model for.
+
+And so, that aspect, the concurrency model along with the kind of natural approach towards functional programming led me to Elixir. And then a couple of years into that journey, tried out LiveView relatively early days. I think it was like 2020. And we ended up rebuilding everything just to be all in on Elixir.
+
+And then well all in Elixir in terms of the web application. And then a couple years after that, there's the advent of the Nx ecosystem. And we actually ended up making a full migration to Elixir for everything
+
+[00:04:48] Charles: Hmm mm-hmm. So NX was kind of the catalyst to bring the rest of it over? 
+
+[00:04:53] Chris: It was. Yeah. So, um. I, I really appreciated and, we had a lot of wins, I guess from the consolidation into LiveView. dropping the whole additional language of JavaScript for the most part. We had a really good experience with that. And so I saw the opportunity to, you know, consolidate again the, the Python side of things.
+
+We had our whole ETL pipeline, and our machine learning work was all in Python. And honestly, we were, we were kind of struggling. We were a small team. We had limited resources. A lot of my attention was actually focused on building the web application. I had basically one guy working on data engineering, uh, apart from me.
+
+And, you know, our, our value as an organization was really in that ETL pipeline in the, the data processing, in the, the machine learning that we were doing. But it was only getting such a small fraction of our attention because most of our feature work was all being done in Elixir at that point. And so we had this silo going on where we had the kind of feature development happening over here and, you know, you shall not touch the Python stuff and vice versa. And so yeah, we, we kind of, took the learnings from that consolidation Into LiveView and, and applied the same thing
+
+When the Nx ecosystem came around, and you know, we really pushed hard to get to the minimum viable switch, right? and managed to do it and, had a lot, a lot of wins out of it.
+
+[00:06:16] Charles: this seems like a common thread in Elixir adoption across shops. of, You know, the, the separation of, of concerns being broken down by languages and what people were skilled at was really kind of getting in the way. And that by moving more into Elixir, it really dealt with at least parts of that friction there.
+
+So, with Explorer then, and. I know it was heavily influenced by -dplyr and, and some other tools. Can you talk about how, you know, as, as you're transitioning to Elixir with the rest of the, the data pipeline stuff, I'm imagining this is where Explorer comes from. How did you take those lessons and implement those in Explorer and, and I guess a little bit of about what is Explorer and why did you need to create it in the first place?
+
+[00:07:04] Chris: Yeah, we'll start at the beginning. When I saw the announcement about Nx and kind of got wind of it, I immediately, like we were, it was actually on the Google message board at that point. It was pretty early days and I immediately jumped in and was like, Hey guys. Like 90% of data engineering, data work data, you know, machine learning is the actual data processing.
+
+And that's gonna be a, it's gonna be a necessary kind of prerequisite to being able to do meaningful work with machine learning. Because it's one thing to actually run the, you know, it's one thing to run the algorithms, but you've gotta be able to get data there. Right.
+
+[00:07:37] Charles: Messy data in does not help.
+
+[00:07:39] Chris: Exactly. So you, you need, you need good tidy data that, that you're running your algorithms on.
+
+And so there were some, and, you know, early iterations of ideas, but, I happened to see that Polars was starting to get a little bit of attention at that time. It's like, okay, hey, cool, there's this new Rust Library. It's really fast. It seems to be at like feature parity with pandas.
+
+And I happened to, I think just the kind of culmination of different things coming together. So I saw that and then kind of saw that there was a bunch of work happening with Rustler at the time. And I went, Hey, I wonder if this is possible. Someone had already done really basic
+
+bindings to the, the polars API is really quite like, okay, polars function in, , Elixir function out kind of a thing. But having come from that background of working with R and with dplyr and with the Tidyverse, I kind of said, okay, there's an opportunity here that where I can basically.
+
+Make my own API, I can, I can have all this like speed and exciting features and all that cool stuff from Polars, but I can have an API that fits with kind of the way that my brain works and what I think from, you know, having done this for a while and knowing a lot of people, I think a lot of people find that more intuitive.
+
+It's just. It's really difficult to, to create an API like that in Python. And a lot of people who experience the Python data science ecosystem don't even know that the R stuff exists, or like they've heard of it, they don't know what it feels like in practice . So data frames are effectively a tabular data structure.
+
+You can think of them as like in-memory, database tables almost. And they're really powerful because you have this alignment of data. And you can do kind of column wise or row wise operations, aggregations, you can do joins and all this sort of stuff, but it's happening in memory. So it's a, a fair bit faster than, in the database.
+
+And you've got a few other bits and pieces that you can do because of it's, it's in memory . and it gives you just a really powerful mechanism for doing the kind of analytic side of things. So you think of something like Ecto for your transactional operations working with SQL for transactional operations, but if you actually wanna do those kind of analytic things you want something like data frames.
+
+[00:09:54] Charles: Mm-hmm. 
+
+[00:09:55] Chris: so yeah, that was kind of the, the thinking behind all of that.
+
+[00:09:59] Charles: I, I think one of the cases where we've used Explorer at SmartLogic was where we have an existing application that has Ecto with Ecto defined schemas and Postgres in the backend, of course, kind of your, your typical setup. And we needed to produce reports based on a whole bunch of data. And of course, when you produce reports.
+
+That data is off. It often needs to be structured very differently than how you would structure it for an applications database, because you're asking different things of that data than what you would for just running the application.
+
+[00:10:34] Chris: Yeah, no, definitely. And actually reporting is one of the things that we do at Amplified with Explorer as well. So we have actually project exports effectively. Which is a report on the kind of current state of a set of search results and work that you've done with those search results 
+
+and, yeah, 
+
+exactly.
+
+We have data coming in from Ecto and we're actually joining it up with patent data that's coming from Elasticsearch. We've got some data coming from other places and we're able to kind of tie it together into data frames. And then do some group by aggregations, you know, where you take a, take a group based on some entity.
+
+We're doing some basic statistical type stuff, and we're all just, we're just joining it all together into what is effectively, A CSV we exported as, as a CSV or as a an Excel file. And yeah, it's a, it's a really fast clean way of going at it.
+
+[00:11:24] Charles: you had this ability to kind of design the, the interface that you want. What kinds of things were you excited to make sure existed in a certain way?
+
+[00:11:35] Chris: Yeah. So, dplyr has the, this concept of, of verbs, right? And they're, they're SQL verbs effectively, you know, it's, it's, filter group by aggregate, select, those sorts of things. You got join as well. And I really liked the idea of verbs like that. And particularly when you see like a, a pipeline of data operations and you're thinking about it, and from a functional perspective, you've got a data frame that's going in and you've got a data frame or some, you know, aggregate of that data frame that's coming out.
+
+You can see these, these functions going down the pipe, right? And it reads almost like a sentence because you've got verb verb verb verb verb. Right? That was really, really important to me. I mean, if you can go and compare and, I think I have a blog post where I, I compare this a little bit on my website.
+
+But the, you know, you can compare against Polars and Polars at the time, you know? It was quite innovative. It had some good components that were like that and aspects that were like that. So they use the dot operator quite a bit, but it just doesn't quite read the same way.
+
+It's, doesn't always follow this like top to bottom, left to right sort of, sentence type structure. So that was really important. The other aspect of course was just immutability. So actually making things Elixir-ish but having the guarantee that you are constantly working with immutable data that matches up actually with the dplyr approach. Those were kind of the, the really important aspects. R also. So dplyr has some things that are very, very , not R-like, but they, there's a consistent kind of language within the tidyverse.
+
+And there is a tendency to try to focus on things, keeping things as close to R as possible. So if you go and work with Pandas, for example, you have to learn a DSL properly. And it's, it's very different from the rest of the work that you're doing in Python and like your kind of typical Python approaches to things aren't necessarily going to work everywhere.
+
+Whereas when you are working with, with dplyr and, and the tidyverse, you can kind of bring your knowledge of the language, or of the broader tidyverse to bear as you're working. And I really wanted a similar kind of experience in Elixir. I wanted to take these, these, you know, the, I, I wanted to reduce that context switching, reduce the mental overhead. And that's kind of what, how Hadley describes the, the thinking that goes into dplyr as well. His approach is you want to minimize the kind of mental overhead that you have so that you can go straight, you can basically brain to computer, right? 
+
+[00:14:03] Charles: A hundred percent.
+
+[00:14:04] Chris: Yeah. You want to, it's, it's hard enough.
+
+Yeah, it's hard enough to do the, the work that you're doing anyway, right? You have to think about the data processing, and so you just wanna get the, you want that API to be as simple as possible, to basically get out of your way and or empower you as much as possible, rather than be something else that you have to really think about and, and be clever about while you're, while you're also trying to solve difficult data problems.
+
+[00:14:27] Charles: Yeah, I, I really appreciated how much the verbs in Explorer mapped also to Ecto functions. 
+
+[00:14:34] Chris: Yeah.
+
+[00:14:36] Charles: For working with data and selecting what you want and, and manipulating that data in some way. That really did make the learning curve less steep to just jump in and focus on what I needed to get done.
+
+[00:14:46] Chris: that's definitely one of the, the things that, you know, I having, you know, I stole that from dplyr. It was very much the whole R community's or Hadley's ideas. Um, but I, I totally agree. That Was one of the things that kind of kept me sane when I was doing a lot of data processing, using R and switching back and forth between SQL and like Spark SQL for example as well. I was doing a lot of like big distributed work. And then being able to go back and write things in R and kind of keep that same mental model kind of, , reduce the, the context switching overhead.
+
+[00:15:18] Charles: So then how does, how does Explorer fit into or alongside these other tools like Ecto or Flow or Nx and, and maybe stepping back a little bit, how do I get a data frame? How do I take this data that exists? Maybe it's in a CSV, maybe I got it from in JSON, from an API request, or it's coming straight out of Ecto.
+
+How, how does that become a data frame?
+
+[00:15:41] Chris: The Polars library and the, the APIs that we're, we're kind of binding to, they have really efficient readers. Primarily, you know, you, you get CSV, IPC, which is like a an Arrow native format. And I, I should note at this point that Polars is, is built entirely on Apache Arrow, and that kind of data structure.
+
+And so, we're able to take advantage of that quite a bit. When we're dealing with data, streaming data, reading data, and exporting data, you know, there's Parquet, newline delimited JSON. You can use, read all of those in. You can also read several of them indirectly from S3.
+
+So there's a file system protocol that we, that, that, that's been built. We can actually connect to S3 and read directly from there. And there's also a really cool table. Yeah, it's a protocol. So Jonathan built this, table protocol. And it basically, it just takes, tabular type data, tabular shaped data in Elixir, typically either a a list of maps or a map of of lists and allows you to convert that to data frames quite easily.
+
+So basically any kind of data that's in that format. Let's say that you pull, a list of Ecto records. You can pop that into, into a data frame really simply.
+
+[00:16:49] Charles: Yeah, it's. It's really seamless. I, I liked how easy that was. How do we place this in the data processing stack that we might see in an Elixir application? Sounds like we can pull straight from any of these sources and turn them into a data table. And how does, um, but where does that place it in the rest of the, the pipeline?
+
+[00:17:07] Chris: Yeah. So, let's start with Nx. So we have, Nx has a container protocol. So any struct that implements, the Nx container protocol allows you to seamlessly use that in DEF in. So numerical definitions, uh, functions . And so data frames implement the, the Nx container Protocol, which allows you to basically call Nx functions or to, to utilize data frames within Nx def in functions.
+
+So that's, that's one kind of key component. What's really cool with that, is that we kind of, we're able to. Hook into things on the Rust side, to allow zero copy there as well. So we actually can pass the pointers around effectively and, and point to the, the different blobs in the NIFs or via the NIFs.
+
+And , you don't actually have to copy the data, which helps a fair deal. 
+
+[00:17:58] Charles: That's great.
+
+[00:18:00] Chris: Yeah. In terms of things like Ecto, I think I mentioned before, I think Ecto tends to be, you know, it is something that you should be using for your transactional type interactions with your database. When you wanna do things that are more analytic, you wanna typically, you know, you can write queries, and pull things down from Ecto because that, that, matches.
+
+Effectively what we're, we've implemented with the table protocol, it means that we can immediately convert that to a data frame and do work on it, and vice versa. So we have these kind of, two list and two map functions from from Explorer, and things like flow. It works pretty seamlessly.
+
+So the way that we've, we've built things is to have the appearance of immutability at all points. There's a, a little bit of mutability that that happens, kind of on the backend, but it will always appear to, Elixir as, as effectively as immutable data. We'll always, do copies and pass things around, that way so you can, you know, chuck things in flow and have it, you know, process things across multiple, multiple processes.
+
+To be clear, there is the, a lot of the multi-processing or the, the parallel processing that's happening, utilization of many cores, is happening on the Rust side. So there's a lot of SIMD type stuff that's going on, and that's because of the way that the data structures are within Polars. It's actually like, they call them chunked arrays.
+
+And it's basically these chunks of arrow data structures that are able that, that the Polars library operates on concurrently. But again, as I said, so it's, it is functionally immutable, so in, so you don't have to actually worry about that when you're kind of, passing things around.
+
+You just have to kind of avoid things like resource contention and things like that. But we have mostly flagged things with, dirty NIFs and stuff like that. So, uh, you know, resource, contention shouldn't be too much of a problem in practice.
+
+[00:19:51] Charles: I think we had an episode earlier this season that, that included. Talk about Dirty NIFs.
+
+[00:19:56] Chris: Yeah, it's, uh, it's, it was one of those things that, uh, that definitely kind of, uh, caught me by surprise at, at various different points. This was the first time that I had built something with, with Rustler and yeah, it was, it was a big learning process and I wish that I had had the Erlang document documentation at that point.
+
+That was a very welcome change, uh, this past year, I think it was.
+
+[00:20:18] Charles: So let's say you're working with a large data set. You know, maybe you don't want to or can't load it all into memory. How does Explorer handle that? Is there, can it stream data? Do you lose anything when you're streaming data? Maybe you can't sort the whole data set. yeah.
+
+How, how do you do that?
+
+[00:20:37] Chris: again, leveraging Polars functionality, there's really good, uh, streaming and lazy functionality in Polars. So you can basically say, all right, I'm going to read this, but I'm gonna read it lazily. I'm gonna read it into a lazy data frame. And what we mean by a lazy data frame is one that's not going to be eagerly evaluated.
+
+So this is kind of a, a major thing that Polars pushed in contrast to to pandas where when you're working in pandas or, or even when you're working in, in dplyr and R although there's a little bit of differentiation there, which that can be for a little bit later. But mainly if you're thinking about pandas everything that you're doing is eagerly evaluated.
+
+Right. So you're, you're writing and building up these, these queries, but they're being evaluated as you go. And so you're, you may have a ton of processing that you have to do, especially if you're doing things kind of, creatively and building up slowly, you will need to process a bunch of data, kind of all at once and do a bunch of operations all at once.
+
+So Polars gives you the ability to write your, your query and it will, actually go and optimize that query, as a string of functions. It does it lazily. You get things like push down and all sorts of other query optimizations, and then it will finally run it at the end.
+
+We leverage that in Explorer so you can you know, lazily read a data frame, you can build up a function against that lazy frame, and then you can actually call compute. And only then will it do what's necessary in order to compute it, which means that it may not read everything into memory.
+
+It may actually read only. Some of the, the data frame into memory, it may do it in a streaming way, and it's aggregating as it goes. You don't have full control over that, that query. So there are still situations where you'll, you'll run into outta memory errors or what have you, and you'll have to figure out ways of working around it.
+
+But it definitely gives you a, a much better chance of being able to do very, you know, large scale stuff in memory. And then there's, there's one other component there, which is quite a cool thing. It's still in its early days, but there is, uh, a distributed data frame as well, um, as a concept and.
+
+[00:22:40] Charles: I saw that.
+
+[00:22:42] Chris: It's, uh, it's still early days in that, , you, you basically have to, you can basically kind of fan out, and treat each one of them as, as if it is all part of the same data frame. You can only do, you can only do like certain operations on it for right now. So we can't do things like, we can't do like distributed joins and things like that.
+
+But what we can do is, you know, fan out and run these operations against all of them at once. So if you wanted to, for example, if you had a really big data frame that wouldn't fit in memory, right, you can split it up, send it out to 20 different machines. I actually have a demonstration of this at, ElixirConf last year, that I, I gave a talk with Chris McCord about Flame.
+
+And so that was one of the things that we did was spun up a bunch of flames. Chucked data frames on each of them, distributed data frames on each of them. And José has built this distributed garbage collector, which is the biggest problem. You've got this NIF object that's on all of these other machines.
+
+You have to operate on the ones that are, you know, on those machines. But in any case, a practical upshot of this is that you can do you, you know, you can have 20 different machines that all have 64 gigs of RAM or whatever it is, and you can then fit, greater than one terabyte data frame and do operations that use single table verbs effectively and, and bring them together, aggregate them together, back onto the the like home instance or wherever it is, like the LiveBook that you're doing your analysis in.
+
+Which is another way of dealing with all of that kind of stuff. You've got the kind of lazy way and then you've got the very aggressive, eager way if you want to.
+
+[00:24:16] Charles: Mm-hmm. Mm-hmm. I think that talk is published now, so We'll, we'll be sure to put a link to the show notes to that talk. That you and Chris McCord did together. So what, what's on the roadmap for distributed data frames?
+
+[00:24:30] Chris: I mean, listen, I, I have a lot of dreams with it. I've been, you know, I've been much less. Active in Explorer development in the past couple of years, really. So José, and for a while Phil's and, now Billy have kind of taken, taken over with the primary kind of day to day work that really push it forward.
+
+You know, a lot of the exciting stuff that I'm able to talk about here is. Primarily them. , And I, I didn't, I haven't even touched on like ADBC, , which, probably should have mentioned in terms of getting data in it's Arrow. You know, it's, it's like ODBC, but for Arrow. And Coco did a lot of work on that.
+
+Allowing you to make direct queries into things like Postgres, and my, MySQL and stuff. My dreams with the distributed data frames are that we are able to compete with something like Spark. I think that the, the fundamentals are there. You know, the OTP gives us really powerful primitives that, you just don't have elsewhere. And the ability to leverage the, the, the language to do really interesting things. If you compare it to what you know, you've had to do in, in Python for like Dask and things like that. It's really lightweight and it's really, really powerful.
+
+Again, compared to something like, you know, Sparks Engine, their SQL engine is, is wild. , And it's gigantic and, you know, it's, it's all in Java. And so, you know, using, being able to use Polars and being able to use like these real relatively lightweight Rust binaries and, and you know, SO files.
+
+And then link that with OTP, gives us a lot of opportunity to build something from the kind of, from really positive and really powerful kind of fundamentals into something. Yeah, as I said, really powerful. So I'm hopeful on that front that that distributed data frames can become something where it's, it's seamless.
+
+It looks like a single data frame, but actually it's distributed across a whole bunch of machines. And behind the scenes we are doing things like, you know, rebalancing and running distributed joint algorithms and things like that. But there is a fair bit of work that needs to be done there.
+
+I certainly don't have the capacity for it right now. If anybody is really interested in learning about distributed data frame operations and all sorts of cool stuff like that. I think it's a really promising way to go and please come and do it. But then there's another aspect of that, which I think is more readily achievable, but uh, again, it's kind of been on the roadmap for a while, is that the Explorer Library is built as a set of behaviors for the most part. That was kind of, you know, we were talking about how I was like, excited to be able to build my own API. That was kind of what enabled it, right, is that I was able to utilize this really kind of excellent Elixir language feature, which is that you, you know, you, you've got this really nice way of designing APIs and contracts with behaviors.
+
+And so I actually stole a little bit from Nx, and NX is designed this way with, with backends, you know, pluggable, backends, and this kind of behavior based API. And so Explorer has the one backend now, which is Polars. And I would really like to see additional backends. And I think that's the other direction for distributed work.
+
+[00:27:35] Charles: If someone wanted to add a new backend adapter, what? Are there some that you think would be like, really useful or, you know, useful is what someone's willing to, to build, and how would they go about getting started with that?
+
+[00:27:50] Chris: So I think the most useful one personally, the thing that I'm the most interested in is actually creating effectively a SQL engine. And I know that there, there have been some new, there's some new libraries that have come out like, I can't remember the exact library. There's one that came out for, as like an Elixir based SQL engine, just recently, but there's a, there's a library in the tidyverse called DBplyr. And what it permits is the ability to write dplyr code and actually execute it on the server, so on the, the SQL server, rather than pulling data down and, and writing your data processing pipeline locally, you actually can do processing, over on your Postgres database or wherever it happens to be.
+
+And one of the really cool things about that is that you can do things like, you can have like transparent joins between the two, and you'll end up with things like, you have a local data frame and a remote data frame, and you can do things like it, it, it will copy from one to the other. You can choose which way it copies, do the join, give you the results, um, stuff like that.
+
+So I, I think that that is, it's a really, really powerful paradigm that it just isn't used in a lot of other places. I use it all the time when I was working with R and it can give you the power to work with a number of different, uh, you know, basically anything that speaks SQL. So if you want to use it with like DocDB it gives you the power to do that if you want to use it with like Spark data frames and SparkSQL. And in fact, there's a, there's a dplyr library called sparklyr or sparklier, that uses it effectively follows the same pathway of using, using DBplyr. And, um, you can write your code, your, your data processing code, your data pipelines, you know, in Elixir.
+
+It's testable. You can test it against, you know, local data frames. And you can kind of build up these functions. It's composable and then you can run those operations anywhere. It can be locally, it can be against a data database you have somewhere, whatever. I think that's just a, a, just a really powerful paradigm there.
+
+I would really like to be able to, to do that. So that would be a really cool backend. Just translating to SQL and providing the ability to plug that into whatever engine you've got.
+
+[00:30:04] Charles: Okay. Sounds like pull requests are welcome.
+
+[00:30:07] Chris: Very much so.
+
+[00:30:08] Charles: So when might an Elixir developer reach for Explorer versus, I have this thing that's already in Python or R, or, yeah, when, when would someone reach for that?
+
+[00:30:20] Chris: the interesting thing I think with like, you've got something in R or Python or what have you, actually this, that's kind of where, a lot of the Arrow stuff came from, was it came out of the need to very quickly pass data between R and Python. That was, that was kind of the, the origin story there.
+
+That sort of approach, you know, it's, it's already there, right? So we can save and we can pass data over and, and things like that. There's another cool thing, that Coco worked on and then Jonathan implemented, which is that there is now PythonX which means that you can, you can actually run Python embedded as a NIF , and allow you to like, kind of seamlessly interact between the two in Elixir.
+
+Really quite cool, and allows you to kind of work that way. If your question is kind of on, um, you know, when should you reach for Explorer as an Elixir developer before reaching for R or before reaching for Python? The answer is basically every opportunity that you have where it will actually do what you need it to do.
+
+And I think that's most use cases these days.
+
+[00:31:21] Charles: Yeah.
+
+[00:31:23] Chris: And then to illustrate , a place where I used it in a, in a situation that I think was a little unexpected. I can speak to the, the kind of non-data scientist, non-data engineer approach. I was building some data visualization for patent data for use in our LiveView application using Vegalite. And the way that that is set up the VegaLite Library for Elixir allows you to build the, the VegaLite specs server side.
+
+Which I think is kind of a cool paradigm, building these specs server side rather than sending, having the spec defined on the client side and sending the data up. You can actually send them both together. And there are data processing, approaches that, that opens up and, and frees up.
+
+And I, I feel like, Explorer fits in really, really nicely there where you can do this kind of like small multiples approach where instead of hooking into client side. Data visualization where you have to send a ton of data up there, like all your raw data up to the client and then, do this kind of interactive data manipulation where the aggregations, the filtering, the selecting and all that stuff is happening on the client.
+
+We're able to keep the data on the server side. And use Explorer for really fast data processing and manipulation, and then pass that off to a server side built spec and just rapidly build these kind of little visualizations. So I think that's an example of a place where I think, you know, it gives you speed, power , and kind of expressability or, expressiveness, I think is the right word to do that kind of work in a way where it's composable. It's really easy to write these, these APIs and it meshes really nicely, with LiveView.
+
+[00:33:00] Charles: Mm-hmm. And, and I think you can even, because of LiveView show those charts just constantly updating as the data is being evaluated, more or more data's coming in. 
+
+[00:33:13] Chris: Yeah, absolutely.
+
+[00:33:14] Charles: , it's not a slow thing. Then if someone were wanting to jump into Explorer for the first time, how would you suggest they, they do that.
+
+What, what would be a good use case? Uh, to, to try it out with or, 
+
+[00:33:28] Chris: Hmm. 
+
+[00:33:29] Charles: get to know it.
+
+[00:33:30] Chris: we have a 10 minutes to Explorer LiveBook uh, in the documentation for Explorer. It's, it's worth going and checking out. Kinda give you an overview of the API and some of the things that are possible. That being said, I feel like, you know, you kind of always need to have your own reason for doing it and actually use it in anger to kind of get a sense .
+
+I think that there, that it, it's, there are a lot of times when you kind of have this last mile problem where you have a lot of data in your database. Maybe you've got a lot of data from your typical transactional work that you're doing. And you want to do something with it to display to your customer.
+
+And there, there. Are times when, you know, pulling that data, pulling that data down is reasonable, but then it's relatively large and you need to do some manipulation of it. And I think. There's, there's often good opportunities there for, from between the point of I've queried the data, now I have the data, and now I want to do something with it.
+
+Maybe, like I mentioned before, maybe you wanna do something with it that's interactive. You wanna make fast interactive edits. You want to have things, do something in response to something else. I think that that's a really good place. I mean, I'm kind of showing that my experience is primarily with a, you know, a customer oriented SaaS kind of thing that I'm building.
+
+And not everybody is building SaaS. There are a million different things that, that you can do with it. But I do think that kind of, that, that last mile, the in-memory component there. From, I've made a query, but it's, but either doing the query on the database is too expensive or it's kind of convoluted, or I can't necessarily, I want to join it to local data, like maybe I have some data that the user has provided.
+
+, Something like that, that, that gap there between the query and the display. I think that that's, that's a place that's often ripe for implementations.
+
+[00:35:19] Charles: I, I think the, the first case where we used Explorer was a case where we had. Tabular data that was remaining somewhat static. And then we were taking user input data that could be related to one or more rows in this table of data. And then running calculations based on the user input and values that were in the table to then produce some other output to show to the user.
+
+And having all of that there, it was also easy because we could just join. The, the user input table with the data frame to make a single data frame and do all the calculations right there and then just spit it right back. So it sounds like similar to what you're describing right here.
+
+[00:36:05] Chris: Absolutely. No, that's, that's, that's, uh, thank you for having that example directly on hand. I think
+
+that's, uh, it's, no, it's, uh, it's great to, you know, it's really great to hear it being used in the wild. And to hear that the, the use cases are kind of how I imagine that they, they would be.
+
+So I definitely 
+
+appreciate 
+
+that.
+
+[00:36:26] Charles: And here we don't even have to have a database on this. It's a small thing, but the Explorer meant no database to have to mess with smaller hosting costs and and so on. , It's been useful there.
+
+[00:36:38] Chris: Well, that's awesome. 
+
+[00:36:39] Charles: have you run into any challenges with integrating it with machine learning workflows in Elixir and, and making that work Well?
+
+[00:36:49] Chris: I'd say the, the main kind of thing has been, you know, I, I say not, is, I would say has been. The kind of process of actually using it in practice is always uncovering rough edges and things like that, right? So that's becoming, that, that happens less and less as it's being used more and more.
+
+We use it a fair bit and I haven't really run into big problems. I've got, um, one of my, one of my coworkers found it very, very challenging that it will complain, and uh, actually error out if you try to do something to a column that doesn't exist, for example.
+
+And I think that there are certain aspects of it that are. More intuitive from like a, an exploratory data analysis perspective rather a software engineer's perspective. And I kind of flip flop between those two hats. And you know, I do find that sometimes some of the aspects that make it really powerful for exploratory data analysis, like.
+
+erroring uh, you know, when you're dealing with something that doesn't exist or, or what have you're raising in that situation, make it more difficult to work with or less intuitive to work with from a, from a software engineering perspective. Um, I would say that's not unique to Explorer, but it's, it, you know, I, I would like to see Explorer.
+
+Some as something that is really useful for software engineers and developers who aren't just data scientists. And I think that there's a real opportunity for it because of the fact that the API is so much more Elixir, that it's not like this whole special world that you have to go into.
+
+Um, and so that's, that's been kind of the main, the main challenge area.
+
+[00:38:29] Charles: Are there, is there anything in particular you wanna make sure listeners know about Explorer that we've not already covered here?
+
+[00:38:37] Chris: we've kind of hammered on, on my main point, which is that data frames are not just for data scientists. I think that's the main takeaway from that. I would love more people to know.
+
+[00:38:46] Charles: All right. , So what, uh. What kind of resources are out there that people should check out? There's the 10 Minutes to Explorer LiveBook in the repo.
+
+[00:38:56] Chris: Yeah. So one thing I, I always wanna push people towards is, and I'm gonna say academic paper and I'm gonna say, don't be scared of that 'cause it's not, not a scary one. But there was a paper way back, , that Hadley Wickham wrote, called Tidy Data, , and. It, it really informs, you know, a lot of, my philosophy as a data scientist, not just as a, you know, as an engineer or what have you.
+
+And I would really recommend reading that. I think it's useful across the board, whether you're a data scientist or not. I think going and, just poking around with something like pandas if you haven't, and then poking around with something like dplyr if you haven't, just to get a sense of,
+
+how people are talking about these things and , how the APIs tend to work and kind of what the expectations are there., It can be really, really powerful. A lot of the reading on the tidyverse is, is really helpful. I think that the Elixir community has been learning from that and can continue to do so.
+
+I think Scholar, for example, takes a lot of influences from that, , even though it's, it's also kind of influenced by SK learn, and stuff like that. 
+
+[00:39:59] Charles: Scholar being the, uh, kind of traditional machine learning library in Elixir on hex. Yeah.
+
+[00:40:04] Chris: Yes, exactly. Yeah, I, I, I would say understanding how the tidy verse works and why it works that way, which is where the tidy data paper comes from. I think is, is just a really powerful, thing to, to kind of level up your software engineering and understanding generally, and it's, it's very, very useful then to bring, to explore.
+
+[00:40:22] Charles: Yeah, we'll have a link to the tidy data paper in the, the show notes. I, I found it, I mean, somewhat intuitive. I think anyone who's worked with even just a spreadsheet of data, maybe you're managing something for a, you know, an organization you volunteer for, something like that. And you know, when the data is constantly. This person put it in slightly differently than this other person. And now it breaks the equation where I'm just trying to get a simple answer so that we can move on. Uh, you know, this is my volunteer gig. The concept of tidy data will, will speak to you and how it's described in that paper.
+
+Yeah, it's, it's a good one. We're kind of running outta time here. Chris, do you have any. Final ask for the audience. Where can we find you? 
+
+[00:41:04] Chris: Yeah. there's the EEF Slack, , the erlang Ecosystem Foundation, which I would recommend going and checking out. The ML channel there is always nice. And I am around on that one. You can find me on GitHub. I am also on blue sky, but I don't spend a lot of time on socials generally.
+
+So it's kind of a, sometimes I'll be, it's very bursty. I'll sometimes show up and do stuff and then, 
+
+and then not. 
+
+But I definitely recommend checking out, EEF and the EEF Slack is, is a really great place to kind of go and you can talk to all the people who are working on all of this stuff. I think people are very keen to, to chat about ML and data engineering and all of that in Elixir.
+
+[00:41:42] Charles: Great. Well, thanks for coming on. This has been a fun conversation. 
+
+[00:41:47] Chris: Thanks for having me. 
+
+[00:41:48] Charles: I appreciate you taking the time.
+
+[00:41:49] Chris: Yeah, thank you and really enjoyed it.
+
+​
+
+[00:42:23] Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
