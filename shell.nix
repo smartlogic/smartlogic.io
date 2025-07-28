@@ -22,5 +22,6 @@ let
       ]);
 
 in pkgs.mkShell {
+  name = "SmartLogic.io";
   buildInputs = inputs;
 }
