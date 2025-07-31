@@ -1,0 +1,301 @@
+S14E10 Victor Bjorklund (Python in Elixir)
+===
+
+[00:00:00] Charles: Hi everyone. I am Charles Suggs, software engineer at Smart Logic, and I'm your host for today, for Season 14, episode 10. We're joined by Victor Bjorklund, Elixir Developer at jawdropping.io. this episode, we're talking about Python Elixir interoperability with a multitude of tools including Erlport, PythonX, ports, and more.
+
+Victor, welcome to uh Elixir Wizards.
+
+[00:00:27] Victor: All right. Thank you. Glad to be here.
+
+[00:00:30] Charles: Thank you. Yeah. Uh, so, uh, maybe first tell us, uh, a little bit about yourself. Um, you know, where, where are you, how did you get started writing code? What brought you to Elixir?
+
+[00:00:44] Victor: Sure. So right now I'm sitting in, in Warsaw, Poland, but I'm also spending a lot of time in Stockholm where I'm from, Stockholm, Sweden, uh, and my background to programming was. Uh, even when I was 12, I was coding some in c plus plus not knowing anything I was doing. Not some genius or something like that, but just playing, you know, and dreaming about being a developer.
+
+Kind of dropped it off for a while and got back to Python, actually, uh, when I was an adult in university and I discovered that you can do some. Uh, cool automations and stuff like that that brought, brought some, uh, uh, Reddit, uh, bot. Uh, but it, it wasn't any professional stuff. And then much later I got into building React websites and, uh, node backends and, uh, working with that, uh, more professionally.
+
+And after that, I got into elixir and got sucked in. So that's my, uh, journey here.
+
+[00:01:55] Charles: What, uh, what was it that kind of hooked you with Elixir?
+
+[00:01:58] Victor: So initially I actually started because of a very stupid reason. Uh, it was, I, I saw some people talking about el lecture on the internet. I didn't know why. Uh, elixir was. I heard that. Oh, okay. Elixir is kind of the same thing as lan. It's running on the beam and Lan was invented in Sweden. Uh, so I thought that, okay, I gotta try to at least see what it is all about and, you know, uh, be able to say, okay, I, let's try it.
+
+And. Uh, pretty fast. When I tried it, it just clicked and I think it was a lot with a functional thing for me. Objective oriented programming never really makes sense. Uh, so as soon as I tried out Elixir, I'm like, oh, this makes sense. Everything here is just how I wanted it to work from the start. So, yeah.
+
+[00:02:55] Charles: Cool. All right. Well, let's, uh, I'm, well, I'm definitely eager to dig into the, uh, the topic of, of today's episode. Uh, so there, there's, there's a lot of ways that we can call Python from Elixir. Um, we've mentioned a few before already. Uh, can you kind of map out that landscape for someone who might be just getting started with some kind of interop between Python and Elixir?
+
+[00:03:20] Victor: Sure. And as you touched on, there is a lot of, uh, different ways. I haven't actually tried all of them myself. Uh,
+
+[00:03:27] Charles: Sure.
+
+[00:03:27] Victor: I haven't really had an opportunity to try them, but, uh, I, how I view it is kind of, uh, you can think about it as how coupled, uh, Python becomes with your application. So you, we have mentioned that we can have just the normal, uh, HDP or rest API or we can have, uh, earl ports or ports or Python X.
+
+And I think if we start, uh, with like the least coupling with our, uh, ELIX code, we have the building a two separate apps in, in principle, where you have the Python app running as a. It's own web app and it could run on the same machine and you can use, uh, local host talk to it, but they are pretty much, uh, they don't know so much about each other.
+
+Uh, and then you have, uh, something strange in between where you could actually run Python as an Erling node. Uh, so that Python is actually running on its own Erlang node and you can send a remote, uh. Uh, calls to it, uh, just like any other, uh, node in your cluster. I haven't tried that myself, but that's, uh, in between, I guess, uh, the more API and what comes later, which is more, you put it on the machine.
+
+Either you, uh, communicate through ports or port, or you have, uh, Python X, which is actually embedding. The Python interpreter inside of Elixir using a.
+
+[00:05:14] Charles: If you were to, um, to kind of connect a little bit of these approaches with some of the tools. Uh, is it, so if you were standing up Python as an, as an Ang node, that would probably be with, is that Pylay and then
+
+[00:05:30] Victor: Yeah, exactly. Yeah. And, uh, full disclosure there, I haven't tracked myself, so I don't know how performant it is or, uh, like how easy it is to work with, but I think it's something pretty cool that we have so many ways to integrate with Python. Uh, so yeah.
+
+[00:05:48] Charles: mm-hmm. Mm-hmm. And you talked about with Python X, it, it, uh, you now have Python running as kind of part of your elixir application. Uh,
+
+[00:06:01] Victor: And I will just, just be heads up, like I'm not, uh, I don't know everything about, uh, the underlying libraries and everything about how Python works. So there is a risk that I will say something that is not correct. So if, if I say something that's not a hundred percent correct on how something works, please uh, feel free to correct it, uh, in some forum or something.
+
+But as far as I understand, it's running as a nif and it's running on the same process. It very fast, but it also comes with its own.
+
+[00:06:36] Charles: So then do you still have to worry about the global interpreter lock that Python has? That can be kind of a bottleneck in running, say, concurrent jobs in in Python, uh, when
+
+[00:06:48] Victor: Yeah. So.
+
+[00:06:48] Charles: approach.
+
+[00:06:49] Victor: So, uh, yeah, exactly. So when you are running, uh, if you run, if you're using airport, uh, which at least is my kind of default to fall back to, uh, you have that issue too with, uh, global interpret, uh, interpreter lock. Uh, but you can avoid it by just running a lot of different Python processes. Uh, so you can either run a pool, you can run one per job, and so on, uh, while Python X as far as they understand, you only have one instance of Python running, which means that you have, uh, that issue with the global interpreter lock.
+
+It's doesn't have to always be a, an issue. Uh, it kind of depends on how you write your code and how the Python code looks like. Uh, it's a little bit beyond my understanding, but as far as I understand, uh, a lot of the Python code is written so that it can avoid those issues, especially if it's things, uh, relating to machine learning.
+
+They call a lot of like c plus plus code, uh, or C code.
+
+[00:08:03] Charles: Okay, that makes sense. So, uh. What other kind of trade-offs might you be thinking about as you are choosing to use Earl Port and maybe something like Pool Boy to manage several ports, uh, that where you have Python running versus, uh, using it as an external service or embedded with Elixir.
+
+[00:08:28] Victor: So, uh, how I think about it is I, I kind of default to Earl Port, uh, uh, because I think it's a pretty good, uh, sweet spot. Uh, and then you can think about, uh, kind of like how, which kind of code are you calling and, uh, are you calling just a, um, very short, uh, Python function in a library that maybe Python X is a pretty good.
+
+Uh, option. Again, you have the risk of, uh, running into some issues since you're just running one instance. And also you've run the risk of taking down your whole, uh, beam instance if you have some issues with the Python code. Uh, but I, if you need some little bit more speed, uh, that can be a good idea. Or if you are running something that is very standalone from Elixir, uh, like maybe you have a.
+
+Uh, I don't know, a background job in, uh, Python that maybe you should have it as a, uh, separate, uh, um, like web app. Uh, so it's, there is no real, uh, I think answer always. It's kind of more like you have to feel like, what's your goals with integration and, you know, uh, yeah.
+
+[00:09:49] Charles: Okay. And. You mentioned, uh, a little bit ago about if you have, if you, if you're using Earl Port and, and connecting to Python processes through ports and maybe managing a pool of ports, um, how, how do you think about how to structure that for the, for the use case?
+
+[00:10:12] Victor: yeah. Yeah. So that's a, that's a good point. And. Uh, so out of the box, uh, you like, the default that you start with is kind of that you start a new Python process every time, uh, when you run the code and then you stop the python process when you're finished. And that could, that could work. For example, like I have used it to.
+
+Put some Python code that's running once per month in an open job. And I think, uh, it's not something that needs to be very fast. And then I think it's totally okay to start a new Python process just for that. And then, uh, close it when we are finished with this thing. Uh, but if you're having something that needs to be called, a lot of times you don't want to have the overhead of that.
+
+So you need to then. Put it in some kind of pool, and you can use Pool Boy, for example. Uh, but also there is a, a library. It's rather new. I just used it for a couple of months. Uh, and it's called, uh, I probably gonna pronounce this totally wrong, so just checking the notes. Uh, venomous, uh, as in, uh, a poisonous snake.
+
+Uh. And this, uh, library, it's a elixir library and it gives you, uh, some very good, uh, defaults for all port where it's handling the, uh, the pool for you and it'll handle the cleanup of the pool, uh, and, uh, a few things like that and give back, uh, the errors from Python in a very nice way. So. It's a, that's a very good library to, that's what I would use today if I was using airport.
+
+[00:12:01] Charles: Good, good to know. I've used Pool Boy with the role port, but I haven't come across venomous and I, I would say you pronounced it better than I pronounced your name, so that works.
+
+[00:12:10] Victor: yeah, yeah.
+
+[00:12:12] Charles: Um. Mm-hmm. Okay. So, so then, you know, you're, you're firing jobs off to, to pool boy, perhaps you're, or to, to Python. You're asking Python to do something.
+
+Presumably you want something to come back from that when it's done. Um, maybe not. Depends on what's going on. But
+
+[00:12:30] Victor: Yeah.
+
+[00:12:31] Charles: how do you handle that data interchange and getting the data back into, uh, a beam application.
+
+[00:12:37] Victor: Yeah. Uh, so for me, I haven't, uh, run into. Any issues with that? Uh, like sometimes you, uh, at least the way I program is that, uh, I just test something and see what happens. And, uh, so far it's never been, uh, any big issues. It might be that, uh, you get back to your, uh, string as a series of numbers instead, then you have to convert them from a, a car list to a, a normal string.
+
+But so far, uh, I think Earl Port is handling a lot of this, uh, translation. So a lot of times it just works out of the box, I would say. Uh, but I haven't really used any complicated data structures for passing between like binaries or uh, streams other than just streaming the standard output.
+
+[00:13:35] Charles: Okay, and so are, so are we largely getting back elixir data structures in the elixir function that called or, or what's responding to what's coming back from Python typically? Yeah.
+
+[00:13:48] Victor: Yeah, so you, so you get back, uh, like it ends up being, uh, a data type in elixir. And the only thing you need to check then is like, is it coming back in the format you expected and that you want, uh, because, uh, sometimes it cannot, uh, sometimes you can get it in the wrong, uh, format, but as I said, it's usually not a big deal.
+
+Uh, it might come back in Jason and you have to translated it to a, uh, map or similar. So I, I think, uh, it's not the biggest issue and I, I don't have any. Like on the top of my head, uh, solution for it. I usually just solve it when I'm there. Uh, you kind of see what is Python giving me back and how do I fix it to be the right format.
+
+[00:14:38] Charles: What, um, so then we talked a little bit about this, but uh. Let's, let's step back a little bit to performance and, and also thinking about concurrency. You know, the beam and elixir can handle concurrency really well and, and even parallelism, uh, and Python is known for having a little bit of a bottleneck there with the global interpreter lock or the, the GIL Gill.
+
+I don't know how Python folks pronounce the acronym there, but, uh. When we're marrying these two elixir and Python, what kind of per performance and concurrency considerations come up when you're firing off, say, multiple Python calls from a gen server or a similar type of in Elixir.
+
+[00:15:27] Victor: Yeah, I think, uh, if you are, if you have good Python code, like I usually don't write so much Python code myself when I'm integrating with the lecture because. If I'm writing the code myself, I rather write it in a lecture from the start. So it's more that, you know, if there is a very good library already existing in Python, I might try to integrate with that one.
+
+And usually then they have, uh. Very good quality of the Python code, trying to avoid these issues with, uh, uh, like the global interpreter rock. Uh, that's not always the case, of course, uh, but you can also avoid it. Uh, I'm not sure what happened there. Uh. Sorry, it was my screen that died. I haven't
+
+[00:16:21] Charles: Oh, no worries. You're still here for us.
+
+[00:16:23] Victor: thought, I thought the whole computer died.
+
+[00:16:25] Charles: Oh no,
+
+[00:16:26] Victor: thought it was a blackout. Alright. Uh, uh, uh, let me, uh, should I start over? Maybe, uh, yeah, that's just start over there. Uh, so the, what was the question? I got so distracted from that. Uh.
+
+[00:16:41] Charles: Oh, no worries. You were, you were talking about, um. Uh, we were talking about performance and concurrency, and you were talking about you'd rather write an elixir if you're doing it.
+
+[00:16:50] Victor: yeah, yeah. So, so, so usually I don't write so much Python code myself, uh, because I'm not the best, uh, Python developer. And if I'm gonna write code, I prefer to write it, uh, in Elixir instead. So, at least the case for me is when I reach for Python, it's usually because they have a really good.
+
+Uh, well-written library in Python and I feel like it's gonna take too long time to rebuild it in Elixir or I feel like this is above my head and I cannot even implement it in Elixir in a good way. So then you usually have a good, uh, code quality in, uh, Python, and there is a lot of things you can do in Python to avoid the issues with the global interpreter lock.
+
+Uh, don't ask me exactly what, uh, because I'm not a Python expert, but as far as they understand, there is a lot of things you can do to avoid becoming an issue. And then we also have what we can do on the lecture side, and that is if we're using error ports, for example, uh, then we can spin up, uh, many processes, uh, maybe one for each, uh, thing we're doing or having.
+
+Uh. Pool of Python processes like we mentioned a little bit earlier. Uh, and that way we have less risk of running into that issue.
+
+[00:18:15] Charles: Hmm, and this reminds me of something about Earl Port. If I, if I remember correctly, you know, one of the benefits of using something like. Uh, or a port or maybe pool. Boy, if you're managing a pool of ports, that's more what I'm getting at, I think, is, is that you, you save that expense of shutting down and starting up new processes every time you need to call out the python, they're kind of hot and ready for you.
+
+Like
+
+[00:18:39] Victor: Yeah.
+
+[00:18:40] Charles: a little Caesar's Pizza, use an American, uh, reference. Um, but, uh, that's their, their tagline at the, at the store. Um. But you mentioned that, you know, some Python libraries might not be good to use here. Are there any you've come across that it might be worth avoiding to, uh, integrate with Elixir?
+
+[00:19:04] Victor: I, I don't think so, but I think if you, I I, I haven't come across any that I think, oh, this is a very bad idea, but I'm sure there exists a lot of bad Python code. Uh, so I, I guess what one could do is just, uh, a little bit Google, uh, maybe, uh, global interpreter log plus the library name, and you can probably find out if there's an issue or not with this.
+
+Particular library. Uh, but yeah,
+
+[00:19:35] Charles: Okay.
+
+[00:19:36] Victor: so, but, uh, I, I don't think there is any, uh, list of, uh, libraries that are good or bad for Elixir. It just depends on what you need because sometimes you might not even need so much performance. You might be fine if it takes 10 minutes or 20 minutes. It doesn't matter if it's a monthly report going out.
+
+Uh, you know, so.
+
+[00:19:57] Charles: Sure. It all depends.
+
+[00:20:00] Victor: Yeah.
+
+[00:20:02] Charles: So let, let's say that there's some error or even a crash that happens in the Python code. Um.
+
+[00:20:09] Victor: Mm-hmm.
+
+[00:20:09] Charles: How, how might you handle that and integrating some fault tolerance, even either into the Python code or on the elixir side to handle that.
+
+[00:20:19] Victor: Yeah, so I mean, I think the best thing would be to kind of try to do it on the both sides. So, uh, on the Python side, you have to, uh, you know, write the code, uh, with, uh, I, I don't remember what it's called now, and I'm so confused with the JavaScript and, but I think it's called Try Catch that they're using in Python.
+
+Uh, but don't, uh. Don't, uh, check that up because it might be totally wrong. Uh, but you have to try to catch the error. So the best way would be to handle it in the Python, but I think it's always good to also prepare Elixir for to be a problem. Uh, so either you can try to, uh, pattern match on the thing you get back in Elixir, uh, or if you're using, for example, this, uh, library I mentioned earlier, venoms.
+
+Uh, they give you back an error, uh, struck so you can then, you know, match on that and, uh, handle it and how you handle it. I guess it depends on, uh, what kind of error and how important it is if you just, uh, restart, uh, the Python code again, or if you're, you know, shutting down that function or, you know, yeah.
+
+[00:21:39] Charles: Okay. Um,
+
+[00:21:41] Victor: And as far as I understand, uh, I think that, uh, port is handling also the restarts of, uh, uh, the Python process. So if Python crashes, uh, port will, uh, restart the Python process as far as I understand. But, uh, I'm a little bit unsure on that, but that's a good reason also to use a pool, I guess.
+
+[00:22:10] Charles: That. Yeah, that sounds a little bit like what I recall from working with
+
+[00:22:14] Victor: Yeah.
+
+[00:22:14] Charles: some years ago. So then what about, um, patterns or tools to trace Python calls? Monitoring latency or, or failures in production, does that get a little bit more complicated?
+
+[00:22:30] Victor: Uh, I think I, I don't think so. I, I think for me, I, I don't put so much, uh, I probably should have a lot more, uh, telemetry and stuff like that, but I since, like I told you before, uh, when I use Python in Alexa projects, it's usually for. Some, uh, library that is already well written and it is probably, uh, very bad practice, but I often just trust that, uh, this Python library is, uh, as good written as possible in Python.
+
+So I don't really try to measure maybe the performance inside of, uh, the Python code, uh, but rather just. Check for the latency with telemetry for the elixir function during the call. So, you know, if you see some spikes there, you can investigate, but, uh, I don't have any real insight into the Python code.
+
+Uh,
+
+[00:23:32] Charles: What about writing, uh, tests for the, the interop for the integration?
+
+[00:23:40] Victor: yeah. So I think, uh, you can first of all write, uh. Just Python tests, uh, like, uh, you would, uh, for a Python program. And then also, uh, writing the test on the elixir. And what I found is that you have to a little bit, uh, write a test, uh, depending on how long you think. Uh, your, uh, python function is gonna take.
+
+So if you have a very, uh, fast function, uh, you can just pretty much call the python, uh, function as you are doing in production code, in the test. Uh, but sometimes you might have like, for example, a Python script that goes away and creates a very complicated um, um, report. And then you might not want to, uh, spend, uh, all of that time if it takes 10 minutes every time you run a test.
+
+So then I usually just mock the data. I expect coming back, and you can test Python code separately then.
+
+[00:24:49] Charles: Good separation of concerns. Um, so then what about shipping this off in a release to production? Are there any, is there anything some people should know about shipping Python dependencies with an elixir release?
+
+[00:25:07] Victor: I mean, it's, I, I guess the first thing to consider is do we need a python or can we do this with Elix? If there is a way to do it in Elixir, uh, it's probably preferable. Uh, but sometimes, uh, Python has a lot of very good libraries that we don't have because they have such a massive, uh, user base. Uh, so sometimes you need to, and then you just have to again, think about little bit about what type of integration you want with, uh, elixir.
+
+Do you want to have it as a, uh, separate web app that you can call? Benefit with diaries, you can pretty much have two different teams writing the Python code and the Alexa code. And you can also very easily scale them separately. Like if the Python code needs a lot more resources, sometimes you can just, uh, put them on a different machines and spin up extra machines just for, uh, the Python code while keeping your Elixir machines the same.
+
+Uh, but sometimes you want to have it, uh, closer. And uh, then I would say if you're unsure, I would probably go with airport with some kind of pool. Uh, but if you need that extra, uh, speed and you know that, uh, you're not gonna run into an issue with the global interpreter lock. Which is hard to predict, but you will probably have to just test it then.
+
+I think Python X is a really nice, uh, way, not just because it's, uh, very fast, but also because it is a little bit nicer to write, uh, in my opinion because you co-locate the Python code with your code, so it can be a little bit easier to reason around.
+
+[00:27:02] Charles: So what about. Can you, can you share some real world examples where using elixir and Python interoperability, maybe unlock some feature or a performance win that you couldn't do with maybe just elixir or, or just Python, though. Your elixir first. So maybe it's more the first. Um,
+
+[00:27:30] Victor: Yeah, sure. So actually my first Alexa project ever, uh, had to integrate Python or. Uh, at least I wanted to integrate Python. I was pretty recent to Elixir, but I had worked with, uh, building different types of web scraping solutions in Python. And the client, they needed, uh, a way to schedule a lot of web, uh, crawling operations. And there is a very good library in Python called Scrappy. And it's has been around for many, many years, and it's very well written and very performant. Uh, as long as you don't need, uh, Google size, uh, performance of your crawler, uh, it's, uh, very good choice. Uh, so I actually, uh, implemented that with Earl Port. Uh, because I saw that, uh, there was some, uh, crawling solutions around in Elixir, but. I didn't feel confident enough in, uh, both that, uh, I was good enough with the lecture and also that those libraries would have all of the functionality that I needed. Uh, they might have, uh, I'm not saying that they don't have it, uh, but uh, it's just that this great B Library is a very, very big project.
+
+So, yeah. And, uh, then I have a more recent, uh, project actually. Um, and this, uh, scraping project, it never went into production. The client realized they, they didn't actually need it. Uh, so never went anywhere. So I don't know if it would have, uh, survived, uh, production. But, uh, it was a nice introduction to working with Alexa.
+
+And then more recently I worked on a proof of concept where. We had to integrate with a Swedish, uh, authentication solution called banked. So it's pretty much that all people in Sweden have this certificate on their computers and their phones, so they can authenticate who they are. And, uh, there is, uh, uh, lot of back and forth, uh, and, uh, authentication protocols, uh, to communicate.
+
+With the server and verify that people are who they are. And there is actually a, a library in Elixir, but I was a little bit unsure whether that library would have all of the functionality and if it would stay updated in a few years because it is much smaller community in Elixir. So I thought maybe not.
+
+Uh, it'll not be updated, uh, since such a, such a small niche thing. And I wasn't sure if anybody was really using it in production. So then I instead turn to a Python library that I know is used by a lot of big companies. So it's gonna be, uh, kept up to date with all the changes. And I actually went for Python X in that case, uh, because I felt like it was, um. Case where you're never gonna have very long running processes and you're never gonna have millions of authentication, uh, processes going on at the same time. So I thought that it was a good case to try out Python X. So yeah, both of them you probably could have done in Elixir, but it would probably have been a little bit more risky and, uh, a little bit harder to do in Elixir.
+
+So. Good cases, bringing some Python functionality to Elixir.
+
+[00:31:23] Charles: Okay. And that, and that worked out pretty well, that that approach.
+
+[00:31:28] Victor: Yeah, it, it worked, uh, flawlessly. Uh, so, uh, it's still not in production. It's still, uh, proof of concept. Uh, we're still working on it, but the authentication, uh, had no problem. It was very easy to just call those python functions that was needed to make the communication with, uh. Uh, this, uh, server and then, uh, hand it off to Phoenix own authentication solution.
+
+Uh, so.
+
+[00:31:58] Charles: Okay. So then, uh, are there any emerging patterns or libraries that you're excited about beyond Worldport and, and Python X? Uh, for Python and Elixir integration.
+
+[00:32:14] Victor: I, I think, uh, I want, personally, I'm not sure if it's, uh, more performant or anything, but I think it's a very cool thing and I, I, I just need to find some reason to play around with it. And this, it's this, uh, uh, peer lang or, uh, this, uh, maybe I totally misremember the name of the library now this, uh, that turns, uh, Python into an.
+
+Or like, no, uh, I just think it's such a cool concept that we can just run, uh, uh, node in other language and communicate with them as if they were, uh, in beam.
+
+[00:32:51] Charles: Mm-hmm. Yeah. That seems really interesting. I'll be cur, I'm curious. To hear what interesting things someone will encounter running Python as a, as an ling node
+
+[00:33:02] Victor: So if anybody's running a Python as an node, uh, please, uh, reach out to me and tell me about it because I'm very curious.
+
+[00:33:10] Charles: mm-hmm. Yeah, us too. Well, uh, looking ahead, how do you see this interop story evolving? Are there some gaps in the ecosystem that could be filled or are there, is there a good bit of overlap now in, in kind of the coverage?
+
+[00:33:27] Victor: I don't know if there is any like a gap that we're feeling. Oh, this is a big pain point, but, uh, I don't know if this is even possible, but I think Python X is such a nice library to work with, so I just wish there was a way to run. Uh, several versions of it in the same, uh, elixir application. Uh, there is probably some really good reason why that is impossible, but, uh, that would have been nice if somebody could figure out how to do that.
+
+Uh, I think that would be nice.
+
+[00:34:00] Charles: Interesting. Multiple versions of the same library within the same application.
+
+[00:34:04] Victor: Uh, no, I, I more meant, uh, like Python X uh, so, uh, multiple Python interpreter instances so that you can a little bit, almost have like a pool of them, but inside of, uh, elixir,
+
+[00:34:21] Charles: Hmm.
+
+[00:34:22] Victor: so you can avoid this issue with the global interpreter lock. I'm not sure if, it seems like it's not possible. I'm not sure exactly why, but, uh, it's probably very hard, but that's a wishlist.
+
+[00:34:35] Charles: You have some gears turning in my head now.
+
+[00:34:37] Victor: Yeah.
+
+[00:34:38] Charles: Mm-hmm. Well, for, for elixir teams that are considering, uh, doing some kind of integration with Python today, is there a first Hello World project or a minimal proof of concept that you would recommend people start with?
+
+[00:34:53] Victor: Yeah, so I mean, you could always do the actual hello world there with Python code, but that might not give you so much insight into how it would actually run. I think a pretty good use case is try to find something. Where you could use Python or if you're already using Python, that is not so, uh, running so often.
+
+You don't wanna maybe bring it in the first time in some hot path in your application. But for example, if you have a, uh, report being done by Python once per month, you could just try and bring in, uh, airport and call it from within the application. Uh, I think that's, uh. A good way to start and kind of learn and see, uh, what's happening and, uh, what could go wrong.
+
+Uh, and hopefully that's not the end of the world if that report doesn't go out in time.
+
+[00:35:50] Charles: Would, would you say, uh, Python X is kind of your, your favorite elixir library for managing external runtimes? Or is there one we've not talked about? Could be
+
+[00:36:02] Victor: I, I think, uh, I think my favorite probably is Earl Port, and together with this. Venomous that is on top of airport and just gives you a lot of nice things like a pool and error handling and a lot of other things like that. That is probably my favorite to actually use. I think Python X is just very nice to work with.
+
+Uh, but a lot of, a lot of times you want to, uh. Just plan ahead and maybe use more ports just to not run into that issue. If in the future, uh, if you're having a lot of users and, you know, don't want to be stuck, then with Python X, uh, but if you know for from the start, uh, that Python X is a good use case, then it's, it's more nice to write, I think.
+
+[00:36:51] Charles: Any must read resources for people who wanna dive into Elixir and Python interop.
+
+[00:36:59] Victor: Uh, I think there is very few things written. Um, I don't know if there's so much. I, I have an article, I don't remember who Bri wrote it, uh, but. I will, uh, send it to you guys so you can put it in the, uh, notes, uh, about how to use, uh, Earl Port with, uh, pool Boy and, uh, yeah. So, but in general, I think there's not so much written, you have to almost Google and find the puzzle pieces in, uh, elixir Forum and other places.
+
+So. Uh, maybe I will try to write something about this, uh, venomous, uh, library. I have a very short article on port, but it's very short and I'm not sure that you get so much insights from that. But this, uh, venomous, I've not seen anybody write about using it, so I think it could be nice to write something about that, even if the documentation is very good.
+
+So you don't really need it, but, uh, yeah.
+
+[00:38:02] Charles: Well, let us know, uh, if you publish something and send us a link. And I, I, I wanna say I've come across a couple of older,
+
+[00:38:12] Victor: Hmm.
+
+[00:38:12] Charles: like medium posts, blog posts that are out there about, uh, using Python with elixir that, uh, that I referenced when I was doing some of this in 2022 or something. But, uh, I,
+
+[00:38:26] Victor: I mean, feel free to put them in the notes there. Like anything, at least I will use the notes and, uh, find them on the read them so.
+
+[00:38:35] Charles: Sure. Yeah. Uh, and I'll be happy to see some new stuff as well. Um, well, any, uh, is there anything else that you would like to share with the audience? I think we're, we're kind of reaching the, the end here.
+
+[00:38:49] Victor: No, I think, uh, you know, feel free to hit me up if you have any questions about this or anything about Elixir in general. And, you know, I'm also always open for any elixir projects if people have, I also have to write some JavaScript, uh, sometimes because it's, uh, hard to find enough elixir work. So if anybody has something, they're free to hit me up.
+
+[00:39:13] Charles: Um, where can people find you on social media or GitHub or
+
+[00:39:19] Victor: Yeah, so I used to be much more active on Twitter. Uh, I'm not so much anymore. I have a Mastodon, but uh, I might and I hang out sometimes on Elixia forum more reading. Uh, but you can always send me an email or. Send me a message on, uh, Twitter, uh, or LinkedIn, of course. Uh, so yeah, LinkedIn might be easiest or email.
+
+So yeah,
+
+[00:39:46] Charles: Sounds great.
+
+[00:39:47] Victor: you can see my website also where I publish, uh, my writings, uh, I don't write enough, so it's don't expect a lot, but, uh, yeah.
+
+[00:39:57] Charles: We will, we'll make sure to get that in the, the show notes as well. Um,
+
+[00:40:01] Victor: Hmm. Cool.
+
+[00:40:01] Charles: yeah. Victor, thank you so much for, for joining us today. Uh,
+
+[00:40:06] Victor: Yeah. Thank you.
+
+[00:40:07] Charles: conversation. I've learned a bit,
+
+[00:40:08] Victor: It was nice.
+
+[00:40:10] Charles: come back again.
+
+[00:40:11] Victor: Thanks.
+
