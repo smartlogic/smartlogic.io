@@ -1,0 +1,401 @@
+S14E12 Elixir InterOp at SmartLogic
+===
+
+​
+
+[00:00:09] Sundi: Hey everyone. I'm Sundi Myint, software Engineering manager at Cars Commerce, and I'm your host for today's episode for Season 14, episode 12. I'm interviewing fellow Elixir Wizards, Dan Ivovich and Charles Suggs to learn all about the cool stuff that they're working on with Elixir and around Elixir, surrounding Elixir, all the Elixir things at SmartLogic.
+
+Hey guys, how you doing?
+
+[00:00:31] Dan: Hey, 
+
+[00:00:32] Charles: Doing all right. 
+
+[00:00:33] Dan: other side of the table.
+
+[00:00:35] Sundi: other side of the table, 
+
+I'm so nervous. 
+
+[00:00:38] Sundi: The mythical table here. Yeah, we've been talking about a lot of cool different technologies this season with all the different guests and we thought, you know, SmartLogic is doing cool stuff too. Working With a lot of different technologies. You all are in the specific maybe unique position of getting to work on different projects. So that means you have the opportunity to work with different technologies, whereas some people in product lands might have to just stick to their, you know, their one tech stack and maybe they get that one chance at trying that new thing.
+
+But you've got the best of both worlds here. Or the best of eight. 12, 10, 10 technology worlds here. So let's get into it. Where, where would we like to start? There are so many different things. I don't know what's, okay. How, what are we most excited about recently? Dan, let's start with you.
+
+[00:01:24] Dan: Most excited about recently in the Elixirverse for us? I think for us , the, like trying to optimize some getting started stuff which actually Charles and I have been working on kind of hand in hand, although mostly Charles. So I think that's probably what's most exciting, relevant to this season in terms of what a conversation we had around Nix and just like.
+
+Having Elixir installed at the version you want ready to go compiled and like on your path correctly without having to build a bunch of things from source and getting yourself into like a dependency knot. So I think Nix and then just, you know, how do we kind of get our standard tool set, our, our little mini Elixirverse, the SmartLogic version of an Elixir application?
+
+How do we get that going as quickly as possible, I think is where a lot of our energy begins.
+
+[00:02:15] Sundi: Okay. I had like five, five follow up questions, but before I'll come back to it, Charles, what is your favorite thing or most excited about thing that you've worked on recently? 
+
+[00:02:26] Charles: part of what Dan was referencing would be working with Igniter and learning to use Igniter to build out a bunch of code generators for faster Project startup. 
+
+[00:02:36] Sundi: one of my follow up questions. 
+
+[00:02:40] Charles: Yeah. Uh, and also not as recently, but some work we did with with Explorer that I referenced in the Explorer episode recently. 
+
+[00:02:49] Sundi: Cool. Um, all right, so one of my basic follow up questions is actually something I technically already know, but for our audience who maybe isn't as familiar with what SmartLogic is doing, why. Why would you be looking into startup tools when you're building out new projects? What does SmartLogic tend to do when you all go through the process of making a new product or a new project and what, what's the starting point normally?
+
+What are some of those pain points with starting? Can you speak to some of those things?
+
+[00:03:18] Charles: Well, you know, being a consultancy, we often have the, the opportunity to work in greenfield projects, which is, is nice. And diving into existing code has its own fun to it. But when we're building a new Elixir app or starting fresh. And when, that's something that we might do multiple times a year. A lot of that is kind of the same stuff that you're doing.
+
+A lot of projects have a lot in common. And so being able to automate as much of that as we can really is a, is a benefit, Almost every app needs authentication for users. Almost every app, you know, we of course, want tests. Almost every app there's things that we tend to do for Phoenix components, and so this way we can just start with a good, consistent base where developers don't have to spend time thinking about it or double checking the docs.
+
+They can just run a few commands and then get to work. 
+
+[00:04:14] Sundi: Cool. So, , Dan, you started this off by saying you were adjusting some of the things that you all are doing with Nix. Anything New that you're adjusting based on something we might have talked about this season?
+
+[00:04:25] Dan: Any lessons learned? yeah, I think in the next episode it came up a little bit, but, uh, Charles has been pushing kind of the use of flakes on our side, which I think has been, there's definitely been some advantages. I don't know how perfectly I, I can articulate them other than it seems to play a little nicer with the way we do things and I find the the Nix language to, to kind of script up the, the, either the shell definition or the flake. Like maybe not the most obvious thing to declare, even as it is a declarative thing. But the flakes I find easier to kind of edit and maintain and cop in, like kind of move between versions. And yeah, I think that's been just kind of a benefit of embracing that approach, you know, even as it's an experimental feature, I believe still in Nix, that it gives us a configuration that just seems to work a little bit better for our use case. 
+
+[00:05:16] Charles: It comes with a lock file even. 
+
+[00:05:18] Dan: Yes. Well, I don't know. On the internet this week I was seeing a lot of lock file hate around like you shouldn't need a lock file. And it's like, well, maybe. But I think the reality is we do. So let's, let's have one rather than not have one. 
+
+[00:05:33] Sundi: To lock file or not lock file.
+
+[00:05:34] Dan: yeah.
+
+Okay. Fun.
+
+[00:05:37] Dan: I think for us in particular, being a consultancy that works on lots of different applications, and maybe this is true for a product company with a lot of microservices, but even in that environment , I would expect that their microservices are all running, you know, relatively the same version and general software stack just are independent applications that communicate a different way. you know, we, we have things that are on Elixir 1.18 or 1.17 or 1.16, and certainly our work in Elixir is easier in that regard than some of the things we used to do in like Ruby, or still doing in Ruby, where those version upgrades tend to be a little bit more challenging.
+
+The extreme so far backwards compatibility of Elixir. And their like really easy upgrade paths through minor versions with no, no major version change even on the horizon. Certainly has made that upgrade path easier. But I think our kind of like approach to solving this problem is definitely rooted in our history of, well, we have this stuff that's still on Ruby 1.8 and this stuff that's now on two and this stuff is on 1.9 and we're needing, we're trying to get all this stuff upgraded by the time security patches end and you know, we're, we're switching between branches and therefore switching between versions and how do we manage all that?
+
+And it used to be. You know, RVM and then RBM and then ASDF and hopefully every version you need compiles for everybody's laptop. And that was almost never the case. And Nix has like mostly solved that problem for us and did so at a time when we were starting to roll out the Apple silicon laptops across the team.
+
+And so it was like even more complicated now of like new architecture on top of everything else that we were trying to do there. and so the timing there years ago was really to our advantage. And then I think as we've continued now, if I want to add to our Elixirverse of a Project JQ or ripgrep or a command line tool for, GitHub release management.
+
+We can add those to the Nix environment, to the flake, and then I, I know every developer, when they pull it down, will have it. I don't have to say, oh, okay, when you pull this branch, make sure you brew install this other thing. Like it's all just there at a version I know works regardless of operating system version or whatever.
+
+Yeah. Consistent. We, we all like continuity in our universes, right? Like we're, we're we're big on canonical continuity? Yeah. Well, Nix gives us, version controlled and with flakes lock file controlled continuity.
+
+[00:07:58] Charles: And I wanna add to that too, that we were at one point having a little bit of trouble where someone's Elixir language server. Would be compiled against a different Elixir version than what the project was running, especially if that had been installed at the system level. And then we're having a like per shell, per environment configuration for a project. So by baking that into the flake configuration and some slight adjustment to make sure that our editors also connect to that version of the language server, was also a really big benefit. 
+
+[00:08:32] Sundi: Yeah, there was definitely a time. I remember where people were on the fence about tools that generated things. So like the default Phoenix generators definitely got some hate for some time in and outta SmartLogic. I mean, you said you're using Igniter now for some things. What's the, what's the concept behind that?
+
+Why are you interested in that? Why does that work better than other things and what, what are some alternatives you might have gone for otherwise?
+
+[00:08:57] Charles: Well, we had already integrated Igniter into kind of an internal tool that we use for some reproducible stuff on projects. And so, I used it because it was already there, but also it was something I wanted to learn and get familiar with. And the why is it, it still comes back to consistency but also not reinventing the wheel on every project.
+
+When we have developers that are, maybe, we might be on one project for a while, but you're gonna switch around, you might need to go do maintenance on a project. And so when you're switching between multiple projects, it really cuts down on the time and cognitive load if you don't have to figure out how things are in this project and what's different.
+
+And so as long as we can have consistency in the way that we do certain tasks in our projects that are, are pretty consistent across projects, then it saves us that time. So Igniter was a way to kind of standardize on that so that developers didn't have to go check, oh, how are we doing it now in this project?
+
+Lemme go find the most recent project and apply that to how I do it here. We can just generate it. And when we improve something, we learn something, we can contribute it back into those generators so that the next projects pick up on that improvement. 
+
+[00:10:16] Dan: Yeah, I think the distinction is off the shelf generators versus generators were writing, and like certainly. I, I don't want to generate code that we're gonna mostly throw away or have to edit extensively, but if we've already set 'em up the way we want them, then yeah, let's, let's give ourselves that kind of starting advantage.
+
+Especially for the things that we see often. And for us that's everything from, like Charles mentioned, you know, Auth, almost everything we build is behind some sort of user login because we do just a lot of business to business type software. And then. The rest of the tooling that we, we reach to so you know how we're gonna do CICD, how we're going to track errors with Century, how we're going to monitor with Prometheus. And I, I think a handful of these I'd like to touch on as we keep talking about what our Elixir universe looks like. But it starts with the stuff we pull into every project to create that kind of consistency and robust platform that we're gonna build this custom application for our clients on top of.
+
+[00:11:14] Sundi: Okay. That makes sense. The, the thing I was thinking about was also just like. I kind of even remember when Igniter came up on the podcast. I think we, we had Zach Daniels on to talk about that, and I think that was with Owen. And Owen I feel like, said, yeah, I wanna get off of this call. I wanna go like play with something.
+
+So I guess the thing got built and you guys use it. So there's that update
+
+for audience.
+
+[00:11:40] Dan: Owen followed through and then, you know, has left. But you know, he, he, he got it rolling and Charles picked up that mantle. 
+
+[00:11:46] Charles: Yep. Thanks Owen. 
+
+[00:11:47] Sundi: Shout out to Owen. You mentioned CICD, how, how are you managing deployments and making that 
+
+[00:11:54] Dan: repeatable 
+
+[00:11:55] Sundi: and more manageable over time?
+
+[00:11:56] Dan: , we have our kind of Elixir release approach that we have now. And what we've started doing is having our continuous integration server kind of like when a release is either merged to main or tagged for production, we use that to trigger the build of a, a, an Erlang release, you know, using mix, mix release and tar that whole thing up.
+
+And then we, we kind of scroll it away so that it's ready to deploy. And then our deploy process is really just about putting that binary in place. And so we use Ansible kind of in a very like old Rails, Capistrano style of, you know, a release folder timestamped, and then put everything in place, update some sim links, restarts and processes.
+
+And depending on the, the complexity of the deployment, the size of the deployment, that can be, you know, rolling restarts across a fleet of servers, putting things in and outta the load balancer. But we get kind of all of that automation is at our fingertips with Ansible, which is our kind of go-to for server configuration.
+
+But from a release standpoint, you know, the, the LAN releases, the runtime EXS stuff, kind of everything that's happened there in the last, decade or so that we've been doing this, has really gotten to a point where I think it's, it's pretty nice to work with. And, you know, Charles and I are still, we were just talking the other day about configuration management and you know, kind of the right way to do some of that.
+
+We experimented with Vapor for a while. But I think we're. We're really kind of settling in on probably a lot of environment variables that are being managed and read by the runtime config file. And then using that to kinda load up your standard Erl ang style application module type config.
+
+And then letting the, letting all the config within the app follow those like standard Elixir Erlang patterns.
+
+[00:13:42] Sundi: Okay, so let me throw a scenario at you then. You've got a mythical new engineer starting next week, they tell you, Hey, I've got some time now. I don't know a ton about deployments or DevOps. And I'd like to study up a little bit on how you all are doing deployments over at SmartLogic. What should I read?
+
+What should I look at? Dreaded question maybe, I don't know. What do you tell them?
+
+[00:14:09] Dan: Uh, well, I was gonna tell I was my answer until you finished the question was gonna be don't worry about it. We made it really easy. The read me will tell you how to deploy. But then you said they want to get involved and they're interested in it. So now it's like, okay, so they wanna like peek behind the curtain.
+
+What do I tell 'em to look at? we have some like Ansible resources that I tend to point developers to, to just understand the basic building blocks. Kind of base around what we're doing. I think if you don't, if a developer didn't know how Erlang releases work, like I would point them at the Elixir like a release documentation, the Phoenix release kind of documentation there.
+
+And then honestly, that's probably the extent of what you would need to know. Anything we're doing kind of beyond that would be something I wouldn't expect somebody who's like in their first few weeks of the project to need to have under their belt.
+
+[00:14:58] Sundi: Yeah, that's fair. The likelihood of that question coming up the week before somebody starts is like nothing, but it's always a fun thought process.
+
+[00:15:08] Dan: Yeah. Well, I mean, I think part of standardization for us is certainly people move between projects because we're working on many projects at a time. But it's also like anybody else, when somebody joins the team, what does that look like? Right. And you know, standardization helps in both cases.
+
+[00:15:26] Sundi: okay, so asset pipelines. We have a note here for our audience. What are they, how do you work them into your day to day? What was awful about them, maybe like three years ago? And what is better about them now with the way that you're doing them?
+
+[00:15:42] Dan: So I, you know, I think for us, we certainly started with Brunch, right? A lot of Elixir apps back in the day we're using Brunch. We started pushing things on web pack before, I think for a few releases, it was the default asset pipeline. And now we're pretty fully in on ESBuild Tailwind, and when we don't need Tailwind,
+
+using like Dart CSS, or DART SaaS, I guess it is, to handle that side of the house there. I think what Elixir and Phoenix has always done really, really well from the get go is the asset pipeline is really isolated. Like it is just its own thing. And you tell your Phoenix app how to make assets exist or how to watch for asset changes.
+
+And the external process, whatever it is, can kind of be whatever you want. And that has made moving through the versions on older things more of a JavaScript challenge than an Elixir Phoenix challenge. For us from a Elixirverse as a also a Rails shop. The way that Rails has now made similar moves to JS bundling CSS bundling and just delegating this work to external tools and moving away from the sprocket style approach.
+
+That parallel is really nice for us because now our like updated Rails apps or our brand new Rails apps and our Phoenix apps follow a similar pattern of Ask tools who make assets. Hash them so that they like cache bus nice. And put them in a folder where you can potentially serve them up either yourself via CDN or with like, you know, some sort of proxy.
+
+That pattern, our apps look the same, right? If you squint and pay, don't pay attention to Ruby versus Elixir. They look the same.
+
+[00:17:16] Sundi: Okay. Cool. And then the things that are nicer about this than three years ago. I think you said that a little bit, but I guess like what was really painful before,
+
+[00:17:27] Dan: Well, I mean, I was never like, yay brunch or yay webpac. Um, I mean, I'm sure there are people who were. web hacking, Webpac in particular, not very yay web pack. ES build is awesome. I love ES build. Tailwind's great for like what it does and if you like that utility class approach. For the things we have that don't use Tailwind, DART SaaS, is it's, it's a fast binary that turns slightly nicer to write garbage into browser ready garbage.
+
+[00:17:54] Sundi: And that's the tagline for the entire episode.
+
+[00:17:58] Dan: Or just, just shoveling garbage from one side to the other and trying to make it a little nicer.
+
+[00:18:03] Sundi: Charles, anything else to add to our trash pile here? 
+
+[00:18:08] Charles: I'm just so glad that Webpac is not something that I have to deal with anywhere close to a regular basis anymore. 
+
+[00:18:13] Sundi: Yeah. Yeah, very fair. I had an engineer who like voluntarily updated our web pack build and I was like, do you have a fever? You okay Happy? 
+
+[00:18:23] Dan: I mean, I like a challenge. I've done a few of those, like, you know, but you know, a few was fine. That was, that was more than enough. I.
+
+[00:18:30] Sundi: Yeah, exactly. Cool. What about observability? What's, what's new and interesting in the world of SmartLogic for observability?
+
+[00:18:39] Dan: nothing really new. We went pretty hard into Prometheus, which, you know, with everything happening with like telemetry inside Phoenix and Elixir, and just that whole space in general has been a really good move for us, I believe, like it is, it is trivial to add Prometheus metrics to things and add a Prometheus export and then get anything.
+
+We stand up being scraped and monitored by our Prometheus instance so that we can know how it's performing from the second it's deployed. And I consider Prometheus pretty critical to like how we operate in that sense because we do support a lot of our clients running systems. We don't just build and hand off.
+
+We're long-term partners. And part of that long-term partnership is knowing that it's running the way it's supposed to, knowing when there's a problem and then mitigating those problems if they recur. And I think observability is key to that kind of long-term relationship. And I've been very happy with Prometheus as a technology choice to accomplish that need.
+
+[00:19:37] Sundi: Charles, do you have anything to add to that one?
+
+[00:19:40] Dan: I, I made Charles do a project that was where Prometheus and Grafana was core to core to the, the product. So he maybe feels a little less pro yay than I do. 
+
+[00:19:51] Charles: Yeah, I was, I was thinking about how to maybe slot that in. 'cause that wasn't really about observability, so to speak, at least not in the way that we're talking about it here. 
+
+Right.
+
+[00:20:00] Charles: This was more about how, how do we aggregate data for a project that is constantly collecting data over sensors. So not telemetry for servers or applications, but like Real world data
+
+that's, that's coming in and
+
+[00:20:21] Sundi: Real world, like 
+
+[00:20:22] Charles: Hmm. Say that. Yeah. Yeah. 
+
+Like, 
+
+[00:20:25] Sundi: Like, 
+
+hardware data. 
+
+[00:20:26] Charles: like environmental data, like 
+
+temperature, humidity, things of that 
+
+sort. And, so then to, to connect together, Prometheus with Grafana and, an Elixir application to be able to facilitate that data coming in, being transformed and sent off to Prometheus, but then also establishing a lot of other metadata around what's being collected, where is the sensor? What else is going on with this particular sensor, and that way the client would be able to make use of that data, 
+
+keeping it vague for. 
+
+[00:21:02] Sundi: there is a piece of me here that is just like, you are real life. Like come to life book characters, because how to build a weather station in Elixir is a 
+
+book title that we have out there in our ecosystem. Um, shout out Frank. 
+
+[00:21:19] Charles: Yeah. We just didn't do any nerves on this. 
+
+[00:21:21] Dan: In this case it was commercial off the shelf data, but we knew we had time series data and we have a lot of Prometheus experience. So the question was, can we leverage Prometheus to be our ingestion point of this time series data? You know, and it was to, to the integration partner that we had for this hardware.
+
+It was, can you get it into this format or a format that we can make, make Prometheus looking and. I think what, what ended up being cool about that project too was the integration kind of went like both ways. Where like Prometheus, you almost ultimately have to tell it what to scrape, and we have a bunch of configuration we maintain to tell our Prometheus what to scrape in terms of all the applications we monitor.
+
+But in this case it was like, well, what to scrape depends on what's deployed and you want to be able to edit what's deployed through a web interface. So we actually had Prometheus getting its configuration from Elixir to then turn around and scrape stuff. Like , the Elixir was processing and the like, where we had to do some reformatting stuff.
+
+They are pretty tightly weaved together in a way. But also we're leveraging each piece for what it's really good at. , And I think that's like, you know, for the season, right? Like the Elixirverse, Elixir's great for a lot of things, but so is like a lot of other stuff and you know, how well can you make them play nice and as somebody in the weeds doing the work, Charles may not agree, but I think overall they play really nice together. 
+
+[00:22:40] Charles: it served the purpose, I think. 
+
+[00:22:41] Dan: yeah, yeah, it definitely, I mean, it accomplished the goal and it's running and it's doing what it needs to do. And you know, like anything else, there's like weird edge cases and, scaling challenges that are never where you think they're gonna be.
+
+But overall it, it's been, it's been a good use of the technology applied for like a custom application with this open source core in a way.
+
+[00:23:03] Sundi: Yeah, it's interesting. I feel like I didn't do, or I didn't work a ton with Prometheus at SmartLogic, and I'm also not like in the observability world a ton, but like I know I'm in Datadog every day. I've got dashboards i'm always looking at, there are certain metrics I'm always concerned with.
+
+Core web vitals, SEO tracking, alerts. Any kind of errors at this point. I don't even know where errors originate from because like they just kinda load into Slack and I check them, I check the runbook, see how they're doing. How is Prometheus for that? And just like your general usability standpoint, anybody can grab a, grab a look and make sure that things are operating as expected.
+
+[00:23:42] Dan: I mean, I think we use Prometheus. I see it in two very kind of particular ways. Like sure, we have it monitoring
+
+response times, query times, things like that. That's generally not where we get a whole lot of value out of it. We get, you know, just generally making sure servers are running. CPU loads are where they're supposed to be.
+
+Ram loads are where they're supposed to be. That there's plenty of free space. That processes are running the way they're supposed to go. That is a piece of Prometheus where it's like, you know, you could pay New Relic or Datadog or somebody to like, monitor infrastructure and you would get all of that.
+
+We rolled our own with Prometheus . and then the other side of it is specific application telemetry. Like this process ran, it took this amount of time, it ran at the cadence It was supposed to, its end result was this amount of data added or removed or cleaned or marshaled or notified or whatever it is.
+
+That's like core to the business logic happening the way it's supposed to. We have a lot of that in place. And then making sure then the monitoring is, are things occurring when they're supposed to? And if the process breaks down and data stops flowing through your system the way you expect it to do you know?
+
+Right? And, and for us, that's often in places where it is not an end user web metric that you would see like, oh, like checkouts or searches are down. This is like, no, data's not loading so the website is out of date. And it's like, well, you can't tell that from necessarily from like a web scraping side of observability.
+
+But you can certainly tell from a, you know, hey process has not checked in. It's gone rogue slash dead go, go resurrect. And that's been really critical for us, for a number of our clients to make sure that, you know, the business processes are flowing the way they're supposed to.
+
+[00:25:32] Sundi: Is there anything tool-wise that is new to your ecosystem, maybe in the last year or within the last season, that, uh, you like, you've tried or that you've tried and didn't like? I mean, that's a fair, fair topic too.
+
+[00:25:48] Dan: I think if we stretched the season a little bit further than actually the season. I know Charles is big on Explorer, which we talked about earlier this season. Charles, you wanna talk more about our usage of Explorer?
+
+[00:25:59] Charles: Sure. Yeah. That was a fun project, so. there's no user authentication as part of this application. It's all kind of just front facing data that users can interact with the data, can explore the data filter sort in kind of a tabular display, but also can enter some of their own data and get calculated values back based on what they input.
+
+And the other existing data in the system that I had mentioned that they could kind of filter and sort through. By using Explorer, the client already had data in spreadsheets and it was how they were working with this data and to avoid having a database and to also enable kind of quickly being able to
+
+do the sorting and filtering and other calculations across rows of of data. Explorer seemed like a really good fit. Because Explorer it, it brings the concept of data frames into Elixir and the ability to do operations on a tabular representation of data. You can say, add a new column and that column should be the product of these two other columns divided by this number. And you can just do that with one or a few lines of Elixir code, add that to your data and build like that. So with this project, we just load the data when the application starts via gen server or an agent, and keep it in state that way, and then users can interact with it.
+
+And it was, it was really handy. and kind of a fun challenge to also think about. I don't remember the specifics now, but there were a couple of times where we had to change a little bit about how we might do things to keep this as a, a database free, essentially, application.; 
+
+[00:27:47] Dan: I think it's, it's, there's two projects over the last, however many years. Probably been since the other one, like three-ish years. Anyway, you know, you do web software for as long as we've been doing it and it's like browser, server, database, browser, server, database, over and over and over again.
+
+And then we do something like that app where it's like ... browser, data in memory, huzzah!, no database. And then we also had a project a few years back that was mobile app. No server, just database on the phone locally. Don't talk to the internet, like mobile application. And it was like, this is cool.
+
+We can use SQLite and just store some data and like, you know, oh, now we gotta do like database migrations at startup of a mobile application. You know, and it's just like, it's the same stuff but different. 
+
+[00:28:36] Sundi: Yeah, 
+
+which is always a funny or a interesting way to challenge your brain. It's like a brain teaser on how to think about a different setup. Um, I think. I didn't even, I think I actually worked on that one that you're talking about, Dan. Um, but then like even now working on mobile app stuff and thinking about having web things match mobile things as they get deployed out, and just figuring out how those different interactions result in the same thing.
+
+And the database or the same thing in metrics. Oh my God. Analytics metrics. Beast. I just trying to have that the same across all three clients with like, the same like click events and whatnot is just like a whole, I could probably talk for hours about that one. Um, but it, it changed the way my brain thought about these kind of problems, which is fun.
+
+We, you know, we, we need challenges like that to keep us on our toes, I think. Um, cool. Uh, so there's always the fun. Section of every episode where we like, dig in a little into AI tools. Um, how is SmartLogic using AI tools, either in the workflow of how things are, like how you actually like do the work versus like, are you working on any, like AI products?
+
+Are there any, like, what's, what's new in the world of AI with SmartLogic?
+
+[00:29:56] Dan: So I'll start with the, we do work for hire. We don't own the intellectual property we create, so we're like being a little cautious and working with our clients to make sure that we have like all the right agreements that if, if what work we do contains code that may or may not be copyrightable by, you know, currently United States, you know, copyright law that like everybody's cool with that.
+
+So we've been kind of a little cautious in that regard. But we have a lot of kind of ongoing exploratory work. You know, for our own benefit, for our client's benefits, for where is this gonna fit in and kind of slot in nicely. We've been using GitHub copilot. I've personally been doing some work with like Codex and Claude Code and kind of the agentic, you know, agent pair programmer, and then also some LLM integration in terms of, you know, what for our, in our client's products, can we summarize, anticipate, generate on their behalf of a user that maybe is relevant to help them catch up on what they've been missing. Looking for the right places to do that. And I think the other side of what we do being business to business or business to business consumer and generally very mission driven product is to make sure that we are not distorting the purpose of the software just to have an AI feature built in there, right? And so like, yes, we could make writing this thing or this process a lot easier on the end user by AI assisting it, but that's not the mission and goal of the product. And so like if those are in conflict, then we.
+
+Try to, you know, not necessarily head down that, that road, um, and look for the right value add that doesn't detract from the purpose of the product itself.
+
+[00:31:36] Sundi: Cool. Yeah, I know the goal is always like, how do you make yourself more efficient and faster? When it comes to your own, like personal tool set and figuring out what, what helps you out? I've noticed that, you know, I'll try something with an AI tool that'll help me move faster. And it seems faster at first.
+
+I guess it depends on like what it is. I know, I think maybe we've talked about this before, but I had a like more than 10 direct reports at one point and ChatGPT was really helpful for me during review season just to organize my thoughts and get anonymized data together. But this time around I was just like, yeah, I can write it faster than it would take me to organize my thoughts. I'll just jam it into a keyboard and see how that goes. I know I haven't done anything like vibe coding wise, but that's just kind of what it reminds me of tool-wise. Speaking of vibe coding, do you wanna do a shameless plug for, uh, Yair
+
+Did a, did a fun vibe coding video. A few few. I wanna say days ago.
+
+[00:32:33] Dan: Yeah, it has, it is been more than days.
+
+[00:32:35] Sundi: Or
+
+[00:32:36] Dan: Yeah. I, I think for us, especially like being product focused is like the. I have a blog post coming out about some of this stuff too, is like the ability to get to something workable in a prototype just by like describing what you're looking for is, is cool, right?
+
+And it's like there that, that gets you something, you know? And like the first version is often your most expensive version. So if you can drive that cost down, like that's great because feedback off of something real trumps anything, you know, in terms of any kind of feedback you could get off of a wire frame or a color mockup, or a even a clickable prototype.
+
+[00:33:12] Sundi: Your first version is your most expensive version is a phrasing that I have never thought about and it's breaking my brain 'cause that is so correct.
+
+[00:33:22] Dan: I mean, especially that like, I mean the, I think the common phraseology you'll hear too is like, you know, the 80% is, is easy and then the last 20% cost 80% or whatever. Right? Like, it's that question of like, where can you shorten, right? And like you said, these tools, what people are trying to figure out is like, where is it actually more efficient and where does it just feel more efficient I think in areas where we can help clients prototype out an idea or prove out an idea before investing a ton of money in the technically sound solution. Like there, there's an advantage there. And we're trying to figure out, given those early prototypes, what's the burden to take them on and try to maintain them?
+
+How much can they be maintained outside of the original tools that they were built with? How much can those tools actually work to maintain them? And I think we see once the complexity of an application gets to a certain point with the current technology, we're seeing the LLM kind of start to chase its tail a little bit around, you know, either making the same mistakes or oscillating back and forth.
+
+And I think anyone who's worked with these tools has seen these things happen. And, the technology's improving. How we communicate with these tools is, is improving how we set up their guardrails is improving. And, you know, that may change the, the math for us, you know, at some point. But I think. Proof of concept, proof of idea is critical. And then from there, then it's like, okay, well now how do we get it to market? How do we architect it correctly? And I think that's where like our experience as an agency that's built a lot of first versions can be really helpful. As an agency that maintains a lot of what we built can be really helpful.
+
+You know, I did some, some vibe coding attempt to just get like Codex to build an Elixir app or a Phoenix application and it felt tedious and took a lot longer to make it do things that like I know how to do quickly. But then. I also set it off to try to go find a bug that I was pretty sure I knew where it was and was curious if it could find it.
+
+And it found the ex exact line that had the wrong, you know, it sh it was, it was one function call should have been a different function call. It was the only one in the application that was incorrect. That was my, what I suspected the problem was, and the, the agent could find it and suggest a diff and it's like, okay, well, like, if that was a more complicated problem that I didn't already know the answer to, and it could also find it, that's a big win because they can do that while I do something else.
+
+[00:35:31] Sundi: Yeah, that's, that's a good point. I don't think anyone's brought up the. Concept of bug finding with AI tools yet, so that's interesting.
+
+[00:35:40] Dan: I, I think I've seen it in like, some of the communities I participate in, you know, where it's, what can you task it with, right? And it's like, well, you know, and I think in this case, like I described it as, this input from this editor looks right in all these places, but wrong on this screen.
+
+You know what's up, right? And it, you give it enough words so that you know, if you've ever watched like Codex or Claude code work, you see it searching your code base, you know, doing, putting together a bunch of greps to find the right files to give it the context it needs, as long as you give it the words that will help it find the files that problem exists in, then it might be able to find it.
+
+Especially when the error is one of these things is not like the other one. That's something computers are good at detecting. And then I think the other side of that is like. Other thing I hear the most from, from peers is I make it write my tests because no one likes writing tests.
+
+If it gets us good test coverage faster. Awesome. Good. Test coverage is also hard, so, you know, we'll, we'll see. 
+
+[00:36:36] Charles: And there's a difference between good test coverage and full test coverage or like broad test coverage. Because you can cover all the functions, but the tests may not really be that of high quality. Sometimes these tools seem like they're gonna be really efficient and they do have their places where they increase efficiency, but sometimes it just kind of drops off a cliff and it can be deceptive at first that this is being efficient until you realize, oh, it's.
+
+If there's three way to three ways to solve this problem, it's chosen two of them and it's half implemented, these two, , as opposed to one completely and it working.
+
+[00:37:12] Dan: Yeah, I think that's a good point, right? 'cause you think about like developers who are new to the space, just generally, right? And like knowing when you're heading down a bad path. Is like it is an experience skill, right? Of like, like 'cause because you can really convince yourself, you can gaslight yourself into this is, this is gonna work out.
+
+I'm gonna get this to work right? And like sometimes you just have to stop, throw it away and start over. And I think that with the AI stuff, there's something here, and this is not a fully formed previous to this last 45 minute thought, but like. The, how do I as an experienced developer know that I'm heading down a bad path?
+
+That heuristic is now different because you're interacting with something completely different than your own self or a peer or pair programming or feedback from just your test suite. And so I do think there is risk of like, oh, no, like I'll just keep explaining it and it'll figure it out. And it's like, well, then maybe not.
+
+You might just end up going around in a circle. Maybe it is time to just like start over so that both you and the LLM have different input that you can just try with. 
+
+[00:38:16] Sundi: Yeah. At some point I'll try something a few times and it'll give me like the wrong answer enough times where I'm like, I know what the right answer is. I saw the wrong answer four times and I know what the right answer is now. So that, that's, that's got its uses too.
+
+[00:38:29] Dan: Yeah. It's rubber duck debugging, except now the rubber duck talks back through a giant statistical model.
+
+[00:38:34] Sundi: Right. This is like the world's nerdiest deep cut. I don't know if any one of you or our listeners are fantasy readers, but it reminds me of, I read Eragon long time ago, and the magic system in that world was like. If you like, you could do things with magic, but you couldn't do those things. Or it was dangerous to do those things with magic if you didn't already have the ability yourself.
+
+So like, if you couldn't pick up a rock yourself and you try to pick up a rock with magic that was bigger than your physical body could do it, like that would hurt you, that would burn you out. , And then at some point in the book, they make lace. That's something that you can do easily, but like it takes a lot of time to do it, but they did it faster because it was like they just used their energy towards making the lace like super quickly.
+
+And then whenever people talk about using AI to speed up a process that they already know how to do that there's already within their ability to do, but they're just doing it faster now. I'm like, that is the correct way to use it. That's at least in my opinion, that's the correct way and just makes me wanna go re reread Eragon every time.
+
+[00:39:39] Dan: Yeah. I mean, I think there's that and there's the brainstorming side of it too, of like, I just don't know, gimme a place to start. Right? Like empty buffer syndrome. Right. And, you know, I, I don't know, what do I type? Like, you know, I think there's, there's advantages there. It, it's similar to the advantages we see with like peer programming, right?
+
+Or just like having a chance to talk about it. It is not early days anymore, but it still feels very early days. Right. And part of that is just how fast it's moving. Part of that is, you know, we just gotta see how much of this sticks and for what, you know, for what good.
+
+[00:40:10] Sundi: Very fair. Charles, are you gonna play with Tidewave when that is out of beta? 
+
+[00:40:15] Charles: Of course, and I, and I, I feel like I saw some options for kind of playing with it 
+
+now. I just haven't made the time to do so, but yes, of course. 
+
+[00:40:25] Sundi: Cool. 
+
+[00:40:26] Charles: Mm-hmm. 
+
+[00:40:27] Sundi: I think that's one thing that comes up whenever we talk about Elixir systems and AI comes up is just like, oh, it did a great job in Ruby, or it did a good job in JavaScript, but there's just not enough data to build off examples for doing something in Elixir. So it'll be interesting to see kind of what, what else comes out over time.
+
+[00:40:46] Dan: Yeah, I, I think people maybe are underestimating how much work is going into the stuff that sits on the model that then we interact with so if, if that's optimized a certain way or if that, if it's trained on certain things, and what is, what's the search space of Elixir code that things are trained on versus JavaScript, right?
+
+Or, you know, anything probably pales in comparison to how much JavaScript this stuff has been trained on. And so I think, you know, what's the right way for us to structure and express things so that these things give us an advantage as opposed to setting us back because it's going to lead us astray.
+
+I think that's, an open question for sure. 'Cause we've definitely seen LLMs generate looks or code that like no one should ever write. There's no reason to. Right. It's like overly defensive or like, you know, it is like, you know, checking to make sure modules exist . It's 
+
+[00:41:32] Charles: Inside a function, it imports the module inside a try rescue.
+
+[00:41:36] Dan: right. you know, and there are languages where that pattern makes sense, but it looks like it's not one of them. If you're doing like extreme dependency injection on various things, then like, sure. You want to be able to look and see based on how I'm installed, what do I have available, use the best thing available.
+
+But that's like generally not how, at least we write our Elixir applications.
+
+[00:41:54] Sundi: Yeah. 
+
+[00:41:56] Charles: Sometimes working with these tools reminds me of the days of dial up when I might queue up a few tabs and while I'm waiting on those tabs to load in the browser, I can go and work on something else and then I'll come back to those when they're, when they're done, or when I finish on this other task.
+
+And. So now it's a little bit of ask the LLM work on something for me, especially if it's something larger, go work on something else and then come back to it when it's done. 
+
+[00:42:23] Sundi: Yeah. 
+
+Cool. I think this conversation and this season has just been a really good opportunity to reflect on the tools that we have in the world and can use to help us with our Elixir applications. Just in general, like the Elixir verse is not just Elixir, but all of the things that help us write Elixir.
+
+For example, I think I was. In the vicinity when Zach Daniels was working on Igniter and I was like, what you doing over there in the lobby at ElixirConf? And he was like, I had this idea. You know? And he is just like, kind of going and it's just sort of how Zach is right? He's just like, ah, I got an idea.
+
+I gotta get it out. so it's always kind of fun to see, you know, a few years later where certain things are and how we're using it every day , or in our day to day. So this conversation's been really fun. I do wanna plug that we are, for one of our final episodes of this season, we actually are curious what you all thought about the different conversations this season, the different topics, maybe different opinions that people have had that they've come on to talk about.
+
+So we do have a listener survey in the notes section or wherever you're listening, there should be like a show note section where you can go grab this link, and then, we would love to hear from you, hear what your thoughts are on the different episodes of the season, and then we're actually gonna go over that and do some episode recaps, uh, towards the end of the season.
+
+So, please if you're listening or you're watching on YouTube, please click the link. We definitely would, would love to hear from everybody. Hear your feedback and talk about it. , So with that major plug and ask for the audience outta the way.
+
+Charles, Dan, do you have anything else? Uh, for, for the group?
+
+[00:43:55] Dan: No, I mean, definitely fill out the survey. We, we really wanna hear from you and talk through your thoughts on this season. This has been a, well, I don't want to get ahead. We're gonna do a recap episode, but like the, the world of Elixir and all the things that we can use while also using it and how easy that can be kind of across the board has been great.
+
+And so, you know, certainly interested in people's feedback on what types of integrations and, and what parts of the Elixirverse speak to you where you're finding good value? Maybe pieces of the universe that we have yet to discover. Insert some sort of Star Trek meme, something here, I guess.
+
+so, you know, definitely interested to hear what people think about the Elixirverse and, and how we can continue the conversation, through the end of the season into, into further seasons around, you know, what, what's interesting to people, we're trying to not necessarily be a news show, but also, have kind of interesting conversations that are relevant to engineers working in this space.
+
+And I've certainly enjoyed the conversations this season. 
+
+[00:44:57] Charles: Dan said it pretty well. Please fill out the survey. Help us keep this interesting for everybody. And, Uh, thanks to those who are doing the work out there to enable working with these tools in Emacs instead of having to leave the editor that I love.
+
+[00:45:09] Dan: Ah yes, the ultimate plug. Please don't make my fingers learn how to type in something different. And I'm sorry, VIM mode for VS code is not enough like Vim for me to feel really good.
+
+[00:45:19] Sundi: Yep. And then for the last ultimate plug, uh, if you're listening to this episode and you thought, wow, those are some smart people doing cool stuff over there, maybe they can build me an app. You can always reach out at smartlogic.io as you can hear, there's always some innovations happening over here that make things faster, more efficient, and just all around a good time for everybody involved.
+
+So
+
+do that. 
+
+[00:45:42] Dan: Sundi.
+
+[00:45:43] Sundi: Yeah, no problem. Got you. All right, well this is a fun time and we'll see you next week everybody. 
+
+​
+

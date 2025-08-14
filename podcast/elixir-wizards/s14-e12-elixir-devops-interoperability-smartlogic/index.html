@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Elixir DevOps & Interoperability with Dan Ivovich and Charles Suggs | SmartLogic</title>
+  <meta name="description" content="In this episode of Elixir Wizards, host Sundi Myint chats with SmartLogic engineers and fellow Wizards Dan Ivovich and Charles Suggs about the practical tooling that surrounds Elixir in a consultancy setting."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K9MMX6TR');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  <meta property="og:title" content="Elixir DevOps & Interoperability with Dan Ivovich and Charles Suggs" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s14-e12-elixir-devops-interoperability-smartlogic" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="In this episode of Elixir Wizards, host Sundi Myint chats with SmartLogic engineers and fellow Wizards Dan Ivovich and Charles Suggs about the practical tooling that surrounds Elixir in a consultancy setting." />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/2cd38cac-a0db-4e41-b4d6-fa80b8133a45.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/2/2cd38cac-a0db-4e41-b4d6-fa80b8133a45/cover.jpg?v=1" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+H9eT0H25/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/2cd38cac-a0db-4e41-b4d6-fa80b8133a45.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s14-e12-elixir-devops-interoperability-smartlogic">
+  <meta name="twitter:title" content="Elixir DevOps & Interoperability with Dan Ivovich and Charles Suggs">
+  <meta name="twitter:description" content="In this episode of Elixir Wizards, host Sundi Myint chats with SmartLogic engineers and fellow Wizards Dan Ivovich and Charles Suggs about the practical tooling that surrounds Elixir in a consultancy setting.">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/2/2cd38cac-a0db-4e41-b4d6-fa80b8133a45/cover.jpg?v=1">
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9MMX6TR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > Elixir DevOps & Interoperability with Dan Ivovich and Charles Suggs
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>Elixir DevOps & Interoperability with Dan Ivovich and Charles Suggs</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+H9eT0H25" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        <h2>About this Episode</h2>
+        <h3>
+          Published August 14, 2025 |
+          Duration: 47:12 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/2cd38cac-a0db-4e41-b4d6-fa80b8133a45.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s14-e12-elixir-devops-interoperability-smartlogic.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>In this episode of Elixir Wizards, host Sundi Myint chats with SmartLogic engineers and fellow Wizards Dan Ivovich and Charles Suggs about the practical tooling that surrounds Elixir in a consultancy setting. We dig into how standardized dev environments, sensible scaffolding, and clear observability help teams ship quickly across many client projects without turning every app into a snowflake. Join us for a grounded tour of what’s working for us today (and what we’ve retired), plus how we evaluate new tech (including AI) through a pragmatic, Elixir-first lens.</p>
+
+<h3>Key topics discussed in this episode:</h3>
+
+<ul>
+<li>Standardizing across projects: why consistent environments matter in consultancy work</li>
+<li>Nix (and flakes) for reproducible dev setups and faster onboarding</li>
+<li>Igniter to scaffold common patterns (auth, config, workflows) without boilerplate drift</li>
+<li>Deployment approaches: OTP releases, runtime config, and Ansible playbooks</li>
+<li>Frontend pipeline evolution: from Brunch/Webpack to esbuild + Tailwind</li>
+<li>Observability in practice: Prometheus metrics and Grafana dashboards</li>
+<li>Handling time-series and sensor data </li>
+<li>When Explorer can be the database</li>
+<li>Picking the right tool: Elixir where it shines, integrations where it counts</li>
+<li>Using AI with intention: code exploration, prototypes, and guardrails for IP/security</li>
+<li>Keeping quality high across multiple codebases: tests, telemetry, and sensible conventions</li>
+<li>Reducing context-switching costs with shared patterns and playbooks</li>
+</ul>
+
+<h3>Links mentioned:</h3>
+
+<p><a href="http://smartlogic.io" rel="nofollow">http://smartlogic.io</a><br>
+<a href="https://nix.dev/" rel="nofollow">https://nix.dev/</a><br>
+<a href="https://github.com/ash-project/igniter" rel="nofollow">https://github.com/ash-project/igniter</a><br>
+Elixir Wizards S13E01 Igniter with Zach Daniel <a href="https://youtu.be/WM9iQlQSF_g" rel="nofollow">https://youtu.be/WM9iQlQSF_g</a> <br>
+<a href="https://github.com/elixir-explorer/explorer" rel="nofollow">https://github.com/elixir-explorer/explorer</a><br>
+Elixir Wizards S14E09 Explorer with Chris Grainger <a href="https://youtu.be/OqJDsCF0El0" rel="nofollow">https://youtu.be/OqJDsCF0El0</a> <br>
+Elixir Wizards S14E08 Nix with Norbert (Nobbz) Melzer <a href="https://youtu.be/yymUcgy4OAk" rel="nofollow">https://youtu.be/yymUcgy4OAk</a> <br>
+<a href="https://jqlang.org/" rel="nofollow">https://jqlang.org/</a><br>
+<a href="https://github.com/BurntSushi/ripgrep" rel="nofollow">https://github.com/BurntSushi/ripgrep</a><br>
+<a href="https://github.com/resources/articles/devops/ci-cd" rel="nofollow">https://github.com/resources/articles/devops/ci-cd</a><br>
+<a href="https://prometheus.io/" rel="nofollow">https://prometheus.io/</a><br>
+<a href="https://capistranorb.com/" rel="nofollow">https://capistranorb.com/</a><br>
+<a href="https://ansible.com/%C2%A0" rel="nofollow">https://ansible.com/ </a> <br>
+<a href="https://hexdocs.pm/phoenix/releases.html" rel="nofollow">https://hexdocs.pm/phoenix/releases.html</a> <br>
+<a href="https://brunch.io/" rel="nofollow">https://brunch.io/</a><br>
+<a href="https://webpack.js.org/loaders/css-loader/" rel="nofollow">https://webpack.js.org/loaders/css-loader/</a><br>
+<a href="https://tailwindcss.com/" rel="nofollow">https://tailwindcss.com/</a><br>
+<a href="https://sass-lang.com/dart-sass/" rel="nofollow">https://sass-lang.com/dart-sass/</a><br>
+<a href="https://grafana.com/" rel="nofollow">https://grafana.com/</a><br>
+<a href="https://pragprog.com/titles/passweather/build-a-weather-station-with-elixir-and-nerves/" rel="nofollow">https://pragprog.com/titles/passweather/build-a-weather-station-with-elixir-and-nerves/</a><br>
+<a href="https://www.datadoghq.com/" rel="nofollow">https://www.datadoghq.com/</a><br>
+<a href="https://sqlite.org/" rel="nofollow">https://sqlite.org/</a><br>
+Elixir Wizards S14E06 SDUI at Cars.com with Zack Kayser <a href="https://youtu.be/nloRcgngT_k" rel="nofollow">https://youtu.be/nloRcgngT_k</a> <br>
+<a href="https://github.com/features/copilot" rel="nofollow">https://github.com/features/copilot</a><br>
+<a href="https://openai.com/codex/" rel="nofollow">https://openai.com/codex/</a><br>
+<a href="https://www.anthropic.com/claude-code" rel="nofollow">https://www.anthropic.com/claude-code</a><br>
+YouTube Video: Vibe Coding TEDCO&#39;s RFP <a href="https://youtu.be/i1ncgXZJHZs" rel="nofollow">https://youtu.be/i1ncgXZJHZs</a> <br>
+Blog: <a href="https://smartlogic.io/blog/how-i-used-ai-to-vibe-code-a-website-called-for-in-tedco-rfp/" rel="nofollow">https://smartlogic.io/blog/how-i-used-ai-to-vibe-code-a-website-called-for-in-tedco-rfp/</a> <br>
+Blog: <a href="https://smartlogic.io/blog/from-vibe-to-viable-turning-ai-built-prototypes-into-market-ready-mvps/" rel="nofollow">https://smartlogic.io/blog/from-vibe-to-viable-turning-ai-built-prototypes-into-market-ready-mvps/</a> <br>
+<a href="https://www.thriftbooks.com/w/eragon-by-christopher-paolini/246801" rel="nofollow">https://www.thriftbooks.com/w/eragon-by-christopher-paolini/246801</a><br>
+<a href="https://tidewave.ai/" rel="nofollow">https://tidewave.ai/</a></p>
+
+<p><strong><em>!!</em> We Want to Hear Your Thoughts *!!</strong>*</p>
+
+<p>Have questions, comments, or topics you&#39;d like us to discuss in our season recap episode? </p>
+
+<p>Share your thoughts with us here: <a href="https://forms.gle/Vm7mcYRFDgsqqpDC9" rel="nofollow">https://forms.gle/Vm7mcYRFDgsqqpDC9</a></p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s14-e12-elixir-devops-interoperability-smartlogic.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/channel/UCWAV0_JasFSJMLGryeUedCQ">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <!-- <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li> -->
+            <li class="footer__right-menu-item"><a href="/about/privacy.html">Privacy Policy</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+</body>
+</html>
