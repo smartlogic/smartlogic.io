@@ -23,8 +23,8 @@ fallback_image = rss_xml.xpath("//channel/itunes:image").first.attributes["href"
 items = rss_xml.xpath("//channel/item").map do |item|
   {
     "title" => item.xpath("title").text,
-    "slug" => item.xpath("link").text.gsub("https://smartlogic.io/podcast/elixir-wizards/", ""),
-    "link" => item.xpath("link").text,
+    "slug" => item.xpath("link").text.gsub("https://smartlogic.io/podcast/elixir-wizards/", "").gsub("http://podcast.smartlogic.io/", ""),
+    "link" => item.xpath("link").text.gsub("http://podcast.smartlogic.io/", "https://smartlogic.io/podcast/elixir-wizards/"),
     "guid" => item.xpath("guid").text,
     "pubDate" => item.xpath("pubDate").text,
     "pubDateFriendly" => parse_date(item.xpath("pubDate").text),
@@ -55,6 +55,7 @@ transcripts = YAML.load(File.read("_data/elixir_wizards_transcripts.yml"))
 
 transcripts = rss_xml.xpath("//channel/item").reduce(transcripts) do |transcripts, item|
   slug = item.xpath("link").text.gsub("https://smartlogic.io/podcast/elixir-wizards/", "")
+  slug.gsub!("http://podcast.smartlogic.io/", "")
   transcript_path = "podcast/elixir-wizards/transcripts/#{slug}.txt"
 
   transcript = item.xpath("podcast:transcript").first
