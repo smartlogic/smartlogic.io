@@ -1,0 +1,230 @@
+// Marketing Services-offered styling
+.marketing-services {
+  background-color: $marketing-bg-light-teal;
+
+  .container {
+    @include marketing-container(1257px);
+    min-height: 1257px;
+    padding: 97px 0;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    @include marketing-title-large;
+    text-align: center;
+    width: 100%;
+    max-width: 1024px;
+    padding: 0 220px;
+  }
+
+  &__intro {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__subtitle {
+    @include marketing-body-text;
+    text-align: center;
+  }
+
+  &__subheading {
+    font-family: $font-circular-medium;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    color: $marketing-text-teal;
+    text-transform: uppercase;
+  }
+
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: 32px;
+    margin: 32px 112px 0;
+    width: calc(100% - 224px);
+    max-width: 1216px;
+  }
+
+  &__closing {
+    width: 100%;
+    max-width: 1000px;
+    margin: 32px auto 0;
+    text-align: center;
+  }
+
+  &__closing-text {
+    @include marketing-body-text;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  &__cta-container {
+    width: 100%;
+    margin: 0 auto 0;
+    text-align: center;
+    display: block;
+  }
+
+  &__cta-button {
+    @include marketing-button;
+    width: 284px;
+    margin-bottom: 16px;
+  }
+}
+
+.service-box {
+  width: calc(33.333% - 22px);
+  max-width: 384px;
+  background-color: $white;
+  border-top: 1px solid $marketing-border-teal;
+  padding: 24px;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-family: $font-circular-medium;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    color: $marketing-text-teal;
+    margin: 0;
+  }
+
+  &__body {
+    @include marketing-body-text;
+    margin: 0;
+  }
+}
+
+@media (min-width: 1920px) {
+  .marketing-services {
+    .container {
+      max-width: 1920px;
+    }
+
+    &__header {
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    &__title {
+      max-width: 500px;
+      padding: 0;
+      margin-bottom: 32px;
+    }
+
+    &__intro {
+      max-width: 957px;
+    }
+
+    &__grid {
+      margin: 32px auto 0;
+    }
+
+    &__closing {
+      max-width: 936px;
+      margin: 64px auto 0;
+    }
+  }
+}
+
+@media (max-width: 1110px) {
+  .marketing-services {
+    .container {
+      min-height: clamp(1550px, 165vw, 1690px);
+      padding: 48px 0;
+    }
+
+    &__grid {
+      display: flex;
+      flex-direction: column;
+      row-gap: 12px;
+      margin: 16px 80px 0;
+      width: calc(100% - 80px);
+    }
+
+    &__intro {
+      max-width: 750px;
+      margin: 0 40px;
+    }
+
+    &__closing {
+      max-width: 750px;
+      margin: 32px auto 0;
+    }    
+  }
+
+  .service-box {
+    width: 100%;
+    max-width: 100%;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .marketing-services {
+    .container {
+      max-width: 768px;
+      min-height: calc(1468px + (768px - 100vw) * 0.8);
+      display: block;
+    }
+
+    &__header {
+      gap: 0;
+      align-items: flex-start;
+    }
+
+    &__title {
+      max-width: 500px;
+      padding: 0;
+      margin: 0 auto 16px;
+      text-align: center;
+    }
+
+    &__intro {
+      max-width: 688px;
+      margin: 0 auto 16px;
+    }
+
+    &__grid {
+      max-width: 688px;
+      margin: 16px 40px 0;
+    }
+
+    &__closing {
+      max-width: 688px;
+      margin: 32px auto 32px;
+    }
+
+    &__closing-text {
+      margin-bottom: 16px;
+    }
+
+    &__cta-container {
+      margin: 16px auto 46px;
+    }
+  }
+
+  .service-box {
+    max-width: 688px;
+
+    &__content {
+      max-width: 640px;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+// Mixins
+@mixin marketing-title-large {
+  font-family: $font-circular-bold;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 60px;
+  letter-spacing: -0.025em;
+  color: $marketing-text-dark;
+}
+
+@mixin marketing-title-medium {
+  font-family: $font-circular-bold;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: -0.025em;
+  color: $marketing-text-dark;
+}
+
+@mixin marketing-body-text {
+  font-family: $font-circular-reg;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  color: $marketing-text-gray;
+}
+
+@mixin marketing-button-base {
+  display: inline-block;
+  padding: 16px 24px;
+  background-color: $marketing-button-bg;
+  color: $marketing-button-text;
+  font-family: $font-circular-medium;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+}
+
+@mixin marketing-button {
+  @include marketing-button-base;
+
+  &:hover {
+    background-color: $marketing-button-bg-hover;
+  }
+}
+
+@mixin marketing-link {
+  @include marketing-button-base;
+
+  &:hover {
+    background-color: darken($marketing-button-bg, 5%);
+  }
+}
+
+@mixin marketing-cta-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+
+  span {
+    font-family: $font-circular-medium;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: $marketing-button-bg;
+    white-space: nowrap;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+@mixin marketing-container($height) {
+  display: flex;
+  max-width: 1440px;
+  height: $height;
+  margin: 0 auto;
+  width: 100%;
+}
