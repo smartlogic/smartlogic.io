@@ -1,0 +1,145 @@
+// Marketing call to action first panel 
+.marketing-cta-panel-1 {
+  .container {
+    @include marketing-container(726px);
+    padding: 96px 0;
+    position: relative;
+  }
+
+  &__content {
+    width: 100%;
+    max-width: 650px;
+    margin-left: 112px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__header {
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    @include marketing-title-large;
+    margin-bottom: 16px;
+  }
+
+  &__subtitle {
+    @include marketing-body-text;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__details-title {
+    @include marketing-title-medium;
+  }
+
+  &__details-text {
+    @include marketing-body-text;
+
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    p {
+      margin: 16px 0 0 0;
+    }
+  }
+
+  &__cta-button {
+    @include marketing-button;
+    width: 135px;
+    height: 56px;
+  }
+
+  &__image {
+    position: absolute;
+    top: 127px;
+    right: 112px;
+    width: calc(100% - 762px - 224px);
+    max-width: 472px;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+@media (min-width: 1920px) {
+  .marketing-cta-panel-1 {
+    .container {
+      max-width: 1920px;
+    }
+
+    &__content {
+      max-width: 906px;
+      margin-left: 224px;
+    }
+
+    &__details-text {
+      max-width: 863px;
+    }
+
+    &__image {
+      top: 126px;
+      right: 224px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .marketing-cta-panel-1 {
+    .container {
+      max-width: 768px;
+      min-height: calc(570px + (768px - 100vw) * 0.5);
+      display: block;
+      padding: 48px 0 64px;
+    }
+
+    &__content {
+      width: calc(100% - 80px);
+      max-width: 688px;
+      margin-left: 40px;
+      margin-right: 40px;
+    }
+
+    &__header {
+      gap: 16px;
+    }
+
+    &__title {
+      width: 100%;
+    }
+
+    &__subtitle {
+      width: 100%;
+    }
+
+    &__details {
+      gap: 16px;
+    }
+
+    &__details-text {
+      width: 100%;
+    }
+
+    &__image {
+      display: none;
+    }
+  }
+}
+
+  @media (max-width: 600px) {
+    .marketing-cta-panel-1 {
+      .container {
+        min-height: calc(570px + (1000px - 100vw) * 0.5);
+      }
+    }
+}

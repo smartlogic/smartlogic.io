@@ -1,0 +1,198 @@
+// Marketing case study first panel 
+.marketing-case-study-1 {
+  .container {
+    @include marketing-container(912px);
+    padding: 206px 0;
+  }
+
+  &__image {
+    width: clamp(350px, 30vw, 518px);
+    margin-left: clamp(70px, 6.5vw, 112px);
+    border-radius: $marketing-border-radius;
+    overflow: hidden;
+    background-color: $marketing-bg-pale-yellow;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-top: 7.5%;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__content {
+    width: 100%;
+    max-width: 650px;
+    margin-left: clamp(430px, 42vw, 678px);
+    margin-right: 112px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__headline {
+    @include marketing-title-medium;
+    font-size: clamp(32px, 2.78vw, 40px);
+    line-height: clamp(40px, 3.47vw, 50px);
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 32px;
+  }
+
+  &__description {
+    @include marketing-body-text;
+    font-size: clamp(16px, 1.39vw, 20px);
+    line-height: clamp(24px, 2.08vw, 30px);
+
+    p {
+      margin: 0 0 32px 0;
+    }
+
+    p:last-child {
+      margin-bottom: 32px;
+    }
+
+    .underline {
+      text-decoration: underline;
+    }
+  }
+
+  &__cta-link {
+    @include marketing-cta-link;
+
+    span {
+      font-size: clamp(16px, 1.39vw, 20px);
+      line-height: clamp(20px, 1.67vw, 24px);
+    }
+
+    img {
+      width: clamp(18px, 1.67vw, 24px);
+      height: clamp(18px, 1.67vw, 24px);
+      margin-left: clamp(8px, 1.11vw, 16px);
+    }
+  }
+}
+
+@media (min-width: 1920px) {
+  .marketing-case-study-1 {
+    .container {
+      max-width: 1920px;
+      padding: 164px 0;
+    }
+
+    &__image {
+      margin-left: 224px;
+    }
+
+    &__content {
+      max-width: 904px;
+      margin-left: 792px;
+      gap: 32px;
+    }
+  }
+}
+
+@media (max-width: 1230px) {
+  .marketing-case-study-1 {
+    &__content {
+      max-width: 550px;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .marketing-case-study-1 {
+    .container {
+      height: 1000px;
+    }
+
+    &__image {
+      display: none;
+    }
+
+    &__content {
+      position: relative;
+      width: calc(100% - 80px);
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+
+    &__headline {
+      font-size: 36px;
+      line-height: 44px;
+    }
+
+    &__description {
+      font-size: 20px;
+      line-height: 30px;
+    }
+
+    &__cta-link {
+      span {
+        font-size: 20px;
+        line-height: 24px;
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+        margin-left: 16px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .marketing-case-study-1 {
+    .container {
+      max-width: 768px;
+      height: 1400px;
+      display: block;
+      padding: 48px 0;
+    }
+
+    &__image {
+      width: calc(100% - 84px);
+      max-width: 684px;
+      margin-left: 42px;
+      margin-right: 42px;
+      margin-bottom: 24px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-top: 7.5%;
+
+      img {
+        max-width: 520px;
+        width: 100%;
+        height: auto;
+        max-height: 460px;
+      }
+    }
+
+    &__content {
+      height: 704px;
+      margin-left: 40px;
+      position: relative;
+      gap: 16px;
+      text-align: left;
+    }
+
+    &__headline {
+      height: 88px;
+    }
+
+    &__description {
+      margin-bottom: 0;
+    }
+
+    &__cta {
+      margin-top: 0px;
+    }
+  }
+}

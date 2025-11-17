@@ -1,0 +1,153 @@
+// Marketing hero panel styling
+.marketing-hero {
+  background-color: $marketing-bg-light-blue;
+  position: relative;
+
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    max-width: 648px;
+    margin: 121px 0 121px 112px;
+    z-index: 2;
+  }
+
+  &__title {
+    font-family: $font-circular-bold;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 72px;
+    letter-spacing: -0.025em;
+    color: $marketing-text-dark;
+    width: 450px;
+  }
+
+  &__subtitle {
+    @include marketing-body-text;
+    font-size: 22px;
+  }
+
+  &__cta {
+    @include marketing-button;
+    width: fit-content;
+  }
+
+  &__image {
+    position: absolute;
+    top: 93px;
+    right: 0;
+    max-width: 681px;
+    width: 47%;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+@media (min-width: 1920px) {
+  .marketing-hero {
+    .container {
+      max-width: 1920px;
+    }
+
+    &__content {
+      max-width: 896px;
+      margin: 172px 0 172px 224px;
+      padding-right: 48px;
+    }
+
+    &__image {
+      max-width: 788px;
+    }
+  }
+}
+
+@media (min-width: 1221px) {
+  .marketing-hero {
+    &__title {
+      width: auto;
+      max-width: 648px;
+    }
+  }
+}
+
+@media (max-width: 1220px) {
+  .marketing-hero {
+    &__title {
+      max-width: 450px;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .marketing-hero {
+    &__image {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .marketing-hero {
+    .container {
+      max-width: 768px;
+      height: clamp(800px, 125vw, 940px);
+      display: block;
+      overflow: hidden;
+    }
+
+    &__content {
+      max-width: 696px;
+      margin: 0 0 0 40px;
+      padding-top: clamp(40px, 7.95vw, 61px);
+      padding-right: 0;
+      gap: 16px;
+    }
+
+    &__title {
+      width: auto;
+      max-width: 100%;
+      font-size: clamp(32px, 6.25vw, 48px);
+      line-height: clamp(40px, 7.55vw, 58px);
+      letter-spacing: -0.025em;
+      margin-right: 40px;
+    }
+
+    &__subtitle {
+      font-size: clamp(16px, 2.6vw, 20px);
+      line-height: clamp(24px, 3.9vw, 30px);
+      margin-bottom: 16px;
+      margin-right: 40px;
+    }
+
+    &__cta {
+      font-size: clamp(16px, 2.6vw, 20px);
+      line-height: clamp(20px, 3.125vw, 24px);
+      padding: clamp(12px, 2.08vw, 16px) clamp(18px, 3.125vw, 24px);
+    }
+
+    &__image {
+      position: absolute;
+      top: clamp(350px, 65vw, 500px);
+      bottom: clamp(10px, 5vw, 50px);
+      right: 0;
+      width: 100%;
+      display: flex;
+
+      img {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        display: block;
+      }
+    }
+  }
+}
