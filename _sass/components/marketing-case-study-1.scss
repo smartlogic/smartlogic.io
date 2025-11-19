@@ -1,4 +1,4 @@
-// Marketing case study first panel 
+// Marketing case study first panel
 .marketing-case-study-1 {
   .container {
     @include marketing-container(912px);
@@ -75,6 +75,7 @@
   }
 }
 
+// Extra large screens (1920px+)
 @media (min-width: 1920px) {
   .marketing-case-study-1 {
     .container {
@@ -94,6 +95,7 @@
   }
 }
 
+// Large tablet / small desktop (1230px and below)
 @media (max-width: 1230px) {
   .marketing-case-study-1 {
     &__content {
@@ -102,12 +104,14 @@
   }
 }
 
+// Tablet landscape (769px - 1024px)
+// Hide image, center content
 @media (max-width: 1024px) {
   .marketing-case-study-1 {
     .container {
-      height: 1000px;
+      padding: 100px 0;
     }
-
+    
     &__image {
       display: none;
     }
@@ -146,11 +150,12 @@
   }
 }
 
+// Mobile (768px and below)
+// Show image again, stack layout
 @media (max-width: 768px) {
   .marketing-case-study-1 {
     .container {
       max-width: 768px;
-      height: 1400px;
       display: block;
       padding: 48px 0;
     }
@@ -176,15 +181,10 @@
     }
 
     &__content {
-      height: 704px;
       margin-left: 40px;
       position: relative;
       gap: 16px;
       text-align: left;
-    }
-
-    &__headline {
-      height: 88px;
     }
 
     &__description {
@@ -193,6 +193,23 @@
 
     &__cta {
       margin-top: 0px;
+    }
+
+    &__cta-link {
+      img {
+        margin-left: 4px;
+      }
+    }
+  }
+}
+
+// Small mobile (480px and below)
+.marketing-case-study-1 {
+  @include marketing-small-mobile;
+
+  @media (max-width: 480px) {
+    .container {
+      height: auto;
     }
   }
 }
