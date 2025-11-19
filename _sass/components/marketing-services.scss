@@ -3,8 +3,10 @@
   background-color: $marketing-bg-light-teal;
 
   .container {
-    @include marketing-container(1257px);
-    min-height: 1257px;
+    display: flex;
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
     padding: 97px 0;
   }
 
@@ -146,7 +148,6 @@
 @media (max-width: 1110px) {
   .marketing-services {
     .container {
-      min-height: clamp(1550px, 165vw, 1690px);
       padding: 48px 0;
     }
 
@@ -225,6 +226,36 @@
 
     &__content {
       max-width: 640px;
+    }
+  }
+}
+
+// Small mobile (480px and below)
+.marketing-services {
+  @include marketing-services-small-mobile;
+  &__intro {
+    margin: 0 0 16px;
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      height: auto;
+    }
+  }
+}
+
+.service-box {
+  @media (max-width: 480px) {
+    padding: 16px;
+
+    &__title {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    &__body {
+      font-size: 16px;
+      line-height: 24px;
     }
   }
 }
