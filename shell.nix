@@ -15,11 +15,7 @@ let
 
   inputs = basePackages
     ++ [ pkgs.bashInteractive ]
-    ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ pkgs.inotify-tools ]
-    ++ pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk.frameworks; [
-        CoreFoundation
-        CoreServices
-      ]);
+    ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ pkgs.inotify-tools ];
 
 in pkgs.mkShell {
   name = "SmartLogic.io";
