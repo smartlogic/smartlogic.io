@@ -1,7 +1,7 @@
 // Marketing call to action fourth panel
 .marketing-cta-panel-4 {
   .container {
-    padding-top: 20px;
+    padding-top: 48px;
     padding-bottom: 10px;
   }
 
@@ -11,7 +11,7 @@
     margin: 0 auto 10px;
   }
 
- &__title {
+  &__title {
     @include marketing-title-large;
     margin-bottom: 10px;
   }
@@ -107,21 +107,25 @@
 @media (max-width: 1024px) {
   .marketing-cta-panel-4 {
     &__grid {
-      grid-template-columns: 1fr;
-      max-width: 680px;
-      margin: 0 auto;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin: 0 40px;
     }
   }
 
   .marketing-event-card {
-    max-width: 100%;
+    padding: 32px 28px;
   }
 }
 
 @media (max-width: 768px) {
   .marketing-cta-panel-4 {
     &__grid {
+      grid-template-columns: 1fr;
       gap: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
   }
 
@@ -154,13 +158,17 @@
   }
 }
 
+// Small mobile (480px and below)
+.marketing-cta-panel-4 {
+  @include marketing-cta-small-mobile;
+}
+
 @media (max-width: 480px) {
   .marketing-cta-panel-4 {
     &__grid {
       gap: 16px;
+      max-width: none;
     }
-
-    @include marketing-cta-small-mobile;
   }
 
   .marketing-event-card {
