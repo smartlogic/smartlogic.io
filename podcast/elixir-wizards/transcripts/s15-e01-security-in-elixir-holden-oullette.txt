@@ -1,0 +1,265 @@
+S15E01 The State of Security in Elixir with Holden Oullette (Audio)
+===
+
+[00:00:00] ​
+
+[00:00:31] Charles: Hi everyone. I am Charles Suggs, software developer at SmartLogic, and I'm your host for today's episode for our Season 15 premier, we're joined by Holden Oullette, senior Security Software engineer at Netflix. In this episode, we're talking about the state of security in Elixir and the larger development ecosystem, including changes to the landscape and how we can adapt to address them.
+
+[00:00:57] Welcome to the show.
+
+[00:00:58] Holden: Hey, thank you so much, and I'm very honored to be on the Season 15 premiere. I've been A long time listener, so it's, this is exciting.
+
+[00:01:07] Charles: Excellent. Glad that you were able to join us. before we really dive into this conversation, tell us a little bit about yourself. How you, how you came to Elixir, how you got interested in, in security specifically, and that sort of thing.
+
+[00:01:19] Holden: Yeah, absolutely. So I've been involved in cybersecurity since, basically as long as I can remember. 
+
+[00:01:27] I got really involved all the way back in high school and then I learned that you could turn a career out of it. So, I got really involved in that. I did a couple, you know, security internships and I worked for my university on the security team there.
+
+[00:01:39] And then I sort of started my career doing software development and then transitioning fully into application security. And that's, my first official application security job was at a Elixir shop, so that was kind of how I got really thrown into the deep end. As far as Elixir goes, I had never really heard of it before.
+
+[00:02:00] I was like, oh, cool. A functional programming language, I'll see what this is about. And it was a really unique challenge to kind of figure out what the security implications of that stack is and was at the time, and I've just kind of been hooked ever since. It really locked in it's grips into me and, and how it works and the sort of benefits of the ecosystem and the community has just been great.
+
+[00:02:28] And I just don't wanna leave it. So I've since bounced around to a couple other places. I'm currently at Netflix, like you mentioned. I use Elixir here and there, both for personal and professional use still, but, I cannot say today that Netflix is an Elixir shop, but, I'm still very much involved in the, in the community.
+
+[00:02:46] I am currently the maintainer for Sobelow, the static application security testing tool for the Elixir Ecosystem. I've also partnered with Semgrep, which is a pretty popular open source based saaS tool as well, and I helped them develop their support for Elixir as well. So, uh, that's sort of my involvement right now.
+
+[00:03:07] I am, I sometimes work with the Erlang Ecosystem Foundation and their security working group, on and off again when our schedules line up. So I'm pretty in tune with what they've got going on as well, and I try and help out where I can. Okay.
+
+[00:03:20] Charles: Great. Thanks for, thanks for sharing that. Tell us a little bit, you know, so you've been working in kind of a security focused lens for software engineering for, for some time now. Do you have a philosophy or just kind of a, a general approach that you, you take to this kind of work.
+
+[00:03:35] And maybe also tell our listeners a little bit who aren't as familiar with the world of cybersecurity, what that means and how that might relate to their work as software developers or maintainers.
+
+[00:03:47] Holden: Yeah, absolutely. I think my personal philosophy is actually one that was already pretty naturally aligned with the way that Netflix is pretty much pretty publicly talked about the way that they approach software security, which is, Hey, we should be building stuff, by default, in the secure way.
+
+[00:04:04] And part of that means leveraging frameworks and tools and whatever you can think of as part of the software development lifecycle, that you really don't have to think about security or insecurity. Now there's never gonna be a perfect system, and there's always things to keep in mind, but, that's sort of more the minutia, more of the details and where I come into play, right?
+
+[00:04:25] As, as a. A security specialist is to really poke holes and try and find the, the hidden details. And so, that's typically what I would, sort of encourage developers as well as, 'cause at the end of the day, I know, I'm in the same boat, I just wanna get my feature shipped and out there, and, as good as it needs to be, and as good as I want it to be, but I don't wanna spend too much time thinking about security. And so yeah, wherever you can lean into leveraging best practices or frameworks that abstract some of that stuff away from you, that's kind of where you want to be.
+
+[00:04:58] And, to tee it up a little bit, that, that's what I really like about the Elixir ecosystem is it really helps us in that regard. So.
+
+[00:05:06] Charles: Well, my, my next question I wanted to go to was about what is different or, or less common. Unique is an overused term, but, about the Elixir ecosystem and the way that applications are developed, kind of what the context forces us to do, and, and also thinking a little bit about Phoenix and LiveView and how the use of WebSockets, what that presents in terms of an attack surface or security, strengths or weaknesses?
+
+[00:05:35] Holden: Yeah, absolutely. And I think that, to take a step back a little bit too, over most generation of technology shifts and changes, you see the paradigm change for security as well. And I think Elixir was a little ahead of the game on, which is great. So as you sort of mentioned Phoenix and LiveView, one of their strengths is, you know, it's server side rendering.
+
+[00:05:58] It's this control that, you know, less reliance on the client and. I think in the world of TypeScript or JavaScript applications and things like that, you got a lot of code that ends up running on the client. and that's where I see a lot of delineation happening. And introduction of new security vulnerabilities.
+
+[00:06:19] Is that sort of presumption that the client is secure. And really a client is unknown and we can't trust it. And so you have to do a lot of work and honestly, a lot of headache to remediate some of that fact. From the get go, Phoenix and LiveView remove some of that . As far as like WebSocket specifically, it is a different paradigm and it has its own benefits and strengths compared to a more traditional REST interface. And I think that, again, nothing's perfect, but I do think that it allows us for this really robust and interactive interface with our users by using it. And then also you get the benefits of it being server side rendering and all these kinds of things.
+
+[00:07:05] And so, it's just really nice and that's what I really like about it. Yeah, I mean, aside from that too, like when you notice that things change over the years, there is an open source community out there. It's called the OWASP. It's the Open Web Application Security Project.
+
+[00:07:20] And every couple years, I think every three years cadence, they release a new top 10 list. It's like the things that they see in the wild and it's kind of a way for security practitioners like myself to focus on what the emerging threats are and what's going on on a day-to-day basis. And if you look at that evolution and change over the years, the ones that have stayed pretty salient still affect the Elixir ecosystem, but they're so much tied to the business logic of an application, so that's true regardless of framework and language. But the ones that aren't necessarily as, so, you know, you see these cross side scripting or SQL injection and more or less, you know, with some rare exceptions, these are the types of problems that the Elixir frameworks within the ecosystem have solved through.
+
+[00:08:14] You know, I, I look at, uh, ecto and the way it's sort of solved the SQL injection type of attack vector. unless you really, really wanna try and introduce it. Um, but yeah.
+
+[00:08:24] Charles: It's nice that you have to really go out of your way to introduce a whole class of vulnerabilities that seem to really plague a lot of other stacks that have been around for a lot longer. Yeah. Make the happy, easy path the more secure path and we're all a little better off. 
+
+[00:08:44] Holden: Absolutely. 
+
+[00:08:46] Charles: And Elixir is changing a bit too. And of course the, the larger world is changing in which we, we work. I'm thinking right now somewhat specifically about the introduction of type system into Elixir Core and into the compiler and, Sobelow you mentioned earlier that you are a maintainer of, this is a static analysis tool that looks at, I'm guessing the, the AST of the language to identify known vulnerabilities or things that could lead to a vulnerability.
+
+[00:09:13] Do you see that being changed any way by the introduction of the type system? How does that interact with what Sobelow is doing?
+
+[00:09:21] Holden: Yeah, no, I mean, it's a, it's a great question. At this current point in time, and the way Sobelow has kind of always been, as you noted, is very much based off the AST and at its core that's how SemGrep works as well. It's why that collaboration sort of happened and simplistically, Sobelow just recognizes patterns.
+
+[00:09:40] It's just a collection of insecure patterns that we try and look for, and how it interfaces with types. I think Sobelow could be strengthened and solutions could be strengthened through the types system. You could introduce more dynamic type checks to test for invariants, things of that nature.
+
+[00:09:57] But, at its core, the big proponents for a type based system say it's, it's for memory safety and things of that nature, which is definitely true. But I'd say that because Elixir has its roots in being dynamic, it's a little bit less of an issue in a language sort of like C, right? Where a bad reference can really mess things up.
+
+[00:10:21] And so I think there's a lot of untapped potential with the type system, especially the way it's being created. I am really intrigued to see the extent of how this sort of union type Boolean logic can work for type checks and how you could apply that to checking for data invariants as you maybe try and manipulate the inputs and outputs of functions and stuff like that. So, uh, it's definitely untapped. I think there's a lot of room to grow and, and I have it in on a sticky note somewhere that I want to tap into it a little bit more. So, TBD, that's for sure. 
+
+[00:10:58] Charles: Cool. I'll be looking for some developments there. We mentioned about changes. Are you seeing different kinds of security concerns popping up lately. I'm sure with LLMs that's created a new class of vulnerabilities and attack vectors, but maybe also a new class of defenses and safeguards or ability to spot problems that we've been missing.
+
+[00:11:21] Holden: absolutely, and I think that the largest thing that I've seen in the industry beyond just Elixir is supply chain attacks. It is growing ever more popular, I think driven by the use of AI and LLMs to find issues, but also propagate them quicker. 
+
+[00:11:40] Charles: Mm. 
+
+[00:11:42] Holden: I think as a industry, we need to be ready for it and I think that the Erlang Ecosystem Foundation Security working group has been doing an excellent job at trying to get ahead of it a little bit. I, I spoke a little bit at ElixirConf a couple years ago now at this point.
+
+[00:11:59] Charles: Yeah, on, on supply chain, attacks. I think, uh, I think it was.
+
+[00:12:03] Holden: Yeah. And at this point, like, I'm not trying to toot my own horn or anything. It's just, it's gotten even worse. And, I think we've been very lucky in the Elixir ecosystem specifically that, it isn't as large of a target as something like the NPM package ecosystem is which isn't a problem. I like to, I I want Elixir to be more popular. And so I think how can we get to that point where we're ready for it?
+
+[00:12:27] And I think since my talk then I, I'm sure this will come up again, but the AEGIS Initiative that the security working group has been pushing has been fantastic progress. Really. I think we're slowly starting to see these core pieces of protections for the ecosystem and there's always gonna be more work to do, but it's, it's really, I'm really happy to see progress continue on those efforts. I 
+
+[00:12:51] Charles: How should developers think about guarding against supply chain attacks when specifically in the Elixir ecosystem, when we're developing applications, adding new features? 
+
+[00:13:04] Holden: Yeah, absolutely. So I think there's a, there's a range of different things and I'll, I'll start with kind of the broadest. We're at this point where maybe only one or two people have the ability to push new versions of core libraries to hex. And specifically some of these haven't been updated in years maybe.
+
+[00:13:28] Who knows if their maintainers are still active or easily reachable, those sorts of things. And so any part of the build process, whether that's like from local, local code changes all the way up to Hex. Like we need to be careful about those types of interactions. And I think that's what a lot of the work that's been going into the AEGIS initiative has been focused on which is supporting things like OIDC tokens basically one time use tokens for more programmatic publishing from when a change is pushed into main on your git repository , and it gets pushed up to hex. It can do that securely, which is great. Like that's, that's, kind of the way you want to be, but unfortunately, since it's newer, people have to migrate to it. And so we have a very large amount of people, you know, myself included, that basically just have local access logged in.
+
+[00:14:18] You know, if you use, I forget the specific mix command, right. But it's like if you use the hex publish tool locally, you're typically logged in. And so what happens when you get targeted by malware locally and it takes over your publishability, right? And now the package is out there, it's compromised and we gotta go through that whole rigmarole of finding it and removing it and that kind of stuff.
+
+[00:14:40] And I think that's also one of the weaknesses right now, is that because of the comparative popularity between Hex and something like NPM. You have fewer professionals looking at the ecosystem as a whole, continually monitoring it. You know, they're, I won't name drop specific vendors, but like there are primary vendors in the supply chain, security space that their entire offering is just monitoring and trying to proactively identify some of these compromised packages as they get released, or they get hijacked and things of that nature. And I can't say that exists for Elixir today. So that's the main things that I, I'd definitely be on the lookout for, for sure. But, another small one. I, I think I mentioned it in my talk. I don't think it's actually really been addressed or fixed yet, which is, you know, it's a choice.
+
+[00:15:29] I don't think a lot of package ecosystems have fixed this, so it's not a, a dig on Hex by any means, it's just the way things are is that private name spaces in your package registry don't typically get claimed in the public space as well. And so if somebody claims the public space, they can take over if there's a misconfiguration, if a local developer in your company isn't specifically asking for the private version and they accidentally ask for the same exact namespace, but on the public site, they'll download somebody else's repo or package, and then they could get compromised that way too. So it's very real. It's very possible today even without somebody's account specifically getting hijacked.
+
+[00:16:14] Charles: How realistic is it to introduce something like cryptographic signing of new releases like Linux, distros have done this for years. If that signature doesn't match, the default is to not install that update or that piece of software. Is that practical for something like, um, a hex repository?
+
+[00:16:34] Would that be a useful mechanism in that case?
+
+[00:16:37] Holden: Yeah. In, in some regards for securing certain parts of the supply chain. Absolutely. And we're starting to see that become a little bit more prolific, I believe, as of two minor versions ago, I want to say 1.18 Elixir started doing that for the language itself. But the main problem with it, and it's just more of an acknowledgement of just the way that
+
+[00:17:01] verifiability works under the hood is you need every step of the chain to have that sort of sign off and authentication as part of the build process. And so, they have that as part of the build process for Elixir itself, and that gets uploaded. And I think that especially with the recent Hex visual redesign, I think they're starting to think about that sort of information and service surfacing it a little bit more, which is really exciting.
+
+[00:17:28] But yeah, it, it requires a lot of investment from maintainers and owners of code, and that's the unfortunate reality of just technology these days. And so. I'm a big proponent of doing what we can in the ecosystem to make that the default, right? And encourage folks along this sort of nice, secure path without them thinking about it, right?
+
+[00:17:50] Because you're more or less introducing tech debt if you're telling folks to say, Hey, cool, you can publish this however you want as quickly as you want, but make sure you come back and do it later. And they're like, all right, I'll do that later.
+
+[00:18:02] ,
+
+[00:18:02] Holden: Maybe it's worth the little extra squeeze.
+
+[00:18:04] Right? Right there at the beginning when you're first starting up a project to be like, oh yeah, I have to enable my two, my MFA before I can upload to Hex or whatever. And it's like that alone would just save us from a lot of account hijacks, right? 
+
+[00:18:17] Charles: Thinking about what, uh, yeah. Thinking about what application developers and library developers can do, I mentioned earlier how LLMs could be useful also as, a safeguard. and of course this is a space that's rapidly evolving. I think Anthropic just announced that they've got a new model that is exceedingly good at finding security vulnerabilities that they don't even wanna release it to the wide public and they're just releasing it to some of the big tech companies.
+
+[00:18:47] Saying that they found zero days in like many browsers and other things out there. So while I would love to get my hands on that tool, are there tools that would make sense for developers to use for analyzing their own code to find vulnerabilities that they have overlooked, that they have missed?
+
+[00:19:07] Or is it, you know, any LLM that focuses on code is probably good enough. How can developers leverage these tools today to be doing some good practices? 
+
+[00:19:17] Holden: let me preface that by saying I'm a big proponent of generative AI and leveraging LLMs to accelerate your work. I am very heavily involved with the Gen AI adoption in the security software engineering space within Netflix. I'm a big believer in it. Now, I will caveat all of that when it comes to like security, right? I think that there have been some studies that have shown that the LLMs by themselves are very good at detecting bad patterns, things of that nature. And yeah, as you pointed out, the the mythos model that you're referring to with Anthropic is absolutely insane.
+
+[00:19:54] And I'm happy that they're getting results. naturally, LLMs are a non determining. Non-deterministic process that we are trying to squeeze out Very deterministic things, and especially when it comes to security, right? When you have these LLMs, if it misses a style guideline check or something, that's fine.
+
+[00:20:16] But if it misses a vulnerability to give you root access to a system, that's pretty bad. 
+
+[00:20:21] Um, and so. Where it's not just binary though, right? It's, it's always shades of gray. And so how can you leverage both? and I think that I've seen the most success when you can marry the two. There was a study that came out not that long ago that said that, LLMs performed the best at creating and, maintaining like Elixir code bases, which I've been sharing all over internally.
+
+[00:20:47] But. I think there's a good reason for it. And, and it sort of touches on the themes we've already talked about, which is just by default, it's very good at the things that LLMs need to be good at, which is having local context for documentation, first class support for tests. You know, functional programming is very self-contained by its very nature.
+
+[00:21:07] so you're not blowing up context with architecture, context and everything. So. There's just many reasons why LLMs, I think are fantastic for the Elixir ecosystem and when it comes to security, while I wish I could just say, yes, LLMs will detect all security issues. and they probably will, they'll probably detect some of the common patterns and even maybe some more complicated ones that tools like Sobelow would catch, right?
+
+[00:21:32] Sobelow is incredibly deterministic. It, it breaks down and parses the AST at its core, and for better or for worse, recognizes a pattern if it exists, or it won't detect it if it doesn't exist, if the pattern doesn't exist. And that's maybe where LLMs can enhance something like Sobelow, and where I'm excited to see the, the world go, which is like, okay, well I checked for this basic version of a pattern.
+
+[00:21:55] The LLM can maybe generate variations or edge cases that the tool didn't consider outta the box because it's so specific for my application, and giving it the framework to do that. So basically giving the non-deterministic processes, deterministic tools to leverage. And then I think additionally, it's gonna sound weird, but like I believe that coding is free as in beer, right?
+
+[00:22:23] And it's, it's, coding has now become like whatever you want to pay monthly. As opposed to a significant investment in your time or sprints. And so , really thinking about that muscle of like, oh, if I had another day I could crank out a bunch of tests. I could, I could make a bunch of invariant tests to make sure that we don't have any authorization issues now or in the future ever.
+
+[00:22:43] You could generate that now you could have the LLMs generate that. So you're good now and forever. And so I think that's really where it is, where it lies, is leveraging these tools to do all the things you wish you had time to do. I think that's the stuff it's really good at, and so encouraging people to really follow those best practices when it comes to just software engineering is really gonna help out yourself now and in the future. 
+
+[00:23:06] Charles: Having worked with the AST through Igniter, I can imagine it would be hard to implement something like edit distance in Sobelow when you're trying to match on AST patterns. is this sort of like this, could this, do this, have the same vulnerability? So that makes sense where leveraging some LLMs, alongside Sobelow would, would really help.
+
+[00:23:29] Especially writing those sometimes long, tedious tests to cover all of those possible scenarios. And the ones you don't think of.
+
+[00:23:39] Holden: In security land, especially in security tooling land, the primary model of thinking is sources to syncs. So where is the source of your data coming from and where is it going? And so, sometimes that's just a simple function. Sometimes it's the entire application. That's more or less how Sobelow is very limited today, is it looks at a single function and says, Hey, I'm receiving something, some sort of input, and it's going into this potentially vulnerable function, so I'm gonna call it, I'm gonna call it vulnerable.
+
+[00:24:09] at the end of the day, like, I don't know, Sobelow doesn't know if it's going to be actually exploitable or not, or if it's just a static value that's getting passed in or something that's never gonna change. 
+
+[00:24:19] Right. Is this clearly mitigated by some implementation detail that's missing from this or,
+
+[00:24:26] Holden: yeah. And that's where this sort of intrafile analysis comes from. And it's kind of the holy grail of security testing in this way. And that's where I think that LLMs can be really powerful is to, to consume that context of like, okay, well this is maybe something to look into. And again, you use that deterministic process to find it, and then it can go out and search.
+
+[00:24:48] For, okay. Where, where does the input come from? And then maybe it trickles all the way back to your, you know, controller or like rest API that says like, oh yeah, I got this from a user in a JSON payload. 
+
+[00:24:59] Charles: Yeah. Super trusted. 
+
+[00:25:00] Holden: Yeah, exactly.
+
+[00:25:01] Charles: Cool. Okay. Why don't we take the conversation to delivery? We've checked out all of our dependencies from Hex thoroughly. We've, we've scanned them for any problems. We've, uh, you know, researched the maintainers to make sure that they're active and we followed our best practices.
+
+[00:25:21] Well, now what should we be thinking about to deliver the application into production through a CI/CD system that is now pulling in more supply chain sourced code and and other libraries. How should we be thinking about that to still maintain the work that we've done so far to try and have a more secure application?
+
+[00:25:44] Holden: You bring up a great point. If we've put all this effort into making sure that our local application is all buttoned up and secure and using secure things under the hood, then it's not gonna help us if we're gonna deploy it on some version of Red Hat that was outdated 20 years ago.
+
+[00:26:00] And I think at its core, like there are a lot of newer technologies that people can leverage. And I think just hitting on some of the more common modern solutions specifically are, you have your docker containers and things of that nature. And so that has its own level of consideration for how best to secure those types of environments.
+
+[00:26:22] They try and make it as easy as possible, uh, as well, just like the Elixir ecosystem does for best practices. But, you know. All it takes is one bad misconfiguration. And so whatever you can do to really be able to iterate, I'd say on your delivery environment the quickest is gonna be the most beneficial.
+
+[00:26:40] So, again, I don't love name dropping like vendors specifically, but I do like the approach that folks like chain guard have taken to making essentially distro lists images, like container images. So there are fewer dependencies that you have to worry about. And then of the ones that they have, they have the whole build at attestation similar to that we've already considered.
+
+[00:27:03] And so you can, at the end of the day when you go to deploy the production, including your own app, if you've been producing a software bill of materials for your local app, you can compile 'em all down. And so you know exactly what is in production for your application end to end. And that makes it incredibly quick to be able to respond to an emerging
+
+[00:27:24] incident. I think about Log4j that happened a couple years ago . You know, even more recently React2Shell. Knowing which components under the hood could be affected because yeah, you have an Elixir wrap. Do I even need to be concerned about the Heartbleed Bug, right? It's like, yes, you probably do from like the server that you deployed on.
+
+[00:27:43] And so how do you query that quickly? And you can do that through a software bill of material. And so instead of having to compile that all yourself, why don't you use something like Chainguard or their under the hood, they've opened source their distro list image called wolfie.
+
+[00:27:55] So you can self compile a lot of that stuff without needing to pay for the product and things like that. And I think they've made it, them and, and Docker themselves have made some of the most popular packages securely hardened from the get go and free as long as you're willing to be on the latest.
+
+[00:28:09] And that kind of again, goes back to my point of like, as long as you're confident enough to be able to deploy frequently and iterate quickly, then you can always adopt these changes as quickly as possible. 
+
+[00:28:20] Charles: This is, this is something that I've heard repeated a few times recently is that being able to deploy frequently and in small chunks is really good practice for having a good security posture. That when you delay on doing those updates that are annoying to do, you can put yourself into a worse situation if something happens on down the line that now you need to respond quickly to and you can't.
+
+[00:28:44] Holden: Yeah, absolutely And I think the paradigm is changing a little bit and the approaches are changing from a security practitioner standpoint, but I know it's pretty prevalent still, is to run these checks and linters and security tools in the CI pipeline. And that's great when you're frequently committing to a repository.
+
+[00:29:03] But what about that one orphan project that no team really supports that you haven't looked at and committed to main in you know, five years, right? How many vulnerabilities are now lurking because no one's just run a scan on it. And so, if you can have a way to make sure that everything that you know, in production is good and just constantly, like, even if you're not updating it, you know, it's just like, hey, these sort of frequent checks are like, you have dependabot to to frequently update your things, and even that's just going off on its own and you can confidently deploy when it bumps versions, like that's how you know it's still okay.
+
+[00:29:39] Charles: Mm-hmm. when people are thinking about trying to balance speed and security, sometimes you do have to make trade-offs. Maybe there's a, a business case for it. Maybe it's just, you're trying to figure out how to make things work within a budget that's not ideal. What kinds of things, what kinds of considerations are important to make in that situation?
+
+[00:30:01] Holden: Yeah, it's tough. I would say that's half of my job these days is, is trying to weigh and make recommendations of, you know, hey, this is a big. A big deal. I understand you're trying to push this feature out for our customers. I want our customers to succeed and be happy. So what's the balance? And so maybe that's, that's my first sort of point is that if you have, if you're lucky enough to have a security team, dedicated security team and they come to you with those types of things , please know that we've taken that into consideration as well.
+
+[00:30:31] We don't just want to get security things done . We totally understand. And so when you're forced to prioritize, I think, going back to one of my earlier points of being able to leverage these new tools at our disposal, LLMs to be able to accelerate your pace and do the things you don't have time to do, right?
+
+[00:30:46] Like that's where that comes in handy a lot. if you get feedback from an application security engineer that says, Hey. This is fine. It's just you might wanna consider this edge case, you know, instead of being like, all right, we'll add it to the backlog or whatever. It's like that's just more or less a prompt to Claude these days is to like cut a new PR and then they're gonna be happy with it.
+
+[00:31:07] Right. And you fixed the issue. Changing that mentality is, is a big one. But then again, to hit on another theme is just using the secure defaults. If you don't have to think about it because something's being abstracted away, maybe you've chosen. A more secure architecture. You know, a common one that Netflix is famous for is the API gateway model and microservices and things of that nature.
+
+[00:31:26] So, if you're using those types of libraries, then you can kind of defer the security implications to the owners of those things, and it also makes it easier for security professionals to focus their efforts on just that, right? Because it has the biggest. Reach. But I think that beyond all of those things, the more practical advice that I give developers is just how I evaluate the security or insecurity of a given feature.
+
+[00:31:57] And it's this risk is an equation. Risk is the likelihood multiplied by the impact. And so, . You gotta think about who your attackers could be, how skilled they need to be to execute this level of complex exploit. And then if something, if the worst case were to happen, what would happen? Right? a good example is, like a Slack, API token, we see that one sometimes if that gets leaked out to the wild, what could happen? If the token has the ability to read and write everything from every channel. Like that's pretty bad. But if all it can do is it's a web hook, that when you send it a payload, it'll send to a channel, and that's kind of it. It's a little bit less of a, a big deal. 
+
+[00:32:38] And so that adjusts the impact category, but the likelihood depends on how it was exposed. Was it in your public GitHub repository or was it in some sort of memory dump. That only happens in a weird edge case if you're logged in as a certain user.
+
+[00:32:53] Right? And so, when you think about those things, when you, when you think about the worst case scenario when you're developing a feature, that's how I always approach it. How likely can something happen by the average Joe? Even though in most cases you're not gonna have an attacker all the time looking at everything you deploy.
+
+[00:33:10] It's just, it's still a good practice to get into, is to think about it like an attacker would. 
+
+[00:33:15] Charles: Going back to deployment a little bit, are you familiar with NixOS as a operating system?
+
+[00:33:22] Holden: I am, yeah.
+
+[00:33:23] Charles: Okay, so you know that it's, you, you probably know that it is largely has a, a read only file system is. That you have a declarative configuration to define how your system should be. It's reproducible and deterministic in terms of what comes out of that.
+
+[00:33:41] And we've had, we had an episode last season talking about NixOS and the Nix package system. I'm curious if you have experience or thoughts on deploying something, where the production system is running NixOS and how does that change the security approach based on, you know, we talked about running an old Red Hat version.
+
+[00:34:02] Well, you know, does this change the security equation in any way?
+
+[00:34:07] Holden: Yeah, absolutely. It is a very different approach. I like it a lot. I use something like it in my own home lab . Um, I use the, I think it's the fedoras version basically. 
+
+[00:34:20] Charles: Mm-hmm. Yeah. 
+
+[00:34:22] Holden: it has its pros and cons. I will say that before I can recommend anyone go out and try and convince their infrastructure teams to switch to something like this, 'cause like, I think it can create a more secure system.
+
+[00:34:33] It just, it fully breaks the way I would say. More modern like SaaS based businesses deploy on a daily basis. If you're using Kubernetes or heavily using Docker containers and things of that nature, you're gonna have a hard time, because it's just a full shift. so if you decide to go that way from the get go a hundred percent, you could, you could make something fantastic.
+
+[00:34:58] It is by itself very declarative, and. You know, the, the code repository of where it gets built or the, the specific version of NixOS that you're using is more or less the software bill of materials. And then what I really like about it is from a security perspective. I really like declarative things.
+
+[00:35:16] Infrastructure as code is a big one. Even things like policy as code, anything that you can interpret is really gonna lean into the strengths of a lot of tooling that's out there for security professionals. And then beyond that, I think that hypothesis and that theory is lining up really well with the developments we're seeing in LLMs, because you can just give them the code base and say, Hey, let's, here's some tools.
+
+[00:35:38] Here's the code base, find me some insecurities or misconfigurations and things like that, without needing to go onto the box and figure out what's going on. Which is the way things were, for a very long time is all right. Well, there's some weird rogue AWS EC2 instance that is running and I have no idea, and it has a port open, so I'm gonna SSH into it and figure out what's running and do a OS query and try and figure it out and reverse engineer it back from there. It's like, all right, well I could skip all that if I just had it all defined in a NixOS configuration. Right?
+
+[00:36:10] Charles: Speaking of those, like what, what the heck is going on here? Problems. Does Netflix still use the Chaos Monkey?
+
+[00:36:18] Holden: We do use Chaos Monkey. Yeah, it is. Um, it's incredible. So I've been at Netflix now for, for over a year and it is fantastic to see what they've built internally and the Chaos Monkey as a delivery mechanism is very much baked into the way that we operate. And so you explicitly have to opt out of Chaos Monkey when you deploy a service. So, yeah, it will just randomly terminate instances. It'll terminate connections. It'll do whatever it wants to do, and you should be able to build an app that is resilient to any of those things from the get go. And so, you know, part of that is. Having access to those platforms, where again, I don't have to think about it.
+
+[00:37:01] I can just write my code and deploy and then all of the infrastructure gets deployed to handles that for me, which is really cool. But, I know that's a very fortunate position to be in, but I really do think that there are commonalities between Netflix's approach to the entire platform and the way that Elixir apps want to be built, as long as you can build them as natively as possible.
+
+[00:37:23] This is not to knock on Docker or container technologies because I, I use them every day. but I feel like deploying a raw Elixir cluster is sort of a lost art these days. And, you know, like no one's really using Hot Code reloading anymore. I mean, I'm starting to see a little bit more.
+
+[00:37:41] I, I think Chris McCord put out a thing for doing more hot code reloads on Fly.io, which is really cool, really 
+
+[00:37:47] neat. I wanna check it out more. But it's just underutilized. And it's like, those are the things that were originally built to solve the same problems that Kubernetes was also built to solve.
+
+[00:37:56] It's just that Kubernetes took off more. Right? And so, I highly encourage a lot of people to, try as much as they can to lean into the Elixirisms, because that will give you a lot of security, that, We're able to take advantage of at larger companies like Netflix, but apologies, that was a little bit of a diatribe.
+
+[00:38:12] Charles: No, it's good. You, you heard it here, folks. Lean into the Elixir primitives that, that we have. It would be able to handle something like, Netflix.
+
+[00:38:21] Holden: a hundred percent. I definitely, definitely think so . there are some comments I can't, I can't publicly make. Um, but yeah.
+
+[00:38:28] Charles: No worries. this has been a great conversation . i wanna make sure is, are there any last words of wisdom that you would like to impart on users or any hot takes that you'd like to share? 
+
+[00:38:39] Holden: I think that we have a very special opportunity in the Elixir ecosystem. I think that we are at an inflection point. I think we're waiting for that lightning in a bottle moment for the language. I think we got really close with the marketing behind Discord and some of these larger tech companies that leveraged the ecosystem. It's hard to break the online narrative sometimes of Python being the tool to use for scripting or, you know, what have you.
+
+[00:39:10] But, and I'm not by any means saying that Elixir is the, you know, perfect language for every use case, but I think it, it is definitely undersold. And so I'm waiting for that moment for everyone else to realize it. And I think that listeners of this podcast probably already know it. And so we just need to be ready for what big language problems bring and that means attacks, that means using it, uh, you know, these beautiful creations that we make and, and the Elixir ecosystem is capable of using them for evil, uh, more or less. I, I strongly believe that the next very large botnet is probably gonna be leveraging something Elixir that has the incredible potential to have a highly distributed system from the get go.
+
+[00:39:54] And so what does that mean? Could we find ourselves in a situation in which Elixir is actually looked down in, in a negative light because it's being used in a bad way or something like that. So, we need to be prepared for those things. But I think we're doing a really great job. And again, I wanna shout out the Erlang Ecosystems Foundation and the security working group .
+
+[00:40:13] Jonathan is the CISO over there, and he's been really running with things for the AEGIS Initiative. So that's my big call to action is that if anybody's really looking to expand support for the ecosystem and sort of solve some of these problems before we get into a bad spot, uh, that's where to look.
+
+[00:40:32] Uh, there's a big road roadmap available on GitHub and plenty opportunity to contribute and be a part of solving the problem. 
+
+[00:40:44] Charles: Thank you, Holden. I think that covers it and we'll talk with y'all next time.
+
+[00:40:49] Holden: Excellent. Thank you so much.
+
+[00:40:53] ​ 
+
