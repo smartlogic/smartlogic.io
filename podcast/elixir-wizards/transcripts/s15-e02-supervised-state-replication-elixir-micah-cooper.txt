@@ -1,0 +1,547 @@
+S15E02 Supervised State Replication in Elixir with Micah Cooper (Audio)
+===
+
+​
+
+[00:00:32] Charles: ​ Hey everyone, I'm Charles Suggs, software developer at SmartLogic. 
+
+[00:00:36] Sundi: And I'm Sundi Myint, engineering manager at Cars Commerce, and we're your hosts for season 15, episode two. Today, we're talking about the state of transactions in Elixir and the broader development ecosystem, and how changing expectations around reliability are shaping how we build systems. Today we're talking to Micah Cooper.
+
+Welcome, Micah. Welcome to the pod. 
+
+[00:00:56] Micah: Hi. Thank you. Excited to be here.
+
+[00:00:58] Sundi: So, welcome to the show. First time on this show. Actually, you said this is the first time you're on a podcast period, right? 
+
+[00:01:04] Micah: Yes, first time I've ever been on a podca- I listen to podcasts ob- obviously all the time, but 
+
+[00:01:09] Sundi: Halfway there. 
+
+[00:01:10] Micah: Yeah. 
+
+[00:01:12] Sundi: Before we jump into our main conversation, can you tell us a little bit about yourself? What's your dev background? Maybe what brought you into Elixir? 
+
+[00:01:18] Micah: Yeah. Well, let's see. It's hard trying to remember it all. So I've been coding probably about 15 years, but I got a late start. I think I started coding when I was, like, 21, kind of by accident because a friend wanted me to, like, work in the same office as him. He was like, "Hey, you should learn how to code."
+
+And I'm like, "Uh, okay," like, "What do I gotta do?" And he showed me some stuff, and we showed the manager, and he's like, "Cool, you go work with him." And that's how I kinda got into it, kind of just by accident. And then found a consulting shop in my hometown, which was really weird 'cause I, I, I grew up in, uh, Jax Beach, Florida, and there just happened to be a really prominent Ruby shop there at the time.
+
+And I got an apprenticeship there and worked there for years, learned a bunch of Ruby and heard about Elixir in, like, 2016. 
+
+[00:02:10] Sundi: That Ruby to Elixir pipeline.
+
+[00:02:12] Micah: Oh yeah, it was big at the time. Well, what happened actually a coworker of mine at the time was like, "Oh, you gotta do this Elixir thing," and I was doing Rails, like a lot of Rails.
+
+And he was like, at the time, their... like, Phoenix hadn't come out yet, and I was into web apps, and I was like, "Well, can I build a web app with it?" And he's like, "Not really." I'm like, "Ah, not interested." But then Phoenix came out. I'm like, "Oh my God, this is amazing." So yeah, that's kind of how I, I, I got into Elixir 
+
+[00:02:41] Sundi: Charles, are you time traveling right now? I feel like we haven't talked to somebody who's mentioned that in a long time. 
+
+[00:02:46] Charles: Yeah. 
+
+[00:02:48] Sundi: No, I just like the, the getting into Elixir pre-Ph oenix
+
+[00:02:51] Charles: Yeah, yeah. 
+
+[00:02:52] Micah: It was a good time, and I remember, I remember building my first, like, Phoenix API and looking at the controller, like how, how controllers worked in Elixir and comparing that to how the controllers worked in- Ruby or in Rails, and it was like 10,000 lines of code for the application controller in Ruby, and Phoenix was like 100 lines.
+
+I'm like, "Oh my God, this is the difference," right? So that's what got me really excited about it. And, yeah, I've been able to do Elixir professionally since then, which has been really fun. And, yes, I'm a huge fan.
+
+[00:03:29] Charles: it's nice to also meet someone who, who came into this with like, "Hey friend, if you knew how to write software, there'd be this great job we could work together." Like, that was also kinda how I started writing software in the first place. 
+
+[00:03:40] Micah: Yeah
+
+[00:03:41] Sundi: It's making me feel a little nostalgic.
+
+[00:03:44] Micah: It's a good pipeline. 
+
+[00:03:45] Charles: Really is. Let's, let's dive in a little bit to our, our topic here. So, you and I met last year at an Elixir meetup in Chicago, and you were talking about a library you were working on that was not published at the time. But I think you very recently published it on Hex.
+
+Why don't you tell us about the library that you've created, your motivation behind it and what, what its purpose is, and we can get into details after.
+
+[00:04:09] Micah: Yeah, sure. So, I guess the beginning of this project isn't exactly Elixir related. So, about two years ago, I got really interested in Zig, right? So for those who are not familiar, Zig is another programming language. It's kind of like a better C++ or a better C maybe. But not having learned software traditionally, I've always wanted to learn like a systems level language just to learn more about memory management and all that stuff.
+
+So I follow Zig a lot, but I haven't really like worked with it. Anyway, so there was a, there was a project written in Zig called TigerBeetle, which is this random financial transactions database thing. The thing that caught my eye about it was the people who built it do a lot of YouTube videos and a lot of blogs just about how they built it.
+
+And one of the things that came up was how they replicate their data for data safety. So they use an algorithm called Viewstamps replication. And at the time, I had never heard of it, but they have like a website that like exemplifies how it works with these little cartoon characters on the stuff.
+
+So it's really like, The way they described it, it was just easy for me to understand, and I was like, "This seems complex," but the way they described it seems pretty understandable. So, they had shared a white paper on the algorithm, and I read it, and I, I, I understood it, and I was like, "Wow, this is, this is pretty cool.
+
+I think I wanna try to build this in Elixir," 'cause that's what, that's what you do, right? Anything that you come across, your, your new interest, you wanna build it in a language that you love. So yeah, probably about a year ago I started working on this and read through the paper a couple times and started building it out, and the interesting part about it for me, which was, I guess, neat 'cause the way that they described it, it was written in Zig. The white paper doesn't really tell you what language to build it in. But when I started to build it, all, like, so much of it was already handled by the BEAM, that it really became a pretty simple project, you know?
+
+So I started building it out and then kind of realizing the potential for it , which is not fully realized yet 'cause it's still new, but it's more about, What the project does is like, you know how GenServer just gives you distributed, pretty much a generic server where you can talk to different nodes?
+
+The idea is you have that, but the data of the GenServer is replicated. The state of a GenServer is now safely replicated across two or more nodes. So if a node goes down, you don't lose the data. So I think that's kind of the part you think about now that's missing from, say, GenServer. Like, yes, it'll go down It'll restart, but you don't have your state anymore, so you usually have to rehydrate it, right?
+
+So, like, in a LiveView, that data will come from your params, and you'll go get the data from the database, right? But, that's for a LiveView, right? So it's still stateless, and you're just hydrating it as, as it starts back up.
+
+[00:06:58] Sundi: that people ask about a lot are forms.
+
+[00:07:03] Micah: yeah.
+
+[00:07:04] Sundi: So did you think about that or have a solve for that kind of situation, like a user input form?
+
+[00:07:10] Micah: Not exactly, 'cause that was already solved. The, the direction I had come from was more about the other point of interest like, high volume event log systems like Kafka or RabbitMQ or Red Panda, right? So they have their, their replication algorithm.
+
+So a bunch of data comes in, saves it to a log, and then they replicate the log across different nodes. So I wanted to build that, but more generic, essentially. That's what Visor is. And, uh, yeah, that, that's it in the short. It's kind of a a replicated log that gives you callbacks, so you can pretty much implement your own logic on top of the commit to the log, if that makes sense. 
+
+[00:07:54] Sundi: Gonna have I'm gonna have to percolate on that one a minute.
+
+Cool. Charles, you have thoughts. I see them. I see them in your brain.
+
+[00:08:03] Charles: I was still ruminating on this, this phrase of the function you can apply on top of the commit to the log. Maybe it would be good to talk through an example of, of what that might look like.
+
+[00:08:13] Micah: Yes. Okay. So, to think about a-- something that's maybe a little bit more realistic or tangible, think about a regular GenServer, and you have a handle call, 
+
+[00:08:26] Charles: Mm-hmm. 
+
+[00:08:27] Micah: So the data comes in, you update your state, but you can write anything in that function, you know? It's, it gets, it gets some data, you update the state, and then you return the state, and now it's saved to the state, right?
+
+So think about that in the sense of like you implement the handle call, call call back, and you've just updated your own state, you know? So that's what Visor does. But before it updates its own state, it sends that message to a different node that's also implementing it, and then they both implement the function update their own state at the same time.
+
+So that's where it's kind of-- it's like just like a GenServer, but you get the replication for free, and maybe it might be a better way to think about it.
+
+[00:09:12] Charles: And so instead of necessarily mutating the state of one GenServer and then copying that state to another GenServer, you're kind of telling both GenServers to mutate their state at the same time in In short, yeah. same way.
+
+[00:09:24] Micah: Yeah. And it-- And Visor just handles the communication between them, and if one of them goes down, as soon as it comes back up, it will go ask the other GenServers for the state that it has, and then it will get the state from them. So it's kind of like, um, self-healing, I guess. It self-heals its state in a way.
+
+[00:09:46] Charles: What if the state fails to update for some reason on one GenServer but not the other, or something goes awry, or there's a timing issue, but the GenServer doesn't crash, so it's not necessarily asking to refresh its state?
+
+[00:10:00] Micah: That is the great part about the white paper. It describes like how you handle this, right? So it's like, oh, you know, if it gets out of sync, they have a- an algorithm for how to kind of catch up. And it's pretty much about how each GenServer keeps track of the last message that it knew about.
+
+And when it gets a new message, it can see if it's out of date. And if it's out of date, it'll go ask the other GenServers for their data, and it'll get it back, and it'll use the most recent. So it's like each GenServer knows when they're out of date and then how to get-- how to catch back up, you know?
+
+So it's really cool. It's hard to put it all together when you're building it, but as you're reading the white paper, like each section makes sense, you know? 
+
+[00:10:43] Sundi: Cool. so the theme of this season for us is the State of the Stack, and it's sort of like How is technology evolving to where we are today? Like, how are we changing the way we're using technology to meet the needs of the demands of the industry right now? And you've said a few things, actually.
+
+K- I kind of have an inkling of what this answer might be, but I'm really interested in what you have to say on this. How is what you just described solving any modern demands for you compared to more traditional systems that this might have been like in the past?
+
+[00:11:16] Micah: That's a great question. So I, I think it comes from a dif- a couple different angles. So I think the first angle is just like data safety in general, right? So, you know, typically we just use a database and you put your data in there, and maybe you have a follower in case that one fails. and you know, if, if that one fails, your, your, DNS will switch over to this other follower, and that's kind of your data safety, right?
+
+You have a backup of it. And that's cool and it works great and it's, you know. I think it's a tried and true way of, to like solve that problem. But I think what you can get from the replication is you can-- or at least with this library, and just I guess the idea of replication in general is I think that happens a little bit faster and it's a little bit more safe.
+
+So with a follower, you have one backup. But when you have this replication algorithm , you could have five backups, you know? Or you could have 10. probably don't want 10, but you could do that if you wanted. or you could, you could put them across different regions. So if you wanted to have data that was closer to the edge, this replication algorithm could handle that.
+
+So, you know, you could have a Phoenix app in, you know, in the US East Coast, in the West Coast. If the data's replicated, you might have some latency, but it's still gonna be correct, right? And just closer to your customer. So I think edge data is one way. The other really cool part about just generalizing the algorithm is you're not constrained by the API of the database, right?
+
+So If you have something like Postgres, you have to use SQL, and SQL is very... You know, solves a lot of problems, but it's not as flexible as Elixir, right? So what if you just didn't have to write SQL, but you could still have that same data safety, you know? So that's, that's another way. I think the other thing about it from, like, a coding perspective, you know, like we have a lot of AI tools and you want your agents to really be able to understand the libraries that you're using.
+
+So if your libraries are simple, your agents can use them better, right? So I think, like, think about, again, like a GenServer or something like Broadway, right? So Broadway just has a few functions, a few callbacks that you implement, and you get like, like high volume data processing for free just by adding, implementing these couple callbacks.
+
+So it's kind of like that same vein, like couple callbacks and you get like these superpowers from the BEAM, you know? So I think like giving that to your agents can be really powerful.
+
+[00:13:43] Charles: are there particular projects or use cases that you've been excited to leverage Visor for? Maybe you have some, some hobby projects or something you're already using it with, but what, what does it make you excited about?
+
+[00:13:56] Micah: yeah, I don't have anything yet, but I have some ideas. So the first thing I wanna build is I want to build a Kubernetes in Elixir. I don't know why this hasn't been done yet. But Kubernetes is super powerful, but I hate it. Like if you've ever used Kubernetes , ugh, it's, it's so much YAML and, and it's slow and it's big and, ugh, I hate it.
+
+So I, I... Years ago, I learned Kubernetes for work. I was like, I-- It was cool in the sense that it is very enabling. I feel like as an application developer, it feels like you can do anything 'cause you can run anything, you know? But using it sucked. So then I looked at Nomad, which was pretty much the same thing, but created by HashiCorp.
+
+Nomad was awesome for me, like personally. Like I deployed all my personal apps with Nomad. It solved my problems. It was simple. But Then they got bought by like IBM or something and now everybody hates Nomad and, and HashiCorp or something. I don't know. Um, so
+
+[00:14:59] Sundi: Everyone's hating something.
+
+Hard to keep up. you gotta, you gotta hate something.
+
+[00:15:02] Micah: It's what keeps, gets you out of bed in the morning, I guess. Um, GitH- GitHub joins the list soon, apparently.
+
+Oh, God. Uh, yeah, yeah. So I really like the idea of Knowing how to use an orchestration or an orchestration platform, so I wanna try to build one. And I think one of the foundations of it would be Visor because you have, like, these, orchestration nodes that need to be in sync, and they need to be redundant.
+
+So you could just build this on top of that. So that's, that's my first next project I wanna build. And then the other thing is Kafka or RabbitMQ reimplementation. So same idea. It's like, you know, it's kind of grounded in this replicated data, and then you handle, like, high volume events flowing through it.
+
+And RabbitMQ is, it's an Erlang message broker, and it's very cool, and there's literally no reason to rebuild it because it's very good. But I just want to, so yeah.
+
+[00:16:08] Sundi: There's no better reason, honestly.
+
+[00:16:09] Micah: Yeah. And, um, I was in-- What-- That, that was another thing. Like, this, the project was just-- I guess it's like a, it's just a passion project, and if people are interested in it, please tear it apart, you know.
+
+Look through it, learn from it, teach me something. I, I don't care. but I did some fun things in there that y- that are not typical in, like, an Elixir app. Like, the messages that you send between the GenServers are all Erlang records instead of maps. And I just wanted to do that 'cause I can, you know. So it's like little stuff like that.
+
+But, um, yeah, it's just, just having a lot of fun writing Elixir.
+
+[00:16:48] Sundi: I almost missed this world. No one's waiting for it. No one gave you a deadline.
+
+It's just you, you and your code. Good
+
+times. 
+
+[00:16:56] Charles: Our guest in the last episode also brought up essentially replacing Kubernetes with Elixir. 
+
+[00:17:02] Micah: It's like Elixir is, I think, one of the best, like, languages to build an orchestration platform on
+
+top of. 
+
+[00:17:10] Sundi: why do you, why do you say that? Like, what are your thoughts behind that?
+
+[00:17:14] Micah: Well, first off, just because, you know, you get all the distribution for free. So when you think about writing it in, like, Go or C++ or something, like, you gotta, you gotta build all that out, but the BEAM just gives it to you, you know. And then the other really cool part about that is these days, because Elixir can run kind of any language natively, like, you know, Zig or Rust or C++ or Python or whatever, like you can-- If there's something you need to dig into a lower level language for, I don't know what that would be, but if you need it, it's there, you know.
+
+So it's just a really good communication language to tie everything together. The only part I'm not super sure about, but I'm sure you could do it, you know, like, um, a lot of times, like say with Kubernetes or Nomad, the agent that's running on the machine to like manage the cluster, sometimes you wanna run your workload on that same machine just to save money.
+
+If you're an enterprise grade, you would not do this. This would be a big no-no. But for my personal projects, I don't like spending any money, so I'm gonna use like a micro-sized server, and I'm gonna run everything I can on that, you know. So in those cases, you wa- I wanna make sure that you can tell this orchestrator just not to use too many resources on the box.
+
+Like you can constrain it to say, "Okay, Erlang VM, don't use more than 500 MBs of RAM," or something like that. which again, I'm sure you can do. I've just never done it. 'Cause usually, you know, Erlang VM wants to take up the full box and use all of the resources on its own, you know. But besides that, I think it would be great .
+
+[00:18:46] Sundi: Cool. I'm, I'm coming back around to this, like, concept of what is useful in 2026. I know, like, maybe somebody listening to this in the future, just everything about technology is different from yesterday to today and from today to tomorrow. What are you hoping to see all of this work do for you in the, like, next few months, next, maybe it's too early to say next few years, but, like, what, what is the benefit for you, for your future self?
+
+[00:19:17] Micah: Fun. That's it. That's it. 
+
+[00:19:23] Sundi: That's perfect place to start or end, honestly.
+
+[00:19:27] Charles: Maybe there's not enough of that.
+
+[00:19:29] Sundi: Yeah. 
+
+[00:19:29] Micah: personally-- Like when I started coding, I fell in love with coding. I, I used to play a lot of video games. Now I code for fun, you know. I used to read a lot of fiction. Now I code. Like I code all the time. It's just what I like to do, you know. So yeah. Like I, I usually these projects, I just do it because I enjoy it, and then somehow I get a job that pays me a bunch of money to do it again, like, and have fun, you know.
+
+And then I leave my office happy, you know. Like that's it. But I mean, realistically, I think if it wasn't fun, I wouldn't do it. But I, I do think that, even if this project doesn't go anywhere, opening up Or maybe introducing the idea of Visor, you know, the big takeaway for that is, the idea of getting this replication that's not constrained by the database that does it, right?
+
+To me, that is, that is something new, you know, that I haven't seen before. And I mean, to be, to be honest, I got this from the TigerBeetle videos that I watched, and they were like: "Well, yeah, the replication's in there, but there's no reason you couldn't just build your own database on top of it." And I was like: "I'm gonna do that."
+
+You know? So, yeah, I was inspired by, by the, the creators of TigerBeetle, which is-- Like, if you haven't seen that and you wanna, like, learn a lot of stuff, just go read their docs and go watch the videos. They're really cool. You know. I'm not sponsored by them. I don't even know the people, but I, I like the videos, so...
+
+[00:20:57] Sundi: yeah. Every once in a while, you find something that is like a re- like it really vibes with you on how they're teaching you something. I think I've probably mentioned this plenty of times on the podcast, but the book that taught how to use Flutter, was like that for me. I think it was Ray something or the other who was the author.
+
+I'm not a video person when it comes to learning how to code, and I'm not really a book person, but the interactive, like, book where you take some code and you chunk it in and you put it in your code editor and it runs for the most part, and then it has, like, comments that are like, "Fill in here. Next step will be here."
+
+But it renders and it, like, functions and you can see it on your screen, in this case was an app, that really works for my brain. So it's kind of fun when you do find something that is your learning style and you just wanna talk about it, so I get that.
+
+[00:21:47] Micah: It resonates. Yeah.
+
+[00:21:48] Sundi: Yeah.
+
+[00:21:49] Micah: Every few years, like, something like that happens or I'll get really excited about something and put a bunch of time into it, and the project might not go anywhere, but I've still learned so much, and it always applies to future tasks or jobs or whatever.
+
+Like, like learning, Kubernetes. I wasn't-- I, I didn't-- I wasn't super interested in that, but it-- as I did it, because I kind of had to for work, it became this thing that was like: This is really cool. And now at my, my job now, I know enough to be dangerous in Kubernetes at my job, and that's useful, you know.
+
+[00:22:23] Charles: When you started writing Visor, it sounds like you had some experience already with data processing and distributed systems and, and data replication. What did you, what I guess is kinda— I'm, I'm thinking of this in two angles. One is, for someone else who's getting into writing some Elixir related to distributed systems, data replication, and such, what are the things that would be good to know or good to watch out for?
+
+But also, what are the things that you learned or that you maybe learned you understood incorrectly as you were working on this?
+
+[00:22:58] Micah: Yeah. So, let's see. Again, with the replication stuff, I kind of learned about it from the left side on accident. So what happened that got me into data replication was event sourcing. So when Commanded came out in, like, what? It was-- I don't even re- It was 2017, 2018, something like that. And the idea of event sourcing for your application, I thought was really cool.
+
+So I always had that in the back of my, of my mind. I wanted to build an evented system, like with Commanded. So I read all of the docs, and I kind of understood how that worked, and then I was like, "Wait a minute. This is no different than like Postgres' like write-ahead log." And I looked up like write-ahead logs, and I'm like, "Oh, Kafka has a write-ahead log, and everything pretty much has these log, you know, these write-ahead log or they call it a WAL, right?
+
+W-A-L. So then, that kind of clicked in my brain, and then I saw the replication stuff and how they're just replicating the log and then adding the transactions on top of it. So that was kind of how I understood it. I'd say for somebody who's just coming into Elixir and you hear about like distributed and replication and all that, just know that they're not, they're not the same, right?
+
+Like, I talked to a coworker who was a Go developer, and he was like running our, our Kubernetes cluster that runs our Elixir apps. And I was asking him, like, "Well, why do you, why are there three pods here? Like, we could probably get away with two." He's like, "Oh, because, you know, it's Elixir and it's distributed and you gotta have your leader election and all that stuff."
+
+I'm like, "No. No. It, this app is not replicated. It's distributed, and those are different," right? So I think just kind of, you know, understanding kind of the difference. Like, you know, you have your distributed app, which means they can talk to each other, but the data is not shared and the data is not replicated, you know.
+
+So that is a separate problem. It's a separate-- It requires separate tooling. It's thinking about differently, you know. So, that, and then the other part is, it's a, it is com- it is complicated, and I think that's why a lot of people might find it intimidating and the, the projects that are like, they'll kind of tout that they use Raft or like, "Oh, we use Paxos," which is like, I think that's what Google Spanner uses.
+
+They say it like it's this big thing that you just have to use and you couldn't implement yourself. But realistically, when you read through it, it's not that bad. It's, it's, it's a lot of moving pieces, but if you take it one at a time, it's, it's not bad. And you'll really understand how the things work after, after you read through either a library that does it or there's like, there's a lot of good information online about it.
+
+Like if you look up, the Raft consensus algorithm, they have like video-- like little GIFs that show you how it all works, and it, it's really easy to wrap your head around.
+
+[00:25:51] Sundi: Cool. Do you think there was also maybe some, like, general resistance to event sourcing? Have you, have you seen that in the, like, industry/community?
+
+[00:26:04] Micah: a little bit, and I think for good reason, because it's really har- event sourcing is harder than doing like this stuff. I implemented a proof of concept with Commanded, and I did not like it, because for me it did not feel Elixiry. It felt, it felt Ruby-ish. And you know, anytime you're writing a language, you could tell.
+
+Like when I was writing Ruby, I could tell when a Java developer was coming in and writing Ruby, you know? And when I'm writing like Elixir, you could tell when somebody's thinking in Ruby writing Elixir, you know? Just the design and how they do things. So to me, it didn't feel Elixiry enough, so I, I implemented my own event sourcing library internally at work, and it was much, much simpler, and it was really cool.
+
+But it-- we ended up ripping it out because it is a lot and is very hard, and if anybody tells you that, they use it and it solved all their problems, they're probably doing it wrong and just haven't hit the real challenges of event sourcing yet.
+
+[00:27:11] Sundi: Cool
+
+[00:27:13] Micah: Yeah, event sourcing is hard. I don't-- These days, like that kind of event sourcing, I, I don't think it's worth it unless you really, really have a feature set from a customer that is requiring that.
+
+[00:27:27] Charles: Mm. Like audit trails or...
+
+[00:27:29] Micah: well, audit trails, yes, but even with audit trails, you can get away without event sourcing. You know, you can just log it, right?
+
+Like um, I think like the, the way that I had seen it, like, event sourcing is useful if you wanna travel back in time. If you're not traveling back in time, don't use it. Like, if you want your application state to travel back in time, 
+
+[00:27:52] Charles: And I think sometimes with event sourcing, people will compress or compact older history after a certain point just because that's a lot of data that you're accumulating over time.
+
+[00:28:04] Micah: yes, that happens, and then the thing that I could never get around is you have all these events, and they happened in the past, and then you have your functions, your projectors that will take that data and rebuild it into your, your current view. But as soon as those functions change, but the data from way back here has not changed, now you have to reconcile, you know?
+
+So it is just very com-complicated.
+
+[00:28:29] Charles: So how much in Visor are you... I don't remember exactly how you put it, but I, I think you, you mentioned earlier about tracking kind of the changes over time a little bit and that, you know, if, if one GenServer goes down, it can ask the others and, and re-duplicate that state. How is that compared to event sourcing, and what's different about it?
+
+[00:28:51] Micah: Yeah. What a great question. It is not different. The only difference is Visor is all in memory, so there's no super long log that you have to worry about the functions changing. Like, typically, you would do a redeploy, and then everything would start from zero again. That being said, I would like to implement a snapshotting behavior to where developers could easily configure how many messages before it persisted that state to a, a file or somewhere.
+
+And as soon as you do that, now you have to worry about the, the history of the changes of those events. So I haven't solved that yet, but I-- it's something I, I wanna work on.
+
+[00:29:31] Charles: And then it sounds like it could also be somewhat memory constrained. You know, if you're uh, accumulating state in memory over time. Do you have a mechanism that clears out old state or, you know, 
+
+hasn't got there yet? 
+
+[00:29:49] Micah: it hasn't got there yet. However, in the callbacks, you can manage your own state just like a regular GenServer. So you could keep it trimmed down if you wanted, but the log would still be there. So the log is, you know, the source of truth for how the state was generated. 
+
+That is still there.
+
+That is a very real problem. So yes, that is something you have to keep in mind. And I don't know. I don't know how to solve that. I think realistically what you could do is when you're snapshotting, you can dump the log up to the snapshot, so, you don't have to keep that in memory anymore because this is kind of your new Ground zero sort of a thing, you know?
+
+But yeah, that, those are all problems to solve, and I hope they're fun so I can stay interested in the project. Um, so yeah. Um, but yeah, it's, it's, it's definitely a lot. It's a, it's a great learning experience. It's been a lot of fun.
+
+[00:30:41] Sundi: Honestly, we're talking a lot about like relevance to today's stack and everything, and I honestly really appreciate being kicked off the hamster wheel for this hour because, um, it's refreshing. Everyone's sort of just like out here to survive fighting their local bots and whatever. Uh, and, uh, it's really, it's really nice to hear someone still doing this for fun.
+
+[00:31:01] Micah: I've been like, you know, AI is all the rage, and I've been a slow adopter, admittedly. Maybe I shouldn't admit that on a podcast where everybody knows that I'm not huge in AI. But for me, again, it goes back to like this was fun, and the most fun part about it is like sitting in Neovim and typing the code.
+
+And now all these agents wanna do it, that for me, and it's like, wait a minute, I really like typing. Like, I have a, a keyboard I finally found after years of searching, and I just like to type the code, you know? 
+
+[00:31:33] Sundi: Yeah. 
+
+[00:31:36] Micah: yeah.
+
+[00:31:38] Sundi: I think people are finding it's heping with the things they don't like to 
+
+[00:31:39] Micah: Yeah. 
+
+[00:31:39] Sundi: like writing tests or whatever. But, 
+
+[00:31:41] Micah: that's a good point, yeah. 
+
+[00:31:43] Sundi: yeah. 
+
+[00:31:44] Charles: Not everyone on, on the podcast is, um, all about AI. 
+
+[00:31:48] Sundi: Yeah. 
+
+[00:31:48] Micah: Yeah.
+
+[00:31:49] Charles: We-
+
+[00:31:50] Sundi: I think we'll have some interesting conversations later in the season about, again, state of the stack. So like what's important to us right now and like how are we gonna survive the techpocalypse of 2026? So we'll definitely have some like pro cases and against cases for this.
+
+But, uh It's, it's, a, it's fun to hear that you're having fun. I didn't even realize I needed to hear that today.
+
+[00:32:09] Micah: Well, I'm glad. It is, uh, yeah, you know, try to, try to have fun. Um, and Sundi, you are a ma- an engineering manager at cars.com, right?
+
+[00:32:20] Sundi: Mm-hmm.
+
+[00:32:20] Micah: I managed for a couple years in my career, and it was interesting. it, it, it's not that it wasn't fun, but because I didn't get to code as much, that's what made it not fun.
+
+The job was fine. I just missed coding, so I went back to engineering.
+
+[00:32:35] Sundi: I, again, are we saying these things on the podcast? I don't actually miss coding so much 'cause I like people problems more than I like code problems. I think they're more interesting, and I also have kind of, I have fun with it.
+
+
+
+[00:32:49] Sundi: I think I was successfully roasted by my team recently for not having played "Mario Kart" ever in my life, which again, can't believe I said that on the podcast. Um, but it did prompt me to go out and get a Switch 2 so I could kind of say, "Fine, I've played it." Um, so we have a good time. I do like to facilitate fun on the team if I can.
+
+[00:33:11] Micah: Yeah. It's very important. It must be mandatory.
+
+[00:33:15] Sundi: Yeah. 
+
+Uh, the roasts were real bad.
+
+[00:33:21] Micah: I don't know. You know, I played Super Mario-- I s- I played Mario Kart in Super Nintendo, and I didn't play it again until Mario Kart 8, which I just got, like, two years ago with my kids. So, it's
+
+[00:33:32] Sundi: You probably grew up playing it like a normal person.
+
+[00:33:36] Micah: I don't know. It's not my favorite game, to be 
+
+honest. 
+
+[00:33:38] Sundi: All 
+
+[00:33:38] Micah: So 
+
+[00:33:39] Sundi: right.
+
+[00:33:39] Micah: uh, there,
+
+[00:33:41] Sundi: in the hot takes portion, you
+
+[00:33:42] Micah: there we go.
+
+[00:33:43] Sundi: Yeah.
+
+[00:33:44] Charles: I think Mario Kart came out after I kinda stopped playing video games all the time.
+
+[00:33:49] Sundi: Hmm. yeah.
+
+Yeah, fair.
+
+[00:33:51] Micah: Uh, speaking of fun, and engineers Hot Take! So, uh, you ever, like, talked to an engineer who's, you know, really big about language X, whatever language X is, and they can tell you all the reasons that, you know, their language is better than yours, you
+
+[00:34:10] Sundi: Only every other day.
+
+[00:34:11] Micah: Yeah. And I think the thing that I... Like, we have this argument all the time, like, or I have this argument all the time, like, you're missing the most important factor of what you're saying, and it is merely that you enjoy that language, right?
+
+Like, you just like it. And all those reasons, you know, somebody else has the exact same reasons for why they like the language they use, you know? And you can mostly solve most problems with most languages, you know? So, um, I think, you know, definitely find the one that you enjoy. And, like, for me, like, coming from Ruby to Elixir, not having to think about objects and inheritance and, and the mutated state of, like, that whole chain was s- was just all of this mental overhead deleted from my, my flow, you know?
+
+And that was one of the things I really loved about switching over to Elixir, was
+
+[00:35:03] Sundi: I don't know if I'm gonna make you hate this by comparing that to the AI analogy, but like, that's almost what we were saying, right? Is like, you've switched to Elixir and now you're not doing the stuff you didn't like.
+
+[00:35:12] Micah: Yeah. And yeah, that is maybe I should just em- uh, employ Claude to do the things I don't like, which
+
+[00:35:19] Sundi: but it sounds like you like most of it, 
+
+[00:35:21] Micah: there is a few things. Like, I've used it recently. Like, um, there was, like, a bug in a bunch of Terraform that or something was wrong with our, you know, networking stuff, and I just told Claude, like, "Hey, go look at all the commits from last Wednesday and tell me what could have caused this error."
+
+And it was not able to do that, but it was nice that I didn't have to do that. And then a coworker ended up solving that problem. So um, uh, either way, it wasn't me. Yeah. 
+
+[00:35:54] Charles: I've had a similar experience with Clojure as to Elixir, in terms of, like, being able to shed all that mental load around inheritance and, and state mutation between the classes and everything. maybe it's a bit of a functional programming 
+
+trait. just being able to think about, you know, data in and data out,
+
+Mm-hmm.
+
+[00:36:18] Micah: and, uh, that's very refreshing . Even all these years later, it's still very refreshing.
+
+[00:36:22] Sundi: I guess, would you recommend, like, the way that you've approached this project, and again, kind of tying back to where we are with the world and, like, people are concerned about their jobs and the ability to, like, do their job to the best of their ability, would you recommend Visor to anyone in, like, how you use it in, in the real world?
+
+Or do you think of it more as, like, a pet, more fun type project?
+
+[00:36:47] Micah: I think it is not ready for primetime, but I think it could be. I think with not much more work, it w- it could be a very valuable tool. And I think the simplest use case, which is like the, the integration test in the library, just use it as a replicated cache. So, you know, we have, was it Nebulex and couple other Elixir ones that already do this.
+
+[00:37:11] Charles: Mnesia or Cachex or
+
+[00:37:14] Micah: Yeah, yeah, Cachex is the one. I like Cachex, um, 'cause they have different, like, replication strategies. So the difference between this and that would be, um, Cachex still has a DX- a DSL that you have to adhere to, you know? So, you're y- I don't know. I don't think you can do this, but, like, if you wanted to use, say, like, Libgraph, which is the, uh, Elixir graph algorithm library, like, your cache could be a graph, you know, with Visor because it's, it's just data in a GenServer.
+
+It could be any, it could be anything, and I think that's where this could be useful. If you want a different data structure that is, that is not Nebulex's API or something else, then you could use this to really do whatever you wanted. So yeah, I, I think I could get there, and I think it could be really useful, and I could, I could foresee it sitting below a lot of other libraries, like other things like, like Horde, you know, which is the, what is it?
+
+It's like the distributed, uh, process registry that you use to, to make-- so you can talk to processes across your whole cluster. Technically, you could use something like Visor under, under Horde to have your replicated registry, that sort of a thing. It's just general purpose replication.
+
+Whatever you wanna use it for is, is the, is the hope 
+
+[00:38:31] Sundi: Do you think you're gonna get there?
+
+[00:38:32] Micah: Yeah. Why not? I'm on a podcast talking about it, you 
+
+[00:38:36] Sundi: Yeah. 
+
+We'll check in. 
+
+We expect it by the end of ElixirConf.
+
+[00:38:39] Micah: Oh, God.
+
+What- 
+
+[00:38:41] Charles: Y-y- maybe 
+
+uh, maybe you'll be presenting in Chicago coming
+
+[00:38:44] Sundi: Yeah, Lightning Talk.
+
+[00:38:45] Micah: I thought about that, but, uh, the call for talks already closed,
+
+[00:38:50] Sundi: Yeah, it closed, uh, last week as of 
+
+time we're recording. 
+
+[00:38:52] Micah: I've also-- I've never spoken at a conference before either. That makes me 
+
+scared. 
+
+[00:38:59] Sundi: the same thing.
+
+[00:38:59] Micah: Yeah. Yeah. Maybe more. It might make-- ma- might have more people listening. Um,
+
+[00:39:04] Charles: S-so with all the listeners who are excited to maybe contribute to Visor, are you open to PRs? Is there a way that people could connect if this is something they wanted to hack on?
+
+[00:39:15] Micah: Of course, yeah. It's at-- It's on, it's on GitLab, gitlab.com/mrmicahcooper, that's my online handle, uh, visor. And funny story about the name Visor. Um, so it's Visor, V-I-S-O-R, but I, I wanted that to be how you would pronounce VSR, which is view stamp replication. So it's VSR, which is Visor, and I called it Visor because it's, it's like, it's like a supervisor, but not really.
+
+It's just a visor, right? So, um, 
+
+[00:39:50] Sundi: It's not super, just normal. 
+
+[00:39:52] Micah: Yeah, it's just a regular visor. I, I'll-- Yeah.
+
+[00:39:55] Sundi: I think we need a running bit of like, why did you name something this way? 'Cause I feel like we talk to enough people who've like invented something that we need to ask for the, the how they came up with a name. I think like even Flame has like a ac- it's an acronym,
+
+right?
+
+[00:40:07] Charles: yes. Mm-hmm. Mm-hmm. Fleeting... I don't remember the rest.
+
+[00:40:12] Micah: That was the most fun about starting the library is thinking of a good name 
+
+[00:40:17] Charles: Is it the hardest part? 
+
+[00:40:19] Micah: No... 
+
+[00:40:20] Sundi: I think Charles has a burning question for you, Micah.
+
+[00:40:22] Micah: Go for it, Charles.
+
+[00:40:24] Charles: Inquiring minds want to know, what is the keyboard that you settled on?
+
+[00:40:28] Micah: Ooh, great question. Um, let me see if I can show the, the wa- the video. God, um, I'm, I'm embarrassingly gonna say that I don't know the name of it, but I might could look it up real quick. Uh, Knockfree. Is that it? Knockfree. Yeah, Knockfree. 
+
+Uh, it is, uh, probably my fifteenth keyboard over the years.
+
+[00:41:00] Sundi: Is this the one after trying 15 different keyboards?
+
+[00:41:03] Micah: It's close.
+
+There's, there is a, a, a, He says for every keyboard ever and more.
+
+is the one I've used the longest. Um, and it is-- The only thing that is weird about it is the question mark and the shift key are, like, swapped on the right. I know. The, the reaction that you're making is exactly how I felt. Fortunately, it's programmable, so I was re- I was able to get around it kind of.
+
+Um, so yeah, it is, it is great, and I, I went with this because it's split, so it's, it's two different pieces, and the reason I had to do that is because at my current job, I was coding so much that my wrists were starting to bother me. that was a good sign I was having a lot of fun. I have a lot of fun at my current job.
+
+Um, so yeah, that's the one, Knockfree. And yeah, 
+
+[00:42:01] Sundi: I wonder if that's, if that's the trick, Charles, because people keep asking me how I can just get away with, like, a regular Apple keyboard. I think it's 'cause I don't type enough.
+
+[00:42:08] Charles: Yeah, But I, I have never had wrist pain. I've been using the same Apple keyboard for about 15 years
+
+Oh. Th- this is new to me 
+
+[00:42:17] Sundi: Those, like, flat things. 
+
+[00:42:18] Micah: I, I used to not have wrist pain, but I guess with age and vigorous typing you start to get some, you start to get some, some wrist pain.
+
+[00:42:27] Charles: I think too, if you have other activities in your life that, like, use a lot of the same muscles, like rock climbing, for example, or other things, like your wrist, your forearms, that...
+
+[00:42:36] Sundi: casually rock climbing?
+
+[00:42:38] Charles: Uh, it's not since the pandemic, but yes. Okay. Sorry, I didn't mean to make that face.
+
+and, uh,
+
+also went with the split keyboard. I highly recommend it. It really helped with my 
+
+[00:42:51] Micah: if I can... There. Yep. would... Yes.
+
+[00:42:56] Charles: And the 
+
+[00:42:56] Sundi: To me, that's just two m- that's, uh, an additional opportunity for my cat to just get in the way.
+
+[00:43:03] Charles: oh, it's great. The cat sits in
+
+between. 
+
+
+
+[00:43:07] Sundi: Okay. I think Charles has figured everything out. In terms of figuring out everything else, Mica, for our audience who's listening in, if they wanted to reach out or kind of get involved, learn more about this project, you've already given your links and stuff, but is there any social media that you, you, uh, use, or do you just
+
+use LinkedIn or something? I have a, I have LinkedIn. I think I- I'm @mrmicahcooper on LinkedIn. If you message me, I will probably message back once, and then I'll start the conversation, and you'll respond, and I won't respond for weeks. And this happened at somebody from ElixirConf, and I felt really bad about it, but then I just owned the fact that I just don't really use social media like that.
+
+[00:43:46] Micah: Um, I also have a Twitter, pretty much @mrmicahcooper everywhere, but don't expect a reply except probably the repo 'cause I, I just, you know.
+
+[00:43:55] Sundi: " I have social media. Don't expect me to respond on it." I love that take. I-- It's beautiful. I think everyone should just embody that in 2026. I love that, actually.
+
+It's... We've been on this podcast, I mean, obviously we're what? We've been here for so long. It's really been interesting to see, like, the evolution of social medias and, like, where people are finding people and, like, where we're finding community.
+
+So I'm glad you guys have the meetups. Um, you know, I think you said you're Chicago. That's great. Especially if you're not answering social media.
+
+[00:44:26] Micah: You-- Oh, yeah, go to the repo and m- I'll probably put it on GitHub too if people prefer GitHub. Um, I just-- I don't have anything against GitHub. I just personally like GitLab more, and there was one reason because they had this feature where you could-- They were Git push flags, so you could push to GitLab, and then in the flag, you could tell it to merge when the PR-- when the MR, 'cause they're merge requests, not pull requests, which actually makes sense, um, that-- So when it was approved, it would automatically merge.
+
+So then, like, you know, five years later, GitHub puts the, like, oh, enable auto merge thing. It's like GitLab had been doing that for years. So, uh, GitLab is just ahead, I think. Their, their UI is uglier, but the features are better.
+
+[00:45:15] Sundi: If it works, it works. At this point, I'm not about what's pretty.
+
+[00:45:21] Charles: Yeah.
+
+[00:45:21] Micah: just, uh, make a merge issue o-on there and, you know, if, if you find my email, maybe email me.
+
+[00:45:29] Sundi: Okay, cool. Well, uh, audience, um, you, you've heard from Micah. You generally know where to find him. Whether or not you'll hear from him is, uh, up to the, uh, the phase of the moon. But, um, we, we love that. We love that. Micah, it's been great talking to you today. I do hope that we see you more in the future so we can hear how this project wraps up.
+
+[00:45:50] Micah: for having me. This has been a lot of 
+
+[00:45:53] Sundi: Cool. All
+
+[00:45:53] Charles: Yeah. Great. 
+
+Thanks for coming. 
+
+​ 
+
+[00:46:29] Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
