@@ -64,6 +64,8 @@ git commit
 git push origin main
 ```
 
+If you get errors about `cannot load such file -- faraday` when running `ruby ./_scripts/podcasts.rb`, try instead to run `bundle exec ruby ./_scripts/podcasts.rb`.
+
 ## Transcripts
 
 To add a new transcript for a podcast:
