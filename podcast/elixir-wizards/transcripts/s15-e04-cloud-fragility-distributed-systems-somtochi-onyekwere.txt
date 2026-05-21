@@ -1,0 +1,287 @@
+S15E04 Cloud Fragility and Distributed Systems with Somtochi Onyekwere
+===
+
+​
+
+[00:00:33] Charles: Hey, everyone. I'm Charles Suggs, software developer at SmartLogic.
+
+[00:00:36] Emma: And I'm Emma Whamond, a software developer at SmartLogic
+
+[00:00:41] Charles: And we're your hosts for season 15, episode four. We're joined today by Somtochi Onyekwere, software engineer at Fly.io. Today, we're talking about the growing fragility of centralized cloud systems, recent large-scale outages, and how engineers are rethinking infrastructure to build more resilient distributed systems. Somtochi, welcome to the show.
+
+[00:01:03] Somtochi: Thank you. I'm excited to be here and discuss it with you guys.
+
+[00:01:09] Charles: Excellent. Uh, I know some of us have been interested to hear a little bit more about, how Fly does what you do. Can you tell us a little bit about your background and what you're doing now and kind of the path that led you to that?
+
+[00:01:21] Somtochi: So currently I'm a software engineer at Fly.io. Fly is a platform for deploying your applications, both if you're using agents or big apps or you're trying to build platforms for other developers. At Fly specifically, I work on a distributed system, an open source distributed system called Corrosion.
+
+Corrosion is used for replicating SQLite data over thousands of nodes. It's multi-writer and eventually consistent. And what Corrosion does at Fly is that it powers our networking layer and other platform components that need data quickly. Before my time at Fly, I worked as Weaveworks as, like, a developer experience engineer, and what that just means is that we build tools for other developer.
+
+Worked on also open source Flux CD, which is a GitOps tool for deployed applications on Kubernetes clusters. Before then, I think other than, before then, I was a Google Summer of Code intern, where I contributed to co- um, to, uh, some parts of Kubernetes too. And yeah, and then I've also had a short stint at DevOps, at doing DevOps.
+
+This is, like, working with AWS, GCPs on clouds. So yeah, it's been quite a journey.
+
+[00:02:40] Charles: Cool. Um, so how does How does Fly compare to other hosting providers in terms of what you offer and kinda how that hosting system is, is structured? I think it's a little bit different than maybe your typical hosting platform.
+
+[00:02:57] Somtochi: yes. Fly's pitch is that it helps you run your machines close to your users. So we are available in quite a couple of regions, and we let people deploy the applications fast and quickly. I'd say something else too that distinguishes Fly is the developer experience. It's also pretty easy to use. Basically making it easy for you to get a lot of things set up, like private networking, storage, getting it all rolled into your app very quickly and seamless, right?
+
+And aside that, it's like a platform regardless of where-- which level you're building up. Like, if you just want to get a simple crude app, app out very quickly, it's good. If you're trying to build a platform probably for other developers, you want people... You want to basically offer a platform for other people to deploy applications, or you want to spin up, sandboxes for different users on your platform, right?
+
+Whatever level at which you want a deployment platform, Fly is able to sort of deliver on that experience for you.
+
+[00:04:06] Emma: It's fascinating. So looking at the current state of the infrastructure now that you're working on at Fly, what kind of changes, what kind of evolution have you noticed over the last few years or working in corrosion over the last year?
+
+[00:04:23] Somtochi: some changes I've noticed. So I'll start with like more general changes and then some more specific ones. I'll say, of course, the whole industry is like taking AI seriously, especially like I f- I would feel-- I would say since the start of this year, like most cloud platforms have some AI offerings.
+
+Like we're preparing for the world where, you know, agents and humans are both building software and preparing for what deploying that would look like. I feel like different people are making different bets on what that's going to look like. Fly has a different product called Sprites, which is specifically for people who are building with AI, who want sandboxes, persistent sandboxes, quick to spin up, right?
+
+'Cause it's like, okay, 
+
+how it's going to be easier either for agents and humans to work together or giving an agent, you know, maybe a sandbox environment where it can play around without messing things up, where it's isolated, limiting access to some sensitive data. Sprite, which is like a stateful sandbox environment, which basically gives, an AI computer to use, and you can sort of checkpoint and restore.
+
+So like Git... And that means, you know, if it messes things up a bit, you can always go back to, like, a previous version of what it looked like. And sort of the, the jump from prompting an AI model to deploying your app is very short, right? Basically closing up that loop, right? You can quickly get an app up and have a URL to share in no time.
+
+I think some other people are providing places for people to run models, right? I think Cloudflare has Workers AI, which is like models close to your users or something like that. So different, different companies, different ways they think it's going to pan out, and so they're showing their ways, ways behind it.
+
+Basically, everybody's coming for the AI gold rush and saying, "Okay, things are changing in how software is being developed. Things are changing is how it's, is, in how it's being deployed, and how can we still provide experiences for our users?" On distributed systems, I would say just because of the kind of scale that companies are running into, so there's more distributed systems, The shape of those systems are like more eventual, eventual consistency.
+
+Corrosion is eventually consistent, right? Because that tends to lend itself towards scale when you don't have that very strict consistency. So that's something I'll say on the distributed sys-system side. So yeah, and I think even like running AI workloads, having them work together, having training them, all of that too is also pushing us towards this, this world where distributing the work, distributing the workers, you know, to make things, to speed things up too is also feasible.
+
+[00:07:14] Charles: you talk about how, um, about enabling the use of AI in, in production systems and la-- , designing, launching, and perhaps more. I'm curious, how does Fly look at providing like mitigations or safeguards against agents that might, you know, go beyond their, their rule set or beyond what they're meant to be doing or any guardrails that might be set up?
+
+There was a case not long ago folks may have seen, I, I know very little bit about it, but where, uh, a service, PocketDB, lost their entire database and their backups when a Claude agent kind of went beyond its, its remit and found other keys it wasn't supposed to have access to and, and took some destructive action on the wrong node.
+
+And my understanding is that had some systems that were in place, uh, have been maybe structured differently, that it might have prevented the agent from being able to be quite as destructive. So I'm curious how it-- if this is part of your job, is this stuff that... Or how are you and Fly looking and thinking about these kinds of possibilities and how to plan ahead for them?
+
+[00:08:30] Somtochi: of course, AI is kind of like a wild card. We all see its potential for enable people doing more, but at its base it can still do things that are unexpected, right? They are kind of- unpredictable in that way. So I think the whole thing about providing stateful st- sandboxes, right, is like this isolated environment, right?
+
+Which is better than, say it's on your laptop because you have probably more sensitive information on there, right? So it's this place where it can mess around, you know, cause issues, and also you can now also checkpoint back to a last known state, right? But if you say give the agents like a token, like you generate a token yourself, 'cause in the end you are still the one in control of the sandbox, right?
+
+You can copy over a file on there that has like sensitive information, right? And have the agent run wild on it, right? So also limiting access. We have some like connectors, right? What Sprite calls connectors, which are these ways to give Sprite access to some services without necessarily giving it like sensitive token. So while there are all these other ways to kind of limit what it can have access to, is that people also have to come to it thinking, okay, if you give this, literally give it the token to mess around with your database. So you also have to be thinking of that as someone who is building those applications, while of course on Fly side is trying to prevent all of this, right?
+
+It's trying to give you like this isolated sandbox where it can't really run as wild. But ultimately you also have to be careful of, about the kind of access you're actually giving into it.
+
+[00:10:11] Emma: Sounds like AI is the perfect use case for ensuring that those boundaries are in place. There could not be a better reason to do that. There have been several high-profile incidents recently with AWS, Cloudflare, CrowdStrike, or Stryker. In particular, Stryker was hit with a cyber attack last month, allowing attackers to remotely wipe tens of thousands of Windows devices via Microsoft Intune, which 72% of large hospitals use.
+
+In your opinion, and along with the AI reasoning Has the internet become overly reliant on a small number of centralized providers?
+
+[00:10:57] Somtochi: I, I would say we've kind of been for a while. Maybe the recent outages are making it more obvious, but I would say since the rise of like cloud computing, right? Where,
+
+where, where AW- where, Where we moved from these models where we had servers, we had companies ordering their own servers, like setting up their own data, rooms, and having to set that up to this model where AWS was like, "You know, come on, I'll...
+
+Give me your app, I'll run that for you." infinite resources. You kind of don't need to go into the hassle of ordering servers. And that worked out. And for a while, they were like the major players, the, the major player in that space. But now you have like AWS, GCP, Azure, but they still have like a, a whole lot of market share, right?
+
+If those go down, a bunch of apps all over the internet also goes, goes down. I mean, within AWS itself, they have like multi-region and all of that. But at the core is that for a, a number of companies deploying these applications, they are actually concentrated in a certain number of providers.
+
+There's a bunch of providers coming up here and there. I'd say we even have more people, more providers entering the market now. So, but I f- I feel like it's been like this for a while, but just the recent outages the recent disruptions have made it, like, more obvious.
+
+[00:12:18] Charles: how can a platform like Fly and using distributed computing kind of work around or provide redundancies that would mitigate some of these centralized points of failure that, that exist in our current cloud infrastructure?
+
+[00:12:35] Somtochi: I feel like at the base, we kind of have the same, like we s- we push people towards don't deploy your app in just one region, right? Push people towards even as you're on the platform, right? If you have a machine running in a single region and that region has some kind of network incident that disconnects it from the rest, rest of the internet, right?
+
+As much as yes, we're working behind the scenes to re-restore it, it's kind of... That's literally the only place your app is. So pushing people towards this model and also making it easier, right? 'Cause there's one thing for you to be able to deploy your applications as multi-region, and then there's like the complexity of it, right?
+
+Making it easier, as easy as like specifying like a CLI flag, right? And you have an application in a different region, and there's no necessary additional overhead of spreading out your applications, right? Having that right from the start, I would say is one of the ways that we also... This is not platform specific, but for our users, helping them make sure that their applications too are sort of distributed across different regions to prevent like a certain failure from taking out their whole app.
+
+And then within Fly too, we are also constantly thinking and building systems in a way, in a way that reduces the blast radius when something fails, right? So we have like... Corrosion is distributed. When one node goes down, the rest of them would continue operating. That node might be lagging. It might be down for a bit.
+
+Maybe the n- the, the worker that is working on might... It'll be able to read data, but not write for that period, but the rest of the system still continues chugging along as As well as it would, right? It-- when-whenever it comes up, it joins back the data. So there's that, like reducing the need for consensus.
+
+Sometimes in distributed systems, you can get into this place where maybe everybody... each node is trying to talk to each node to decide on something, and then, you know, some of them goes down and no one can make progress. So that's also something where we try to reduce as much. So basically making the platform distributed, making-- reducing the blast radius of failures, and then providing tools also for people who are building on top of you to be able to spread out their applications and be more resilient to platform failures.
+
+I would say those are some points that we're doing.
+
+[00:15:00] Charles: Are there things people might do in support of having redundancy in their systems, such as, you know, for example, uh, operating in multiple regions? But are there things people might do that might give them the illusion of having some good redundancy set up, but maybe isn't, that hides single points of failure?
+
+Things, things that people should kinda keep in mind or look out for as they're thinking about how to lay out their infrastructure for their system.
+
+[00:15:28] Somtochi: I think, I think you can't rely on, on systems that rely on other systems, right? Like you can deploy on Fly, but maybe you have Cloudflare sitting in front of your app. So there's, there's things like that. You can be using multiple providers, right? But still have some part of your system that when it fails, you can't like the rest of things, you can't service requests.
+
+Nothing can bypass that failure point, right? Maybe you depend on, let's say, just a very general example is like you depend on Stripe for payment and of course like Stripe is up most of the time, but if AWS is down and then Stripe depends on AWS and then Stripe is down too and stuff like that. So there could be transitive dependencies like that, that people are not really thinking about.
+
+And then there's also like you have like maybe you have a database, the managed progress of, you know, Fly does automatic failovers. But say you were deploying a a database on Fly 'cause you can do that, right? And you know, you set up things, you have like a primary, but for some reason you've never tested the failover process.
+
+Like you've never actually had that switch happen 'cause you, you actually don't know that the switch is up. So maybe you do have the node on hand and ready to service requests, but for some reason you've actually not been able to test the handover process. So when things actually fail, you know, you- It's like you, uh, have those things in place, but you actually haven't actually tested what those looks like.
+
+So when the failure actually happens, you realize that you've kind of prepared for it, but you haven't completely tested it to ensure that things actually fall back in a way that you have planned them to.
+
+[00:17:05] Emma: Sounds familiar for a lot of different situations. Do you have any advice to engineers as to how to test that if maybe they're not sure how to approach it? They've set it up, maybe they haven't fully tested it.
+
+[00:17:20] Somtochi: Um, so I would say test it, right? If, I mean, it, it doesn't always work for everything, I'll be honest. Sometimes systems are actually complex enough that being able to simulate exact failure scenarios is tough and difficult, right? But as much as you can, if you can sort of maybe initiate a failover, right, and say, okay, maybe staging first, then you try it in prod.
+
+Just something to ensure that like those safeguards you have in place, maybe you have backups, right? And like try restoring those backups, actually restoring them out to be sure that it's actually working. So all those little things that you have, like what, what's your plan like if you try to roll out a bad deploy and it fails halfway, right?
+
+Do you have a rollback plan in place? The platform gives you tools, right? Most platform gives you tools. Like for Fly, you have health checks and you can tell Fly that you're doing like a blue-green deploy, that if these health checks are failing, it needs to roll back automatically. It, it gives you that for free.
+
+But if you've not specified the health checks themselves, or if your health check is not actually checking that things are running, maybe it's just creating an endpoint, but that endpoint doesn't actually think-- test that everything is set up properly, right? It could do the rollouts quickly and, you know, things are failing and that's, that's okay.
+
+But what, what, what does rolling back look like, right? Are you monitoring stuff as outside of that, like to make sure that the, the deploy that you've sent out is actually working well enough? So I- I'd say these are some things that we-- that's spoken about in general, like industry standards, but actually like...
+
+'Cause there's a lot of things you can do, and being able to sift through the standards that we have, like, okay, blue-green deploy, is this what works for me? Okay, failovers, is this what I need to do? What is the most important point of my system and how am I making sure that I'm aware of the failures that can occur and how I can work around them?
+
+[00:19:21] Emma: So True, in, in your opinion, where are teams underestimating that risk? Is it the rollback plans? Is it having a fail, like a fail-safe system? What, what are you seeing?
+
+[00:19:33] Somtochi: Um, I would say yeah, definitely for rollback plans, especially for the small changes. I would say when you're rolling like, like you're changing like maybe a config, it's, it's really small, so sometimes you're just like, okay, it's a small change and I'm just going to flesh it out really quickly and get it everywhere.
+
+Like what, what could possibly go wrong? But the thing is that the thing that would go wrong will go wrong eventually. So I would say that's one place like having proper ro- especially for very complex systems, right? For simple applications, you can just like roll back an image, right? But like let's say your rollback changed the schema of the database and like your rollback is going to like take it to an old schema, but some other part of the schema for-- Some other part of the, the system is already using the new schema.
+
+So just what those interaction would look like in practice can be an issue, right? Single points of failures, like we've said, right? There's, there's this, this part of the system that you're depending on and you think that it cannot fail just because maybe it's internal, you're controlling it, but you actually need to consider what happens if any part of your systems fails, 'cause those things can happen.
+
+I would say those are one of some of the places I think that teams aren't really, really thinking about, oh, these are failure points, and they can... Like the risks of other external dependencies. Like it's... To be fair, like AWS Cloudflare, they are p- pretty reliable that most of the time you don't think, "Oh, what if us-east one goes down?"
+
+Like because like for actually the most of the times those things are working well, so you have no reason to think about it. If it's failing every other day, you're like, okay, okay, okay, this is... So also for software and other things that they depend on.
+
+[00:21:26] Charles: I wanna try to bring this back to Elixir a little bit, in that we are an Elixir focused podcast. Fly is widely used in the Elixir community for deploying applications. There's some really nice integrations with, elixir, Flame, for instance, and some things that with Fly, it's really easy to just spin up a new node and run that.
+
+And so I'm curious if from, from kind of a platform and hosting perspective, have there been different things that you've had to do or interesting things you've had to do that are specific for supporting Elixir applications? Or is it just, it's just another, just another language, just another runtime, it doesn't really matter.
+
+It's, it's an application that needs a hosting platform.
+
+[00:22:08] Somtochi: I think that Fly tries to, for most of the features, they try to do it in such a way that everybody gets to, gets to benefit from it, right? Most likely whatever is go- that is going to make Elixir apps work fine is going to make other apps work fine. Although we do, we do try to... Elixir Phoenix, Fly does try to like we are, we like Elixir, so we try to make that experience easy for users, like put out guides.
+
+Like if you want this kind of application structure that is popular for Elixir users, right? This is how you deploy it on Fly. So some guidance for people who are coming to Fly trying to deploy their Elixir application, right? You can check our documentation. For a pattern that you want to use, we might have already put out a guide saying, "Okay, this is how you can quickly actually use Fly for what you want to do."
+
+So some guided documentation that while we try to make platform-specific features that benefits whoever is deploying on Fly, we also do have guided documentation for Elixir and a bunch of other languages that we deeply integrate with. So you can check our documentation like, "Okay, this is how we would advise you to deploy this on Fly."
+
+[00:23:25] Charles: do distributed applications functioning on a distributed hosting platform, does that sometimes cause complications where there's one distribution layer that is operating more at the platform level and another that's operating at the application level? And do those sometimes kind of trip over each other, or is that layer pretty much well-isolated, and it's not something that you have to worry about at a, a hosting or even application layer?
+
+[00:23:54] Somtochi: Hmm, yeah. I think it's not something you really have to worry about. It's pretty-- The, the distributed nature of the platform is pretty internal to us that you kind of don't have to worry about it. We'll just be like, okay, you can deploy multiple applications, right? You don't have to worry about how we are distributing requests or how we are routing things within Fly.io.
+
+We, we do give tools for you to control that, right? We might expose some tools, like we have Fly replays. Like if you need to replay... Normally Fly load balances between your applications, picking which one is healthy, you know, doing all of that. You can tell-- You can not specify health checks, right? And Fly will just route your request, right?
+
+It will just try to approximately load balance across all of those. You can also tell Fly, "Look, I need you to replay this to a particular instance or a particular region." So let's say you have something, some multi-region distributor set up, and you kind of need to play the, the request across regions, right?
+
+Fly exposes things enough that you're able to do that without tripping over Fly itself. So I'll say things are pretty isolated and so that we expose some of it to the user that they can control, but not enough that they trip over each other.
+
+[00:25:11] Charles: How does Fly facilitate that kind of replaying of a node and that history and bringing it back to a state that it was in before? How does-- how is that handled?
+
+[00:25:24] Somtochi: Um, so replay request is handled by Fly Proxy, which is our networking layer, right? So most, most requests that Fly receives comes in through the edges. And because we have, like, this software that handles requests before routing it to machines, it means that we have a small gap to perform some routing decisions.
+
+Like, um, you can now have the user tell you, "Oh, I want to replay it to this region," right? And the proxy knows the regions that your machines are running it, and it can then forward them towards the request. So how it does that is actually through our routing software pr- the Fly Proxy. So it sits sort of between the internet and your app and can between-- in that middleman layer that it is, make some adjustments based on what you've requested.
+
+[00:26:15] Emma: So with, with Phoenix LiveViews being close to the user model, which is a natural fit for Fly's, um, distributed architecture, could you explain to someone that isn't too familiar or in the weeds with it in their day-to-day, the benefits of a distributed system versus something that's more centralized?
+
+[00:26:39] Somtochi: so benefits of distributed system is usually like reliability, right? And for apps like LiveView that can run close to the user also has that benefit of reduced latency. When an app is running close to your user, it means like the response times are quicker, right? If you're in like the US and let's say your app is deployed in India, that's a longer time than if there's a region like closer to you that it can hit and, you know, you get a response back.
+
+So there's that reduced latency when you can spread out your apps to the particular regions that you have users in. So their interaction with your application or your website is faster because you're processing requests quicker. And then there's just also the redundancy and the additional reliability that you get because your application is distributed across regions.
+
+Anything that happens to one region, whether it's application specific or platform specific, doesn't-- might not necessarily affect apps running in other regions. So I'll say those would be the top two things I'll say for people who are looking to maybe have a more distributed deployment for the application.
+
+[00:27:50] Emma: And earlier you mentioned eventual consistency. So I hear that you're talking about choosing speed over consistency as a deliberate trade-off here. How would you explain that trade-off or that decision to someone who's used to thinking that data should always be correct?
+
+[00:28:10] Somtochi: Yeah. It's definitely sometimes can require a shift in how you think about data, right? And of course, it doesn't apply to all systems. Some systems require strict consistency like financial systems, banking systems. Some systems is definitely not. But for those-- for some other systems that can actually work well, even if the data is a bit outdated, and most times things are quick enough that your application actually doesn't See outdated data, right?
+
+And there are things you can do to also make sure that the data that your application is receiving is not stale. So I'll say that not everybody needs eventual consistency, and there are also people who might need-- benefit from it, but don't want to move to it because they just hear stale data and, you know, there's this short period of times, time where your, uh, where your data might be stale and it sort of scares them off.
+
+But, uh, for the most part, right, if you have strict consistency, you probably are trading some sort of speed for it because the nodes that are all processing the request have to agree, right? That's how they get this consistent view everywhere. It's like all nodes have agreed and you can't process another request until everything, everyone has agreed on what this value is.
+
+So that introduces some, you know, that's, that's a trade-off in speed. But for eventually consistent system, it's like, okay, my system would work fine even if the data is a little stale. The eventually consistent means that eventually it would-- the data will get everywhere. It might not just be instant, right?
+
+And for most systems, they can actually operate without instant consistency. There are also ways to work around the eventual consistency, right? You might re- replay a request, right, to a region that is closer to where the write happened just because it has like most up-to-date data.
+
+So things like that can also help you work around eventual consistency. And for most of time, things are actually quick enough that your application might not even notice that there has been a short amount of time where the data was stale. For something like the Fly proxy that uses Corrision, right?
+
+If it, for some reason, you spin up an app, right? And, you know, maybe data is not everywhere yet But it knows that there's another running machine of yours. It would make that decision. So it's able to make decisions even if it's slightly out of, slightly out of date. So for systems like that, you can benefit from eventual consistency.
+
+[00:30:45] Charles: you mentioned CRDTs earlier, conflict-free, uh, repli-- uh, actually, I don't remember the acronym. It's conflict-free something data types. Te- anyhow, tell us about CRDTs and how that plays a role in establishing eventual consistency in in the distributed system.
+
+[00:31:03] Somtochi: Uh, so yeah, conflict-free replicated data type. It is a mouthful. Sometimes I, I mess-- I, I trip over it myself. Is basically just having data types in your system that can can resolve the conflict later, right? It means that you can accept these writes without bothering or what else has this node received and communicating with other nodes.
+
+And you know that when, when those nodes finally communicate their data, right? Let's say node A and node B both received separate requests, maybe to the same... Let's say it's a key-value store and the changes are to the same key, right? The other node is not trying to contact other nodes to say, "Oh, I'm about to accept a write.
+
+Do you have any conflicting write?" No, it just accepts it, and there's inbuilt data types and algorithms for resolving conflict at a later time when the, um, when those nodes exchange data. This means that, like, a node can process a write as quickly as it receives it, right? Because it's not doing that additional checks or communications with other nodes.
+
+It's like it receives a write and it communicates it as quickly as possible. And then the data type, when the nodes now finally exchange data, maybe there's a timestamp on the data, and they use that timestamp to resolve the conflict, right? By the time they exchange their changes, they would have the same data, right?
+
+So there's not going to be inconsistency because they would both resolve to the same set of data, regardless of the order with which they've received changes, right? Even if this change hasn't been propagated to this node, whenever it comes through, each node separately would land on the same set of data without that explicit coordination.
+
+So I would say that's kind of the idea behind conflict-free data type.
+
+[00:32:50] Charles: It sounds like it could be sometimes easy to write a, a way to resolve a inconsistency in the data that could lead to unintended consequences or unintended outcomes where maybe, you know, it chooses the wrong data for whatever reason or something. Is that-- having worked with these kinds of systems, like h-how easy is that situation to get into, and how do you prevent that?
+
+[00:33:17] Somtochi: I'll say it's definitely something to be considered when building these systems. You do want to ensure that the data is not inconsistent. Even if you might have a short time where they don't have the same data, you want to ensure that when they communicate, they eventually come to the same state.
+
+So you need to actually think carefully about what your conflict resolution looks like, right? What are you tracking to be able to break, resolve conflicts, especially when changes are made to, say, the same role in a database or the same key in a key-value store. So yes, of course, it has to be tested.
+
+You have to ensure that you're not just saying, okay, you're not just assuming that, let's say, you, you think they will break... You want to break conflict on just the timestamp, but what if they have the time- the same - timestamp? If they just pick arbitrarily, then they might pick different changes, right?
+
+It also should not matter what order the node receives changes. If this node would only accept the first change that it gets, right, and these other nodes get the change in a different order, they are both going to settle on different changes. So some thought has to be given. That's, that's what makes these systems dicier.
+
+it's like, okay, you actually do need to consider what happens when there's a conflict and what, what resolve it is. So there's definitely proper testing, proper algorithms that need to go into building the systems.
+
+[00:34:39] Emma: So as a software engineer, at what point in that development life cycle should a team start thinking about these concerns, start planning or building a game plan for them?
+
+[00:34:52] Somtochi: as soon as you're building any eventually consistent system, right? Once your system is distributed in some kind of way, especially right at the start , ' cause we built Corrosion from the ground up as a distributed system. You have to start thinking about how data moves through the system, what conflict looks like, right?
+
+When different node... Especially, like, Corrosion is multi-writer, right? The CRDTs allow it to be that. It allows it that every node can accept writes and will resolve the conflict later. But even if you're not, you're not, um, multi-writer, right- There are different nodes and you need to choose a leader.
+
+So you need to think of what leader election looks like. What happens when the leader fails, right? How, what does handover look like? What if two nodes are competing to be the leader in this, you know, this next run of things? So definitely if you're building distributed systems, these are things that you have to think about and have to test, right?
+
+To ensure that regardless of the states the system gets into, it doesn't get into a state where it's either inconsistent causing bugs or gets into a state where it can't make progress.
+
+[00:35:56] Charles: That sounds like maybe a lot to really keep track of in your head when you're thinking about how to test these systems well. Uh, I-- yeah.
+
+[00:36:07] Somtochi: Definitely, it can be a lot. I'll say it's, it can be a lot. There's, I mean, there's different kinds of tests. There's unit tests, there's integration tests. We also use a platform called Antithesis, which is property-based testing where they try to vary the inputs and ensure that some invariants are not violated, which I think s- which, which I think that type of testing can be very helpful in distributed systems, right?
+
+So not just like as much as you have an idea of what you want and you want to ensure that things go a particular way. Also, having a system that is fuzzing, that is trying different types of inputs, ensuring that what you've stated about your system, like data should never be inconsistent at a particular point.
+
+As much as they might have different points where different nodes have different data, eventually they should all come to the same state. Being able to codify that and have the platform check that under different conditions, if you kill this node, if this other node is slow, these things that you have specified still hold. So that's, that's also a, is, is a new way of testing too. There are-- Some people have formal verification languages where they, you know, have like mathematical ways of verifying. So pretty crazy stuff. Lots of things happening in distributed system space.
+
+[00:37:23] Emma: In that space, are they utilizing AI to find any of these edge cases, or is that not really an approach that the industry is taking yet? Or could you give your perspective on that? Should it be?
+
+[00:37:37] Somtochi: I don't know anybody using AI for large-scale testing. That's what I would say. I think AI increases the need for testing. It can help, of course, in generating edge cases, like even like developing, right? Helping you think through, generate test, test cases. It does make that easier. So in that way, 'cause sometimes like, I mean, we want to write tests, but we're only human
+
+So you might have a few edge cases and you're like, "Okay, this is what I'm doing." Have like prompting AI like, "This is what I'm doing," like generate test cases for me. I think across the board there's more and more of that, but I don't think I have actual solid example of large-scale testing using AI
+
+[00:38:18] Charles: Mm-hmm. I was reading a little bit about antithesis, uh, earlier, and I, it-- it's interesting how it-- you can use it to move in different states of history to go precisely to the point of failure and see what changes were happening up until that point of failure. I think that's really interesting. I think in Elixir we, we can use or in, or in Erlang too proper is a library for doing property-based testing, and That seems like quite a useful approach, but I-- it seems like it might also be a lot to, to stand up and to get into if you're not already either being driven by some pretty serious outcomes if, if things go bad that you really need to protect against, like people could get hurt or something, or you're just dealing with a very large complex system that can have a lot of big consequences if things go wrong.
+
+[00:39:11] Somtochi: Property-based testing is-- I don't see a lot in local development, right?
+
+Antithesis is a whole platform. You package your software, you hand it to them, they run it, you know, they are able to control things enough. They have a custom hypervisor, everything, so that they can replay thing-- you can replay things back to the exact point at which like a failure happened. That's interesting, but I don't think there's something similar for local development.
+
+There's a bunch of things here and there, but nothing I would say as sophisticated as what Antithesis offers. And maybe that's something that we need to do more just as an industry. Like this type of testing is not new, but it's not done a lot. We are looking-- We are used to like unit test, integration test, those things.
+
+So we have ways of spinning those things up very quickly. And I think more and more we would be probably see more innovations in that space. I think Antithesis property-based testing, especially for distributed systems, distributed database, would cause some innovation in that space.
+
+And at least it would be enough that it is able to help even applications that are not necessarily distributed or large scale in this way, can't afford to like, say, pay Antithesis a bunch of money to take, to test the applications. I think it would still be useful
+
+[00:40:31] Emma: before we go to wrap and start moving forward, I, I have an interesting question for you. So you're working remotely from Nigeria on globally distributed infrastructure. How does that perspective shape the way you think about latency and access here?
+
+[00:40:49] Somtochi: Um, okay. Work here remotely from Nigeria. I think I've always worked remotely, so there's that. So I, I guess, but a part of me has not really like been like, "Oh wow, I work remotely." But there's that. I think that we have built systems to make that easy, right? Where you can work remotely, interact with systems, have secure access even though you're not in a particular area.
+
+So that's one thing that helps, right? All the m-means of collaboration, being able to like Slack , everything. Those remotes-- remote collaboration technologies help in the way that you work, that even though I'm in Nigeria, but global distributed technologies I've never been in like a data center, but I'm able to interact with servers from where I am.
+
+I do think there's, there's like infrastructure that makes that possible, like the internet backbones. There's not so much of a hassle doing that. So yeah, that's like the progress I would say the industry has made. Like, but if on the other hand, you were working with a company that required like all their InfraOps people, maybe they had like a physical da-data center, like some roles do require that, but not my role at this point.
+
+Some roles, like let's say you needed to like be on ground, maybe you're a networking person checking switches, of course, that would be a different ballgame. But yeah, so far it's been great. I hope I answered your question.
+
+[00:42:21] Emma: No, yeah, you're great. Anything about your perspective that you wanna add about access or the importance of access or latency with data? I mean, you're a perfect example to work on a globally distributed system, which is, which is beautiful.
+
+[00:42:37] Somtochi: I would say having those systems help. Being able to work with people all over the world, right? Building software too that enables that. It's actually pretty interesting. It's something I love about the work I do, right?
+
+So I would say that for working from here is seeing those systems actually power some of what you do, right? I know that I can deploy an application here and make it accessible to someone who is in the US, and it didn't matter that I'm, I'm here because I had access to the tools, and Fly makes that easy.
+
+So those-- That's, that's part of the reason I like working on Fly is that, okay, you have data centers everywhere. It doesn't matter where you are, where users are, and things can get deployed quickly.
+
+[00:43:28] Charles: We're kinda running out of time here. I wanted to give you opportunity if there's any last thoughts that you want to share with listeners, any plugs that you would like to give or where people might find you if they're interested in the work that you're doing.
+
+[00:43:42] Somtochi: what I would want to leave listeners with is, you know, just think a bit more about failure, failure modes in your application. How could things fail? How can you hedge around it, right? It could be that you don't have to make big changes immediately, but just being able to imagine and plan for those scenarios make you ready for when they actually happen.
+
+Something that I would like people to check out, please check out Fly. I think Fly is cool. Of course, I'm biased, I work there . But I do think we're doing some amazing work. And if you're working with AI, you know, check out Sprites, which is sort of our take on what building applications with AI is supposed to be like.
+
+If you are interested in distributed systems, you know, check out Corrosion. If you want some eventual consistency for your SQL-like data, you know, it's open source, pretty easy to get up and started with. So yeah, we, we ob-obviously love to hear people working, like deploying Corrosion. We have a bunch of other people also using Corrosion that's not Fly.
+
+So yeah, please check that out. And yeah, that's most of what I have.
+
+[00:44:45] Emma: Thank you so much.
+
+[00:44:47] Somtochi: Thank you so much . It's been fun talking with both of you
+
+[00:44:53] Charles: Thank you. I've really enjoyed this conversation. Thank you for joining us and look forward to hearing more about your work in the future.
+
+[00:45:00] Somtochi: Thank you. Thank you two. 
+
+[00:45:35] Yair: Hey, this is Yair Flicker, president of SmartLogic, the company that brings you this podcast. SmartLogic is a consulting company that helps our clients accelerate the pace of their product development. We build custom software applications for our clients, typically using Phoenix and Elixir, Rails, React, and Flutter for mobile app development.
+
+We're always happy to get acquainted even if there isn't an immediate need or opportunity. And, of course, referrals are always greatly appreciated. Please email contact@smartlogic.io to chat. Thanks, and have a great day!
+
