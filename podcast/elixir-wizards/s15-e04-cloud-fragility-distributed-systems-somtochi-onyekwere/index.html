@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Cloud Fragility & Distributed Systems with Somtochi Onyekwere | SmartLogic</title>
+  <meta name="description" content="In Elixir Wizards S15E04, Charles Suggs and Emma Whamond are joined by Somtochi Onyekwere, a software engineer at Fly.io and contributor to the Corrosion distributed database project, to talk about distributed systems, infrastructure resilience, and the growing fragility of centralized cloud platforms."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K9MMX6TR');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  <meta property="og:title" content="Cloud Fragility & Distributed Systems with Somtochi Onyekwere" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s15-e04-cloud-fragility-distributed-systems-somtochi-onyekwere" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="In Elixir Wizards S15E04, Charles Suggs and Emma Whamond are joined by Somtochi Onyekwere, a software engineer at Fly.io and contributor to the Corrosion distributed database project, to talk about distributed systems, infrastructure resilience, and the growing fragility of centralized cloud platforms." />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/dbc5a92c-f44f-4ca7-85e3-a6e7cfebb6a3.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/d/dbc5a92c-f44f-4ca7-85e3-a6e7cfebb6a3/cover.jpg?v=1" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+o3l91oRk/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/dbc5a92c-f44f-4ca7-85e3-a6e7cfebb6a3.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s15-e04-cloud-fragility-distributed-systems-somtochi-onyekwere">
+  <meta name="twitter:title" content="Cloud Fragility & Distributed Systems with Somtochi Onyekwere">
+  <meta name="twitter:description" content="In Elixir Wizards S15E04, Charles Suggs and Emma Whamond are joined by Somtochi Onyekwere, a software engineer at Fly.io and contributor to the Corrosion distributed database project, to talk about distributed systems, infrastructure resilience, and the growing fragility of centralized cloud platforms.">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/d/dbc5a92c-f44f-4ca7-85e3-a6e7cfebb6a3/cover.jpg?v=1">
+  <meta name="msvalidate.01" content="72A27928A83488A66073FDDB1045F80B" />
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9MMX6TR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > Cloud Fragility & Distributed Systems with Somtochi Onyekwere
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>Cloud Fragility & Distributed Systems with Somtochi Onyekwere</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        <div class="podcast-audio-container">
+          
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+o3l91oRk" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        </div>
+        <h2>About this Episode</h2>
+        <h3>
+          Published May 21, 2026 |
+          Duration: 46:06 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/dbc5a92c-f44f-4ca7-85e3-a6e7cfebb6a3.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s15-e04-cloud-fragility-distributed-systems-somtochi-onyekwere.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>In Elixir Wizards S15E04, Charles Suggs and Emma Whamond are joined by Somtochi Onyekwere, a software engineer at Fly.io and contributor to the Corrosion distributed database project, to talk about distributed systems, infrastructure resilience, and the growing fragility of centralized cloud platforms.<br>
+ <br>
+We discuss what recent outages across major providers reveal about modern infrastructure and why more teams are starting to rethink assumptions around reliability, failover, and system design. Somtochi explains how Fly.io approaches geographic distribution, eventual consistency, and replication across nodes, along with the trade-offs that come with building systems this way.<br>
+ <br>
+The conversation explores CRDTs (Conflict-free Replicated Data Types), consensus, split-brain prevention, and what actually happens when distributed systems fail in production. We also talk about testing strategies, rollback planning, property-based testing tools, and how teams can reduce blast radius when things inevitably go wrong.<br>
+ <br>
+Along the way, we discuss AI infrastructure, sandboxing AI agents, and how newer workloads may add pressure to already centralized systems. The episode closes with practical advice for developers who want to build more resilient applications without over-complicating their architecture.</p>
+
+<h3>Topics Discussed in this Episode:</h3>
+
+<ul>
+<li>Corrosion and distributed database replication</li>
+<li>Centralized cloud fragility and recent outage patterns</li>
+<li>Distributed systems versus traditional cloud architectures</li>
+<li>Multi-region deployment strategies for Phoenix applications</li>
+<li>CRDTs and conflict resolution in distributed systems</li>
+<li>Eventual consistency versus strict consistency tradeoffs</li>
+<li>Consensus, leader election, and split-brain prevention</li>
+<li>Testing failover and recovery scenarios</li>
+<li>Property-based testing and Antithesis</li>
+<li>Rollback planning for database schema migrations</li>
+<li>Reducing blast radius through system isolation</li>
+<li>Health checks and blue-green deployment strategies</li>
+<li>Fly Proxy request routing and replay behavior</li>
+<li>Cross-region synchronization and replication challenges</li>
+<li>Single points of failure inside “redundant” systems</li>
+<li>Backup restoration testing and disaster recovery planning</li>
+<li>Network partitions and failure handling in production</li>
+<li>Infrastructure monitoring and operational visibility</li>
+<li>AI infrastructure workloads and operational strain</li>
+<li>Sandboxing and securing AI agents</li>
+<li>Sprites and AI workflows at Fly.io</li>
+<li>Latency improvements from geographic distribution</li>
+<li>Distributed systems tradeoffs in real-world environments</li>
+<li>Transitive dependency failures across cloud providers</li>
+<li>Practical resilience strategies for modern engineering teams</li>
+</ul>
+
+<h3>Links Mentioned:</h3>
+
+<p><a href="https://fly.io" rel="nofollow">https://fly.io</a><br>
+<a href="https://github.com/superfly/corrosion" rel="nofollow">https://github.com/superfly/corrosion</a><br>
+<a href="https://docs.gitops.weaveworks.org/" rel="nofollow">https://docs.gitops.weaveworks.org/</a><br>
+FluxCD <a href="https://fluxcd.io/" rel="nofollow">https://fluxcd.io/</a><br>
+Fly.io Stateful Sandbox Environments <a href="https://sprites.dev/" rel="nofollow">https://sprites.dev/</a><br>
+Cloudflare Workers AI Inference Platform <a href="https://www.cloudflare.com/products/workers-ai/" rel="nofollow">https://www.cloudflare.com/products/workers-ai/</a><br>
+“An AI Agent Just Destroyed Our Production Data. It Confessed in Writing” Twitter post from PocketOS founder: <a href="https://x.com/lifeof_jer/status/2048103471019434248" rel="nofollow">https://x.com/lifeof_jer/status/2048103471019434248</a><br>
+Oct 2025 AWS Outage <a href="https://www.theguardian.com/technology/2025/oct/24/amazon-reveals-cause-of-aws-outage" rel="nofollow">https://www.theguardian.com/technology/2025/oct/24/amazon-reveals-cause-of-aws-outage</a><br>
+Dec 2025 Cloudflare Outage <a href="https://www.theguardian.com/technology/2025/dec/05/another-cloudflare-outage-takes-down-websites-linkedin-zoom" rel="nofollow">https://www.theguardian.com/technology/2025/dec/05/another-cloudflare-outage-takes-down-websites-linkedin-zoom</a><br>
+July 2025 Crowdstrike Outage <a href="https://www.ibm.com/think/news/recent-crowdstrike-outage-what-you-should-know" rel="nofollow">https://www.ibm.com/think/news/recent-crowdstrike-outage-what-you-should-know</a><br>
+March 2026 Stryker Cyber Attack <a href="https://www.stryker.com/us/en/about/news/2026/a-message-to-our-customers-03-2026.html" rel="nofollow">https://www.stryker.com/us/en/about/news/2026/a-message-to-our-customers-03-2026.html</a><br>
+<a href="https://aws.amazon.com/" rel="nofollow">https://aws.amazon.com/</a><br>
+<a href="https://cloud.google.com/" rel="nofollow">https://cloud.google.com/</a><br>
+<a href="https://azure.microsoft.com/en-us" rel="nofollow">https://azure.microsoft.com/en-us</a><br>
+<a href="https://fly.io/docs/elixir/" rel="nofollow">https://fly.io/docs/elixir/</a><br>
+CRDTs!! <a href="https://smartlogic.io/podcast/elixir-wizards/s13-e03-local-first-liveview-svelte-pwa/" rel="nofollow">https://smartlogic.io/podcast/elixir-wizards/s13-e03-local-first-liveview-svelte-pwa/</a><br>
+<a href="https://antithesis.com/docs/resources/property_based_testing/" rel="nofollow">https://antithesis.com/docs/resources/property_based_testing/</a><br>
+<a href="https://hex.pm/packages/proper" rel="nofollow">https://hex.pm/packages/proper</a></p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s15-e04-cloud-fragility-distributed-systems-somtochi-onyekwere.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/@SmartLogic-io">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <!-- <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li> -->
+            <li class="footer__right-menu-item"><a href="/about/privacy.html">Privacy Policy</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+</body>
+</html>
