@@ -1,0 +1,279 @@
+S15E06 The Missing GitHub Status Page with Marek Šuppa
+===
+
+[00:00:00] Charles: Hey everyone, I'm Charles Suggs, developer at SmartLogic
+
+[00:00:05] Emma: And I'm Emma Whamond, also a software developer at SmartLogic, and we're your hosts for season 15, episode six. We're joined by Marek Šuppa, AKA Mr. Shu, a principal machine learning engineer, head of the data team at Slido, a lecturer of machine learning and natural language processing at Comenius University in Bratislava, as well as the creator of the Missing GitHub Status page, a project reconstructing historical GitHub uptime from archive status data.
+
+[00:00:35] Today, we're talking about centralized infrastructure, developer trust, and what happens when critical platforms Hi, Merrick. Welcome to the
+
+[00:00:43] Charles: podcast Hi. Yeah. Glad you could Thank you very much for having me
+
+[00:00:49] before we jump into the topic, can you tell us a little bit about yourself, your background, and what you've been working on recently?
+
+[00:00:59] Marek: Sure. Uh, well, I've, uh, uh, it, it's interesting and particularly as it connects to the, to, to our topic today. I actually got my first job off of doing, uh, open source contributor- contributions on, on, on, on GitHub, and my very first one was, was with DuckDuckGo, where we, we were trying to build a, uh, a search engine that doesn't track you.
+
+[00:01:25] And, uh, a big part of it was being open to the, to the extent, to the extent possible, which was something that appealed to me, still appeals to me, and, and, uh, ended up contributing so much that I ended up being hired one day. That it was difficult to find a, to, to find a, uh, find a wanderer in there. Uh, and, and, and, and then, uh, then moved on to do, to do machine learning stuff with, with this, uh, company called Slido, which does audience interaction, uh, uh, for various audiences, meaning you can do things like Q&A, polling, and generally interact with, with audiences, uh, w- large and small.
+
+[00:02:06] And we got acquired by Cisco, uh, a couple years back, and so that's how I ended up, uh, experiencing what a, what the big company life, uh, looks like, uh, looks like as well. My background is in, is, is, is in machine learning and, and, uh, what you would probably call applied research. Uh, but much of my time free...
+
+[00:02:26] Well, free time and any other time has been spent on, on doing open source, on effectively playing with technology, which is how, how GitHub comes to play, uh, very often, What the things that I do.
+
+[00:02:39] Charles: the, browser, or sorry, the search engine that doesn't track you, w- was that something that became public? What was, what was it?
+
+[00:02:48] Marek: It is called DuckDuckGo. It, it still, it still exists and like the, the name was-- I, I also thought it was crazy, but after, after, you know, it, it, it markets itself, uh, a-after, after a while. Uh, it's, it-- Believe it or not, it, it, it captured about 5% or still captures, I think, about 5% or serves, uh, about 5% of the US mobile market.
+
+[00:03:12] So many people in the US, particularly those who want to make sure that there is not a, you know, Big Brother type of a, an entity that, that, that knows as much as it can about their searches, uh, uh, still use it to this day. It also nice-- has nice, uh, AI integrations, uh, as, as, as well. Uh, and yeah, it was a-- it, it started-- I was, I was very early.
+
+[00:03:36] I was like employee number seven or, or thereabouts, uh, in, in there. Uh, and it, and it was a sort of a, a wild ride and a lifetime opportunity really, uh, for someone, you know, literally on the internet to contribute to something that being, uh, you know, ended up, ended up making a bit of a round. Encourage you to check it out.
+
+[00:03:56] It's, it's an interesting, it's an interesting place. Uh, I mean, it's an interesting conceptual, uh, play at what the, you know, what the, what the old internet, uh, probably wanted to be and the new internet kind of, uh, uh, never ended up fun. I'm a, I'm a DuckDuckGo user myself Well,
+
+[00:04:15] Charles: yeah. Uh, so speaking of, like, contributing to the open source community, um, tell us what inspired you to build the Missing GitHub Status page?
+
+[00:04:30] Marek: Right. Well, it, it's, it's, it's interesting to, it's interesting to think about. So when you look at the, uh, at the, the comments at the actual, actual time when it started, it actually started about three years ago, which is, which kind of goes back to the, you know, uh, uh, uh, the, the, the, the, the old adage of, of, uh, all the breakthroughs basically, uh, or, or overnight successes basically take years to, to, to come together.
+
+[00:04:58] And also this was one of those as well, but for a different reason. I noticed in about 2020 something, maybe 2021 or something like that, that if you go to githubstatus.com, which was their status p- or is their status page even right now, it will not, it will not tell you the aggregate number or, or, uh, for a long time it did not say any number, any percentages.
+
+[00:05:22] You would just see the issues, the, the, the, the incidents that happened over the past couple of days, I believe, like, like last, last five incidents or something, something like that. But the trouble with that is, like, that doesn't really answer my question when I go to the status page, which is like, is it, is it, is it me or is it, you know, is it, is it everyone?
+
+[00:05:41] And more so, is this something that has been happening or is it just, you know, a, a, a random, random fluke? And so, so I started what my sort of first, uh, kind of, uh, uh, my, my first thought normally is with this situation. I started to capture data. And so GitHub interestingly itself has this sort of concept of, of, um, of flat data.
+
+[00:06:05] It's, it's what, what they, I, I believe they call it, and it's very easy to basically sort of capture what a specific URL look, looks like every single day. And so I basically started to capture what the list of incident, incidents look like for, for, uh, for, uh, like for every single day. Uh, and, and that was about it.
+
+[00:06:27] For about two years, that was it. Like, I never did anything about it. Part of it was that there was not really much of a reason for it, like GitHub wasn't so, like wasn't so... I mean, it, it did not affect me as much, but also I never really had time for it. Like, I knew the data was there. I knew I was sort of optionality was there directionally.
+
+[00:06:46] I could, I could, I could build it. And then, then the craziest thing happened. I was with my wife in Madagascar this year- I got massively sunburned, so, so g- you know, get those creams out if you end up going near the tropics if my, is my, is, is my takeaway. And being sunburned and sort of bed, like, uh, lying in bed for five years, I was like, "What, what are..."
+
+[00:07:09] And, and, and also having all these, you know, tokens ready, I was like, "What, what are some of the things that I haven't really built that, that, I mean, probably should be built at some point?" And so short story long, as, as, as, as we would say, it, that, that I, overnight I basically ended up putting together something I really wanted, which was like, s- there's like...
+
+[00:07:30] At, at first when you are in Madagascar, you basically are not sure if GitHub is broken or your internet connection is broken. So it's like all the time I was not really, I was not really sure. But then when you look at January when, which is when, when we were there, it, it wasn't looking good for, it wasn't r- looking very good for, for GitHub either.
+
+[00:07:48] So I was like, "We gotta, we gotta put it together." Or I mean, I gotta put it together, and so effectively overnight, uh, something like this, something like, like, like this happened. Uh, so it was mostly out of sp- out of, you know, uh, out, out of there being data and, and like me having sort of a directionally kind of a, a, a, a vision that it might make sense, uh, but also effectively not, not being able to m- do much else, uh, to, to do much else either.
+
+[00:08:18] Uh, in summary, I call it out of spite more than out of, uh, um, motivation or, or, or anything like it. Like, I certainly did not think it would blow up the way that
+
+[00:08:30] Emma: Nice. That's interesting. That's a great origin. Uh, so for our listeners who haven't seen the project yet, could you explain exactly what it tracks and how it works?
+
+[00:08:40] Marek: It's a, it's a, it's an, it's an interesting, it's an interesting kind of, uh ... It, uh, it, it, it, in and of itself, it's very dumb. It's, it's very, it's very straightforward, but it also kind of shows that the second you have data on once, like on, on, in, in one place, many things can be, can be put together. So what the site does is that it builds up on this flood data, uh, uh, narrative, which is every single day and just once a day, which is also why many of the issues that, that people come to the, come to the project with is like, "How, uh, the GitHub's down, how come you are not updated?"
+
+[00:09:13] The reason is it's only does sort of, uh, one computation a day. Uh, w- I mean, it computes once a day, and the reason for it is, is very simple, uh, that's what it used to be, uh, historically. So s- that we, we... I, I haven't really tried to optimize it for, for anything else. It, it takes data from the, from the, uh, from the incidents.
+
+[00:09:34] Now, every single s- uh, GitHub incident, uh, every single one of these GitHub incidents is likely associated with some parts of the, of the GitHub platform. So s- it, it might impact perhaps all of it, hopefully not, but like perhaps all of it. It might, uh, impact the Git operations. It might, uh, impact GitHub actions.
+
+[00:09:55] It might not be able to render pull requests, uh, or might have the problems with web hooks and, and stuff like that. So the next step after, after sort of extracting the standard metadata is trying to kind of classify it into one of these, uh, into, into one of these, uh, uh, like, uh, i-i-into one of these components of the, of the, of the platform.
+
+[00:10:16] The interesting thing is that at some point GitHub started to actually label it themselves, so we have some data that act- that comes directly straight from GitHub. But I had about three years of data and perhaps 20% of it was labeled, so I did the, the, the, the thing I knew how to do, which was I build a bit of a classifier on top of it.
+
+[00:10:37] So, uh, we have a smallish classifier that will in a s- in a kind of few shot way very easily find... Or I'm sorry, m- more correctly, it will be zero shot way. We, we do all find even for, even for the, even for the incidents that GitHub itself forgets how to label or like people in there forget how to label, we can, we can provide it, uh, p-p-provide that, provide that.
+
+[00:11:01] There's a... In the README there's a whole section on how I back tested it and, and, and stuff like that. So, uh, like I cannot help it, I am still kind of a, a, a, a, a How do we call it? Amateur researcher or amateur academic anyway, so, so that kind of showed, uh, in, in there as well. And then with those data, we, we tried to kind of render, uh, what it, what, what, what would be interesting.
+
+[00:11:24] And the interesting things were just the standard status page you would look at, the status page of, I don't know what people, what, what's a sort of soli- solid standard these days. Statuspage.io, I believe is, has been acquired by, by Atlassian or, uh, some of the other, s- some of the other standard status pages where you see what the, what the sort of, uh, what the uptime is for both the, for, for, for the whole, for the whole platform as well as for its components for the past normally 90 days, uh, as well as the list of incidents.
+
+[00:11:55] So, so it kind of tries to recreate what really we could not at the, at the time at least find at githubstatus.com, uh, into the, uh, in- into something reasonable, hence the missing part of the missing GitHub status page
+
+[00:12:13] Charles: A, a coworker showed this to me, I don't know, a couple months ago, and I was like, "Yes, this is what..." Like, my brain says the problems are worse than what GitHub status page shows, and this kind of like confirms that. I don't know if it's confirmation bias but like it, it, it feels true to me, uh, reading what's there.
+
+[00:12:38] Um, so what w- was there something that kind of pushed you over the edge that just like, I know I don't trust these official numbers anymore, that something's up, I need to review the data and see if my... If that backs up what I'm feeling or if it actually says that I'm just, I, I'm not sensing this fully?
+
+[00:13:02] Marek: I, uh, would say that the, the thing that actually, I mean, the thing that motivated me was that really towards the beginning of the year, you could not find any numbers whatsoever at the GitHub status page. Like, there would not be... If you take a look at the Wayback Machine, I might, uh, uh, uh, provide the link afterwards.
+
+[00:13:20] If, if you look at the Waybach Machine, like you will not find, like, the-- It's gonna be like a ton of re- a ton of green ticks, and that's it. Like, everything's green. All systems operational, is what it said. And like, that's not useful. That, that, that's, that's 100% not useful. So it seems, I, I, I mean, I cannot claim it, but it seems that this missing GitHub status page did help to, at the very least, kind of, you know, steer the official status page to a position where it's sort of, to some extent, usef- I mean, you will see numbers at the very least, uh, at the very least right now.
+
+[00:13:52] So I don't think it was, uh, a, a massive outage to, uh, to, to, that would, that would push me over, over the edge. But the more like, like I, I mean, I have the data already, so it's like, why don't I just like, you know, render them? And so, so that's how, that's, that's how it, that's how it ended up, uh, that's how it ended up happening.
+
+[00:14:13] Emma: Sounds like you just wanna keep GitHub accountable, keep them honest.
+
+[00:14:18] Marek: I mean, it's a, it's a, it's a one way of looking at it, but then also, then, then, then also it's, it's... I, I honestly am not in the game of trying to, you know, i- in the game of accountability and, and the... You-- If, if you look at the issues of the project, like, like GitHub issues of the Gi- missing GitHub status page, which is also something my friends have, have...
+
+[00:14:41] Like, my friends who do marketing have been screaming at me, "Are you crazy? Why don't you get missinggithubstatuspage.com?" To which I basically, my, you know, uh, a lawyer academic sort of, uh, inside me says that, that, you know, that's gonna survive, like, three hours or, or, or thereabouts, right? Like, like, you know.
+
+[00:14:58] So it's like, like, like, like it's easy as well. Like, the very first thing we get is, is why do you host missing GitHub status page on GitHub? My answer is I don't, like I, I don't... I, I, I get the question, but please do understand I'm not trying to push GitHub to do anything. It was more like, "Uh, look, I'll, I'll, I'll just show you what the, what, what, what the status is that you would provide anyway, uh, would, would look like."
+
+[00:15:23] So yes, there is a bit of accountability in there too. Yes. Like I, I'm very happy that there is gonna be... Like, like the, the, the actual, uh, status page is, is like, uh, uh, does a bit better, at least in my very subjective, uh, opinion. Uh, uh, the... But, but, but then again, the, uh... I, I, I do think that when you take a look at the platform in aggregate, and it's not like everything's green, that's very co- very, like, significantly closer to the lived reality, at least to my lived reality than, uh, than, you know, all systems operational, hooray, hooray.
+
+[00:16:00] Uh, very difficult to make any, you know, uh, or to, to, to make it helpful.
+
+[00:16:06] Emma: I like that. It may be more of a sanity check for the developers that get to use it. So at this very moment, your tracker shows numbers at about 86% uptime for GitHub over the last 90 days, while GitHub's own page is about 99.79%. What do you think accounts for that gap? Is it methodology? Is it a definition of down?
+
+[00:16:29] Or like, why do you think that that's such a large gap there?
+
+[00:16:33] Marek: So, so, uh, we, we have to be fair to GitHub in here. What, what the sort of, uh, doing this uptime across the whole platform actually renders is that every single up- every single downtime that they, that they, uh, kind of they themselves report as incidents will cause, uh, I mean, will cause a, a minute of, of, of, of downtime.
+
+[00:16:56] In other words, every, every, like, uh, it's aggregated across the whole platform, and every single potential downtime, which you might not even feel, will, will show in that, will, will show in the number. So it's like if it's, if it's just, if, if the issue is region-specific, it will still, it will still show in the number.
+
+[00:17:14] If the issue with, is with some obscure code spaces no one uses, still shows in this number. And like, like, like, like, like, like things like that. But then again, I would like to remind people then, uh, when, at the time when I put it together, it was all systems operational and nothing else. So it's like in, in that sense, it's a, it's, it's, it, it tries to sort of get some picture of what the, what the full platform, what the full platform looks like.
+
+[00:17:39] I don't think GitHub itself provides a-- I mean, the GitHub status page provides a comparable number, and it's to be, to be fair, I get why. Like, it's very difficult to put, to put, like, to, to, to balance like what, like what, what would you want from a sort of uptime number for the whole platform? Meaning if a, a, if, if a feature is down, does that affect the whole platform?
+
+[00:18:03] I don't know. If they, if, if a, if a, uh, if a region is down, does that affect the whole plat- I, it's diffi- I, I understand it is difficult, particularly when you are a big company and when there are dollar amounts, uh, uh, you know, associated with that. So, so in that sense, I, I, I, I get, I get, I get, uh, I get why.
+
+[00:18:21] So this is the absolute simplest way of, of, of, of looking at it, but I al- it also does picture, uh, GitHub in a pro- signifi- in a significantly worse, uh, kind of state than it really is. Like, it, it, it's not like it would only have 86% of uptime, but there's a lot of downtime throughout the platform. That's what it tries to say.
+
+[00:18:49] Emma: Charles, you're muted You're muted, Charles
+
+[00:18:55] Charles: There. There was a loud noise earlier, so I... All right. Yeah. So, uh, I'm lo- I'm looking at it now and, uh, I see you have the... There's the top line number for the whole platform, and then below that, you do have it broken down by some of the different, like, services within GitHub, uh, GitOps, webhooks, API requests, et cetera.
+
+[00:19:18] Um, and those all paint a little bit rosier picture. So I'm guessing some of what else is going into that larger top line number or the 86.4% include some of the, like, regions and other information that, uh...
+
+[00:19:32] No No, not, not really. If you-- This is, this is the difference between micro and, and, and, you know, macro and micro look, look, looking at it. So in the, in the, the, the big difference is that, uh, is, is, is that, uh, if you kind of, if you took the list of these, uh, of these services, and so for every single one of them, they'll try to kind of ki-kind of basically draw an X for a day when there would be-- where there is something, something's problematic.
+
+[00:20:03] Marek: It turns out, and that's a different project, but it uses the same data, it's called Red Squares. For the last 90-- for the, for the last, uh, year, you would have 32 days of full downtime. Like, like it's, it's in, in, in other words, it, it, it, the, the, the difference is that it, it just aggregates, uh, it just aggregates together.
+
+[00:20:22] Uh, and, and so like the, the, the, the, the, the, uh, the, the, the kind of, again, reasonable people can completely disagree on how to, on, on, on how to represent it, but all of it is open source and I'll, and I'll, uh, happily, you know... I, I invite people to take a look at themselves or have their agents or clunkers, as we call them these days, you know, look at it, look at it too.
+
+[00:20:48] We don't have to, uh, probably, probably anymore, but it's, it's relatively clean code.
+
+[00:20:57] Emma: So in your opinion, or maybe in your network, do you think that developers' perception of GitHub or GitHub's reliability has changed over the last few years?
+
+[00:21:12] Marek: It's a... It's, it's probably not even a question of whether, but how and, and, and, and how much. Uh, that it's... Well, as I, as I, as I started with GitHub has been a relatively big deal, not, not to the, not to the extent that it was to other people. It was, it was a relatively big deal for my development career, that, that, that's f- that's for sure.
+
+[00:21:32] And yeah, like, like when the thing that you depend on the mo- I, I mean, on, on daily basis stops working, you know, what, what... You, you, you start to, you start to notice. Uh, y- y- you, you must have heard about very public, uh, pronouncement of, of Zeke, for instance, leaving, leaving GitHub, Ghosty leaving, le- leaving GitHub.
+
+[00:21:57] Uh, many, many, many, uh, many kind of prominent developers like, like, uh, like, uh, Armin Ronacher of, of the, of the, uh, uh, what? I mean, uh, o- o- of the Flask fame or, or big name in the Python world basically wrote a love letter to what was there before GitHub, how GitHub, uh, helped his career and stuff like that.
+
+[00:22:22] So it's like in, in, in... T- totally. Like, like there is the, the, the perception has changed, has changed significantly. It's not just, it's not just stability and uptime though. I- it, that plays a big role, but, but, uh, the, the, the way that you used to work with things like GitHub was you expected a person on the other side, and it was sort of a social interaction.
+
+[00:22:45] We are very, very far off from there anymore. Like it, like the, the many of the pull requests I review these days are basically from bots. Many, many projects have to, have to kind of create these, these gates for bots, which are g- which, which basically automatically close their pull request saying, "Thank you very much.
+
+[00:23:03] Uh, please create an issue and, like, in your human voice, say three sentences about this, and then we'll, then we'll look at the code again, okay?" They never, ever do, mostly because of, because how, how, how it works, but like a human probably should. But where I'm trying to get to is that the world has changed.
+
+[00:23:18] GitHub kind of did, did evolve as well, of course, but it's like, it's, it's, it's... The, the, the feeling that it's not what it used to be, it's very, it's very strongly there.
+
+[00:23:28] Charles: I read the post from the folks at Zig, and I think they, they moved to, uh, Codeberg, um, which I believe they Mm-hmm They might be a collective and they require, like, all projects have to be open source, I think.
+
+[00:23:42] Um, have you... Do you know of folks removing, like, proprietary repos outside of GitHub, and where, where do they go?
+
+[00:23:49] Do they go to GitLab? Do they go to
+
+[00:23:56] Marek: So that was, that was, uh, it's often, it's often a big part of our discussions. The summary often is that like GitHub, but GitLab's not much better. And it's like, like one of the... some of the requests I get are like, "Can we have this for XYZ," uh, uh, you know, uh, uh, uh, like service mostly. It, it feels that, that it struck a real chord with this accountability, uh, uh, issue.
+
+[00:24:20] Uh, I, it, norm- uh, to, to answer your question, they normally will go to something self-hosted when it, when it, when it, when it goes. It, it might be, it might be GitLab, it, it, it might be, uh, the, the, uh, the, the, it, it, it's, it, it, it, uh, realistically Git, the, the protocol underneath itself, it's very straightforward, comes out of the Unix tradition at the very least, if not, if not Unix philosophy.
+
+[00:24:51] A, an SSH connection somewhere is already a, is already a Git server in the sense that you can push towards, towards it if you really, if you really wanted to. So it's not such a big deal to host that. That being said, it's way more to GitHub than, than being able to push code somewhere, right? And, and so, so yeah.
+
+[00:25:11] So, so, uh, they, they, they do, they, they do move, uh, to... They, they, they, they normally will move to something, to something self-hosted. The big question is a big part of what GitHub was interesting, or what was interesting about GitHub was you had an account, you could contribute to basically anything. At some point, even, you know, private things as long as you got access.
+
+[00:25:31] If people start to self-host things, well, it's gonna be difficult to, it's gonna be difficult to get the sort of the, the social aspect of it, of it back. That being said, we ca- we should not forget how Git started. Git started from the Linux, uh, kernel development, and the way it was supposed to be used and the real, uh, real, uh, I mean, in, in, by, by, by the real users, uh, was by sending email patches.
+
+[00:25:58] And so, so it's, it's, it's, it's not like it, it, it's not like it would not, it would be impossible to use Git differently. It's just that it feels like, uh, uh, email patches is probably, uh, is, is probably not where, where we are, you know, reverting to. Although I would expe- I, I would, I, I would encourage people to try it out.
+
+[00:26:21] It's, it's, it's way better than it's, than it feels like, but it needs a solid email client, uh, because they, they literally will do a review within the, you know, the, the, the patches themselves. So it's like, uh, the w- w- within the, within the, uh, the, uh, attachments. So, And we've seen some fragmentation of like the social media landscape as people have left from Twitter and other things and gone to a variety of different spaces. Um, well, you, you hit on something that I think is, is kind of important with GitHub and the platform is that it isn't just source control.
+
+[00:26:56] Charles: It's not just a place to host your code, um, that can be shared with a team for collaborative work, right? There's so much more that's been built on top of the base Git protocol with CI/CD. You've got discussions, the whole pull request interface, uh, issue tracking. There's even a little bit of project management that they've built in there.
+
+[00:27:16] And then of course, they've added in now a fair bit of AI tooling. There's Copilot. Um, so that y- if you move to self-hosted, that can be hard to replace a lot of that. It's a lot of, uh, overhead too that you then have to take on that you haven't had to worry about before. Um, but also maybe could this growing scope be increasing fragility, um, or, or affecting those core functionalities that we would need?
+
+[00:27:51] Marek: Right. Well, I mean, I, I, uh, it's, it's, it's, it's like this. If I went-- if I wanted to do an alternative to, to GitHub today, I would probably, I, I would probably use what's called, uh, Forgejo. For- again, it literally is supposed to be spelled as Forgejo. Uh, a-a-and I-- that, that itself is a fork of, of, of Gitea, uh, I believe, and they moved to a license that wasn't really, uh, wasn't really what the con- community, uh, what the community liked.
+
+[00:28:25] And yes, like the, the, the, the... it, it, it feels that there's a need for basic, the, the basic stuff around hosting code, and per-perhaps a very light project management, as in like, "If you have a problem, don't send me an email, put it in here so that other people see it too," sort of a way. But like, like, like the, it, it does feel like there's, there is legitimate, there's legitimate need for that.
+
+[00:28:47] That being said, what happened with GitHub, it, it, it from, from... I mean, and we only get the bits and pieces, but, uh, is that, is that GitHub ended up being its own part of Micros- uh, its own business unit, I guess is the term, within Microsoft for quite a while, for basically up until the beginning of, of, of, of this year or, or, or, or thereabouts, I think the date.
+
+[00:29:12] Oh, no, I'm sorry. The, the, it, it's maybe it's, it's like, uh, uh, like, uh, summer, summer last year. Um, I, I, I believe it was when, when the s- last GitHub CEO, Thomas Dohmke, basically left, left Microsoft, where they did not replace them. They just, they just, uh, sort of merged it into a bigger Core AI, I believe is the name of the team.
+
+[00:29:36] And that says something. Like if you're part of the team that's called Core AI and your core competency is hosting code, yeah, well, you, you end up, you... it, it, it, it kind of hints at, at, at potential, at, at, at potential fragmentation. But then again, I also understand that, that yes, like being, being close to code and, and, and having, uh, you know, Copilot deployed in massive s- on, on a massive scale, uh, has significant, um, yeah, t- has, has significant potential.
+
+[00:30:08] Uh, that, that, that's for sure. But it's very difficult to say, you know, uh, whether, whether this is what, what, uh, let's do it in, in one way, one way or the other. It is, it is for sure that like, I mean, we can certainly see the hints of what might have, uh, what might have caused it. But to be fair to GitHub, given how much code is being generated, like sig- like the, the, the scale of, scale of code that, that's, that's being generated, that has, that had, that has really increased exponentially.
+
+[00:30:40] And so that also puts a strain like, uh, in a very, uh, in a very obvious way on, on the whole not just about internal changes, but also how those same technologies are driving just a lot more volume
+
+[00:30:55] Right. Great
+
+[00:31:00] Emma: There's also some speculation that, um, uh, some of the AI integrations have increased the infrastructure fragility. Uh, is there anything that you could speak on about that?
+
+[00:31:14] Marek: It-- as you said, it's, it's all speculation. I don't, I, I, I don't think we know one way, one way or the other. Uh, it would be interesting to have a, you know, it would be interesting to have this, this, this, this, uh, randomized trial experiment in a different world where, uh, everything would have happened apart from, from AI.
+
+[00:31:33] It might be that GitHub would be the sa- the most stable thing ever, and I certainly would not have built it. Like it's, there's no way I would, you know, spend, uh, probably, probably just, uh, uh, fall asleep even, even though that's difficult in, in... when you're sunburned. But the, the... What, what I'm trying to say is that, is, is, is that the, the...
+
+[00:31:51] It, it, it, it, it really may be that, that, that, that, uh, uh, it's, it's sort of just collusion of, of events that, that weren't, were not completely dependent on one another, but ended up, ended up getting to, getting, getting, getting to something like this. That being said, I do think there is a... The, the, the many of the kind of, uh, kind of the AI offerings that ended up integrated within GitHub are sort of done in a way which, which, uh, kind of by itself, like in and of itself will, you know, generate more codes, uh, hit the APIs more often, uh, will, will interact with them more often.
+
+[00:32:34] So, uh, uh, uh, like, like if, if, if, if someone directly asked me, like, would-- could this mean that the infrastructure has to play catch up to all these new features that have been built? It could-- I could easily see that happening. But I, I... You would need a real insider, uh, for, for, for, for, for, for confirmation here.
+
+[00:32:54] I don't wants to come, uh, tell us the inside story, uh, look us up
+
+[00:33:07] Emma: Uh, in our email exchange, you joked that that GitHub may not even be relevant by the time we record this episode. Uh, could you elaborate on that?
+
+[00:33:20] Marek: Well, I think I, I'm not sure, I'm not sure when did that-- when, when, when was the, when is that email dated, but it's like, like at the time it was, uh, it was ei-either February or March maybe even. But even if it was like in, in like April, like GitHub, like th-this, this, this webpage of mine has it at like 78% of uptime.
+
+[00:33:40] Like, it's, it's under s- under 80. Yeah, it's like, uh, there were like five, six days, mostly weekends, when there was no outage. Like every single day there was, there was, there was something which, which probably also pushed some of these projects to move over there. So it's like, like I do think there was reasonably reasonable doubt, uh, whether, whether, you know, uh, it, it, it, it would, it, it, it would survive. The other thing is that, that, uh, uh, is, is the story of the CEO. So the CEO, uh, basically co -ounded a company that's GitHub, but on steroids and for agents. I believe the, the name is, uh, is, uh... I'll, I'll have to, I'll have to look it up. Is, is Entire, I think. Yeah. I, I, I think, I, I think it's called Entire, and it's basically, it's, it's, it's, it's basically what I, what a play on...
+
+[00:34:33] Okay. If it's agents that create this code, what we probably want is not just the code itself, but the discussion with the agent or, or, or whatever tool calls and whatever, you know, exploration it did for it to arrive at this code. If, if, if there was trouble-- If there is trouble with the code, it's likely that either the instruction was wrong, it got sidetracked or, or something of the order.
+
+[00:34:56] So if we want to do it well, if we want to do reviews well, we need to have everything in the same place. So it's like that's, that's the company he co- uh, at least the-- my, in my very limited understanding, that's the company that, that he, that, that he under- that he co -ounded. And kind of shows like, like in the future, we probably will need something that, that, that goes that way, at least directionally, if not, if not directly, um, uh, you know, directly product-wise.
+
+[00:35:21] And so, yeah, like I, I, I... I mean, Nassim Taleb would tell you by the Lindy principle, if something, you know, if something ended up, uh, uh, uh, being a staple for 10 years, it probably has 10 more s- 10 more years left. In the final year, no one will even know the name, but like, like it will probably exist in s- in some way, shape, or form, so I did overdo it.
+
+[00:35:43] But I do think the, it, there, there, there will be a relatively significant, like the, the, the, the playing field is open, uh, for, for, for other entrants. So that's sort of what I, what I, what I jokingly meant. But I'm, uh, I'm, I'm happy it's not completely down. I, I genuinely am very happy, uh, that, that, that, that it's still possible to collaborate with people there, and I'm happy we got to do this, uh, do this discussion too.
+
+[00:36:07] Charles: Yeah, me too. Uh, sorry, just a second ahead, Emma, if you've got a question ready I was reading through and I feel like we've covered a lot of our, uh, our questions here
+
+[00:36:34] Emma: So you mentioned a lot of the, uh, a lot of the downtime over the last few months. I was reading about, um, April 23rd, there was a merge queue bug that silently reverted commits in over 2,000 PRs, and that wasn't really about scale. It was an architectural mistake. Um, again, you said that we could sit here and, you know, make guesses as to what is really going on.
+
+[00:37:04] Um, but the core of it is that maybe developers are feeling that they've become overly dependent on platforms like GitHub. Um, what happens to developers' workflow when critical infrastructure becomes unreliable? What do you think about the de- uh, the dependency on platforms like GitHub for developers?
+
+[00:37:27] Marek: Oh, it's a, it's a, it is a very good question Uh, I would, I would re- I would kind of go to the, go to the roots. Like, that's not how Git was supposed to be working. Like Git, it's in itself, you open the, you open the main page and it says, and it says, "Git is a fast, scalable, distributed revision control system."
+
+[00:37:50] The second we have a singular place where all the code lives, how is that distribu- you know? Like, so, so in, in, in, in, in, in that sense, in, in, in that sense, uh, yeah, we, we, we created a sort of singular dependency, which when it doesn't work, it, it, it... Uh, thankfully, thankfully we still, we still can work locally and, and then, then, you know, uh, hope we didn't put too much info into the pull request that has been reverted or, I mean, that has been, that, that, that, that, that has been completely lost.
+
+[00:38:20] Um, but that, that, that being, that being said, uh, the, uh, the trouble is that that has been kind of the story of the modern internet, hasn't been, has, has not been, right? Like it's, it's, it's, it's like the way internet has been set up was for it to, for, for one node to go down and you would not really, you would not really notice or to, from, from, uh, from the old, uh, uh, DARPA ages.
+
+[00:38:50] And so that's not, that's not really, that's not really good the case. Go ask people in, in, in Spain, for instance, they cannot push to GitHub when there is LaLiga playing. Well, there are, there are literal websites which is, which, which basically will, will ask like, uh, is LaLiga playing just so that because they cannot work.
+
+[00:39:07] And the reason we ca- be, for, for that is that, that, uh, Cloudflare is legally, like legally blocked because LaLiga has, uh, you know, uh, well, that's, that's, that's a too sad of a story to even go to. But like the, what, what I'm trying to, what I'm trying to highlight with that is that, is that unfortunately that it's, it's not just GitHub.
+
+[00:39:25] It's, it's, it's that many pieces of wa- of, of the modern infrastructure on the internet, uh, have gotten very far away from the, from the decentralized na- uh, the, the kind of d- d- decentralized way in which they've been, uh, designed. And so, uh, so, so yes, like if you end up, if we end up dependent on platform like GitHub, they better, like they, they better work.
+
+[00:39:48] In fact, the way Git, Git at, at least, I, I don't remember the story perfect- perfectly, but I do think the way Git ha- Git happened was that Linus was basically, uh, massively pissed about the, the BitKeeper, I think, or, or, or, or some, some- something else that they've been using, and was basically like, "Okay, guys, we are stopping kernel developments for two weeks unless we build something else."
+
+[00:40:11] Like there's no way, you know, there's, there's no way we can work this way. So it's like it, it might be that we reach a critical point where, uh, the very, very, very a, a set of critical mass will decide that there's just, this is not the way to, this is not, not the way, way to work and, and, and something else will happen.
+
+[00:40:29] But I'm not saying, like, if, if, if, if this sort of split of, like, the social networks or, or kind of the, the, the groups of people has shown anything, it's very difficult to do federated and at the same time have kind of the kind of network effects, I guess, is what we would call it. How do you make it so that people then very easily migrate from platform to platform?
+
+[00:40:53] How do you make it so that, that your stuff has the reach of, of, of, uh, across various platforms and, and, uh, and, and, and, and stuff like that? There is, for instance, a big movement of, of publishing on your own and then syndicating across various platforms. The home tech points is basically the platforms will generally fight you as much as they can.
+
+[00:41:15] The reason for that is what they want is for people to stay on those platforms, so, uh, for it to be, uh, for it to be commercially viable. So there's, there's this push and pull of, of, of, uh, how many of the thing- of these things have been designed to what a kind of business narrative, uh, uh, around it would be.
+
+[00:41:33] So unfortunately, it feels like sort of code and the way, uh, the way kind of platforms like GitHub are set up are kind of stuck in we're set later this season to talk with someone who is part of, uh, building the ActivityPub protocol, which is one of the protocols out there for enabling, uh, for lack of better terms, interoperability between s- social networks. Um, uh, so it's, uh-- There's a lot of common threads that are coming out of our conversations this season without really trying.
+
+[00:42:04] Charles: It's, it's interesting how it all kind of comes together sometimes. Um, uh, as teams are maybe thinking about how to move back towards that more distributed kind of intention behind the internet, reduce our dependence on centralized infrastructure, have you seen success with teams like-- Or have you t- seen teams have success with particular parts of their operations that they're moving back towards, uh, something more distributed?
+
+[00:42:37] Marek: I think it very much depends on what your, like, what your end, end customer or, or if you want to use a product management or job to be done, you know, would, would, would look like. In other words, it's probably very different if you're trying to do open source contributors from around the world, please come contribute to my op- my open source.
+
+[00:42:57] I still... I'm, I'm relatively young still, I hope at least. Uh, uh, but, but, but I still do remember what it was back in the day when, when you basically got a link with source code and it was about it. Sending a patch basically meant you're sending it to, to the ether and, and it never, you know, it, it, it, it never comes back.
+
+[00:43:16] Uh, being able to navigate, uh, uh, uh, obscure, uh, settings even basically meant, uh, integra- i-iterating over, over suggestions that you find on, on mailing lists and, and, and, and, and stuff like that. So what I, what I'm trying to say is that it's probably different when you're trying to do kind of a, a, a public open source face, public-facing open source versus when you're, when you are developing in a, in a team within a company, the code that doesn't really, hopefully doesn't really leave, uh, that, that doesn't l- l- leave.
+
+[00:43:49] But even there, even there, I do think there is value in replicating what GitHub has done, which is e- even if you don't have a full, full, uh, singular monorepo, at the very least, having everyone having access everywhere where they, where they legally can have access, uh, has... I, I've seen play massive benefits.
+
+[00:44:10] And, and, and, and, and that you can do in a relatively decentralized way in the sense that doesn't have to be a singular platform as long as you have access everywhere. So in, in, in, in, in, in that sense, I, I do think maybe, maybe that's what, that's maybe that's what happens. Uh, the way, uh, people went from SVN to whatever Mercurial to Git, maybe they will, you know, revert back to, uh, to, to, to something, uh, to, to something in their kind of, uh, uh, work life and then might then, uh, sort of transpire or like, like, uh, to some extent be ported to, to, to what we see in, in, in, in, in, in public open source.
+
+[00:44:51] I have seen folks sort of try things like, I don't know, SourceHut, uh, uh, uh, the, the, the For- Forgejo as we, as, as we discussed and, and stuff like that, and, or Codeberg. And it's, uh, it's, it's, it's... I, I, I do think it makes sense to at least try it out, but it also, it also very much depends on what do you v- like, what do you value in, in, in, in, in, in, in that?
+
+[00:45:17] Big value of GitHub was everyone has accounts, everyone has, can contribute. If they contribute, you can see it on their whatever, uh, uh, on their, on their profile. Many people I know, and myself, myself included, have gotten jobs off of contributing, you know, on, on, on, on, on these platforms. So I'm not... I, I'm...
+
+[00:45:41] It, it's, it's, it's, it's sort of to be seen to what extent that happens if you have a very small platform where there's, like, not much in there. And then if you have a small platform, not much in there, how likely is it to be more, uh, you know, more stable than a big, than, than a big GitHub that, you know, that, that, that, uh, the...
+
+[00:46:00] Like, for all its, all its faults, at least has a, I'm pretty sure, very good, uh, DevOps team, uh, that, that, that, that, that takes care of it. And so, so, like, like, th- this probably was gonna be the, the, what was gonna be the problem. Uh, well, not just the, the, the kind of scattered nature of it, but also that, uh, like I have, I have, uh, kind of hosted services for all, all, all, all my professional life at the very least, and it's, and it's hard.
+
+[00:46:30] It's, it's, it's, it's, it's a hard bargain. So, so in, in, in, in that sense, it would probably need to be a sort of semi bigger player for it to, uh, for, for, for it to actually matter.
+
+[00:46:46] Emma: Well, for where the ecosystem is right now, it sounds like your project, the missing GitHub status page, is a good place to start. Um, so could you let us know where, uh, could you let our listeners know where to find the project, how to contribute to it, or where to follow your other work?
+
+[00:47:05] Marek: Sure. Uh, I, I-- the, the, the best way to find it is to basically look up the Missing GitHub Status page. The craziest... I'm, I'm very bad at doing any marketing really. It turns out that other people did it, did it, did it for me. I did not, I, I did not even... I did not really, I, I did not really, really, uh, uh, really, really even try.
+
+[00:47:27] So look up Missing GitHub Status page. You cannot, you cannot miss it. The repo is very open. There is, uh... We still take pull requests even in this agentic day and age, and, and even if it's-- if, if it... Like, strangely enough, I did not have to fight against, uh, uh, a, an massive amount of slop. Like, even if it was agentically generated, it wasn't something that I could not have a nice discussion with a, with a person on.
+
+[00:47:53] So if you find something that doesn't make sense, if you find, uh, if you find things that don't, uh, then don't seem to adapt or that you think would look, well, look nicer, send a pull request or just start an issue and we'll, we'll, we'll, we'll discuss it in there the absolute old school way, like the way...
+
+[00:48:10] It's not all the way to, all the way to mailing list, but we'll have a nice, you know, internet discussion about it and we'll, we'll arrive to something. We'll-- If you scroll down the page, you will even see that, uh, I, I try to make it so that even if we, even if we end up just using just part of the code that people, that people create, we still, uh, we still credit them.
+
+[00:48:30] So it's, it's, it's-- it tries to be this very positive sort of, uh, piece of the old internet, uh, in the best sense We'll make sure to put the, put a link to it in the show notes as well
+
+[00:48:45] 不是
+
+[00:48:45] Charles: you for joining us, Marek. Uh, our guest is Marek Shupa or Mr. Shu, creator of the, uh, Missing GitHub Status page. It's been a great conversation
+
+[00:49:00] Marek: Thanks a lot
+
