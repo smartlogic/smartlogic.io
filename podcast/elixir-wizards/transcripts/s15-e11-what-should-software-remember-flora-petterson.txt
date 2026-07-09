@@ -1,0 +1,824 @@
+S15E11 What Should Software Remember? with Flora Petterson
+===
+
+Charles (00:01)
+Hey everyone, I'm Charles Suggs, staff engineer at Smart Logic.
+
+Emma Whamond (00:04)
+And I'm Emma Woman, a software developer at SmartLogic, and we're your host for season 15, Episode 11. We're joined by Flora Peterson, an Elixir developer, conference speaker, puppeteer, and maker. In this episode, we're discussing what happens when software systems forget, how the beam helps them recover, and how documentation, mentorship, storytelling, and creative experimentation help teams preserve knowledge. Hi, Flora.
+
+Flora (00:32)
+Hi. Thanks for having me.
+
+Charles (00:35)
+Welcome to the podcast. Yeah, I'm glad you could join us. so before we jump into the topic, can you tell us a little bit about yourself, your history, what you've been up to lately?
+
+Flora (00:36)
+Thank you.
+
+Flora (00:47)
+Sure. so I am from and live in New Orleans, Louisiana. I'm a mom with three kids and I've been elixir I'm a self-taught Elixir developer and I've been working professionally for about two and a half years.
+
+Charles (01:00)
+Great. And you my my understanding is you came to Elixir from a a pretty unusual direction. Could you walk us through the journey you took?
+
+Flora (01:09)
+Yeah, I did. it's kind of a long story, so I'll try to TLDR it. so I grew up performing with my mother, who was a professional puppeteer, and my dad's a musician. So I grew up in a very ar artsy family in New Orleans. I got to college and got more interested in more technical things. So actually I was first exposed to programming in college. I took a Python class and I did a summer training where I learned like dream dreamweaver and flash. And but then I kinda didn't want to pursue that professionally, so I was
+
+Flora (01:38)
+I worked as a self-employed artist, I was a bartender, I did marketing and nonprofits and lots of different things. and then I was working in marketing at a software consultancy and I attended the big elixir in New Orleans and that was my first exposure to the community and I just got really inspired by all the talks there. I saw John Karstens give a talk on nerves that was really inspiring. And then I just started doing this kind of as a hobby. I went to Mpex Mountain and met
+
+Flora (02:08)
+Frank Hunlith and just was really drawn to NERVES. So I started doing hobby projects with NERVs, specifically trying to build animatronics. And around that time, I unexpectedly lost my job when I was pregnant in my second trimester. And so all of a sudden I had time and was trying to apply for jobs. And one of my friends in the community was just like, you should be a developer. And my first reaction was, absolutely not. I am not qualified. And so I tried to get into a boot camp.
+
+Charles (02:34)
+Yeah.
+
+Flora (02:36)
+none of them would take me because I was about to have a baby and I had doctor's appointments. They were like, come back after the baby. So I was kind of forced to self-teach. And I attended Bruce Tate's mentoring group, which was really helpful, and I just got really stubborn about it and studied and studied and studied. Bruce invited me to go to Gig City Elixir, which I attended with my 10-week old baby, and
+
+Flora (03:02)
+And that's where I I met some people and then about a year after I got I lost my job I was attending Strange Loop with my new team. So this is a pretty wild, pretty wild ride.
+
+Charles (03:15)
+What year was the the gig city?
+
+Flora (03:19)
+The one that I attended, gosh, twenty twenty three. Yeah. Mm-hmm.
+
+Charles (03:22)
+Okay, yeah. Cool, that's a nice little conference.
+
+Flora (03:26)
+Yeah, it's amaz yeah, I've been highly recommend it. Yeah. It was great.
+
+Charles (03:32)
+And so and you also studied physics, you grew up around professional puppetry, like you said. how how d how do those interests with nerves how do they come together?
+
+Flora (03:36)
+Mm yeah, mm-hmm.
+
+Flora (03:48)
+It is a very f fun collaboration because I get to do all of the math and coding and technical thought that I really love and then also you know, move things around with objects. So it's just kind of an extension of you know something I've been doing since I was four years old. But I just get to do it in a more technical way. So yeah.
+
+Flora (04:17)
+Lot of fun.
+
+Flora (04:20)
+That was a fun thing about it is I kind of knew I had a backup. So if I was trying to do something and I couldn't get it to work with hardware, then I would get it to work a different way and it was kind of a given it was kind of a give and take, you know? Yeah.
+
+Charles (04:28)
+Ha ha ha.
+
+Charles (04:32)
+Yeah, yeah.
+
+Emma Whamond (04:33)
+In a perfect perfect environment, like between the two. so we were listening to your talk after the crash, which begins with the idea that any message passing through an application can be forgotten. just kind of diving into the conversation here. What does it mean for software systems to forget?
+
+Flora (04:36)
+Yeah. Mm-hmm.
+
+Flora (04:40)
+Mm. Mm.
+
+Flora (04:46)
+Mm.
+
+Flora (04:54)
+sure. So so when I wrote that, I was specifically thinking about a few things. technically, I was thinking about storing data in memory, so process state and etes, what happens when a node or process restarts without a mechanism to persist, or what happens when persistence fails. But that analogy would work in other contexts, and I chose the word forgetting instead of a more technical term to specifically make it more universal.
+
+Flora (05:21)
+kind of set the context that the talk was a one-time experience that won't be that was you know very non-traditional and focused more on storytelling. So this is a kind of a long disclaimer but I think it's good to have the context. So I was inspired by Sasa Urick's Tell Me a Story talk. I was inspired by a talk by Joe Armstrong where he showed an illustration from an overhead projector that he used to evangelize Erling before PowerPoint existed. And then also Elizabeth Bishop's poem One Art, which starts
+
+Flora (05:48)
+The art of losing isn't hard to master. So many things seem filled with the intent to be lost that their loss is no disaster. And yeah, so going back to storytelling, the theme of forgetting and remembering in literature is so many beautiful examples. And I think because of my background and interests, I think it's really inter important to be interdisciplinary and bring those thoughts and ways of knowing into the way we think about technical problems. so that's why I use the word forgetting, I guess, instead of something else. It was intentional, yeah.
+
+Emma Whamond (06:20)
+So first of all, incredible. It's so true. both your background in storytelling and the way that software is built and needs to be built today. So in your opinion, what is the state of recovery in software today? Are teams like truly designing for inevitable failure, or is recovery still treated as something to address after the fact, after a crash?
+
+Flora (06:22)
+Mm-hmm.
+
+Flora (06:30)
+Mm-hmm. Mm-hmm.
+
+Flora (06:45)
+Yeah, so I can't speak for other teams, but in my work and the people I've talked to and kind of talked to me after the talk, I think we're just all doing our best. And anyone who cares really deeply about user experience wants to avoid failure. I know I think about it a lot, but it's a really hard problem. and you know, it's not just designing to prevent the failure, but setting up tools and building the muscle to fix the failures. I'm still at the beginning of my journey on that and I'm just so in awe of others who do that.
+
+Flora (07:12)
+but yeah, I I would love to hear other stories on how people are approaching it. But yeah, it's something I definitely think about a lot and I hope others too.
+
+Charles (07:22)
+Do you when in the teams that you're working on where you're dealing with recovery after crashes, are you working in kind of centralized systems or are you also handling this on distributed systems?
+
+Flora (07:25)
+Mm-hmm. Mm-hmm.
+
+Flora (07:36)
+both, yeah. Mm-hmm.
+
+Charles (07:37)
+Both How how is it different between the two? Is it is it pretty much the same or do you have additional considerations when something is distributed or there additional tools you reach for?
+
+Flora (07:49)
+well e I I don't know how much I think about it in the way of different types of systems, versus more kind of team culture. You know, I I think a lot about Conway's law and like, you know, the link between communication structure and organizations and leadership priorities. And I think that, you know, prioritizing the importance of
+
+Flora (08:15)
+thinking of how to fail is is really important. And so I think that's kind of universal between systems.
+
+Charles (08:23)
+Mm. In sport, in life, and in software.
+
+Flora (08:27)
+Yeah, exactly.
+
+Emma Whamond (08:31)
+So I hear you have taken the stance that failure is the steady state, not the emergency. So most engineers I know like intellectually agree with that, but then design as if outages are surprises. What changes when you're actually taking the steady state framing seriously in software?
+
+Flora (08:34)
+Mm-hmm. Mm-hmm.
+
+Flora (08:42)
+Mm-hmm.
+
+Flora (08:51)
+yeah, well I know that well I do think about it a lot, like all of us, my code falls short, you know. we all don't know what we don't know, Dunning Kruger. so I think the main thing that changes for me is it makes me take learning and tech dat really seriously. And I I mean I've been coding for two and a half years. Erling has been around for decades. There's so much to learn. I'm sure if you ask me this question again in a decade, my answers will change. And I think it's a good thing.
+
+Flora (09:18)
+You know, and so I think that, yeah, like just really taking seriously that Erling has such a deep you know, list of tools. I mean, I recently asked several people I know, just out of curiosity, what their favorite parts of OTP were, and the answers were so varied, you know, like mixed releases, code server, code upgrade, other things I hadn't heard of before. Even the most senior people I know are still attending conferences, asking questions, sending me papers. and so I think that, you know, we can only design you know, as well as
+
+Flora (09:48)
+what our skills and knowledge are. So yeah, I think that's the main, you know, wouldn't ever want to assume that I know the best way to do something.
+
+Charles (09:57)
+This this feels to me like it has echoes of the the Bruce Tate and James Gray book about building systems for with OTP. the the exact title I'm drawing a blank on right now, I'll pull that up. But you have it handy?
+
+Flora (10:03)
+Mm-hmm.
+
+Flora (10:08)
+yeah, I actually I I have it. I do have it right here. Yep. It is design Yep. Mm-hmm. Yeah, it's amazing. Yeah, this was the main theme of my talk is the idea of Gen Server life cycles. And I was really drawn to it because I know I had heard a lot, you know, the phrase let it crash, right? And I hadn't thought as much about or I wanted to learn more about
+
+Charles (10:13)
+Yeah, fantastic book.
+
+Flora (10:31)
+what happens because one of my mentors is always like that is not a silver bullet you need to know when not to let it crash when to restart how you know all of the you know all of the wonderful options in the child spec really think through them and not just go through the defaults and so yeah the the the Gen Silver life cycle talks about three stages which is you know starting it the supervision and then the configuration of the child spec and so that was the main three parts that I wanted to really think about.
+
+Flora (11:00)
+In and again, those are things that are universal to any life cycle process, which is why I like the idea of life cycles.
+
+Charles (11:12)
+For our listeners, if you didn't notice, probably a couple episodes before this one we we did an interview with Bruce Tate and his co author, I think we might be having on here in a couple of weeks. So stay tuned for that. Yeah.
+
+Flora (11:13)
+Mm.
+
+Flora (11:20)
+Mm.
+
+Flora (11:23)
+great. Love Bruce. He is one of my main mentors. Just talked to him the other day. Mm-hmm. Mm-hmm. Mm-hmm.
+
+Charles (11:28)
+Yeah. Yeah, which is great.
+
+Charles (11:34)
+As so coming back to this, so as as developers, we sometimes treat datable datable. Sometimes we treat data as durable once it's been center stored, but what kind of failure ch failures challenge that assumption? Wha when is that a problematic way to approach things?
+
+Flora (11:41)
+Mm-hmm. Uh-huh.
+
+Flora (11:58)
+Yeah, I mean, you know I can think of several ways, but I it's just, you know, the main thing is all the things we can't control. You know, fallacies of the distributed system, network is reliable, dependencies go down and you know, and they don't you know, they they don't tell you vendors don't tell us what's going on. Human error, somebody unplugs or deletes something. I think we all have horror stories of you know, things like that happening. And yeah, it it's it's, you know, kind of good to be humble and
+
+Flora (12:27)
+Remember that, I think.
+
+Emma Whamond (12:33)
+Could you give us some examples that you've seen recently? I know they're like just countless examples, but anything that comes to top of mind for you, anything personal?
+
+Flora (12:46)
+I guess you know, the main the main example that I think of i it's not really a work thing, but it it's the thing that I I think it was a good example for me. When I first started learning Elixir, I really didn't understand this concept at all. And you know, I didn't understand a lot. And so I was using IEX pretty regularly and I remember, you know, learning that
+
+Flora (13:12)
+variables are immutable and then closing IEX and expecting them to still be there. And you know, i that was really frustrating for me. and so I think that's kind it's a simple example, but it's, you know, a good example of of losing you know losing state and you know how ephemeral it is in life.
+
+Charles (13:17)
+Ha ha
+
+Charles (13:37)
+then if so then if you lose if you lose it, what do you what do you do next? If you lose the data, how do you how do you yeah.
+
+Flora (13:39)
+Mm, mm.
+
+Flora (13:43)
+Well, yeah. Well, I think hopefully ideally we think about that in advance, you know, because once it's gone, you know, in that in that scenario, once it's gone, it's gone, you know. So part of you know, what the life cycle you know, theory kind of model just emphasizes that it's important that when you restart that there is a way to rehydrate or or persist. But yeah, I mean
+
+Charles (13:54)
+Mm-hmm, mm-hmm.
+
+Flora (14:11)
+that, you know, persist. But that i it's really it depends, right? Really depend on the kind of system. but in this talk I was specifically thinking about Gen servers.
+
+Charles (14:22)
+Mm, mm-hmm.
+
+Emma Whamond (14:24)
+So when you lose something, how do you determine whether it should be recovered or recreated, retried, or just simply abandoned altogether?
+
+Flora (14:26)
+Mm.
+
+Flora (14:35)
+Yeah, I think that also really depends upon the system. I know I I have a c I have a mentor who says it depends a lot and so I I I really agree with that. But I think the main thing is you know, kind of the Eric Evans like domain driven design I really embrace. And so ideally that would be something, you know, you would know what needs to be recovered and what needs to be forgotten early on and really designed for that so that hopefully ideally there aren't surprises.
+
+Flora (15:03)
+later, you know, you're really protecting the most important things. And that again, that's gonna vary on compliance and regulation and ethics, you know, what what should be saved and stored. Because you obviously you don't wanna overload your system with saving too much. Eviction's important. Mm-hmm.
+
+Emma Whamond (15:20)
+Absolutely. you could you tell talk us talk to us a little bit more about that? About when forgetting is useful, maybe privacy or GDPR's right to be forgotten, ephemeral messages, log rotation. Where's the line?
+
+Flora (15:32)
+Mm.
+
+Flora (15:39)
+Yeah, I think that in a way, I mean ethically I you know, I kind of personally wanna hold on to as little as possible, right? That's kind of the the at least my personal philosophy. and so it can be really tempting to say, we're gonna need this later. You know, and maybe that's true. I'm I'm really just speaking for myself. But you know, there's so much tracking right now that I I
+
+Flora (16:08)
+I really love that there are movements like you know, things like GDP are happening to try to cut that down because yeah, we we don't need to save everything.
+
+Charles (16:21)
+I feel like there are good parallels with our our our minds here too and overloading it with too much information and needing to figure out what what to shed, what to evict, what's important to keep it up front and what's what can we shove back into like glacier storage for, you know, later retrieval of the few times that we actually need it
+
+Flora (16:24)
+Mm.
+
+Flora (16:31)
+Mm.
+
+Flora (16:34)
+Mm-hmm.
+
+Flora (16:37)
+Mm-hmm.
+
+Flora (16:41)
+Yeah. Mm-hmm.
+
+Charles (16:44)
+Yeah, I guess I guess we tend to design systems that somewhat mimic our own understanding and our own systems 'cause it's what we understand or it's what we know.
+
+Flora (16:51)
+Yeah. Yeah, absolutely. And that's why you know, I think I talked a lot and think a lot about the power of imagination, you know. I think because I when I started there was so much I didn't know how to do. Like I didn't learn how to write tests for a while. And so when I was thinking about, you know, predicting things that would go wrong or debugging, it was all in my head. I'd be like, Okay, well if this happens and this happens, then this thing would go and this path would happen.
+
+Charles (17:08)
+Mm-hmm.
+
+Flora (17:18)
+And I remember one of my mentors would Just write a test for it You know? And then once I once I was able to do that, but you know, in a way I was kind of like testing in my head a little bit. I don't know. And so, I try to remember to do that now, you know, 'cause it's so easy to just like kind of go into autopilot and start like typing and, you know, just writing your regular unit tests or but it I try to really think through things in my head first because especially in the age of AI, you know, brains and imagination are still important.
+
+Charles (17:49)
+Mm-hmm, mm-hmm.
+
+Charles (17:54)
+follow up and it just like totally disappeared on me there. It it got evicted before I was ready. It did. yeah, yeah, maybe it's stuffed in a backup somewhere. so, you know, so you've been talking some about like, you know, as you've been learning new things with Elixir and and that journey that you've been on. What kind of what things do you think have served you well in doing that? In
+
+Flora (17:58)
+Got evicted. Yeah. Maybe he'll come back. Yeah, exactly.
+
+Charles (18:24)
+figuring out what are the important things to learn now, what are the things that I can maybe forget for now and come back to later as I'm learning so I'm not taking in too much at once. what what do you think has served you well there and maybe what hasn't?
+
+Flora (18:36)
+Yeah.
+
+Flora (18:39)
+That's a great question. I think that for me there's a tension because on the one hand, you know, I'm really driven by what I'm interested in, you know? And so if I've been doing something for a while, I kind of want to switch it up. And but on the other hand, I have an amazing network of mentors and I've gotten in the habit of asking them for help of saying, hey, these are these three things I want to learn. Which one do you think would be the most helpful for me to learn now? You know?
+
+Charles (19:04)
+Mm-hmm, mm-hmm.
+
+Flora (19:04)
+Or I'm thinking about diving into this, should I? And sometimes they'll be like, no, like stick where you are and really, you know, really start like getting to the guts of understanding live view. Like this is where you need to be. So you know, it's a balance of my interests and really trusting the people that got me here.
+
+Charles (19:26)
+I feel like this also kind of dovetails with like the concept of supervision and software. so w so this is in a way a a double question. Wha what can supervision and process recovery protect us from and where do those protections end?
+
+Flora (19:32)
+Mm-hmm.
+
+Flora (19:35)
+Mm-hmm. Yeah.
+
+Flora (19:45)
+Sure. I mean, there's so much that that supervision process can protect us from. You know, I mean process is isolation is so important. but it's I mean the main like kind of n like response I have to that question is just it doesn't protect us from ourselves, you know? it's yeah, again, like, you know, one of the common things I hear when I t ask my mentors is just
+
+Flora (20:11)
+Don't make assumptions. Don't assume that just because you, you know, stuck a supervisor somewhere that everything is gonna be fine. And so, yeah, I think there may maybe that's something that I felt when I was when I got in is like, well this great, I have this tool, I don't to worry about it. And that's not true. You really need to worry about the the the complex details of how things are implemented. yeah, that's my main thought for that.
+
+Emma Whamond (20:39)
+So how can teams test the recovery paths before encountering a real incident? Any tips there?
+
+Flora (20:47)
+Yeah. Unfortunately I haven't had firsthand experience of chaos testing and that sort of thing. I think it's really interesting and cool and I've definitely read about it and would love to one day, but that's not something I've done. I would go back to I mean just, you know, testing in general, but it's silly, but really like the idea of imagination and talking things through and pairing, like I feel like we've really caught a lot of things before they happen just by
+
+Flora (21:15)
+again thinking things through. I I keep saying this, but I just really believe in in the power of relying on our ourselves and our imagination and the knowledge of those who came before us and yeah. Not yeah, not just our tools.
+
+Emma Whamond (21:33)
+Love that. I mean it definitely just goes into every facet, anything that's human or created by a human, right? so we've talked about the information a software system can lose. we also want to explore what happens when knowledge disappears from an engineering team.
+
+Flora (21:38)
+Mm-hmm. Mm-hmm. Mm-hmm.
+
+Flora (21:45)
+Mm-hmm.
+
+Flora (21:48)
+No.
+
+Flora (21:53)
+Mm-hmm.
+
+Emma Whamond (21:53)
+There's some various philosophies around how to do good documentation. Some say just keep it as close to the code it refers to as possible. Some some like a lot of markdown files in a separate directory or even a separate repo. Some agree with Uncle Bob Martin's a comment is a failure to express yourself in code. If you fail, write a comment but try not to fail. Do you have a philosophy you aim for with documentation?
+
+Flora (21:58)
+Yeah.
+
+Flora (22:03)
+Mm-hmm.
+
+Flora (22:06)
+Yeah.
+
+Flora (22:15)
+Yeah.
+
+Flora (22:18)
+Yeah.
+
+Flora (22:22)
+I do, and it's funny because I gave a talk on documentation, you know, about a year, almost a year and a half ago, and my philosophy has really changed since then. Because when I at that time, you know, I was newer and I had just come from working as a technical writer. So I really kind of had this idea that like everything should, you know, watch your Oxford commas, like let's have things like really thorough. And now I it's not that I don't value that, but I have had the experience for myself of
+
+Flora (22:51)
+adding in a doc test and then looking at the text of the function doc and realizing that like the things that it says are not the things that it's doing. I don't know if you've ever had that experience. and it's just it requires so much human diligence just to keep that up to date, you know, and sometimes that is just not there. So now I when in my own code, I try to really focus on naming, you know, that's so important. Readability,
+
+Flora (23:19)
+just r you know, and which is still the same concepts of writing, right? Making things consens concise, making things f easy to follow, I mean alphabetizing all the things. and then also tests. A lot of times I'll, you know, if I want to understand how something works, I'll just go straight to the test file. because that will, you know, again it's something I can trust. And I'm not saying I mean all of the things, you know, live books and markdown files and, you know, cheat sheets, all the X doc features are truly amazing.
+
+Flora (23:48)
+It's just not the first thing that I reach for now. but if I'm like if I'm testing out a new library or something and there's a live book, like thank you. You know, I it's a incredible tool. It's just not something that I reach for first anymore. Although I I pulled out like all my favorite books, so and I talk about in the talk, but this book, Living Documentation, is incredible. So I highly recommend people you know, as reading this because
+
+Flora (24:17)
+He talks a lot about the limitations of sharing knowledge in a team. and the original question was losing knowledge, I think, which I forgot about that part. And I think that is so, so important and heartbreaking when that happens, especially now there can be a lot of a ch churn on teams in our industry. and you know, writing things down is good, but there's no substitute for also pairing and and that kind of knowledge transfer that way. So
+
+Flora (24:47)
+yeah, I don't think there's a good solution, you know, just a perfect solution. But mm-hmm.
+
+Charles (24:54)
+Yeah, I think tests seem to like I feel like developers have a tendency to keep them up to date more than any other kind of documentation. And in a way they're like our way of communicating how we expect the system to be used and function.
+
+Flora (25:03)
+Yes.
+
+Flora (25:09)
+Yeah. Yeah, absolutely. I don't know if you also have the experience where the test name doesn't match what the test is doing. You know? which is why like I really look at, you know, the content. I mean I know I'm I've I've done that. content of them. And and honestly, doc tests like I don't sometimes don't have the same context that I'm looking for. So really just the test files. yeah.
+
+Charles (25:15)
+Yes.
+
+Charles (25:35)
+In in your XDoc talk, you you described joining a a project and finding important knowledge that was scattered across conversations, specifications, comments, commit messages, documentation, maybe more. How did you kind of how did you wrangle that info as a new person trying to understand that landscape? And what did it teach you about organizational memory?
+
+Flora (25:37)
+Mm-hmm.
+
+Flora (25:41)
+Mm.
+
+Flora (25:45)
+Mm-hmm. Yeah.
+
+Flora (25:48)
+Mm-hmm.
+
+Flora (26:00)
+Yeah, that was such a fun experience. I guess the thing about that is that I wasn't just learning, you know, a new team I or a new application. I was learning how to be a developer for the first time. You know, I like I was learning to write I'd never written a test before. You I was there was a lot that I was learning all at once. And so I think that onboarding would be a different experience for me now. Cause I, you know, the amount of knowledge I have to learn would be different. so that's a caveat. But
+
+Flora (26:30)
+It just really taught me about kind of different ways of knowing and different personalities and how much of this just can't be automated, you know, because I again I think I was a little naive. I really thought like we can write this all down and I don't think that's possible anymore. I think that, you know, there's just so much that builds up inside of a person and inside of a team dynamic that you really only learn by doing, you know. So yeah.
+
+Flora (27:00)
+Not to say it's not good to write things down. It's wonderful to write things down. I'm not saying that. you know, it's it's it's really amazing. And you know, I think all of us really do try. but I think that there there's always gonna be little you know, I mean, I can think of things like knowing who to call and the other team and if you have their cell phone number and if they're gonna answer the phone in the middle of the night because they know who you are. You know, kind of personal relationships, things like that, things that just can't be
+
+Flora (27:28)
+transferred as easily are th that's the sort of thing I'm that kind of knowledge is the sort of thing I'm talking about, you know? I think that's really important. Mm-hmm. Mm-hmm. Mm-hmm.
+
+Emma Whamond (27:39)
+I think we've all experienced this, especially when onboarding, and if a budget is tight and we don't have the budget to add to documentation, or someone is the knowledge silo and they have left or and they haven't documented much about their experience and what they know. In your opinion, what kinds of technical knowledge are most likely to disappear when they only live in one developer's head?
+
+Flora (27:45)
+Mm-hmm.
+
+Flora (27:48)
+Mm.
+
+Flora (27:58)
+Mm-hmm. Mm-hmm.
+
+Flora (28:05)
+Hm. I think sometimes
+
+Flora (28:13)
+why decisions were made, you know, like why something why a path wasn't chosen. Like maybe some different tools were evaluated and one was chosen and there was a reason why, you know, I think that is a hard thing to keep in mind, you know? So it's easy to kind of go down the same path again if that information isn't there. yeah. Or even I mean even not even if someone leaves, like you know, I might forget why I didn't do something a certain way.
+
+Flora (28:41)
+You know, I that certainly happens in my nerves projects where I'll like go back and be like, I've done this before, you know? So, yeah, I I that's the that's the first thing that comes to mind is is decision making. That being said, I think our team is pretty good about that. But I I know that's that's an important thing to keep in mind.
+
+Charles (28:46)
+Mm.
+
+Charles (29:00)
+Why is often the most important question?
+
+Flora (29:01)
+Mm-hmm. Yeah.
+
+Emma Whamond (29:06)
+It's one that sometimes teams, like you said, don't get like don't get to explore very much, like the business domain as to to why things are are done. and again what might be lost in terms of data if if that hasn't been documented.
+
+Flora (29:14)
+Mm.
+
+Flora (29:17)
+Mm-hmm.
+
+Flora (29:24)
+Yeah, and I think that, you know, is another opportunity to just really collaborate with stakeholders and like really rely on the knowledge and expertise of UX designers and product managers. And I and we have an incredible one that I work with on I get to work with our team and really valuing that. And I think that's going back to documentation, that's another challenge because if we're only documenting inside of our code base and this is mentioned doc living documentation, that's not the complete story, right?
+
+Flora (29:51)
+And so that's another challenge of can you really document the technical implementation without documenting the business context, you know? but yeah, I think that is yeah, we can undervalue that sometimes.
+
+Charles (30:12)
+You you connect you've connected better knowledge sharing with Joy as developer, business joy, operations joy.
+
+Flora (30:14)
+Mm, yeah.
+
+Flora (30:17)
+Yeah.
+
+Charles (30:21)
+Can you elaborate on that?
+
+Flora (30:22)
+Yeah, sure. And I wanna credit that to Brian Hunter who would credit part of that to Ruby. you know, as I've said before, I'm really driven by my interests and having fun. And, you know, when things are hard to do, when information is hard to find, when you find yourself blocked a lot, that is definitely a joy killer, you know? and we all wanna be making things, we all wanna be
+
+Flora (30:49)
+improving, you know, user experience, I think. And just the less friction there is to that. You know, 'cause it it's so frustrating, you know, if you work on a feature and then you find out that that's not what they wanted, you know? and you know that yeah. So it's it's communication and, you know, but writing things down is communication. So yeah.
+
+Emma Whamond (31:13)
+And with along the line with communication. earlier the season, we got to interview Sasha and he spoke about how a pull request should tell a story. Just reminds me of your background. we also got to interview Mike Radcliffe, who pointed out that humans have always transferred knowledge through storytelling and conversation. What
+
+Flora (31:14)
+Mm-hmm.
+
+Flora (31:18)
+Mm-hmm. Mm-hmm.
+
+Flora (31:24)
+Mm-hmm. Yeah.
+
+Flora (31:30)
+Mm-hmm.
+
+Flora (31:33)
+Mm-hmm.
+
+Flora (31:36)
+Yeah.
+
+Emma Whamond (31:36)
+What kinds of context, judgment, or institutional memory can only be preserved through human relationships and mentorship?
+
+Flora (31:46)
+That's a great question. I think that
+
+Flora (31:55)
+hm, I could think of a couple of different ways of that. I mean, I think that, you know, a lot of us think that some of what we do is more of a trade, right? And so i when we're it's hard to just learn I mean, I found it very hard to just read and do it on my own. You learn a lot of it on the job, from other people. So I think specifically in software, just little things, right? You know, how someone
+
+Flora (32:25)
+what what shortcuts they're taking, what how they're using get, just little the little things you pick up when you pair, I think you know, you only get from human interaction. And then yeah. The other thing in this, I don't know, this is just the thing I keep thinking of. one of the main things I've gotten from you know my relationships with other people is kind of confidence building and just learning how to make decisions and make
+
+Flora (32:54)
+calls and have takes because that's a really when to say no is a big one. And that is, you know, cause some of the code you can read the docs, you can learn that, but really learning how to work effectively with other people on a team, that is, I think, something that, you know, is a very human thing to learn for sure.
+
+Charles (33:19)
+Expanding on mentorship, you've spoken about how that that's been important in your own developer journey. and you've cited some examples here already. what did what did and maybe you've you've covered this, but what what did they provide that a tutorial or a book or documentation just could not?
+
+Flora (33:23)
+Well,
+
+Flora (33:28)
+Mm-hmm. Mm-hmm.
+
+Flora (33:35)
+Mm.
+
+Flora (33:41)
+I often joke that they believe in me when I more than I believe in myself sometimes, you know. Especially in the first year starting out. You know, we all experience imposter syndrome. you know, I mean it's really there were many times where I was like, I can't do this. I don't know how to do this, you know? And I was lucky enough that when I asked for help, they were always there for me. So I guess
+
+Flora (34:10)
+material support kind of, you know, like I remember just really simple things like being a not simple, but you know, I emailed Bruce and was I'm gonna bring my baby and he was like, Cool, we're gonna find you, you know, mother's room and we're gonna find you babysitter. So I remember I emailed Strange Loop and was like, Hey, I need a place to pump and they're like, Cool, here's a conference room, you know, very i it's not just the the verbal things, it's also the encouragement and just making sure that people have what they need to succeed, I guess. Yeah.
+
+Flora (34:40)
+That's been because it can you know, if you feel like you don't belong, that can be really hard. And so building that sense of belonging and that sense of welcome is and and just accessibility, like being able to attend something, is really important. I mean, you know, all the free tickets that they offer, like there there's just a lot out there to make people feel welcome.
+
+Charles (34:46)
+Yeah.
+
+Charles (35:01)
+It's a huge, huge part, I think.
+
+Flora (35:02)
+Mm. Mm-hmm.
+
+Emma Whamond (35:06)
+In in your opinion, talking about mentorship, talking about documentation, talking about storytelling between either pairing or just encouragement, what is your opinion about the state of mentorship in software right now? I know that AI has taken over. Are you do you have any particular opinions about juniors in this in this industry or those that are self-taught like yourself?
+
+Flora (35:07)
+Mm-hmm. Mm-hmm. Mm-hmm.
+
+Flora (35:13)
+Mm-hmm.
+
+Flora (35:16)
+Mm-hmm.
+
+Flora (35:33)
+Yeah. I don't know if my journey would have been possible now, you know, in this current environment. but i Bruce Tate is currently writing a series on LinkedIn about AI and juniors, and I've learned I would really recommend that because he has been in the weeds of mentoring and encouraging juniors for so long. And I know that I've talked to him that it is very different now. so but I mean one I
+
+Flora (36:03)
+One thing that I found or a mindset that I kinda had when I was learning and thinking about making a career of this is that I knew that, you know, somebody who wants somebody who like went to Stanford and had a C S degree and has been programming forever and, you know, is like knows all the things in a hiring situation is not gonna want me, right? I'm not the person. So I just tried really hard to be myself and to follow my interests and a lot of the things I did were clearly not
+
+Flora (36:33)
+you know, really designed to build a get my you know, build a career, but it worked. And so I I guess if there was a piece of information or kind of approach, that's something that I think worked works for people because yeah. But I yeah, the the I the AI part is is definitely a challenge. But I mean even with AI, there are a lot of opportunities to be creative and imaginative there too. So yeah, that's my that's my approach.
+
+Charles (37:02)
+W the blog post series you're referring to, is that the one he called AI Coding Crisis, perhaps? It's like a four part series he just put out. Yeah. Yeah. Okay. We'll make sure to put that in the show notes. I've you know, maybe this is different now, but I've certainly heard from a number of different like mm founders, people that run
+
+Flora (37:03)
+the Blockplay series here.
+
+Flora (37:10)
+Yes, yes, that is the one. Mm-hmm. Yep. Yeah. Mm-hmm. Mm-hmm.
+
+Flora (37:21)
+Mm.
+
+Flora (37:24)
+Mm.
+
+Charles (37:28)
+development shops, hiring managers, that sometimes they actually prefer hiring someone who's more junior because they're able to train them in the way that they think is writing good software and being and being a good contributor to a code base instead of necessarily trying to maybe unlearn some bad habits or what that shop considers to be bad habits. So I think sometimes it might, maybe that's changing with
+
+Flora (37:28)
+Mm.
+
+Flora (37:36)
+Mm-hmm.
+
+Flora (37:43)
+Mm-hmm.
+
+Flora (37:46)
+Yeah.
+
+Flora (37:55)
+Yeah.
+
+Charles (37:56)
+AI and everyone wants a senior now, but I I think there's still some some benefit there that
+
+Flora (38:03)
+Yeah, no. Mm. Yeah, I definitely agree. And that's definitely something that I have experienced with my team is that especially when I started out, you know, I I would well, I would see things and and also this kinda goes back to team culture, like you said, like who's hiring because the people I really like w I've been lucky enough to spend time with really
+
+Flora (38:27)
+value everyone's knowledge, right? There's no hierarchy. You know, if they don't know something, they're the first one to a ask a question, not afraid of looking stupid, which then empowers other people to ask questions. And you know, again it's building that confidence, I think. So yeah, absolutely. If it's a team that really wants to have a brand new perspective and you know, that's really important. And that's certainly been my experience is I get to learn their ways of doing things. And who knows, maybe I
+
+Flora (38:56)
+Maybe when I get to a new job I'll be stubborn and won't want to change, but hopefully not.
+
+Charles (39:02)
+I think the only stupid question is the question that wasn't asked.
+
+Flora (39:05)
+Yeah, yeah. Yeah, I have to and I have to remind myself of that all. It was much easier when I started, because I didn't know who anyone was. So I didn't know enough to be intimidated. Like everyone I met Frank Hunlith, I had his whole like long conversation. I thought he was amazing, this like great dad. And it wasn't until like almost a month later that I was talking to someone else. They're like, Who is this guy? Like Flora, you know he co-created nerves. I had no idea. And if I had known that, I probably would have not I would have been much more nervous.
+
+Flora (39:34)
+And so, I think that's part of it at the beginning is you kind of have that beginner mindset and I don't even with my talks, like I didn't know what I didn't know. So, it's easy to kinda let the doubt creep in the more that we don't know or the more we're aware of how much we don't know. Yeah.
+
+Emma Whamond (39:54)
+Absolutely. it's hard for me to imagine you being stuck in your ways in a new job given all of your like career changes and how curious you seem to be and yeah, and your imagination and
+
+Flora (40:04)
+I hope so.
+
+Flora (40:08)
+Yeah. I think we're gonna do something.
+
+Emma Whamond (40:09)
+It's wonderful. I just wanted to dig into that a little bit more. about your background in building animatronics and controlling physical objects, teaching yourself, learning about like convention and software, the whole shiving.
+
+Flora (40:17)
+Yeah.
+
+Flora (40:21)
+Sure.
+
+Flora (40:25)
+Yeah. Now that I have distance from it, that was a pretty silly thing for me to do. But I just I knew I wanted to learn how to use Elixir. And I I find it much easier to learn something when I already have kind of a background in it. which was, you know, kind of the puppetry thing. So I'm sorry, can you repeat the question again? I kind of just lost my train of thought. Yeah, okay. Uh-huh.
+
+Emma Whamond (40:49)
+Yeah, no worries. so what did building animatronics, controlling physical objects teach you that you might not have learned through a conventional software program?
+
+Flora (40:53)
+Yeah. Yes.
+
+Flora (40:59)
+Yes. that was well not having this is gonna sound kinda not having a teacher really helped me because I could have asked for help more, but I was I really wanted to figure it out myself. And so you know, and the learning curve for nerves, at least for me, because it was nerves and Alexa was really steep, you know. and I just kinda had this mindset that I will figure it out. And so, you know, getting
+
+Charles (41:13)
+Mm-hmm.
+
+Flora (41:29)
+through that process and like the first time I got an LED to turn on, the first time I got a motor to spin was really satisfying in a way that learning some web development stuff wasn't because it just it's just not as hard to at least for me, to get Phoenix up and run, you know. So that was really helpful. And then I think that also again because that's how I started, I still approach code in this kind of
+
+Charles (41:38)
+Mm-hmm.
+
+Flora (41:58)
+creative way. Like I'm gonna make something that's gonna be fun for me. I'm gonna make something that's useful for a person. So it feels very I don't know, tactile, you know. It 'cause I mean like we aren't in the data centers. We aren't maybe we're we're not like seeing the users. It's really easy to kind of forget that we're not just typing all day, you know? And so that's a great thing I find about hobby projects is that, you know, you see the the NeoPixels light up and it's really gratifying. So
+
+Flora (42:26)
+Yeah, I think I that was one thing I learned for sure. Yeah.
+
+Charles (42:31)
+Was it a nice change of pace from just writing something for the web to actually like working with your hands and just using that different part of your your brain and your creativity, even if you're still writing software to do it?
+
+Flora (42:35)
+Mm-hmm.
+
+Flora (42:43)
+Yeah, absolutely. And Yeah, it it w it was really nice. And I think partially because even though I've only been doing this professionally for a couple of years, I've been work messing with websites for you know, for most of my life. So that felt less interesting. Or, you know, that was something I'd so yeah, doing something new was really helpful for sure.
+
+Emma Whamond (43:09)
+Have you and you're welcome to decline this question, but have you I know you've talked about using real tools with your children rather than just relying on oversimplified educational substitutes? and I feel like a lot of people would be interested in in understanding and hearing your approach. Could you
+
+Flora (43:13)
+Mm-hmm.
+
+Flora (43:18)
+Mm-hmm. Mm-hmm. Yeah.
+
+Flora (43:25)
+Mm-hmm. Yeah.
+
+Flora (43:33)
+Yeah. Yeah, no, I love this question. so I I I think I said that in my first talk, which was my nerves animatronics talk, and I was wrong because I did not know the tools that were out there. So I now that I mean I think, you know, Scratch is kind of ubiquitous, but it's an amazing tool for learning coding and Sam Aaron Sonic Pi, if you aren't familiar with it, you know, that combines music and programming is also an incredible resource.
+
+Flora (44:02)
+So there are good there I'm sure there's more. There are there are really great tools out there already. So I don't wanna, you know, kinda say that. But and I find that at least with my kids, you know, it's really cool for them to know they're doing the same thing that I'm doing. And so, you know, like if I have some live you up, my my daughter will she calls it she'll be like, Can I change the words? And so she might, you know, I'll let her come over, you know, from doing a hobby thing and
+
+Flora (44:29)
+type in, you know, change the page title like a Pokemon name or put some emojis in. And she really loves doing that. It's a simple and it really it really is the same thing that I do, you know? And I think that Nerves Live Book is kind of the absolute best example of that because I know that people do use this you know, in production Nerve's shops to to test out hardware. but also you can, you know, I I mean I I think I have some right here. You can
+
+Flora (44:54)
+Just like hook up LEDs to like a Raspberry Pi and control that. And I I was doing that yesterday and my tween was super into it, you know? And that I mean that you are executing code. Like you can see the code cell, you know, and so and you can, you know, change things around. So you know, having something that kids are already interested in is really important. because, you know, kind of like me, like
+
+Flora (45:19)
+want to do what's fine. And I know when I was younger, I feel like when I thought of programming and robotics, I thought of Battle Bots, which you know is cool but wasn't really my thing. It wasn't what I wanted to do. But now if I think of like, I want to make a skirt that lights up when I spin or I want to make you know or you know my kids want to make like a little Halloween you know skeleton that scares people when they walk up because it moves and makes a sound. You know, finding like your ideas and also you know the creativity
+
+Flora (45:48)
+but also real things is really fun. And then and that gets you the hard parts, right? That's what motivates you. because it's easy at the beginning, but definitely you gotta push through to get what you want.
+
+Charles (46:01)
+Mm-hmm, mm-hmm.
+
+Charles (46:04)
+You you just mentioned you know, we we've been we've mentioning a lot of conferences. Are we gonna get to see you at Elixir Conf in September?
+
+Flora (46:09)
+Mm-hmm. No, I've never been to ElixirConf. I would love to go, maybe next year. I will be at Goatmire though. I'm attending, I'm not giving a talk. but I am vol helping out and there will be surprises in other ways. So all I'm at liberty to say. But but yeah, I wish I could go to ElixirConf, but not not this year. Hmm. Yeah. Yeah. Awesome. that'll be so great. Yeah.
+
+Charles (46:30)
+Cool. Have have a great time at Goatmeyer. It seems like a fun conference. Well we will be at Elixir Conf in Chicago, but
+
+Flora (46:39)
+Very cool. Yeah, I hope to be there soon. Mm-hmm.
+
+Emma Whamond (46:46)
+So going back just for a quick minute, my dad actually started teaching himself how to program later in life after a long career in marketing. yeah, so it kind of reminds me of yourself and when he was teaching himself
+
+Flora (46:47)
+Mm-hmm.
+
+Flora (46:55)
+Mm-hmm.
+
+Flora (46:59)
+Mm-hmm. How cool. Yeah.
+
+Emma Whamond (47:06)
+Ruby, I was coding alongside him and we created like little projects for the neighborhood kids when I I was very young and yeah it's inspired me to like create keep my creativity and continue to try to build you know new software look for look for fixes so I think it's really wonderful that you're giving that to the next generation.
+
+Flora (47:09)
+Mm-hmm.
+
+Flora (47:13)
+Mm-hmm.
+
+Flora (47:29)
+Yeah, I hope so. You know, it's funny, it makes me think about my dad who, w he just has this mentality that if something breaks he can fix it. And he does, you know. I I can remember one time we were in New Mexico and I was a kid and our van broke down and we we just we weren't in a situation where he could like go to a mechanic and so he just like stayed under the car in the Mexico heat for
+
+Flora (47:54)
+like multiple days and made it work and we drove all the way back to New Orleans. And I think that that sort of mindset is something I I know it's something that I have. Like when I, you know, it it is kind of a silly thing to be like, I've never written Elixir really. Let me go and learn how to do embedded and like, you know, and solder things. But it never really I never had any doubt that I could do it. I just thought it would take a long time and be hard. And it was. But yeah, dads are great.
+
+Emma Whamond (48:24)
+They are tough as nails apparently in the New Mexican heat. That's wild.
+
+Flora (48:25)
+Mm-hmm. Mm-hmm. Yeah. Yeah. Yeah. He's great. Anyway, he's also a musician. So I mean, you know, I think that that is part of my you know, my mindset is like just try things and see what happens. Yeah. Mm-hmm.
+
+Charles (48:28)
+Yeah.
+
+Emma Whamond (48:41)
+I love that. So along that same line, what gives you hope about the current state of the Elixir community? Is there anything that you're looking forward to right now?
+
+Flora (48:45)
+Mm-hmm. Mm-hmm.
+
+Flora (48:53)
+Yeah, well, I really love what Lars has done with Goatmeyer because he has such an emphasis. You know, unfortunately, you know, since Mpex and Big Elixir aren't around, you know, it's harder to you know, kind of maybe meet people as much.
+
+Flora (49:15)
+But you know, just this emphasis on building a community, having free workshops, really sharing knowledge, I think that events like that are really important. I know there's a conference coming up in Texas too. that you know, building that kind of in person interaction, I think is the way that worked for me. So yeah, I think that initiatives like that that are really putting in the work to build community is what's I'm the most excited about. Because we're all we have, you know? we you can't
+
+Flora (49:44)
+Just building a community outside of our jobs is really important and exciting.
+
+Emma Whamond (49:51)
+having that human connection in the age of technology where a lot of us can work remotely or we're remotely working during the pandemic so kind of getting back to that
+
+Flora (49:52)
+Mm-hmm.
+
+Flora (49:58)
+Mm.
+
+Flora (50:03)
+Mm. Yeah. Yeah, I sometimes find it funny. My husband will, you know, 'cause people I talk to a lot don't live here in New Orleans, you know. So sometimes it can feel a little funny because I have all my mom, like, you know, friends and then I have my friends who live in other countries and different time zones and it but it feels like they're all in my community, you know. And so I feel very lucky for that. That even though remote work can't be isolating, I I don't feel isolated because, you know.
+
+Flora (50:32)
+Got people. Mm-hmm.
+
+Charles (50:36)
+Do you do you attend any meet ups or things like that locally? Is that going on in New Orleans? That's great.
+
+Flora (50:39)
+Yeah. Mm-hmm. Yeah, absolutely. There is a good community of that. Every week there's something called Hack Night. People just go to the bar and you know, hang out. there's a really cool meetup called Below Sea Level, which is a systems programming meetup. I try to get to those when I can. Sometimes it's hard with kids. but yeah, we're very lucky here that there is there is a good community. But I guess sp for s specifically Elixir, there isn't an Elixir meetup that I know of. And so, but it's still really great to be exposed to
+
+Flora (51:08)
+They're definitely Elixir developers, but to have that kind of intense l you know, beam experience that you get at something like Elixir Conf, that I don't that I have to go somewhere else for.
+
+Charles (51:20)
+Well we're we're about out of time unfortunately. is there anything else that you would like to share with our audience or anywhere listeners can follow your work or learn learn more about what you're building?
+
+Flora (51:22)
+Mm. Mm-hmm.
+
+Flora (51:31)
+Yeah. Well, I'm not very active online, but everyone is welcome to connect with me on LinkedIn or message me on the Elixir Slack. I'm I on Flora Louise there. I always love or must be on LinkedIn. Happy to chat about anything. And yeah, I mean the main thing is just goatmeier. That's all I have on my agenda right now. So hope to see people there.
+
+Emma Whamond (52:01)
+So for our listeners, you can see Flora Goatmeyer and you can see Charles and I at ElixirConf in Chicago this September from the 10th to 11th. Come say hi to us. If you haven't grabbed your tickets yet, we have a 10% off promo code in the show notes for our listeners, and we're excited to meet you all there. Thank you so much, Flora.
+
+Flora (52:01)
+Mm-hmm.
+
+Flora (52:07)
+Mm.
+
+Flora (52:21)
+Mm. Yeah, thanks so much for having me. This was really fun. Yeah.
+
+Charles (52:26)
+Thank you for coming. I think this was a great episode.
+
+Flora (52:30)
+thank you.
