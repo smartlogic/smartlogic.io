@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>What Should Software Remember? with Flora Petterson | SmartLogic</title>
+  <meta name="description" content="In this episode of Elixir Wizards, Charles Suggs and Emma Whamond are joined by Flora Petterson, a self-taught Elixir developer, speaker, and maker, to talk about what happens when software systems forget and how developers can design for recovery."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K9MMX6TR');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  <meta property="og:title" content="What Should Software Remember? with Flora Petterson" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s15-e11-what-should-software-remember-flora-petterson" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="In this episode of Elixir Wizards, Charles Suggs and Emma Whamond are joined by Flora Petterson, a self-taught Elixir developer, speaker, and maker, to talk about what happens when software systems forget and how developers can design for recovery." />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/80d33037-6f22-4337-9b56-ccc315394ac0.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/8/80d33037-6f22-4337-9b56-ccc315394ac0/cover.jpg?v=1" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+Vxz-e8eU/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/80d33037-6f22-4337-9b56-ccc315394ac0.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s15-e11-what-should-software-remember-flora-petterson">
+  <meta name="twitter:title" content="What Should Software Remember? with Flora Petterson">
+  <meta name="twitter:description" content="In this episode of Elixir Wizards, Charles Suggs and Emma Whamond are joined by Flora Petterson, a self-taught Elixir developer, speaker, and maker, to talk about what happens when software systems forget and how developers can design for recovery.">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/8/80d33037-6f22-4337-9b56-ccc315394ac0/cover.jpg?v=1">
+  <meta name="msvalidate.01" content="72A27928A83488A66073FDDB1045F80B" />
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9MMX6TR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > What Should Software Remember? with Flora Petterson
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>What Should Software Remember? with Flora Petterson</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        <div class="podcast-audio-container">
+          
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+Vxz-e8eU" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        </div>
+        <h2>About this Episode</h2>
+        <h3>
+          Published July  9, 2026 |
+          Duration: 50:23 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/80d33037-6f22-4337-9b56-ccc315394ac0.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s15-e11-what-should-software-remember-flora-petterson.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>In this episode of Elixir Wizards, Charles Suggs and Emma Whamond are joined by Flora Petterson, a self-taught Elixir developer, speaker, and maker, to talk about what happens when software systems forget and how developers can design for recovery.<br>
+&nbsp;<br>
+Flora shares her unconventional path to programming, from puppetry and creative work to discovering Elixir through Nerves and hardware projects. The conversation centers on her talk, “After the Crash,” which uses forgetting as a way to think about failure in software systems. Flora and the hosts explore process crashes, lost state, GenServer lifecycle, supervision, “let it crash,” and the difference between preventing failure and building systems that know how to recover.<br>
+&nbsp;<br>
+The episode also expands from software memory to team memory. Flora discusses documentation, institutional knowledge, mentorship, storytelling, and the challenge of preserving both what a system does and why decisions were made. Along the way, she shares how creative, low-stakes projects can help developers build deeper technical understanding and how the Elixir community can continue supporting new and self-taught engineers.</p>
+
+<h3>Key topics discussed in this episode:</h3>
+
+<ul>
+<li>Learning through experimentation with Nerves, hardware, and animatronics</li>
+<li>What it means for software systems to “forget”</li>
+<li>Failure, recovery, and lost state in the BEAM</li>
+<li>GenServer lifecycle and process recovery</li>
+<li>The nuance behind “let it crash”</li>
+<li>What supervision trees can and cannot protect</li>
+<li>Designing systems to recover from failure</li>
+<li>Deciding when state should be recovered or abandoned</li>
+<li>Documentation as organizational memory</li>
+<li>Capturing the “why” behind technical decisions</li>
+<li>Tests, docs, and examples as living knowledge</li>
+<li>Mentorship for self-taught and junior developers</li>
+<li>Storytelling as technical communication</li>
+<li>Creative projects as a path to deeper learning</li>
+<li>AI’s impact on new developers</li>
+<li>Community, curiosity, and growth in Elixir</li>
+<li>Join us and the broader Elixir community at ElixirConf in Chicago this September 10-11. Use promo code <strong>Elixirwizards</strong> for <strong>10% off</strong> in-person or virtual tickets at <a href="https://elixirconf.com/" rel="nofollow noopener">https://elixirconf.com/</a></li>
+</ul>
+
+<h3>Links mentioned:</h3>
+
+<p>Embedded Elixir Nerve <a href="https://nerves-project.org/" rel="nofollow noopener">https://nerves-project.org/</a><br>
+Gig City Elixir Conference <a href="https://www.gigcityelixir.com/" rel="nofollow noopener">https://www.gigcityelixir.com/</a><br>
+Strange Loop Conference <a href="https://www.thestrangeloop.com/" rel="nofollow noopener">https://www.thestrangeloop.com/</a><br>
+Elixir Wizards S15E05 The State of Code Quality with Saša Jurić <a href="http://bit.ly/EWS15E05" rel="nofollow noopener">http://bit.ly/EWS15E05</a><br>
+One Art by Elizabeth Bishop <a href="https://www.poetryfoundation.org/poems/47536/one-art" rel="nofollow noopener">https://www.poetryfoundation.org/poems/47536/one-art</a><br>
+"Systems that run forever self-heal and scale" by Joe Armstrong (2013) <a href="https://www.youtube.com/watch?v=cNICGEwmXLU" rel="nofollow noopener">https://www.youtube.com/watch?v=cNICGEwmXLU</a><br>
+Conway's Law <a href="https://en.wikipedia.org/wiki/Conway%27s_law" rel="nofollow noopener">https://en.wikipedia.org/wiki/Conway%27s_law</a><br>
+Dunning–Kruger effect <a href="https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect" rel="nofollow noopener">https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect</a><br>
+Elixir Wizards S15E10 Bruce Tate <a href="http://bit.ly/EWS15E10" rel="nofollow noopener">http://bit.ly/EWS15E10</a><br>
+Designing Elixir Systems with OTP by James Gray &amp; Bruce Tate <a href="https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/" rel="nofollow noopener">https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/</a><br>
+GenServer Behavior <a href="https://elixir.hexdocs.pm/main/GenServer.html" rel="nofollow noopener">https://elixir.hexdocs.pm/main/GenServer.html</a><br>
+IEx <a href="https://iex.hexdocs.pm/IEx.html" rel="nofollow noopener">https://iex.hexdocs.pm/IEx.html</a><br>
+Domain Driven Design by Eric Evans <a href="https://www.domainlanguage.com/" rel="nofollow noopener">https://www.domainlanguage.com/</a><br>
+GDPR General Data Protection Regulation <a href="https://gdpr-info.eu/" rel="nofollow noopener">https://gdpr-info.eu/</a><br>
+<a href="https://blog.cleancoder.com/uncle-bob/2017/02/23/NecessaryComments.html" rel="nofollow noopener">https://blog.cleancoder.com/uncle-bob/2017/02/23/NecessaryComments.html</a><br>
+Living Documentation by Cyrille Matraire <a href="https://www.oreilly.com/library/view/living-documentation-continuous/9780134689418/" rel="nofollow noopener">https://www.oreilly.com/library/view/living-documentation-continuous/9780134689418/</a><br>
+Exciting ExDoc talk by Flora Petterson 2025 CodeSync <a href="https://www.youtube.com/watch?v=tLr9FOARwzQ" rel="nofollow noopener">https://www.youtube.com/watch?v=tLr9FOARwzQ</a><br>
+ExDoc <a href="https://ex-doc.hexdocs.pm/" rel="nofollow noopener">https://ex-doc.hexdocs.pm/</a><br>
+The AI Coding Crisis Blog Series <a href="https://grox.io/blog/series/the-ai-coding-crisis/" rel="nofollow noopener">https://grox.io/blog/series/the-ai-coding-crisis/</a><br>
+Build Animatronics with Nerves talk <a href="https://www.youtube.com/watch?v=4Ulurej4NTg" rel="nofollow noopener">https://www.youtube.com/watch?v=4Ulurej4NTg</a><br>
+Sam Aaron Sonic Pi <a href="https://sonic-pi.net/" rel="nofollow noopener">https://sonic-pi.net/</a><br>
+<a href="https://scratch.mit.edu/" rel="nofollow noopener">https://scratch.mit.edu/</a><br>
+<a href="https://www.scratchfoundation.org/learn" rel="nofollow noopener">https://www.scratchfoundation.org/learn</a><br>
+Nerves LiveBook <a href="https://github.com/nerves-livebook/" rel="nofollow noopener">https://github.com/nerves-livebook/</a><br>
+Hardware for Embedded Systems <a href="https://www.raspberrypi.com/" rel="nofollow noopener">https://www.raspberrypi.com/</a><br>
+Goatmire Conference <a href="https://goatmire.com/" rel="nofollow noopener">https://goatmire.com/</a></p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s15-e11-what-should-software-remember-flora-petterson.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/@SmartLogic-io">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <!-- <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li> -->
+            <li class="footer__right-menu-item"><a href="/about/privacy.html">Privacy Policy</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+</body>
+</html>
