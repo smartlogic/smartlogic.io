@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Owning Your AI Stack with Zach Daniel | SmartLogic</title>
+  <meta name="description" content="In this episode of Elixir Wizards, Charles Suggs and Emma Whamond are joined by Zach Daniel, creator of the Ash Framework and Igniter, VP of Engineering at Remedy Meds, and upcoming ElixirConf keynote speaker, to talk about what sits between an LLM and useful engineering work."/>
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K9MMX6TR');</script>
+<!-- End Google Tag Manager -->
+
+
+
+  <meta property="og:title" content="Owning Your AI Stack with Zach Daniel" />
+  <meta property="og:url" content="https://smartlogic.io/podcast/elixir-wizards/s15-e12-owning-your-ai-stack-zach-daniel" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="In this episode of Elixir Wizards, Charles Suggs and Emma Whamond are joined by Zach Daniel, creator of the Ash Framework and Igniter, VP of Engineering at Remedy Meds, and upcoming ElixirConf keynote speaker, to talk about what sits between an LLM and useful engineering work." />
+  <meta property="og:audio:secure_url" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/ad204519-17d5-4bfd-84b3-efc51ff1b205.mp3" />
+  <meta property="og:audio:type" content="audio/vnd.facebook.bridge" />
+  <meta property="og:site_name" content="Elixir Wizards" />
+  <meta property="og:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/a/ad204519-17d5-4bfd-84b3-efc51ff1b205/cover.jpg?v=1" />
+  <meta property="og:imageWidth" content="1400" />
+  <meta property="og:imageHeight" content="1400" />
+
+  <meta name="twitter:card" content="player" />
+  <meta name="twitter:player" content="https://fireside.fm/player/v2/IAs5ixts+9Q_4pElx/twitter" />
+  <meta name="twitter:player:width" content="290" />
+  <meta name="twitter:player:height" content="58" />
+  <meta name="twitter:player:stream" content="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/ad204519-17d5-4bfd-84b3-efc51ff1b205.mp3" />
+  <meta name="twitter:player:stream:content_type" content="audio/mpeg" />
+  <meta name="twitter:site" content="@smartlogic">
+  <meta name="twitter:url" content="https://smartlogic.io/podcast/elixir-wizards/s15-e12-owning-your-ai-stack-zach-daniel">
+  <meta name="twitter:title" content="Owning Your AI Stack with Zach Daniel">
+  <meta name="twitter:description" content="In this episode of Elixir Wizards, Charles Suggs and Emma Whamond are joined by Zach Daniel, creator of the Ash Framework and Igniter, VP of Engineering at Remedy Meds, and upcoming ElixirConf keynote speaker, to talk about what sits between an LLM and useful engineering work.">
+  <meta name="twitter:image" content="https://assets.fireside.fm/file/fireside-images-2024/podcasts/images/0/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/episodes/a/ad204519-17d5-4bfd-84b3-efc51ff1b205/cover.jpg?v=1">
+  <meta name="msvalidate.01" content="72A27928A83488A66073FDDB1045F80B" />
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9MMX6TR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div class="wrapper">
+    <header class="header">
+  <div class="header__wrap">
+    <div class="header__logo">
+      <a href="/">
+        <img src="/images/logo/smartlogic.svg" alt="SmartLogic Logo" />
+      </a>
+    </div>
+    <div class="header__hamburger-wrap">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <nav class="header__menu">
+      <ul class="header__menu-list">
+        <li class="header__menu-item"><a href="/software-development">Services</a></li>
+        <li class="header__menu-item"><a href="/technologies">Technologies</a></li>
+        <li class="header__menu-item"><a href="/method">Method</a></li>
+        <li class="header__menu-item"><a href="/case-studies">Case Studies</a></li>
+        <li class="header__menu-item"><a href="/podcast/elixir-wizards">Podcast</a></li>
+        <li class="header__menu-item"><a href="/blog">Blog</a></li>
+        <li class="header__menu-item"><a class="btn" href="/contact">Let's Get Started</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div id="breadcrumbs">
+
+<a href="/">Home</a>
+
+  
+    &gt; <a href="/podcast/">Podcast</a>
+  
+
+  
+    &gt; <a href="/podcast/elixir-wizards/">Elixir wizards</a>
+  
+
+  
+    > Owning Your AI Stack with Zach Daniel
+  
+
+</div>
+
+
+  <main class="main main-home" role="main">
+    <section class="section hero hero__main">
+      <div class="container">
+        <div class="hero__left">
+          <div class="hero__left-text">
+            <div class="head-text">
+              <h1>Owning Your AI Stack with Zach Daniel</h1>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <div class="content-page-wrapper">
+
+      <section class="section content-block podcast">
+        <div class="podcast-audio-container">
+          
+<iframe style="margin-bottom:20px" src="https://fireside.fm/player/v2/IAs5ixts+9Q_4pElx" width="740" height="200" frameborder="0" scrolling="no"></iframe>
+
+
+        </div>
+        <h2>About this Episode</h2>
+        <h3>
+          Published July 16, 2026 |
+          Duration: 1:00:23 |
+          <a href="https://feeds.fireside.fm/smartlogic/rss">RSS Feed</a> |
+          <a href="https://aphid.fireside.fm/d/1437767933/03a50f66-dc5e-4da4-ab6e-31895b6d4c9e/ad204519-17d5-4bfd-84b3-efc51ff1b205.mp3">Direct download</a> <br/>
+        
+          Transcript:
+          
+          <a href="/podcast/elixir-wizards/transcripts/s15-e12-owning-your-ai-stack-zach-daniel.txt">English</a>
+          
+        
+      </h3>
+
+        <!-- description copy starts here - pulled from fireside -->
+        
+        <p>In this episode of Elixir Wizards, Charles Suggs and Emma Whamond are joined by Zach Daniel, creator of the Ash Framework and Igniter, VP of Engineering at Remedy Meds, and upcoming ElixirConf keynote speaker, to talk about what sits between an LLM and useful engineering work.</p>
+
+<p>Zach reflects on how much has changed since his last appearance on the podcast in October 2024, moving from Igniter, code generation, and project patching into AI agents, context layers, and custom engineering workflows. The conversation explores how deterministic tools and probabilistic LLMs can work together, and why the most useful AI systems often depend on the structure built around the model.</p>
+
+<p>We also discuss why teams should be careful about outsourcing the systems that hold their organizational knowledge and decision-making. He shares his perspective on owning the AI stack, building internal knowledge systems, training junior developers in an AI-augmented world, avoiding vendor lock-in, and why Elixir may be especially well-suited for safer agentic workflows.</p>
+
+<p>Zach will be a keynote speaker at ElixirConf 2026, September 10–11 in Chicago, and the Elixir Wizards will be there too! Join us and the broader Elixir community, and use promo code <strong>Elixirwizards</strong> for <strong>10% off</strong> in-person or virtual tickets at <a href="https://elixirconf.com/" rel="nofollow noopener">https://elixirconf.com/</a></p>
+
+<h3>Key topics discussed in this episode:</h3>
+
+<ul>
+<li>Zach Daniel’s work with Ash, Igniter, and AI tooling</li>
+<li>How software development has changed since 2024</li>
+<li>Deterministic code generation vs. LLM-generated code</li>
+<li>Combining structured tools with AI agents</li>
+<li>What it means to own your AI stack</li>
+<li>Organizational knowledge as an engineering “spinal column”</li>
+<li>Context layers, documentation, and internal workflows</li>
+<li>Building custom agentic systems</li>
+<li>Security, vendor lock-in, and open source LLMs</li>
+<li>Junior developers and apprenticeship in the AI era</li>
+<li>Why Elixir and the BEAM fit agentic workflows</li>
+</ul>
+
+<h3>Links mentioned:</h3>
+
+<p>Ash Framework <a href="https://ash-hq.org/" rel="nofollow noopener">https://ash-hq.org/</a><br>
+Igniter <a href="https://igniter.hexdocs.pm/" rel="nofollow noopener">https://igniter.hexdocs.pm/</a><br>
+Phoenix Framework <a href="https://www.phoenixframework.org/" rel="nofollow noopener">https://www.phoenixframework.org/</a><br>
+Remedy Meds <a href="https://remedymeds.com/" rel="nofollow noopener">https://remedymeds.com/</a><br>
+Keynote: Code Generators are Dead. Long Live Code Generators - Chris McCord | ElixirConf EU 2025 <a href="https://www.youtube.com/watch?v=ojL_VHc4gLk" rel="nofollow noopener">https://www.youtube.com/watch?v=ojL_VHc4gLk</a><br>
+<a href="https://phoenix.hexdocs.pm/Mix.Tasks.Phx.Gen.Live.html" rel="nofollow noopener">https://phoenix.hexdocs.pm/Mix.Tasks.Phx.Gen.Live.html</a><br>
+LSP <a href="https://en.wikipedia.org/wiki/Language_Server_Protocol" rel="nofollow noopener">https://en.wikipedia.org/wiki/Language_Server_Protocol</a><br>
+Claude Code <a href="https://claude.com/product/claude-code" rel="nofollow noopener">https://claude.com/product/claude-code</a><br>
+GitHub Actions <a href="https://github.com/features/actions" rel="nofollow noopener">https://github.com/features/actions</a><br>
+Harness Engineering <a href="https://en.wikipedia.org/wiki/Agent_harness%E2%80%A8Claude" rel="nofollow noopener">https://en.wikipedia.org/wiki/Agent_harness Claude</a> SDK <a href="https://code.claude.com/docs/en/agent-sdk/overview" rel="nofollow noopener">https://code.claude.com/docs/en/agent-sdk/overview</a> <br>
+Zach's Twitter <a href="https://x.com/ZachSDaniel1" rel="nofollow noopener">https://x.com/ZachSDaniel1</a><br>
+ElixirConf <a href="https://elixirconf.com/" rel="nofollow noopener">https://elixirconf.com/</a><br>
+AshConf <a href="https://luma.com/wz4z0iz6" rel="nofollow noopener">https://luma.com/wz4z0iz6</a><br>
+Goatmire <a href="https://goatmire.com/" rel="nofollow noopener">https://goatmire.com/</a></p><p>Special Guest: Zach Daniel.</p>
+      
+        <!-- end copy from fireside -->
+
+        
+          <h2>Transcript (English):</h2>
+          <object width="100%" height="700" type="text/txt" data="/podcast/elixir-wizards/transcripts/s15-e12-owning-your-ai-stack-zach-daniel.txt" border="1" >
+          </object>
+        
+
+      </section>
+
+  </main>
+  <footer class="footer">
+    <div class="footer__wrap">
+  <div class="container">
+    <div class="footer__wrap-col">
+      <div class="footer__left">
+        <div class="footer__left-logo"><a href="/"><img src="/images/logo/smartlogic.svg" alt="Smartlogic Logo" /></a></div>
+        <div class="footer__left-text">
+          <p>8 Market Pl Ste 377</p>
+          <p>Baltimore, MD 21202</p>
+          <p>888-544-SMRT</p>
+        </div>
+      </div>
+      <div class="footer__right">
+        <div class="footer__right-socials">
+          <ul class="footer__right-socials-list">
+            <li class="footer__right-socials-item">
+              <a href="https://twitter.com/smartlogic">
+                <img src="/images/icons/social-icons/tw.svg" alt="Twiter Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.facebook.com/smartlogic">
+                <img src="/images/icons/social-icons/fb.svg" alt="Facebook Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.linkedin.com/company/smartlogic-io">
+                <img src="/images/icons/social-icons/in.svg" alt="Linkedin Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://github.com/smartlogic">
+                <img src="/images/icons/social-icons/gh.svg" alt="Github Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.youtube.com/@SmartLogic-io">
+                <img src="/images/icons/social-icons/yt.svg" alt="YouTube Icon" />
+              </a>
+            </li>
+            <li class="footer__right-socials-item">
+              <a href="https://www.twitch.tv/smartlogictv">
+                <img src="/images/icons/social-icons/twitch.svg" alt="Twitch Icon" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__right-menu">
+          <ul class="footer__right-menu-list">
+            <li class="footer__right-menu-item"><a href="/about">About Us</a></li>
+            <li class="footer__right-menu-item"><a href="/about/team">Our Team</a></li>
+            <li class="footer__right-menu-item"><a href="/about/community">Community</a></li>
+            <li class="footer__right-menu-item"><a href="https://blog.smartlogic.io/">Blog</a></li>
+            <!-- <li class="footer__right-menu-item"><a target="_blank" href="https://mailchi.mp/smartlogic/signup">Newsletter</a></li> -->
+            <li class="footer__right-menu-item"><a href="/about/privacy.html">Privacy Policy</a></li>
+            <li class="footer__right-menu-item"><a href="/about/jobs">Jobs</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </footer>
+
+  </div>
+  <script src="/javascript/main.js"></script>
+</body>
+</html>
