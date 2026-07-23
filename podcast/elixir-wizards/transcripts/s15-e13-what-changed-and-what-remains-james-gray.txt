@@ -1,0 +1,260 @@
+S15E13 What Changed and What Remains True with James Gray
+===
+
+Charles (00:32)
+Hey everyone, I'm Charles Suggs, Staff Engineer at SmartLogic.
+
+Emma Whamond (00:36)
+And I'm Emma Whamond, a Software Developer at SmartLogic. and we're your hosts for season 15, episode 13. We're joined by James Gray, co-author of Designing Elixir Systems with OTP. This season we've talked about the state of the stack, how software development is changing, how teams are adapting, and what skills matter as AI tools are becoming part of everyday engineering work. James brings a unique perspective to the conversation. He wrote a book that many Elixir developers Still reference today, and he's starting to use LLMs in his process. In this episode, we're talking about what has changed, what stayed the same, and what it feels like to be both an expert in durable software fundamentals and a beginner with a new generation of tools.
+
+Charles (01:24)
+Hi James. Welcome to the podcast.
+
+James Edward Gray II (01:27)
+Hey, thanks for having me.
+
+Charles (01:29)
+Absolutely. so for for listeners who may not know you, can you tell us tell us a little bit about yourself, your background, and what you've been up to recently?
+
+James Edward Gray II (01:39)
+Sure, I've been a developer for about 25 years now, which is starting to sound scary long, isn't it? I did Java, Perl, spent a bunch of time in the Ruby community and was heavily involved there, writing books, going to conferences and doing talks and ran a podcast for years. And then eventually moved on to the Elixir community have been moderately involved here, but have kind of disappeared in recent years because I have a teenager who is a competitive swimmer and I like to go to all of her swim meets. So I spend an alarming amount of time at swimming pools and
+
+Charles (02:20)
+Mm-hmm.
+
+James Edward Gray II (02:33)
+That's what I've been doing with my time, but I've continued my work, mostly at my job in FinTech. I play with games on the side. And this year I'm going to try to sneak in a couple of conference talks.
+
+Charles (02:49)
+Well, your your book Designing Elixir Systems with OTP published in in 2019, I think a lot of us in the Elixir community are are familiar with this book and and still reference it today, seven years later. And that's it's kind of a big deal considering how rapidly software changes and it seemingly at an increasing pace. but w what information in that book still feels the most durable and relevant to you today?
+
+James Edward Gray II (03:15)
+Definitely build in layers. That idea is never gonna die, right? In all aspects of programming, in my opinion. We talk a lot about the functional core and imperative shell in that book. That's not my idea. It comes from Gary Bernhardt. He has a video on the internet called That Functional Core Imperative Shell. If you haven't watched it, go watch it. If you have, go watch it again. Really, watch it every now and then. I think that's one of those fundamental ideas about separating your business logic roughly from your interactions with the outside world. And that comes up over and over again in all of programming. I've been reading the event sourcing book about Elixir, it comes up in there. You've got notifiers and injectors, which are basically just about separating the outside world from this stream of events that you have going on and stuff. So I feel like it's really fundamental. And then, probably the other one that I think is pretty much undebatably great is Lifecycle. And really that was a Bruce idea. He often gives me credit for many of the ideas in the book, but this one I think was more him than me. I was trying to explain some concept in a... overly nerdy way or something and he's like, "Oh, you're just talking about lifecycle." And the idea of that is, you know, we build these supervision trees and we often have conversations about how that's about fault tolerance and stuff like that. Sure, it is, obviously, but really think about it like this. If an Elixir program is booting up and you have all these different systems, then you have to bring all that up in a clean and sane way, right? the database may need to come up before things that rely on the database or stuff like that, right? And then when you are ready to shut the system down, you need to do exactly the opposite. You need to tear it down in a way that makes sense and is safe, right? that supervision tree is the map of the interconnectedness of the systems, right? And we use that map for a life cycle, bringing it up, bringing it down, replacing parts of it when they go bad, right? It's just life cycle. I think that concept is really important from getting your head around something that is difficult to fully understand. And if you've ever looked at Broadway, one of the things Broadway adds to Genstage is being able to cleanly shut it down. That's like a major feature, right? And the primitives that make things like that possible are part of the BEAM, right? And it's related to supervision trees and stuff. I think getting your head around that kind of stuff is difficult and Lifecycle was a great way to make it approachable, think. Probably the radical idea in the book that I love and I've seen people push back on is treating your database as an add-on instead of like making it the central thing where you base all of your schemas on, you know, the schemas are like the core of your app and they're baked into everything. In that book, I try to separate, you know, we're doing our work and then, yeah, we should push it over to have long-term storage or something like that. But to make that a conscious decision and choose to cross the boundary. But I think that one's probably a little more controversial.
+
+Charles (07:22)
+it's a fun exercise to build an application that doesn't have a database behind it and to still offer kind of a robust set of features.
+
+James Edward Gray II (07:33)
+think in the modern world of programming, Are we really just doing one database anymore? Sure, you've got Postgres, and I know Postgres does everything, and it is great. I love it. But Do you have ClickHouse? Are you putting a bunch of data in there? If you have multiple databases and stuff, then you're you're really using different services at different times, right? basically, my argument would be, again, we want to separate that core of what our app does from the interactions we have with the outside world. And the database is one of those interactions with the outside world, right? And when we're getting data in and out of the database, Depending on the database we're going to or coming from, the data may be in a specific arrangement there that may or may not be ideal for what we're actually trying to accomplish, right? Let's think about a chess game, for example. If you have a chess game app on the internet for just playing games of chess with each other. What do you care about when the game is happening? You care about showing the board in its current state. Where are the pieces right now? This is what it looks like, right? But that's not really what you would save in a database. In a database, you would save the list of moves people made, because given that list of move, you can reconstruct the state at any point in the game, which we love to do. because we love to analyze chess games and be like, this was the brilliant move when they took control of everything, right? Or whatever. And so those are different views of the same thing, right? The database should have that list of moves because that's what makes the most sense there. But the thing that's drawing in LiveView to keep that board on the screen, it doesn't care about the list of moves. It just cares where the pieces are right now. Right? And when we go to that storage form, we should switch to the list of moves. And when we come out of it, we should switch back to a model where we're keeping track of the way the pieces are right now.
+
+Charles (10:05)
+It's like the difference between the shape of the data that's needed for a system that's running and operating versus the shape of data that's needed to run analytics on how that system is being used and to gain other insights from the aggregate data, totally different shape when it goes over to like your data scientist versus users of the application.
+
+James Edward Gray II (10:28)
+Yeah, absolutely. And there can even be parts of your application where care about different things on the same data. if you're an eShop or something and someone's creating an order and putting items in that cart and getting totals and stuff, that's very different from the business side who's calculating inventory or looking at general stats, like very different applications, right? And we should, I think we should separate those things and handle each one with a data structure that makes sense for what we're doing with it there, right?
+
+Emma Whamond (11:12)
+Absolutely. So going back to the book, are there aspects of software development that feels drastically different compared to when the book first came out?
+
+James Edward Gray II (11:22)
+Yeah, AI, right? It's drastically different. That was, uh, I think the book that you said, 2019, seven years ago now. So yeah, that predates the modern AI wave, right?
+
+Emma Whamond (11:38)
+And are there aspects of Elixir and OTP, the OTP model that feel even more relevant now compared to back then, as AI is up and coming?
+
+James Edward Gray II (11:51)
+Hmm. I think I have a hot take on this one. I'm going to say that the Erlang BEAM elixir model was always relevant from the time it was invented and that every step of the way we are learning more and more how correct it was. I think we see that more and more, right? It was designed to keep the phone systems running indefinitely to handle all those things in parallel, to handle hardware failures, to handle being swapped out and live changed. And they thought they were building the perfect system for running phone networks. And obviously it's great and it's had a ton of success there. but what they were actually building was just a really good model for running applications, especially distributed applications like we do over the internet. So I think it's getting more and more relevant at every step. Nowadays, we talked about now you've got the AI and LLMs, what are we doing with those at every step? agents where we fork off all of these different processes and just have them run in loops. Wow, that sounds like GenServers, doesn't it? I just think it was always relevant and we're learning more and more just how much it was.
+
+Charles (13:24)
+So then when people are talking about AI changing software development, what do you think they are usually talking about? Is it speed? Is it tooling? Is it learning, team structure something else?
+
+James Edward Gray II (13:38)
+Boy, that's a big question. I think when leadership talks about it, they're talking about speed gains. They hope, I think. And I think when developers talk about it, we may often be talking about happiness or something like that, like how it's changing our jobs and our roles. There's a lot here. I heard a comment in a meeting a little bit back at work where were looking at who was on what project. So-and-so was working on this, so-and-so was working on that. Hey, you're working alone over there. Do you need any help? And the developer responded, well, I'm just issuing commands to Claude. and then doing other stuff on the side while Claude works and stuff. if there was more than one of us, wouldn't we both be bored or something like that? And I think about that comment all the time. Like, is human pairing going down? Is it changing? Like in the era of AI LLMs, is that a good thing is that okay, I don't know the answers, right? Like, pairing traditionally was how we did a lot of things like, check each other's work or, rubber duck for ideas, or, knowledge share, you know, to prevent siloing and stuff like that. obviously the AI can fill some of those roles. but I don't know to what extent that affects the team overall. How are juniors going to learn the things they're going to learn? I listened to your conversation with Bruce recently, which is a lot about this topic, right? How we're going to teach juniors in this model. There's an old paper from Peter Noir-Narr. I'm not sure how to pronounce his name, N-A-U-R. He's from the Bacchus-Narr form of grammars, maybe you've heard of. Anyways, it's an old paper, and he has this theory about that when we're building a system, the system actually lives in our heads. It's the collective understanding. we have together of what the system is. Which is really fascinating, right? When you think about it, like say you have a handful of developers and they build a system, they obviously know it pretty well, they build it, right? But then those developers move on and new developers come in and we pick up things, some of them exactly as intended, maybe some of them not exactly as intended. But that's... our model of the system and since we're the ones maintaining it, working on it, using it, then technically that's the model that's in play, right? It's the one in our heads, right? Wrong or otherwise, right? If we're going to farm out all of this intelligence to LLMs and AIs and stuff, then who's got the model of the system now? right? And does that matter? How does that change things? I don't know. That's there. It's a lot of huge questions, right? I'm not sure what the answers are.
+
+Charles (17:28)
+Maybe it depends on where you start. Like, you know, if you're you you have an idea of a system that you want to build, and if you're going to prompt an LLM to write the code for it, you still have to think about the pieces, how they interact, what patterns and data flow you need. Maybe you're asking an LLM and bouncing ideas off of it, but that also seems like a great opportunity for pairing in designing that system. that an LLM may write and together reviewing the output. And that may also be a good opportunity for a senior and a junior to work together for that junior to learn more of what is the senior person looking at and evaluating and thinking about as they look at this generated code and make some decision about it.
+
+James Edward Gray II (18:15)
+Absolutely, I think you're right. think, um, yeah, think we're gonna have to figure all that out and that we're seeing big shifts and we're gonna have to say, you know, all the things we've learned in programming up till now, that was great stuff. That got us this far. Some of it was really important. And my instinct, tells me that pairing was one of those things that is really important that we don't want to let go of. Like I've seen it do amazing things. So I believe that survives somehow in this new world if we get it right. But yeah, some things I'm sure there are parts we can give up on. Like this one actually pains me to say because I am absolutely a language nerd. I love the syntax and the annoying details of the operators and how they work. Are they left associative or right associative or whatever, right? I love that stuff. But the truth is, that's probably always been one of the worst parts of our programming thing, right? It's a big turn off to a lot of people, you know, it's super annoying and bitterly it requires just tons of arcane knowledge. And honestly, the AI handles that one pretty well most of the time, you know, so like, maybe that's something we could eventually let go or at least diminish, you know, and, we get better for it if people don't have to know that stuff. I think there are things we've got to hold on to and figure out how to make work in the new world and take advantage of But there's probably also things we can let go of and shift over.
+
+Emma Whamond (20:11)
+Taking a step back to your comment about who holds the model in their mind, it reminds me of a quote that's been kind of like going around the internet from an internal IBM training manual from the 1970s. And the quote goes a computer can never be held accountable, therefore a computer can never make a management decision. So going into that, what do you think AI does not fundamentally change about software design?
+
+James Edward Gray II (20:31)
+That's right.
+
+Emma Whamond (20:38)
+Language primitives, runtime behavior, processes, messages, supervision, boundaries, they all still matter in the same way.
+
+James Edward Gray II (20:46)
+Yeah, what doesn't change? Boundaries always matter. I think. And interesting to me, that is one area where I've seen LLM struggle quite a bit. Like, I think the easiest way for me to tell if a feature was written by an LLM is how widespread it is across the application. Like, it'll... cross boundaries without thinking about it. You know, just, I need to put something over here or something over there. And like. I think the hard part about that is penalty isn't immediately obvious for doing that. But if you do it for 20 features, a hundred features, then the app starts to solidify like concrete and you you can't make a change over here in one system. without breaking that other system over there, you know, and we know that, but the LLM doesn't, right? It doesn't have the long vision like that. Yeah,
+
+Charles (21:57)
+The software is no longer soft.
+
+James Edward Gray II (21:59)
+exactly. Yeah, good point. I guess that's how we get hardware. Yeah, supervision still matters. Like I said, life cycle, that comes up all the time and I think we underestimate it. If you're doing a blue-green deploy, do you cleanly let all the running Oban jobs finish before you cut over to the new servers and bring those old servers down? You know what I mean? That's in so many aspects of our work. Yeah, think a lot of it still matters. Behavior, you said language primitives? I don't know. I'm less sure about that one. I think the AI can handle a lot of that. But I have a hard time understanding. And this will be because I'm old. And I've spent a ton of time. you know, learning data structures and algorithms and stuff like that. So that's the base I draw from now when I work. And I can't imagine doing it without that knowledge. So I'm not sure what that gets replaced by. Like you can have a conversation with AI about data structures and algorithms and it can answer a lot of your questions. But how do you know what questions to ask. Right? I was working on an LLM feature really recently, building out a thing, and I'm trying to push myself to lean on the AI more and more so I can see what's happening, what it's doing well, what's not. I give it some features over and over again, and we're making changes, and we get to a certain point. where I've identified three different problems in what we've built that all seem related to me. And so I take a step back and I think about it and I look at the design and what it did. And I just did some higher level thinking. I am like, we have like a fundamental flaw in the data structure here. We've made this like permissive data structure that allows certain things. And then That means when we get far away from some change, we have some problem because of what it allowed. And I want to redesign this data structure to be strict and validate everything the second it comes in and just reject anything that we don't think we should have. And I had this conversation and I made the change and that was good. But I don't know how... If I came up relying on the AI from the beginning, I'm not sure how I would have known to have that conversation, like to look at it holistically to figure out all these problems we're seeing are related. What are they? And and work it out and be like, hey, we need to change this model you're using here. It's unreliable. and we need to make it what we need it to be, I think it's going to be... I don't know. I don't know how we're going to figure out how to do those things if we're relying so heavily on the AI for stuff. I'm sure there are ways, but yeah, we're going to have to figure that out.
+
+Charles (25:40)
+So you told us that you're you're somewhat newer in in relatively speaking to using LLMs, that you issued your first ever prompt on the tenth of June. so today, for our listeners we're we're recording ahead ahead of when we publish. So today's the sixteenth of July, it's about a month in, a little over. So what what prompted you to try it out?
+
+James Edward Gray II (26:06)
+That's a great question. I'm going to ask you first, how long have you been using LLM's, Charles?
+
+Charles (26:16)
+Since probably twenty twenty two, twenty twenty three.
+
+James Edward Gray II (26:22)
+Okay, okay, so wow, three to four years. Emma, what about you?
+
+Emma Whamond (26:30)
+Maybe twenty, twenty four, maybe a little bit over.
+
+James Edward Gray II (26:35)
+Two years, two, three years. Thanks. Yeah, I think I was definitely a late adopter. I was real resistant to it. And I think there's a couple of things for that. One, I just gotta say it, I think there are lot of ethical concerns with the use of AI.
+
+Charles (26:57)
+Yes.
+
+James Edward Gray II (26:58)
+data centers, water usage, power consumption, copyright violations, layoffs, people literally dying. I think there's some serious concerns. And unfortunately, I think for this discussion, we're just going to have to set all of that aside because that is super complicated. And I'm probably not the right person to talk about that kind of stuff. I do think we're going to have to work a lot of that out if this is the future we're aiming for, right? So that. But then also, that aside, I didn't really feel the need for it, which I think is interesting to say. I have been programming a long time. I think I've reached but expert level, I'm very comfortable with programming. I've done it in competition under tight deadlines with horrible constraints. I, you know, when I need to pull some data out of a CSV or a JSON, I can do that and I can do it fast, you know, like, that's not a challenge for me. so I was like, I don't really need this. and It's funny, like, I see lots of examples of people saying, I asked the LLM how to do this. And I think, yeah, I went and read the docs. That's how I figured out how to do this. those aren't the same thing, by the way. I didn't know that then. I do know that now. Although I would say both of them have pros and cons. which is interesting. But the inciting event, the one that got me to try it was we saw a bug come in on our application. And I know the application well enough that I knew roughly what place it was in and that it would be really difficult to find. That it would be a tough one. I made some comment about that. in Slack I'm like, that's probably in such and such that won't be fun to track down or whatever. And the my boss fed the details of our conversation with a Slack conversation about this bug that came in. that was, I think, right around when Fable released. And my boss fed that whole conversation to Fable and then pointed it at the source code and Fable found it just right off the bat. And it was an obscure bug. It would have taken me forever to hunt it down. And he just said, hey, I fed it to the LLM. This is what it said. And we looked and it was dead on. You know, that was right. And I was like, OK, that's cool. That would have taken me a long time to track it down. And that would not have been productive time. It just would have been annoying. And yeah, I think that's kind of one of the big things of LLMs, right? Is sometimes they have just these amazing insights, right? And then. Other times they can kind of lead you on a wild goose chase as well. yeah, trade-offs.
+
+Emma Whamond (30:39)
+Besides bug hunting, what other kinds of tasks have you been using it for? Are there any particular tasks where the tools feel exceptionally useful, similar to your experience there?
+
+James Edward Gray II (30:53)
+I've had a lot of luck with it in design and UI work. And I think that's due to several things. We've been using Claude Design at work, and our designer has gone in there and put our design templates and guidelines and stuff like that in there. So. you know, when you're using it, it's like designing with our components the way our designer wants it done and stuff like that, which is really nice. And then we've done some kind of fancy stuff in getting out of design and into our app in a good way with tests and stuff, which is really nice. and then, you know, you can go through it. with the designer, can make changes and do it, but then you can go back to the designer. And I just feel like that whole flow is really good because we only have one designer at our company and about a dozen engineers. So that's a really unfair ratio, right? Like The designers involved in everything, whereas the individual engineers are just working on their things. It's almost unrealistic to expect them to get to everything. But if they give us these building blocks and we're building things based on those building blocks, then what we're building is obviously not as good as if the designer had done it themselves, but it's in the neighborhood, right? And then if we go back and have a conversation with the designer and they make changes, you know, then that's quicker. to do. I really do believe it's a good force multiplier and stuff like that. Research, I've mixed bag with, like I said, if I read the documentation, it doesn't lie to me, which is kind of nice. If I ask the AI to synthesize something, that's cool. It can pull from multiple sources. It can sum it up.
+
+Charles (32:50)
+Mm-hmm.
+
+James Edward Gray II (32:59)
+translate it to what I'm actually doing. Also, sometimes it lies, you know, so yeah, trade-offs. We are building a complex query builder at work, you know, where you make a bunch of conditional comparisons, you know, this thing or this thing and this thing, and we're putting it in a UI.
+
+Charles (33:04)
+Mm-hmm.
+
+James Edward Gray II (33:27)
+And we get a complaints from customers that the UI is complicated, right? And they are complicated. If you've ever seen one of those rule builder UIs, they're terrible, right? Because it's a very difficult thing to distill. I think that's a great point where we can put an LLM in the UI. And you can describe to the LLM what you want and it can go through and make all of those rules for you and set them up. Like, I think there's definitely great uses, right? Where we can use them in reasonable ways.
+
+Charles (34:09)
+S so you've mentioned how, you know, sometimes the LLM might lie, it tells you one thing, you go to the docs, you're like, well, that's not true or or summarization, what have you. So where where do you find the line of of trust is? Where is that boundary and and where do you trust but verify or some other approach?
+
+James Edward Gray II (34:31)
+Yeah, that's a great question. I'm definitely in the trust but verify camp and when I'm working with an LLM, I think it's more like trust and then verify two or three times. I try to remember that everything it told me is suspect, like that it might be true, but it might not be. And I've definitely seen it tell me things that are not true. I don't know how you work out where that boundary is. that's really a good question. I think, you know, I don't know how much you've read about, how LLMs work, but really it's just at any given moment it is choosing the statistically most likely thing that it should say there. Right? That doesn't have anything to do with what's true or what's real or anything like that. Just what is statistically likely. Right? Which is great when it's right, but might not always be right. Right? So I think it's hard to say, oh, you can trust them on this. Like, do you? cannot, you know, can't trust them on anything. There will be some point where it doesn't do what you expect. There was a great piece on the Internet at one point where they asked an LLM, they gave it an image and they said, copy this image. It was something like 25 times or something like that. And all they wanted to do was not change anything, just make a copy of it. and then make a copy of that and then make a copy of that and then make a copy of that. And they turned it into a GIF you could watch of the transformations. The 25th image looks nothing like the original image, right? Because the LLM is just putting statistically what probably goes there, you know, and the image drifts over time as it makes those changes.
+
+Charles (36:32)
+Yeah. Almost like model drift in real time.
+
+James Edward Gray II (36:53)
+Yeah, exactly.
+
+Emma Whamond (36:57)
+You'd mentioned previously that Claude had erased your local development database. kind of along that same strain. What what happened there?
+
+James Edward Gray II (37:05)
+Yeah, that was exciting. I think I was about 13 days into using LLM's and I was playing around with it and I heard the stories, you know, oh yeah, they hooked it up and wiped out their production database. I was like, okay, but those guys were idiots, right? Like, who would do that? Like, come on. And yeah, it wiped out my development database, just totally wiped it out. To be fair, was an honest mistake. At one point, it decided it needed to reseed my database for some reason. That it had updated some seeds and it needed to reload them or whatever. And I was using TideWave, which by the way is fantastic. interacting with it that way and it was connected to my running server which was in like an overmine shell so it was pretty busy and everything how it was all connected together but because it ran this seed script there it inherited some environment variables from that overmine session so it thought it was changing the seeds in my test database and it was actually changing them in the development database because it had picked up some of this environment. And then, I can't even remember what happened after that, but was something like once the seeds were in, yeah, now I do remember, once the seeds were in, it went to check for them. But again, mismatch on the databases. It kept thinking it was talking to one database and it was talking to a different database. So when it would go to look for things to confirm what it had done, it would not find them there. And so it escalated to more and more drastic measures until basically it wiped out my development database. It was pretty wild.
+
+Emma Whamond (39:22)
+Pretty wild. did that make you more skeptical of using LLMs or did it clarify how they needed to be used? Any lessons learned?
+
+James Edward Gray II (39:33)
+I think it taught me that no one is immune, right? going to be the person who doesn't have these problems. If we're going to use LLMs at every level, you're going to have these problems. We all are. And so we have to decide how we're going to mitigate those problems if we're going to put them in software that then we put into production. Probably don't give it the ability to make drastic changes to the production database, because someday it might decide to for some reason that doesn't make much sense to you.
+
+Charles (40:17)
+Hmm. There I fixed it for you.
+
+James Edward Gray II (40:21)
+Right, yeah, it's all better.
+
+Charles (40:25)
+So has this led to any changes in your development workflow now that you've spent a month with LLMs? are they here to stay as part of your workflow? Are you you you've had your fun with it but you're going back to how you were working before? How how's that how's that going now?
+
+James Edward Gray II (40:43)
+I'm purposefully pushing myself to use a lot of it right now because that's against my nature, I guess. I've spent so long programming that, like, you know, that's my instinct. I should be in a text editor. I should be working my way through all this stuff. I should be diagramming out how I'm going to structure this code. So that's my instinct right now. I'm trying to do the opposite of that. Where will I go from here? That's a great question. I don't have a personal AI account. I have one at work. So I use it all the time at work. Is it when I'm like home, if I mess around with a game on this side, I just do the programming, right? Because I find that relaxing and enjoyable, I guess, you know, I'm a strange person, I guess. But, yeah, I don't know, I don't. do I think I'll ever get a personal AI account? That's a good question. I don't know. Right now I don't feel we need.
+
+Charles (41:49)
+What about places that you want to avoid using it? You talked about the production database.
+
+James Edward Gray II (41:54)
+Yeah, maybe don't use it there. I don't know. I would love to hear. Like, would you trust it if if you were getting on an airplane and getting ready to take a plane trip and they came over and they're like, hey, this is your captain. We're super excited about you going on this flight with us today. This will be the first LLM assisted air flight. How would you feel about that? I don't know. What do you think? How do you feel?
+
+Charles (42:22)
+I think I'd won off the plane.
+
+James Edward Gray II (42:23)
+Yeah, I'd be a little nervous, I think, you know? I don't know, like, but I'm sure it's fine and I'm sure there are things they could help us with in flying airplanes, but I don't know if I weren't making all the decisions about flying the airplane, you know? security, I think. And I do think, to be fair, do think LLMs could help a lot in security, that it can check more than we can. but boy, trusting it with security and the control of security, that scares me a lot. mission critical stuff like pacemakers and stuff like that, I think would really concern me if it was involved there. I just don't want some statistical anomaly to mean, we don't need to pump this pacemaker anymore or something, you know?
+
+Charles (43:01)
+Mm-hmm. Mm-hmm. Mm-hmm.
+
+James Edward Gray II (43:20)
+think the one that surprises me the most, when I was at companies before the LLM explosion, and we wanted to do something like a product meta base so that we could easily do queries against the production database, I cannot believe how much legal red tape they made us go through to do something like that, right? But now we can put LLMs in and I have to go through considerably less legal red tape to do that than like, you know, can I feed this to an LLM? And they're like, yeah, sure, go ahead. You know? And it's like, wait, isn't that shipping like all of our questions, code, everything to a third party? We're sure we're cool with that? Yeah, cool. Go for it. You know, that seems a little strange to me. I feel like there will be legal repercussions there or, you know, God forbid, a data breach at one of the major LLM providers is going to have some pretty scary stuff in it.
+
+Charles (44:28)
+I know some folks who work in the like electric utility space and they have some action some pretty strict restrictions against what they're allowed to put into LLMs. Even the internal LLM that is specific to their their company. there's certain stuff that they are just absolutely forbidden from ever putting into LLMs, especially anything that has to do with like customers.
+
+James Edward Gray II (44:52)
+Right. Yeah, absolutely. I think we're going to need that. But then, you know, as we bring those policies online, then that makes LLMs less useful in those things. And I'm not saying not useful. I'm sure they are. But like, if we can't put certain things in there, then we can't ask them certain kinds of questions, which, you know, limits what we can do with them. Or maybe we do something like We have a system that anonymizes the data on the way in or something. don't But yeah, those are really interesting problems we're going to have to solve.
+
+Emma Whamond (45:29)
+Do you think that there are any mistakes teams may be making by putting too much trust in these tools early, early now? Anything specifically related to Elixir systems that you would like to touch on there?
+
+James Edward Gray II (45:43)
+That's a great question. I'm sure we're making mistakes. I don't know what they are. We're going to find out. Right? I'm sure. I do think there are a lot of things you can do for responsible LLM usage. So I'm going to give you my two hot takes right off the bat. One, if you didn't read it, then don't send it to anyone. Like that, I think, is I'm willing to go to the mat on this one. I think that's a requirement. If you're going to have it produce all this text and you're going to say, hey, I did a thing, then you have to read it. Right. And I think that's so good. Like when I have it write out plans. We're going to build this feature and I talk to it and I feel like we're on the same page and it spits out this big plan that it sticks in like a ticket and I'm going to work later, you know, and then I go read it and yeah, we're mostly on the same page and then there's that one paragraph where I can't even figure out what it's saying and I like. delete that paragraph, you know, I'm like, well, we don't need that because I can't figure out what it says. So I delete it or it says something here and I'm like, wait, no, no, we don't want that. And I change that sentence or something, you know. So yeah, I think you should have to read it if you're going to do it. Remember that I have an LLM too. So if I want to know what the LLM thinks of such and such, I'll ask it. Right? So don't ask it and then just paste it to me. That's not useful or helpful. Right? I can ask it. the other thing I'll say is don't stop thinking. Like, I think we get into the trap of I've handed it off to the LLM. It's thinking now, but that's not like what it's like when you're pairing. Right? When you're pairing, you're thinking and the person typing is thinking or other way around. And, but I've actually been in conversations, with developers and they come to me and they say, okay, I saw this and then asked the LLM and it's saying blah, blah, blah, blah. And I'm like, but we know that's not true. Right. And then they'll be like, wait, what? I'm like, Well, you told me X, Y, Z, right? And we know because we built the app that we never do this, right? So therefore, what the LLM said can't be right, right? And they're like, yeah, good point. Or something, you know, and it's not I'm not calling anybody out. I'm just it's a trap anyone can fall into. It's a trap I can fall into. Their statements are always So confident, right? Like, I tracked it down for you. It's in this spot or whatever. I saw a great conversation the other day in Slack. We have it in Slack and we can interact with it by, you know, at messaging it. And this developer was hunting down a bug and it was so educational for me to watch. because they were like, hey, what is this? And blah, blah. And I bet five different times the LLM was, I've found the root cause or I've tracked it down. It's definitely this. And each time that developer would go run the query or whatever that proved the LLM was wrong about that. right? And then feed it back to the LLM. And when I first saw this, I thought that developer had gone mad. Like they were having a conversation with someone that was obviously lying to them and they knew it was lying to them because they were running the queries to prove it lied. It proved its lies. And I'm like, this developer has lost it. What are they doing? Like
+
+Charles (49:50)
+Hmm.
+
+James Edward Gray II (50:07)
+we could have stopped the bug by now. but actually after they had done that, like the fifth time the LLM came up with the right answer and it was bonkers. I do not think I would have been able to find that very quickly or easily. so it was an important lesson for me. It taught me that, that developer knew what they were doing. They were still thinking. Right? So the LLM was throwing out hypotheticals. They just weren't phrased as hypotheticals. Right? And the developer was knocking them down one by one. Nope, not that. Nope, not that. Nope, not that. And then when it finally came up with it, it was great. It was amazing. But yeah, even after it came up with it, is using them can be so tricky. It said, this is a known issue in Oban. It's documented and it explains the issue to us. And then the developer said, that's interesting. Where's the documentation? And the LLM came back and said, I overstated that. I should not have said it's documented. But by then, it had put us on the right path, and we were hunting through the documentation, and I found it. It is documented. So it knew that it was documented, figured it out, told us what it was, but then we were like, great, give us the docs. It couldn't do that, right?
+
+Charles (51:52)
+there's an interesting dichotomy here. So you you're an expert in Elixir, OTP, but you also describe yourself as a newbie with AI tools as we've been talking. what is it what does it feel like to be a beginner again, but also at the same time not?
+
+James Edward Gray II (52:09)
+It's interesting. feel like we're in... I feel like I grew up a craftsman in programming and we're in the industrial revolution of programming.
+
+Charles (52:28)
+Like handmade furniture going into mass produced furniture.
+
+James Edward Gray II (52:31)
+Exactly. So yeah, I don't know. That's a weird position to be in. And maybe the answer is eventually a bunch of guys like me get old enough that we just retire and go away, and then it doesn't matter anymore. Maybe that's one possible answer. But for right now, when things break or we have to understand complicated things or stuff like that, at least at the companies I'm working at, we're still going to people like me for those answers. Maybe with LLM assistance, but we're still relying on that knowledge that we've built up over the years, I think, fundamentally. That said, all of programming is being a beginner, right? How often do you have to pick up some new language tool, API? You're always learning new things. I love that. That's one of my favorite parts of my job is that I'm always learning new things and doing new things. I'm really comfortable. not knowing anything and having to figure it out. So yeah, but I do I do wonder how we balance that in the era of AI, like what things will be important to learn in the future, what things won't, how will we get that knowledge that we currently have now? Yeah. I don't know. It's a strange change in our industry.
+
+Emma Whamond (54:18)
+It certainly is a new world. This season we've looked at the state of the stack from a lot of different angles from infrastructure, hiring, code review, AI, open systems, documentation recovery, developer growth, so many different angles. So, from your perspective, what do you think developers should hold on to as everything changes? And what should we be embracing?
+
+James Edward Gray II (54:45)
+I think we should remember that it can be exciting to be in these eras of big change. Like it should be, actually. Like we have this amazing new tool, right? Obviously with plenty of complications like we've just discussed, you know, but it's an amazing new tool and there's things they can do that blow your mind, right? And we have to figure out ways to use that and harness that and rein that in at times when it goes off the rails. And so I think we should hold on to that. My boss said something to me the other day that stuck with me really good. He said, I'm really excited by what LLMs have done recently he's like, I've got a lot of side projects and like I'm working on those again and pushing stuff forward. And it reminds me of why I got into programming and why I loved it. I can just make stuff and change things and do things. And that's great. And it's getting new people into programming. At work, we're experimenting with giving people like our designer access to the LLM. And so if they see a design problem in our app, they can ask the LLM to fix it instead of one of us, you know? Obviously at this point that still needs engineering review just to make sure we don't do something we don't want to do there. But like if the designer can fix their own issue in our app, how cool is that? That's amazing, right? So yeah, we have this time where it's bringing new people in, it's bringing a lot of new ideas in. That can be great. It also can be challenging. If everybody is submitting vibe-coded PRs, then the engineers will not be able to review all of that stuff. They could quickly bury us in work, right? So there has to be. guardrails on that, you know, some kind of automated review. Hopefully that sorts it into triage buckets. This is safe. This is not safe, you know, kind of thing. we have to figure all that out. But I think we should hold on to that. This could be an exciting time if we navigate it well.
+
+Charles (57:21)
+so how should we as developers be thinking about or be open to rethinking things or reframing what what it is that we do or how we do?
+
+James Edward Gray II (57:34)
+Hmm. Boy I think the answer is going to be different for so many companies, you know, and, yeah, I just think we all have our own systems of development. Like at every company I've ever worked with, there's a lot that's the same, but it's all different too. each company has their way that they like to do things. And I think, Everybody's adaptation to this world is going to be different. you know, there's people who've gone all in the agents write All the code now. And that can be successful. I think it can be. I do think there's a lot of challenges they have to figure out to do that. And the write ups I've been reading seem to point to that, that they are having to figure out challenges. There are other companies that aren't comfortable in that model and they're going to use more LLM assisted, but still have the humans mostly running the show. And they might have good reasons for that. Maybe they're in some highly regulated industry or, you know, they're dealing with bank transactions or something like that, you know? So I think it's going to be different everywhere. I. I think the most important thing you can do is empower your team, remember the rules of motivation, autonomy, mastery, and purpose. Developers need those things to be intrinsically motivated to do what they do. experiment like experiment, experiment, experiment, run a culture that supports experimentation, tell your developers, heck yeah, let's try it and do it and then retro on it afterwards and figure out, okay, well, that was great, right? Or whoa, that was a disaster. How do we avoid that? You know, and that's how you're going to find your answer. to these changes, what works for you, right? There was a great piece, I think the company is Fin, about their adoption of AI. And they went all in and wanted to see a productivity gain. I think they aimed for 2x. They eventually got to 3x on the way they were measuring productivity. I think it's really reasonable how they did but they went through an 18 month period where they could prove their quality got worse. Okay. And then they got it back to baseline and they're above that now with increased productivity. That's amazing. So I went to my boss and I said, is it okay if we make things worse for 18 months? And he said, no.
+
+Charles (1:00:26)
+Ha ha ha.
+
+James Edward Gray II (1:00:27)
+Right? And that's like great. Like that's a great conversation to have and be realistic about. Right? Hey, boss, can I make things terrible here for 18 months? No, please don't do that. You know, we're a startup. We have a limited amount of runway. I can't have you eat it up all on this. Right. So then you have to be realistic about what you can do for you. Right? Their particular plan doesn't work. But that doesn't mean we can't use LLMs. It means we have to be realistic about what we're getting out of them and what we're risking. And I think that's going to be different for every company. So I really think you've gotta give them the options to find their own path that works for them.
+
+Charles (1:01:21)
+So you'll be you'll be speaking at Elixir Conf this year, as I understand it. does your does your talk connect to this conversation, or is it gonna be about something else? Something else.
+
+James Edward Gray II (1:01:31)
+It's something else, no AI. a big migration at my company recently where we took one of the beating hearts of our system and replaced it completely over a series of months while the app kept running the whole time. Very much a pulling the tablecloth out from under the dishes kind of thing. And so I'm going to walk through how we did it, what we got right, what we were totally wrong about, like that. But from a standpoint of what is expertise? And basically, the point I'm going to hopefully show there is that You don't go into a project being an expert. If you do the project right, you come out the other side having become an expert on that thing, right? We didn't know how to do it in the beginning and we figured it out along the way, right? That's what I'm going to talk about.
+
+Charles (1:02:40)
+Sounds pretty interesting.
+
+James Edward Gray II (1:02:42)
+Yeah.
+
+Charles (1:02:42)
+James, is there anything else that you would like to share with our audience? where can people follow your work?
+
+James Edward Gray II (1:02:49)
+I have a blog called Programmer Stone where I write about elixir and development. I don't do a ton of it these days because of my aforementioned swimming pool addiction. But do blog there from time to time and I will be at ElixirConf. I'll be at ExMex this year down in Austin. So yeah, if you're at one of those, come over and say hi.
+
+Emma Whamond (1:03:16)
+Fantastic. Well, we're looking forward to seeing you speak and connecting with you at ElixirConf in Chicago this September. for our listeners, if you haven't grabbed tickets yet, you can use a code in our show notes for 10% off, in-person or virtual tickets. And we hope to see you there. Thank you so much, James, for for this wonderful conversation and for your insight.
+
+Charles (1:03:36)
+Thank you, James.
+
+James Edward Gray II (1:03:37)
+Absolutely, thanks a lot for having me, both of you.
+
+Charles (1:03:42)
+Absolutely.
