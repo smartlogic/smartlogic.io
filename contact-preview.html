@@ -1,0 +1,220 @@
+---
+layout: default
+title: Contact SmartLogic | Let's Talk About Your Software Project
+description: "Have a software project in mind or an existing application that needs attention? Get in touch with SmartLogic to talk through your goals and next steps."
+redirect_from:
+  - /get-in-touch
+permalink: /contact-preview
+breadcrumb: Contact
+---
+ 
+<style>
+  /* CONTACT PAGE — isolated styling, consistent with SmartLogic service pages */
+  .sl-contact {
+    --sl-teal: #3EBEB1;
+    --sl-yellow: #FDDF26;
+    --sl-red: #E1233A;
+    --sl-dark: #3B4044;
+    --sl-text: #6F7780;
+    --sl-teal-dark: #24756D;
+    --sl-cream: #FFFAF0;
+    --sl-border: #E5E7EB;
+    color: var(--sl-text);
+  }
+  .sl-contact, .sl-contact *, .sl-contact *::before, .sl-contact *::after { box-sizing: border-box; }
+  .sl-contact .sl-shell { max-width: 1216px; width: calc(100% - 80px); margin: 0 auto; }
+  .sl-contact h1, .sl-contact h2, .sl-contact h3 {
+    font-family: "CircularStd-bold", Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    color: var(--sl-dark);
+    letter-spacing: -.03em;
+  }
+  .sl-contact p { font-family: "CircularStd-reg", Arial, Helvetica, sans-serif; font-size: 18px; line-height: 1.55; }
+  .sl-contact a { text-underline-offset: 3px; }
+  .sl-contact .sl-eyebrow {
+    font-family: "CircularStd-medium", Arial, Helvetica, sans-serif;
+    font-size: 14px; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--sl-red); margin: 0 0 15px;
+  }
+ 
+  /* Welcome banner */
+  .sl-contact .sl-contact-hero { background: var(--sl-cream); position: relative; overflow: hidden; }
+  .sl-contact .sl-contact-hero::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0;
+    width: 16%; background: #E9F6F4;
+  }
+  .sl-contact .sl-contact-hero__inner { position: relative; z-index: 1; padding: 92px 0 100px; }
+  .sl-contact .sl-contact-hero__inner::before {
+    content: ""; display: block; width: 74px; height: 9px;
+    background: var(--sl-teal); margin-bottom: 27px;
+  }
+  .sl-contact .sl-contact-hero h1 {
+    font-size: clamp(42px, 5vw, 64px); line-height: 1.03;
+    max-width: 850px; margin: 0 0 22px;
+  }
+  .sl-contact .sl-contact-hero__intro { max-width: 780px; margin: 0; font-size: 21px; }
+ 
+  /* Main conversion section */
+  .sl-contact .sl-contact-main { padding: 96px 0 106px; background: #EDF7F6; }
+  .sl-contact .sl-contact-main__grid {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    gap: 85px; align-items: start;
+  }
+  .sl-contact .sl-contact-form-col h2,
+  .sl-contact .sl-contact-aside h2 { font-size: clamp(30px, 3vw, 40px); line-height: 1.08; margin: 0 0 14px; }
+  .sl-contact .sl-contact-form-col > p { margin: 0 0 28px; }
+  .sl-contact .sl-contact-form-wrap {
+    min-width: 0; width: 100%; background: #F7F8F8;
+    border-top: 5px solid var(--sl-teal); padding: 20px 14px 12px;
+    box-shadow: 0 8px 26px rgba(59, 64, 68, .06);
+    overflow: hidden;
+  }
+  /* Jotform controls render in its own embed; edit fields/colors inside Jotform. */
+  .sl-contact .sl-contact-form-wrap iframe { max-width: 100%; }
+ 
+  .sl-contact .sl-contact-aside__photo {
+    position: relative; height: 350px; margin: 0 12px 42px 0;
+    box-shadow: 12px 12px 0 var(--sl-yellow); overflow: hidden;
+    background: #DCEAE8;
+  }
+  .sl-contact .sl-contact-aside__photo img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+  }
+  .sl-contact .sl-contact-aside h2 { margin-bottom: 18px; }
+  .sl-contact .sl-contact-aside__intro { margin: 0 0 26px; }
+  .sl-contact .sl-contact-details { border-top: 1px solid var(--sl-border); padding-top: 24px; }
+  .sl-contact .sl-contact-detail { margin-bottom: 22px; }
+  .sl-contact .sl-contact-detail h3 { margin: 0 0 7px; font-size: 17px; }
+  .sl-contact .sl-contact-detail p { margin: 0; font-size: 17px; }
+  .sl-contact .sl-contact-detail a { color: var(--sl-teal-dark); font-weight: 700; }
+  .sl-contact .sl-contact-detail address { font-style: normal; font-size: 17px; line-height: 1.55; }
+  .sl-contact .sl-contact-social { display: flex; flex-wrap: wrap; gap: 17px; margin: 26px 0 0; padding: 0; list-style: none; }
+  .sl-contact .sl-contact-social a { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; }
+  .sl-contact .sl-contact-social img { display: block; max-width: 22px; max-height: 22px; }
+  .sl-contact .sl-contact-social a:focus-visible { outline: 3px solid var(--sl-teal); outline-offset: 5px; }
+ 
+  /* Social proof */
+  .sl-contact .sl-contact-quote { background: #ffffff; padding: 80px 0 86px; }
+  .sl-contact .sl-contact-quote__grid { display: grid; grid-template-columns: .3fr 1fr; gap: 84px; align-items: center; }
+  .sl-contact .sl-contact-quote__logo { max-width: 200px; width: 100%; height: auto; display: block; }
+  .sl-contact .sl-contact-quote blockquote { margin: 0; }
+  .sl-contact .sl-contact-quote blockquote p { margin: 0 0 20px; font-size: clamp(21px, 2.4vw, 29px); line-height: 1.42; color: var(--sl-dark); }
+  .sl-contact .sl-contact-quote cite { font-family: "CircularStd-medium", Arial, sans-serif; font-style: normal; font-size: 16px; }
+ 
+  /* Lightweight secondary path instead of old promotional footer */
+  .sl-contact .sl-contact-careers { background: var(--sl-dark); padding: 55px 0; }
+  .sl-contact .sl-contact-careers__inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+  .sl-contact .sl-contact-careers h2 { color: white; font-size: clamp(24px, 2.8vw, 34px); margin: 0 0 9px; }
+  .sl-contact .sl-contact-careers p { color: rgba(255,255,255,.82); margin: 0; font-size: 17px; }
+  .sl-contact .sl-contact-careers__link {
+    flex-shrink: 0; background: var(--sl-yellow); padding: 15px 22px;
+    color: var(--sl-dark); text-decoration: none;
+    font: 700 16px "CircularStd-bold", Arial, sans-serif;
+    box-shadow: 6px 6px 0 var(--sl-teal);
+  }
+  .sl-contact .sl-contact-careers__link:hover { background: white; }
+ 
+  @media (max-width: 950px) {
+    .sl-contact .sl-contact-main__grid { gap: 42px; }
+    .sl-contact .sl-contact-aside__photo { height: 285px; }
+    .sl-contact .sl-contact-quote__grid { gap: 40px; }
+  }
+  @media (max-width: 768px) {
+    .sl-contact .sl-shell { width: calc(100% - 48px); }
+    .sl-contact .sl-contact-hero::after { display: none; }
+    .sl-contact .sl-contact-hero__inner { padding: 65px 0 72px; }
+    .sl-contact .sl-contact-hero h1 { font-size: 41px; }
+    .sl-contact .sl-contact-hero__intro { font-size: 18px; }
+    .sl-contact .sl-contact-main { padding: 65px 0 75px; }
+    .sl-contact .sl-contact-main__grid { grid-template-columns: 1fr; gap: 62px; }
+    .sl-contact .sl-contact-aside__photo { height: 320px; }
+    .sl-contact .sl-contact-quote { padding: 60px 0 65px; }
+    .sl-contact .sl-contact-quote__grid { grid-template-columns: 1fr; gap: 30px; }
+    .sl-contact .sl-contact-quote__logo { max-width: 145px; }
+    .sl-contact .sl-contact-careers__inner { align-items: flex-start; flex-direction: column; }
+  }
+  @media (max-width: 480px) {
+    .sl-contact .sl-shell { width: calc(100% - 40px); }
+    .sl-contact .sl-contact-hero h1 { font-size: 35px; }
+    .sl-contact .sl-contact-aside__photo { height: 240px; }
+    .sl-contact .sl-contact-form-wrap { padding: 10px 0; }
+  }
+</style>
+ 
+<main class="main sl-contact" role="main">
+  <!-- HERO -->
+  <section class="sl-contact-hero" aria-labelledby="contact-title">
+    <div class="sl-shell sl-contact-hero__inner">
+      <div class="sl-eyebrow">Let's Connect</div>
+      <h1 id="contact-title">Let's talk about what you're working on.</h1>
+      <p class="sl-contact-hero__intro">Starting something new, improving an existing application, or figuring out what comes next? Tell us about your project. We'll take it from there together.</p>
+    </div>
+  </section>
+ 
+  <!-- PROJECT INQUIRY AND CONTACT DETAILS -->
+  <section class="sl-contact-main">
+    <div class="sl-shell sl-contact-main__grid">
+      <div class="sl-contact-form-col">
+        <div class="sl-eyebrow">Tell Us About Your Project</div>
+        <h2>We're listening.</h2>
+        <p>You don't need a finished specification to reach out. Share what you're hoping to do and what questions you have.</p>
+        <div class="sl-contact-form-wrap" aria-label="Project inquiry form">
+          <!-- Existing Jotform integration; form fields, submissions and notification settings remain managed in Jotform. -->
+          <script type="text/javascript" src="https://form.jotform.com/jsform/212026564114142"></script>
+        </div>
+      </div>
+ 
+      <aside class="sl-contact-aside" aria-label="Other ways to contact SmartLogic">
+        <div class="sl-contact-aside__photo">
+          <img src="/images/contents/team-irl-3.png" alt="SmartLogic team members collaborating in person" loading="lazy" width="600" height="450">
+        </div>
+        <div class="sl-eyebrow">Real People, Real Conversations</div>
+        <h2>Let's figure out the next step together.</h2>
+        <p class="sl-contact-aside__intro">We work directly with the teams behind the software we build. Whether you know exactly what you need or are still untangling the problem, we'd be glad to talk it through.</p>
+        <div class="sl-contact-details">
+          <div class="sl-contact-detail">
+            <h3>Email</h3>
+            <p><a href="mailto:contact@smartlogic.io">contact@smartlogic.io</a></p>
+          </div>
+          <div class="sl-contact-detail">
+            <h3>Phone</h3>
+            <p><a href="tel:+18885447678">888-544-SMRT</a></p>
+          </div>
+          <div class="sl-contact-detail">
+            <h3>Baltimore Office</h3>
+            <address>8 Market Pl Ste 377<br>Baltimore, MD 21202</address>
+          </div>
+        </div>
+        <ul class="sl-contact-social" aria-label="SmartLogic social profiles">
+          <li><a href="https://www.linkedin.com/company/smartlogic-io" aria-label="SmartLogic on LinkedIn"><img src="/images/icons/social-icons/in.svg" alt="" loading="lazy"></a></li>
+          <li><a href="https://github.com/smartlogic" aria-label="SmartLogic on GitHub"><img src="/images/icons/social-icons/gh.svg" alt="" loading="lazy"></a></li>
+          <li><a href="https://www.youtube.com/@SmartLogic-io" aria-label="SmartLogic on YouTube"><img src="/images/icons/social-icons/yt.svg" alt="" loading="lazy"></a></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+ 
+  <!-- CLIENT TESTIMONIAL -->
+  <section class="sl-contact-quote" aria-label="Client testimonial">
+    <div class="sl-shell sl-contact-quote__grid">
+      <img class="sl-contact-quote__logo" src="/images/logo/urban-teacher-center.png" alt="Urban Teachers" loading="lazy">
+      <blockquote>
+        <p>“It's been a great joy to work with SmartLogic. I definitely would recommend SmartLogic to other people who are looking to build some sort of custom web app.”</p>
+        <cite>— Alex Mathews, Technical Services Specialist, Urban Teachers</cite>
+      </blockquote>
+    </div>
+  </section>
+ 
+  <!-- SEPARATE CAREERS PATH -->
+  <section class="sl-contact-careers">
+    <div class="sl-shell sl-contact-careers__inner">
+      <div>
+        <h2>Interested in working at SmartLogic?</h2>
+        <p>Looking for a career with our team rather than a development partner?</p>
+      </div>
+      <a class="sl-contact-careers__link" href="https://smartlogic.workable.com/">Explore Careers &rarr;</a>
+    </div>
+  </section>
+</main>
+ 
+{% include footer-common.html %}
