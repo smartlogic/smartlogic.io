@@ -1,7 +1,35 @@
-// Shared component identity; existing page-specific visual declarations follow.
-// Keep selectors scoped so app.css and older pages are not altered.
+/* Shared Sass utilities used by individual service-page wrappers.
+   No unscoped element selectors or site-wide design changes. */
+
+@mixin slsp-container($width-offset: 80px) {
+  width: calc(100% - #{$width-offset});
+  max-width: 1216px;
+  margin: 0 auto;
+}
+
+@mixin slsp-body-type($size: 18px, $leading: 1.55) {
+  font-family: 'CircularStd-reg', Arial, Helvetica, sans-serif;
+  font-size: $size;
+  line-height: $leading;
+}
+
+@mixin slsp-paragraph-stack($gap: 18px) {
+  >p {
+    margin: 0;
+  }
+
+  >p+p {
+    margin-top: $gap;
+  }
+}
+
+/* Pre-existing approved wrappers are retained; mobile is part of the same system. */
 .sl-service-page {
+
   &.sl-service-page--software,
   &.sl-service-page--webapps,
-  &.sl-service-page--legacy { display: block; }
+  &.sl-service-page--legacy,
+  &.sl-service-page--mobile {
+    display: block;
+  }
 }

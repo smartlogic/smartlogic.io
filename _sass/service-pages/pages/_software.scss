@@ -1,37 +1,10 @@
-/* Staged visual-preservation migration: software. Do not change source rule order. */
-
-
-/* ==========================================================
-
-   SOFTWARE DEVELOPMENT — CONSOLIDATED ZHUSH BUILD
-
-   Page-local for review. Move to _sass after approval.
-
-   \========================================================== */
-
-
-
 .sl-service-page--software {
+    @include slsp-brand-tokens;
 
-    --sl-teal: #3EBEB1;
-
-    --sl-yellow: #FDDF26;
-
-    --sl-red: #E1233A;
-
-    --sl-gray: #788687;
-
-    --sl-dark: #3B4044;
-
-    --sl-text: #6F7780;
-
-    --sl-teal-dark: #24756D;
 
     --sl-light-teal: #ECF9F8;
 
     --sl-soft-teal: #F7FDFC;
-
-    --sl-border: #E5E7EB;
 
     color: var(--sl-text);
 
@@ -50,13 +23,7 @@
 
 
 .sl-service-page--software .slsp-container {
-
-    width: calc(100% - 80px);
-
-    max-width: 1216px;
-
-    margin: 0 auto;
-
+    @include slsp-container;
 }
 
 
@@ -78,13 +45,7 @@
 
 
 .sl-service-page--software p {
-
-    font-family: "CircularStd-reg", Arial, Helvetica, sans-serif;
-
-    font-size: 18px;
-
-    line-height: 1.55;
-
+    @include slsp-body-type(18px, 1.55);
 }
 
 
@@ -1650,6 +1611,17 @@
 
 }
 
+
+@media (min-width: 601px) and (max-width: 768px) {
+    .sl-service-page--software .slsp-hero__image {
+        min-height: 0;
+        aspect-ratio: 1.9 / 1;
+    }
+
+    .sl-service-page--software .slsp-hero__image img {
+        object-position: center 35%;
+    }
+}
 
 
 @media (max-width: 600px) {

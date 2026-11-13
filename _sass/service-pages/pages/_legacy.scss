@@ -7,17 +7,11 @@
 
 
 .sl-service-page--legacy {
-    --sl-teal: #3EBEB1;
-    --sl-yellow: #FDDF26;
-    --sl-red: #E1233A;
-    --sl-gray: #788687;
-    --sl-dark: #3B4044;
-    --sl-text: #6F7780;
-    --sl-teal-dark: #24756D;
+    @include slsp-brand-tokens;
+
     --sl-cream: #FFFAF0;
     --sl-cream-card: #FFF5E3;
     --sl-soft: #F7F8F7;
-    --sl-border: #E5E7EB;
 
     color: var(--sl-text);
 }
@@ -65,18 +59,7 @@
 
 
 .sl-service-page--legacy .slsp-container {
-
-
-
-    width: calc(100% - 80px);
-
-
-
-    max-width: 1216px;
-
-
-
-    margin: 0 auto
+    @include slsp-container;
 }
 
 
@@ -106,18 +89,7 @@
 
 .sl-service-page--legacy p,
 .sl-service-page--legacy li {
-
-
-
-    font-family: "CircularStd-reg", Arial, Helvetica, sans-serif;
-
-
-
-    font-size: 18px;
-
-
-
-    line-height: 1.58
+    @include slsp-body-type(18px, 1.58);
 }
 
 
@@ -1497,64 +1469,28 @@
 
 
 
+
+/* Folio case study: preserve the complete dashboard image */
+
 .sl-service-page--legacy .slsp-proof__visual {
-
-
-
     position: relative;
-
-
-
-    min-height: 440px;
-
-
-
+    min-height: 0;
     background: transparent;
-
-
-
     transform: rotate(1deg);
-
-
-
-    overflow: hidden;
-
-
-
+    overflow: visible;
     box-shadow: none;
-
-
-
 }
-
-
 
 .sl-service-page--legacy .slsp-proof__visual img {
-
-
-
     display: block;
-
-
-
+    position: static;
+    inset: auto;
     width: 100%;
-
-
-
-    height: 100%;
-
-
-
-    position: absolute;
-
-
-
-    inset: 0;
-
-
-
-    object-fit: cover
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
+
 
 
 
@@ -2506,16 +2442,6 @@
 
         font-size: 27px
     }
-
-
-
-    .sl-service-page--legacy .slsp-proof__visual {
-
-
-
-        min-height: 300px
-    }
-
 
 
     .sl-service-page--legacy .slsp-quote {

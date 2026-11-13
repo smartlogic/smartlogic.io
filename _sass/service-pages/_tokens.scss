@@ -1,12 +1,28 @@
-// SmartLogic service-page tokens. Kept out of the existing global theme.
+/* SmartLogic service-page design tokens. Scoped to redesigned pages only. */
+$slsp-teal: #3EBEB1;
+$slsp-yellow: #FDDF26;
+$slsp-red: #E1233A;
+$slsp-gray: #788687;
+$slsp-dark: #3B4044;
+$slsp-text: #6F7780;
+$slsp-teal-dark: #24756D;
+$slsp-border: #E5E7EB;
+$slsp-content-max: 1216px;
+
+/* Reuse within page wrappers; no global site variables are modified. */
+@mixin slsp-brand-tokens {
+  --sl-teal: #{$slsp-teal};
+  --sl-yellow: #{$slsp-yellow};
+  --sl-red: #{$slsp-red};
+  --sl-gray: #{$slsp-gray};
+  --sl-dark: #{$slsp-dark};
+  --sl-text: #{$slsp-text};
+  --sl-teal-dark: #{$slsp-teal-dark};
+  --sl-border: #{$slsp-border};
+}
+
+/* Legacy shared public names retained within our opt-in wrapper. */
 .sl-service-page {
-  --sl-teal: #3EBEB1;
-  --sl-yellow: #FDDF26;
-  --sl-red: #E1233A;
-  --sl-gray: #788687;
-  --sl-dark: #3B4044;
-  --sl-text: #6F7780;
-  --sl-teal-dark: #24756D;
-  --sl-border: #E5E7EB;
-  --sl-content-max: 1216px;
+  @include slsp-brand-tokens;
+  --sl-content-max: #{$slsp-content-max};
 }

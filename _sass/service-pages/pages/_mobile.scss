@@ -1,0 +1,755 @@
+.sl-service-page--mobile {
+  --slm-teal: #3EBEB1;
+  --slm-dark-teal: #24756D;
+  --slm-dark: #3B4044;
+  --slm-text: #6F7780;
+  --slm-yellow: #FDDF26;
+  --slm-red: #E1233A;
+  --slm-cream: #FFFAF0;
+  --slm-pale: #E7F6F4;
+  --slm-border: #E5E7EB;
+  color: var(--slm-text);
+
+  &,
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box
+  }
+
+  h1,
+  h2,
+  h3,
+  strong {
+    font-family: 'CircularStd-bold', Arial, sans-serif;
+    color: var(--slm-dark);
+    letter-spacing: -.025em
+  }
+
+  /* Shared service-page typography: match software, webapps, and legacy. */
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0
+  }
+
+  p,
+  li {
+    @include slsp-body-type(18px, 1.55)
+  }
+
+  /* Reusable long-form text rhythm; intentionally not applied to compact cards. */
+  .slsp-mobile-hero__copy,
+  .slsp-mobile-intro__copy,
+  .slsp-mobile-project__copy,
+  .slsp-mobile-partner__grid>div:first-child,
+  .slsp-mobile-partner__statement,
+  .slsp-mobile-faq__answer {
+    @include slsp-paragraph-stack(18px);
+  }
+
+  a {
+    text-underline-offset: 3px
+  }
+
+  img {
+    max-width: 100%
+  }
+
+  .slsp-container {
+    @include slsp-container
+  }
+
+  .slsp-mobile-section {
+    padding: 102px 0 112px
+  }
+
+  .slsp-mobile-eyebrow {
+    display: block;
+    color: var(--slm-red);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font: 700 13px 'CircularStd-medium', Arial, sans-serif;
+    margin-bottom: 17px
+  }
+
+  .slsp-mobile-heading {
+    display: grid;
+    grid-template-columns: 1fr .85fr;
+    gap: 70px;
+    align-items: end;
+    margin-bottom: 44px
+  }
+
+  .slsp-mobile-heading h2 {
+    margin: 0;
+    font-size: clamp(35px, 3.5vw, 49px);
+    line-height: 1.08
+  }
+
+  .slsp-mobile-heading>p {
+    margin: 0;
+    padding-left: 20px;
+    border-left: 4px solid var(--slm-yellow)
+  }
+
+  .slsp-mobile-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    width: fit-content;
+    background: var(--slm-dark-teal);
+    color: #fff !important;
+    padding: 15px 22px;
+    font: 700 16px 'CircularStd-medium', Arial, sans-serif;
+    text-decoration: none;
+    border-radius: 3px;
+    box-shadow: 5px 5px 0 var(--slm-teal)
+  }
+
+  .slsp-mobile-button:hover {
+    background: #185d55
+  }
+
+  .slsp-mobile-button--yellow {
+    background: var(--slm-yellow);
+    color: var(--slm-dark) !important
+  }
+
+  .slsp-mobile-hero {
+    background: var(--slm-cream);
+    overflow: hidden;
+    position: relative
+  }
+
+  .slsp-mobile-hero::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 32%;
+    background: var(--slm-teal)
+  }
+
+  .slsp-mobile-hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 64px;
+    min-height: 640px;
+    align-items: center;
+    position: relative
+  }
+
+  .slsp-mobile-hero__copy {
+    padding: 85px 0
+  }
+
+  .slsp-mobile-hero__copy::before {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 8px;
+    background: var(--slm-yellow);
+    margin-bottom: 24px
+  }
+
+  .slsp-mobile-hero__copy h1 {
+    font-size: clamp(42px, 4.25vw, 59px);
+    line-height: 1.04;
+    margin-bottom: 24px
+  }
+
+  .slsp-mobile-hero__lead {
+    font: 700 21px/1.4 'CircularStd-medium', Arial, sans-serif;
+    color: var(--slm-dark)
+  }
+
+  .slsp-mobile-hero__copy .slsp-mobile-button {
+    margin-top: 18px
+  }
+
+.slsp-mobile-hero__visual {
+  min-width: 0;
+}
+
+.slsp-mobile-hero__visual-frame {
+  height: 455px;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: 16px 16px 0 var(--slm-yellow);
+}
+
+.slsp-mobile-hero__visual-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+  .slsp-mobile-intro__grid {
+    display: grid;
+    grid-template-columns: .85fr 1.15fr;
+    gap: 90px
+  }
+
+  .slsp-mobile-intro h2 {
+    font-size: clamp(34px, 3.6vw, 50px);
+    line-height: 1.06
+  }
+
+  .slsp-mobile-intro__copy {
+    border-left: 4px solid var(--slm-yellow);
+    padding-left: 25px
+  }
+
+  .slsp-mobile-services {
+    background: #f7f8f7
+  }
+
+  .slsp-mobile-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px
+  }
+
+  .slsp-mobile-card {
+    background: #fff;
+    padding: 30px 28px;
+    min-height: 280px;
+    border-top: 4px solid var(--slm-teal);
+    border-left: 1px solid var(--slm-border);
+    border-right: 1px solid var(--slm-border);
+    border-bottom: 1px solid var(--slm-border)
+  }
+
+  .slsp-mobile-card:nth-child(3n+2) {
+    border-top-color: var(--slm-yellow)
+  }
+
+  .slsp-mobile-card:nth-child(3n) {
+    border-top-color: var(--slm-red)
+  }
+
+  .slsp-mobile-card>span {
+    font: 700 12px 'CircularStd-medium', Arial, sans-serif;
+    letter-spacing: .06em;
+    color: var(--slm-dark-teal)
+  }
+
+  .slsp-mobile-card h3 {
+    font-size: 25px;
+    line-height: 1.14;
+    margin: 18px 0 14px
+  }
+
+  .slsp-mobile-card p {
+    font-size: 16px;
+    margin: 0
+  }
+
+  .slsp-mobile-tech {
+    background: var(--slm-pale)
+  }
+
+  .slsp-mobile-tech__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px
+  }
+
+  .slsp-mobile-tech__grid article {
+    padding: 30px;
+    background: white;
+    border-top: 5px solid var(--slm-teal)
+  }
+
+  .slsp-mobile-tech__grid article:nth-child(2) {
+    border-top-color: var(--slm-yellow)
+  }
+
+  .slsp-mobile-tech__grid article:nth-child(3) {
+    border-top-color: var(--slm-red)
+  }
+
+  .slsp-mobile-tech__number {
+    color: var(--slm-dark-teal);
+    font: 700 38px 'CircularStd-bold', Arial, sans-serif
+  }
+
+  .slsp-mobile-tech__grid h3 {
+    font-size: 27px;
+    margin: 15px 0
+  }
+
+  .slsp-mobile-tech__grid p {
+    font-size: 16px
+  }
+
+
+  .slsp-mobile-tech__grid a {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--slm-dark-teal);
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 3px solid var(--slm-yellow);
+  }
+
+  .slsp-mobile-projects {
+    background: #fff
+  }
+
+  .slsp-mobile-projects>.slsp-container>h2 {
+    font-size: clamp(36px, 4vw, 54px);
+    max-width: 750px
+  }
+
+  .slsp-mobile-projects__lead {
+    max-width: 760px;
+    margin-bottom: 65px
+  }
+
+  .slsp-mobile-project {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 60px;
+    align-items: center;
+    padding: 70px 0;
+    border-top: 1px solid var(--slm-border)
+  }
+
+  .slsp-mobile-project--reverse {
+    grid-template-columns: .9fr 1.1fr
+  }
+
+  .slsp-mobile-project--reverse .slsp-mobile-project__media {
+    grid-column: 1;
+    grid-row: 1
+  }
+
+  .slsp-mobile-project--reverse .slsp-mobile-project__copy {
+    grid-column: 2;
+    grid-row: 1
+  }
+
+  .slsp-mobile-project__number {
+    font: 700 13px 'CircularStd-medium', Arial, sans-serif;
+    letter-spacing: .08em;
+    color: var(--slm-red)
+  }
+
+  .slsp-mobile-project h3 {
+    font-size: clamp(29px, 3vw, 42px);
+    line-height: 1.11;
+    margin: 15px 0 24px
+  }
+
+  .slsp-mobile-project p {
+    font-size: 16px
+  }
+
+  .slsp-mobile-project__media {
+    background: transparent;
+    padding: 12px 0;
+    box-shadow: none;
+    min-width: 0;
+  }
+
+  .slsp-mobile-project__media img {
+    display: block;
+    width: 100%;
+    max-height: 470px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .slsp-mobile-project blockquote {
+    position: relative;
+    background: var(--slm-dark);
+    border-left: 5px solid var(--slm-teal);
+    padding: 27px 30px;
+    color: white;
+    font: 500 18px/1.5 'CircularStd-reg', Arial, sans-serif;
+    margin: 25px 0 0
+  }
+
+  .slsp-mobile-project blockquote::after {
+    content: '\201D';
+    position: absolute;
+    bottom: -62px;
+    right: 18px;
+    color: var(--slm-teal);
+    font: 160px Georgia, serif;
+    opacity: .45;
+    pointer-events: none
+  }
+
+  .slsp-mobile-project blockquote cite {
+    display: block;
+    font-size: 13px;
+    font-style: normal;
+    margin-top: 15px;
+    color: #e3eceb;
+    position: relative;
+    z-index: 1
+  }
+
+  .slsp-mobile-process {
+    background: var(--slm-dark);
+    color: #fff
+  }
+
+  .slsp-mobile-process h2 {
+    color: #fff
+  }
+
+  .slsp-mobile-process .slsp-mobile-eyebrow {
+    color: var(--slm-yellow)
+  }
+
+  .slsp-mobile-process .slsp-mobile-heading>p {
+    border-left-color: var(--slm-teal)
+  }
+
+  .slsp-mobile-process__steps {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #6b7778
+  }
+
+  .slsp-mobile-process__steps article {
+    padding: 30px 17px 10px;
+    border-left: 1px solid #6b7778
+  }
+
+  .slsp-mobile-process__steps article:first-child {
+    border-left: 0;
+    padding-left: 0
+  }
+
+  .slsp-mobile-process__steps span {
+    font: 700 62px 'CircularStd-bold', Arial, sans-serif;
+    color: var(--slm-teal)
+  }
+
+  .slsp-mobile-process__steps h3 {
+    font-size: 21px;
+    color: white;
+    margin: 22px 0 15px
+  }
+
+  .slsp-mobile-process__steps p {
+    color: #e6eeee;
+    font-size: 15px
+  }
+
+  .slsp-mobile-partner {
+    background: var(--slm-cream)
+  }
+
+  .slsp-mobile-partner__grid {
+    display: grid;
+    grid-template-columns: 1fr .85fr;
+    gap: 90px;
+    align-items: center
+  }
+
+  .slsp-mobile-partner h2 {
+    font-size: clamp(35px, 3.7vw, 51px);
+    line-height: 1.07;
+    margin: 0 0 26px;
+  }
+
+  .slsp-mobile-partner__statement {
+    background: #fff;
+    padding: 44px;
+    border-top: 5px solid var(--slm-teal);
+    box-shadow: 12px 12px 0 var(--slm-pale)
+  }
+
+  .slsp-mobile-partner__statement strong {
+    display: block;
+    font-size: 31px;
+    line-height: 1.16;
+    margin-bottom: 20px
+  }
+
+  .slsp-mobile-faq {
+    background: #f1f9f8
+  }
+
+  .slsp-mobile-faq__list {
+    border-top: 1px solid #cfdcdb
+  }
+
+  .slsp-mobile-faq__list details {
+    border-bottom: 1px solid #cfdcdb
+  }
+
+  .slsp-mobile-faq__list summary {
+    list-style: none;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 55px 1fr 28px;
+    align-items: center;
+    gap: 18px;
+    padding: 23px 10px
+  }
+
+  .slsp-mobile-faq__list summary::-webkit-details-marker {
+    display: none
+  }
+
+  .slsp-mobile-faq__list summary::after {
+    content: '+';
+    justify-self: end;
+    font-size: 29px;
+    color: var(--slm-dark-teal)
+  }
+
+  .slsp-mobile-faq__list details[open] summary::after {
+    content: '−'
+  }
+
+  .slsp-mobile-faq__list details[open] {
+    background: white
+  }
+
+  .slsp-mobile-faq__list summary span {
+    font-weight: bold;
+    color: var(--slm-dark-teal)
+  }
+
+  .slsp-mobile-faq__list summary strong {
+    font-size: 19px
+  }
+
+  .slsp-mobile-faq__answer {
+    padding: 0 60px 26px 83px;
+    max-width: 950px
+  }
+
+  .slsp-mobile-final {
+    position: relative;
+    overflow: hidden;
+    padding: 100px 0;
+    background: var(--slm-dark);
+    color: white
+  }
+
+  .slsp-mobile-final::before {
+    content: '';
+    position: absolute;
+    left: -65px;
+    bottom: -65px;
+    width: 130px;
+    height: 130px;
+    background: var(--slm-yellow);
+    transform: rotate(45deg)
+  }
+
+  .slsp-mobile-final__grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 70px;
+    align-items: center
+  }
+
+  .slsp-mobile-final h2 {
+    font-size: clamp(39px, 4vw, 55px);
+    color: white;
+    line-height: 1.04
+  }
+
+  .slsp-mobile-final .slsp-mobile-eyebrow {
+    color: var(--slm-teal)
+  }
+
+
+  .slsp-mobile-final p {
+    color: #e6eaea;
+    margin-bottom: 28px;
+  }
+
+
+  .slsp-mobile-final__aside {
+    padding: 42px;
+    border: 1px solid #71817f;
+    border-top: 6px solid var(--slm-teal)
+  }
+
+  .slsp-mobile-final__aside span {
+    font: 700 27px 'CircularStd-bold', Arial, sans-serif;
+    color: white
+  }
+
+  @media(max-width:1000px) {
+
+    .slsp-mobile-hero__grid,
+    .slsp-mobile-intro__grid,
+    .slsp-mobile-partner__grid {
+      gap: 35px
+    }
+
+    .slsp-mobile-card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .slsp-mobile-process__steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+
+    .slsp-mobile-process__steps article:nth-child(4) {
+      border-left: 0;
+      padding-left: 0
+    }
+
+    .slsp-mobile-project {
+      gap: 35px
+    }
+  }
+
+  @media(max-width:768px) {
+    .slsp-container {
+      width: calc(100% - 44px)
+    }
+
+    .slsp-mobile-section {
+      padding: 70px 0 78px
+    }
+
+    .slsp-mobile-heading,
+    .slsp-mobile-intro__grid,
+    .slsp-mobile-partner__grid,
+    .slsp-mobile-final__grid,
+    .slsp-mobile-project,
+    .slsp-mobile-project--reverse {
+      grid-template-columns: 1fr;
+      gap: 25px
+    }
+
+    .slsp-mobile-hero::before {
+      display: none
+    }
+
+    .slsp-mobile-hero__grid {
+      grid-template-columns: 1fr;
+      gap: 0
+    }
+
+    .slsp-mobile-hero__copy {
+      padding: 65px 0 40px
+    }
+
+    .slsp-mobile-hero__visual {
+      margin-bottom: 40px
+    }
+
+    .slsp-mobile-hero__visual-frame {
+      height: 350px
+    }
+
+    .slsp-mobile-hero__copy h1 {
+      font-size: 40px
+    }
+
+    .slsp-mobile-tech__grid {
+      grid-template-columns: 1fr
+    }
+
+    .slsp-mobile-project--reverse .slsp-mobile-project__media,
+    .slsp-mobile-project--reverse .slsp-mobile-project__copy {
+      grid-column: auto;
+      grid-row: auto
+    }
+
+    .slsp-mobile-project {
+      padding: 45px 0
+    }
+
+    .slsp-mobile-process__steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .slsp-mobile-process__steps article:nth-child(odd) {
+      border-left: 0;
+      padding-left: 0
+    }
+
+    .slsp-mobile-process__steps article:nth-child(4) {
+      border-left: 1px solid #6b7778;
+      padding-left: 17px
+    }
+
+    .slsp-mobile-projects>.slsp-container>h2 {
+      font-size: 36px
+    }
+  }
+
+  @media(max-width:520px) {
+    .slsp-mobile-hero__copy h1 {
+      font-size: 35px
+    }
+
+    .slsp-mobile-card-grid,
+    .slsp-mobile-process__steps {
+      grid-template-columns: 1fr
+    }
+
+    .slsp-mobile-process__steps article,
+    .slsp-mobile-process__steps article:nth-child(4) {
+      border-left: 0;
+      padding: 20px 0;
+      border-bottom: 1px solid #6b7778
+    }
+
+    .slsp-mobile-faq__list summary {
+      grid-template-columns: 35px 1fr 24px;
+      gap: 10px
+    }
+
+    .slsp-mobile-faq__answer {
+      padding: 0 24px 24px 45px
+    }
+
+    .slsp-mobile-project__media {
+      padding: 22px
+    }
+  }
+
+
+/* Baltimore Water Taxi — three-image gallery */
+
+.slsp-mobile-project__gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: center;
+}
+
+.slsp-mobile-project__gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+@media (max-width: 520px) {
+  .slsp-mobile-project__gallery {
+    gap: 8px;
+  }
+
+  .slsp-mobile-project__gallery img {
+    max-height: 240px;
+  }
+}
+
+}
