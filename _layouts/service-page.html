@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>{{ page.title }} | SmartLogic</title>
+  <meta name="description" content="{{ page.description }}"/>
+  {% include google-tag-manager-head.html %}
+  <link rel="stylesheet" href="/css/normalize.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <link rel="stylesheet" href="/css/service-pages.css" />
+  <meta name="msvalidate.01" content="72A27928A83488A66073FDDB1045F80B" />
+  {% if page.include_structured_data %}
+    {% include structured-data.html %}
+  {% endif %}
+  {% if page.include_rss %}
+    {% include rss.html %}
+  {% endif %}
+</head>
+
+<body>
+  {% include google-tag-manager.html %}
+  <div class="wrapper">
+    {% include header.html %}
+    {% include breadcrumbs.html %}
+    {{ content }}
+
+  </div>
+  <script src="/javascript/main.js"></script>
+</body>
+</html>
