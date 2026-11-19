@@ -346,21 +346,43 @@
   }
 }
 
-/* Desktop: hover and keyboard focus */
-@media (hover: hover) and (pointer: fine) {
+/* Open state (tap / click / keyboard) - all widths */
+.header__menu-item--dropdown.is-open .header__submenu {
+  display: block;
+}
 
-  .header__menu-item--dropdown:hover .header__submenu,
-  .header__menu-item--dropdown:focus-within .header__submenu {
+.header__menu-item--dropdown.is-open .header__dropdown-toggle span {
+  transform: rotate(180deg);
+}
+
+/* Desktop: also open on mouse hover */
+@media (hover: hover) and (pointer: fine) {
+  .header__menu-item--dropdown:hover .header__submenu {
     display: block;
   }
 
-  .header__menu-item--dropdown:hover .header__dropdown-toggle span,
-  .header__menu-item--dropdown:focus-within .header__dropdown-toggle span {
+  .header__menu-item--dropdown:hover .header__dropdown-toggle span {
     transform: rotate(180deg);
   }
 }
 
-/* Mobile/tablet: tap to expand */
+/* Just above the hamburger breakpoint: tighten spacing so the CTA fits */
+@media screen and (min-width: 769px) and (max-width: 860px) {
+  .header__menu-item a {
+    margin-left: 4px;
+    padding: 8px 8px;
+  }
+
+  .header__menu-item--dropdown > a {
+    padding-right: 3px;
+  }
+
+  .header__dropdown-toggle {
+    padding-right: 6px;
+  }
+}
+
+/* Mobile/tablet: submenus expand inline in the hamburger menu */
 @include tablet {
   .header__menu-item--dropdown {
     flex-wrap: wrap;
@@ -374,20 +396,5 @@
     box-shadow: none;
     background: transparent;
     padding: 4px 0 10px;
-  }
-
-  .header__menu-item .header__submenu a {
-    padding: 10px 15px;
-    text-align: right;
-  }
-
-  /* Submenus open independently */
-  .header__menu-item--dropdown.is-open .header__submenu {
-    display: block;
-  }
-
-  /* Mobile arrows follow submenu state */
-  .header__menu-item--dropdown.is-open .header__dropdown-toggle span {
-    transform: rotate(180deg);
   }
 }
