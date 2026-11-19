@@ -329,15 +329,17 @@
   }
 }
 
-/* Submenu links */
+
+/* Submenu links - desktop defaults */
 .header__menu-item .header__submenu a {
-  padding: 10px 15px;
+  display: block;
+  margin: 0;
+  padding: 12px 18px;
   font-size: 13px;
   line-height: 1.5;
   color: #66747a;
-  text-align: right;
-  border-right: 3px solid $teal;
-  margin-right: 15px;
+  text-align: left;
+  border-right: none;
 
   &:hover,
   &:focus-visible {
@@ -345,6 +347,17 @@
     background: #e8f6f4;
   }
 }
+
+/* Mobile submenu hierarchy */
+@include tablet {
+  .header__menu-item .header__submenu a {
+    padding: 10px 15px;
+    text-align: right;
+    border-right: 3px solid $teal;
+    margin-right: 15px;
+  }
+}
+
 
 /* Open state (tap / click / keyboard) - all widths */
 .header__menu-item--dropdown.is-open .header__submenu {
@@ -373,7 +386,7 @@
     padding: 8px 8px;
   }
 
-  .header__menu-item--dropdown > a {
+  .header__menu-item--dropdown>a {
     padding-right: 3px;
   }
 
