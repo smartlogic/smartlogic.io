@@ -1,0 +1,108 @@
+/* =========================================
+   CLIENT LOGO MARQUEE
+   ========================================= */
+
+
+.slsp-clients {
+    padding: 48px 0 0;
+    background: #fff;
+    overflow: hidden;
+
+    .slsp-eyebrow {
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        margin: 0 0 20px;
+        max-width: 650px;
+    }
+}
+
+.slsp-clients__viewport {
+    width: 100%;
+    overflow: hidden;
+}
+
+.slsp-clients__track {
+    display: flex;
+    width: max-content;
+    animation: slsp-client-scroll 45s linear infinite;
+    will-change: transform;
+}
+
+.slsp-clients__group {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: 48px;
+    padding-right: 48px;
+
+    img {
+        display: block;
+        width: 150px;
+        height: 76px;
+        object-fit: contain;
+        flex: 0 0 auto;
+    }
+}
+
+
+/* Pause on hover only for devices with a mouse */
+@media (hover: hover) and (pointer: fine) {
+
+    .slsp-clients__viewport:hover .slsp-clients__track,
+    .slsp-clients__viewport:focus-within .slsp-clients__track {
+        animation-play-state: paused;
+    }
+}
+
+
+/* One full set of logos equals half the duplicated track */
+@keyframes slsp-client-scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Smaller screens */
+
+@media (max-width: 768px) {
+    .slsp-clients {
+        padding: 32px 0 0;
+
+        h2 {
+            margin-bottom: 16px;
+        }
+    }
+}
+
+.slsp-clients__group {
+    gap: 28px;
+    padding-right: 28px;
+
+    img {
+        width: 118px;
+        height: 60px;
+    }
+}
+
+
+/* Accessibility: respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .slsp-clients__viewport {
+        overflow-x: auto;
+    }
+
+    .slsp-clients__track {
+        animation: none;
+        will-change: auto;
+    }
+
+    .slsp-clients__group[aria-hidden="true"] {
+        display: none;
+    }
+}
